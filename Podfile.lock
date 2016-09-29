@@ -1,0 +1,20 @@
+PODS:
+  - ChameleonFramework/Default (2.1.0)
+  - ChameleonFramework/Swift (2.1.0):
+    - ChameleonFramework/Default
+  - Neon (0.4.0)
+  - SwiftyBeaver (1.0.3)
+
+DEPENDENCIES:
+  - ChameleonFramework/Swift
+  - Neon
+  - SwiftyBeaver
+
+SPEC CHECKSUMS:
+  ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
+  Neon: 7fb5a9327e7e57911843f608e08f4893a74deaf9
+  SwiftyBeaver: e42a664ffbdb5ec68ce968ffd3c54f619c92e0d7
+
+PODFILE CHECKSUM: 333e89699c57d9f8c129a5f1ff3c552b464cd538
+
+COCOAPODS: 1.0.1
