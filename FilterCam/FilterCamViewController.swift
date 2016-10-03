@@ -1,6 +1,6 @@
 //
-//  swift
-//  Philter
+//  FilterCamViewController.swift
+//  FilterCam
 //
 //  Created by Philip Price on 9/6/16.
 //  Copyright © 2016 Nateemma. All rights reserved.
@@ -10,7 +10,7 @@ import UIKit
 import GPUImage
 import Neon
 
-class ViewController: UIViewController {
+class FilterCamViewController: UIViewController, SegueHandlerType {
     
     // Camera Settings
     var cameraSettingsView: CameraSettingsView! = CameraSettingsView()
@@ -34,6 +34,14 @@ class ViewController: UIViewController {
     let buttonSize : CGFloat = 48.0
     
     
+    // the list of segues initiated from this view controller
+    enum SegueIdentifier: String {
+        case photoBrowser
+        case filterManager
+        case attributions
+        case about
+        case preferences
+    }
     
     convenience init(){
         self.init(nibName:nil, bundle:nil)
@@ -76,7 +84,8 @@ class ViewController: UIViewController {
                 
                 cameraDisplayView.frame.size.height = displayHeight
                 cameraDisplayView.frame.size.width = displayWidth - 2 * bannerHeight
-                cameraDisplayView.alignBetweenHorizontal(.toTheRightMatchingTop, primaryView: cameraSettingsView, secondaryView: cameraControlsView, padding: 0, height: displayHeight)
+                cameraDisplayView.alignBetweenHorizontal(.toTheLeftMatchingTop, primaryView: cameraSettingsView, secondaryView: cameraControlsView, padding: 0, height: displayHeight)
+
                 
                 // Align Overlay view to bottom of Render View
                 cameraOverlayView.frame.size.height = bannerHeight / 2.0
@@ -95,18 +104,21 @@ class ViewController: UIViewController {
                 cameraControlsView.frame.size.width = displayWidth
                 cameraControlsView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: bannerHeight)
                 
-                cameraDisplayView.frame.size.height = displayHeight - 2 * bannerHeight
-                cameraDisplayView.frame.size.width = displayWidth
-                cameraDisplayView.alignBetweenVertical(.underCentered, primaryView: cameraSettingsView, secondaryView: cameraControlsView, padding: 0, width: displayWidth)
-                
-                // Align Overlay view to bottom of Render View
                 cameraOverlayView.frame.size.height = bannerHeight / 2.0
                 cameraOverlayView.frame.size.width = displayWidth
                 cameraOverlayView.align(.aboveCentered, relativeTo: cameraControlsView, padding: 0, width: displayWidth, height: bannerHeight)
                 
+                
+                //cameraDisplayView.frame.size.height = displayHeight - 2 * bannerHeight
+                cameraDisplayView.frame.size.height = displayHeight - 3 * bannerHeight
+                cameraDisplayView.frame.size.width = displayWidth
+                cameraDisplayView.align(.aboveCentered, relativeTo: cameraOverlayView, padding: 0, width: displayWidth, height: cameraDisplayView.frame.size.height)
             }
             
-            cameraDisplayView.setFilter(filter: SketchFilter()) // TEMP
+            //cameraDisplayView.setFilter(filter: SketchFilter()) // TEMP
+            //cameraDisplayView.setFilter(filter: Crosshatch())
+            //cameraDisplayView.setFilter(filter: Posterize())
+            cameraDisplayView.setFilter(filter: Halftone())
             
             // add delegates to sub-views
             cameraControlsView.delegate = self
@@ -139,12 +151,18 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    let id = segueIdentifierForSegue(segue: segue)
+        log.debug ("Issuing segue: \(id)") // don't really need to do anything, just log which segue was activated
+    }
     
     open func saveImage(){
         do{
             let documentsDir = try FileManager.default.url(for:.documentDirectory, in:.userDomainMask, appropriateFor:nil, create:true)
             cameraDisplayView.saveImage(url: URL(string:"TestImage.png", relativeTo:documentsDir)!)//TOFIX: generate filename
+
+            //let documents = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as! String
+            //let writePath = documents.stringByAppendingPathComponent("TestImage.png")
         } catch {
             log.error("Error saving image: \(error)")
         }
@@ -156,13 +174,14 @@ class ViewController: UIViewController {
 
 // MARK: - Delegate methods for sub-views
 
-extension ViewController: CameraControlsViewDelegate {
+extension FilterCamViewController: CameraControlsViewDelegate {
     func imagePreviewPressed(){
         log.debug("imagePreview pressed")
     }
     func takePicturePressed(){
         log.debug("Take Picture pressed")
         saveImage()
+        cameraControlsView.update()
     }
     func filterSelectionPressed(){
         log.debug("Filter pressed")

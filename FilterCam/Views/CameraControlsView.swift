@@ -9,6 +9,7 @@
 
 import UIKit
 import Neon
+import Photos
 
 
 // Interface required of controlling View
@@ -72,12 +73,13 @@ class CameraControlsView: UIView {
             filterButton = SquareButton(bsize: buttonSize*smallIconFactor)
             menuButton = SquareButton(bsize: buttonSize*smallIconFactor)
             
-            activateButton.setImage("ic_stroked_circle.png")
-            filterButton.setImage("ic_filters.png")
-            menuButton.setImage("ic_gear.png")
+            activateButton.setImageAsset("ic_stroked_circle.png")
+            filterButton.setImageAsset("ic_filters.png")
+            menuButton.setImageAsset("ic_gear.png")
             
             
             //TODO: Set photo thumbnail to most recent photo
+            loadPhotoThumbnail()
             
             // add the subviews to the main View
             self.addSubview(photoThumbnail)
@@ -141,26 +143,62 @@ class CameraControlsView: UIView {
         activateButton.addTarget(self, action: #selector(self.takePictureDidPress), for: .touchUpInside)
         filterButton.addTarget(self, action: #selector(self.FilterSelectionDidPress), for: .touchUpInside)
         menuButton.addTarget(self, action: #selector(self.SettingsDidPress), for: .touchUpInside)
-
-    
+        
+        
     }
+    
+    
+    func loadPhotoThumbnail(){
+     
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+        
+        let fetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
+        
+        let last = fetchResult.lastObject
+        
+        if let lastAsset = last {
+            let options = PHImageRequestOptions()
+            options.version = .current
+            
+            PHImageManager.default().requestImage(
+                for: lastAsset,
+                targetSize: photoThumbnail.bounds.size,
+                contentMode: .aspectFit,
+                options: options,
+                resultHandler: { image, _ in
+                    DispatchQueue.main.async {
+                        self.photoThumbnail.setImage(image!)
+                    }
+                }
+            )
+        }
+    }
+    
+    
+    // called to request an update of the view
+    open func update(){
+        log.debug("update requested")
+        loadPhotoThumbnail()
+    }
+    
     
     //MARK: - touch handlers
     
-        
-        func imagePreviewDidPress() {
-            delegate?.imagePreviewPressed()
-        }
     
-        func takePictureDidPress() {
-            delegate?.takePicturePressed()
-        }
+    func imagePreviewDidPress() {
+        delegate?.imagePreviewPressed()
+    }
     
-        func FilterSelectionDidPress() {
-            delegate?.filterSelectionPressed()
-        }
+    func takePictureDidPress() {
+        delegate?.takePicturePressed()
+    }
     
-        func SettingsDidPress() {
-            delegate?.settingsPressed()
-        }
+    func FilterSelectionDidPress() {
+        delegate?.filterSelectionPressed()
+    }
+    
+    func SettingsDidPress() {
+        delegate?.settingsPressed()
+    }
 }

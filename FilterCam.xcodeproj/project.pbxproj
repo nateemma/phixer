@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		253B235B1DA2CFD400203ECB /* SegueHandlerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253B235A1DA2CFD400203ECB /* SegueHandlerType.swift */; };
 		256974191D9B0C1B00DDF9E4 /* CameraSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256974181D9B0C1B00DDF9E4 /* CameraSelection.swift */; };
 		2569741D1D9B986E00DDF9E4 /* Fractional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2569741C1D9B986E00DDF9E4 /* Fractional.swift */; };
 		256D0FF11D98DB4C00220D7E /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256D0FF01D98DB4C00220D7E /* CameraManager.swift */; };
-		257F49E21D9448920083B1E4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257F49E11D9448920083B1E4 /* ViewController.swift */; };
+		257F49E21D9448920083B1E4 /* FilterCamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257F49E11D9448920083B1E4 /* FilterCamViewController.swift */; };
 		257F49E51D9448920083B1E4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 257F49E31D9448920083B1E4 /* Main.storyboard */; };
 		257F49E71D9448920083B1E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 257F49E61D9448920083B1E4 /* Assets.xcassets */; };
 		257F49EA1D9448920083B1E4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 257F49E81D9448920083B1E4 /* LaunchScreen.storyboard */; };
@@ -90,11 +91,12 @@
 /* Begin PBXFileReference section */
 		139F285AF8C5B2C24479BD32 /* Pods-FilterCam.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FilterCam.release.xcconfig"; path = "Pods/Target Support Files/Pods-FilterCam/Pods-FilterCam.release.xcconfig"; sourceTree = "<group>"; };
 		1DDC117A644402CB333D19D8 /* Pods_FilterCam.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FilterCam.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		253B235A1DA2CFD400203ECB /* SegueHandlerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SegueHandlerType.swift; path = Controllers/SegueHandlerType.swift; sourceTree = "<group>"; };
 		256974181D9B0C1B00DDF9E4 /* CameraSelection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraSelection.swift; path = Models/CameraSelection.swift; sourceTree = "<group>"; };
 		2569741C1D9B986E00DDF9E4 /* Fractional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Fractional.swift; path = Models/Fractional.swift; sourceTree = "<group>"; };
 		256D0FF01D98DB4C00220D7E /* CameraManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraManager.swift; path = Models/CameraManager.swift; sourceTree = "<group>"; };
 		257F49DC1D9448920083B1E4 /* FilterCam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FilterCam.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		257F49E11D9448920083B1E4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		257F49E11D9448920083B1E4 /* FilterCamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCamViewController.swift; sourceTree = "<group>"; };
 		257F49E41D9448920083B1E4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		257F49E61D9448920083B1E4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		257F49E91D9448920083B1E4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 		256D0FEF1D98DADA00220D7E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				253B235A1DA2CFD400203ECB /* SegueHandlerType.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -223,7 +226,7 @@
 				256D0FEE1D98DAD100220D7E /* Models */,
 				256D0FEC1D98DAC600220D7E /* Views */,
 				25CF4BDB1D94D93700D779CF /* AppDelegate.swift */,
-				257F49E11D9448920083B1E4 /* ViewController.swift */,
+				257F49E11D9448920083B1E4 /* FilterCamViewController.swift */,
 				257F49E31D9448920083B1E4 /* Main.storyboard */,
 				257F49E61D9448920083B1E4 /* Assets.xcassets */,
 				257F49E81D9448920083B1E4 /* LaunchScreen.storyboard */,
@@ -584,7 +587,7 @@
 				256974191D9B0C1B00DDF9E4 /* CameraSelection.swift in Sources */,
 				25CF4BDA1D9490C400D779CF /* SquareButton.swift in Sources */,
 				25F4601E1D99D65F00EDA182 /* CameraISO.swift in Sources */,
-				257F49E21D9448920083B1E4 /* ViewController.swift in Sources */,
+				257F49E21D9448920083B1E4 /* FilterCamViewController.swift in Sources */,
 				25F460181D99CCCE00EDA182 /* UISettings.swift in Sources */,
 				256D0FF11D98DB4C00220D7E /* CameraManager.swift in Sources */,
 				25CF4BD51D9490C400D779CF /* CameraControlsView.swift in Sources */,
@@ -592,6 +595,7 @@
 				25CF4BD91D9490C400D779CF /* ImageView.swift in Sources */,
 				25CF4BD71D9490C400D779CF /* CameraOverlayView.swift in Sources */,
 				2569741D1D9B986E00DDF9E4 /* Fractional.swift in Sources */,
+				253B235B1DA2CFD400203ECB /* SegueHandlerType.swift in Sources */,
 				25F4601A1D99CE1E00EDA182 /* GridStyle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

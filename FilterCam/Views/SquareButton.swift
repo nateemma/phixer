@@ -26,14 +26,20 @@ class SquareButton: UIView {
     
 
     
-    // (re-)set the image on a button
-    func setImage(_ imageName: String){
-        if let image = UIImage(named: imageName) {
+    // (re-)set the image on a button using a project asset
+    func setImageAsset(_ assetName: String){
+        if let image = UIImage(named: assetName) {
             self.button.imageView?.contentMode = UIViewContentMode.scaleToFill
             self.button.setImage(image, for: UIControlState.normal)
         }
     }
-
+    
+    // set the image based on any UIImage (e.g. from Camera Roll)
+    func setImage(_ image: UIImage){
+        self.button.imageView?.contentMode = UIViewContentMode.scaleToFill
+        self.button.setImage(image, for: UIControlState.normal)
+    }
+    
     // passthrough for addTarget, just to avoid exposing the internal button
     func addTarget (_ target: Any?, action: Selector, for event: UIControlEvents){
         button.addTarget(target, action: action, for: event)

@@ -72,12 +72,12 @@ class CameraSettingsView: UIView {
         // temp: fixed icons for now
         // TODO: set icons based on current settings
         
-        flashButton.setImage("ic_flash_auto.png")
-        gridButton.setImage("ic_grid_none.png")
-        aspectButton.setImage("ic_aspect_4_3.png")
-        cameraButton.setImage("ic_camera.png")
-        timerButton.setImage("ic_timer.png")
-        switchButton.setImage("ic_front_back.png")
+        flashButton.setImageAsset("ic_flash_auto.png")
+        gridButton.setImageAsset("ic_grid_none.png")
+        aspectButton.setImageAsset("ic_aspect_4_3.png")
+        cameraButton.setImageAsset("ic_camera.png")
+        timerButton.setImageAsset("ic_timer.png")
+        switchButton.setImageAsset("ic_front_back.png")
         
     }
 

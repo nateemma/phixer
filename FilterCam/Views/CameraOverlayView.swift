@@ -38,7 +38,7 @@ class CameraOverlayView: UIView {
             //self.backgroundColor = UIColor.clear
             //self.isOpaque = false
             self.backgroundColor = UIColor.black
-            self.alpha = 0.25
+            self.alpha = 0.5
             
             initButton(currFilter)
             initButton(currISO)

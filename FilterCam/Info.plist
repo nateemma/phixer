@@ -36,6 +36,8 @@
 	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>Accesses camera to show live previews of filters/effects</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Accesses photo library to save/edit photos</string>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
