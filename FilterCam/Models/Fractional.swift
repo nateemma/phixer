@@ -41,7 +41,7 @@ private func lcm<Number: Integer>(_ lhs: Number, _ rhs: Number) -> Number {
     return lhs * rhs / gcd(lhs, rhs)
 }
 
-private func reduce<Number: Integer>(numerator: Number, denominator: Number) -> (numerator: Number, denominator: Number) {
+private func reduce<Number: Integer>(_ numerator: Number, denominator: Number) -> (numerator: Number, denominator: Number) {
     var divisor = gcd(numerator, denominator)
     if divisor < 0 { divisor *= -1 }
     guard divisor != 0 else { return (numerator: numerator, denominator: 0) }
@@ -56,7 +56,7 @@ public struct Fractional<Number: Integer> {
     public let denominator: Number
     
     fileprivate init(numerator: Number, denominator: Number) {
-        var (numerator, denominator) = reduce(numerator: numerator, denominator: denominator)
+        var (numerator, denominator) = reduce(numerator, denominator: denominator)
         if denominator < 0 { numerator *= -1; denominator *= -1 }
 								
         self.numerator = numerator

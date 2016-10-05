@@ -1,5 +1,5 @@
 //
-//  CameraOverlayView.swift
+//  CameraInfoView.swift
 //  Philter
 //
 //  Created by Philip Price on 9/16/16.
@@ -10,10 +10,16 @@ import UIKit
 import Neon
 
 
-// Class responsible for laying out the Camera Overlay View
+// Class responsible for laying out the Camera Information View
 // This is a container class for display the overlay that provides information about the current Camera/Image view
 
-class CameraOverlayView: UIView {
+// Interface required of controlling View
+protocol CameraInfoViewDelegate: class {
+    func filterPressed()
+}
+
+
+class CameraInfoView: UIView {
     
     var isLandscape : Bool = false
     
@@ -26,6 +32,11 @@ class CameraOverlayView: UIView {
     var initDone: Bool = false
    
     
+    // delegate for handling events
+    weak var delegate: CameraInfoViewDelegate?
+
+    
+    
     convenience init(){
         self.init(frame: CGRect.zero)
     }
@@ -37,8 +48,8 @@ class CameraOverlayView: UIView {
             // set the colors etc.
             //self.backgroundColor = UIColor.clear
             //self.isOpaque = false
-            self.backgroundColor = UIColor.black
-            self.alpha = 0.5
+            self.backgroundColor = UIColor.flatBlack()
+            //self.alpha = 0.8
             
             initButton(currFilter)
             initButton(currISO)
@@ -47,7 +58,7 @@ class CameraOverlayView: UIView {
 
             
             // dummy datat for now
-            currFilter.setTitle("(no filter)", for: .normal)
+            setFilterName("(no filter)")
             currISO.setTitle("ISO: ?", for: .normal)
             currSpeed.setTitle("Speed: ?", for: .normal)
             currWB.setTitle("WB: ?", for: .normal)
@@ -89,7 +100,20 @@ class CameraOverlayView: UIView {
         currISO.setTitle("ISO: \(CameraManager.getCurrentISO())", for: .normal)
         currSpeed.setTitle("Speed: \(CameraManager.getCurrentSpeed())", for: .normal)
         
+        // register handler for the filter button
+        currFilter.addTarget(self, action: #selector(self.filterDidPress), for: .touchUpInside)
+      
     }
     
-
+    
+    func setFilterName(_ name:String){
+        currFilter.setTitle(name, for: .normal)
+    }
+    
+    //MARK: - touch handlers
+    
+    func filterDidPress() {
+        delegate?.filterPressed()
+    }
+    
 }

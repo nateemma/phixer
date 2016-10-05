@@ -105,6 +105,14 @@ class CameraSettingsView: UIView {
         isLandscape = UIDevice.current.orientation.isLandscape
         
         
+        
+        self.addSubview(flashButton)
+        self.addSubview(gridButton)
+        self.addSubview(aspectButton)
+        self.addSubview(cameraButton)
+        self.addSubview(timerButton)
+        self.addSubview(switchButton)
+
         // set up layout based on orientation
         if (isLandscape){
             // Landscape: icons/buttons are arranged vertically
@@ -144,12 +152,5 @@ class CameraSettingsView: UIView {
             
 
         }
-        
-        self.addSubview(flashButton)
-        self.addSubview(gridButton)
-        self.addSubview(aspectButton)
-        self.addSubview(cameraButton)
-        self.addSubview(timerButton)
-        self.addSubview(switchButton)
     }
 }

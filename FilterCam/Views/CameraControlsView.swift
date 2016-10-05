@@ -66,7 +66,7 @@ class CameraControlsView: UIView {
             self.backgroundColor = UIColor.flatBlack() //temp
             
             photoThumbnail = SquareButton(bsize: buttonSize)
-            photoThumbnail.setBackgroundColor(color: UIColor.blue)
+            photoThumbnail.setColor(UIColor.blue)
             
             
             activateButton = SquareButton(bsize: buttonSize)

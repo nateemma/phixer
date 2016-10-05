@@ -9,6 +9,8 @@
 import UIKit
 import GPUImage
 import Neon
+import AVFoundation
+import MediaPlayer
 
 class FilterCamViewController: UIViewController, SegueHandlerType {
     
@@ -19,7 +21,7 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
     var cameraDisplayView: CameraDisplayView! = CameraDisplayView()
     
     // View for holding the (modal) overlays. Note: must come after CameraDisplayView()
-    var cameraOverlayView : CameraOverlayView! = CameraOverlayView()
+    var cameraInfoView : CameraInfoView! = CameraInfoView()
     
     // The Camera controls/options
     var cameraControlsView: CameraControlsView! = CameraControlsView()
@@ -66,9 +68,10 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
             isLandscape = (displayWidth > displayHeight)
             
             
+            // Note: need to add subviews before modifying constraints
             view.addSubview(cameraSettingsView)
             view.addSubview(cameraDisplayView)
-            view.addSubview(cameraOverlayView) // must come after cameraDisplayView
+            view.addSubview(cameraInfoView) // must come after cameraDisplayView
             view.addSubview(cameraControlsView)
             
             // set up layout based on orientation
@@ -85,13 +88,13 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
                 cameraDisplayView.frame.size.height = displayHeight
                 cameraDisplayView.frame.size.width = displayWidth - 2 * bannerHeight
                 cameraDisplayView.alignBetweenHorizontal(.toTheLeftMatchingTop, primaryView: cameraSettingsView, secondaryView: cameraControlsView, padding: 0, height: displayHeight)
-
+                
                 
                 // Align Overlay view to bottom of Render View
-                cameraOverlayView.frame.size.height = bannerHeight / 2.0
-                cameraOverlayView.frame.size.width = displayWidth - 2 * bannerHeight
-                //cameraOverlayView.align(.aboveCentered, relativeTo: cameraControlsView, padding: 0, width: displayWidth - 2 * bannerHeight, height: bannerHeight)
-                cameraOverlayView.alignBetweenHorizontal(.toTheLeftMatchingBottom, primaryView: cameraControlsView, secondaryView: cameraSettingsView, padding: 0, height: bannerHeight)
+                cameraInfoView.frame.size.height = bannerHeight / 2.0
+                cameraInfoView.frame.size.width = displayWidth - 2 * bannerHeight
+                //cameraInfoView.align(.aboveCentered, relativeTo: cameraControlsView, padding: 0, width: displayWidth - 2 * bannerHeight, height: bannerHeight)
+                cameraInfoView.alignBetweenHorizontal(.toTheLeftMatchingBottom, primaryView: cameraControlsView, secondaryView: cameraSettingsView, padding: 0, height: bannerHeight)
                 
             } else {
                 // Portrait: top-to-bottom layout scheme
@@ -104,24 +107,25 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
                 cameraControlsView.frame.size.width = displayWidth
                 cameraControlsView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: bannerHeight)
                 
-                cameraOverlayView.frame.size.height = bannerHeight / 2.0
-                cameraOverlayView.frame.size.width = displayWidth
-                cameraOverlayView.align(.aboveCentered, relativeTo: cameraControlsView, padding: 0, width: displayWidth, height: bannerHeight)
+                cameraInfoView.frame.size.height = bannerHeight / 2.0
+                cameraInfoView.frame.size.width = displayWidth
+                cameraInfoView.align(.aboveCentered, relativeTo: cameraControlsView, padding: 0, width: displayWidth, height: cameraInfoView.frame.size.height)
                 
                 
                 //cameraDisplayView.frame.size.height = displayHeight - 2 * bannerHeight
-                cameraDisplayView.frame.size.height = displayHeight - 3 * bannerHeight
+                cameraDisplayView.frame.size.height = displayHeight - 2.5 * bannerHeight
                 cameraDisplayView.frame.size.width = displayWidth
-                cameraDisplayView.align(.aboveCentered, relativeTo: cameraOverlayView, padding: 0, width: displayWidth, height: cameraDisplayView.frame.size.height)
+                cameraDisplayView.align(.aboveCentered, relativeTo: cameraInfoView, padding: 0, width: displayWidth, height: cameraDisplayView.frame.size.height)
             }
             
-            //cameraDisplayView.setFilter(filter: SketchFilter()) // TEMP
-            //cameraDisplayView.setFilter(filter: Crosshatch())
-            //cameraDisplayView.setFilter(filter: Posterize())
-            cameraDisplayView.setFilter(filter: Halftone())
+            setFilterIndex(0) // no filter
             
             // add delegates to sub-views
             cameraControlsView.delegate = self
+            cameraInfoView.delegate = self
+            
+            // listen to key press events
+            setVolumeListener()
             
             //TODO: start timer and update setting display peridodically
         }
@@ -129,8 +133,15 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
             log.error ("Error detected: \(error.localizedDescription)");
         }
     }
-    
-    
+/*
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        if UIDevice.current.orientation.isLandscape {
+            log.verbose("Preparing for transition to Landscape")
+        } else {
+            log.verbose("Preparing for transition to Portrait")
+        }
+    }
+*/
     
     override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
         //swift 3
@@ -152,25 +163,138 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    let id = segueIdentifierForSegue(segue: segue)
+        let id = segueIdentifierForSegue(segue)
         log.debug ("Issuing segue: \(id)") // don't really need to do anything, just log which segue was activated
     }
+    
+    
+    
+    // handle the pressing of a physical button
+    
+    
+    func setVolumeListener() {
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setActive(true)
+        } catch {
+            log.error("\(error)")
+        }
+        audioSession.addObserver(self, forKeyPath: "outputVolume", options: NSKeyValueObservingOptions(), context: nil)
+        //TODO: hide system volume HUD
+    }
+    
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        log.debug("Key event: \(keyPath)")
+        if keyPath == "outputVolume" {
+            log.debug("Volume Button press detected, taking picture")
+            saveImage()
+        }
+    }
+    
+    
+    //MARK: - Utility functions
     
     open func saveImage(){
         do{
             let documentsDir = try FileManager.default.url(for:.documentDirectory, in:.userDomainMask, appropriateFor:nil, create:true)
-            cameraDisplayView.saveImage(url: URL(string:"TestImage.png", relativeTo:documentsDir)!)//TOFIX: generate filename
-
-            //let documents = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as! String
-            //let writePath = documents.stringByAppendingPathComponent("TestImage.png")
+            //TOFIX: generate filename? Or, just overwrite same file since it's copied to Photos anyway?
+            cameraDisplayView.saveImage(URL(string:"FilterCamImage.png", relativeTo:documentsDir)!)
+            
         } catch {
             log.error("Error saving image: \(error)")
         }
         
     }
     
-}
+    // TEMP: set Filter based on index
+    open func setFilterIndex(_ index:Int){
+        switch (index){
+        case 0:
+            cameraDisplayView.setFilter(nil)
+            log.verbose("No filter")
+            cameraInfoView.setFilterName("(None)")
+            break
+        case 0:
+            cameraDisplayView.setFilter(SketchFilter())
+            log.verbose("Filter: Sketch")
+            cameraInfoView.setFilterName("Sketch")
+            break
+        case 1:
+            cameraDisplayView.setFilter(Crosshatch())
+            log.verbose("Filter: Crosshatch")
+            cameraInfoView.setFilterName("Crosshatch")
+            break
+        case 2:
+            cameraDisplayView.setFilter(Posterize())
+            log.verbose("Filter: Posterize")
+            cameraInfoView.setFilterName("Posterize")
+            break
+        case 3:
+            cameraDisplayView.setFilter(Halftone())
+            log.verbose("Filter: Halftone")
+            cameraInfoView.setFilterName("Halftone")
+            break
+        case 4:
+            cameraDisplayView.setFilter(AmatorkaFilter())
+            log.verbose("Filter: Amatorka")
+            cameraInfoView.setFilterName("Amatorka")
+            break
+        case 5:
+            cameraDisplayView.setFilter(MissEtikateFilter())
+            log.verbose("Filter: MissEtikate")
+            cameraInfoView.setFilterName("MissEtikate")
+            break
+        case 6:
+            cameraDisplayView.setFilter(MonochromeFilter())
+            log.verbose("Filter: Monochrome")
+            cameraInfoView.setFilterName("Monochrome")
+            break
+        case 7:
+            cameraDisplayView.setFilter(SepiaToneFilter())
+            log.verbose("Filter: SepiaTone")
+            cameraInfoView.setFilterName("SepiaTone")
+           break
+        case 8:
+            cameraDisplayView.setFilter(Pixellate())
+            log.verbose("Filter: Pixellate")
+            cameraInfoView.setFilterName("Pixellate")
+            break
+        case 9:
+            cameraDisplayView.setFilter(PolarPixellate())
+            log.verbose("Filter: PolarPixellate")
+            cameraInfoView.setFilterName("PolarPixellate")
+            break
+        case 10:
+            cameraDisplayView.setFilter(PolkaDot())
+            log.verbose("Filter: PolkaDot")
+            cameraInfoView.setFilterName("PolkaDot")
+            break
+        case 11:
+            cameraDisplayView.setFilter(ThresholdSketchFilter())
+            log.verbose("Filter: ThresholdSketch")
+            cameraInfoView.setFilterName("ThresholdSketch")
+            break
+        case 12:
+            cameraDisplayView.setFilter(ToonFilter())
+            log.verbose("Filter: ToonFilter")
+            cameraInfoView.setFilterName("ToonFilter")
+            break
+        case 13:
+            cameraDisplayView.setFilter(GlassSphereRefraction())
+            log.verbose("Filter: GlassSphereRefraction")
+            cameraInfoView.setFilterName("GlassSphereRefraction")
+            break
+        default:
+            cameraDisplayView.setFilter(nil)
+            log.verbose("Unknown index. No filter")
+            log.verbose("(None)")
+            break
+        }
+    }
     
+}
+
 
 // MARK: - Delegate methods for sub-views
 
@@ -184,10 +308,26 @@ extension FilterCamViewController: CameraControlsViewDelegate {
         cameraControlsView.update()
     }
     func filterSelectionPressed(){
-        log.debug("Filter pressed")
+        log.debug("Filter Mgr pressed")
     }
     func settingsPressed(){
         log.debug("Settings pressed")
     }
 }
+
+
+var filterIndex:Int = 0
+
+extension FilterCamViewController: CameraInfoViewDelegate {
+    func filterPressed(){
+        let numFilters = 14
+        //log.debug("Curr Filter pressed")
+        
+        //TEMP: cycle through filters when button is pressed
+        filterIndex = (filterIndex+1)%numFilters
+        self.setFilterIndex(filterIndex)
+        
+    }
+}
+
 

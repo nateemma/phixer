@@ -14,7 +14,7 @@ import AVFoundation
 // Class responsible for laying out the Camera Display View (i.e. what is currently viewed throughthe camera)
 class CameraDisplayView: UIView {
     
-    var renderView: RenderView = RenderView()
+    var renderView: RenderView? = RenderView()
     var initDone: Bool = false
     var currFilter: BasicOperation? = nil
     var camera: Camera? = nil
@@ -30,10 +30,10 @@ class CameraDisplayView: UIView {
             //self.backgroundColor = UIColor.black
             self.backgroundColor = UIColor.red
             
-            renderView.frame = self.frame
-            self.addSubview(renderView)
+            renderView?.frame = self.frame
+            self.addSubview(renderView!)
             
-            renderView.fillSuperview()
+            renderView?.fillSuperview()
             //renderView.anchorToEdge(.top, padding: 0, width: self.frame.width, height: self.frame.height)
             //renderView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: self.frame.height)
             //renderView.anchorInCenter(self.frame.width, height: self.frame.height)
@@ -51,34 +51,49 @@ class CameraDisplayView: UIView {
             initViews()
         }
         
-        
-        // Redirect the camera output through the selected filter (if any)
-        
-        do {
-            camera = CameraManager.getCamera()
-            
-            if (currFilter == nil){
-                camera! --> renderView
-            } else {
-                camera! --> currFilter! --> renderView
-            }
-            camera?.startCapture()
-        } catch {
-            log.error("Could not initialize rendering pipeline: \(error)")
-        }
+        camera = CameraManager.getCamera()
+        setupFilterPipeline()
+
     }
     
     deinit {
         camera?.stopCapture()
     }
     
-    open func setFilter(filter: BasicOperation){
+    
+    func setupFilterPipeline(){
+        // Redirect the camera output through the selected filter (if any)
+        
+        do {
+            if (renderView != nil){
+                if (camera != nil){
+                    camera?.stopCapture()
+                    camera?.removeAllTargets()
+                    log.debug("Resetting pipeline")
+                    
+                    if (currFilter == nil){
+                        camera! --> renderView!
+                    } else {
+                        camera! --> currFilter! --> renderView!
+                    }
+                    camera?.startCapture()
+                }
+            }
+        } catch {
+            log.error("Could not initialize rendering pipeline: \(error)")
+        }
+    }
+    
+    open func setFilter(_ filter: BasicOperation?){
+
+        currFilter?.removeAllTargets()
         currFilter = filter
+        setupFilterPipeline()
     }
     
     
     // saves the currently displayed image to the Camera Roll
-    open func saveImage(url: URL){
+    open func saveImage(_ url: URL){
         do{
             log.debug("Saving image to URL: \(url.path)")
             try currFilter?.saveNextFrameToURL(url, format:.png)

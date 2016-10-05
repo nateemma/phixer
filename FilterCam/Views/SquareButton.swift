@@ -9,7 +9,7 @@ import UIKit
 import Neon
 
 
-// Specialised button that is square with a centred image
+// Specialised button that is square with a centred image and no text
 
 class SquareButton: UIView {
     var button: UIButton! = UIButton(type: .custom)
@@ -42,10 +42,10 @@ class SquareButton: UIView {
     
     // passthrough for addTarget, just to avoid exposing the internal button
     func addTarget (_ target: Any?, action: Selector, for event: UIControlEvents){
-        button.addTarget(target, action: action, for: event)
+        self.button.addTarget(target, action: action, for: event)
     }
     
-    func setBackgroundColor(color: UIColor){
-        button.backgroundColor = color
+    func setColor(_ color: UIColor){
+        self.button.backgroundColor = color
     }
 }

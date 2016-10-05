@@ -143,10 +143,16 @@ class CameraManager {
                 // convert to seconds or a fraction
                 if(currSpeed<1.0){
                     // can get some funny values, so try and reduce the fraction
-                    let x: Fraction = Fraction(time.value) / Fraction(Int64(time.timescale))
-                    log.verbose (["Speed Fraction: ", x])
+                    //let x: Fraction = Fraction(time.value) / Fraction(Int64(time.timescale))
+                    //log.verbose (["Speed Fraction: ", x])
                     //currSpeedString = String(format: "%d/%d", time.value, time.timescale)
-                    currSpeedString = String(format: "\(x)") //TODO: deal with strange fractions (esp. 3rds)
+                    
+                    var n:Int = 0
+                    var d:Int = 0
+                    (n,d) = ClosestFraction.find(currSpeed, maxDenominator: 1000) //TEST
+                    
+                    //currSpeedString = String(format: "\(x)") //TODO: deal with strange fractions (esp. 3rds)
+                    currSpeedString = String(format: "\(n)/\(d)") //TODO: deal with strange fractions (esp. 3rds)
                 } else {
                     currSpeedString = String(format: "%d", time.value)
                 }
