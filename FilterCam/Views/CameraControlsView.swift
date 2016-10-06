@@ -79,7 +79,6 @@ class CameraControlsView: UIView {
             
             
             //TODO: Set photo thumbnail to most recent photo
-            loadPhotoThumbnail()
             
             // add the subviews to the main View
             self.addSubview(photoThumbnail)
@@ -87,6 +86,8 @@ class CameraControlsView: UIView {
             self.addSubview(filterButton)
             self.addSubview(menuButton)
             
+            // populate values
+            update()
             
             initDone = true
         }

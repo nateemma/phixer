@@ -26,6 +26,8 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
     // The Camera controls/options
     var cameraControlsView: CameraControlsView! = CameraControlsView()
     
+    var filterManager: FilterManager? = nil
+    
     
     var isLandscape : Bool = false
     var screenSize : CGRect = CGRect.zero
@@ -56,6 +58,8 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
         super.viewDidLoad()
         
         do {
+            
+            filterManager = FilterManager.sharedInstance
             
             // get display dimensions
             displayHeight = view.height
@@ -118,7 +122,7 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
                 cameraDisplayView.align(.aboveCentered, relativeTo: cameraInfoView, padding: 0, width: displayWidth, height: cameraDisplayView.frame.size.height)
             }
             
-            setFilterIndex(0) // no filter
+            //setFilterIndex(0) // no filter
             
             // add delegates to sub-views
             cameraControlsView.delegate = self
@@ -209,90 +213,38 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
     
     // TEMP: set Filter based on index
     open func setFilterIndex(_ index:Int){
+        var filterDescr:FilterDescriptorInterface? = nil
+        
         switch (index){
         case 0:
-            cameraDisplayView.setFilter(nil)
-            log.verbose("No filter")
-            cameraInfoView.setFilterName("(None)")
-            break
-        case 0:
-            cameraDisplayView.setFilter(SketchFilter())
-            log.verbose("Filter: Sketch")
-            cameraInfoView.setFilterName("Sketch")
+            filterDescr = nil
             break
         case 1:
-            cameraDisplayView.setFilter(Crosshatch())
-            log.verbose("Filter: Crosshatch")
-            cameraInfoView.setFilterName("Crosshatch")
+            filterDescr = filterManager?.getFilterDescriptor(category:.quickSelect, name:"Sketch")
             break
         case 2:
-            cameraDisplayView.setFilter(Posterize())
-            log.verbose("Filter: Posterize")
-            cameraInfoView.setFilterName("Posterize")
+            filterDescr = filterManager?.getFilterDescriptor(category:.quickSelect, name:"Solarize")
             break
         case 3:
-            cameraDisplayView.setFilter(Halftone())
-            log.verbose("Filter: Halftone")
-            cameraInfoView.setFilterName("Halftone")
+            filterDescr = filterManager?.getFilterDescriptor(category:.quickSelect, name:"Crosshatch")
             break
         case 4:
-            cameraDisplayView.setFilter(AmatorkaFilter())
-            log.verbose("Filter: Amatorka")
-            cameraInfoView.setFilterName("Amatorka")
-            break
-        case 5:
-            cameraDisplayView.setFilter(MissEtikateFilter())
-            log.verbose("Filter: MissEtikate")
-            cameraInfoView.setFilterName("MissEtikate")
-            break
-        case 6:
-            cameraDisplayView.setFilter(MonochromeFilter())
-            log.verbose("Filter: Monochrome")
-            cameraInfoView.setFilterName("Monochrome")
-            break
-        case 7:
-            cameraDisplayView.setFilter(SepiaToneFilter())
-            log.verbose("Filter: SepiaTone")
-            cameraInfoView.setFilterName("SepiaTone")
-           break
-        case 8:
-            cameraDisplayView.setFilter(Pixellate())
-            log.verbose("Filter: Pixellate")
-            cameraInfoView.setFilterName("Pixellate")
-            break
-        case 9:
-            cameraDisplayView.setFilter(PolarPixellate())
-            log.verbose("Filter: PolarPixellate")
-            cameraInfoView.setFilterName("PolarPixellate")
-            break
-        case 10:
-            cameraDisplayView.setFilter(PolkaDot())
-            log.verbose("Filter: PolkaDot")
-            cameraInfoView.setFilterName("PolkaDot")
-            break
-        case 11:
-            cameraDisplayView.setFilter(ThresholdSketchFilter())
-            log.verbose("Filter: ThresholdSketch")
-            cameraInfoView.setFilterName("ThresholdSketch")
-            break
-        case 12:
-            cameraDisplayView.setFilter(ToonFilter())
-            log.verbose("Filter: ToonFilter")
-            cameraInfoView.setFilterName("ToonFilter")
-            break
-        case 13:
-            cameraDisplayView.setFilter(GlassSphereRefraction())
-            log.verbose("Filter: GlassSphereRefraction")
-            cameraInfoView.setFilterName("GlassSphereRefraction")
+            filterDescr = filterManager?.getFilterDescriptor(category:.quickSelect, name:"PolarPixellate")
             break
         default:
-            cameraDisplayView.setFilter(nil)
+            filterDescr = nil
             log.verbose("Unknown index. No filter")
-            log.verbose("(None)")
             break
         }
+        
+        cameraDisplayView.setFilter(filterDescr?.filter)
+        if let name = filterDescr?.titleName {
+            log.verbose("Filter: \(name)")
+            cameraInfoView.setFilterName(name)
+        } else {
+            cameraInfoView.setFilterName("No Filter")
+        }
     }
-    
 }
 
 
@@ -320,7 +272,7 @@ var filterIndex:Int = 0
 
 extension FilterCamViewController: CameraInfoViewDelegate {
     func filterPressed(){
-        let numFilters = 14
+        let numFilters = 5
         //log.debug("Curr Filter pressed")
         
         //TEMP: cycle through filters when button is pressed

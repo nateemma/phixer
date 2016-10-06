@@ -1,5 +1,5 @@
 //
-//  SketchFilter.swift
+//  CrosshatchFilter.swift
 //  FilterCam
 //
 //  Created by Philip Price on 10/4/16.
@@ -10,28 +10,27 @@ import Foundation
 import GPUImage
 
 
-class SketchDescriptor: FilterDescriptorInterface {
+class CrosshatchDescriptor: FilterDescriptorInterface {
 
 
-    let listName = "Sketch"
-    let titleName = "Sketch"
+    let listName = "Crosshatch"
+    let titleName = "Crosshatch"
     let category = "Effects"
     
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     
-    let slider1Configuration = FilterSliderSetting.enabled(title:"edge strength", minimumValue:0.0, maximumValue:1.0, initialValue:0.5)
-    let slider2Configuration = FilterSliderSetting.disabled
+    let slider1Configuration = FilterSliderSetting.enabled(title:"spacing", minimumValue:0.01, maximumValue:0.06, initialValue:0.03)
+    let slider2Configuration = FilterSliderSetting.enabled(title:"line width", minimumValue:0.001, maximumValue:0.006, initialValue:0.003)
     let slider3Configuration = FilterSliderSetting.disabled
     let slider4Configuration = FilterSliderSetting.disabled
     
     let filterOperationType = FilterOperationType.singleInput
     
-    private var lclFilter:SketchFilter = SketchFilter() // the actual filter
+    private var lclFilter:Crosshatch = Crosshatch() // the actual filter
     
 
     init(){
-        log.verbose("init")
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
     }
     
@@ -42,7 +41,8 @@ class SketchDescriptor: FilterDescriptorInterface {
         // nothing to do
     }
     
-    func updateBasedOnSliderValues(slider1Value:CFloat, slider2Value:Float, slider3Value:Float, slider4Value:Float){
-        lclFilter.edgeStrength = slider1Value
+    func updateBasedOnSliderValues(slider1Value:Float, slider2Value:Float,  slider3Value:Float,  slider4Value:Float){
+        lclFilter.crossHatchSpacing = slider1Value
+        lclFilter.lineWidth = slider2Value
     }
 }

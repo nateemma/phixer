@@ -144,14 +144,14 @@ class ClosestFraction{
         n1 = m[0][0]
         d1 = m[1][0]
         err1 = startx - Float(n1)/Float(d1)
-        log.debug("Fraction1: \(n1)/\(d1) err:\(err1)")
+        //log.debug("Fraction1: \(n1)/\(d1) err:\(err1)")
         
         /* now try other possibility */
         ai = (maxden - m[1][1]) / m[1][0]
         n2 = m[0][0] * ai + m[0][1]
         d2 = m[1][0] * ai + m[1][1]
         err2 = startx - Float(n2)/Float(d2)
-        log.debug("Fraction2: \(n2)/\(d2) err:\(err2)")
+        //log.debug("Fraction2: \(n2)/\(d2) err:\(err2)")
         
         //figure out which one works best!
         if (fabsf(err1)<fabsf(err2)){

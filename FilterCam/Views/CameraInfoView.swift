@@ -56,21 +56,20 @@ class CameraInfoView: UIView {
             initButton(currSpeed)
             initButton(currWB)
 
-            
-            // dummy datat for now
+            // initial values, just to have something there
             setFilterName("(no filter)")
             currISO.setTitle("ISO: ?", for: .normal)
             currSpeed.setTitle("Speed: ?", for: .normal)
             currWB.setTitle("WB: ?", for: .normal)
-            
+           
             // show the sub views
             self.addSubview(currFilter)
             self.addSubview(currISO)
             self.addSubview(currSpeed)
             self.addSubview(currWB)
             
-            //TOFIX: temp, just to show something. Replace with individual overlay classes/views
-            //currFilter.anchorInCorner(.bottomLeft, xPad: 2, yPad: 2, width: 128, height: 32)
+            update()
+            
             initDone = true
         }
     }
@@ -96,9 +95,8 @@ class CameraInfoView: UIView {
         
         self.groupAndFill(.horizontal, views: [currFilter, currISO, currSpeed, currWB], padding: 8)
         
-        // TODO: update current values and histogram
-        currISO.setTitle("ISO: \(CameraManager.getCurrentISO())", for: .normal)
-        currSpeed.setTitle("Speed: \(CameraManager.getCurrentSpeed())", for: .normal)
+        // TODO: update current values
+        update()
         
         // register handler for the filter button
         currFilter.addTarget(self, action: #selector(self.filterDidPress), for: .touchUpInside)
@@ -108,6 +106,16 @@ class CameraInfoView: UIView {
     
     func setFilterName(_ name:String){
         currFilter.setTitle(name, for: .normal)
+        update()
+    }
+    
+    
+    func update(){
+        currISO.setTitle("ISO: \(CameraManager.getCurrentISO())", for: .normal)
+        currSpeed.setTitle("Speed: \(CameraManager.getCurrentSpeed())", for: .normal)
+        currWB.setTitle("WB: ?", for: .normal)
+        
+        // leave filter for now, updated directly from setFilterName. Eventually replace when filter management is implemented
     }
     
     //MARK: - touch handlers

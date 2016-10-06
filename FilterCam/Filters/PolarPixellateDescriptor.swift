@@ -1,5 +1,5 @@
 //
-//  SolarizeFilter.swift
+//  PolarPixellateFilter.swift
 //  FilterCam
 //
 //  Created by Philip Price on 10/4/16.
@@ -10,23 +10,24 @@ import Foundation
 import GPUImage
 
 
-class SolarizeDescriptor: FilterDescriptorInterface {
+class PolarPixellateDescriptor: FilterDescriptorInterface {
 
 
-    let listName = "Solarize"
-    let titleName = "Solarize"
+    let listName = "PolarPixellate"
+    let titleName = "PolarPixellate"
     let category = "Effects"
     
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     
-    let slider1Configuration = FilterSliderSetting.enabled(minimumValue:0.0, maximumValue:1.0, initialValue:0.5)
+    let slider1Configuration = FilterSliderSetting.enabled(title:"pixel size", minimumValue:0.01, maximumValue:0.06, initialValue:0.05)
     let slider2Configuration = FilterSliderSetting.disabled
     let slider3Configuration = FilterSliderSetting.disabled
+    let slider4Configuration = FilterSliderSetting.disabled
     
     let filterOperationType = FilterOperationType.singleInput
     
-    private var lclFilter:Solarize = Solarize() // the actual filter
+    private var lclFilter:PolarPixellate = PolarPixellate() // the actual filter
     
 
     init(){
@@ -40,7 +41,7 @@ class SolarizeDescriptor: FilterDescriptorInterface {
         // nothing to do
     }
     
-    func updateBasedOnSliderValues(_ slider1Value:Float, slider2Value:Float,  slider3Value:Float){
-        lclFilter.threshold = slider1Value
+    func updateBasedOnSliderValues(slider1Value:Float, slider2Value:Float,  slider3Value:Float,  slider4Value:Float){
+        lclFilter.pixelSize = Size(width:slider1Value, height:slider1Value)
     }
 }
