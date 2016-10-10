@@ -18,6 +18,7 @@ class CameraDisplayView: UIView {
     var initDone: Bool = false
     var currFilter: BasicOperation? = nil
     var camera: Camera? = nil
+    var cropFilter: Crop? = nil
     
     convenience init(){
         self.init(frame: CGRect.zero)
@@ -34,10 +35,6 @@ class CameraDisplayView: UIView {
             self.addSubview(renderView!)
             
             renderView?.fillSuperview()
-            //renderView.anchorToEdge(.top, padding: 0, width: self.frame.width, height: self.frame.height)
-            //renderView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: self.frame.height)
-            //renderView.anchorInCenter(self.frame.width, height: self.frame.height)
-            
             
             initDone = true
         }
@@ -51,7 +48,6 @@ class CameraDisplayView: UIView {
             initViews()
         }
         
-        camera = CameraManager.getCamera()
         setupFilterPipeline()
 
     }
@@ -60,32 +56,62 @@ class CameraDisplayView: UIView {
         camera?.stopCapture()
     }
     
+
     
+    // Sets up the filter pipeline. Call when filter, orientation or camera changes
     func setupFilterPipeline(){
-        // Redirect the camera output through the selected filter (if any)
-        
         do {
-            if (renderView != nil){
-                if (camera != nil){
-                    camera?.stopCapture()
-                    camera?.removeAllTargets()
-                    log.debug("Resetting pipeline")
-                    
-                    if (currFilter == nil){
-                        camera! --> renderView!
-                    } else {
-                        camera! --> currFilter! --> renderView!
-                    }
-                    camera?.startCapture()
-                }
+            guard (renderView != nil) else {
+                log.error("ERR: RenderView not set up")
+                return
             }
+            
+            if (cropFilter == nil){ // first time through?
+                cropFilter = Crop()
+                let res = CameraManager.getCaptureResolution()
+                cropFilter!.cropSizeInPixels = Size(width: Float(res.width), height: Float(res.height))
+                cropFilter!.locationOfCropInPixels = Position(0,0)
+                log.debug("Crop(w:\(res.width), h:\(res.height))")
+            }
+            
+            camera = CameraManager.getCamera()
+            if (camera != nil){
+                log.debug("Resetting filter pipeline")
+                camera?.stopCapture()
+                camera?.removeAllTargets()
+                
+                // GPUImage bug: front facing camera image is flipped
+                // Use crop filter to flip the image, since this is always applied, even to the straight camera feed
+                if (camera?.location == PhysicalCameraLocation.frontFacing){
+                    log.verbose("Flipping image")
+                    cropFilter!.overriddenOutputRotation = Rotation.flipVertically // doesn't seem to work
+                    //TEMP HACK: flip filter, if active (remove when Crop is fixed)
+                    if (currFilter != nil){
+                        currFilter!.overriddenOutputRotation = Rotation.flipVertically
+                    }
+                    
+                } else {
+                    cropFilter!.overriddenOutputRotation = Rotation.noRotation
+                }
+                
+                // Redirect the camera output through the selected filter (if any)
+                //TOFIX: crop filter seems to only work if it's last in the chain before rendering
+                if (currFilter == nil){
+                    camera! --> cropFilter! --> renderView!
+                } else {
+                    camera! --> currFilter! --> cropFilter! --> renderView!
+                }
+                // (Re-)start the camera capture
+                camera?.startCapture()
+            }
+            
         } catch {
             log.error("Could not initialize rendering pipeline: \(error)")
         }
     }
     
+    // sets the filter to be applied (nil for no filter)
     open func setFilter(_ filter: BasicOperation?){
-
         currFilter?.removeAllTargets()
         currFilter = filter
         setupFilterPipeline()
@@ -97,9 +123,8 @@ class CameraDisplayView: UIView {
         do{
             log.debug("Saving image to URL: \(url.path)")
             try currFilter?.saveNextFrameToURL(url, format:.png)
-            saveToPhotoAlbum(url) // save asynchronously
-            
-            
+            saveToPhotoAlbum(url) // saves asynchronously
+       
         } catch {
             log.error("Could not save image: \(error)")
         }
@@ -107,7 +132,7 @@ class CameraDisplayView: UIView {
  
     // Saves the photo file at the supplied URL to the Camera Roll (asynchronously). Doesn't always work if synchronous
     func saveToPhotoAlbum(_ url:URL){
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             let image = UIImage(contentsOfFile: url.path)
             UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil)
         }

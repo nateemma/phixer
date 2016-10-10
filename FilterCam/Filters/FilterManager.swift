@@ -87,11 +87,25 @@ class FilterManager{
             // Quick Select
             //TEMP: populate with some filters, but this should really be done by the user (and saved)
             
+            _quickSelectDictionary["BulgeDistortion"] = BulgeDistortionDescriptor()
+            _quickSelectDictionary["Crosshatch"] = CrosshatchDescriptor()
+            _quickSelectDictionary["Emboss"] = EmbossDescriptor()
+            _quickSelectDictionary["GlassSphereRefraction"] = GlassSphereRefractionDescriptor()
+            _quickSelectDictionary["Highlights"] = HighlightsDescriptor()
+            _quickSelectDictionary["LuminanceThreshold"] = LuminanceThresholdDescriptor()
+            _quickSelectDictionary["Monochrome"] = MonochromeDescriptor()
+            _quickSelectDictionary["PolarPixellate"] = PolarPixellateDescriptor()
+            _quickSelectDictionary["PolkaDot"] = PolkaDotDescriptor()
+            _quickSelectDictionary["Posterize"] = PosterizeDescriptor()
+            _quickSelectDictionary["Saturation"] = SaturationDescriptor()
+            _quickSelectDictionary["Sepia"] = SepiaDescriptor()
             _quickSelectDictionary["Sketch"] = SketchDescriptor()
             _quickSelectDictionary["Solarize"] = SolarizeDescriptor()
-            _quickSelectDictionary["Crosshatch"] = CrosshatchDescriptor()
-            _quickSelectDictionary["PolarPixellate"] = PolarPixellateDescriptor()
-            
+            _quickSelectDictionary["ThresholdSketch"] = ThresholdSketchDescriptor()
+            _quickSelectDictionary["Toon"] = ToonDescriptor()
+            _quickSelectDictionary["Vignette"] = VignetteDescriptor()
+            _quickSelectDictionary["ZoomBlur"] = ZoomBlurDescriptor()
+
             //dumpDictionary(_quickSelectDictionary)//DEBUG
             
             // Color Adjustments
@@ -112,11 +126,14 @@ class FilterManager{
         var fdi: FilterDescriptorInterface
         for key  in (dictionary?.keys)! {
             fdi = (dictionary?[key])!
-            log.debug("key:\(key) filter:\(fdi.listName)")
+            log.debug("key:\(key) filter:\(fdi.key)")
             
         }
     }
-    
+  
+    open func getFilterList(category:FilterCategoryType)->[String]{
+        return Array(category.getDictionary().keys)
+    }
     
     // get the filter descriptor for the supplied category & filter type
     open func getFilterDescriptor(category:FilterCategoryType, name:String)->FilterDescriptorInterface? {
@@ -143,7 +160,7 @@ class FilterManager{
         }
         
         if (filterDescr != nil){
-            log.verbose("Found:\(filterDescr?.listName)")
+            log.verbose("Found:\(filterDescr?.key)")
         } else {
             log.verbose("!!! Filter not found:\(name) !!!")
         }

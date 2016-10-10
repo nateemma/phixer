@@ -12,14 +12,27 @@ import Neon
 import ChameleonFramework
 
 
-// Clas responsible for laying out the Camera Settings View
+
+// Interface required of controlling View
+protocol CameraSettingsViewDelegate: class {
+    func flashPressed()
+    func gridPressed()
+    func aspectPressed()
+    func cameraPressed()
+    func timerPressed()
+    func switchPressed()
+}
+
+
+
+// Class responsible for laying out the Camera Settings View
 class CameraSettingsView: UIView {
     
     var isLandscape : Bool = false
     var initDone: Bool = false
     
     let bannerHeight : CGFloat = 48.0
-    let buttonSize : CGFloat = 32.0
+    let buttonSize : CGFloat = 40.0
     
     // Buttons within the view
     var flashButton: SquareButton! = SquareButton()
@@ -29,6 +42,11 @@ class CameraSettingsView: UIView {
     var timerButton: SquareButton! = SquareButton()
     var switchButton: SquareButton! = SquareButton()
     var spacer: SquareButton! = SquareButton()
+    
+    
+    // delegate for handling events
+    weak var delegate: CameraSettingsViewDelegate?
+
     
     convenience init(){
         self.init(frame: CGRect.zero)
@@ -91,6 +109,7 @@ class CameraSettingsView: UIView {
         //var pad: CGFloat = 0.0
         var vpad: CGFloat = 0.0
         var hpad: CGFloat = 0.0
+        var pad: CGFloat = 0.0
         
         
         if !initDone {
@@ -123,12 +142,14 @@ class CameraSettingsView: UIView {
             // figure out vertical padding (6 button means 7 spaces)
             vpad = ((self.frame.size.height - 6.0*(buttonSize+2.0*hpad)) / 7.0)
             
+            pad = fmin(fabs(hpad), fabs(vpad))
+            
             spacer = SquareButton(bsize: vpad)
             
-            print("*** Laying out CameraSettings (Landscape). vpad:\(vpad) hpad:\(hpad)")
+            print("*** Laying out CameraSettings (Landscape). vpad:\(vpad) hpad:\(hpad) pad:\(pad)")
             print("*** h:\(self.frame.size.height) w:\(self.frame.size.width)")
-           //self.groupAndFill(.vertical, views: [flashButton, gridButton, aspectButton, cameraButton, timerButton, switchButton], padding: pad)
-            self.groupAndFill(.vertical, views: [spacer, flashButton, spacer, gridButton, spacer, aspectButton, spacer, cameraButton, spacer, timerButton, spacer, switchButton, spacer], padding: hpad)
+            self.groupAndFill(.vertical, views: [flashButton, gridButton, aspectButton, cameraButton, timerButton, switchButton], padding: pad)
+            //self.groupAndFill(.vertical, views: [spacer, flashButton, spacer, gridButton, spacer, aspectButton, spacer, cameraButton, spacer, timerButton, spacer, switchButton, spacer], padding: hpad)
             
             
         } else {
@@ -145,12 +166,63 @@ class CameraSettingsView: UIView {
             spacer = SquareButton(bsize: hpad)
             
             //pad = (self.frame.size.width - 6.0*buttonSize) / 7.0
+            pad = fmin(fabs(hpad), fabs(vpad))
             
             print("Laying out CameraSettings (Portrait). vpad:\(vpad) hpad:\(hpad)")
             
-            self.groupAndFill(.horizontal, views: [spacer, flashButton, spacer, gridButton, spacer, aspectButton, spacer, cameraButton, spacer, timerButton, spacer, switchButton, spacer], padding: vpad)
+            self.groupAndFill(.horizontal, views: [flashButton, gridButton, aspectButton, cameraButton, timerButton, switchButton], padding: pad)
+            //self.groupAndFill(.horizontal, views: [spacer, flashButton, spacer, gridButton, spacer, aspectButton, spacer, cameraButton, spacer, timerButton, spacer, switchButton, spacer], padding: vpad)
             
 
         }
+ 
+        //log.verbose("Touch handlers...")
+        flashButton.addTarget(self, action: #selector(self.flashDidPress), for: .touchUpInside)
+        gridButton.addTarget(self, action: #selector(self.gridDidPress), for: .touchUpInside)
+        aspectButton.addTarget(self, action: #selector(self.aspectDidPress), for: .touchUpInside)
+        cameraButton.addTarget(self, action: #selector(self.cameraDidPress), for: .touchUpInside)
+        timerButton.addTarget(self, action: #selector(self.timerDidPress), for: .touchUpInside)
+        switchButton.addTarget(self, action: #selector(self.switchDidPress), for: .touchDown)
+
     }
+    
+    
+    //MARK: - touch handlers
+    
+    
+    func flashDidPress() {
+        log.debug("Flash pressed")
+        delegate?.flashPressed()
+    }
+    
+    
+    func gridDidPress() {
+        log.debug("Grid pressed")
+        delegate?.gridPressed()
+    }
+    
+    
+    func aspectDidPress() {
+        log.debug("Aspect pressed")
+        delegate?.aspectPressed()
+    }
+    
+    
+    func cameraDidPress() {
+        log.debug("Camera pressed")
+        delegate?.cameraPressed()
+    }
+    
+    
+    func timerDidPress() {
+        log.debug("Timer pressed")
+        delegate?.timerPressed()
+    }
+    
+    
+    func switchDidPress() {
+        log.debug("switch camera pressed")
+        delegate?.switchPressed()
+    }
+
 }

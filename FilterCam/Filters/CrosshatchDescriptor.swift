@@ -13,25 +13,33 @@ import GPUImage
 class CrosshatchDescriptor: FilterDescriptorInterface {
 
 
-    let listName = "Crosshatch"
-    let titleName = "Crosshatch"
-    let category = "Effects"
+    let key = "Crosshatch"
+    let title = "Crosshatch"
+    let category = FilterCategoryType.visualEffects
     
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     
-    let slider1Configuration = FilterSliderSetting.enabled(title:"spacing", minimumValue:0.01, maximumValue:0.06, initialValue:0.03)
-    let slider2Configuration = FilterSliderSetting.enabled(title:"line width", minimumValue:0.001, maximumValue:0.006, initialValue:0.003)
-    let slider3Configuration = FilterSliderSetting.disabled
-    let slider4Configuration = FilterSliderSetting.disabled
+    
+    let numSliders = 2
+    let parameterConfiguration = [ParameterSettings(title:"spacing", minimumValue:0.01, maximumValue:0.06, initialValue:0.03),
+                                  ParameterSettings(title:"line width", minimumValue:0.001, maximumValue:0.006, initialValue:0.003)]
+
     
     let filterOperationType = FilterOperationType.singleInput
     
     private var lclFilter:Crosshatch = Crosshatch() // the actual filter
+    private var stash_crossHatchSpacing: Float
+    private var stash_lineWidth: Float
     
 
     init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
+        lclFilter.crossHatchSpacing = parameterConfiguration[0].initialValue
+        lclFilter.lineWidth = parameterConfiguration[1].initialValue
+        stash_crossHatchSpacing = lclFilter.crossHatchSpacing
+        stash_lineWidth = lclFilter.lineWidth
+        log.verbose("config: \(parameterConfiguration)")
     }
     
     
@@ -41,8 +49,52 @@ class CrosshatchDescriptor: FilterDescriptorInterface {
         // nothing to do
     }
     
-    func updateBasedOnSliderValues(slider1Value:Float, slider2Value:Float,  slider3Value:Float,  slider4Value:Float){
-        lclFilter.crossHatchSpacing = slider1Value
-        lclFilter.lineWidth = slider2Value
+    //func updateParameters(value1:Float, value2:Float,  value3:Float,  value4:Float){
+    //    lclFilter.crossHatchSpacing = value1
+    //    lclFilter.lineWidth = value2
+    //}
+    
+    
+    
+    func getParameter(index: Int)->Float {
+        switch (index){
+        case 1:
+            return lclFilter.crossHatchSpacing
+            break
+        case 2:
+            return lclFilter.lineWidth
+            break
+        default:
+            return parameterNotSet
+        }
     }
+    
+    
+    func setParameter(index: Int, value: Float) {
+        switch (index){
+        case 1:
+            lclFilter.crossHatchSpacing = value
+            log.debug("\(parameterConfiguration[0].title):\(value)")
+            break
+        case 2:
+            lclFilter.lineWidth = value
+            log.debug("\(parameterConfiguration[1].title):\(value)")
+            break
+        default:
+            log.error("Invalid parameter index (\(index)) for filter: \(key)")
+        }
+    }
+
+    
+    func stashParameters() {
+        stash_crossHatchSpacing = lclFilter.crossHatchSpacing
+        stash_lineWidth = lclFilter.lineWidth
+
+    }
+    
+    func restoreParameters(){
+        lclFilter.crossHatchSpacing = stash_crossHatchSpacing
+        lclFilter.lineWidth = stash_lineWidth
+    }
+
 }

@@ -51,6 +51,7 @@ class CameraInfoView: UIView {
             self.backgroundColor = UIColor.flatBlack()
             //self.alpha = 0.8
             
+            //TODO: add 'filter settings' button
             initButton(currFilter)
             initButton(currISO)
             initButton(currSpeed)

@@ -53,14 +53,20 @@ class CameraManager {
         // look for the camera device in the selected position (front/back)
         let devices = AVCaptureDevice.devices(withMediaType:AVMediaTypeVideo)
         for case let device as AVCaptureDevice in devices! {
-            //TOFIX: check front or back
-            //if (device.position == cameraLocation.captureDevicePosition()) {
-                if (device.position == .back) {
+            if (device.position == translatePosition(cameraLocation)) {
+                //log.debug("Found device: \(cameraLocation)")
                 return device
             }
         }
         // if not found, return default device
         return AVCaptureDevice.defaultDevice(withMediaType:AVMediaTypeVideo)
+    }
+    
+    static func translatePosition(_ location:PhysicalCameraLocation)->AVCaptureDevicePosition {
+        switch location {
+        case .backFacing: return .back
+        case .frontFacing: return .front
+        }
     }
     
     open static func setCamera(_ camera: Camera, location: PhysicalCameraLocation){
@@ -73,6 +79,7 @@ class CameraManager {
         
         if (selectedCamera==nil){
             do {
+                //log.debug("Allocating Camera")
                 selectedCamera = try Camera(sessionPreset:AVCaptureSessionPresetPhoto, location:cameraLocation)
                 setCamera(selectedCamera!, location:cameraLocation)
                 //selectedCamera!.runBenchmark = true
@@ -88,21 +95,67 @@ class CameraManager {
     open static func setCameraLocation(_ location: PhysicalCameraLocation) {
         if (cameraLocation != location){
             cameraLocation = location
+            selectedCamera?.stopCapture()
+            selectedCamera?.removeAllTargets()
+            selectedCamera = nil // force reallocation of Camera device (HACK)
             selectedCamera = getCamera()
-            log.info(["Changed Camera location to:", location])
+            log.info("Changed Camera location to:\(location)")
         }
         
+    }
+    
+    
+    open static func switchCameraLocation() {
+        if (cameraLocation == .frontFacing){
+            setCameraLocation(.backFacing)
+        } else {
+            setCameraLocation(.frontFacing)
+        }
+        selectedCamera = getCamera()
+        //log.info("Changed Camera location to:\(cameraLocation)")
     }
     
     open static func getCameraLocation() -> PhysicalCameraLocation {
         return cameraLocation
     }
     
+    
+    // returns the current screen resolution (differs by device type)
+    open static func getCaptureResolution() -> CGSize {
+        // Define default resolution
+        var resolution = CGSize(width: 0, height: 0)
+        
+        // Set if video portrait orientation
+        let portraitOrientation = (UIScreen.main.bounds.height > UIScreen.main.bounds.width)
+        
+        // Get video dimensions
+        if (cameraDevice == nil){
+            log.warning("Camera not allocated")
+            selectedCamera = getCamera()
+        }
+        
+        if let formatDescription = CameraManager.cameraDevice?.activeFormat.formatDescription {
+            let dimensions = CMVideoFormatDescriptionGetDimensions(formatDescription)
+            resolution = CGSize(width: CGFloat(dimensions.width), height: CGFloat(dimensions.height))
+        } else {
+            log.warning("formatDescription error. Setting resolution to screen default")
+            resolution = CGSize(width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(UIScreen.main.bounds.height))
+        }
+        
+        if (!portraitOrientation) {
+            resolution = CGSize(width: resolution.height, height: resolution.width)
+        }
+        
+        // Return resolution
+        return resolution
+    }
+    
+    
     //MARK: - ISO
     
     // retrieve the current ISO setting
     open static func getCurrentISO() -> String {
-
+        
         
         //if (selectedCamera == nil){ selectedCamera = findCameraDevice()}
         
@@ -177,5 +230,5 @@ class CameraManager {
     //MARK: - Focus
     
     //MARK: - Exposure Lock
-
+    
 }

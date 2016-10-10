@@ -12,6 +12,11 @@ import Neon
 import AVFoundation
 import MediaPlayer
 
+
+private var filterList: [String] = []
+private var filterCount: Int = 0
+
+
 class FilterCamViewController: UIViewController, SegueHandlerType {
     
     // Camera Settings
@@ -25,10 +30,15 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
     
     // The Camera controls/options
     var cameraControlsView: CameraControlsView! = CameraControlsView()
+
+    // The filter configuration subview
+    var filterSettingsView: FilterSettingsView! = FilterSettingsView()
+    
     
     var filterManager: FilterManager? = nil
     
-    
+    var currFilterDescriptor:FilterDescriptorInterface? = nil
+ 
     var isLandscape : Bool = false
     var screenSize : CGRect = CGRect.zero
     var displayWidth : CGFloat = 0.0
@@ -50,6 +60,7 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
     convenience init(){
         self.init(nibName:nil, bundle:nil)
         
+        filterManager = FilterManager.sharedInstance
     }
     
     
@@ -58,8 +69,6 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
         super.viewDidLoad()
         
         do {
-            
-            filterManager = FilterManager.sharedInstance
             
             // get display dimensions
             displayHeight = view.height
@@ -124,9 +133,11 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
             
             //setFilterIndex(0) // no filter
             
-            // add delegates to sub-views
+            // add delegates to sub-views (for callbacks)
+            cameraSettingsView.delegate = self
             cameraControlsView.delegate = self
             cameraInfoView.delegate = self
+            //filterSettingsView.delegate = self
             
             // listen to key press events
             setVolumeListener()
@@ -137,18 +148,17 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
             log.error ("Error detected: \(error.localizedDescription)");
         }
     }
-/*
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        if UIDevice.current.orientation.isLandscape {
-            log.verbose("Preparing for transition to Landscape")
-        } else {
-            log.verbose("Preparing for transition to Portrait")
-        }
-    }
-*/
+    /*
+     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+     if UIDevice.current.orientation.isLandscape {
+     log.verbose("Preparing for transition to Landscape")
+     } else {
+     log.verbose("Preparing for transition to Portrait")
+     }
+     }
+     */
     
     override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
-        //swift 3
         if UIDevice.current.orientation.isLandscape{
             log.verbose("### Detected change to: Landscape")
         } else {
@@ -157,6 +167,7 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
         }
         //TODO: animate and maybe handle before rotation finishes
         self.viewDidLoad()
+        cameraDisplayView.setFilter(currFilterDescriptor?.filter) // forces reset of filter pipeline
     }
     
     
@@ -184,7 +195,9 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
             log.error("\(error)")
         }
         audioSession.addObserver(self, forKeyPath: "outputVolume", options: NSKeyValueObservingOptions(), context: nil)
+        
         //TODO: hide system volume HUD
+        self.view.addSubview(volumeView)
     }
     
     
@@ -196,6 +209,13 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
         }
     }
     
+    // redefine the volume view so that it isn't really visible to the user
+    lazy var volumeView: MPVolumeView = {
+        let view = MPVolumeView()
+        view.frame = CGRect(x: 0, y: 0, width: 1, height: 1)
+        view.alpha = 0.000001
+        return view
+    }()
     
     //MARK: - Utility functions
     
@@ -210,37 +230,61 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
         }
         
     }
-    
-    // TEMP: set Filter based on index
-    open func setFilterIndex(_ index:Int){
-        var filterDescr:FilterDescriptorInterface? = nil
+  
+    fileprivate func populateFilterList(){
         
-        switch (index){
-        case 0:
-            filterDescr = nil
-            break
-        case 1:
-            filterDescr = filterManager?.getFilterDescriptor(category:.quickSelect, name:"Sketch")
-            break
-        case 2:
-            filterDescr = filterManager?.getFilterDescriptor(category:.quickSelect, name:"Solarize")
-            break
-        case 3:
-            filterDescr = filterManager?.getFilterDescriptor(category:.quickSelect, name:"Crosshatch")
-            break
-        case 4:
-            filterDescr = filterManager?.getFilterDescriptor(category:.quickSelect, name:"PolarPixellate")
-            break
-        default:
-            filterDescr = nil
-            log.verbose("Unknown index. No filter")
-            break
+        // make sure the FilterManager instance has been loaded
+        if (filterManager == nil) {
+            log.warning("WARN: FilterManager not allocated. Lazy allocation")
+            filterManager = FilterManager.sharedInstance
         }
         
-        cameraDisplayView.setFilter(filterDescr?.filter)
-        if let name = filterDescr?.titleName {
+        // get list of filters in the Quick Selection category
+        if (filterCount==0){
+            filterList = []
+            filterList = (filterManager?.getFilterList(category: FilterCategoryType.quickSelect))!
+            filterList.sort(by: { (value1: String, value2: String) -> Bool in return value1 < value2 }) // sort ascending
+            filterCount = filterList.count
+            log.debug("Filter list: \(filterList)")
+        }
+    }
+    
+    
+    // TEMP: set Filter based on index
+    
+    open func setFilterIndex(_ index:Int){
+        
+        // make sure the FilterManager instance has been loaded
+        if (filterManager == nil) {
+            log.warning("WARN: FilterManager not allocated. Lazy allocation")
+            filterManager = FilterManager.sharedInstance
+        }
+        
+        if (filterCount==0){ populateFilterList() }
+
+        
+        // setup the filter descriptor
+        if ((index>=0) && (index<filterCount)){
+            currFilterDescriptor = filterManager?.getFilterDescriptor(category:.quickSelect, name:filterList[index])
+        } else {
+            currFilterDescriptor = nil
+            log.error("!!! Unknown index:\(index) No filter")
+        }
+        
+        cameraDisplayView.setFilter(currFilterDescriptor?.filter)
+        
+        if let name = currFilterDescriptor?.key {
             log.verbose("Filter: \(name)")
             cameraInfoView.setFilterName(name)
+            
+            if ((currFilterDescriptor?.numSliders)! > 0){
+                self.view.addSubview(filterSettingsView)
+                filterSettingsView.setFilter(currFilterDescriptor)
+                
+                filterSettingsView.align(.aboveCentered, relativeTo: cameraInfoView, padding: 4, width: filterSettingsView.frame.size.width, height: filterSettingsView.frame.size.height)
+                
+                //filterSettingsView.show()
+            }
         } else {
             cameraInfoView.setFilterName("No Filter")
         }
@@ -267,19 +311,74 @@ extension FilterCamViewController: CameraControlsViewDelegate {
     }
 }
 
+extension FilterCamViewController: CameraSettingsViewDelegate {
+    func flashPressed(){
+        log.debug("Flash pressed")
+        //TODO: handle Flash options
+    }
+
+    func gridPressed(){
+        log.debug("Grid pressed")
+        //TODO: handle Grid options
+    }
+
+    func aspectPressed(){
+        log.debug("Aspect Ratio pressed")
+        //TODO: handle Aspect Ratio options
+    }
+
+    func cameraPressed(){
+        log.debug("Camera Options pressed")
+        //TODO: handle Camera Exposure options
+    }
+
+    func timerPressed(){
+        log.debug("Timer pressed")
+        //TODO: handle Timer options
+    }
+
+
+    func switchPressed(){
+        log.debug("Switch Cameras pressed")
+        CameraManager.switchCameraLocation()
+        cameraDisplayView.setFilter(currFilterDescriptor?.filter) // forces reset of filter pipeline
+    }
+}
 
 var filterIndex:Int = 0
 
 extension FilterCamViewController: CameraInfoViewDelegate {
     func filterPressed(){
-        let numFilters = 5
-        //log.debug("Curr Filter pressed")
+        log.debug("Curr Filter pressed")
+        
+        
+        // get list of filters in the Quick Selection category
+        if (filterCount==0){
+            populateFilterList()
+            filterIndex = 0
+        }
         
         //TEMP: cycle through filters when button is pressed
-        filterIndex = (filterIndex+1)%numFilters
-        self.setFilterIndex(filterIndex)
+        if (filterCount>0){
+            self.setFilterIndex(filterIndex)
+            filterIndex = (filterIndex+1)%filterCount
+        }
         
     }
 }
+
+
+/*** Not needed?!
+extension FilterCamViewController: FilterSettingsViewDelegate {
+    func updateFilterSettings(value1:Float, value2:Float,  value3:Float,  value4:Float){
+        
+        log.debug("\(currFilterDescriptor?.key): 1:\(value1) 2:\(value2) 3:\(value3) 4:\(value4)")
+        currFilterDescriptor?.updateParameters(value1:value1, value2:value2, value3:value3, value4:value4 )
+        
+        filterSettingsView.isHidden = true
+    }
+
+}
+***/
 
 

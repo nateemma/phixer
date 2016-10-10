@@ -19,9 +19,8 @@ class SquareButton: UIView {
         self.button.frame = CGRect(x:0, y:0, width:bsize, height:bsize)
         self.backgroundColor = UIColor.clear // transparent
         self.button.backgroundColor = UIColor.clear // transparent
+        //self.isUserInteractionEnabled = false // don't handle touches in the containing view
         self.addSubview(button)
-        
-        
     }
     
 
@@ -42,6 +41,7 @@ class SquareButton: UIView {
     
     // passthrough for addTarget, just to avoid exposing the internal button
     func addTarget (_ target: Any?, action: Selector, for event: UIControlEvents){
+        self.button.isUserInteractionEnabled = true
         self.button.addTarget(target, action: action, for: event)
     }
     

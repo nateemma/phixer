@@ -13,25 +13,32 @@ import GPUImage
 class PolarPixellateDescriptor: FilterDescriptorInterface {
 
 
-    let listName = "PolarPixellate"
-    let titleName = "PolarPixellate"
-    let category = "Effects"
+    let key = "PolarPixellate"
+    let title = "Polar Pixellate"
+    let category = FilterCategoryType.visualEffects
     
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     
-    let slider1Configuration = FilterSliderSetting.enabled(title:"pixel size", minimumValue:0.01, maximumValue:0.06, initialValue:0.05)
-    let slider2Configuration = FilterSliderSetting.disabled
-    let slider3Configuration = FilterSliderSetting.disabled
-    let slider4Configuration = FilterSliderSetting.disabled
+    let numSliders = 1
+    let parameterConfiguration = [ParameterSettings(title:"pixel size", minimumValue:-0.1, maximumValue:0.1, initialValue:0.05)]
+
     
     let filterOperationType = FilterOperationType.singleInput
     
     private var lclFilter:PolarPixellate = PolarPixellate() // the actual filter
+    private var stash_pixelSize: Size
+    private var stash_pixelEdge: Float
+    private var pixelEdge: Float
     
 
     init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
+        pixelEdge = parameterConfiguration[0].initialValue
+        stash_pixelEdge = pixelEdge
+        lclFilter.pixelSize = Size(width:pixelEdge, height:pixelEdge)
+        stash_pixelSize = Size(width:pixelEdge, height:pixelEdge)
+        log.verbose("config: \(parameterConfiguration)")
     }
     
     
@@ -41,7 +48,42 @@ class PolarPixellateDescriptor: FilterDescriptorInterface {
         // nothing to do
     }
     
-    func updateBasedOnSliderValues(slider1Value:Float, slider2Value:Float,  slider3Value:Float,  slider4Value:Float){
-        lclFilter.pixelSize = Size(width:slider1Value, height:slider1Value)
+    
+    func getParameter(index: Int)->Float {
+        switch (index){
+        case 1:
+            return pixelEdge
+            break
+        default:
+            return parameterNotSet
+        }
+    }
+
+    
+    func setParameter(index: Int, value: Float) {
+        switch (index){
+        case 1:
+            pixelEdge = value
+            lclFilter.pixelSize = Size(width:value, height:value)
+            log.debug("\(parameterConfiguration[0].title):\(value)")
+            break
+        default:
+            log.error("Invalid parameter index (\(index)) for filter: \(key)")
+        }
+    }
+    
+    //func updateParameters(value1:Float, value2:Float,  value3:Float,  value4:Float){
+    //    pixelEdge = value1
+    //    lclFilter.pixelSize = Size(width:value1, height:value1)
+    //}
+    
+    func stashParameters(){
+        stash_pixelSize = lclFilter.pixelSize
+        stash_pixelEdge = pixelEdge
+    }
+    
+    func restoreParameters(){
+        lclFilter.pixelSize = stash_pixelSize
+        pixelEdge = stash_pixelEdge
     }
 }

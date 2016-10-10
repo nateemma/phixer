@@ -1,41 +1,45 @@
 //
-//  SolarizeFilter.swift
+//  PolkaDot.swift
 //  FilterCam
 //
-//  Created by Philip Price on 10/4/16.
+//  Created by Philip Price on 10/8/16.
 //  Copyright © 2016 Nateemma. All rights reserved.
 //
+
 
 import Foundation
 import GPUImage
 
 
-class SolarizeDescriptor: FilterDescriptorInterface {
-
-
-    let key = "Solarize"
-    let title = "Solarize"
-    let category = FilterCategoryType.visualEffects
+class PolkaDotDescriptor: FilterDescriptorInterface {
+    
+    
+    
+    let key = "PolkaDot"
+    let title = "Polka Dot"
+    let category = FilterCategoryType.colorAdjustments
     
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     
     let numSliders = 1
-    let parameterConfiguration = [ParameterSettings(title:"threshold", minimumValue:0.0, maximumValue:1.0, initialValue:0.5)]
-
+    let parameterConfiguration = [ParameterSettings(title:"size", minimumValue:0.0, maximumValue:0.1, initialValue:0.05)]
+  
+    //TODO: add dotscaling parameter
     
     let filterOperationType = FilterOperationType.singleInput
     
-    private var lclFilter:Solarize = Solarize() // the actual filter
-    private var stash_threshold: Float
+    private var lclFilter:PolkaDot = PolkaDot() // the actual filter
+    private var stash_fractionalWidthOfAPixel: Float
     
-
+    
     init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
-        lclFilter.threshold = parameterConfiguration[0].initialValue
-        stash_threshold = lclFilter.threshold
+        lclFilter.fractionalWidthOfAPixel = parameterConfiguration[0].initialValue
+        stash_fractionalWidthOfAPixel = lclFilter.fractionalWidthOfAPixel
         log.verbose("config: \(parameterConfiguration)")
     }
+
     
     
     //MARK: - Required funcs
@@ -45,39 +49,38 @@ class SolarizeDescriptor: FilterDescriptorInterface {
     }
     
     
-    
     func getParameter(index: Int)->Float {
         switch (index){
         case 1:
-            return lclFilter.threshold
+            return lclFilter.fractionalWidthOfAPixel
             break
         default:
             return parameterNotSet
         }
     }
-
+    
     
     func setParameter(index: Int, value: Float) {
         switch (index){
         case 1:
-            lclFilter.threshold = value
+            lclFilter.fractionalWidthOfAPixel = value
             log.debug("\(parameterConfiguration[0].title):\(value)")
             break
         default:
             log.error("Invalid parameter index (\(index)) for filter: \(key)")
         }
     }
-
+    
     
     //func updateParameters(value1:Float, value2:Float,  value3:Float,  value4:Float){
-    //    lclFilter.threshold = value1
+    //    lclFilter.fractionalWidthOfAPixel = value1
     //}
     
-    func stashParameters(){
-        stash_threshold = lclFilter.threshold
+    func stashParameters() {
+        stash_fractionalWidthOfAPixel = lclFilter.fractionalWidthOfAPixel
     }
     
     func restoreParameters(){
-        lclFilter.threshold = stash_threshold
+        lclFilter.fractionalWidthOfAPixel = stash_fractionalWidthOfAPixel
     }
 }

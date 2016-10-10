@@ -15,10 +15,7 @@ import GPUImage
 
 
 
-enum FilterSliderSetting {
-    case disabled
-    case enabled(title:String, minimumValue:Float, maximumValue:Float, initialValue:Float)
-}
+typealias ParameterSettings = (title:String, minimumValue:Float, maximumValue:Float, initialValue:Float)
 
 
 enum FilterOperationType {
@@ -28,21 +25,24 @@ enum FilterOperationType {
 }
 
 
+let parameterNotSet:Float = -1000.00
 
 protocol FilterDescriptorInterface{
-    var listName: String { get }
-    var titleName: String { get }
-    var category: String { get }
+    var key: String { get }
+    var title: String { get }
+    var category: FilterCategoryType { get }
     var filter: BasicOperation? { get }
     var filterGroup: OperationGroup? { get }
-    var slider1Configuration: FilterSliderSetting { get } // 4 sliders max
-    var slider2Configuration: FilterSliderSetting { get }
-    var slider3Configuration: FilterSliderSetting { get }
-    var slider4Configuration: FilterSliderSetting { get }
-    var filterOperationType: FilterOperationType { get }
+    var numSliders: Int { get } // 4 sliders max
+    var parameterConfiguration: [ParameterSettings] { get }
     
     func configureCustomFilter(_ input:(filter:BasicOperation, secondInput:BasicOperation?))
-    func updateBasedOnSliderValues(slider1Value:Float, slider2Value:Float,  slider3Value:Float,  slider4Value:Float)
+    
+    func getParameter(index:Int)->Float
+    func setParameter(index:Int, value:Float)
+    //func updateParameters(value1:Float, value2:Float,  value3:Float,  value4:Float)
+    func stashParameters()
+    func restoreParameters()
     
 }
 
