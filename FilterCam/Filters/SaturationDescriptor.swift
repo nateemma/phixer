@@ -1,5 +1,5 @@
 //
-//  Saturation.swift
+//  SaturationDescriptor.swift
 //  FilterCam
 //
 //  Created by Philip Price on 10/8/16.
@@ -17,13 +17,12 @@ class SaturationDescriptor: FilterDescriptorInterface {
     
     let key = "Saturation"
     let title = "Saturation"
-    let category = FilterCategoryType.colorAdjustments
     
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     
-    let numSliders = 1
-    let parameterConfiguration = [ParameterSettings(title:"saturation", minimumValue:0.0, maximumValue:2.0, initialValue:1.0)]
+    let numParameters = 1
+    let parameterConfiguration = [ParameterSettings(title:"saturation", minimumValue:0.0, maximumValue:2.0, initialValue:1.0, isRGB:false)]
     
     
     let filterOperationType = FilterOperationType.singleInput
@@ -51,7 +50,6 @@ class SaturationDescriptor: FilterDescriptorInterface {
         switch (index){
         case 1:
             return lclFilter.saturation
-            break
         default:
             return parameterNotSet
         }
@@ -70,9 +68,9 @@ class SaturationDescriptor: FilterDescriptorInterface {
     }
     
     
-    //func updateParameters(value1:Float, value2:Float,  value3:Float,  value4:Float){
-    //    lclFilter.saturation = value1
-    //}
+    func getColorParameter(index: Int)->UIColor { return UIColor.blue }
+    func setColorParameter(index:Int, color:UIColor) {}
+    
     
     func stashParameters() {
         stash_saturation = lclFilter.saturation

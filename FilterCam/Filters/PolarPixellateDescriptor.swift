@@ -1,5 +1,5 @@
 //
-//  PolarPixellateFilter.swift
+//  PolarPixellateDescriptor.swift
 //  FilterCam
 //
 //  Created by Philip Price on 10/4/16.
@@ -15,13 +15,12 @@ class PolarPixellateDescriptor: FilterDescriptorInterface {
 
     let key = "PolarPixellate"
     let title = "Polar Pixellate"
-    let category = FilterCategoryType.visualEffects
     
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     
-    let numSliders = 1
-    let parameterConfiguration = [ParameterSettings(title:"pixel size", minimumValue:-0.1, maximumValue:0.1, initialValue:0.05)]
+    let numParameters = 1
+    let parameterConfiguration = [ParameterSettings(title:"pixel size", minimumValue:-0.1, maximumValue:0.1, initialValue:0.05, isRGB:false)]
 
     
     let filterOperationType = FilterOperationType.singleInput
@@ -53,7 +52,6 @@ class PolarPixellateDescriptor: FilterDescriptorInterface {
         switch (index){
         case 1:
             return pixelEdge
-            break
         default:
             return parameterNotSet
         }
@@ -72,10 +70,10 @@ class PolarPixellateDescriptor: FilterDescriptorInterface {
         }
     }
     
-    //func updateParameters(value1:Float, value2:Float,  value3:Float,  value4:Float){
-    //    pixelEdge = value1
-    //    lclFilter.pixelSize = Size(width:value1, height:value1)
-    //}
+    
+    func getColorParameter(index: Int)->UIColor { return UIColor.blue }
+    func setColorParameter(index:Int, color:UIColor) {}
+    
     
     func stashParameters(){
         stash_pixelSize = lclFilter.pixelSize

@@ -1,5 +1,5 @@
 //
-//  Vignette.swift
+//  VignetteDescriptor.swift
 //  FilterCam
 //
 //  Created by Philip Price on 10/8/16.
@@ -17,14 +17,13 @@ class VignetteDescriptor: FilterDescriptorInterface {
     
     let key = "Vignette"
     let title = "Vignette"
-    let category = FilterCategoryType.colorAdjustments
     
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     
-    let numSliders = 2
-    let parameterConfiguration = [ParameterSettings(title:"start", minimumValue:0.0, maximumValue:0.75, initialValue:0.5),
-                                  ParameterSettings(title:"end", minimumValue:0.6, maximumValue:0.9, initialValue:0.75)]
+    let numParameters = 2
+    let parameterConfiguration = [ParameterSettings(title:"start", minimumValue:0.0, maximumValue:0.75, initialValue:0.5, isRGB:false),
+                                  ParameterSettings(title:"end", minimumValue:0.6, maximumValue:0.9, initialValue:0.75, isRGB:false)]
     
     
     let filterOperationType = FilterOperationType.singleInput
@@ -55,10 +54,8 @@ class VignetteDescriptor: FilterDescriptorInterface {
         switch (index){
         case 1:
             return lclFilter.start
-            break
         case 2:
             return lclFilter.end
-            break
         default:
             return parameterNotSet
         }
@@ -81,9 +78,10 @@ class VignetteDescriptor: FilterDescriptorInterface {
     }
     
     
-    //func updateParameters(value1:Float, value2:Float,  value3:Float,  value4:Float){
-    //    lclFilter.end = value1
-    //}
+    
+    func getColorParameter(index: Int)->UIColor { return UIColor.blue }
+    func setColorParameter(index:Int, color:UIColor) {}
+    
     
     func stashParameters() {
         stash_start = lclFilter.start

@@ -17,14 +17,13 @@ class BulgeDistortionDescriptor: FilterDescriptorInterface {
     
     let key = "BulgeDistortion"
     let title = "Bulge Distortion"
-    let category = FilterCategoryType.visualEffects
     
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     
-    let numSliders = 2
-    let parameterConfiguration = [ParameterSettings(title:"amount", minimumValue:-1.0, maximumValue:1.0, initialValue:0.5),
-                                  ParameterSettings(title:"radius", minimumValue:0.0, maximumValue:1.0, initialValue:0.25)]
+    let numParameters = 2
+    let parameterConfiguration = [ParameterSettings(title:"amount", minimumValue:-1.0, maximumValue:1.0, initialValue:0.5, isRGB:false),
+                                  ParameterSettings(title:"radius", minimumValue:0.0, maximumValue:1.0, initialValue:0.25, isRGB:false)]
     
     
     let filterOperationType = FilterOperationType.singleInput
@@ -55,10 +54,8 @@ class BulgeDistortionDescriptor: FilterDescriptorInterface {
         switch (index){
         case 1:
             return lclFilter.scale
-            break
         case 2:
             return lclFilter.radius
-            break
         default:
             return parameterNotSet
         }
@@ -81,9 +78,10 @@ class BulgeDistortionDescriptor: FilterDescriptorInterface {
     }
     
     
-    //func updateParameters(value1:Float, value2:Float,  value3:Float,  value4:Float){
-    //    lclFilter.scale = value1
-    //}
+    
+    func getColorParameter(index: Int)->UIColor { return UIColor.blue }
+    func setColorParameter(index:Int, color:UIColor) {}
+    
     
     func stashParameters() {
         stash_scale = lclFilter.scale

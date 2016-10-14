@@ -1,5 +1,5 @@
 //
-//  PolkaDot.swift
+//  PolkaDotDescriptor.swift
 //  FilterCam
 //
 //  Created by Philip Price on 10/8/16.
@@ -17,13 +17,12 @@ class PolkaDotDescriptor: FilterDescriptorInterface {
     
     let key = "PolkaDot"
     let title = "Polka Dot"
-    let category = FilterCategoryType.colorAdjustments
     
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     
-    let numSliders = 1
-    let parameterConfiguration = [ParameterSettings(title:"size", minimumValue:0.0, maximumValue:0.1, initialValue:0.05)]
+    let numParameters = 1
+    let parameterConfiguration = [ParameterSettings(title:"size", minimumValue:0.0, maximumValue:0.1, initialValue:0.05, isRGB:false)]
   
     //TODO: add dotscaling parameter
     
@@ -53,7 +52,6 @@ class PolkaDotDescriptor: FilterDescriptorInterface {
         switch (index){
         case 1:
             return lclFilter.fractionalWidthOfAPixel
-            break
         default:
             return parameterNotSet
         }
@@ -72,9 +70,10 @@ class PolkaDotDescriptor: FilterDescriptorInterface {
     }
     
     
-    //func updateParameters(value1:Float, value2:Float,  value3:Float,  value4:Float){
-    //    lclFilter.fractionalWidthOfAPixel = value1
-    //}
+    
+    func getColorParameter(index: Int)->UIColor { return UIColor.blue }
+    func setColorParameter(index:Int, color:UIColor) {}
+    
     
     func stashParameters() {
         stash_fractionalWidthOfAPixel = lclFilter.fractionalWidthOfAPixel

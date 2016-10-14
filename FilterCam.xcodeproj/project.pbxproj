@@ -35,7 +35,6 @@
 		253B23931DA999CC00203ECB /* ZoomBlurDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253B23921DA999CC00203ECB /* ZoomBlurDescriptor.swift */; };
 		253B23951DA999E100203ECB /* BulgeDistortionDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253B23941DA999E100203ECB /* BulgeDistortionDescriptor.swift */; };
 		253B23971DA999FF00203ECB /* GlassSphereRefractionDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253B23961DA999FF00203ECB /* GlassSphereRefractionDescriptor.swift */; };
-		256974191D9B0C1B00DDF9E4 /* CameraSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256974181D9B0C1B00DDF9E4 /* CameraSelection.swift */; };
 		2569741D1D9B986E00DDF9E4 /* Fractional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2569741C1D9B986E00DDF9E4 /* Fractional.swift */; };
 		256D0FF11D98DB4C00220D7E /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256D0FF01D98DB4C00220D7E /* CameraManager.swift */; };
 		257F49E21D9448920083B1E4 /* FilterCamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257F49E11D9448920083B1E4 /* FilterCamViewController.swift */; };
@@ -45,6 +44,47 @@
 		257F49F51D9448920083B1E4 /* FilterCamTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257F49F41D9448920083B1E4 /* FilterCamTests.swift */; };
 		257F4A001D9448920083B1E4 /* FilterCamUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257F49FF1D9448920083B1E4 /* FilterCamUITests.swift */; };
 		257F4A141D947CF80083B1E4 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 257F4A131D947CF80083B1E4 /* Podfile */; };
+		25B24CF81DAE958D008CD38A /* ExposureDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24CF71DAE958D008CD38A /* ExposureDescriptor.swift */; };
+		25B24CFA1DAE9605008CD38A /* XXX2Descriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24CF91DAE9605008CD38A /* XXX2Descriptor.swift */; };
+		25B24CFC1DAE9709008CD38A /* XXXFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24CFB1DAE9709008CD38A /* XXXFilter.swift */; };
+		25B24CFE1DAE97F6008CD38A /* XXX2Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24CFD1DAE97F6008CD38A /* XXX2Filter.swift */; };
+		25B24D001DAE9967008CD38A /* ContrastDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24CFF1DAE9967008CD38A /* ContrastDescriptor.swift */; };
+		25B24D021DAE99DE008CD38A /* BrightnessDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D011DAE99DE008CD38A /* BrightnessDescriptor.swift */; };
+		25B24D081DAE9BEA008CD38A /* RGBDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D071DAE9BEA008CD38A /* RGBDescriptor.swift */; };
+		25B24D0A1DAE9D6A008CD38A /* HueDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D091DAE9D6A008CD38A /* HueDescriptor.swift */; };
+		25B24D0C1DAE9E07008CD38A /* WarmthDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D0B1DAE9E07008CD38A /* WarmthDescriptor.swift */; };
+		25B24D0E1DAEDDFF008CD38A /* WhiteBalanceDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D0D1DAEDDFF008CD38A /* WhiteBalanceDescriptor.swift */; };
+		25B24D101DAEE037008CD38A /* FalseColorDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D0F1DAEE037008CD38A /* FalseColorDescriptor.swift */; };
+		25B24D121DAEE1B5008CD38A /* GradientSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D111DAEE1B5008CD38A /* GradientSlider.swift */; };
+		25B24D161DAFE0C3008CD38A /* app_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 25B24D151DAFE0C3008CD38A /* app_icon.png */; };
+		25B24D181DAFE255008CD38A /* FilterInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D171DAFE255008CD38A /* FilterInfoView.swift */; };
+		25B24D1A1DB0351C008CD38A /* SharpenDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D191DB0351C008CD38A /* SharpenDescriptor.swift */; };
+		25B24D201DB03633008CD38A /* GrayscaleDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D1F1DB03633008CD38A /* GrayscaleDescriptor.swift */; };
+		25B24D221DB036C5008CD38A /* XXX0Descriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D211DB036C5008CD38A /* XXX0Descriptor.swift */; };
+		25B24D241DB036FF008CD38A /* RotateDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D231DB036FF008CD38A /* RotateDescriptor.swift */; };
+		25B24D261DB044C2008CD38A /* HazeDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D251DB044C2008CD38A /* HazeDescriptor.swift */; };
+		25B24D2A1DB0459E008CD38A /* XXX1Descriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D291DB0459E008CD38A /* XXX1Descriptor.swift */; };
+		25B24D2C1DB04843008CD38A /* AmatorkaDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D2B1DB04843008CD38A /* AmatorkaDescriptor.swift */; };
+		25B24D2E1DB04892008CD38A /* MissEtikateDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D2D1DB04892008CD38A /* MissEtikateDescriptor.swift */; };
+		25B24D301DB0494F008CD38A /* ColorInversionDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D2F1DB0494F008CD38A /* ColorInversionDescriptor.swift */; };
+		25B24D321DB04A5A008CD38A /* AverageLuminanceThresholdDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D311DB04A5A008CD38A /* AverageLuminanceThresholdDescriptor.swift */; };
+		25B24D341DB04B91008CD38A /* PixellateDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D331DB04B91008CD38A /* PixellateDescriptor.swift */; };
+		25B24D361DB04C39008CD38A /* SobelEdgeDetectionDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D351DB04C39008CD38A /* SobelEdgeDetectionDescriptor.swift */; };
+		25B24D381DB04C86008CD38A /* PrewittEdgeDetectionDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D371DB04C86008CD38A /* PrewittEdgeDetectionDescriptor.swift */; };
+		25B24D3C1DB04D4E008CD38A /* ThresholdSobelEdgeDetectionDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D3B1DB04D4E008CD38A /* ThresholdSobelEdgeDetectionDescriptor.swift */; };
+		25B24D3E1DB04E28008CD38A /* LaplacianDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D3D1DB04E28008CD38A /* LaplacianDescriptor.swift */; };
+		25B24D401DB054A2008CD38A /* KuwaharaDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D3F1DB054A2008CD38A /* KuwaharaDescriptor.swift */; };
+		25B24D421DB054DA008CD38A /* KuwaharaRadius3Descriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D411DB054DA008CD38A /* KuwaharaRadius3Descriptor.swift */; };
+		25B24D441DB05543008CD38A /* GaussianBlurDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D431DB05543008CD38A /* GaussianBlurDescriptor.swift */; };
+		25B24D461DB05688008CD38A /* MedianDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D451DB05688008CD38A /* MedianDescriptor.swift */; };
+		25B24D481DB056E0008CD38A /* BilateralBlurDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D471DB056E0008CD38A /* BilateralBlurDescriptor.swift */; };
+		25B24D4A1DB05791008CD38A /* BoxBlurDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D491DB05791008CD38A /* BoxBlurDescriptor.swift */; };
+		25B24D4C1DB0582D008CD38A /* UnsharpMaskDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D4B1DB0582D008CD38A /* UnsharpMaskDescriptor.swift */; };
+		25B24D4E1DB059C4008CD38A /* CropDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D4D1DB059C4008CD38A /* CropDescriptor.swift */; };
+		25B24D501DB09E8C008CD38A /* CannyEdgeDetectionDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D4F1DB09E8C008CD38A /* CannyEdgeDetectionDescriptor.swift */; };
+		25B24D521DB0A038008CD38A /* HarrisCornerDetectorDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D511DB0A038008CD38A /* HarrisCornerDetectorDescriptor.swift */; };
+		25B24D541DB0A0FC008CD38A /* NobleCornerDetectorDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D531DB0A0FC008CD38A /* NobleCornerDetectorDescriptor.swift */; };
+		25B24D561DB0A137008CD38A /* ShiTomasiFeatureDetectorDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D551DB0A137008CD38A /* ShiTomasiFeatureDetectorDescriptor.swift */; };
 		25CF4BD51D9490C400D779CF /* CameraControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BCF1D9490C400D779CF /* CameraControlsView.swift */; };
 		25CF4BD61D9490C400D779CF /* CameraDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BD01D9490C400D779CF /* CameraDisplayView.swift */; };
 		25CF4BD71D9490C400D779CF /* CameraInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BD11D9490C400D779CF /* CameraInfoView.swift */; };
@@ -146,7 +186,6 @@
 		253B23921DA999CC00203ECB /* ZoomBlurDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZoomBlurDescriptor.swift; path = Filters/ZoomBlurDescriptor.swift; sourceTree = "<group>"; };
 		253B23941DA999E100203ECB /* BulgeDistortionDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BulgeDistortionDescriptor.swift; path = Filters/BulgeDistortionDescriptor.swift; sourceTree = "<group>"; };
 		253B23961DA999FF00203ECB /* GlassSphereRefractionDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GlassSphereRefractionDescriptor.swift; path = Filters/GlassSphereRefractionDescriptor.swift; sourceTree = "<group>"; };
-		256974181D9B0C1B00DDF9E4 /* CameraSelection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraSelection.swift; path = Models/CameraSelection.swift; sourceTree = "<group>"; };
 		2569741C1D9B986E00DDF9E4 /* Fractional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Fractional.swift; path = Models/Fractional.swift; sourceTree = "<group>"; };
 		256D0FF01D98DB4C00220D7E /* CameraManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraManager.swift; path = Models/CameraManager.swift; sourceTree = "<group>"; };
 		257F49DC1D9448920083B1E4 /* FilterCam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FilterCam.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -162,6 +201,47 @@
 		257F49FF1D9448920083B1E4 /* FilterCamUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCamUITests.swift; sourceTree = "<group>"; };
 		257F4A011D9448920083B1E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		257F4A131D947CF80083B1E4 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		25B24CF71DAE958D008CD38A /* ExposureDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExposureDescriptor.swift; path = Filters/ExposureDescriptor.swift; sourceTree = "<group>"; };
+		25B24CF91DAE9605008CD38A /* XXX2Descriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XXX2Descriptor.swift; path = Filters/XXX2Descriptor.swift; sourceTree = "<group>"; };
+		25B24CFB1DAE9709008CD38A /* XXXFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XXXFilter.swift; path = Filters/XXXFilter.swift; sourceTree = "<group>"; };
+		25B24CFD1DAE97F6008CD38A /* XXX2Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XXX2Filter.swift; path = Filters/XXX2Filter.swift; sourceTree = "<group>"; };
+		25B24CFF1DAE9967008CD38A /* ContrastDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContrastDescriptor.swift; path = Filters/ContrastDescriptor.swift; sourceTree = "<group>"; };
+		25B24D011DAE99DE008CD38A /* BrightnessDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BrightnessDescriptor.swift; path = Filters/BrightnessDescriptor.swift; sourceTree = "<group>"; };
+		25B24D071DAE9BEA008CD38A /* RGBDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RGBDescriptor.swift; path = Filters/RGBDescriptor.swift; sourceTree = "<group>"; };
+		25B24D091DAE9D6A008CD38A /* HueDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HueDescriptor.swift; path = Filters/HueDescriptor.swift; sourceTree = "<group>"; };
+		25B24D0B1DAE9E07008CD38A /* WarmthDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WarmthDescriptor.swift; path = Filters/WarmthDescriptor.swift; sourceTree = "<group>"; };
+		25B24D0D1DAEDDFF008CD38A /* WhiteBalanceDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WhiteBalanceDescriptor.swift; path = Filters/WhiteBalanceDescriptor.swift; sourceTree = "<group>"; };
+		25B24D0F1DAEE037008CD38A /* FalseColorDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FalseColorDescriptor.swift; path = Filters/FalseColorDescriptor.swift; sourceTree = "<group>"; };
+		25B24D111DAEE1B5008CD38A /* GradientSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GradientSlider.swift; path = Views/GradientSlider.swift; sourceTree = "<group>"; };
+		25B24D151DAFE0C3008CD38A /* app_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = app_icon.png; path = ../../icons/app_icon.png; sourceTree = "<group>"; };
+		25B24D171DAFE255008CD38A /* FilterInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterInfoView.swift; path = Views/FilterInfoView.swift; sourceTree = "<group>"; };
+		25B24D191DB0351C008CD38A /* SharpenDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SharpenDescriptor.swift; path = Filters/SharpenDescriptor.swift; sourceTree = "<group>"; };
+		25B24D1F1DB03633008CD38A /* GrayscaleDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GrayscaleDescriptor.swift; path = Filters/GrayscaleDescriptor.swift; sourceTree = "<group>"; };
+		25B24D211DB036C5008CD38A /* XXX0Descriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XXX0Descriptor.swift; path = Filters/XXX0Descriptor.swift; sourceTree = "<group>"; };
+		25B24D231DB036FF008CD38A /* RotateDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RotateDescriptor.swift; path = Filters/RotateDescriptor.swift; sourceTree = "<group>"; };
+		25B24D251DB044C2008CD38A /* HazeDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HazeDescriptor.swift; path = Filters/HazeDescriptor.swift; sourceTree = "<group>"; };
+		25B24D291DB0459E008CD38A /* XXX1Descriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XXX1Descriptor.swift; path = Filters/XXX1Descriptor.swift; sourceTree = "<group>"; };
+		25B24D2B1DB04843008CD38A /* AmatorkaDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AmatorkaDescriptor.swift; path = Filters/AmatorkaDescriptor.swift; sourceTree = "<group>"; };
+		25B24D2D1DB04892008CD38A /* MissEtikateDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MissEtikateDescriptor.swift; path = Filters/MissEtikateDescriptor.swift; sourceTree = "<group>"; };
+		25B24D2F1DB0494F008CD38A /* ColorInversionDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorInversionDescriptor.swift; path = Filters/ColorInversionDescriptor.swift; sourceTree = "<group>"; };
+		25B24D311DB04A5A008CD38A /* AverageLuminanceThresholdDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AverageLuminanceThresholdDescriptor.swift; path = Filters/AverageLuminanceThresholdDescriptor.swift; sourceTree = "<group>"; };
+		25B24D331DB04B91008CD38A /* PixellateDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PixellateDescriptor.swift; path = Filters/PixellateDescriptor.swift; sourceTree = "<group>"; };
+		25B24D351DB04C39008CD38A /* SobelEdgeDetectionDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SobelEdgeDetectionDescriptor.swift; path = Filters/SobelEdgeDetectionDescriptor.swift; sourceTree = "<group>"; };
+		25B24D371DB04C86008CD38A /* PrewittEdgeDetectionDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PrewittEdgeDetectionDescriptor.swift; path = Filters/PrewittEdgeDetectionDescriptor.swift; sourceTree = "<group>"; };
+		25B24D3B1DB04D4E008CD38A /* ThresholdSobelEdgeDetectionDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ThresholdSobelEdgeDetectionDescriptor.swift; path = Filters/ThresholdSobelEdgeDetectionDescriptor.swift; sourceTree = "<group>"; };
+		25B24D3D1DB04E28008CD38A /* LaplacianDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LaplacianDescriptor.swift; path = Filters/LaplacianDescriptor.swift; sourceTree = "<group>"; };
+		25B24D3F1DB054A2008CD38A /* KuwaharaDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KuwaharaDescriptor.swift; path = Filters/KuwaharaDescriptor.swift; sourceTree = "<group>"; };
+		25B24D411DB054DA008CD38A /* KuwaharaRadius3Descriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KuwaharaRadius3Descriptor.swift; path = Filters/KuwaharaRadius3Descriptor.swift; sourceTree = "<group>"; };
+		25B24D431DB05543008CD38A /* GaussianBlurDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GaussianBlurDescriptor.swift; path = Filters/GaussianBlurDescriptor.swift; sourceTree = "<group>"; };
+		25B24D451DB05688008CD38A /* MedianDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MedianDescriptor.swift; path = Filters/MedianDescriptor.swift; sourceTree = "<group>"; };
+		25B24D471DB056E0008CD38A /* BilateralBlurDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BilateralBlurDescriptor.swift; path = Filters/BilateralBlurDescriptor.swift; sourceTree = "<group>"; };
+		25B24D491DB05791008CD38A /* BoxBlurDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoxBlurDescriptor.swift; path = Filters/BoxBlurDescriptor.swift; sourceTree = "<group>"; };
+		25B24D4B1DB0582D008CD38A /* UnsharpMaskDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UnsharpMaskDescriptor.swift; path = Filters/UnsharpMaskDescriptor.swift; sourceTree = "<group>"; };
+		25B24D4D1DB059C4008CD38A /* CropDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CropDescriptor.swift; path = Filters/CropDescriptor.swift; sourceTree = "<group>"; };
+		25B24D4F1DB09E8C008CD38A /* CannyEdgeDetectionDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CannyEdgeDetectionDescriptor.swift; path = Filters/CannyEdgeDetectionDescriptor.swift; sourceTree = "<group>"; };
+		25B24D511DB0A038008CD38A /* HarrisCornerDetectorDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HarrisCornerDetectorDescriptor.swift; path = Filters/HarrisCornerDetectorDescriptor.swift; sourceTree = "<group>"; };
+		25B24D531DB0A0FC008CD38A /* NobleCornerDetectorDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NobleCornerDetectorDescriptor.swift; path = Filters/NobleCornerDetectorDescriptor.swift; sourceTree = "<group>"; };
+		25B24D551DB0A137008CD38A /* ShiTomasiFeatureDetectorDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShiTomasiFeatureDetectorDescriptor.swift; path = Filters/ShiTomasiFeatureDetectorDescriptor.swift; sourceTree = "<group>"; };
 		25CF4BCF1D9490C400D779CF /* CameraControlsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraControlsView.swift; path = Views/CameraControlsView.swift; sourceTree = "<group>"; };
 		25CF4BD01D9490C400D779CF /* CameraDisplayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraDisplayView.swift; path = Views/CameraDisplayView.swift; sourceTree = "<group>"; };
 		25CF4BD11D9490C400D779CF /* CameraInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraInfoView.swift; path = Views/CameraInfoView.swift; sourceTree = "<group>"; };
@@ -216,25 +296,63 @@
 		253B236D1DA44E4D00203ECB /* Filters */ = {
 			isa = PBXGroup;
 			children = (
+				25B24D2B1DB04843008CD38A /* AmatorkaDescriptor.swift */,
+				25B24D311DB04A5A008CD38A /* AverageLuminanceThresholdDescriptor.swift */,
+				25B24D471DB056E0008CD38A /* BilateralBlurDescriptor.swift */,
+				25B24D491DB05791008CD38A /* BoxBlurDescriptor.swift */,
+				25B24D011DAE99DE008CD38A /* BrightnessDescriptor.swift */,
 				253B23941DA999E100203ECB /* BulgeDistortionDescriptor.swift */,
+				25B24D4F1DB09E8C008CD38A /* CannyEdgeDetectionDescriptor.swift */,
+				25B24D2F1DB0494F008CD38A /* ColorInversionDescriptor.swift */,
+				25B24CFF1DAE9967008CD38A /* ContrastDescriptor.swift */,
+				25B24D4D1DB059C4008CD38A /* CropDescriptor.swift */,
 				253B23721DA4B09200203ECB /* CrosshatchDescriptor.swift */,
 				253B238E1DA9996400203ECB /* EmbossDescriptor.swift */,
+				25B24CF71DAE958D008CD38A /* ExposureDescriptor.swift */,
+				25B24D0F1DAEE037008CD38A /* FalseColorDescriptor.swift */,
 				253B236B1DA44E3600203ECB /* FilterDescriptor.swift */,
 				253B23781DA5782300203ECB /* FilterManager.swift */,
+				25B24D431DB05543008CD38A /* GaussianBlurDescriptor.swift */,
 				253B23961DA999FF00203ECB /* GlassSphereRefractionDescriptor.swift */,
+				25B24D1F1DB03633008CD38A /* GrayscaleDescriptor.swift */,
+				25B24D511DB0A038008CD38A /* HarrisCornerDetectorDescriptor.swift */,
+				25B24D251DB044C2008CD38A /* HazeDescriptor.swift */,
 				253B23821DA9989F00203ECB /* HighlightsDescriptor.swift */,
+				25B24D091DAE9D6A008CD38A /* HueDescriptor.swift */,
+				25B24D3F1DB054A2008CD38A /* KuwaharaDescriptor.swift */,
+				25B24D411DB054DA008CD38A /* KuwaharaRadius3Descriptor.swift */,
+				25B24D3D1DB04E28008CD38A /* LaplacianDescriptor.swift */,
 				253B23841DA998D100203ECB /* LuminanceThresholdDescriptor.swift */,
+				25B24D451DB05688008CD38A /* MedianDescriptor.swift */,
+				25B24D2D1DB04892008CD38A /* MissEtikateDescriptor.swift */,
 				253B237E1DA9986E00203ECB /* MonochromeDescriptor.swift */,
+				25B24D531DB0A0FC008CD38A /* NobleCornerDetectorDescriptor.swift */,
+				25B24D331DB04B91008CD38A /* PixellateDescriptor.swift */,
 				253B23741DA4B1A700203ECB /* PolarPixellateDescriptor.swift */,
 				253B23861DA998F000203ECB /* PolkaDotDescriptor.swift */,
 				253B238C1DA9994F00203ECB /* PosterizeDescriptor.swift */,
+				25B24D371DB04C86008CD38A /* PrewittEdgeDetectionDescriptor.swift */,
+				25B24D071DAE9BEA008CD38A /* RGBDescriptor.swift */,
+				25B24D231DB036FF008CD38A /* RotateDescriptor.swift */,
 				253B237C1DA9905900203ECB /* SaturationDescriptor.swift */,
 				253B23801DA9988500203ECB /* SepiaDescriptor.swift */,
+				25B24D191DB0351C008CD38A /* SharpenDescriptor.swift */,
+				25B24D551DB0A137008CD38A /* ShiTomasiFeatureDetectorDescriptor.swift */,
 				253B236E1DA49B9A00203ECB /* SketchDescriptor.swift */,
+				25B24D351DB04C39008CD38A /* SobelEdgeDetectionDescriptor.swift */,
 				253B23701DA4B07200203ECB /* SolarizeDescriptor.swift */,
 				253B23881DA9992A00203ECB /* ThresholdSketchDescriptor.swift */,
+				25B24D3B1DB04D4E008CD38A /* ThresholdSobelEdgeDetectionDescriptor.swift */,
 				253B238A1DA9993B00203ECB /* ToonDescriptor.swift */,
+				25B24D4B1DB0582D008CD38A /* UnsharpMaskDescriptor.swift */,
 				253B23901DA9997F00203ECB /* VignetteDescriptor.swift */,
+				25B24D0B1DAE9E07008CD38A /* WarmthDescriptor.swift */,
+				25B24D0D1DAEDDFF008CD38A /* WhiteBalanceDescriptor.swift */,
+				25B24D211DB036C5008CD38A /* XXX0Descriptor.swift */,
+				25B24D291DB0459E008CD38A /* XXX1Descriptor.swift */,
+				25B24CF91DAE9605008CD38A /* XXX2Descriptor.swift */,
+				25B24CFD1DAE97F6008CD38A /* XXX2Filter.swift */,
+				25B24CFB1DAE9709008CD38A /* XXXFilter.swift */,
 				253B23921DA999CC00203ECB /* ZoomBlurDescriptor.swift */,
 			);
 			name = Filters;
@@ -246,6 +364,8 @@
 				25CF4BCF1D9490C400D779CF /* CameraControlsView.swift */,
 				25CF4BD01D9490C400D779CF /* CameraDisplayView.swift */,
 				25CF4BD11D9490C400D779CF /* CameraInfoView.swift */,
+				25B24D171DAFE255008CD38A /* FilterInfoView.swift */,
+				25B24D111DAEE1B5008CD38A /* GradientSlider.swift */,
 				253B237A1DA71F1900203ECB /* FilterSettingsView.swift */,
 				25CF4BD21D9490C400D779CF /* CameraSettingsView.swift */,
 				25CF4BD31D9490C400D779CF /* ImageView.swift */,
@@ -263,7 +383,6 @@
 				25F460191D99CE1E00EDA182 /* GridStyle.swift */,
 				25F4601D1D99D65F00EDA182 /* CameraISO.swift */,
 				25F460211D99DBBA00EDA182 /* CameraSpeed.swift */,
-				256974181D9B0C1B00DDF9E4 /* CameraSelection.swift */,
 				2569741C1D9B986E00DDF9E4 /* Fractional.swift */,
 				253B23761DA4BB7800203ECB /* ClosestFraction.swift */,
 			);
@@ -313,6 +432,7 @@
 				257F49E31D9448920083B1E4 /* Main.storyboard */,
 				257F49E61D9448920083B1E4 /* Assets.xcassets */,
 				253B235D1DA301F500203ECB /* lookup_amatorka.png */,
+				25B24D151DAFE0C3008CD38A /* app_icon.png */,
 				253B235E1DA301F500203ECB /* lookup_miss_etikate.png */,
 				253B235F1DA301F500203ECB /* lookup_soft_elegance_1.png */,
 				253B23601DA301F500203ECB /* lookup_soft_elegance_2.png */,
@@ -526,6 +646,7 @@
 				257F49E51D9448920083B1E4 /* Main.storyboard in Resources */,
 				253B23661DA301F500203ECB /* lookup.png in Resources */,
 				253B23651DA301F500203ECB /* lookup_soft_elegance_2.png in Resources */,
+				25B24D161DAFE0C3008CD38A /* app_icon.png in Resources */,
 				253B23631DA301F500203ECB /* lookup_miss_etikate.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -674,45 +795,84 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25B24D301DB0494F008CD38A /* ColorInversionDescriptor.swift in Sources */,
 				25CF4BDC1D94D93700D779CF /* AppDelegate.swift in Sources */,
+				25B24D081DAE9BEA008CD38A /* RGBDescriptor.swift in Sources */,
+				25B24D181DAFE255008CD38A /* FilterInfoView.swift in Sources */,
 				253B238F1DA9996400203ECB /* EmbossDescriptor.swift in Sources */,
+				25B24D0A1DAE9D6A008CD38A /* HueDescriptor.swift in Sources */,
+				25B24D121DAEE1B5008CD38A /* GradientSlider.swift in Sources */,
 				253B23771DA4BB7800203ECB /* ClosestFraction.swift in Sources */,
+				25B24D3C1DB04D4E008CD38A /* ThresholdSobelEdgeDetectionDescriptor.swift in Sources */,
 				25F460201D99D79B00EDA182 /* AspectRatio.swift in Sources */,
+				25B24D221DB036C5008CD38A /* XXX0Descriptor.swift in Sources */,
+				25B24CFC1DAE9709008CD38A /* XXXFilter.swift in Sources */,
+				25B24D241DB036FF008CD38A /* RotateDescriptor.swift in Sources */,
 				253B237B1DA71F1900203ECB /* FilterSettingsView.swift in Sources */,
 				25F460221D99DBBA00EDA182 /* CameraSpeed.swift in Sources */,
 				253B23711DA4B07200203ECB /* SolarizeDescriptor.swift in Sources */,
 				25CF4BD61D9490C400D779CF /* CameraDisplayView.swift in Sources */,
-				256974191D9B0C1B00DDF9E4 /* CameraSelection.swift in Sources */,
+				25B24D501DB09E8C008CD38A /* CannyEdgeDetectionDescriptor.swift in Sources */,
+				25B24D1A1DB0351C008CD38A /* SharpenDescriptor.swift in Sources */,
 				25CF4BDA1D9490C400D779CF /* SquareButton.swift in Sources */,
+				25B24D361DB04C39008CD38A /* SobelEdgeDetectionDescriptor.swift in Sources */,
 				25F4601E1D99D65F00EDA182 /* CameraISO.swift in Sources */,
+				25B24D0E1DAEDDFF008CD38A /* WhiteBalanceDescriptor.swift in Sources */,
 				253B23851DA998D100203ECB /* LuminanceThresholdDescriptor.swift in Sources */,
 				257F49E21D9448920083B1E4 /* FilterCamViewController.swift in Sources */,
 				253B23831DA9989F00203ECB /* HighlightsDescriptor.swift in Sources */,
+				25B24CF81DAE958D008CD38A /* ExposureDescriptor.swift in Sources */,
 				253B23731DA4B09200203ECB /* CrosshatchDescriptor.swift in Sources */,
+				25B24D2E1DB04892008CD38A /* MissEtikateDescriptor.swift in Sources */,
 				253B23911DA9997F00203ECB /* VignetteDescriptor.swift in Sources */,
 				253B23951DA999E100203ECB /* BulgeDistortionDescriptor.swift in Sources */,
 				253B23751DA4B1A700203ECB /* PolarPixellateDescriptor.swift in Sources */,
 				253B236F1DA49B9A00203ECB /* SketchDescriptor.swift in Sources */,
+				25B24D2C1DB04843008CD38A /* AmatorkaDescriptor.swift in Sources */,
 				253B23871DA998F000203ECB /* PolkaDotDescriptor.swift in Sources */,
+				25B24D401DB054A2008CD38A /* KuwaharaDescriptor.swift in Sources */,
 				253B237F1DA9986E00203ECB /* MonochromeDescriptor.swift in Sources */,
+				25B24D341DB04B91008CD38A /* PixellateDescriptor.swift in Sources */,
+				25B24D521DB0A038008CD38A /* HarrisCornerDetectorDescriptor.swift in Sources */,
 				253B23931DA999CC00203ECB /* ZoomBlurDescriptor.swift in Sources */,
 				25F460181D99CCCE00EDA182 /* UISettings.swift in Sources */,
+				25B24D3E1DB04E28008CD38A /* LaplacianDescriptor.swift in Sources */,
+				25B24D4C1DB0582D008CD38A /* UnsharpMaskDescriptor.swift in Sources */,
+				25B24D481DB056E0008CD38A /* BilateralBlurDescriptor.swift in Sources */,
 				253B23811DA9988500203ECB /* SepiaDescriptor.swift in Sources */,
 				256D0FF11D98DB4C00220D7E /* CameraManager.swift in Sources */,
 				25CF4BD51D9490C400D779CF /* CameraControlsView.swift in Sources */,
 				25CF4BD81D9490C400D779CF /* CameraSettingsView.swift in Sources */,
+				25B24D0C1DAE9E07008CD38A /* WarmthDescriptor.swift in Sources */,
 				253B238D1DA9994F00203ECB /* PosterizeDescriptor.swift in Sources */,
+				25B24D4E1DB059C4008CD38A /* CropDescriptor.swift in Sources */,
 				25CF4BD91D9490C400D779CF /* ImageView.swift in Sources */,
+				25B24D441DB05543008CD38A /* GaussianBlurDescriptor.swift in Sources */,
+				25B24D321DB04A5A008CD38A /* AverageLuminanceThresholdDescriptor.swift in Sources */,
 				25CF4BD71D9490C400D779CF /* CameraInfoView.swift in Sources */,
+				25B24D201DB03633008CD38A /* GrayscaleDescriptor.swift in Sources */,
 				2569741D1D9B986E00DDF9E4 /* Fractional.swift in Sources */,
+				25B24CFA1DAE9605008CD38A /* XXX2Descriptor.swift in Sources */,
+				25B24D381DB04C86008CD38A /* PrewittEdgeDetectionDescriptor.swift in Sources */,
 				253B237D1DA9905900203ECB /* SaturationDescriptor.swift in Sources */,
+				25B24D001DAE9967008CD38A /* ContrastDescriptor.swift in Sources */,
+				25B24D101DAEE037008CD38A /* FalseColorDescriptor.swift in Sources */,
+				25B24D261DB044C2008CD38A /* HazeDescriptor.swift in Sources */,
 				253B23971DA999FF00203ECB /* GlassSphereRefractionDescriptor.swift in Sources */,
 				253B238B1DA9993B00203ECB /* ToonDescriptor.swift in Sources */,
+				25B24D561DB0A137008CD38A /* ShiTomasiFeatureDetectorDescriptor.swift in Sources */,
+				25B24D461DB05688008CD38A /* MedianDescriptor.swift in Sources */,
+				25B24D021DAE99DE008CD38A /* BrightnessDescriptor.swift in Sources */,
 				253B235B1DA2CFD400203ECB /* SegueHandlerType.swift in Sources */,
 				25F4601A1D99CE1E00EDA182 /* GridStyle.swift in Sources */,
 				253B236C1DA44E3600203ECB /* FilterDescriptor.swift in Sources */,
+				25B24CFE1DAE97F6008CD38A /* XXX2Filter.swift in Sources */,
+				25B24D421DB054DA008CD38A /* KuwaharaRadius3Descriptor.swift in Sources */,
+				25B24D2A1DB0459E008CD38A /* XXX1Descriptor.swift in Sources */,
 				253B23791DA5782300203ECB /* FilterManager.swift in Sources */,
 				253B23891DA9992A00203ECB /* ThresholdSketchDescriptor.swift in Sources */,
+				25B24D541DB0A0FC008CD38A /* NobleCornerDetectorDescriptor.swift in Sources */,
+				25B24D4A1DB05791008CD38A /* BoxBlurDescriptor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -790,6 +950,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -841,6 +1002,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -871,6 +1033,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC04C590E3C8A8781EA4978B /* Pods-FilterCam.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -887,6 +1050,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 139F285AF8C5B2C24479BD32 /* Pods-FilterCam.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";

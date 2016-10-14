@@ -17,14 +17,13 @@ class ThresholdSketchDescriptor: FilterDescriptorInterface {
     
     let key = "ThresholdSketch"
     let title = "Threshold Sketch"
-    let category = FilterCategoryType.colorAdjustments
     
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     
-    let numSliders = 2
-    let parameterConfiguration = [ParameterSettings(title:"threshold", minimumValue:0.0, maximumValue:1.0, initialValue:0.25),
-                                  ParameterSettings(title:"edge strength", minimumValue:0.0, maximumValue:4.0, initialValue:1.0)]
+    let numParameters = 2
+    let parameterConfiguration = [ParameterSettings(title:"threshold", minimumValue:0.0, maximumValue:1.0, initialValue:0.25, isRGB:false),
+                                  ParameterSettings(title:"edge strength", minimumValue:0.0, maximumValue:4.0, initialValue:1.0, isRGB:false)]
     
     
     let filterOperationType = FilterOperationType.singleInput
@@ -55,10 +54,8 @@ class ThresholdSketchDescriptor: FilterDescriptorInterface {
         switch (index){
         case 1:
             return lclFilter.threshold
-            break
         case 2:
             return lclFilter.edgeStrength
-            break
         default:
             return parameterNotSet
         }
@@ -80,6 +77,8 @@ class ThresholdSketchDescriptor: FilterDescriptorInterface {
         }
     }
     
+    func getColorParameter(index: Int)->UIColor { return UIColor.blue }
+    func setColorParameter(index:Int, color:UIColor) {}
     
     //func updateParameters(value1:Float, value2:Float,  value3:Float,  value4:Float){
     //    lclFilter.threshold = value1

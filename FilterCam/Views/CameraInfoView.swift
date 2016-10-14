@@ -13,10 +13,7 @@ import Neon
 // Class responsible for laying out the Camera Information View
 // This is a container class for display the overlay that provides information about the current Camera/Image view
 
-// Interface required of controlling View
-protocol CameraInfoViewDelegate: class {
-    func filterPressed()
-}
+// No callbacks, just an information-only display
 
 
 class CameraInfoView: UIView {
@@ -24,16 +21,18 @@ class CameraInfoView: UIView {
     var isLandscape : Bool = false
     
     // display items
-    var currFilter: UIButton! = UIButton()
+    var modeIcon: SquareButton! = SquareButton()
     var currISO: UIButton! = UIButton()
     var currSpeed: UIButton! = UIButton()
     var currWB: UIButton! = UIButton()
     
+    let buttonSize : CGFloat = 32.0
+   
     var initDone: Bool = false
    
     
     // delegate for handling events
-    weak var delegate: CameraInfoViewDelegate?
+    //weak var delegate: CameraInfoViewDelegate?
 
     
     
@@ -51,20 +50,19 @@ class CameraInfoView: UIView {
             self.backgroundColor = UIColor.flatBlack()
             //self.alpha = 0.8
             
-            //TODO: add 'filter settings' button
-            initButton(currFilter)
+            modeIcon  = SquareButton(bsize: buttonSize)
             initButton(currISO)
             initButton(currSpeed)
             initButton(currWB)
 
+            modeIcon.setImageAsset("ic_live")
             // initial values, just to have something there
-            setFilterName("(no filter)")
             currISO.setTitle("ISO: ?", for: .normal)
             currSpeed.setTitle("Speed: ?", for: .normal)
             currWB.setTitle("WB: ?", for: .normal)
            
             // show the sub views
-            self.addSubview(currFilter)
+            self.addSubview(modeIcon)
             self.addSubview(currISO)
             self.addSubview(currSpeed)
             self.addSubview(currWB)
@@ -94,20 +92,11 @@ class CameraInfoView: UIView {
             initViews()
         }
         
-        self.groupAndFill(.horizontal, views: [currFilter, currISO, currSpeed, currWB], padding: 8)
+        self.groupAndFill(.horizontal, views: [modeIcon, currISO, currSpeed, currWB], padding: 8)
         
         // TODO: update current values
         update()
-        
-        // register handler for the filter button
-        currFilter.addTarget(self, action: #selector(self.filterDidPress), for: .touchUpInside)
-      
-    }
-    
-    
-    func setFilterName(_ name:String){
-        currFilter.setTitle(name, for: .normal)
-        update()
+              
     }
     
     
@@ -119,10 +108,5 @@ class CameraInfoView: UIView {
         // leave filter for now, updated directly from setFilterName. Eventually replace when filter management is implemented
     }
     
-    //MARK: - touch handlers
-    
-    func filterDidPress() {
-        delegate?.filterPressed()
-    }
     
 }

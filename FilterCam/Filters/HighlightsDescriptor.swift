@@ -17,14 +17,13 @@ class HighlightsDescriptor: FilterDescriptorInterface {
     
     let key = "Highlights"
     let title = "Highlights and Shadows"
-    let category = FilterCategoryType.colorAdjustments
     
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     
-    let numSliders = 2
-    let parameterConfiguration = [ParameterSettings(title:"highlights", minimumValue:0.0, maximumValue:1.0, initialValue:1.0),
-                                  ParameterSettings(title:"shadows", minimumValue:0.0, maximumValue:1.0, initialValue:0.0)]
+    let numParameters = 2
+    let parameterConfiguration = [ParameterSettings(title:"highlights", minimumValue:0.0, maximumValue:1.0, initialValue:1.0, isRGB:false),
+                                  ParameterSettings(title:"shadows", minimumValue:0.0, maximumValue:1.0, initialValue:0.0, isRGB:false)]
     
     
     let filterOperationType = FilterOperationType.singleInput
@@ -55,10 +54,8 @@ class HighlightsDescriptor: FilterDescriptorInterface {
         switch (index){
         case 1:
             return lclFilter.highlights
-            break
         case 2:
             return lclFilter.shadows
-            break
         default:
             return parameterNotSet
         }
@@ -81,9 +78,10 @@ class HighlightsDescriptor: FilterDescriptorInterface {
     }
     
     
-    //func updateParameters(value1:Float, value2:Float,  value3:Float,  value4:Float){
-    //    lclFilter.highlights = value1
-    //}
+    
+    func getColorParameter(index: Int)->UIColor { return UIColor.blue }
+    func setColorParameter(index:Int, color:UIColor) {}
+    
     
     func stashParameters() {
         stash_highlights = lclFilter.highlights

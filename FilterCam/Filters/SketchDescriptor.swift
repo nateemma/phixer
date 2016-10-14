@@ -1,5 +1,5 @@
 //
-//  SketchFilter.swift
+//  SketchDescriptor.swift
 //  FilterCam
 //
 //  Created by Philip Price on 10/4/16.
@@ -16,13 +16,12 @@ class SketchDescriptor: FilterDescriptorInterface {
 
     let key = "Sketch"
     let title = "Sketch"
-    let category = FilterCategoryType.visualEffects
     
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     
-    let numSliders = 1
-    let parameterConfiguration = [ParameterSettings(title:"edge strength", minimumValue:0.0, maximumValue:4.0, initialValue:1.0)]
+    let numParameters = 1
+    let parameterConfiguration = [ParameterSettings(title:"edge strength", minimumValue:0.0, maximumValue:4.0, initialValue:1.0, isRGB:false)]
 
     
     let filterOperationType = FilterOperationType.singleInput
@@ -50,7 +49,6 @@ class SketchDescriptor: FilterDescriptorInterface {
         switch (index){
         case 1:
             return lclFilter.edgeStrength
-            break
         default:
             return parameterNotSet
         }
@@ -69,9 +67,10 @@ class SketchDescriptor: FilterDescriptorInterface {
     }
     
     
-    //func updateParameters(value1:Float, value2:Float,  value3:Float,  value4:Float){
-    //    lclFilter.edgeStrength = value1
-    //}
+    
+    func getColorParameter(index: Int)->UIColor { return UIColor.blue }
+    func setColorParameter(index:Int, color:UIColor) {}
+    
     
     func stashParameters() {
         stash_edgeStrength = lclFilter.edgeStrength

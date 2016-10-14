@@ -14,8 +14,8 @@ import GPUImage
 // This is the equivalent of an Abstract/Base class, descriptors for each specific type of filter must implement this
 
 
-
-typealias ParameterSettings = (title:String, minimumValue:Float, maximumValue:Float, initialValue:Float)
+// settings for each filter parameter. isRGB indicates to use an RGB/HSB color gradient slider (i.e. to choose a color)
+typealias ParameterSettings = (title:String, minimumValue:Float, maximumValue:Float, initialValue:Float, isRGB:Bool)
 
 
 enum FilterOperationType {
@@ -30,16 +30,23 @@ let parameterNotSet:Float = -1000.00
 protocol FilterDescriptorInterface{
     var key: String { get }
     var title: String { get }
-    var category: FilterCategoryType { get }
+    //var category: FilterCategoryType { get }
     var filter: BasicOperation? { get }
     var filterGroup: OperationGroup? { get }
-    var numSliders: Int { get } // 4 sliders max
+    
+    var numParameters: Int { get } // 4 sliders max
     var parameterConfiguration: [ParameterSettings] { get }
     
     func configureCustomFilter(_ input:(filter:BasicOperation, secondInput:BasicOperation?))
     
+    // Parameter access for Float parameters (most of them)
     func getParameter(index:Int)->Float
     func setParameter(index:Int, value:Float)
+    
+    // Parameter access for Color parameters
+    func getColorParameter(index: Int)->UIColor
+    func setColorParameter(index:Int, color:UIColor)
+    
     //func updateParameters(value1:Float, value2:Float,  value3:Float,  value4:Float)
     func stashParameters()
     func restoreParameters()

@@ -16,9 +16,12 @@ class CameraDisplayView: UIView {
     
     var renderView: RenderView? = RenderView()
     var initDone: Bool = false
-    var currFilter: BasicOperation? = nil
+    //var currFilter: BasicOperation? = nil
+    var currFilter: FilterDescriptorInterface? = nil
     var camera: Camera? = nil
     var cropFilter: Crop? = nil
+    var rotateDescriptor: RotateDescriptor? = nil
+    var rotateFilter: BasicOperation? = nil
     
     convenience init(){
         self.init(frame: CGRect.zero)
@@ -66,12 +69,24 @@ class CameraDisplayView: UIView {
                 return
             }
             
+            guard (initDone) else {
+                log.error("ERR: not ready for pipeline setup")
+                return
+            }
+            
             if (cropFilter == nil){ // first time through?
                 cropFilter = Crop()
                 let res = CameraManager.getCaptureResolution()
                 cropFilter!.cropSizeInPixels = Size(width: Float(res.width), height: Float(res.height))
-                cropFilter!.locationOfCropInPixels = Position(0,0)
+                //cropFilter!.locationOfCropInPixels = Position(0,0)
                 log.debug("Crop(w:\(res.width), h:\(res.height))")
+            }
+            
+            if (rotateFilter == nil){
+                // generate a zero rotation transform, just for correcting camera inversions
+                rotateDescriptor = RotateDescriptor()
+                rotateDescriptor?.setParameter(index: 1, value: 0.0) // zero rotation
+                rotateFilter = rotateDescriptor?.filter
             }
             
             camera = CameraManager.getCamera()
@@ -81,28 +96,46 @@ class CameraDisplayView: UIView {
                 camera?.removeAllTargets()
                 
                 // GPUImage bug: front facing camera image is flipped
-                // Use crop filter to flip the image, since this is always applied, even to the straight camera feed
+                // Use a zero rotation filter to flip the image
+                
                 if (camera?.location == PhysicalCameraLocation.frontFacing){
                     log.verbose("Flipping image")
-                    cropFilter!.overriddenOutputRotation = Rotation.flipVertically // doesn't seem to work
                     //TEMP HACK: flip filter, if active (remove when Crop is fixed)
-                    if (currFilter != nil){
-                        currFilter!.overriddenOutputRotation = Rotation.flipVertically
-                    }
-                    
+                    //if (currFilter?.filter != nil){
+                    //    currFilter?.filter!.overriddenOutputRotation = Rotation.flipVertically
+                    //} else {
+                        //cropFilter!.overriddenOutputRotation = Rotation.flipVertically // doesn't seem to work
+                        rotateFilter!.overriddenOutputRotation = Rotation.flipVertically
+                    //}
                 } else {
-                    cropFilter!.overriddenOutputRotation = Rotation.noRotation
+                    //cropFilter!.overriddenOutputRotation = Rotation.noRotation
+                    rotateFilter!.overriddenOutputRotation = Rotation.noRotation
                 }
+                
+                //TODO: apply aspect ratio to crop filter
                 
                 // Redirect the camera output through the selected filter (if any)
                 //TOFIX: crop filter seems to only work if it's last in the chain before rendering
                 if (currFilter == nil){
-                    camera! --> cropFilter! --> renderView!
+                    log.debug("No filter applied, using camera feed")
+                    camera! --> rotateFilter! --> cropFilter! --> renderView!
                 } else {
-                    camera! --> currFilter! --> cropFilter! --> renderView!
+                    if (currFilter?.filter != nil){
+                        log.debug("Using filter: \(currFilter?.key)")
+                        let filter = currFilter?.filter
+                        camera! --> filter! --> rotateFilter! --> cropFilter! --> renderView!
+                    } else if (currFilter?.filterGroup != nil){
+                        log.debug("Using group: \(currFilter?.key)")
+                        let group = currFilter?.filterGroup
+                        camera! -->  group! --> rotateFilter! --> cropFilter! --> renderView!
+                    } else {
+                        log.error("!!! Filter (\(currFilter?.title) has no operation assigned !!!")
+                    }
                 }
                 // (Re-)start the camera capture
                 camera?.startCapture()
+            } else {
+                log.warning("No camera active, ignoring")
             }
             
         } catch {
@@ -111,18 +144,48 @@ class CameraDisplayView: UIView {
     }
     
     // sets the filter to be applied (nil for no filter)
-    open func setFilter(_ filter: BasicOperation?){
-        currFilter?.removeAllTargets()
-        currFilter = filter
+    open func setFilter(_ descriptor: FilterDescriptorInterface?){
+        removeTargets(from: currFilter)
+        currFilter = descriptor
         setupFilterPipeline()
     }
     
+    private func removeTargets(from: FilterDescriptorInterface?){
+        guard (from != nil) else {
+            return
+        }
+        
+        if (from?.filter != nil){
+            log.debug("Removing targets from filter")
+            from?.filter?.removeAllTargets()
+        }
+        
+        if (from?.filterGroup != nil){
+            log.debug("Removing targets from filter group")
+            from?.filterGroup?.removeAllTargets()
+        }
+    }
     
     // saves the currently displayed image to the Camera Roll
     open func saveImage(_ url: URL){
         do{
             log.debug("Saving image to URL: \(url.path)")
-            try currFilter?.saveNextFrameToURL(url, format:.png)
+            
+            /***
+            // if no assigned filter, then use the Crop filter that was inserted, otherwise use the filter/filterGroup
+            if (currFilter == nil){
+                cropFilter?.saveNextFrameToURL(url, format:.png)
+            } else {
+                if (currFilter?.filter != nil){
+                    currFilter?.filter?.saveNextFrameToURL(url, format:.png)
+                } else if (currFilter?.filterGroup != nil){
+                    currFilter?.filterGroup?.saveNextFrameToURL(url, format:.png)
+                } else {
+                    log.error("!!! Filter (\(currFilter?.title) has no operation assigned !!!")
+                }
+            }
+            ***/
+            cropFilter?.saveNextFrameToURL(url, format:.png)
             saveToPhotoAlbum(url) // saves asynchronously
        
         } catch {

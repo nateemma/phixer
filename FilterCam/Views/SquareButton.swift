@@ -27,10 +27,16 @@ class SquareButton: UIView {
     
     // (re-)set the image on a button using a project asset
     func setImageAsset(_ assetName: String){
-        if let image = UIImage(named: assetName) {
-            self.button.imageView?.contentMode = UIViewContentMode.scaleToFill
-            self.button.setImage(image, for: UIControlState.normal)
+        var image:UIImage?
+        
+        image = UIImage(named: assetName)
+        
+        if (image == nil) {
+            image = UIImage(named: "ic_unknown")
         }
+        
+        self.button.imageView?.contentMode = UIViewContentMode.scaleToFill
+        self.button.setImage(image, for: UIControlState.normal)
     }
     
     // set the image based on any UIImage (e.g. from Camera Roll)

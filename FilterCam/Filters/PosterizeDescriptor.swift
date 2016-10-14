@@ -1,5 +1,5 @@
 //
-//  Posterize.swift
+//  PosterizeDescriptor.swift
 //  FilterCam
 //
 //  Created by Philip Price on 10/8/16.
@@ -17,13 +17,12 @@ class PosterizeDescriptor: FilterDescriptorInterface {
     
     let key = "Posterize"
     let title = "Posterize"
-    let category = FilterCategoryType.colorAdjustments
     
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     
-    let numSliders = 1
-    let parameterConfiguration = [ParameterSettings(title:"color levels", minimumValue:1.0, maximumValue:64.0, initialValue:10.0)]
+    let numParameters = 1
+    let parameterConfiguration = [ParameterSettings(title:"color levels", minimumValue:1.0, maximumValue:32.0, initialValue:8.0, isRGB:false)]
     
     
     let filterOperationType = FilterOperationType.singleInput
@@ -51,7 +50,6 @@ class PosterizeDescriptor: FilterDescriptorInterface {
         switch (index){
         case 1:
             return lclFilter.colorLevels
-            break
         default:
             return parameterNotSet
         }
@@ -70,9 +68,9 @@ class PosterizeDescriptor: FilterDescriptorInterface {
     }
     
     
-    //func updateParameters(value1:Float, value2:Float,  value3:Float,  value4:Float){
-    //    lclFilter.colorLevels = value1
-    //}
+    func getColorParameter(index: Int)->UIColor { return UIColor.blue }
+    func setColorParameter(index:Int, color:UIColor) {}
+    
     
     func stashParameters() {
         stash_colorLevels = lclFilter.colorLevels

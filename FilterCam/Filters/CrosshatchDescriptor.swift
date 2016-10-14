@@ -1,5 +1,5 @@
 //
-//  CrosshatchFilter.swift
+//  CrosshatchDescriptor.swift
 //  FilterCam
 //
 //  Created by Philip Price on 10/4/16.
@@ -15,15 +15,14 @@ class CrosshatchDescriptor: FilterDescriptorInterface {
 
     let key = "Crosshatch"
     let title = "Crosshatch"
-    let category = FilterCategoryType.visualEffects
     
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     
     
-    let numSliders = 2
-    let parameterConfiguration = [ParameterSettings(title:"spacing", minimumValue:0.01, maximumValue:0.06, initialValue:0.03),
-                                  ParameterSettings(title:"line width", minimumValue:0.001, maximumValue:0.006, initialValue:0.003)]
+    let numParameters = 2
+    let parameterConfiguration = [ParameterSettings(title:"spacing", minimumValue:0.01, maximumValue:0.06, initialValue:0.03, isRGB:false),
+                                  ParameterSettings(title:"line width", minimumValue:0.001, maximumValue:0.006, initialValue:0.003, isRGB:false)]
 
     
     let filterOperationType = FilterOperationType.singleInput
@@ -60,10 +59,8 @@ class CrosshatchDescriptor: FilterDescriptorInterface {
         switch (index){
         case 1:
             return lclFilter.crossHatchSpacing
-            break
         case 2:
             return lclFilter.lineWidth
-            break
         default:
             return parameterNotSet
         }
@@ -85,6 +82,10 @@ class CrosshatchDescriptor: FilterDescriptorInterface {
         }
     }
 
+    
+    func getColorParameter(index: Int)->UIColor { return UIColor.blue }
+    func setColorParameter(index:Int, color:UIColor) {}
+    
     
     func stashParameters() {
         stash_crossHatchSpacing = lclFilter.crossHatchSpacing

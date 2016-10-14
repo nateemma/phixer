@@ -22,9 +22,9 @@ class GlassSphereRefractionDescriptor: FilterDescriptorInterface {
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     
-    let numSliders = 2
-    let parameterConfiguration = [ParameterSettings(title:"radius", minimumValue:0.0, maximumValue:1.0, initialValue:0.15),
-                                  ParameterSettings(title:"refraction", minimumValue:0.0, maximumValue:1.0, initialValue:0.71)]
+    let numParameters = 2
+    let parameterConfiguration = [ParameterSettings(title:"radius", minimumValue:0.0, maximumValue:1.0, initialValue:0.15, isRGB:false),
+                                  ParameterSettings(title:"refraction", minimumValue:0.0, maximumValue:1.0, initialValue:0.71, isRGB:false)]
     
     
     let filterOperationType = FilterOperationType.singleInput
@@ -55,10 +55,8 @@ class GlassSphereRefractionDescriptor: FilterDescriptorInterface {
         switch (index){
         case 1:
             return lclFilter.radius
-            break
         case 2:
             return lclFilter.refractiveIndex
-            break
         default:
             return parameterNotSet
         }
@@ -79,6 +77,10 @@ class GlassSphereRefractionDescriptor: FilterDescriptorInterface {
             log.error("Invalid parameter index (\(index)) for filter: \(key)")
         }
     }
+    
+    
+    func getColorParameter(index: Int)->UIColor { return UIColor.blue }
+    func setColorParameter(index:Int, color:UIColor) {}
     
     
     //func updateParameters(value1:Float, value2:Float,  value3:Float,  value4:Float){

@@ -23,6 +23,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        // XcodeColors setup
+        setenv("XcodeColors", "YES", 0); // Enables XcodeColors (you obviously have to install it too)
+
         // Swifty Beaver logging setup
         // add log destinations. at least one is needed!
         let console = ConsoleDestination()  // log to Xcode Console

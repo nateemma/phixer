@@ -1,5 +1,5 @@
 //
-//  SolarizeFilter.swift
+//  SolarizeDescriptor.swift
 //  FilterCam
 //
 //  Created by Philip Price on 10/4/16.
@@ -11,25 +11,24 @@ import GPUImage
 
 
 class SolarizeDescriptor: FilterDescriptorInterface {
-
-
+    
+    
     let key = "Solarize"
     let title = "Solarize"
-    let category = FilterCategoryType.visualEffects
     
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     
-    let numSliders = 1
-    let parameterConfiguration = [ParameterSettings(title:"threshold", minimumValue:0.0, maximumValue:1.0, initialValue:0.5)]
-
+    let numParameters = 1
+    let parameterConfiguration = [ParameterSettings(title:"threshold", minimumValue:0.0, maximumValue:1.0, initialValue:0.5, isRGB:false)]
+    
     
     let filterOperationType = FilterOperationType.singleInput
     
     private var lclFilter:Solarize = Solarize() // the actual filter
     private var stash_threshold: Float
     
-
+    
     init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
         lclFilter.threshold = parameterConfiguration[0].initialValue
@@ -50,12 +49,11 @@ class SolarizeDescriptor: FilterDescriptorInterface {
         switch (index){
         case 1:
             return lclFilter.threshold
-            break
         default:
             return parameterNotSet
         }
     }
-
+    
     
     func setParameter(index: Int, value: Float) {
         switch (index){
@@ -67,11 +65,12 @@ class SolarizeDescriptor: FilterDescriptorInterface {
             log.error("Invalid parameter index (\(index)) for filter: \(key)")
         }
     }
-
     
-    //func updateParameters(value1:Float, value2:Float,  value3:Float,  value4:Float){
-    //    lclFilter.threshold = value1
-    //}
+    
+    
+    func getColorParameter(index: Int)->UIColor { return UIColor.blue }
+    func setColorParameter(index:Int, color:UIColor) {}
+    
     
     func stashParameters(){
         stash_threshold = lclFilter.threshold
@@ -81,3 +80,4 @@ class SolarizeDescriptor: FilterDescriptorInterface {
         lclFilter.threshold = stash_threshold
     }
 }
+

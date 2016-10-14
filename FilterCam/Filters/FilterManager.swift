@@ -105,6 +105,43 @@ class FilterManager{
             _quickSelectDictionary["Toon"] = ToonDescriptor()
             _quickSelectDictionary["Vignette"] = VignetteDescriptor()
             _quickSelectDictionary["ZoomBlur"] = ZoomBlurDescriptor()
+            
+            _quickSelectDictionary["FalseColor"] = FalseColorDescriptor()
+            _quickSelectDictionary["Warmth"] = WarmthDescriptor()
+            _quickSelectDictionary["WhiteBalance"] = WhiteBalanceDescriptor()
+            _quickSelectDictionary["Hue"] = HueDescriptor()
+            _quickSelectDictionary["RGB"] = RGBDescriptor()
+            _quickSelectDictionary["Brightness"] = BrightnessDescriptor()
+            _quickSelectDictionary["Contrast"] = ContrastDescriptor()
+            
+            _quickSelectDictionary["CannyEdgeDetection"] = CannyEdgeDetectionDescriptor()
+            //_quickSelectDictionary["HarrisCornerDetector"] = HarrisCornerDetectorDescriptor()
+            //_quickSelectDictionary["NobleCornerDetectorr"] = NobleCornerDetectorDescriptor()
+            //_quickSelectDictionary["ShiTomasiFeatureDetector"] = ShiTomasiFeatureDetectorDescriptor()
+            _quickSelectDictionary["UnsharpMask"] = UnsharpMaskDescriptor()
+            _quickSelectDictionary["Exposure"] = ExposureDescriptor()
+            _quickSelectDictionary["Sharpen"] = SharpenDescriptor()
+            _quickSelectDictionary["Rotate"] = RotateDescriptor()
+            _quickSelectDictionary["Median"] = MedianDescriptor()
+            _quickSelectDictionary["Kuwahara"] = KuwaharaDescriptor()
+            _quickSelectDictionary["KuwaharaRadius3"] = KuwaharaRadius3Descriptor()
+            _quickSelectDictionary["Laplacian"] = LaplacianDescriptor()
+            _quickSelectDictionary["ColorInversion"] = ColorInversionDescriptor()
+            _quickSelectDictionary["MissEtikate"] = MissEtikateDescriptor()
+            _quickSelectDictionary["Amatorka"] = AmatorkaDescriptor()
+            _quickSelectDictionary["Crop"] = CropDescriptor()
+            _quickSelectDictionary["BilateralBlur"] = BilateralBlurDescriptor()
+            _quickSelectDictionary["GaussianBlur"] = GaussianBlurDescriptor()
+            _quickSelectDictionary["BoxBlur"] = BoxBlurDescriptor()
+            _quickSelectDictionary["Pixellate"] = PixellateDescriptor()
+            _quickSelectDictionary["Haze"] = HazeDescriptor()
+            _quickSelectDictionary["Grayscale"] = GrayscaleDescriptor()
+            _quickSelectDictionary["AverageLuminanceThreshold"] = AverageLuminanceThresholdDescriptor()
+            _quickSelectDictionary["SobelEdgeDetection"] = SobelEdgeDetectionDescriptor()
+            _quickSelectDictionary["ThresholdSobelEdgeDetection"] = ThresholdSobelEdgeDetectionDescriptor()
+            _quickSelectDictionary["PrewittEdgeDetection"] = PrewittEdgeDetectionDescriptor()
+            //_quickSelectDictionary[""] = Descriptor()
+           
 
             //dumpDictionary(_quickSelectDictionary)//DEBUG
             
@@ -121,6 +158,7 @@ class FilterManager{
         
     }
     
+    
     // dump the keys amd filter names contained in the supplied dictionary
     private func dumpDictionary(_ dictionary:FilterDictionary?){
         var fdi: FilterDescriptorInterface
@@ -131,9 +169,13 @@ class FilterManager{
         }
     }
   
+    
+    
     open func getFilterList(category:FilterCategoryType)->[String]{
         return Array(category.getDictionary().keys)
     }
+    
+    
     
     // get the filter descriptor for the supplied category & filter type
     open func getFilterDescriptor(category:FilterCategoryType, name:String)->FilterDescriptorInterface? {
@@ -143,7 +185,7 @@ class FilterManager{
         
         if (!FilterManager.initDone) { populateCategories() }
         
-        log.verbose("cat:\(category.rawValue), name:\(name)")
+        //log.verbose("cat:\(category.rawValue), name:\(name)")
         //dict = FilterManager._dictionaryList[category.rawValue]!
         dict = category.getDictionary()
         
@@ -159,11 +201,13 @@ class FilterManager{
             }
         }
         
+        /***
         if (filterDescr != nil){
             log.verbose("Found:\(filterDescr?.key)")
         } else {
             log.verbose("!!! Filter not found:\(name) !!!")
         }
+        ***/
         return filterDescr
     }
 }

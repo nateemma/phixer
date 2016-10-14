@@ -16,11 +16,16 @@ import Photos
 protocol CameraControlsViewDelegate: class {
     func imagePreviewPressed()
     func takePicturePressed()
-    func filterSelectionPressed()
+    func modePressed()
     func settingsPressed()
 }
 
 
+
+enum InfoMode {
+    case camera
+    case filter
+}
 
 
 // Class responsible for laying out the Camera Controls View
@@ -38,13 +43,15 @@ class CameraControlsView: UIView {
     //var photoThumbnail: UIImageView! = UIImageView()
     
     //var activateButton: UIButton! = UIButton(type: .Custom)
-    //var filterButton: UIButton! = UIButton()
+    //var modeButton: UIButton! = UIButton()
     //var menuButton: UIButton! = UIButton()
     
     var photoThumbnail: SquareButton!
     var activateButton: SquareButton!
-    var filterButton: SquareButton!
+    var modeButton: SquareButton!
     var menuButton: SquareButton!
+    
+    var currInfoMode: InfoMode = .filter
     
     var initDone: Bool = false
     
@@ -57,6 +64,10 @@ class CameraControlsView: UIView {
     convenience init(){
         self.init(frame: CGRect.zero)
         
+        
+        activateButton = SquareButton(bsize: buttonSize)
+        modeButton = SquareButton(bsize: buttonSize*smallIconFactor)
+        menuButton = SquareButton(bsize: buttonSize*smallIconFactor)
     }
     
     func initViews(){
@@ -69,13 +80,10 @@ class CameraControlsView: UIView {
             photoThumbnail.setColor(UIColor.blue)
             
             
-            activateButton = SquareButton(bsize: buttonSize)
-            filterButton = SquareButton(bsize: buttonSize*smallIconFactor)
-            menuButton = SquareButton(bsize: buttonSize*smallIconFactor)
-            
             activateButton.setImageAsset("ic_stroked_circle.png")
-            filterButton.setImageAsset("ic_filters.png")
             menuButton.setImageAsset("ic_gear.png")
+            //modeButton.setImageAsset("ic_filters.png")
+            setInfoMode(currInfoMode)
             
             
             //TODO: Set photo thumbnail to most recent photo
@@ -83,7 +91,7 @@ class CameraControlsView: UIView {
             // add the subviews to the main View
             self.addSubview(photoThumbnail)
             self.addSubview(activateButton)
-            self.addSubview(filterButton)
+            self.addSubview(modeButton)
             self.addSubview(menuButton)
             
             // populate values
@@ -122,9 +130,9 @@ class CameraControlsView: UIView {
             // add items to the  view
             photoThumbnail.anchorToEdge(.top, padding: 8, width: buttonSize, height: buttonSize)
             activateButton.anchorInCenter(buttonSize, height: buttonSize)
-            filterButton.align(.underCentered, relativeTo: activateButton, padding: 8, width: buttonSize*smallIconFactor, height: buttonSize*smallIconFactor)
+            modeButton.align(.underCentered, relativeTo: activateButton, padding: 8, width: buttonSize*smallIconFactor, height: buttonSize*smallIconFactor)
             menuButton.align(.underCentered, relativeTo: activateButton, padding: 8, width: buttonSize*smallIconFactor, height: buttonSize*smallIconFactor)
-            self.groupAgainstEdge(.vertical, views: [filterButton, menuButton], againstEdge: .bottom, padding: (bannerHeight-buttonSize*smallIconFactor)/2, width: buttonSize*smallIconFactor, height: buttonSize*smallIconFactor)
+            self.groupAgainstEdge(.vertical, views: [modeButton, menuButton], againstEdge: .bottom, padding: (bannerHeight-buttonSize*smallIconFactor)/2, width: buttonSize*smallIconFactor, height: buttonSize*smallIconFactor)
             
         } else {
             // Portrait: top-to-bottom layout scheme
@@ -135,14 +143,14 @@ class CameraControlsView: UIView {
             // add items to the  view
             photoThumbnail.anchorToEdge(.left, padding: 8, width: buttonSize, height: buttonSize)
             activateButton.anchorInCenter(buttonSize, height: buttonSize)
-            self.groupAgainstEdge(.horizontal, views: [filterButton, menuButton], againstEdge: .right, padding: (bannerHeight-buttonSize*smallIconFactor)/2, width: buttonSize*smallIconFactor, height: buttonSize*smallIconFactor)
+            self.groupAgainstEdge(.horizontal, views: [modeButton, menuButton], againstEdge: .right, padding: (bannerHeight-buttonSize*smallIconFactor)/2, width: buttonSize*smallIconFactor, height: buttonSize*smallIconFactor)
             
         }
         
         // register handlers for the various buttons
         photoThumbnail.addTarget(self, action: #selector(self.imagePreviewDidPress), for: .touchUpInside)
         activateButton.addTarget(self, action: #selector(self.takePictureDidPress), for: .touchUpInside)
-        filterButton.addTarget(self, action: #selector(self.FilterSelectionDidPress), for: .touchUpInside)
+        modeButton.addTarget(self, action: #selector(self.ModeDidPress), for: .touchUpInside)
         menuButton.addTarget(self, action: #selector(self.SettingsDidPress), for: .touchUpInside)
         
         
@@ -184,6 +192,21 @@ class CameraControlsView: UIView {
     }
     
     
+    // sets the info mode
+    open func setInfoMode(_ mode:InfoMode){
+        currInfoMode = mode
+        
+        // Note: set the icon to the opposite mode since it initiates a switch to that mode
+        switch (currInfoMode){
+        case .camera:
+            modeButton.setImageAsset("ic_filters")
+            break
+        case .filter:
+            modeButton.setImageAsset("ic_live")
+            break
+        }
+    }
+    
     //MARK: - touch handlers
     
     
@@ -195,8 +218,8 @@ class CameraControlsView: UIView {
         delegate?.takePicturePressed()
     }
     
-    func FilterSelectionDidPress() {
-        delegate?.filterSelectionPressed()
+    func ModeDidPress() {
+        delegate?.modePressed()
     }
     
     func SettingsDidPress() {

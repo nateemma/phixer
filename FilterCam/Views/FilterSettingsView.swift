@@ -62,17 +62,17 @@ class FilterSettingsView: UIView {
     }
     
     
-    func initButton(_ button: UIButton){
+    private func initButton(_ button: UIButton){
         button.backgroundColor = UIColor.flatPowderBlueColorDark()
         button.titleLabel?.textColor = UIColor.flatWhite()
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         button.titleLabel?.textAlignment = .center
         button.frame.size.height = CGFloat(sliderHeight - 4.0)
     }
+   
+
     
-    
-    
-    func initViews(){
+    private func initViews(){
         
         //if (!initDone && (currFilterDesc != nil)){
         if (currFilterDesc != nil){
@@ -83,7 +83,7 @@ class FilterSettingsView: UIView {
             viewList = []
             
             self.frame.size.width = self.superFrame.size.width - 16.0
-            let f1: CGFloat = 2.0*CGFloat((currFilterDesc?.numSliders)!) + 2.0
+            let f1: CGFloat = 1.25*CGFloat((currFilterDesc?.numParameters)!) + 1.75
             let f2: CGFloat = CGFloat(sliderHeight)
             self.frame.size.height = f1 * f2
             layoutButtons()
@@ -93,7 +93,7 @@ class FilterSettingsView: UIView {
     }
     
     
-    func layoutTitle(){
+    private func layoutTitle(){
         
         guard (currFilterDesc != nil) else{
             return
@@ -122,7 +122,7 @@ class FilterSettingsView: UIView {
     }
   
     
-    func layoutButtons(){
+    private func layoutButtons(){
         
         guard (currFilterDesc != nil) else{
             return
@@ -155,29 +155,32 @@ class FilterSettingsView: UIView {
 
     }
     
- 
-    func layoutSliders(){
+
+    fileprivate var gsliders: [GradientSlider?] = [nil, nil, nil, nil]
+
+    private func layoutSliders(){
         
         guard (currFilterDesc != nil) else{
             return
         }
         
         var sliderConfig: ParameterSettings
-        var slider: UISlider
+        var slider: UISlider?
         var label: UILabel
         var sliderView: UIView
+        var currColor: UIColor = UIColor.blue
         
         log.verbose("Laying out sliders...")
         sliders = []
-        if ((currFilterDesc?.numSliders)! > 0){
-            for i in 1 ... (currFilterDesc?.numSliders)!{
+        if ((currFilterDesc?.numParameters)! > 0){
+            for i in 1 ... (currFilterDesc?.numParameters)!{
                 sliderConfig = (currFilterDesc?.parameterConfiguration[i-1])!
                 
                 log.verbose("...(\(sliderConfig.title), \(sliderConfig.minimumValue), \(sliderConfig.maximumValue), \(sliderConfig.initialValue))")
                 
                 sliderView = UIView()
                 sliderView.frame.size.width = self.frame.size.width
-                sliderView.frame.size.height = CGFloat(sliderHeight*1.5)
+                sliderView.frame.size.height = CGFloat(sliderHeight*1.25)
                 
                 label = UILabel()
                 label.text = sliderConfig.title
@@ -186,23 +189,57 @@ class FilterSettingsView: UIView {
                 label.textAlignment = .center
                 sliderView.addSubview(label)
                 
-                slider = UISlider()
-                slider.minimumValue = sliderConfig.minimumValue
-                slider.maximumValue = sliderConfig.maximumValue
-                var value = currFilterDesc?.getParameter(index: i)
-                if (value == parameterNotSet){ value = sliderConfig.initialValue }
-                slider.value = value!
-                slider.tag = i // let slider know the parameter order
-                slider.isHidden = false
-                slider.setNeedsUpdateConstraints()
-                slider.frame.size.width = self.frame.size.width
-                slider.frame.size.height = CGFloat(sliderHeight*0.75)
-                attachSliderAction(slider)
-                sliderView.addSubview(slider)
-                
-                //TODO: add bounds, current value
-                
-                sliderView.groupAndFill(.vertical, views: [label, slider], padding: 2.0)
+                if (!sliderConfig.isRGB){
+                    slider = UISlider()
+                    slider?.minimumValue = sliderConfig.minimumValue
+                    slider?.maximumValue = sliderConfig.maximumValue
+                    var value = currFilterDesc?.getParameter(index: i)
+                    if (value == parameterNotSet){ value = sliderConfig.initialValue }
+                    slider?.value = value!
+                    slider?.tag = i // let slider know the parameter order
+                    slider?.isHidden = false
+                    slider?.setNeedsUpdateConstraints()
+                    slider?.frame.size.width = self.frame.size.width
+                    slider?.frame.size.height = CGFloat(sliderHeight*0.75)
+                    
+                    attachSliderAction(slider!)
+                    sliderView.addSubview(slider!)
+                    //TODO: add bounds, current value
+                    
+                    sliderView.groupAndFill(.vertical, views: [label, slider!], padding: 2.0)
+                } else {
+                    // RGB Slider, need to deal with colors
+                    log.debug("Gradient Slider requested")
+                    gsliders[i] = GradientSlider()
+                    gsliders[i]?.hasRainbow = true
+                    gsliders[i]?.tag = i // let slider know the parameter order
+                    gsliders[i]?.isHidden = false
+                    gsliders[i]?.setNeedsUpdateConstraints()
+                    gsliders[i]?.frame.size.width = self.frame.size.width
+                    gsliders[i]?.frame.size.height = CGFloat(sliderHeight*0.75)
+                    
+                    //TODO: figure out current saturation & brightness
+                    let currSat = CGFloat(1.0)
+                    let currBright = CGFloat(1.0)
+                    
+                    gsliders[i]?.setGradientForHueWithSaturation(saturation:currSat,brightness:currBright)
+                    gsliders[i]?.actionBlock = { slider, value in
+                        
+                        //First disable animations so we get instantaneous updates
+                        CATransaction.begin()
+                        CATransaction.setValue(true, forKey: kCATransactionDisableActions)
+                        
+                        //Update the thumb color to match the new value
+                        currColor = UIColor(hue: value, saturation: currSat, brightness: currBright, alpha: 1.0)
+                        self.gsliders[i]?.thumbColor = currColor
+                        
+                        CATransaction.commit()
+                        self.currFilterDesc?.setColorParameter(index: i, color: currColor)
+                    }
+                    //attachColorSliderAction(gsliders[i]!)
+                    sliderView.addSubview(gsliders[i]!)
+                    sliderView.groupAndFill(.vertical, views: [label, gsliders[i]!], padding: 2.0)
+                }
                 
                 sliders.append(sliderView)
                 self.addSubview(sliderView)
@@ -213,7 +250,7 @@ class FilterSettingsView: UIView {
     }
     
     // Attaches an action handler based on the slider index
-    func attachSliderAction(_ slider:UISlider){
+    fileprivate func attachSliderAction(_ slider:UISlider){
         let index = slider.tag
         switch (index){
         case 1:
@@ -234,8 +271,32 @@ class FilterSettingsView: UIView {
         }
     }
     
-
-    func finishLayout(){
+    
+    
+    // Attaches an action handler based on the slider index
+    fileprivate func attachColorSliderAction(_ gslider:GradientSlider){
+        let index = gslider.tag
+        switch (index){
+        case 1:
+            gslider.addTarget(self, action: #selector(self.colorSlider1ValueDidChange), for: .valueChanged)
+            break
+        case 2:
+            gslider.addTarget(self, action: #selector(self.colorSlider2ValueDidChange), for: .valueChanged)
+            break
+        case 3:
+            gslider.addTarget(self, action: #selector(self.colorSlider3ValueDidChange), for: .valueChanged)
+            break
+        case 4:
+            gslider.addTarget(self, action: #selector(self.colorSlider4ValueDidChange), for: .valueChanged)
+            break
+        default:
+            log.error("Invalid slider index: \(index)")
+            break
+        }
+    }
+    
+    
+    private func finishLayout(){
         // add the views to the list in the order of display
 /***
         viewList = []
@@ -244,7 +305,7 @@ class FilterSettingsView: UIView {
         //viewList.append(titleLabel)
         
         // Sliders
-        for i in 1 ... (currFilterDesc?.numSliders)!{
+        for i in 1 ... (currFilterDesc?.numParameters)!{
             viewList.append(sliders[i-1])
         }
         
@@ -260,12 +321,12 @@ class FilterSettingsView: UIView {
         // Place the tile at the top, buttons at the bottom and sliders distributed in between
         titleView.anchorAndFillEdge(.top, xPad: 2.0, yPad: 2.0, otherSize: titleView.frame.size.height)
         buttonContainerView.anchorAndFillEdge(.bottom, xPad: 2.0, yPad: 2.0, otherSize: buttonContainerView.frame.size.height)
-        if ((currFilterDesc?.numSliders)! > 0){
+        if ((currFilterDesc?.numParameters)! > 0){
             self.groupInCenter(.vertical, views: sliders, padding: 2.0, width: sliders[0].frame.size.width, height: sliders[0].frame.size.height)
         }
 
 /***
-        if ((currFilterDesc?.numSliders)! > 0){
+        if ((currFilterDesc?.numParameters)! > 0){
             sliders[0].align(.underCentered, relativeTo: titleView, padding: 2.0, width: 2.0, height: sliders[0].frame.size.height)
             if ((currFilterDesc?.numSliders)! > 1){
                 for i in 2 ... (currFilterDesc?.numSliders)!{
@@ -277,14 +338,14 @@ class FilterSettingsView: UIView {
     }
     
     
-    func clearSubviews(){
+    private func clearSubviews(){
         for v in self.subviews{
             v.removeFromSuperview()
         }
     }
     
     
-    func layoutUI(){
+    private func layoutUI(){
         clearSubviews()
         self.isHidden = false
         initViews()
@@ -302,7 +363,16 @@ class FilterSettingsView: UIView {
     }
     
     
-    func setFilter(_ descriptor:FilterDescriptorInterface?){
+    open func dismiss(){
+        UIView.animate(withDuration: 0.5, animations: {
+            self.alpha = 0 }) { _ in
+            self.clearSubviews()
+            self.isHidden = true
+            self.removeFromSuperview()
+        }
+    }
+    
+    open func setFilter(_ descriptor:FilterDescriptorInterface?){
         
         // if no filter then clear sub-views and hide view, otherwise re-build based on the filter descriptor
         if (descriptor == nil)  {
@@ -340,30 +410,29 @@ class FilterSettingsView: UIView {
         */
         
         // value is set as sliders are moved, so no need to do anything except clean up and return
-        clearSubviews()
-        self.isHidden = true
+        dismiss()
     }
     
     func cancelDidPress(){
         // restore saved parameters
         currFilterDesc?.restoreParameters()
-        clearSubviews()
-        self.isHidden = true
+        dismiss()
     }
     
-    func slider1ValueDidChange(sender:UISlider!){
-        currFilterDesc?.setParameter(index: 1, value: sender.value)
-    }
     
-    func slider2ValueDidChange(sender:UISlider!){
-        currFilterDesc?.setParameter(index: 2, value: sender.value)
-    }
+    func slider1ValueDidChange(sender:UISlider!){ currFilterDesc?.setParameter(index: 1, value: sender.value) }
     
-    func slider3ValueDidChange(sender:UISlider!){
-        currFilterDesc?.setParameter(index: 3, value: sender.value)
-    }
+    func slider2ValueDidChange(sender:UISlider!){ currFilterDesc?.setParameter(index: 2, value: sender.value) }
     
-    func slider4ValueDidChange(sender:UISlider!){
-        currFilterDesc?.setParameter(index: 4, value: sender.value)
-    }
+    func slider3ValueDidChange(sender:UISlider!){ currFilterDesc?.setParameter(index: 3, value: sender.value) }
+    
+    func slider4ValueDidChange(sender:UISlider!){ currFilterDesc?.setParameter(index: 4, value: sender.value) }
+    
+    func colorSlider1ValueDidChange(sender:GradientSlider!){ currFilterDesc?.setColorParameter(index: 1, color: (gsliders[0]?.getSelectedColor())!) }
+    
+    func colorSlider2ValueDidChange(sender:GradientSlider!){ currFilterDesc?.setColorParameter(index: 2, color: (gsliders[1]?.getSelectedColor())!) }
+    
+    func colorSlider3ValueDidChange(sender:GradientSlider!){ currFilterDesc?.setColorParameter(index: 3, color: (gsliders[2]?.getSelectedColor())!) }
+    
+    func colorSlider4ValueDidChange(sender:GradientSlider!){ currFilterDesc?.setColorParameter(index: 4, color: (gsliders[3]?.getSelectedColor())!) }
 }

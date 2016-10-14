@@ -17,13 +17,12 @@ class EmbossDescriptor: FilterDescriptorInterface {
     
     let key = "Emboss"
     let title = "Emboss"
-    let category = FilterCategoryType.colorAdjustments
     
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     
-    let numSliders = 1
-    let parameterConfiguration = [ParameterSettings(title:"intensity", minimumValue:0.0, maximumValue:4.0, initialValue:1.0)]
+    let numParameters = 1
+    let parameterConfiguration = [ParameterSettings(title:"intensity", minimumValue:0.0, maximumValue:4.0, initialValue:1.0, isRGB:false)]
     
     
     let filterOperationType = FilterOperationType.singleInput
@@ -51,7 +50,6 @@ class EmbossDescriptor: FilterDescriptorInterface {
         switch (index){
         case 1:
             return lclFilter.intensity
-            break
         default:
             return parameterNotSet
         }
@@ -68,6 +66,10 @@ class EmbossDescriptor: FilterDescriptorInterface {
             log.error("Invalid parameter index (\(index)) for filter: \(key)")
         }
     }
+    
+    
+    func getColorParameter(index: Int)->UIColor { return UIColor.blue }
+    func setColorParameter(index:Int, color:UIColor) {}
     
     
     //func updateParameters(value1:Float, value2:Float,  value3:Float,  value4:Float){

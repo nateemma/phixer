@@ -1,5 +1,5 @@
 //
-//  Toon.swift
+//  ToonDescriptor.swift
 //  FilterCam
 //
 //  Created by Philip Price on 10/8/16.
@@ -17,14 +17,13 @@ class ToonDescriptor: FilterDescriptorInterface {
     
     let key = "Toon"
     let title = "Toon"
-    let category = FilterCategoryType.colorAdjustments
     
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     
-    let numSliders = 2
-    let parameterConfiguration:[ParameterSettings] = [ParameterSettings(title:"threshold", minimumValue:0.0, maximumValue:1.0, initialValue:0.2),
-                                                      ParameterSettings(title:"levels", minimumValue:1.0, maximumValue:32.0, initialValue:8.0)]
+    let numParameters = 2
+    let parameterConfiguration:[ParameterSettings] = [ParameterSettings(title:"threshold", minimumValue:0.0, maximumValue:1.0, initialValue:0.2, isRGB:false),
+                                                      ParameterSettings(title:"levels", minimumValue:1.0, maximumValue:32.0, initialValue:8.0, isRGB:false)]
     
     
     let filterOperationType = FilterOperationType.singleInput
@@ -55,10 +54,8 @@ class ToonDescriptor: FilterDescriptorInterface {
         switch (index){
         case 1:
             return lclFilter.threshold
-            break
         case 2:
             return lclFilter.quantizationLevels
-            break
         default:
             return parameterNotSet
         }
@@ -80,6 +77,9 @@ class ToonDescriptor: FilterDescriptorInterface {
         }
     }
     
+    
+    func getColorParameter(index: Int)->UIColor { return UIColor.blue }
+    func setColorParameter(index:Int, color:UIColor) {}
     
     //func updateParameters(value1:Float, value2:Float,  value3:Float,  value4:Float){
     //    lclFilter.saturation = value1

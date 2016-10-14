@@ -1,5 +1,5 @@
 //
-//  Monochrome.swift
+//  MonochromeDescriptor.swift
 //  FilterCam
 //
 //  Created by Philip Price on 10/8/16.
@@ -17,25 +17,29 @@ class MonochromeDescriptor: FilterDescriptorInterface {
     
     let key = "Monochrome"
     let title = "Monochrome"
-    let category = FilterCategoryType.colorAdjustments
     
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     
-    let numSliders = 1
-    let parameterConfiguration = [ParameterSettings(title:"intensity", minimumValue:0.0, maximumValue:1.0, initialValue:1.0)]
+    let numParameters = 2
+    let parameterConfiguration = [ParameterSettings(title:"intensity", minimumValue:0.0, maximumValue:1.0, initialValue:1.0, isRGB:false),
+                                  ParameterSettings(title:"color", minimumValue:0.0, maximumValue:1.0, initialValue:0.5, isRGB:true)]
     
+    // TODO: add "color" parameter as RGBVector4
     
     let filterOperationType = FilterOperationType.singleInput
     
     private var lclFilter:MonochromeFilter = MonochromeFilter() // the actual filter
+    
     private var stash_intensity: Float
+    private var stash_color: Color
     
     
     init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
         lclFilter.intensity = parameterConfiguration[0].initialValue
         stash_intensity = lclFilter.intensity
+        stash_color = lclFilter.color
         log.verbose("config: \(parameterConfiguration)")
     }
     
@@ -51,7 +55,6 @@ class MonochromeDescriptor: FilterDescriptorInterface {
         switch (index){
         case 1:
             return lclFilter.intensity
-            break
         default:
             return parameterNotSet
         }
@@ -70,15 +73,51 @@ class MonochromeDescriptor: FilterDescriptorInterface {
     }
     
     
-    //func updateParameters(value1:Float, value2:Float,  value3:Float,  value4:Float){
-    //    lclFilter.intensity = value1
-    //}
+    
+    // The second parametr is a color parameter
+    
+    
+    func setColorParameter(index: Int, color:UIColor){
+        var r: CGFloat = 0.0
+        var g: CGFloat = 0.0
+        var b: CGFloat = 0.0
+        var a: CGFloat = 0.0
+        color.getRed(&r, green: &g, blue: &b, alpha: &a)
+        
+        switch(index){
+        case 2:
+            //log.debug("\(parameterConfiguration[1].title): Color:\(color)")
+            log.debug("\(parameterConfiguration[1].title): (R:\(r), B:\(b), G:\(g))")
+            lclFilter.color = Color(red: Float(r), green: Float(g), blue: Float(b), alpha: Float(a))
+            break
+        default:
+            log.error("Invalid index: \(index)")
+        }
+    }
+    
+    
+    func getColorParameter(index: Int)->UIColor{
+        switch(index){
+        case 2:
+            return UIColor(red: CGFloat(lclFilter.color.redComponent),
+                           green: CGFloat(lclFilter.color.greenComponent),
+                           blue: CGFloat(lclFilter.color.blueComponent),
+                           alpha: CGFloat(lclFilter.color.alphaComponent))
+        default:
+            log.error("Invalid index: \(index)")
+            return UIColor.blue
+        }
+    }
+    
+    
     
     func stashParameters() {
         stash_intensity = lclFilter.intensity
+        stash_color = lclFilter.color
     }
     
     func restoreParameters(){
         lclFilter.intensity = stash_intensity
+        lclFilter.color = stash_color
     }
 }
