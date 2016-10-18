@@ -91,7 +91,7 @@ class CameraDisplayView: UIView {
             
             camera = CameraManager.getCamera()
             if (camera != nil){
-                log.debug("Resetting filter pipeline")
+                //log.debug("Resetting filter pipeline")
                 camera?.stopCapture()
                 camera?.removeAllTargets()
                 
@@ -99,16 +99,9 @@ class CameraDisplayView: UIView {
                 // Use a zero rotation filter to flip the image
                 
                 if (camera?.location == PhysicalCameraLocation.frontFacing){
-                    log.verbose("Flipping image")
-                    //TEMP HACK: flip filter, if active (remove when Crop is fixed)
-                    //if (currFilter?.filter != nil){
-                    //    currFilter?.filter!.overriddenOutputRotation = Rotation.flipVertically
-                    //} else {
-                        //cropFilter!.overriddenOutputRotation = Rotation.flipVertically // doesn't seem to work
-                        rotateFilter!.overriddenOutputRotation = Rotation.flipVertically
-                    //}
+                    //log.verbose("Flipping image")
+                    rotateFilter!.overriddenOutputRotation = Rotation.flipVertically
                 } else {
-                    //cropFilter!.overriddenOutputRotation = Rotation.noRotation
                     rotateFilter!.overriddenOutputRotation = Rotation.noRotation
                 }
                 
@@ -185,6 +178,8 @@ class CameraDisplayView: UIView {
                 }
             }
             ***/
+            
+            // use cropFilter to save image because it is (currently) always last in the chain
             cropFilter?.saveNextFrameToURL(url, format:.png)
             saveToPhotoAlbum(url) // saves asynchronously
        

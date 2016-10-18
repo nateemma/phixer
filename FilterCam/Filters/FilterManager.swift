@@ -97,7 +97,6 @@ class FilterManager{
             _quickSelectDictionary["PolarPixellate"] = PolarPixellateDescriptor()
             _quickSelectDictionary["PolkaDot"] = PolkaDotDescriptor()
             _quickSelectDictionary["Posterize"] = PosterizeDescriptor()
-            _quickSelectDictionary["Saturation"] = SaturationDescriptor()
             _quickSelectDictionary["Sepia"] = SepiaDescriptor()
             _quickSelectDictionary["Sketch"] = SketchDescriptor()
             _quickSelectDictionary["Solarize"] = SolarizeDescriptor()
@@ -107,20 +106,17 @@ class FilterManager{
             _quickSelectDictionary["ZoomBlur"] = ZoomBlurDescriptor()
             
             _quickSelectDictionary["FalseColor"] = FalseColorDescriptor()
-            _quickSelectDictionary["Warmth"] = WarmthDescriptor()
-            _quickSelectDictionary["WhiteBalance"] = WhiteBalanceDescriptor()
             _quickSelectDictionary["Hue"] = HueDescriptor()
             _quickSelectDictionary["RGB"] = RGBDescriptor()
-            _quickSelectDictionary["Brightness"] = BrightnessDescriptor()
-            _quickSelectDictionary["Contrast"] = ContrastDescriptor()
             
             _quickSelectDictionary["CannyEdgeDetection"] = CannyEdgeDetectionDescriptor()
+            _quickSelectDictionary["SobelEdgeDetection"] = SobelEdgeDetectionDescriptor()
+            _quickSelectDictionary["ThresholdSobelEdgeDetection"] = ThresholdSobelEdgeDetectionDescriptor()
+            _quickSelectDictionary["PrewittEdgeDetection"] = PrewittEdgeDetectionDescriptor()
             //_quickSelectDictionary["HarrisCornerDetector"] = HarrisCornerDetectorDescriptor()
             //_quickSelectDictionary["NobleCornerDetectorr"] = NobleCornerDetectorDescriptor()
             //_quickSelectDictionary["ShiTomasiFeatureDetector"] = ShiTomasiFeatureDetectorDescriptor()
-            _quickSelectDictionary["UnsharpMask"] = UnsharpMaskDescriptor()
-            _quickSelectDictionary["Exposure"] = ExposureDescriptor()
-            _quickSelectDictionary["Sharpen"] = SharpenDescriptor()
+            
             _quickSelectDictionary["Rotate"] = RotateDescriptor()
             _quickSelectDictionary["Median"] = MedianDescriptor()
             _quickSelectDictionary["Kuwahara"] = KuwaharaDescriptor()
@@ -129,25 +125,56 @@ class FilterManager{
             _quickSelectDictionary["ColorInversion"] = ColorInversionDescriptor()
             _quickSelectDictionary["MissEtikate"] = MissEtikateDescriptor()
             _quickSelectDictionary["Amatorka"] = AmatorkaDescriptor()
-            _quickSelectDictionary["Crop"] = CropDescriptor()
             _quickSelectDictionary["BilateralBlur"] = BilateralBlurDescriptor()
             _quickSelectDictionary["GaussianBlur"] = GaussianBlurDescriptor()
+            _quickSelectDictionary["SingleComponentGaussianBlur"] = SingleComponentGaussianBlurDescriptor()
             _quickSelectDictionary["BoxBlur"] = BoxBlurDescriptor()
             _quickSelectDictionary["Pixellate"] = PixellateDescriptor()
             _quickSelectDictionary["Haze"] = HazeDescriptor()
             _quickSelectDictionary["Grayscale"] = GrayscaleDescriptor()
             _quickSelectDictionary["AverageLuminanceThreshold"] = AverageLuminanceThresholdDescriptor()
-            _quickSelectDictionary["SobelEdgeDetection"] = SobelEdgeDetectionDescriptor()
-            _quickSelectDictionary["ThresholdSobelEdgeDetection"] = ThresholdSobelEdgeDetectionDescriptor()
-            _quickSelectDictionary["PrewittEdgeDetection"] = PrewittEdgeDetectionDescriptor()
+            _quickSelectDictionary["Luminance"] = LuminanceDescriptor()
+            _quickSelectDictionary["Opening"] = OpeningFilterDescriptor()
+            _quickSelectDictionary["Closing"] = ClosingFilterDescriptor()
+            _quickSelectDictionary["OpacityAdjustment"] = OpacityAdjustmentDescriptor()
+            _quickSelectDictionary["TiltShift"] = TiltShiftDescriptor()
+            _quickSelectDictionary["HighlightShadowTint"] = HighlightAndShadowTintDescriptor()
+            _quickSelectDictionary["ChromaKeying"] = ChromaKeyingDescriptor()
+            
+            _quickSelectDictionary["AdaptiveThreshold"] = AdaptiveThresholdDescriptor()
+            _quickSelectDictionary["SphereRefraction"] = SphereRefractionDescriptor()
+            _quickSelectDictionary["Halftone"] = HalftoneDescriptor()
+            _quickSelectDictionary["SmoothToon"] = SmoothToonDescriptor()
+            _quickSelectDictionary["SoftElegance"] = SoftEleganceDescriptor()
+            _quickSelectDictionary["MultiplyBlend"] = MultiplyBlendDescriptor()
+            _quickSelectDictionary["CGAColorspace"] = CGAColorspaceDescriptor()
+            _quickSelectDictionary["LowPassFilter"] = LowPassFilterDescriptor()
+            _quickSelectDictionary["HighPassFilter"] = HighPassFilterDescriptor()
+            _quickSelectDictionary["Gamma"] = GammaDescriptor()
+            _quickSelectDictionary["PinchDistortion"] = PinchDistortionDescriptor()
+            _quickSelectDictionary["SwirlDistortion"] = SwirlDistortionDescriptor()
+            _quickSelectDictionary["SphereRefraction"] = SphereRefractionDescriptor()
             //_quickSelectDictionary[""] = Descriptor()
-           
+            
+            // move these to different categories once tested:
+            _quickSelectDictionary["Vibrance"] = VibranceDescriptor()
+          
 
             //dumpDictionary(_quickSelectDictionary)//DEBUG
             
             // Color Adjustments
             
             // Image Processing
+            
+            _imageProcessingDictionary["Saturation"] = SaturationDescriptor()
+            _imageProcessingDictionary["Warmth"] = WarmthDescriptor()
+            _imageProcessingDictionary["WhiteBalance"] = WhiteBalanceDescriptor()
+            _imageProcessingDictionary["Brightness"] = BrightnessDescriptor()
+            _imageProcessingDictionary["Contrast"] = ContrastDescriptor()
+            _imageProcessingDictionary["UnsharpMask"] = UnsharpMaskDescriptor()
+            _imageProcessingDictionary["Exposure"] = ExposureDescriptor()
+            _imageProcessingDictionary["Sharpen"] = SharpenDescriptor()
+            _imageProcessingDictionary["Crop"] = CropDescriptor()
             
             // Blend Modes
             

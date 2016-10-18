@@ -13,6 +13,7 @@ import Neon
 
 class SquareButton: UIView {
     var button: UIButton! = UIButton(type: .custom)
+    var highlight:Bool = false
     
     convenience init(bsize: CGFloat) {
         self.init(frame: CGRect(x:0, y:0, width:bsize, height:bsize))
@@ -20,10 +21,32 @@ class SquareButton: UIView {
         self.backgroundColor = UIColor.clear // transparent
         self.button.backgroundColor = UIColor.clear // transparent
         //self.isUserInteractionEnabled = false // don't handle touches in the containing view
+        
+        self.button.layer.cornerRadius = 5
+        self.button.layer.borderWidth = 2
+        self.button.layer.borderColor = UIColor.clear.cgColor
+        
         self.addSubview(button)
     }
     
-
+    
+    // override the layout function to highlight the button if selected
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        if (highlight){
+            if (self.button.state == .normal) {
+                self.button.layer.borderColor = UIColor.clear.cgColor
+            } else if (self.button.state == .highlighted) {
+                self.button.layer.borderColor = UIColor.white.cgColor
+            }
+        }
+    }
+    
+    // set whether or not to highlight on selection
+    func highlightOnSelection(_ enable:Bool){
+        highlight = enable
+    }
     
     // (re-)set the image on a button using a project asset
     func setImageAsset(_ assetName: String){

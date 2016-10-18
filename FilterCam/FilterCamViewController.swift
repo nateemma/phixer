@@ -13,6 +13,10 @@ import AVFoundation
 import MediaPlayer
 import AudioToolbox
 
+import GoogleMobileAds
+
+
+
 private var filterList: [String] = []
 private var filterCount: Int = 0
 
@@ -38,6 +42,9 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
 
     // The filter configuration subview
     var filterSettingsView: FilterSettingsView! = FilterSettingsView()
+    
+    // Advertisements View
+    var adView: GADBannerView! = GADBannerView()
     
 
     
@@ -92,6 +99,7 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
             
             // Note: need to add subviews before modifying constraints
             view.addSubview(cameraSettingsView)
+            view.addSubview(adView)
             view.addSubview(cameraDisplayView)
             view.addSubview(cameraInfoView) // must come after cameraDisplayView
             view.addSubview(filterInfoView) // must come after cameraDisplayView
@@ -103,6 +111,12 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
                 cameraSettingsView.frame.size.height = displayHeight
                 cameraSettingsView.frame.size.width = bannerHeight
                 cameraSettingsView.anchorAndFillEdge(.left, xPad: 0, yPad: 0, otherSize: bannerHeight)
+                
+                
+                adView.frame.size.height = bannerHeight
+                adView.frame.size.width = displayWidth - 2 * bannerHeight
+                adView.align(.underCentered, relativeTo: cameraSettingsView, padding: 0,
+                             width: displayWidth, height: adView.frame.size.height)
                 
                 cameraControlsView.frame.size.height = displayHeight
                 cameraControlsView.frame.size.width = bannerHeight
@@ -131,6 +145,11 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
                 cameraSettingsView.frame.size.width = displayWidth
                 cameraSettingsView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: bannerHeight)
                 
+                adView.frame.size.height = bannerHeight
+                adView.frame.size.width = displayWidth
+                adView.align(.underCentered, relativeTo: cameraSettingsView, padding: 0,
+                             width: displayWidth, height: adView.frame.size.height)
+                
                 cameraControlsView.frame.size.height = bannerHeight
                 cameraControlsView.frame.size.width = displayWidth
                 cameraControlsView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: bannerHeight)
@@ -146,7 +165,7 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
                                      width: displayWidth, height: cameraInfoView.frame.size.height)
               
                 //cameraDisplayView.frame.size.height = displayHeight - 2 * bannerHeight
-                cameraDisplayView.frame.size.height = displayHeight - 2.5 * bannerHeight
+                cameraDisplayView.frame.size.height = displayHeight - 3.5 * bannerHeight
                 cameraDisplayView.frame.size.width = displayWidth
                 cameraDisplayView.align(.aboveCentered, relativeTo: cameraInfoView, padding: 0,
                                         width: displayWidth, height: cameraDisplayView.frame.size.height)
@@ -167,6 +186,9 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
             
             // listen to key press events
             setVolumeListener()
+            
+            // start Ads
+            setupAds()
             
             setInfoMode(currInfoMode) // must be after view setup
             
@@ -245,6 +267,15 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
         return view
     }()
     
+    // MARK: - Ad Framework
+    
+    private func setupAds(){
+        log.debug("Google Mobile Ads SDK version: " + GADRequest.sdkVersion())
+        adView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        adView.rootViewController = self
+        adView.load(GADRequest())
+        adView.backgroundColor = UIColor.flatBlack()
+    }
     
     // MARK: - Gesture Detection
     
@@ -519,11 +550,13 @@ extension FilterCamViewController: FilterInfoViewDelegate {
         // get list of filters in the Quick Selection category
         if (filterCount==0){
             populateFilterList()
-            filterIdx = 0
+            //filterIdx = 0
+            setFilterIndex(0)
+        } else {
+            
+            //TEMP: cycle through filters when button is pressed
+            self.nextFilter()
         }
-        
-        //TEMP: cycle through filters when button is pressed
-        self.nextFilter()
     }
     
     func filterSettingsPressed(){

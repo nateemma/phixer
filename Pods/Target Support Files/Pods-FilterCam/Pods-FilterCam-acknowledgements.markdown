@@ -26,6 +26,38 @@ This application makes use of the following third party libraries:
 > SOFTWARE. 
 
 
+## Firebase
+
+Copyright 2016 Google
+
+## FirebaseAnalytics
+
+Copyright 2016 Google
+
+## FirebaseCore
+
+Copyright 2016 Google
+
+## FirebaseInstanceID
+
+Copyright 2016 Google
+
+## Google-Mobile-Ads-SDK
+
+Copyright 2011 Google Inc. All Rights Reserved.
+
+## GoogleInterchangeUtilities
+
+Copyright 2016 Google
+
+## GoogleSymbolUtilities
+
+Copyright 2016 Google
+
+## GoogleUtilities
+
+Copyright 2016 Google
+
 ## Neon
 
 Copyright (c) 2015 Michael Amaral

@@ -1,5 +1,5 @@
 //
-//  GlassSphereRefractionDescriptor.swift
+//  SphereRefractionDescriptor.swift
 //  FilterCam
 //
 //  Created by Philip Price on 10/8/16.
@@ -11,12 +11,12 @@ import Foundation
 import GPUImage
 
 
-class GlassSphereRefractionDescriptor: FilterDescriptorInterface {
+class SphereRefractionDescriptor: FilterDescriptorInterface {
     
     
     
-    let key = "GlassSphereRefraction"
-    let title = "Glass Sphere Refraction"
+    let key = "SphereRefraction"
+    let title = "Sphere Refraction"
     let category = FilterCategoryType.colorAdjustments
     
     var filter: BasicOperation?  = nil
@@ -29,7 +29,7 @@ class GlassSphereRefractionDescriptor: FilterDescriptorInterface {
     
     let filterOperationType = FilterOperationType.singleInput
     
-    private var lclFilter:GlassSphereRefraction = GlassSphereRefraction() // the actual filter
+    private var lclFilter:SphereRefraction = SphereRefraction() // the actual filter
     private var stash_radius: Float
     private var stash_refractiveIndex: Float
     

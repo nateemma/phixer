@@ -1,5 +1,5 @@
 //
-//  BoxBlurDescriptor.swift
+//  AdaptiveThresholdDescriptor.swift
 //  FilterCam
 //
 //  Created by Philip Price on 10/4/16.
@@ -10,27 +10,27 @@ import Foundation
 import GPUImage
 
 
-class BoxBlurDescriptor: FilterDescriptorInterface {
+class AdaptiveThresholdDescriptor: FilterDescriptorInterface {
     
     
-    let key = "BoxBlur"
-    let title = "Box Blur"
+    let key = "AdaptiveThreshold"
+    let title = "Adaptive Threshold"
     
-    var filter: BasicOperation?  = nil
-    let filterGroup: OperationGroup? = nil
+    let filter: BasicOperation?  = nil
+    var filterGroup: OperationGroup? = nil
     
     let numParameters = 1
-    let parameterConfiguration = [ParameterSettings(title:"blurRadiusInPixels", minimumValue:0.0, maximumValue:24.0, initialValue:2.0, isRGB:false)]
+    let parameterConfiguration = [ParameterSettings(title:"radius", minimumValue:0.0, maximumValue:24.0, initialValue:2.0, isRGB:false)]
     
     
     let filterOperationType = FilterOperationType.singleInput
     
-    private var lclFilter:BoxBlur = BoxBlur() // the actual filter
+    private var lclFilter:AdaptiveThreshold = AdaptiveThreshold() // the actual filter
     private var stash_blurRadiusInPixels: Float
     
     
     init(){
-        filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
+        filterGroup = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
         lclFilter.blurRadiusInPixels = parameterConfiguration[0].initialValue
         stash_blurRadiusInPixels = lclFilter.blurRadiusInPixels
         log.verbose("config: \(parameterConfiguration)")

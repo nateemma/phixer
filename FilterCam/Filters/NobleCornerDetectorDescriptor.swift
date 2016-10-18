@@ -22,7 +22,7 @@ class NobleCornerDetectorDescriptor: FilterDescriptorInterface {
     var filterGroup: OperationGroup? = nil
     
     let numParameters = 2
-    let parameterConfiguration = [ParameterSettings(title:"blurRadiusInPixels", minimumValue:0.0, maximumValue:24.0, initialValue:2.0, isRGB:false),
+    let parameterConfiguration = [ParameterSettings(title:"blur radius", minimumValue:0.0, maximumValue:24.0, initialValue:2.0, isRGB:false),
                                   ParameterSettings(title:"sensitivity", minimumValue:0.0, maximumValue:10.0, initialValue:5.0, isRGB:false),
                                   ParameterSettings(title:"threshold", minimumValue:0.0, maximumValue:1.0, initialValue:0.2, isRGB:false)]
     

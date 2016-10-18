@@ -62,6 +62,7 @@ class FilterInfoView: UIView {
 
             modeIcon.setImageAsset("ic_filters")
             settingsButton.setImageAsset("ic_sliders")
+            settingsButton.highlightOnSelection(true)
             setFilterName("(no filter)")
 
            

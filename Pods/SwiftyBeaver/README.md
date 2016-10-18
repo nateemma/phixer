@@ -20,7 +20,7 @@
 
 <img src="https://cloud.githubusercontent.com/assets/564725/18608323/ac065a98-7ce6-11e6-8e1b-2a062d54a1d5.png" width="608">
 
-[Learn more](http://docs.swiftybeaver.com/article/9-log-to-xcode-console) about colored logging to Xcode 8 Console. **No need to hack Xcode 8 anymore** to get color. You can even customize the log level word (ATTENTION instead of ERROR maybe?), the general amount of displayed data and if you want to use the 💜s or replace them with something else 😉
+[Learn more](http://docs.swiftybeaver.com/article/9-log-to-xcode-console) about colored logging to Xcode 8 Console with Swift 3. For Swift 2.3 [use this Gist](https://gist.github.com/skreutzberger/7c396573796473ed1be2c6d15cafed34). **No need to hack Xcode 8 anymore** to get color. You can even customize the log level word (ATTENTION instead of ERROR maybe?), the general amount of displayed data and if you want to use the 💜s or replace them with something else 😉
 
 <br/>
 
@@ -110,7 +110,6 @@ For [Swift Package Manager](https://swift.org/package-manager/) add the followin
 <br/>
 <br/>
 
-
 ## Usage
 
 Add that near the top of your `AppDelegate.swift` to be able to use SwiftyBeaver in your whole project.
@@ -155,6 +154,23 @@ log.error(["name": "Mr Beaver", "address": "7 Beaver Lodge"])
 <br/>
 <br/>
 
+## Server-side Swift
+
+We ❤️ server-side Swift 3 and SwiftyBeaver supports it **out-of-the-box**! Try for yourself and run SwiftyBeaver inside a Ubuntu Docker container. Just install Docker and then go to your the project folder on macOS or Ubuntu and type:
+
+```shell
+# create docker image, build SwiftyBeaver and run unit tests
+swift build --clean && docker build --rm -t swiftybeaver .
+
+# optionally log into container to run Swift CLI and do more stuff
+docker run --rm -it --privileged=true -v $PWD:/app swiftybeaver
+```
+
+Best: for the popular server-side Swift web framework [Vapor](https://github.com/vapor/vapor) you can use **[our Vapor logging provider](https://github.com/SwiftyBeaver/SwiftyBeaver-Vapor)** which makes server logging awesome again 🙌
+
+<br/>
+<br/>
+
 ## Documentation
 
 **Getting Started:**
@@ -184,6 +200,7 @@ log.error(["name": "Mr Beaver", "address": "7 Beaver Lodge"])
 More destination & system documentation is coming soon! <br/>Get support via Github Issues, email and <a href="https://slack.swiftybeaver.com">public Slack channel</a>.
 
 
+<br/>
 <br/>
 ## License
 

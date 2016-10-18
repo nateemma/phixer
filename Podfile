@@ -6,10 +6,19 @@ target 'FilterCam' do
   use_frameworks!
 
   # Pods for FilterCam
-  #pod 'GPUImage'
+
+  # Neon layout constraint helpers
   pod 'Neon'
+  
+  # Chameloen colour schemes
   pod 'ChameleonFramework/Swift'
+  
+  # Swifty Beaver logging framework
   pod 'SwiftyBeaver'
+  
+  #Google AdMob framework
+  pod 'Firebase/Core'
+  pod 'Firebase/AdMob'
 
   target 'FilterCamTests' do
     inherit! :search_paths

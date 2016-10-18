@@ -9,6 +9,9 @@
 import UIKit
 import SwiftyBeaver
 
+import Firebase
+import GoogleMobileAds
+
 let log = SwiftyBeaver.self
 
 let themeColor = UIColor(red: 0.01, green: 0.41, blue: 0.22, alpha: 1.0)
@@ -44,6 +47,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // set the global colour scheme
         window?.tintColor = themeColor
+        
+        // set up Google banner ad framework
+        // Use Firebase library to configure APIs
+        FIRApp.configure()
+        
+        GADMobileAds.configure(withApplicationID: "ca-app-pub-3940256099942544~1458002511"); // Test ID, replace when ready
+
         
         return true
     }

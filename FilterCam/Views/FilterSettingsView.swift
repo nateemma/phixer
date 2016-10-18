@@ -212,6 +212,8 @@ class FilterSettingsView: UIView {
                     log.debug("Gradient Slider requested")
                     gsliders[i] = GradientSlider()
                     gsliders[i]?.hasRainbow = true
+                    //gsliders[i]?.setValue(value: 0.5) // middle colour
+                    gsliders[i]?.setValue(value: hueFromColor(self.currFilterDesc?.getColorParameter(index: i))) // default for class
                     gsliders[i]?.tag = i // let slider know the parameter order
                     gsliders[i]?.isHidden = false
                     gsliders[i]?.setNeedsUpdateConstraints()
@@ -248,6 +250,28 @@ class FilterSettingsView: UIView {
         
         
     }
+    
+    
+    
+    // get the hue value (0.0-1.0) from a Color type
+    fileprivate func hueFromColor(_ color:UIColor?)->CGFloat{
+        
+        var h:CGFloat = 0.0
+        var s:CGFloat = 0.0
+        var l:CGFloat = 0.0
+        var a:CGFloat = 1.0
+        var c: UIColor
+        
+        if (color == nil){
+            c = UIColor.blue
+        } else {
+            c = color!
+        }
+        
+        c.getHue(&h, saturation: &s, brightness: &l, alpha: &a)
+        return h
+    }
+    
     
     // Attaches an action handler based on the slider index
     fileprivate func attachSliderAction(_ slider:UISlider){

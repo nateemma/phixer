@@ -20,7 +20,7 @@ class GaussianBlurDescriptor: FilterDescriptorInterface {
     let filterGroup: OperationGroup? = nil
     
     let numParameters = 1
-    let parameterConfiguration = [ParameterSettings(title:"blurRadiusInPixels", minimumValue:0.0, maximumValue:24.0, initialValue:2.0, isRGB:false)]
+    let parameterConfiguration = [ParameterSettings(title:"radius", minimumValue:0.0, maximumValue:24.0, initialValue:2.0, isRGB:false)]
     
     
     let filterOperationType = FilterOperationType.singleInput

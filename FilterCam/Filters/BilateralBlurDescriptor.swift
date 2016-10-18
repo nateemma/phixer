@@ -20,7 +20,7 @@ class BilateralBlurDescriptor: FilterDescriptorInterface {
     let filterGroup: OperationGroup? = nil
     
     let numParameters = 1
-    let parameterConfiguration = [ParameterSettings(title:"distance normalization factor", minimumValue:0.0, maximumValue:10.0, initialValue:1.0, isRGB:false)]
+    let parameterConfiguration = [ParameterSettings(title:"distance normalization factor", minimumValue:0.0, maximumValue:16.0, initialValue:8.0, isRGB:false)]
     
     
     let filterOperationType = FilterOperationType.singleInput

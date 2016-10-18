@@ -14,13 +14,13 @@ class KuwaharaDescriptor: FilterDescriptorInterface {
     
     
     let key = "Kuwahara"
-    let title = "Kuwahara Filter (Oil Painting)"
+    let title = "Kuwahara Filter (Oil Painting) - SLOW"
     
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     
     let numParameters = 1
-    let parameterConfiguration = [ParameterSettings(title:"radius", minimumValue:0.0, maximumValue:1.0, initialValue:0.5, isRGB:false)]
+    let parameterConfiguration = [ParameterSettings(title:"radius", minimumValue:0.0, maximumValue:10.0, initialValue:4.0, isRGB:false)]
     
     
     let filterOperationType = FilterOperationType.singleInput
