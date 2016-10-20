@@ -25,8 +25,8 @@ class WarmthDescriptor: FilterDescriptorInterface {
     
     let filterOperationType = FilterOperationType.singleInput
     
-    private var lclFilter:WhiteBalance = WhiteBalance() // the actual filter
-    private var stash_temperature: Float
+    fileprivate var lclFilter:WhiteBalance = WhiteBalance() // the actual filter
+    fileprivate var stash_temperature: Float
     
     
     init(){
@@ -45,7 +45,7 @@ class WarmthDescriptor: FilterDescriptorInterface {
     
     
     
-    func getParameter(index: Int)->Float {
+    func getParameter(_ index: Int)->Float {
         switch (index){
         case 1:
             return lclFilter.temperature
@@ -55,7 +55,7 @@ class WarmthDescriptor: FilterDescriptorInterface {
     }
     
     
-    func setParameter(index: Int, value: Float) {
+    func setParameter(_ index: Int, value: Float) {
         switch (index){
         case 1:
             lclFilter.temperature = value
@@ -68,8 +68,8 @@ class WarmthDescriptor: FilterDescriptorInterface {
     
     
     
-    func getColorParameter(index: Int)->UIColor { return UIColor.blue }
-    func setColorParameter(index:Int, color:UIColor) {}
+    func getColorParameter(_ index: Int)->UIColor { return UIColor.blue }
+    func setColorParameter(_ index:Int, color:UIColor) {}
     
     
     func stashParameters(){

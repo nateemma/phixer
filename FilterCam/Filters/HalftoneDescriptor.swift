@@ -28,8 +28,8 @@ class HalftoneDescriptor: FilterDescriptorInterface {
     
     let filterOperationType = FilterOperationType.singleInput
     
-    private var lclFilter:Halftone = Halftone() // the actual filter
-    private var stash_fractionalWidthOfAPixel: Float
+    fileprivate var lclFilter:Halftone = Halftone() // the actual filter
+    fileprivate var stash_fractionalWidthOfAPixel: Float
     
     
     init(){
@@ -48,7 +48,7 @@ class HalftoneDescriptor: FilterDescriptorInterface {
     }
     
     
-    func getParameter(index: Int)->Float {
+    func getParameter(_ index: Int)->Float {
         switch (index){
         case 1:
             return lclFilter.fractionalWidthOfAPixel
@@ -58,7 +58,7 @@ class HalftoneDescriptor: FilterDescriptorInterface {
     }
     
     
-    func setParameter(index: Int, value: Float) {
+    func setParameter(_ index: Int, value: Float) {
         switch (index){
         case 1:
             lclFilter.fractionalWidthOfAPixel = value
@@ -71,8 +71,8 @@ class HalftoneDescriptor: FilterDescriptorInterface {
     
     
     
-    func getColorParameter(index: Int)->UIColor { return UIColor.blue }
-    func setColorParameter(index:Int, color:UIColor) {}
+    func getColorParameter(_ index: Int)->UIColor { return UIColor.blue }
+    func setColorParameter(_ index:Int, color:UIColor) {}
     
     
     func stashParameters() {

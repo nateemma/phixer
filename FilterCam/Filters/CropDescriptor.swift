@@ -25,10 +25,10 @@ class CropDescriptor: FilterDescriptorInterface {
     
     let filterOperationType = FilterOperationType.singleInput
     
-    private var lclFilter:Crop = Crop() // the actual filter
-    private var stash_cropSizeInPixels: Size
-    private var currFactor: Float
-    private var screenSize: Size
+    fileprivate var lclFilter:Crop = Crop() // the actual filter
+    fileprivate var stash_cropSizeInPixels: Size
+    fileprivate var currFactor: Float
+    fileprivate var screenSize: Size
     
     
     init(){
@@ -51,7 +51,7 @@ class CropDescriptor: FilterDescriptorInterface {
     
     
     
-    func getParameter(index: Int)->Float {
+    func getParameter(_ index: Int)->Float {
         switch (index){
         case 1:
             return currFactor
@@ -63,7 +63,7 @@ class CropDescriptor: FilterDescriptorInterface {
     
     //TODO: scale crop size based on parameter
     
-    func setParameter(index: Int, value: Float) {
+    func setParameter(_ index: Int, value: Float) {
         switch (index){
         case 1:
             lclFilter.cropSizeInPixels = Size(width: currFactor*screenSize.width, height: currFactor*screenSize.height)
@@ -76,8 +76,8 @@ class CropDescriptor: FilterDescriptorInterface {
     
     
     
-    func getColorParameter(index: Int)->UIColor { return UIColor.blue }
-    func setColorParameter(index:Int, color:UIColor) {}
+    func getColorParameter(_ index: Int)->UIColor { return UIColor.blue }
+    func setColorParameter(_ index:Int, color:UIColor) {}
     
     
     func stashParameters(){

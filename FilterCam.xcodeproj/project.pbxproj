@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		251375511DB6AD6200A319DC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 251375501DB6AD6200A319DC /* GoogleService-Info.plist */; };
-		251375541DB6B4C600A319DC /* AdaptiveThresholdDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251375531DB6B4C600A319DC /* AdaptiveThresholdDescriptor.swift */; };
+		251375541DB6B4C600A319DC /* BoxBlurDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251375531DB6B4C600A319DC /* BoxBlurDescriptor.swift */; };
 		251375561DB6BE0D00A319DC /* GammaDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251375551DB6BE0D00A319DC /* GammaDescriptor.swift */; };
 		251375581DB6BEE900A319DC /* XXX0Descriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251375571DB6BEE900A319DC /* XXX0Descriptor.swift */; };
 		2513755A1DB6C6ED00A319DC /* VibranceDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251375591DB6C6ED00A319DC /* VibranceDescriptor.swift */; };
@@ -21,6 +21,29 @@
 		251375681DB6CD9400A319DC /* PinchDistortionDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251375671DB6CD9400A319DC /* PinchDistortionDescriptor.swift */; };
 		2513756A1DB6CE2900A319DC /* SphereRefractionDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251375691DB6CE2900A319DC /* SphereRefractionDescriptor.swift */; };
 		2513756C1DB6CE8000A319DC /* CGAColorspaceDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2513756B1DB6CE8000A319DC /* CGAColorspaceDescriptor.swift */; };
+		2513756E1DB6DB9800A319DC /* ChromaKeyBlendDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2513756D1DB6DB9800A319DC /* ChromaKeyBlendDescriptor.swift */; };
+		251375701DB6DC2E00A319DC /* DissolveBlendDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2513756F1DB6DC2E00A319DC /* DissolveBlendDescriptor.swift */; };
+		251375721DB6DCB000A319DC /* AlphaBlendDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251375711DB6DCB000A319DC /* AlphaBlendDescriptor.swift */; };
+		251375741DB6DCFE00A319DC /* SaturationBlendDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251375731DB6DCFE00A319DC /* SaturationBlendDescriptor.swift */; };
+		251375761DB6DD2A00A319DC /* SubtractBlendDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251375751DB6DD2A00A319DC /* SubtractBlendDescriptor.swift */; };
+		251375781DB6DD4B00A319DC /* DivideBlendDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251375771DB6DD4B00A319DC /* DivideBlendDescriptor.swift */; };
+		2513757A1DB6DD7000A319DC /* OverlayBlendDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251375791DB6DD7000A319DC /* OverlayBlendDescriptor.swift */; };
+		2513757C1DB6DD9600A319DC /* DarkenBlendDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2513757B1DB6DD9600A319DC /* DarkenBlendDescriptor.swift */; };
+		2513757E1DB6DE0C00A319DC /* LightenBlendDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2513757D1DB6DE0C00A319DC /* LightenBlendDescriptor.swift */; };
+		251375801DB6DE3E00A319DC /* ColorBurnBlendDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2513757F1DB6DE3E00A319DC /* ColorBurnBlendDescriptor.swift */; };
+		251375821DB6DE5D00A319DC /* ColorDodgeBlendDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251375811DB6DE5D00A319DC /* ColorDodgeBlendDescriptor.swift */; };
+		251375841DB6DE7800A319DC /* ScreenBlendDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251375831DB6DE7800A319DC /* ScreenBlendDescriptor.swift */; };
+		251375861DB6DEDE00A319DC /* ExclusionBlendDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251375851DB6DEDE00A319DC /* ExclusionBlendDescriptor.swift */; };
+		251375881DB6DF1000A319DC /* DifferenceBlendDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251375871DB6DF1000A319DC /* DifferenceBlendDescriptor.swift */; };
+		2513758A1DB6DF4200A319DC /* HardLightBlendDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251375891DB6DF4200A319DC /* HardLightBlendDescriptor.swift */; };
+		2513758C1DB6DF6300A319DC /* SoftLightBlendDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2513758B1DB6DF6300A319DC /* SoftLightBlendDescriptor.swift */; };
+		2513758E1DB6DF8B00A319DC /* SourceOverBlendDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2513758D1DB6DF8B00A319DC /* SourceOverBlendDescriptor.swift */; };
+		251375901DB6DFE100A319DC /* NormalBlendDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2513758F1DB6DFE100A319DC /* NormalBlendDescriptor.swift */; };
+		251375921DB6E00F00A319DC /* ColorBlendDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251375911DB6E00F00A319DC /* ColorBlendDescriptor.swift */; };
+		251375941DB6E02600A319DC /* HueBlendDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251375931DB6E02600A319DC /* HueBlendDescriptor.swift */; };
+		251375961DB6E06300A319DC /* AddBlendDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251375951DB6E06200A319DC /* AddBlendDescriptor.swift */; };
+		251375981DB6E0AD00A319DC /* LuminosityBlendDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251375971DB6E0AD00A319DC /* LuminosityBlendDescriptor.swift */; };
+		2513759A1DB6E10000A319DC /* LinearBurnBlendDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251375991DB6E10000A319DC /* LinearBurnBlendDescriptor.swift */; };
 		253B235B1DA2CFD400203ECB /* SegueHandlerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253B235A1DA2CFD400203ECB /* SegueHandlerType.swift */; };
 		253B23621DA301F500203ECB /* lookup_amatorka.png in Resources */ = {isa = PBXBuildFile; fileRef = 253B235D1DA301F500203ECB /* lookup_amatorka.png */; };
 		253B23631DA301F500203ECB /* lookup_miss_etikate.png in Resources */ = {isa = PBXBuildFile; fileRef = 253B235E1DA301F500203ECB /* lookup_miss_etikate.png */; };
@@ -58,6 +81,9 @@
 		257F49F51D9448920083B1E4 /* FilterCamTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257F49F41D9448920083B1E4 /* FilterCamTests.swift */; };
 		257F4A001D9448920083B1E4 /* FilterCamUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257F49FF1D9448920083B1E4 /* FilterCamUITests.swift */; };
 		257F4A141D947CF80083B1E4 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 257F4A131D947CF80083B1E4 /* Podfile */; };
+		25910B171DB73834007EC926 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 25910B161DB73834007EC926 /* iCarousel.m */; };
+		25910B191DB738B3007EC926 /* FilterCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25910B181DB738B3007EC926 /* FilterCarouselView.swift */; };
+		25910B1B1DB7D61A007EC926 /* RenderContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25910B1A1DB7D61A007EC926 /* RenderContainerView.swift */; };
 		25B24CF81DAE958D008CD38A /* ExposureDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24CF71DAE958D008CD38A /* ExposureDescriptor.swift */; };
 		25B24CFA1DAE9605008CD38A /* XXX2Descriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24CF91DAE9605008CD38A /* XXX2Descriptor.swift */; };
 		25B24CFC1DAE9709008CD38A /* XXXFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24CFB1DAE9709008CD38A /* XXXFilter.swift */; };
@@ -92,7 +118,7 @@
 		25B24D441DB05543008CD38A /* GaussianBlurDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D431DB05543008CD38A /* GaussianBlurDescriptor.swift */; };
 		25B24D461DB05688008CD38A /* MedianDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D451DB05688008CD38A /* MedianDescriptor.swift */; };
 		25B24D481DB056E0008CD38A /* BilateralBlurDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D471DB056E0008CD38A /* BilateralBlurDescriptor.swift */; };
-		25B24D4A1DB05791008CD38A /* BoxBlurDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D491DB05791008CD38A /* BoxBlurDescriptor.swift */; };
+		25B24D4A1DB05791008CD38A /* AdaptiveThresholdDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D491DB05791008CD38A /* AdaptiveThresholdDescriptor.swift */; };
 		25B24D4C1DB0582D008CD38A /* UnsharpMaskDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D4B1DB0582D008CD38A /* UnsharpMaskDescriptor.swift */; };
 		25B24D4E1DB059C4008CD38A /* CropDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D4D1DB059C4008CD38A /* CropDescriptor.swift */; };
 		25B24D501DB09E8C008CD38A /* CannyEdgeDetectionDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D4F1DB09E8C008CD38A /* CannyEdgeDetectionDescriptor.swift */; };
@@ -111,7 +137,7 @@
 		25CF4BD61D9490C400D779CF /* CameraDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BD01D9490C400D779CF /* CameraDisplayView.swift */; };
 		25CF4BD71D9490C400D779CF /* CameraInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BD11D9490C400D779CF /* CameraInfoView.swift */; };
 		25CF4BD81D9490C400D779CF /* CameraSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BD21D9490C400D779CF /* CameraSettingsView.swift */; };
-		25CF4BD91D9490C400D779CF /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BD31D9490C400D779CF /* ImageView.swift */; };
+		25CF4BD91D9490C400D779CF /* ImageContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BD31D9490C400D779CF /* ImageContainerView.swift */; };
 		25CF4BDA1D9490C400D779CF /* SquareButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BD41D9490C400D779CF /* SquareButton.swift */; };
 		25CF4BDC1D94D93700D779CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BDB1D94D93700D779CF /* AppDelegate.swift */; };
 		25CF4BE81D94EA8100D779CF /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25CF4BE31D94EA5000D779CF /* GPUImage.framework */; };
@@ -181,7 +207,7 @@
 		139F285AF8C5B2C24479BD32 /* Pods-FilterCam.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FilterCam.release.xcconfig"; path = "Pods/Target Support Files/Pods-FilterCam/Pods-FilterCam.release.xcconfig"; sourceTree = "<group>"; };
 		1DDC117A644402CB333D19D8 /* Pods_FilterCam.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FilterCam.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		251375501DB6AD6200A319DC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		251375531DB6B4C600A319DC /* AdaptiveThresholdDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AdaptiveThresholdDescriptor.swift; path = Filters/AdaptiveThresholdDescriptor.swift; sourceTree = "<group>"; };
+		251375531DB6B4C600A319DC /* BoxBlurDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoxBlurDescriptor.swift; path = Filters/BoxBlurDescriptor.swift; sourceTree = "<group>"; };
 		251375551DB6BE0D00A319DC /* GammaDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GammaDescriptor.swift; path = Filters/GammaDescriptor.swift; sourceTree = "<group>"; };
 		251375571DB6BEE900A319DC /* XXX0Descriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XXX0Descriptor.swift; path = Filters/XXX0Descriptor.swift; sourceTree = "<group>"; };
 		251375591DB6C6ED00A319DC /* VibranceDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VibranceDescriptor.swift; path = Filters/VibranceDescriptor.swift; sourceTree = "<group>"; };
@@ -194,6 +220,29 @@
 		251375671DB6CD9400A319DC /* PinchDistortionDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PinchDistortionDescriptor.swift; path = Filters/PinchDistortionDescriptor.swift; sourceTree = "<group>"; };
 		251375691DB6CE2900A319DC /* SphereRefractionDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SphereRefractionDescriptor.swift; path = Filters/SphereRefractionDescriptor.swift; sourceTree = "<group>"; };
 		2513756B1DB6CE8000A319DC /* CGAColorspaceDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CGAColorspaceDescriptor.swift; path = Filters/CGAColorspaceDescriptor.swift; sourceTree = "<group>"; };
+		2513756D1DB6DB9800A319DC /* ChromaKeyBlendDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChromaKeyBlendDescriptor.swift; path = Filters/ChromaKeyBlendDescriptor.swift; sourceTree = "<group>"; };
+		2513756F1DB6DC2E00A319DC /* DissolveBlendDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DissolveBlendDescriptor.swift; path = Filters/DissolveBlendDescriptor.swift; sourceTree = "<group>"; };
+		251375711DB6DCB000A319DC /* AlphaBlendDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlphaBlendDescriptor.swift; path = Filters/AlphaBlendDescriptor.swift; sourceTree = "<group>"; };
+		251375731DB6DCFE00A319DC /* SaturationBlendDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SaturationBlendDescriptor.swift; path = Filters/SaturationBlendDescriptor.swift; sourceTree = "<group>"; };
+		251375751DB6DD2A00A319DC /* SubtractBlendDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SubtractBlendDescriptor.swift; path = Filters/SubtractBlendDescriptor.swift; sourceTree = "<group>"; };
+		251375771DB6DD4B00A319DC /* DivideBlendDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DivideBlendDescriptor.swift; path = Filters/DivideBlendDescriptor.swift; sourceTree = "<group>"; };
+		251375791DB6DD7000A319DC /* OverlayBlendDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OverlayBlendDescriptor.swift; path = Filters/OverlayBlendDescriptor.swift; sourceTree = "<group>"; };
+		2513757B1DB6DD9600A319DC /* DarkenBlendDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DarkenBlendDescriptor.swift; path = Filters/DarkenBlendDescriptor.swift; sourceTree = "<group>"; };
+		2513757D1DB6DE0C00A319DC /* LightenBlendDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LightenBlendDescriptor.swift; path = Filters/LightenBlendDescriptor.swift; sourceTree = "<group>"; };
+		2513757F1DB6DE3E00A319DC /* ColorBurnBlendDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorBurnBlendDescriptor.swift; path = Filters/ColorBurnBlendDescriptor.swift; sourceTree = "<group>"; };
+		251375811DB6DE5D00A319DC /* ColorDodgeBlendDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorDodgeBlendDescriptor.swift; path = Filters/ColorDodgeBlendDescriptor.swift; sourceTree = "<group>"; };
+		251375831DB6DE7800A319DC /* ScreenBlendDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScreenBlendDescriptor.swift; path = Filters/ScreenBlendDescriptor.swift; sourceTree = "<group>"; };
+		251375851DB6DEDE00A319DC /* ExclusionBlendDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExclusionBlendDescriptor.swift; path = Filters/ExclusionBlendDescriptor.swift; sourceTree = "<group>"; };
+		251375871DB6DF1000A319DC /* DifferenceBlendDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DifferenceBlendDescriptor.swift; path = Filters/DifferenceBlendDescriptor.swift; sourceTree = "<group>"; };
+		251375891DB6DF4200A319DC /* HardLightBlendDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HardLightBlendDescriptor.swift; path = Filters/HardLightBlendDescriptor.swift; sourceTree = "<group>"; };
+		2513758B1DB6DF6300A319DC /* SoftLightBlendDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SoftLightBlendDescriptor.swift; path = Filters/SoftLightBlendDescriptor.swift; sourceTree = "<group>"; };
+		2513758D1DB6DF8B00A319DC /* SourceOverBlendDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SourceOverBlendDescriptor.swift; path = Filters/SourceOverBlendDescriptor.swift; sourceTree = "<group>"; };
+		2513758F1DB6DFE100A319DC /* NormalBlendDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NormalBlendDescriptor.swift; path = Filters/NormalBlendDescriptor.swift; sourceTree = "<group>"; };
+		251375911DB6E00F00A319DC /* ColorBlendDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorBlendDescriptor.swift; path = Filters/ColorBlendDescriptor.swift; sourceTree = "<group>"; };
+		251375931DB6E02600A319DC /* HueBlendDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HueBlendDescriptor.swift; path = Filters/HueBlendDescriptor.swift; sourceTree = "<group>"; };
+		251375951DB6E06200A319DC /* AddBlendDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddBlendDescriptor.swift; path = Filters/AddBlendDescriptor.swift; sourceTree = "<group>"; };
+		251375971DB6E0AD00A319DC /* LuminosityBlendDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LuminosityBlendDescriptor.swift; path = Filters/LuminosityBlendDescriptor.swift; sourceTree = "<group>"; };
+		251375991DB6E10000A319DC /* LinearBurnBlendDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LinearBurnBlendDescriptor.swift; path = Filters/LinearBurnBlendDescriptor.swift; sourceTree = "<group>"; };
 		253B235A1DA2CFD400203ECB /* SegueHandlerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SegueHandlerType.swift; path = Controllers/SegueHandlerType.swift; sourceTree = "<group>"; };
 		253B235D1DA301F500203ECB /* lookup_amatorka.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lookup_amatorka.png; path = ../../GPUImage2/framework/Source/Operations/LookupImages/lookup_amatorka.png; sourceTree = "<group>"; };
 		253B235E1DA301F500203ECB /* lookup_miss_etikate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lookup_miss_etikate.png; path = ../../GPUImage2/framework/Source/Operations/LookupImages/lookup_miss_etikate.png; sourceTree = "<group>"; };
@@ -237,6 +286,11 @@
 		257F49FF1D9448920083B1E4 /* FilterCamUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCamUITests.swift; sourceTree = "<group>"; };
 		257F4A011D9448920083B1E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		257F4A131D947CF80083B1E4 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		25910B141DB73833007EC926 /* FilterCam-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FilterCam-Bridging-Header.h"; sourceTree = "<group>"; };
+		25910B151DB73834007EC926 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iCarousel.h; path = Views/iCarousel.h; sourceTree = "<group>"; };
+		25910B161DB73834007EC926 /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = iCarousel.m; path = Views/iCarousel.m; sourceTree = "<group>"; };
+		25910B181DB738B3007EC926 /* FilterCarouselView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterCarouselView.swift; path = Views/FilterCarouselView.swift; sourceTree = "<group>"; };
+		25910B1A1DB7D61A007EC926 /* RenderContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RenderContainerView.swift; path = Views/RenderContainerView.swift; sourceTree = "<group>"; };
 		25B24CF71DAE958D008CD38A /* ExposureDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExposureDescriptor.swift; path = Filters/ExposureDescriptor.swift; sourceTree = "<group>"; };
 		25B24CF91DAE9605008CD38A /* XXX2Descriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XXX2Descriptor.swift; path = Filters/XXX2Descriptor.swift; sourceTree = "<group>"; };
 		25B24CFB1DAE9709008CD38A /* XXXFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XXXFilter.swift; path = Filters/XXXFilter.swift; sourceTree = "<group>"; };
@@ -271,7 +325,7 @@
 		25B24D431DB05543008CD38A /* GaussianBlurDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GaussianBlurDescriptor.swift; path = Filters/GaussianBlurDescriptor.swift; sourceTree = "<group>"; };
 		25B24D451DB05688008CD38A /* MedianDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MedianDescriptor.swift; path = Filters/MedianDescriptor.swift; sourceTree = "<group>"; };
 		25B24D471DB056E0008CD38A /* BilateralBlurDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BilateralBlurDescriptor.swift; path = Filters/BilateralBlurDescriptor.swift; sourceTree = "<group>"; };
-		25B24D491DB05791008CD38A /* BoxBlurDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoxBlurDescriptor.swift; path = Filters/BoxBlurDescriptor.swift; sourceTree = "<group>"; };
+		25B24D491DB05791008CD38A /* AdaptiveThresholdDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AdaptiveThresholdDescriptor.swift; path = Filters/AdaptiveThresholdDescriptor.swift; sourceTree = "<group>"; };
 		25B24D4B1DB0582D008CD38A /* UnsharpMaskDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UnsharpMaskDescriptor.swift; path = Filters/UnsharpMaskDescriptor.swift; sourceTree = "<group>"; };
 		25B24D4D1DB059C4008CD38A /* CropDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CropDescriptor.swift; path = Filters/CropDescriptor.swift; sourceTree = "<group>"; };
 		25B24D4F1DB09E8C008CD38A /* CannyEdgeDetectionDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CannyEdgeDetectionDescriptor.swift; path = Filters/CannyEdgeDetectionDescriptor.swift; sourceTree = "<group>"; };
@@ -290,7 +344,7 @@
 		25CF4BD01D9490C400D779CF /* CameraDisplayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraDisplayView.swift; path = Views/CameraDisplayView.swift; sourceTree = "<group>"; };
 		25CF4BD11D9490C400D779CF /* CameraInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraInfoView.swift; path = Views/CameraInfoView.swift; sourceTree = "<group>"; };
 		25CF4BD21D9490C400D779CF /* CameraSettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraSettingsView.swift; path = Views/CameraSettingsView.swift; sourceTree = "<group>"; };
-		25CF4BD31D9490C400D779CF /* ImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageView.swift; path = Views/ImageView.swift; sourceTree = "<group>"; };
+		25CF4BD31D9490C400D779CF /* ImageContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageContainerView.swift; path = Views/ImageContainerView.swift; sourceTree = "<group>"; };
 		25CF4BD41D9490C400D779CF /* SquareButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SquareButton.swift; path = Views/SquareButton.swift; sourceTree = "<group>"; };
 		25CF4BDB1D94D93700D779CF /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		25CF4BDD1D94EA5000D779CF /* GPUImage-iOS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "GPUImage-iOS.xcodeproj"; path = "../GPUImage2/framework/GPUImage-iOS.xcodeproj"; sourceTree = "<group>"; };
@@ -340,22 +394,33 @@
 		253B236D1DA44E4D00203ECB /* Filters */ = {
 			isa = PBXGroup;
 			children = (
-				251375531DB6B4C600A319DC /* AdaptiveThresholdDescriptor.swift */,
+				251375531DB6B4C600A319DC /* BoxBlurDescriptor.swift */,
+				251375951DB6E06200A319DC /* AddBlendDescriptor.swift */,
+				251375711DB6DCB000A319DC /* AlphaBlendDescriptor.swift */,
 				25B24D2B1DB04843008CD38A /* AmatorkaDescriptor.swift */,
 				25B24D311DB04A5A008CD38A /* AverageLuminanceThresholdDescriptor.swift */,
 				25B24D471DB056E0008CD38A /* BilateralBlurDescriptor.swift */,
-				25B24D491DB05791008CD38A /* BoxBlurDescriptor.swift */,
+				25B24D491DB05791008CD38A /* AdaptiveThresholdDescriptor.swift */,
 				25B24D011DAE99DE008CD38A /* BrightnessDescriptor.swift */,
 				253B23941DA999E100203ECB /* BulgeDistortionDescriptor.swift */,
 				25B24D4F1DB09E8C008CD38A /* CannyEdgeDetectionDescriptor.swift */,
 				2513756B1DB6CE8000A319DC /* CGAColorspaceDescriptor.swift */,
+				2513756D1DB6DB9800A319DC /* ChromaKeyBlendDescriptor.swift */,
 				25B24D5B1DB17FF6008CD38A /* ChromaKeyingDescriptor.swift */,
 				25B24D651DB18B59008CD38A /* ClosingFilterDescriptor.swift */,
+				251375911DB6E00F00A319DC /* ColorBlendDescriptor.swift */,
+				2513757F1DB6DE3E00A319DC /* ColorBurnBlendDescriptor.swift */,
+				251375811DB6DE5D00A319DC /* ColorDodgeBlendDescriptor.swift */,
 				25B24D2F1DB0494F008CD38A /* ColorInversionDescriptor.swift */,
 				25B24CFF1DAE9967008CD38A /* ContrastDescriptor.swift */,
 				25B24D4D1DB059C4008CD38A /* CropDescriptor.swift */,
 				253B23721DA4B09200203ECB /* CrosshatchDescriptor.swift */,
+				2513757B1DB6DD9600A319DC /* DarkenBlendDescriptor.swift */,
+				251375871DB6DF1000A319DC /* DifferenceBlendDescriptor.swift */,
+				2513756F1DB6DC2E00A319DC /* DissolveBlendDescriptor.swift */,
+				251375771DB6DD4B00A319DC /* DivideBlendDescriptor.swift */,
 				253B238E1DA9996400203ECB /* EmbossDescriptor.swift */,
+				251375851DB6DEDE00A319DC /* ExclusionBlendDescriptor.swift */,
 				25B24CF71DAE958D008CD38A /* ExposureDescriptor.swift */,
 				25B24D0F1DAEE037008CD38A /* FalseColorDescriptor.swift */,
 				253B236B1DA44E3600203ECB /* FilterDescriptor.swift */,
@@ -365,25 +430,32 @@
 				253B23961DA999FF00203ECB /* GlassSphereRefractionDescriptor.swift */,
 				25B24D1F1DB03633008CD38A /* GrayscaleDescriptor.swift */,
 				251375611DB6CAB300A319DC /* HalftoneDescriptor.swift */,
+				251375891DB6DF4200A319DC /* HardLightBlendDescriptor.swift */,
 				25B24D511DB0A038008CD38A /* HarrisCornerDetectorDescriptor.swift */,
 				25B24D251DB044C2008CD38A /* HazeDescriptor.swift */,
 				253B23821DA9989F00203ECB /* HighlightsDescriptor.swift */,
 				25B24D5F1DB18197008CD38A /* HighlightShadowTintDescriptor.swift */,
 				2513755D1DB6C96900A319DC /* HighPassFilterDescriptor.swift */,
+				251375931DB6E02600A319DC /* HueBlendDescriptor.swift */,
 				25B24D091DAE9D6A008CD38A /* HueDescriptor.swift */,
 				25B24D3F1DB054A2008CD38A /* KuwaharaDescriptor.swift */,
 				25B24D411DB054DA008CD38A /* KuwaharaRadius3Descriptor.swift */,
 				25B24D3D1DB04E28008CD38A /* LaplacianDescriptor.swift */,
+				2513757D1DB6DE0C00A319DC /* LightenBlendDescriptor.swift */,
+				251375991DB6E10000A319DC /* LinearBurnBlendDescriptor.swift */,
 				2513755B1DB6C79B00A319DC /* LowPassFilterDescriptor.swift */,
 				25B24D211DB036C5008CD38A /* LuminanceDescriptor.swift */,
 				253B23841DA998D100203ECB /* LuminanceThresholdDescriptor.swift */,
+				251375971DB6E0AD00A319DC /* LuminosityBlendDescriptor.swift */,
 				25B24D451DB05688008CD38A /* MedianDescriptor.swift */,
 				25B24D2D1DB04892008CD38A /* MissEtikateDescriptor.swift */,
 				253B237E1DA9986E00203ECB /* MonochromeDescriptor.swift */,
 				2513755F1DB6C9F100A319DC /* MultiplyBlendDescriptor.swift */,
 				25B24D531DB0A0FC008CD38A /* NobleCornerDetectorDescriptor.swift */,
+				2513758F1DB6DFE100A319DC /* NormalBlendDescriptor.swift */,
 				25B24D591DB17F86008CD38A /* OpacityAdjustmentDescriptor.swift */,
 				25B24D671DB18B9D008CD38A /* OpeningFilterDescriptor.swift */,
+				251375791DB6DD7000A319DC /* OverlayBlendDescriptor.swift */,
 				251375671DB6CD9400A319DC /* PinchDistortionDescriptor.swift */,
 				25B24D331DB04B91008CD38A /* PixellateDescriptor.swift */,
 				253B23741DA4B1A700203ECB /* PolarPixellateDescriptor.swift */,
@@ -392,7 +464,9 @@
 				25B24D371DB04C86008CD38A /* PrewittEdgeDetectionDescriptor.swift */,
 				25B24D071DAE9BEA008CD38A /* RGBDescriptor.swift */,
 				25B24D231DB036FF008CD38A /* RotateDescriptor.swift */,
+				251375731DB6DCFE00A319DC /* SaturationBlendDescriptor.swift */,
 				253B237C1DA9905900203ECB /* SaturationDescriptor.swift */,
+				251375831DB6DE7800A319DC /* ScreenBlendDescriptor.swift */,
 				253B23801DA9988500203ECB /* SepiaDescriptor.swift */,
 				25B24D191DB0351C008CD38A /* SharpenDescriptor.swift */,
 				25B24D551DB0A137008CD38A /* ShiTomasiFeatureDetectorDescriptor.swift */,
@@ -401,8 +475,11 @@
 				251375631DB6CB0300A319DC /* SmoothToonDescriptor.swift */,
 				25B24D351DB04C39008CD38A /* SobelEdgeDetectionDescriptor.swift */,
 				25B24D571DB17F07008CD38A /* SoftEleganceDescriptor.swift */,
+				2513758B1DB6DF6300A319DC /* SoftLightBlendDescriptor.swift */,
 				253B23701DA4B07200203ECB /* SolarizeDescriptor.swift */,
+				2513758D1DB6DF8B00A319DC /* SourceOverBlendDescriptor.swift */,
 				251375691DB6CE2900A319DC /* SphereRefractionDescriptor.swift */,
+				251375751DB6DD2A00A319DC /* SubtractBlendDescriptor.swift */,
 				251375651DB6CC8600A319DC /* SwirlDistortionDescriptor.swift */,
 				253B23881DA9992A00203ECB /* ThresholdSketchDescriptor.swift */,
 				25B24D3B1DB04D4E008CD38A /* ThresholdSobelEdgeDetectionDescriptor.swift */,
@@ -429,11 +506,16 @@
 				25CF4BCF1D9490C400D779CF /* CameraControlsView.swift */,
 				25CF4BD01D9490C400D779CF /* CameraDisplayView.swift */,
 				25CF4BD11D9490C400D779CF /* CameraInfoView.swift */,
-				25B24D171DAFE255008CD38A /* FilterInfoView.swift */,
-				25B24D111DAEE1B5008CD38A /* GradientSlider.swift */,
-				253B237A1DA71F1900203ECB /* FilterSettingsView.swift */,
 				25CF4BD21D9490C400D779CF /* CameraSettingsView.swift */,
-				25CF4BD31D9490C400D779CF /* ImageView.swift */,
+				25910B141DB73833007EC926 /* FilterCam-Bridging-Header.h */,
+				25910B181DB738B3007EC926 /* FilterCarouselView.swift */,
+				25B24D171DAFE255008CD38A /* FilterInfoView.swift */,
+				253B237A1DA71F1900203ECB /* FilterSettingsView.swift */,
+				25B24D111DAEE1B5008CD38A /* GradientSlider.swift */,
+				25910B151DB73834007EC926 /* iCarousel.h */,
+				25910B161DB73834007EC926 /* iCarousel.m */,
+				25CF4BD31D9490C400D779CF /* ImageContainerView.swift */,
+				25910B1A1DB7D61A007EC926 /* RenderContainerView.swift */,
 				25CF4BD41D9490C400D779CF /* SquareButton.swift */,
 			);
 			name = Views;
@@ -866,12 +948,20 @@
 				25B24D301DB0494F008CD38A /* ColorInversionDescriptor.swift in Sources */,
 				25CF4BDC1D94D93700D779CF /* AppDelegate.swift in Sources */,
 				25B24D081DAE9BEA008CD38A /* RGBDescriptor.swift in Sources */,
+				2513758A1DB6DF4200A319DC /* HardLightBlendDescriptor.swift in Sources */,
 				25B24D181DAFE255008CD38A /* FilterInfoView.swift in Sources */,
+				251375781DB6DD4B00A319DC /* DivideBlendDescriptor.swift in Sources */,
+				251375901DB6DFE100A319DC /* NormalBlendDescriptor.swift in Sources */,
+				25910B191DB738B3007EC926 /* FilterCarouselView.swift in Sources */,
+				2513757E1DB6DE0C00A319DC /* LightenBlendDescriptor.swift in Sources */,
+				251375861DB6DEDE00A319DC /* ExclusionBlendDescriptor.swift in Sources */,
 				2513755E1DB6C96900A319DC /* HighPassFilterDescriptor.swift in Sources */,
 				2513756A1DB6CE2900A319DC /* SphereRefractionDescriptor.swift in Sources */,
 				253B238F1DA9996400203ECB /* EmbossDescriptor.swift in Sources */,
 				25B24D0A1DAE9D6A008CD38A /* HueDescriptor.swift in Sources */,
+				251375981DB6E0AD00A319DC /* LuminosityBlendDescriptor.swift in Sources */,
 				2513755A1DB6C6ED00A319DC /* VibranceDescriptor.swift in Sources */,
+				2513757A1DB6DD7000A319DC /* OverlayBlendDescriptor.swift in Sources */,
 				25B24D121DAEE1B5008CD38A /* GradientSlider.swift in Sources */,
 				253B23771DA4BB7800203ECB /* ClosestFraction.swift in Sources */,
 				25B24D3C1DB04D4E008CD38A /* ThresholdSobelEdgeDetectionDescriptor.swift in Sources */,
@@ -880,21 +970,27 @@
 				25B24CFC1DAE9709008CD38A /* XXXFilter.swift in Sources */,
 				25B24D241DB036FF008CD38A /* RotateDescriptor.swift in Sources */,
 				251375641DB6CB0300A319DC /* SmoothToonDescriptor.swift in Sources */,
+				2513758C1DB6DF6300A319DC /* SoftLightBlendDescriptor.swift in Sources */,
 				253B237B1DA71F1900203ECB /* FilterSettingsView.swift in Sources */,
 				25B24D621DB18746008CD38A /* SingleComponentGaussianBlurDescriptor.swift in Sources */,
+				251375761DB6DD2A00A319DC /* SubtractBlendDescriptor.swift in Sources */,
 				25F460221D99DBBA00EDA182 /* CameraSpeed.swift in Sources */,
 				253B23711DA4B07200203ECB /* SolarizeDescriptor.swift in Sources */,
 				25CF4BD61D9490C400D779CF /* CameraDisplayView.swift in Sources */,
 				25B24D501DB09E8C008CD38A /* CannyEdgeDetectionDescriptor.swift in Sources */,
 				251375601DB6C9F100A319DC /* MultiplyBlendDescriptor.swift in Sources */,
 				25B24D1A1DB0351C008CD38A /* SharpenDescriptor.swift in Sources */,
+				251375921DB6E00F00A319DC /* ColorBlendDescriptor.swift in Sources */,
 				25B24D681DB18B9D008CD38A /* OpeningFilterDescriptor.swift in Sources */,
+				251375721DB6DCB000A319DC /* AlphaBlendDescriptor.swift in Sources */,
+				2513758E1DB6DF8B00A319DC /* SourceOverBlendDescriptor.swift in Sources */,
 				25CF4BDA1D9490C400D779CF /* SquareButton.swift in Sources */,
 				25B24D601DB18197008CD38A /* HighlightShadowTintDescriptor.swift in Sources */,
 				25B24D361DB04C39008CD38A /* SobelEdgeDetectionDescriptor.swift in Sources */,
 				25F4601E1D99D65F00EDA182 /* CameraISO.swift in Sources */,
 				25B24D0E1DAEDDFF008CD38A /* WhiteBalanceDescriptor.swift in Sources */,
 				253B23851DA998D100203ECB /* LuminanceThresholdDescriptor.swift in Sources */,
+				25910B1B1DB7D61A007EC926 /* RenderContainerView.swift in Sources */,
 				257F49E21D9448920083B1E4 /* FilterCamViewController.swift in Sources */,
 				253B23831DA9989F00203ECB /* HighlightsDescriptor.swift in Sources */,
 				25B24CF81DAE958D008CD38A /* ExposureDescriptor.swift in Sources */,
@@ -902,9 +998,11 @@
 				25B24D2E1DB04892008CD38A /* MissEtikateDescriptor.swift in Sources */,
 				253B23911DA9997F00203ECB /* VignetteDescriptor.swift in Sources */,
 				253B23951DA999E100203ECB /* BulgeDistortionDescriptor.swift in Sources */,
+				2513757C1DB6DD9600A319DC /* DarkenBlendDescriptor.swift in Sources */,
 				253B23751DA4B1A700203ECB /* PolarPixellateDescriptor.swift in Sources */,
 				253B236F1DA49B9A00203ECB /* SketchDescriptor.swift in Sources */,
 				25B24D2C1DB04843008CD38A /* AmatorkaDescriptor.swift in Sources */,
+				251375701DB6DC2E00A319DC /* DissolveBlendDescriptor.swift in Sources */,
 				253B23871DA998F000203ECB /* PolkaDotDescriptor.swift in Sources */,
 				25B24D401DB054A2008CD38A /* KuwaharaDescriptor.swift in Sources */,
 				253B237F1DA9986E00203ECB /* MonochromeDescriptor.swift in Sources */,
@@ -912,9 +1010,12 @@
 				25B24D521DB0A038008CD38A /* HarrisCornerDetectorDescriptor.swift in Sources */,
 				253B23931DA999CC00203ECB /* ZoomBlurDescriptor.swift in Sources */,
 				25F460181D99CCCE00EDA182 /* UISettings.swift in Sources */,
+				2513759A1DB6E10000A319DC /* LinearBurnBlendDescriptor.swift in Sources */,
 				25B24D3E1DB04E28008CD38A /* LaplacianDescriptor.swift in Sources */,
+				251375841DB6DE7800A319DC /* ScreenBlendDescriptor.swift in Sources */,
 				25B24D4C1DB0582D008CD38A /* UnsharpMaskDescriptor.swift in Sources */,
 				25B24D481DB056E0008CD38A /* BilateralBlurDescriptor.swift in Sources */,
+				251375741DB6DCFE00A319DC /* SaturationBlendDescriptor.swift in Sources */,
 				253B23811DA9988500203ECB /* SepiaDescriptor.swift in Sources */,
 				256D0FF11D98DB4C00220D7E /* CameraManager.swift in Sources */,
 				25CF4BD51D9490C400D779CF /* CameraControlsView.swift in Sources */,
@@ -924,12 +1025,17 @@
 				253B238D1DA9994F00203ECB /* PosterizeDescriptor.swift in Sources */,
 				251375581DB6BEE900A319DC /* XXX0Descriptor.swift in Sources */,
 				25B24D4E1DB059C4008CD38A /* CropDescriptor.swift in Sources */,
-				25CF4BD91D9490C400D779CF /* ImageView.swift in Sources */,
+				251375801DB6DE3E00A319DC /* ColorBurnBlendDescriptor.swift in Sources */,
+				25CF4BD91D9490C400D779CF /* ImageContainerView.swift in Sources */,
 				25B24D441DB05543008CD38A /* GaussianBlurDescriptor.swift in Sources */,
+				2513756E1DB6DB9800A319DC /* ChromaKeyBlendDescriptor.swift in Sources */,
 				25B24D321DB04A5A008CD38A /* AverageLuminanceThresholdDescriptor.swift in Sources */,
 				25CF4BD71D9490C400D779CF /* CameraInfoView.swift in Sources */,
+				25910B171DB73834007EC926 /* iCarousel.m in Sources */,
 				25B24D201DB03633008CD38A /* GrayscaleDescriptor.swift in Sources */,
 				25B24D581DB17F07008CD38A /* SoftEleganceDescriptor.swift in Sources */,
+				251375881DB6DF1000A319DC /* DifferenceBlendDescriptor.swift in Sources */,
+				251375821DB6DE5D00A319DC /* ColorDodgeBlendDescriptor.swift in Sources */,
 				25B24D5A1DB17F86008CD38A /* OpacityAdjustmentDescriptor.swift in Sources */,
 				25B24D641DB18888008CD38A /* TiltShiftDescriptor.swift in Sources */,
 				2569741D1D9B986E00DDF9E4 /* Fractional.swift in Sources */,
@@ -937,7 +1043,9 @@
 				25B24CFA1DAE9605008CD38A /* XXX2Descriptor.swift in Sources */,
 				251375681DB6CD9400A319DC /* PinchDistortionDescriptor.swift in Sources */,
 				25B24D381DB04C86008CD38A /* PrewittEdgeDetectionDescriptor.swift in Sources */,
+				251375941DB6E02600A319DC /* HueBlendDescriptor.swift in Sources */,
 				251375621DB6CAB300A319DC /* HalftoneDescriptor.swift in Sources */,
+				251375961DB6E06300A319DC /* AddBlendDescriptor.swift in Sources */,
 				253B237D1DA9905900203ECB /* SaturationDescriptor.swift in Sources */,
 				25B24D001DAE9967008CD38A /* ContrastDescriptor.swift in Sources */,
 				25B24D101DAEE037008CD38A /* FalseColorDescriptor.swift in Sources */,
@@ -955,12 +1063,12 @@
 				253B236C1DA44E3600203ECB /* FilterDescriptor.swift in Sources */,
 				25B24CFE1DAE97F6008CD38A /* XXX2Filter.swift in Sources */,
 				25B24D421DB054DA008CD38A /* KuwaharaRadius3Descriptor.swift in Sources */,
-				251375541DB6B4C600A319DC /* AdaptiveThresholdDescriptor.swift in Sources */,
+				251375541DB6B4C600A319DC /* BoxBlurDescriptor.swift in Sources */,
 				25B24D2A1DB0459E008CD38A /* XXX1Descriptor.swift in Sources */,
 				253B23791DA5782300203ECB /* FilterManager.swift in Sources */,
 				253B23891DA9992A00203ECB /* ThresholdSketchDescriptor.swift in Sources */,
 				25B24D541DB0A0FC008CD38A /* NobleCornerDetectorDescriptor.swift in Sources */,
-				25B24D4A1DB05791008CD38A /* BoxBlurDescriptor.swift in Sources */,
+				25B24D4A1DB05791008CD38A /* AdaptiveThresholdDescriptor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1123,6 +1231,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = R27PD7337M;
@@ -1130,6 +1239,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nateemma.FilterCam;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "FilterCam/FilterCam-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -1140,6 +1251,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = R27PD7337M;
@@ -1147,6 +1259,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nateemma.FilterCam;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "FilterCam/FilterCam-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

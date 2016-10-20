@@ -29,10 +29,10 @@ class ChromaKeyingDescriptor: FilterDescriptorInterface {
     
     let filterOperationType = FilterOperationType.singleInput
     
-    private var lclFilter:ChromaKeying = ChromaKeying() // the actual filter
-    private var stash_thresholdSensitivity: Float
-    private var stash_smoothing: Float
-    private var stash_colorToReplace: Color
+    fileprivate var lclFilter:ChromaKeying = ChromaKeying() // the actual filter
+    fileprivate var stash_thresholdSensitivity: Float
+    fileprivate var stash_smoothing: Float
+    fileprivate var stash_colorToReplace: Color
     
     init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
@@ -52,7 +52,7 @@ class ChromaKeyingDescriptor: FilterDescriptorInterface {
     }
     
     
-    func getParameter(index: Int)->Float {
+    func getParameter(_ index: Int)->Float {
         switch (index){
         case 1:
             return lclFilter.thresholdSensitivity
@@ -64,7 +64,7 @@ class ChromaKeyingDescriptor: FilterDescriptorInterface {
     }
     
     
-    func setParameter(index: Int, value: Float) {
+    func setParameter(_ index: Int, value: Float) {
         switch (index){
         case 1:
             lclFilter.thresholdSensitivity = value
@@ -82,7 +82,7 @@ class ChromaKeyingDescriptor: FilterDescriptorInterface {
     // This filter uses Color parameters, so add those here
     
     
-    func setColorParameter(index: Int, color:UIColor){
+    func setColorParameter(_ index: Int, color:UIColor){
         var r: CGFloat = 0.0
         var g: CGFloat = 0.0
         var b: CGFloat = 0.0
@@ -100,7 +100,7 @@ class ChromaKeyingDescriptor: FilterDescriptorInterface {
     }
     
     
-    func getColorParameter(index: Int)->UIColor{
+    func getColorParameter(_ index: Int)->UIColor{
         switch(index){
         case 3:
             return UIColor(red: CGFloat(lclFilter.colorToReplace.redComponent),

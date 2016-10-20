@@ -28,9 +28,9 @@ class PinchDistortionDescriptor: FilterDescriptorInterface {
     
     let filterOperationType = FilterOperationType.singleInput
     
-    private var lclFilter:PinchDistortion = PinchDistortion() // the actual filter
-    private var stash_scale: Float
-    private var stash_radius: Float
+    fileprivate var lclFilter:PinchDistortion = PinchDistortion() // the actual filter
+    fileprivate var stash_scale: Float
+    fileprivate var stash_radius: Float
     
     
     init(){
@@ -50,7 +50,7 @@ class PinchDistortionDescriptor: FilterDescriptorInterface {
     }
     
     
-    func getParameter(index: Int)->Float {
+    func getParameter(_ index: Int)->Float {
         switch (index){
         case 1:
             return lclFilter.scale
@@ -62,7 +62,7 @@ class PinchDistortionDescriptor: FilterDescriptorInterface {
     }
     
     
-    func setParameter(index: Int, value: Float) {
+    func setParameter(_ index: Int, value: Float) {
         switch (index){
         case 1:
             lclFilter.scale = value
@@ -79,8 +79,8 @@ class PinchDistortionDescriptor: FilterDescriptorInterface {
     
     
     
-    func getColorParameter(index: Int)->UIColor { return UIColor.blue }
-    func setColorParameter(index:Int, color:UIColor) {}
+    func getColorParameter(_ index: Int)->UIColor { return UIColor.blue }
+    func setColorParameter(_ index:Int, color:UIColor) {}
     
     
     func stashParameters() {

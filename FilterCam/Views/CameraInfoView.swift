@@ -47,7 +47,7 @@ class CameraInfoView: UIView {
             // set the colors etc.
             //self.backgroundColor = UIColor.clear
             //self.isOpaque = false
-            self.backgroundColor = UIColor.flatBlack()
+            self.backgroundColor = UIColor.black
             //self.alpha = 0.8
             
             modeIcon  = SquareButton(bsize: buttonSize)

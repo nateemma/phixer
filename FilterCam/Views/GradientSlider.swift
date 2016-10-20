@@ -20,10 +20,11 @@ import UIKit
     
     @IBInspectable var value: CGFloat {
         get{return _value}
-        set{setValue(value:newValue, animated:true)}
+        //set{setValue(value:newValue, animated:true)}
+        set{setValue(newValue, animated:true)}
     }
     
-    func setValue(value:CGFloat, animated:Bool = true) {
+    func setValue(_ value:CGFloat, animated:Bool = true) {
         _value = max(min(value,self.maximumValue),self.minimumValue)
         updateThumbPosition(animated: animated)
     }
@@ -134,36 +135,36 @@ import UIKit
     
     //MARK: - Convienience Colors
     
-    func setGradientForHueWithSaturation(saturation:CGFloat,brightness:CGFloat){
+    func setGradientForHueWithSaturation(_ saturation:CGFloat,brightness:CGFloat){
         minColor = UIColor(hue: 0.0, saturation: saturation, brightness: brightness, alpha: 1.0)
         hasRainbow = true
     }
     
-    func setGradientForSaturationWithHue(hue:CGFloat,brightness:CGFloat){
+    func setGradientForSaturationWithHue(_ hue:CGFloat,brightness:CGFloat){
         hasRainbow = false
         minColor = UIColor(hue: hue, saturation: 0.0, brightness: brightness, alpha: 1.0)
         maxColor = UIColor(hue: hue, saturation: 1.0, brightness: brightness, alpha: 1.0)
     }
     
-    func setGradientForBrightnessWithHue(hue:CGFloat,saturation:CGFloat){
+    func setGradientForBrightnessWithHue(_ hue:CGFloat,saturation:CGFloat){
         hasRainbow = false
         minColor = UIColor.black
         maxColor = UIColor(hue: hue, saturation: saturation, brightness: 1.0, alpha: 1.0)
     }
     
-    func setGradientForRedWithGreen(green:CGFloat,blue:CGFloat){
+    func setGradientForRedWithGreen(_ green:CGFloat,blue:CGFloat){
         hasRainbow = false
         minColor = UIColor(red: 0.0, green: green, blue: blue, alpha: 1.0)
         maxColor = UIColor(red: 1.0, green: green, blue: blue, alpha: 1.0)
     }
     
-    func setGradientForGreenWithRed(red:CGFloat,blue:CGFloat){
+    func setGradientForGreenWithRed(_ red:CGFloat,blue:CGFloat){
         hasRainbow = false
         minColor = UIColor(red: red, green: 0.0, blue: blue, alpha: 1.0)
         maxColor = UIColor(red: red, green: 1.0, blue: blue, alpha: 1.0)
     }
     
-    func setGradientForBlueWithRed(red:CGFloat,green:CGFloat){
+    func setGradientForBlueWithRed(_ red:CGFloat,green:CGFloat){
         hasRainbow = false
         minColor = UIColor(red: red, green: green, blue: 0.0, alpha: 1.0)
         maxColor = UIColor(red: red, green: green, blue: 1.0, alpha: 1.0)
@@ -178,9 +179,9 @@ import UIKit
     
     //MARK: - Private Properties
     
-    private var _value:CGFloat = 0.0 // default 0.0. this value will be pinned to min/max
+    fileprivate var _value:CGFloat = 0.0 // default 0.0. this value will be pinned to min/max
     
-    private var _thumbLayer:CALayer = {
+    fileprivate var _thumbLayer:CALayer = {
         let thumb = CALayer()
         thumb.cornerRadius = defaultThumbSize/2.0
         thumb.bounds = CGRect(x:0, y:0, width:defaultThumbSize, height:defaultThumbSize)
@@ -194,7 +195,7 @@ import UIKit
         return thumb
     }()
     
-    private var _trackLayer:CAGradientLayer = {
+    fileprivate var _trackLayer:CAGradientLayer = {
         let track = CAGradientLayer()
         track.cornerRadius = defaultThickness / 2.0
         track.startPoint = CGPoint(x:0.0, y:0.5)
@@ -205,10 +206,10 @@ import UIKit
         return track
     }()
     
-    private var _minTrackImageLayer:CALayer? = nil
-    private var _maxTrackImageLayer:CALayer? = nil
+    fileprivate var _minTrackImageLayer:CALayer? = nil
+    fileprivate var _maxTrackImageLayer:CALayer? = nil
     
-    private var _thumbIconLayer:CALayer = {
+    fileprivate var _thumbIconLayer:CALayer = {
         let size = defaultThumbSize - 4
         let iconLayer = CALayer()
         iconLayer.cornerRadius = size/2.0
@@ -264,7 +265,7 @@ import UIKit
         
     }
     
-    private func commonSetup() {
+    fileprivate func commonSetup() {
         self.layer.delegate = self
         self.layer.addSublayer(_trackLayer)
         self.layer.addSublayer(_thumbLayer)
@@ -279,7 +280,7 @@ import UIKit
     }
     ***/
     
-    override public var intrinsicContentSize: CGSize {
+    override open var intrinsicContentSize: CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: thumbSize)
     }
     
@@ -289,7 +290,7 @@ import UIKit
     }
      ***/
     
-    override public var alignmentRectInsets: UIEdgeInsets {
+    override open var alignmentRectInsets: UIEdgeInsets {
         return UIEdgeInsetsMake(4.0, 2.0, 4.0, 2.0)
     }
     
@@ -354,8 +355,9 @@ import UIKit
     
     override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         let pt = touch.location(in: self)
-        let newValue = valueForLocation(point: pt)
-        setValue(value:newValue, animated: false)
+        let newValue = valueForLocation(pt)
+        //setValue(value:newValue, animated: false)
+        setValue(newValue, animated: false)
         if(continuous){
             sendActions(for: UIControlEvents.valueChanged)
             actionBlock(self,newValue)
@@ -365,8 +367,9 @@ import UIKit
     
     override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
         if let pt = touch?.location(in: self){
-            let newValue = valueForLocation(point: pt)
-            setValue(value:newValue, animated: false)
+            let newValue = valueForLocation(pt)
+            //setValue(value:newValue, animated: false)
+            setValue(newValue, animated: false)
         }
         actionBlock(self,_value)
         sendActions(for: [UIControlEvents.valueChanged, UIControlEvents.touchUpInside])
@@ -375,7 +378,7 @@ import UIKit
     
     //MARK: - Private Functions
     
-    private func updateThumbPosition(animated animate:Bool){
+    fileprivate func updateThumbPosition(animated animate:Bool){
         let diff = maximumValue - minimumValue
         let perc = CGFloat((value - minimumValue) / diff)
         
@@ -393,7 +396,7 @@ import UIKit
         }
     }
     
-    private func valueForLocation(point:CGPoint)->CGFloat {
+    fileprivate func valueForLocation(_ point:CGPoint)->CGFloat {
         
         var left = self.bounds.origin.x
         var w = self.bounds.width
@@ -419,7 +422,7 @@ import UIKit
         return (perc * diff) + CGFloat(self.minimumValue)
     }
     
-    private func updateTrackColors() {
+    fileprivate func updateTrackColors() {
         if !hasRainbow {
             _trackLayer.colors = [minColor.cgColor,maxColor.cgColor]
             _trackLayer.locations = [0.0,1.0]

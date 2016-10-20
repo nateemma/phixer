@@ -28,9 +28,9 @@ class XXX2Descriptor: FilterDescriptorInterface {
     
     let filterOperationType = FilterOperationType.singleInput
     
-    private var lclFilter:XXX2 = XXX2() // the actual filter
-    private var stash_xxx: Float
-    private var stash_yyy: Float
+    fileprivate var lclFilter:XXX2 = XXX2() // the actual filter
+    fileprivate var stash_xxx: Float
+    fileprivate var stash_yyy: Float
     
     
     init(){
@@ -50,7 +50,7 @@ class XXX2Descriptor: FilterDescriptorInterface {
     }
     
     
-    func getParameter(index: Int)->Float {
+    func getParameter(_ index: Int)->Float {
         switch (index){
         case 1:
             return lclFilter.xxx
@@ -62,7 +62,7 @@ class XXX2Descriptor: FilterDescriptorInterface {
     }
     
     
-    func setParameter(index: Int, value: Float) {
+    func setParameter(_ index: Int, value: Float) {
         switch (index){
         case 1:
             lclFilter.xxx = value
@@ -79,8 +79,8 @@ class XXX2Descriptor: FilterDescriptorInterface {
     
     
     
-    func getColorParameter(index: Int)->UIColor { return UIColor.blue }
-    func setColorParameter(index:Int, color:UIColor) {}
+    func getColorParameter(_ index: Int)->UIColor { return UIColor.blue }
+    func setColorParameter(_ index:Int, color:UIColor) {}
     
     
     func stashParameters() {

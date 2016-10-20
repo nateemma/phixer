@@ -25,8 +25,8 @@ class KuwaharaDescriptor: FilterDescriptorInterface {
     
     let filterOperationType = FilterOperationType.singleInput
     
-    private var lclFilter:KuwaharaFilter = KuwaharaFilter() // the actual filter
-    private var stash_radius: Float
+    fileprivate var lclFilter:KuwaharaFilter = KuwaharaFilter() // the actual filter
+    fileprivate var stash_radius: Float
     
     
     init(){
@@ -45,7 +45,7 @@ class KuwaharaDescriptor: FilterDescriptorInterface {
     
     
     
-    func getParameter(index: Int)->Float {
+    func getParameter(_ index: Int)->Float {
         switch (index){
         case 1:
             return Float(lclFilter.radius)
@@ -55,7 +55,7 @@ class KuwaharaDescriptor: FilterDescriptorInterface {
     }
     
     
-    func setParameter(index: Int, value: Float) {
+    func setParameter(_ index: Int, value: Float) {
         switch (index){
         case 1:
             lclFilter.radius = Int(value)
@@ -68,8 +68,8 @@ class KuwaharaDescriptor: FilterDescriptorInterface {
     
     
     
-    func getColorParameter(index: Int)->UIColor { return UIColor.blue }
-    func setColorParameter(index:Int, color:UIColor) {}
+    func getColorParameter(_ index: Int)->UIColor { return UIColor.blue }
+    func setColorParameter(_ index:Int, color:UIColor) {}
     
     
     func stashParameters(){

@@ -25,8 +25,8 @@ class GrayscaleDescriptor: FilterDescriptorInterface {
     
     let filterOperationType = FilterOperationType.singleInput
     
-    private var lclFilter:MonochromeFilter = MonochromeFilter() // the actual filter
-    private var stash_intensity: Float
+    fileprivate var lclFilter:MonochromeFilter = MonochromeFilter() // the actual filter
+    fileprivate var stash_intensity: Float
     
     
     init(){
@@ -45,7 +45,7 @@ class GrayscaleDescriptor: FilterDescriptorInterface {
     
     
     
-    func getParameter(index: Int)->Float {
+    func getParameter(_ index: Int)->Float {
         switch (index){
         case 1:
             return lclFilter.intensity
@@ -55,7 +55,7 @@ class GrayscaleDescriptor: FilterDescriptorInterface {
     }
     
     
-    func setParameter(index: Int, value: Float) {
+    func setParameter(_ index: Int, value: Float) {
         switch (index){
         case 1:
             lclFilter.intensity = value
@@ -68,8 +68,8 @@ class GrayscaleDescriptor: FilterDescriptorInterface {
     
     
     
-    func getColorParameter(index: Int)->UIColor { return UIColor.blue }
-    func setColorParameter(index:Int, color:UIColor) {}
+    func getColorParameter(_ index: Int)->UIColor { return UIColor.blue }
+    func setColorParameter(_ index:Int, color:UIColor) {}
     
     
     func stashParameters(){

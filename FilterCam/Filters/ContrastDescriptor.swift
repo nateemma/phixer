@@ -27,8 +27,8 @@ class ContrastDescriptor: FilterDescriptorInterface {
     
     let filterOperationType = FilterOperationType.singleInput
     
-    private var lclFilter:ContrastAdjustment = ContrastAdjustment() // the actual filter
-    private var stash_contrast: Float
+    fileprivate var lclFilter:ContrastAdjustment = ContrastAdjustment() // the actual filter
+    fileprivate var stash_contrast: Float
     
     
     init(){
@@ -47,7 +47,7 @@ class ContrastDescriptor: FilterDescriptorInterface {
     
     
     
-    func getParameter(index: Int)->Float {
+    func getParameter(_ index: Int)->Float {
         switch (index){
         case 1:
             return lclFilter.contrast
@@ -57,7 +57,7 @@ class ContrastDescriptor: FilterDescriptorInterface {
     }
     
     
-    func setParameter(index: Int, value: Float) {
+    func setParameter(_ index: Int, value: Float) {
         switch (index){
         case 1:
             lclFilter.contrast = value
@@ -69,8 +69,8 @@ class ContrastDescriptor: FilterDescriptorInterface {
     }
     
     
-    func getColorParameter(index: Int)->UIColor { return UIColor.blue }
-    func setColorParameter(index:Int, color:UIColor) {}
+    func getColorParameter(_ index: Int)->UIColor { return UIColor.blue }
+    func setColorParameter(_ index:Int, color:UIColor) {}
     
    
     //func updateParameters(value1:Float, value2:Float,  value3:Float,  value4:Float){

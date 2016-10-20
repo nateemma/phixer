@@ -30,12 +30,12 @@ class HighlightAndShadowTintDescriptor: FilterDescriptorInterface {
     
     let filterOperationType = FilterOperationType.singleInput
     
-    private var lclFilter:HighlightAndShadowTint = HighlightAndShadowTint() // the actual filter
+    fileprivate var lclFilter:HighlightAndShadowTint = HighlightAndShadowTint() // the actual filter
     
-    private var stash_shadowTintColor: Color
-    private var stash_highlightTintColor: Color
-    private var stash_shadowTintIntensity: Float
-    private var stash_highlightTintIntensity: Float
+    fileprivate var stash_shadowTintColor: Color
+    fileprivate var stash_highlightTintColor: Color
+    fileprivate var stash_shadowTintIntensity: Float
+    fileprivate var stash_highlightTintIntensity: Float
     
     
     init(){
@@ -59,7 +59,7 @@ class HighlightAndShadowTintDescriptor: FilterDescriptorInterface {
     }
     
     
-    func getParameter(index: Int)->Float {
+    func getParameter(_ index: Int)->Float {
         switch (index){
         case 3:
             return lclFilter.shadowTintIntensity
@@ -71,7 +71,7 @@ class HighlightAndShadowTintDescriptor: FilterDescriptorInterface {
     }
     
     
-    func setParameter(index: Int, value: Float) {
+    func setParameter(_ index: Int, value: Float) {
         switch (index){
         case 3:
             lclFilter.shadowTintIntensity = value
@@ -92,7 +92,7 @@ class HighlightAndShadowTintDescriptor: FilterDescriptorInterface {
     // This filter uses Color parameters, so add those here
     
     
-    func setColorParameter(index: Int, color:UIColor){
+    func setColorParameter(_ index: Int, color:UIColor){
         var r: CGFloat = 0.0
         var g: CGFloat = 0.0
         var b: CGFloat = 0.0
@@ -117,7 +117,7 @@ class HighlightAndShadowTintDescriptor: FilterDescriptorInterface {
     }
     
     
-    func getColorParameter(index: Int)->UIColor{
+    func getColorParameter(_ index: Int)->UIColor{
         switch(index){
         case 1:
             return UIColor(red: CGFloat(lclFilter.shadowTintColor.redComponent),

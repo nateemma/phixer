@@ -28,9 +28,9 @@ class UnsharpMaskDescriptor: FilterDescriptorInterface {
     
     let filterOperationType = FilterOperationType.singleInput
     
-    private var lclFilter:UnsharpMask = UnsharpMask() // the actual filter
-    private var stash_blurRadiusInPixels: Float
-    private var stash_intensity: Float
+    fileprivate var lclFilter:UnsharpMask = UnsharpMask() // the actual filter
+    fileprivate var stash_blurRadiusInPixels: Float
+    fileprivate var stash_intensity: Float
     
     
     init(){
@@ -50,7 +50,7 @@ class UnsharpMaskDescriptor: FilterDescriptorInterface {
     }
     
     
-    func getParameter(index: Int)->Float {
+    func getParameter(_ index: Int)->Float {
         switch (index){
         case 1:
             return lclFilter.blurRadiusInPixels
@@ -62,7 +62,7 @@ class UnsharpMaskDescriptor: FilterDescriptorInterface {
     }
     
     
-    func setParameter(index: Int, value: Float) {
+    func setParameter(_ index: Int, value: Float) {
         switch (index){
         case 1:
             lclFilter.blurRadiusInPixels = value
@@ -79,8 +79,8 @@ class UnsharpMaskDescriptor: FilterDescriptorInterface {
     
     
     
-    func getColorParameter(index: Int)->UIColor { return UIColor.blue }
-    func setColorParameter(index:Int, color:UIColor) {}
+    func getColorParameter(_ index: Int)->UIColor { return UIColor.blue }
+    func setColorParameter(_ index:Int, color:UIColor) {}
     
     
     func stashParameters() {

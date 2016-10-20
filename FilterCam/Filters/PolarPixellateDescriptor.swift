@@ -25,10 +25,10 @@ class PolarPixellateDescriptor: FilterDescriptorInterface {
     
     let filterOperationType = FilterOperationType.singleInput
     
-    private var lclFilter:PolarPixellate = PolarPixellate() // the actual filter
-    private var stash_pixelSize: Size
-    private var stash_pixelEdge: Float
-    private var pixelEdge: Float
+    fileprivate var lclFilter:PolarPixellate = PolarPixellate() // the actual filter
+    fileprivate var stash_pixelSize: Size
+    fileprivate var stash_pixelEdge: Float
+    fileprivate var pixelEdge: Float
     
 
     init(){
@@ -48,7 +48,7 @@ class PolarPixellateDescriptor: FilterDescriptorInterface {
     }
     
     
-    func getParameter(index: Int)->Float {
+    func getParameter(_ index: Int)->Float {
         switch (index){
         case 1:
             return pixelEdge
@@ -58,7 +58,7 @@ class PolarPixellateDescriptor: FilterDescriptorInterface {
     }
 
     
-    func setParameter(index: Int, value: Float) {
+    func setParameter(_ index: Int, value: Float) {
         switch (index){
         case 1:
             pixelEdge = value
@@ -71,8 +71,8 @@ class PolarPixellateDescriptor: FilterDescriptorInterface {
     }
     
     
-    func getColorParameter(index: Int)->UIColor { return UIColor.blue }
-    func setColorParameter(index:Int, color:UIColor) {}
+    func getColorParameter(_ index: Int)->UIColor { return UIColor.blue }
+    func setColorParameter(_ index:Int, color:UIColor) {}
     
     
     func stashParameters(){

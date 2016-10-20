@@ -25,11 +25,11 @@ class FalseColorDescriptor: FilterDescriptorInterface {
     
     let filterOperationType = FilterOperationType.singleInput
     
-    private var lclFilter:FalseColor = FalseColor() // the actual filter
+    fileprivate var lclFilter:FalseColor = FalseColor() // the actual filter
     
     
-    private var stash_firstColor: Color
-    private var stash_secondColor: Color
+    fileprivate var stash_firstColor: Color
+    fileprivate var stash_secondColor: Color
     
     
     init(){
@@ -48,13 +48,13 @@ class FalseColorDescriptor: FilterDescriptorInterface {
     
     
     
-    func getParameter(index: Int)->Float {
+    func getParameter(_ index: Int)->Float {
         log.warning("Ignoring call, not valid for this filter")
         return parameterNotSet
     }
     
     
-    func setParameter(index: Int, value: Float) {
+    func setParameter(_ index: Int, value: Float) {
         log.warning("Ignoring call, not valid for this filter")
     }
     
@@ -62,7 +62,7 @@ class FalseColorDescriptor: FilterDescriptorInterface {
     // This filter uses Color parameters, so add those here
     
     
-    func setColorParameter(index: Int, color:UIColor){
+    func setColorParameter(_ index: Int, color:UIColor){
         var r: CGFloat = 0.0
         var g: CGFloat = 0.0
         var b: CGFloat = 0.0
@@ -85,7 +85,7 @@ class FalseColorDescriptor: FilterDescriptorInterface {
     }
 
     
-    func getColorParameter(index: Int)->UIColor{
+    func getColorParameter(_ index: Int)->UIColor{
         switch(index){
         case 1:
             return UIColor(red: CGFloat(lclFilter.firstColor.redComponent),

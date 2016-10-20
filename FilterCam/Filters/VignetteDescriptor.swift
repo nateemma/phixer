@@ -28,9 +28,9 @@ class VignetteDescriptor: FilterDescriptorInterface {
     
     let filterOperationType = FilterOperationType.singleInput
     
-    private var lclFilter:Vignette = Vignette() // the actual filter
-    private var stash_start: Float
-    private var stash_end: Float
+    fileprivate var lclFilter:Vignette = Vignette() // the actual filter
+    fileprivate var stash_start: Float
+    fileprivate var stash_end: Float
     
     
     init(){
@@ -50,7 +50,7 @@ class VignetteDescriptor: FilterDescriptorInterface {
     }
     
     
-    func getParameter(index: Int)->Float {
+    func getParameter(_ index: Int)->Float {
         switch (index){
         case 1:
             return lclFilter.start
@@ -62,7 +62,7 @@ class VignetteDescriptor: FilterDescriptorInterface {
     }
     
     
-    func setParameter(index: Int, value: Float) {
+    func setParameter(_ index: Int, value: Float) {
         switch (index){
         case 1:
             lclFilter.start = value
@@ -79,8 +79,8 @@ class VignetteDescriptor: FilterDescriptorInterface {
     
     
     
-    func getColorParameter(index: Int)->UIColor { return UIColor.blue }
-    func setColorParameter(index:Int, color:UIColor) {}
+    func getColorParameter(_ index: Int)->UIColor { return UIColor.blue }
+    func setColorParameter(_ index:Int, color:UIColor) {}
     
     
     func stashParameters() {

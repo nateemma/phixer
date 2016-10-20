@@ -49,7 +49,7 @@ class FilterInfoView: UIView {
         if (!initDone){
             // set the colors etc.
 
-            self.backgroundColor = UIColor.flatBlack()
+            self.backgroundColor = UIColor.black
             
             if (buttonSize>self.frame.size.height){ buttonSize = self.frame.size.height - 4 }
             

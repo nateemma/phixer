@@ -68,7 +68,7 @@ class CameraSettingsView: UIView {
    
     func layoutFrames(){
         // setup colors etc.
-        self.backgroundColor = UIColor.flatBlack()
+        self.backgroundColor = UIColor.black
         
         //self.backgroundColor = GradientColor(UIGradientStyle.topToBottom, frame: self.frame, colors: [UIColor.gray, UIColor.lightGray])
         

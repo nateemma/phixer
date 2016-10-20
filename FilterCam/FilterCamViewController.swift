@@ -46,6 +46,9 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
     // Advertisements View
     var adView: GADBannerView! = GADBannerView()
     
+    // Filter strip
+    var filterStrip: FilterCarouselView! = FilterCarouselView()
+    
 
     
     var filterManager: FilterManager? = FilterManager.sharedInstance
@@ -105,6 +108,8 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
             view.addSubview(filterInfoView) // must come after cameraDisplayView
             view.addSubview(cameraControlsView)
             
+            view.addSubview(filterStrip)
+            
             // set up layout based on orientation
             if (isLandscape){
                 // left-to-right layout scheme
@@ -136,7 +141,10 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
                 filterInfoView.frame.size = cameraInfoView.frame.size
                 filterInfoView.alignBetweenHorizontal(.toTheLeftMatchingBottom, primaryView: cameraControlsView, secondaryView: cameraSettingsView, padding: 0, height: bannerHeight)
                 
-                
+                filterStrip.frame.size.height = 2.0 * bannerHeight
+                filterStrip.frame.size = cameraInfoView.frame.size
+                filterStrip.alignBetweenHorizontal(.toTheLeftMatchingBottom, primaryView: cameraControlsView, secondaryView: cameraSettingsView,
+                                                        padding: 0, height: filterStrip.frame.size.height)
                 
             } else {
                 // Portrait: top-to-bottom layout scheme
@@ -164,11 +172,16 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
                 filterInfoView.align(.aboveCentered, relativeTo: cameraControlsView, padding: 0,
                                      width: displayWidth, height: cameraInfoView.frame.size.height)
               
-                //cameraDisplayView.frame.size.height = displayHeight - 2 * bannerHeight
-                cameraDisplayView.frame.size.height = displayHeight - 3.5 * bannerHeight
+                cameraDisplayView.frame.size.height = displayHeight - 3.0 * bannerHeight
+                //cameraDisplayView.frame.size.height = displayHeight - 5.5 * bannerHeight
                 cameraDisplayView.frame.size.width = displayWidth
-                cameraDisplayView.align(.aboveCentered, relativeTo: cameraInfoView, padding: 0,
+                cameraDisplayView.align(.underCentered, relativeTo: adView, padding: 0,
                                         width: displayWidth, height: cameraDisplayView.frame.size.height)
+                
+                filterStrip.frame.size.height = 1.5 * bannerHeight
+                filterStrip.frame.size.width = displayWidth
+                filterStrip.align(.aboveCentered, relativeTo: filterInfoView, padding: 0,
+                                     width: filterStrip.frame.size.width, height: filterStrip.frame.size.height)
             }
             
             //setFilterIndex(0) // no filter
@@ -179,6 +192,7 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
             //cameraInfoView.delegate = self
             filterInfoView.delegate = self
             //filterSettingsView.delegate = self
+            filterStrip.delegate = self
             
             // set gesture detction for Filter Settings view
             //setGestureDetectors(view: filterSettingsView)
@@ -187,11 +201,17 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
             // listen to key press events
             setVolumeListener()
             
-            // start Ads
-            setupAds()
-            
             setInfoMode(currInfoMode) // must be after view setup
             
+            //TODO: select filter category somehow
+            filterStrip.setFilterCategory(FilterCategoryType.quickSelect)
+            filterStrip.isHidden = true
+     
+
+            
+            // start Ads
+            setupAds()
+           
             //TODO: start timer and update setting display peridodically
         }
         catch  let error as NSError {
@@ -269,18 +289,18 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
     
     // MARK: - Ad Framework
     
-    private func setupAds(){
+    fileprivate func setupAds(){
         log.debug("Google Mobile Ads SDK version: " + GADRequest.sdkVersion())
         adView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
         adView.rootViewController = self
         adView.load(GADRequest())
-        adView.backgroundColor = UIColor.flatBlack()
+        adView.backgroundColor = UIColor.black
     }
     
     // MARK: - Gesture Detection
     
     
-    func setGestureDetectors(view: UIView){
+    func setGestureDetectors(_ view: UIView){
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.swiped))
         swipeDown.direction = .down
         view.addGestureRecognizer(swipeDown)
@@ -299,7 +319,7 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
     }
     
     
-    func swiped(gesture: UIGestureRecognizer)
+    func swiped(_ gesture: UIGestureRecognizer)
     {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer
         {
@@ -361,10 +381,11 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
         // get list of filters in the Quick Selection category
         if (filterCount==0){
             filterList = []
-            filterList = (filterManager?.getFilterList(category: FilterCategoryType.quickSelect))!
+            filterList = (filterManager?.getFilterList(FilterCategoryType.quickSelect))!
             filterList.sort(by: { (value1: String, value2: String) -> Bool in return value1 < value2 }) // sort ascending
             filterCount = filterList.count
             log.debug("Filter list: \(filterList)")
+            
         }
     }
     
@@ -377,12 +398,25 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
         case .camera:
             cameraInfoView.isHidden = false
             filterInfoView.isHidden = true
+            filterStrip.isHidden = true
             hideFilterSettings()
             cameraDisplayView.setFilter(nil)
             break
         case .filter:
+            cameraDisplayView.setFilter(currFilterDescriptor)
+            filterStrip.update()
+            
+            if let name = currFilterDescriptor?.key {
+                log.verbose("Filter: \(name)")
+                filterInfoView.setFilterName(name)
+                updateFilterSettings()
+            } else {
+                filterInfoView.setFilterName("No Filter")
+            }
             cameraInfoView.isHidden = true
             filterInfoView.isHidden = false
+            filterStrip.isHidden = false
+            view.bringSubview(toFront: filterStrip)
             break
         }
         
@@ -420,7 +454,7 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
         
         // setup the filter descriptor
         if ((index>=0) && (index<filterCount)){
-            currFilterDescriptor = filterManager?.getFilterDescriptor(category:.quickSelect, name:filterList[index])
+            currFilterDescriptor = filterManager?.getFilterDescriptor(.quickSelect, name:filterList[index])
         } else {
             currFilterDescriptor = nil
             log.error("!!! Unknown index:\(index) No filter")
@@ -475,6 +509,15 @@ class FilterCamViewController: UIViewController, SegueHandlerType {
     fileprivate func hideFilterSettings(){
         filterSettingsView.dismiss()
         filterSettingsShown = false
+    }
+
+    func toggleFilterSettings(){
+        if (filterSettingsShown){
+            hideFilterSettings()
+        } else {
+            showFilterSettings()
+        }
+        
     }
     
     fileprivate func updateFilterSettings(){
@@ -561,7 +604,31 @@ extension FilterCamViewController: FilterInfoViewDelegate {
     
     func filterSettingsPressed(){
         //log.debug("Filter Settings pressed")
-        showFilterSettings()
+        toggleFilterSettings()
+    }
+}
+
+extension FilterCamViewController: FilterCarouselViewDelegate{
+    func filterSelected(_ key:String){
+        
+        guard (filterManager != nil) else {
+            return
+        }
+        
+        guard (!key.isEmpty) else {
+            return
+        }
+        
+        // setup the filter descriptor
+        currFilterDescriptor = filterManager?.getFilterDescriptor(.quickSelect, name:key)
+        
+        // only update if filters are currently shown
+        if (currInfoMode == .filter){
+            cameraDisplayView.setFilter(currFilterDescriptor)
+            filterInfoView.setFilterName(key)
+            updateFilterSettings()
+            filterStrip.update()
+        }
     }
 }
 

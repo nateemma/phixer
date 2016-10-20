@@ -68,7 +68,7 @@ class FilterManager{
     
     //MARK: - Setup/Teardown
     
-    private init(){
+    fileprivate init(){
         
         // Add filter definitions to the appropriate categories
         populateCategories()
@@ -187,7 +187,7 @@ class FilterManager{
     
     
     // dump the keys amd filter names contained in the supplied dictionary
-    private func dumpDictionary(_ dictionary:FilterDictionary?){
+    fileprivate func dumpDictionary(_ dictionary:FilterDictionary?){
         var fdi: FilterDescriptorInterface
         for key  in (dictionary?.keys)! {
             fdi = (dictionary?[key])!
@@ -198,14 +198,14 @@ class FilterManager{
   
     
     
-    open func getFilterList(category:FilterCategoryType)->[String]{
+    open func getFilterList(_ category:FilterCategoryType)->[String]{
         return Array(category.getDictionary().keys)
     }
-    
+
     
     
     // get the filter descriptor for the supplied category & filter type
-    open func getFilterDescriptor(category:FilterCategoryType, name:String)->FilterDescriptorInterface? {
+    open func getFilterDescriptor(_ category:FilterCategoryType, name:String)->FilterDescriptorInterface? {
         
         var dict: FilterDictionary?
         var filterDescr: FilterDescriptorInterface?

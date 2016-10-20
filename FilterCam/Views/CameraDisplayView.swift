@@ -22,6 +22,8 @@ class CameraDisplayView: UIView {
     var cropFilter: Crop? = nil
     var rotateDescriptor: RotateDescriptor? = nil
     var rotateFilter: BasicOperation? = nil
+    var blendImage:PictureInput? = nil
+    let blendImageName = "app_icon.png"
     
     convenience init(){
         self.init(frame: CGRect.zero)
@@ -85,7 +87,7 @@ class CameraDisplayView: UIView {
             if (rotateFilter == nil){
                 // generate a zero rotation transform, just for correcting camera inversions
                 rotateDescriptor = RotateDescriptor()
-                rotateDescriptor?.setParameter(index: 1, value: 0.0) // zero rotation
+                rotateDescriptor?.setParameter(1, value: 0.0) // zero rotation
                 rotateFilter = rotateDescriptor?.filter
             }
             
@@ -94,6 +96,8 @@ class CameraDisplayView: UIView {
                 //log.debug("Resetting filter pipeline")
                 camera?.stopCapture()
                 camera?.removeAllTargets()
+                
+                //TODO: figure out how to remove just the previous filter, not all of them because it stops other render views
                 
                 // GPUImage bug: front facing camera image is flipped
                 // Use a zero rotation filter to flip the image
@@ -116,7 +120,26 @@ class CameraDisplayView: UIView {
                     if (currFilter?.filter != nil){
                         log.debug("Using filter: \(currFilter?.key)")
                         let filter = currFilter?.filter
-                        camera! --> filter! --> rotateFilter! --> cropFilter! --> renderView!
+                        let opType = currFilter?.filterOperationType // wierd Swift unwrapping problem, can't use currFilter?.filterOperationType directly in swicth
+                        switch (opType!){
+                        case .singleInput:
+                            camera! --> filter! --> rotateFilter! --> cropFilter! --> renderView!
+                            break
+                        case .blend:
+                            log.debug("Using BLEND mode for filter: \(currFilter?.key)")
+                            camera!.addTarget(filter!)
+                            blendImage = PictureInput(imageName:blendImageName)
+                            /***
+                            blendImage?.addTarget(filter!)
+                            blendImage?.processImage()
+                            blendImage?.addTarget(renderView!)
+                            filter?.addTarget(renderView!)
+                             ***/
+                            camera! --> filter! --> rotateFilter! --> cropFilter! --> renderView!
+                            blendImage! --> filter! --> rotateFilter! --> cropFilter!
+                            break
+                        }
+                            
                     } else if (currFilter?.filterGroup != nil){
                         log.debug("Using group: \(currFilter?.key)")
                         let group = currFilter?.filterGroup
@@ -138,12 +161,12 @@ class CameraDisplayView: UIView {
     
     // sets the filter to be applied (nil for no filter)
     open func setFilter(_ descriptor: FilterDescriptorInterface?){
-        removeTargets(from: currFilter)
+        removeTargets(currFilter)
         currFilter = descriptor
         setupFilterPipeline()
     }
     
-    private func removeTargets(from: FilterDescriptorInterface?){
+    fileprivate func removeTargets(_ from: FilterDescriptorInterface?){
         guard (from != nil) else {
             return
         }

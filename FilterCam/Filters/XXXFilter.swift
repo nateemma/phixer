@@ -10,8 +10,8 @@ import Foundation
 import GPUImage
 
 
-public class XXXFilter: BasicOperation {
-    public var xxx:Float = 1.0 { didSet { uniformSettings["xxx"] = xxx } }
+open class XXXFilter: BasicOperation {
+    open var xxx:Float = 1.0 { didSet { uniformSettings["xxx"] = xxx } }
     
     public init() {
         super.init(fragmentShader:SaturationFragmentShader, numberOfInputs:1)

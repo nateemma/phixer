@@ -26,11 +26,11 @@ class RotateDescriptor: FilterDescriptorInterface {
     
     let filterOperationType = FilterOperationType.singleInput
     
-    private var lclFilter:TransformOperation = TransformOperation() // the actual filter
+    fileprivate var lclFilter:TransformOperation = TransformOperation() // the actual filter
     
-    private var currRotation: Float
-    private var stash_rotation: Float
-    private var stash_transform: Matrix4x4
+    fileprivate var currRotation: Float
+    fileprivate var stash_rotation: Float
+    fileprivate var stash_transform: Matrix4x4
     
 
     
@@ -53,7 +53,7 @@ class RotateDescriptor: FilterDescriptorInterface {
     
     
     
-    func getParameter(index: Int)->Float {
+    func getParameter(_ index: Int)->Float {
         switch (index){
         case 1:
             return currRotation
@@ -63,7 +63,7 @@ class RotateDescriptor: FilterDescriptorInterface {
     }
     
     
-    func setParameter(index: Int, value: Float) {
+    func setParameter(_ index: Int, value: Float) {
         switch (index){
         case 1:
             currRotation = value
@@ -77,8 +77,8 @@ class RotateDescriptor: FilterDescriptorInterface {
     
     
     
-    func getColorParameter(index: Int)->UIColor { return UIColor.blue }
-    func setColorParameter(index:Int, color:UIColor) {}
+    func getColorParameter(_ index: Int)->UIColor { return UIColor.blue }
+    func setColorParameter(_ index:Int, color:UIColor) {}
     
     
     func stashParameters(){

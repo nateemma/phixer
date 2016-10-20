@@ -27,8 +27,8 @@ class AverageLuminanceThresholdDescriptor: FilterDescriptorInterface {
     
     let filterOperationType = FilterOperationType.singleInput
     
-    private var lclFilter:AverageLuminanceThreshold = AverageLuminanceThreshold() // the actual filter
-    private var stash_thresholdMultiplier: Float
+    fileprivate var lclFilter:AverageLuminanceThreshold = AverageLuminanceThreshold() // the actual filter
+    fileprivate var stash_thresholdMultiplier: Float
     
     
     init(){
@@ -46,7 +46,7 @@ class AverageLuminanceThresholdDescriptor: FilterDescriptorInterface {
     }
     
     
-    func getParameter(index: Int)->Float {
+    func getParameter(_ index: Int)->Float {
         switch (index){
         case 1:
             return lclFilter.thresholdMultiplier
@@ -56,7 +56,7 @@ class AverageLuminanceThresholdDescriptor: FilterDescriptorInterface {
     }
     
     
-    func setParameter(index: Int, value: Float) {
+    func setParameter(_ index: Int, value: Float) {
         switch (index){
         case 1:
             lclFilter.thresholdMultiplier = value
@@ -69,8 +69,8 @@ class AverageLuminanceThresholdDescriptor: FilterDescriptorInterface {
     
     
     
-    func getColorParameter(index: Int)->UIColor { return UIColor.blue }
-    func setColorParameter(index:Int, color:UIColor) {}
+    func getColorParameter(_ index: Int)->UIColor { return UIColor.blue }
+    func setColorParameter(_ index:Int, color:UIColor) {}
     
     
     func stashParameters() {

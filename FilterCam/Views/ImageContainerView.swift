@@ -18,7 +18,7 @@ class ImageContainerView: UIView {
     convenience init() {
         self.init(frame: CGRect.zero)
         
-        self.backgroundColor = UIColor.white
+        self.backgroundColor = UIColor.black
         self.layer.cornerRadius = 4.0
         self.layer.borderWidth = 1.0
         self.layer.borderColor = UIColor(white: 0.68, alpha: 1.0).cgColor
@@ -29,7 +29,7 @@ class ImageContainerView: UIView {
         self.addSubview(imageView)
         
         label.textAlignment = .center
-        label.textColor = UIColor.black
+        label.textColor = UIColor.white
         label.font = UIFont.boldSystemFont(ofSize: 14.0)
         self.addSubview(label)
     }

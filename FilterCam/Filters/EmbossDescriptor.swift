@@ -27,8 +27,8 @@ class EmbossDescriptor: FilterDescriptorInterface {
     
     let filterOperationType = FilterOperationType.singleInput
     
-    private var lclFilter:EmbossFilter = EmbossFilter() // the actual filter
-    private var stash_intensity: Float
+    fileprivate var lclFilter:EmbossFilter = EmbossFilter() // the actual filter
+    fileprivate var stash_intensity: Float
     
     
     init(){
@@ -46,7 +46,7 @@ class EmbossDescriptor: FilterDescriptorInterface {
     }
     
     
-    func getParameter(index: Int)->Float {
+    func getParameter(_ index: Int)->Float {
         switch (index){
         case 1:
             return lclFilter.intensity
@@ -56,7 +56,7 @@ class EmbossDescriptor: FilterDescriptorInterface {
     }
     
     
-    func setParameter(index: Int, value: Float) {
+    func setParameter(_ index: Int, value: Float) {
         switch (index){
         case 1:
             lclFilter.intensity = value
@@ -68,8 +68,8 @@ class EmbossDescriptor: FilterDescriptorInterface {
     }
     
     
-    func getColorParameter(index: Int)->UIColor { return UIColor.blue }
-    func setColorParameter(index:Int, color:UIColor) {}
+    func getColorParameter(_ index: Int)->UIColor { return UIColor.blue }
+    func setColorParameter(_ index:Int, color:UIColor) {}
     
     
     //func updateParameters(value1:Float, value2:Float,  value3:Float,  value4:Float){

@@ -34,18 +34,20 @@ protocol FilterDescriptorInterface{
     var filter: BasicOperation? { get }
     var filterGroup: OperationGroup? { get }
     
+    var filterOperationType: FilterOperationType { get }
+    
     var numParameters: Int { get } // 4 sliders max
     var parameterConfiguration: [ParameterSettings] { get }
     
     func configureCustomFilter(_ input:(filter:BasicOperation, secondInput:BasicOperation?))
     
     // Parameter access for Float parameters (most of them)
-    func getParameter(index:Int)->Float
-    func setParameter(index:Int, value:Float)
+    func getParameter(_ index:Int)->Float
+    func setParameter(_ index:Int, value:Float)
     
     // Parameter access for Color parameters
-    func getColorParameter(index: Int)->UIColor
-    func setColorParameter(index:Int, color:UIColor)
+    func getColorParameter(_ index: Int)->UIColor
+    func setColorParameter(_ index:Int, color:UIColor)
     
     //func updateParameters(value1:Float, value2:Float,  value3:Float,  value4:Float)
     func stashParameters()

@@ -25,7 +25,7 @@ class AmatorkaDescriptor: FilterDescriptorInterface {
     
     let filterOperationType = FilterOperationType.singleInput
     
-    private var lclFilter:AmatorkaFilter = AmatorkaFilter() // the actual filter
+    fileprivate var lclFilter:AmatorkaFilter = AmatorkaFilter() // the actual filter
     
     
     init(){
@@ -39,10 +39,10 @@ class AmatorkaDescriptor: FilterDescriptorInterface {
     // stubs for required but unused functions
 
     func configureCustomFilter(_ input:(filter:BasicOperation, secondInput:BasicOperation?)){ }
-    func getParameter(index: Int)->Float { return parameterNotSet }
-    func setParameter(index: Int, value: Float) { log.error("No parameters to set for filter: \(key)") }
-    func getColorParameter(index: Int)->UIColor { return UIColor.blue }
-    func setColorParameter(index:Int, color:UIColor) {}
+    func getParameter(_ index: Int)->Float { return parameterNotSet }
+    func setParameter(_ index: Int, value: Float) { log.error("No parameters to set for filter: \(key)") }
+    func getColorParameter(_ index: Int)->UIColor { return UIColor.blue }
+    func setColorParameter(_ index:Int, color:UIColor) {}
     func stashParameters(){ }
     func restoreParameters(){ }
 }

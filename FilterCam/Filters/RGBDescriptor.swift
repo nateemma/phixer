@@ -27,10 +27,10 @@ class RGBDescriptor: FilterDescriptorInterface {
     
     let filterOperationType = FilterOperationType.singleInput
     
-    private var lclFilter:RGBAdjustment = RGBAdjustment() // the actual filter
-    private var stash_red: Float
-    private var stash_green: Float
-    private var stash_blue: Float
+    fileprivate var lclFilter:RGBAdjustment = RGBAdjustment() // the actual filter
+    fileprivate var stash_red: Float
+    fileprivate var stash_green: Float
+    fileprivate var stash_blue: Float
     
     
     init(){
@@ -53,7 +53,7 @@ class RGBDescriptor: FilterDescriptorInterface {
     
     
     
-    func getParameter(index: Int)->Float {
+    func getParameter(_ index: Int)->Float {
         switch (index){
         case 1:
             return lclFilter.red
@@ -67,7 +67,7 @@ class RGBDescriptor: FilterDescriptorInterface {
     }
     
     
-    func setParameter(index: Int, value: Float) {
+    func setParameter(_ index: Int, value: Float) {
         switch (index){
         case 1:
             lclFilter.red = value
@@ -87,8 +87,8 @@ class RGBDescriptor: FilterDescriptorInterface {
     }
     
     
-    func getColorParameter(index: Int)->UIColor { return UIColor.blue }
-    func setColorParameter(index:Int, color:UIColor) {}
+    func getColorParameter(_ index: Int)->UIColor { return UIColor.blue }
+    func setColorParameter(_ index:Int, color:UIColor) {}
     
     
     //func updateParameters(value1:Float, value2:Float,  value3:Float,  value4:Float){

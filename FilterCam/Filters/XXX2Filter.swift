@@ -10,10 +10,10 @@ import Foundation
 import GPUImage
 
 
-public class XXX2: BasicOperation {
-    public var xxx:Float = 0.25 { didSet { uniformSettings["xxx"] = xxx } }
-    public var yyy:Float = 0.5 { didSet { uniformSettings["yyy"] = yyy } }
-    public var zzz:Position = Position.center { didSet { uniformSettings["zzz"] = zzz } }
+open class XXX2: BasicOperation {
+    open var xxx:Float = 0.25 { didSet { uniformSettings["xxx"] = xxx } }
+    open var yyy:Float = 0.5 { didSet { uniformSettings["yyy"] = yyy } }
+    open var zzz:Position = Position.center { didSet { uniformSettings["zzz"] = zzz } }
     
     public init() {
         super.init(fragmentShader:BulgeDistortionFragmentShader, numberOfInputs:1)
