@@ -17,7 +17,6 @@ class GlassSphereRefractionDescriptor: FilterDescriptorInterface {
     
     let key = "GlassSphereRefraction"
     let title = "Glass Sphere Refraction"
-    let category = FilterCategoryType.colorAdjustments
     
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil

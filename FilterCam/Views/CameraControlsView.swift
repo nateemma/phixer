@@ -27,7 +27,6 @@ enum InfoMode {
     case filter
 }
 
-
 // Class responsible for laying out the Camera Controls View
 
 class CameraControlsView: UIView {

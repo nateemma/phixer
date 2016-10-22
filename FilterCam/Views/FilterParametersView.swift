@@ -1,5 +1,5 @@
 //
-//  FilterSettingsView.swift
+//  FilterParametersView.swift
 //  FilterCam
 //
 //  Created by Philip Price on 10/6/16.
@@ -23,12 +23,12 @@ import Neon
 // This is a container class for display the overlay that provides information about the current Camera/Image view
 
 // Interface required of controlling View
-//protocol FilterSettingsViewDelegate: class {
+//protocol FilterParametersViewDelegate: class {
 //    func updateFilterSettings(value1:Float, value2:Float,  value3:Float,  value4:Float)
 //}
 
 
-class FilterSettingsView: UIView {
+class FilterParametersView: UIView {
     
     //var isLandscape : Bool = false
     
@@ -63,7 +63,7 @@ class FilterSettingsView: UIView {
     
     
     // delegate for handling events
-    //weak var delegate: FilterSettingsViewDelegate?
+    //weak var delegate: FilterParametersViewDelegate?
     
     
     
@@ -89,7 +89,7 @@ class FilterSettingsView: UIView {
             
             //self.backgroundColor = UIColor.flatGray()
             self.backgroundColor = viewBackgroundColor
-            self.alpha = 0.8
+            self.alpha = 0.9
             
             viewList = []
             

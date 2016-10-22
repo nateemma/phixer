@@ -17,7 +17,6 @@ class SphereRefractionDescriptor: FilterDescriptorInterface {
     
     let key = "SphereRefraction"
     let title = "Sphere Refraction"
-    let category = FilterCategoryType.colorAdjustments
     
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil

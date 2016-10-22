@@ -23,7 +23,7 @@ class CameraDisplayView: UIView {
     var rotateDescriptor: RotateDescriptor? = nil
     var rotateFilter: BasicOperation? = nil
     var blendImage:PictureInput? = nil
-    let blendImageName = "app_icon.png"
+    let blendImageName = "bl_topaz_warm.png"
     
     convenience init(){
         self.init(frame: CGRect.zero)
@@ -135,8 +135,9 @@ class CameraDisplayView: UIView {
                             blendImage?.addTarget(renderView!)
                             filter?.addTarget(renderView!)
                              ***/
+                            blendImage! --> filter!
                             camera! --> filter! --> rotateFilter! --> cropFilter! --> renderView!
-                            blendImage! --> filter! --> rotateFilter! --> cropFilter!
+                            blendImage?.processImage()
                             break
                         }
                             

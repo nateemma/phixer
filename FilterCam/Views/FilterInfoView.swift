@@ -15,8 +15,7 @@ import Neon
 
 // Interface required of controlling View
 protocol FilterInfoViewDelegate: class {
-    func filterPressed()
-    func filterSettingsPressed()
+    func swapCameraPressed()
 }
 
 
@@ -25,13 +24,17 @@ class FilterInfoView: UIView {
     var isLandscape : Bool = false
     
     // display items
-    var modeIcon: SquareButton! = SquareButton()
-    var currFilter: UIButton! = UIButton()
-    var settingsButton: SquareButton! = SquareButton()
+    var categoryIcon: SquareButton! = SquareButton()
+    var categoryLabel: UILabel! = UILabel()
+    var filterIcon: SquareButton! = SquareButton()
+    var filterLabel: UILabel! = UILabel()
+    var swapIcon: SquareButton! = SquareButton()
 
     var buttonSize : CGFloat = 32.0
     
     var initDone: Bool = false
+    
+    var filterManager:FilterManager = FilterManager.sharedInstance
    
     
     // delegate for handling events
@@ -41,6 +44,8 @@ class FilterInfoView: UIView {
     
     convenience init(){
         self.init(frame: CGRect.zero)
+        
+        //TODO: register callbacks with FilterManager
     }
     
     
@@ -51,25 +56,40 @@ class FilterInfoView: UIView {
 
             self.backgroundColor = UIColor.black
             
-            if (buttonSize>self.frame.size.height){ buttonSize = self.frame.size.height - 4 }
+            if (buttonSize>self.frame.size.height){ buttonSize = self.frame.size.height - 2 }
             
-            modeIcon = SquareButton(bsize: buttonSize)
-            initButton(currFilter)
-            currFilter.frame = CGRect(x:0, y:0, width:128, height:buttonSize)
-            settingsButton = SquareButton(bsize: buttonSize)
+            categoryIcon = SquareButton(bsize: buttonSize)
+            filterIcon = SquareButton(bsize: buttonSize)
+            swapIcon = SquareButton(bsize: buttonSize)
 
-            // initial values, just to have something there
+            // initial values
 
-            modeIcon.setImageAsset("ic_filters")
-            settingsButton.setImageAsset("ic_sliders")
-            settingsButton.highlightOnSelection(true)
-            setFilterName("(no filter)")
+            categoryIcon.setImageAsset("ic_category")
+            
+
+            categoryLabel.frame.size.height = self.frame.size.height * 0.9
+            categoryLabel.frame.size.width = self.frame.size.width / 3.0
+            categoryLabel.textAlignment = .left
+            categoryLabel.textColor = UIColor.white
+            categoryLabel.font = UIFont.boldSystemFont(ofSize: 14.0)
+            
+            filterIcon.setImageAsset("ic_filters")
+            
+            filterLabel.frame.size.height = self.frame.size.height * 0.9
+            filterLabel.frame.size.width = self.frame.size.width / 3.0
+            filterLabel.textAlignment = .left
+            filterLabel.textColor = UIColor.white
+            filterLabel.font = UIFont.boldSystemFont(ofSize: 14.0)
+            
+            swapIcon.setImageAsset("ic_front_back")
 
            
             // show the sub views
-            self.addSubview(modeIcon)
-            self.addSubview(currFilter)
-            self.addSubview(settingsButton)
+            self.addSubview(categoryIcon)
+            self.addSubview(categoryLabel)
+            self.addSubview(filterIcon)
+            self.addSubview(filterLabel)
+            self.addSubview(swapIcon)
             
             update()
             
@@ -77,13 +97,7 @@ class FilterInfoView: UIView {
         }
     }
 
-    
-    func initButton(_ button: UIButton){
-        button.backgroundColor = UIColor.clear
-        button.titleLabel?.textColor = UIColor.white
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
-        button.titleLabel?.textAlignment = .left
-    }
+
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -95,37 +109,31 @@ class FilterInfoView: UIView {
             initViews()
         }
         
-        self.groupAndFill(.horizontal, views: [modeIcon, settingsButton, currFilter], padding: 8)
+        //self.groupAndFill(.horizontal, views: [categoryIcon, categoryLabel, filterIcon, filterLabel, swapIcon], padding: 8)
+        categoryIcon.anchorToEdge(.left, padding: 8, width: buttonSize, height: buttonSize)
+        categoryLabel.align(.toTheRightCentered, relativeTo: categoryIcon, padding: 0, width: categoryLabel.frame.size.width, height: categoryLabel.frame.size.height)
+        filterIcon.anchorInCenter(buttonSize, height: buttonSize)
+        filterLabel.align(.toTheRightCentered, relativeTo: filterIcon, padding: 0, width: filterLabel.frame.size.width, height: filterLabel.frame.size.height)
+        swapIcon.anchorToEdge(.right, padding: 8, width: buttonSize, height: buttonSize)
         
-        // TODO: update current values
-        update()
         
         // register handler for the filter and settings button
-        currFilter.addTarget(self, action: #selector(self.filterDidPress), for: .touchUpInside)
-        settingsButton.addTarget(self, action: #selector(self.filterSettingsDidPress), for: .touchUpInside)
+        swapIcon.addTarget(self, action: #selector(self.swapDidPress), for: .touchUpInside)
       
-    }
-    
-    
-    func setFilterName(_ name:String){
-        currFilter.setTitle(name, for: .normal)
         update()
     }
     
-    
+
     func update(){
-        
-        // leave filter for now, updated directly from setFilterName. Eventually replace when filter management is implemented
+        categoryLabel.text = filterManager.getCurrentCategory().rawValue
+        filterLabel.text = filterManager.getCurrentFilterKey()
     }
     
     //MARK: - touch handlers
     
-    func filterDidPress() {
-        delegate?.filterPressed()
-    }
     
-    func filterSettingsDidPress() {
-        delegate?.filterSettingsPressed()
+    func swapDidPress() {
+        delegate?.swapCameraPressed()
     }
     
 }

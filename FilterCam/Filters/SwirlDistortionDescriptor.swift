@@ -22,8 +22,8 @@ class SwirlDistortionDescriptor: FilterDescriptorInterface {
     let filterGroup: OperationGroup? = nil
     
     let numParameters = 2
-    let parameterConfiguration = [ParameterSettings(title:"angle", minimumValue:0.0, maximumValue:6.0, initialValue:1.0, isRGB:false),
-                                  ParameterSettings(title:"radius", minimumValue:0.0, maximumValue:1.0, initialValue:0.25, isRGB:false)]
+    let parameterConfiguration = [ParameterSettings(title:"angle", minimumValue:0.0, maximumValue:3.14, initialValue:0.4, isRGB:false),
+                                  ParameterSettings(title:"radius", minimumValue:0.0, maximumValue:1.0, initialValue:0.4, isRGB:false)]
     
     
     let filterOperationType = FilterOperationType.singleInput

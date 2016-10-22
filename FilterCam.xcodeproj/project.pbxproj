@@ -57,7 +57,7 @@
 		253B23751DA4B1A700203ECB /* PolarPixellateDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253B23741DA4B1A700203ECB /* PolarPixellateDescriptor.swift */; };
 		253B23771DA4BB7800203ECB /* ClosestFraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253B23761DA4BB7800203ECB /* ClosestFraction.swift */; };
 		253B23791DA5782300203ECB /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253B23781DA5782300203ECB /* FilterManager.swift */; };
-		253B237B1DA71F1900203ECB /* FilterSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253B237A1DA71F1900203ECB /* FilterSettingsView.swift */; };
+		253B237B1DA71F1900203ECB /* FilterParametersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253B237A1DA71F1900203ECB /* FilterParametersView.swift */; };
 		253B237D1DA9905900203ECB /* SaturationDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253B237C1DA9905900203ECB /* SaturationDescriptor.swift */; };
 		253B237F1DA9986E00203ECB /* MonochromeDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253B237E1DA9986E00203ECB /* MonochromeDescriptor.swift */; };
 		253B23811DA9988500203ECB /* SepiaDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253B23801DA9988500203ECB /* SepiaDescriptor.swift */; };
@@ -72,9 +72,13 @@
 		253B23931DA999CC00203ECB /* ZoomBlurDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253B23921DA999CC00203ECB /* ZoomBlurDescriptor.swift */; };
 		253B23951DA999E100203ECB /* BulgeDistortionDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253B23941DA999E100203ECB /* BulgeDistortionDescriptor.swift */; };
 		253B23971DA999FF00203ECB /* GlassSphereRefractionDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253B23961DA999FF00203ECB /* GlassSphereRefractionDescriptor.swift */; };
+		2556731C1DB929AC00187F25 /* bl_topaz_warm.png in Resources */ = {isa = PBXBuildFile; fileRef = 2556731B1DB929AC00187F25 /* bl_topaz_warm.png */; };
+		2556731F1DB961F700187F25 /* DisplayMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2556731E1DB961F700187F25 /* DisplayMode.swift */; };
+		255673211DB9653700187F25 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255673201DB9653700187F25 /* CameraViewController.swift */; };
+		255673231DB9BF0F00187F25 /* FilterControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255673221DB9BF0F00187F25 /* FilterControlsView.swift */; };
 		2569741D1D9B986E00DDF9E4 /* Fractional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2569741C1D9B986E00DDF9E4 /* Fractional.swift */; };
 		256D0FF11D98DB4C00220D7E /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256D0FF01D98DB4C00220D7E /* CameraManager.swift */; };
-		257F49E21D9448920083B1E4 /* FilterCamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257F49E11D9448920083B1E4 /* FilterCamViewController.swift */; };
+		257F49E21D9448920083B1E4 /* FiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257F49E11D9448920083B1E4 /* FiltersViewController.swift */; };
 		257F49E51D9448920083B1E4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 257F49E31D9448920083B1E4 /* Main.storyboard */; };
 		257F49E71D9448920083B1E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 257F49E61D9448920083B1E4 /* Assets.xcassets */; };
 		257F49EA1D9448920083B1E4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 257F49E81D9448920083B1E4 /* LaunchScreen.storyboard */; };
@@ -82,8 +86,9 @@
 		257F4A001D9448920083B1E4 /* FilterCamUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257F49FF1D9448920083B1E4 /* FilterCamUITests.swift */; };
 		257F4A141D947CF80083B1E4 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 257F4A131D947CF80083B1E4 /* Podfile */; };
 		25910B171DB73834007EC926 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 25910B161DB73834007EC926 /* iCarousel.m */; };
-		25910B191DB738B3007EC926 /* FilterCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25910B181DB738B3007EC926 /* FilterCarouselView.swift */; };
+		25910B191DB738B3007EC926 /* CategorySelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25910B181DB738B3007EC926 /* CategorySelectionView.swift */; };
 		25910B1B1DB7D61A007EC926 /* RenderContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25910B1A1DB7D61A007EC926 /* RenderContainerView.swift */; };
+		25AEBB441DBA8AEC00AA6279 /* FilterSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AEBB431DBA8AEC00AA6279 /* FilterSelectionView.swift */; };
 		25B24CF81DAE958D008CD38A /* ExposureDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24CF71DAE958D008CD38A /* ExposureDescriptor.swift */; };
 		25B24CFA1DAE9605008CD38A /* XXX2Descriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24CF91DAE9605008CD38A /* XXX2Descriptor.swift */; };
 		25B24CFC1DAE9709008CD38A /* XXXFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24CFB1DAE9709008CD38A /* XXXFilter.swift */; };
@@ -255,8 +260,8 @@
 		253B23721DA4B09200203ECB /* CrosshatchDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CrosshatchDescriptor.swift; path = Filters/CrosshatchDescriptor.swift; sourceTree = "<group>"; };
 		253B23741DA4B1A700203ECB /* PolarPixellateDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PolarPixellateDescriptor.swift; path = Filters/PolarPixellateDescriptor.swift; sourceTree = "<group>"; };
 		253B23761DA4BB7800203ECB /* ClosestFraction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ClosestFraction.swift; path = Models/ClosestFraction.swift; sourceTree = "<group>"; };
-		253B23781DA5782300203ECB /* FilterManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterManager.swift; path = Filters/FilterManager.swift; sourceTree = "<group>"; };
-		253B237A1DA71F1900203ECB /* FilterSettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterSettingsView.swift; path = Views/FilterSettingsView.swift; sourceTree = "<group>"; };
+		253B23781DA5782300203ECB /* FilterManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterManager.swift; path = Models/FilterManager.swift; sourceTree = "<group>"; };
+		253B237A1DA71F1900203ECB /* FilterParametersView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterParametersView.swift; path = Views/FilterParametersView.swift; sourceTree = "<group>"; };
 		253B237C1DA9905900203ECB /* SaturationDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SaturationDescriptor.swift; path = Filters/SaturationDescriptor.swift; sourceTree = "<group>"; };
 		253B237E1DA9986E00203ECB /* MonochromeDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MonochromeDescriptor.swift; path = Filters/MonochromeDescriptor.swift; sourceTree = "<group>"; };
 		253B23801DA9988500203ECB /* SepiaDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SepiaDescriptor.swift; path = Filters/SepiaDescriptor.swift; sourceTree = "<group>"; };
@@ -271,10 +276,14 @@
 		253B23921DA999CC00203ECB /* ZoomBlurDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZoomBlurDescriptor.swift; path = Filters/ZoomBlurDescriptor.swift; sourceTree = "<group>"; };
 		253B23941DA999E100203ECB /* BulgeDistortionDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BulgeDistortionDescriptor.swift; path = Filters/BulgeDistortionDescriptor.swift; sourceTree = "<group>"; };
 		253B23961DA999FF00203ECB /* GlassSphereRefractionDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GlassSphereRefractionDescriptor.swift; path = Filters/GlassSphereRefractionDescriptor.swift; sourceTree = "<group>"; };
+		2556731B1DB929AC00187F25 /* bl_topaz_warm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bl_topaz_warm.png; path = ../../icons/bl_topaz_warm.png; sourceTree = "<group>"; };
+		2556731E1DB961F700187F25 /* DisplayMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DisplayMode.swift; path = Models/DisplayMode.swift; sourceTree = "<group>"; };
+		255673201DB9653700187F25 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraViewController.swift; path = Controllers/CameraViewController.swift; sourceTree = "<group>"; };
+		255673221DB9BF0F00187F25 /* FilterControlsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterControlsView.swift; path = Views/FilterControlsView.swift; sourceTree = "<group>"; };
 		2569741C1D9B986E00DDF9E4 /* Fractional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Fractional.swift; path = Models/Fractional.swift; sourceTree = "<group>"; };
 		256D0FF01D98DB4C00220D7E /* CameraManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraManager.swift; path = Models/CameraManager.swift; sourceTree = "<group>"; };
 		257F49DC1D9448920083B1E4 /* FilterCam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FilterCam.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		257F49E11D9448920083B1E4 /* FilterCamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCamViewController.swift; sourceTree = "<group>"; };
+		257F49E11D9448920083B1E4 /* FiltersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FiltersViewController.swift; path = Controllers/FiltersViewController.swift; sourceTree = "<group>"; };
 		257F49E41D9448920083B1E4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		257F49E61D9448920083B1E4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		257F49E91D9448920083B1E4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -289,8 +298,9 @@
 		25910B141DB73833007EC926 /* FilterCam-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FilterCam-Bridging-Header.h"; sourceTree = "<group>"; };
 		25910B151DB73834007EC926 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iCarousel.h; path = Views/iCarousel.h; sourceTree = "<group>"; };
 		25910B161DB73834007EC926 /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = iCarousel.m; path = Views/iCarousel.m; sourceTree = "<group>"; };
-		25910B181DB738B3007EC926 /* FilterCarouselView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterCarouselView.swift; path = Views/FilterCarouselView.swift; sourceTree = "<group>"; };
+		25910B181DB738B3007EC926 /* CategorySelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CategorySelectionView.swift; path = Views/CategorySelectionView.swift; sourceTree = "<group>"; };
 		25910B1A1DB7D61A007EC926 /* RenderContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RenderContainerView.swift; path = Views/RenderContainerView.swift; sourceTree = "<group>"; };
+		25AEBB431DBA8AEC00AA6279 /* FilterSelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterSelectionView.swift; sourceTree = "<group>"; };
 		25B24CF71DAE958D008CD38A /* ExposureDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExposureDescriptor.swift; path = Filters/ExposureDescriptor.swift; sourceTree = "<group>"; };
 		25B24CF91DAE9605008CD38A /* XXX2Descriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XXX2Descriptor.swift; path = Filters/XXX2Descriptor.swift; sourceTree = "<group>"; };
 		25B24CFB1DAE9709008CD38A /* XXXFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XXXFilter.swift; path = Filters/XXXFilter.swift; sourceTree = "<group>"; };
@@ -424,7 +434,6 @@
 				25B24CF71DAE958D008CD38A /* ExposureDescriptor.swift */,
 				25B24D0F1DAEE037008CD38A /* FalseColorDescriptor.swift */,
 				253B236B1DA44E3600203ECB /* FilterDescriptor.swift */,
-				253B23781DA5782300203ECB /* FilterManager.swift */,
 				251375551DB6BE0D00A319DC /* GammaDescriptor.swift */,
 				25B24D431DB05543008CD38A /* GaussianBlurDescriptor.swift */,
 				253B23961DA999FF00203ECB /* GlassSphereRefractionDescriptor.swift */,
@@ -507,10 +516,12 @@
 				25CF4BD01D9490C400D779CF /* CameraDisplayView.swift */,
 				25CF4BD11D9490C400D779CF /* CameraInfoView.swift */,
 				25CF4BD21D9490C400D779CF /* CameraSettingsView.swift */,
+				25910B181DB738B3007EC926 /* CategorySelectionView.swift */,
 				25910B141DB73833007EC926 /* FilterCam-Bridging-Header.h */,
-				25910B181DB738B3007EC926 /* FilterCarouselView.swift */,
+				255673221DB9BF0F00187F25 /* FilterControlsView.swift */,
 				25B24D171DAFE255008CD38A /* FilterInfoView.swift */,
-				253B237A1DA71F1900203ECB /* FilterSettingsView.swift */,
+				253B237A1DA71F1900203ECB /* FilterParametersView.swift */,
+				25AEBB431DBA8AEC00AA6279 /* FilterSelectionView.swift */,
 				25B24D111DAEE1B5008CD38A /* GradientSlider.swift */,
 				25910B151DB73834007EC926 /* iCarousel.h */,
 				25910B161DB73834007EC926 /* iCarousel.m */,
@@ -530,6 +541,7 @@
 				25F460191D99CE1E00EDA182 /* GridStyle.swift */,
 				25F4601D1D99D65F00EDA182 /* CameraISO.swift */,
 				25F460211D99DBBA00EDA182 /* CameraSpeed.swift */,
+				253B23781DA5782300203ECB /* FilterManager.swift */,
 				2569741C1D9B986E00DDF9E4 /* Fractional.swift */,
 				253B23761DA4BB7800203ECB /* ClosestFraction.swift */,
 			);
@@ -540,6 +552,9 @@
 			isa = PBXGroup;
 			children = (
 				253B235A1DA2CFD400203ECB /* SegueHandlerType.swift */,
+				2556731E1DB961F700187F25 /* DisplayMode.swift */,
+				257F49E11D9448920083B1E4 /* FiltersViewController.swift */,
+				255673201DB9653700187F25 /* CameraViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -576,13 +591,13 @@
 				256D0FEC1D98DAC600220D7E /* Views */,
 				25CF4BDB1D94D93700D779CF /* AppDelegate.swift */,
 				251375501DB6AD6200A319DC /* GoogleService-Info.plist */,
-				257F49E11D9448920083B1E4 /* FilterCamViewController.swift */,
 				257F49E31D9448920083B1E4 /* Main.storyboard */,
 				257F49E61D9448920083B1E4 /* Assets.xcassets */,
 				253B235D1DA301F500203ECB /* lookup_amatorka.png */,
 				25B24D151DAFE0C3008CD38A /* app_icon.png */,
 				253B235E1DA301F500203ECB /* lookup_miss_etikate.png */,
 				253B235F1DA301F500203ECB /* lookup_soft_elegance_1.png */,
+				2556731B1DB929AC00187F25 /* bl_topaz_warm.png */,
 				253B23601DA301F500203ECB /* lookup_soft_elegance_2.png */,
 				253B23611DA301F500203ECB /* lookup.png */,
 				257F49E81D9448920083B1E4 /* LaunchScreen.storyboard */,
@@ -787,6 +802,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				253B23641DA301F500203ECB /* lookup_soft_elegance_1.png in Resources */,
+				2556731C1DB929AC00187F25 /* bl_topaz_warm.png in Resources */,
 				253B23621DA301F500203ECB /* lookup_amatorka.png in Resources */,
 				257F49EA1D9448920083B1E4 /* LaunchScreen.storyboard in Resources */,
 				257F49E71D9448920083B1E4 /* Assets.xcassets in Resources */,
@@ -952,7 +968,7 @@
 				25B24D181DAFE255008CD38A /* FilterInfoView.swift in Sources */,
 				251375781DB6DD4B00A319DC /* DivideBlendDescriptor.swift in Sources */,
 				251375901DB6DFE100A319DC /* NormalBlendDescriptor.swift in Sources */,
-				25910B191DB738B3007EC926 /* FilterCarouselView.swift in Sources */,
+				25910B191DB738B3007EC926 /* CategorySelectionView.swift in Sources */,
 				2513757E1DB6DE0C00A319DC /* LightenBlendDescriptor.swift in Sources */,
 				251375861DB6DEDE00A319DC /* ExclusionBlendDescriptor.swift in Sources */,
 				2513755E1DB6C96900A319DC /* HighPassFilterDescriptor.swift in Sources */,
@@ -971,7 +987,7 @@
 				25B24D241DB036FF008CD38A /* RotateDescriptor.swift in Sources */,
 				251375641DB6CB0300A319DC /* SmoothToonDescriptor.swift in Sources */,
 				2513758C1DB6DF6300A319DC /* SoftLightBlendDescriptor.swift in Sources */,
-				253B237B1DA71F1900203ECB /* FilterSettingsView.swift in Sources */,
+				253B237B1DA71F1900203ECB /* FilterParametersView.swift in Sources */,
 				25B24D621DB18746008CD38A /* SingleComponentGaussianBlurDescriptor.swift in Sources */,
 				251375761DB6DD2A00A319DC /* SubtractBlendDescriptor.swift in Sources */,
 				25F460221D99DBBA00EDA182 /* CameraSpeed.swift in Sources */,
@@ -991,9 +1007,10 @@
 				25B24D0E1DAEDDFF008CD38A /* WhiteBalanceDescriptor.swift in Sources */,
 				253B23851DA998D100203ECB /* LuminanceThresholdDescriptor.swift in Sources */,
 				25910B1B1DB7D61A007EC926 /* RenderContainerView.swift in Sources */,
-				257F49E21D9448920083B1E4 /* FilterCamViewController.swift in Sources */,
+				257F49E21D9448920083B1E4 /* FiltersViewController.swift in Sources */,
 				253B23831DA9989F00203ECB /* HighlightsDescriptor.swift in Sources */,
 				25B24CF81DAE958D008CD38A /* ExposureDescriptor.swift in Sources */,
+				25AEBB441DBA8AEC00AA6279 /* FilterSelectionView.swift in Sources */,
 				253B23731DA4B09200203ECB /* CrosshatchDescriptor.swift in Sources */,
 				25B24D2E1DB04892008CD38A /* MissEtikateDescriptor.swift in Sources */,
 				253B23911DA9997F00203ECB /* VignetteDescriptor.swift in Sources */,
@@ -1016,6 +1033,7 @@
 				25B24D4C1DB0582D008CD38A /* UnsharpMaskDescriptor.swift in Sources */,
 				25B24D481DB056E0008CD38A /* BilateralBlurDescriptor.swift in Sources */,
 				251375741DB6DCFE00A319DC /* SaturationBlendDescriptor.swift in Sources */,
+				255673231DB9BF0F00187F25 /* FilterControlsView.swift in Sources */,
 				253B23811DA9988500203ECB /* SepiaDescriptor.swift in Sources */,
 				256D0FF11D98DB4C00220D7E /* CameraManager.swift in Sources */,
 				25CF4BD51D9490C400D779CF /* CameraControlsView.swift in Sources */,
@@ -1032,6 +1050,7 @@
 				25B24D321DB04A5A008CD38A /* AverageLuminanceThresholdDescriptor.swift in Sources */,
 				25CF4BD71D9490C400D779CF /* CameraInfoView.swift in Sources */,
 				25910B171DB73834007EC926 /* iCarousel.m in Sources */,
+				255673211DB9653700187F25 /* CameraViewController.swift in Sources */,
 				25B24D201DB03633008CD38A /* GrayscaleDescriptor.swift in Sources */,
 				25B24D581DB17F07008CD38A /* SoftEleganceDescriptor.swift in Sources */,
 				251375881DB6DF1000A319DC /* DifferenceBlendDescriptor.swift in Sources */,
@@ -1043,6 +1062,7 @@
 				25B24CFA1DAE9605008CD38A /* XXX2Descriptor.swift in Sources */,
 				251375681DB6CD9400A319DC /* PinchDistortionDescriptor.swift in Sources */,
 				25B24D381DB04C86008CD38A /* PrewittEdgeDetectionDescriptor.swift in Sources */,
+				2556731F1DB961F700187F25 /* DisplayMode.swift in Sources */,
 				251375941DB6E02600A319DC /* HueBlendDescriptor.swift in Sources */,
 				251375621DB6CAB300A319DC /* HalftoneDescriptor.swift in Sources */,
 				251375961DB6E06300A319DC /* AddBlendDescriptor.swift in Sources */,
