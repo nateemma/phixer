@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "ic_camera.png",
+      "filename" : "ic_filter_gallery.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "ic_camera@2x.png",
+      "filename" : "ic_filter_gallery@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "ic_camera@3x.png",
+      "filename" : "ic_filter_gallery@3x.png",
       "scale" : "3x"
     }
   ],

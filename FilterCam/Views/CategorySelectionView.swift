@@ -81,7 +81,7 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
             categoryViewList = []
             
             if (categoryList.count > 0){
-                for i in (0...categoryList.count-1) {
+                for _ in (0...categoryList.count-1) {
                     categoryViewList.append(UILabel())
                 }
                 
@@ -142,27 +142,21 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     // returns view for item at specific index
     func carousel(_ carousel: iCarousel, viewForItemAt index: Int, reusing view: UIView?) -> UIView {
         
-        guard ((carousel != nil) && isValidIndex(index)) else {
+        guard (isValidIndex(index)) else {
             return UIView()
         }
-
+        
         var label:UILabel
         
-        //if (view != nil){
-        //   label = view as! UILabel
-        //} else {
-            //label = UILabel()
-            label = categoryViewList[index]
-            label.textAlignment = .center
-            label.textColor = UIColor.white
-            label.backgroundColor = UIColor.black
-            label.font = UIFont.boldSystemFont(ofSize: 16.0)
-            label.frame.size.height = carouselHeight * 0.95
-            label.frame.size.width = label.frame.size.height // square
-            label.lineBreakMode = NSLineBreakMode.byWordWrapping
-            label.numberOfLines = 0
-        //}
-
+        label = categoryViewList[index]
+        label.textAlignment = .center
+        label.textColor = UIColor.white
+        label.backgroundColor = UIColor.black
+        label.font = UIFont.boldSystemFont(ofSize: 16.0)
+        label.frame.size.height = carouselHeight * 0.95
+        label.frame.size.width = label.frame.size.height // square
+        label.lineBreakMode = NSLineBreakMode.byWordWrapping
+        label.numberOfLines = 0
         
         if (index < categoryList.count){
             label.text = categoryList[index].rawValue
@@ -214,7 +208,7 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     
     fileprivate func updateSelection(_ carousel: iCarousel, index: Int){
         
-        guard ((carousel != nil) && isValidIndex(index)) else {
+        guard (isValidIndex(index)) else {
             return
         }
 

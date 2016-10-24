@@ -15,8 +15,11 @@ import Neon
 
 // Interface required of controlling View
 protocol FilterInfoViewDelegate: class {
+    func categoryPressed()
+    func filterPressed()
     func swapCameraPressed()
 }
+
 
 
 class FilterInfoView: UIView {
@@ -25,9 +28,9 @@ class FilterInfoView: UIView {
     
     // display items
     var categoryIcon: SquareButton! = SquareButton()
-    var categoryLabel: UILabel! = UILabel()
+    var categoryLabel: UIButton! = UIButton()
     var filterIcon: SquareButton! = SquareButton()
-    var filterLabel: UILabel! = UILabel()
+    var filterLabel: UIButton! = UIButton()
     var swapIcon: SquareButton! = SquareButton()
 
     var buttonSize : CGFloat = 32.0
@@ -69,19 +72,20 @@ class FilterInfoView: UIView {
 
             categoryLabel.frame.size.height = self.frame.size.height * 0.9
             categoryLabel.frame.size.width = self.frame.size.width / 3.0
-            categoryLabel.textAlignment = .left
-            categoryLabel.textColor = UIColor.white
-            categoryLabel.font = UIFont.boldSystemFont(ofSize: 14.0)
+            categoryLabel.setTitleColor(UIColor.white, for: .normal)
+            categoryLabel.titleLabel!.font = UIFont.boldSystemFont(ofSize: 14.0)
+            categoryLabel.titleLabel!.textAlignment = .left
+
             
             filterIcon.setImageAsset("ic_filters")
             
             filterLabel.frame.size.height = self.frame.size.height * 0.9
             filterLabel.frame.size.width = self.frame.size.width / 3.0
-            filterLabel.textAlignment = .left
-            filterLabel.textColor = UIColor.white
-            filterLabel.font = UIFont.boldSystemFont(ofSize: 14.0)
+            filterLabel.setTitleColor(UIColor.white, for: .normal)
+            filterLabel.titleLabel!.font = UIFont.boldSystemFont(ofSize: 14.0)
+            filterLabel.titleLabel!.textAlignment = .left
             
-            swapIcon.setImageAsset("ic_front_back")
+            swapIcon.setImageAsset("ic_swap")
 
            
             // show the sub views
@@ -90,9 +94,11 @@ class FilterInfoView: UIView {
             self.addSubview(filterIcon)
             self.addSubview(filterLabel)
             self.addSubview(swapIcon)
+                    
             
-            update()
-            
+            // register for change notifications (don't do this before the views are set up)
+            //filterManager.setCategoryChangeNotification(callback: self.categoryChanged())
+            //filterManager.setFilterChangeNotification(callback: self.filterChanged())
             initDone = true
         }
     }
@@ -117,7 +123,11 @@ class FilterInfoView: UIView {
         swapIcon.anchorToEdge(.right, padding: 8, width: buttonSize, height: buttonSize)
         
         
-        // register handler for the filter and settings button
+        // register touch handlers
+        categoryIcon.addTarget(self, action: #selector(self.categoryDidPress), for: .touchUpInside)
+        categoryLabel.addTarget(self, action: #selector(self.categoryDidPress), for: .touchUpInside)
+        filterIcon.addTarget(self, action: #selector(self.filterDidPress), for: .touchUpInside)
+        filterLabel.addTarget(self, action: #selector(self.filterDidPress), for: .touchUpInside)
         swapIcon.addTarget(self, action: #selector(self.swapDidPress), for: .touchUpInside)
       
         update()
@@ -125,13 +135,26 @@ class FilterInfoView: UIView {
     
 
     func update(){
-        categoryLabel.text = filterManager.getCurrentCategory().rawValue
-        filterLabel.text = filterManager.getCurrentFilterKey()
+        categoryLabel.setTitle(filterManager.getCurrentCategory().rawValue, for: .normal)
+        filterLabel.setTitle(filterManager.getCurrentFilterKey(), for: .normal)
+        //log.verbose("key: \(filterManager.getCurrentFilterKey())")
     }
     
+    
+
+
+    
+    ///////////////////////////////////
     //MARK: - touch handlers
+    ///////////////////////////////////
     
+    func categoryDidPress() {
+        delegate?.categoryPressed()
+    }
     
+    func filterDidPress() {
+        delegate?.filterPressed()
+    }
     func swapDidPress() {
         delegate?.swapCameraPressed()
     }

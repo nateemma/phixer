@@ -21,9 +21,10 @@ class VignetteDescriptor: FilterDescriptorInterface {
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     
-    let numParameters = 2
+    let numParameters = 3
     let parameterConfiguration = [ParameterSettings(title:"start", minimumValue:0.0, maximumValue:0.75, initialValue:0.5, isRGB:false),
-                                  ParameterSettings(title:"end", minimumValue:0.6, maximumValue:0.9, initialValue:0.75, isRGB:false)]
+                                  ParameterSettings(title:"end", minimumValue:0.6, maximumValue:0.9, initialValue:0.75, isRGB:false),
+                                  ParameterSettings(title:"color", minimumValue:0.0, maximumValue:1.0, initialValue:0.5, isRGB:true)]
     
     
     let filterOperationType = FilterOperationType.singleInput
@@ -31,14 +32,17 @@ class VignetteDescriptor: FilterDescriptorInterface {
     fileprivate var lclFilter:Vignette = Vignette() // the actual filter
     fileprivate var stash_start: Float
     fileprivate var stash_end: Float
+    fileprivate var stash_color: Color
     
     
     init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
         lclFilter.start = parameterConfiguration[0].initialValue
         lclFilter.end = parameterConfiguration[1].initialValue
+        lclFilter.color = Color.black
         stash_start = lclFilter.start
         stash_end = lclFilter.end
+        stash_color = lclFilter.color
         log.verbose("config: \(parameterConfiguration)")
     }
     
@@ -79,17 +83,49 @@ class VignetteDescriptor: FilterDescriptorInterface {
     
     
     
-    func getColorParameter(_ index: Int)->UIColor { return UIColor.blue }
-    func setColorParameter(_ index:Int, color:UIColor) {}
+    
+    func setColorParameter(_ index: Int, color:UIColor){
+        var r: CGFloat = 0.0
+        var g: CGFloat = 0.0
+        var b: CGFloat = 0.0
+        var a: CGFloat = 0.0
+        color.getRed(&r, green: &g, blue: &b, alpha: &a)
+        let color:Color = Color(red: Float(r), green: Float(g), blue: Float(b), alpha: Float(a))
+        
+        switch(index){
+        case 3:
+            log.debug("\(parameterConfiguration[index-1].title): (R:\(r), B:\(b), G:\(g))")
+            lclFilter.color = color
+            break
+        default:
+            log.error("Invalid index: \(index)")
+        }
+    }
+    
+    
+    func getColorParameter(_ index: Int)->UIColor{
+        switch(index){
+        case 3:
+            return UIColor(red: CGFloat(lclFilter.color.redComponent),
+                           green: CGFloat(lclFilter.color.greenComponent),
+                           blue: CGFloat(lclFilter.color.blueComponent),
+                           alpha: CGFloat(lclFilter.color.alphaComponent))
+        default:
+            log.error("Invalid index: \(index)")
+            return UIColor.black
+        }
+    }
     
     
     func stashParameters() {
         stash_start = lclFilter.start
         stash_end = lclFilter.end
+        stash_color = lclFilter.color
     }
     
     func restoreParameters(){
         lclFilter.start = stash_start
         lclFilter.end = stash_end
+        lclFilter.color = stash_color
     }
 }

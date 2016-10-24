@@ -55,6 +55,7 @@ class SquareButton: UIView {
         image = UIImage(named: assetName)
         
         if (image == nil) {
+            log.warning("WARN: unable to find asset (\(assetName)")
             image = UIImage(named: "ic_unknown")
         }
         

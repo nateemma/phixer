@@ -17,6 +17,7 @@ class CameraDisplayView: UIView {
     var renderView: RenderView? = RenderView()
     var initDone: Bool = false
     //var currFilter: BasicOperation? = nil
+    var filterManager = FilterManager.sharedInstance
     var currFilter: FilterDescriptorInterface? = nil
     var camera: Camera? = nil
     var cropFilter: Crop? = nil
@@ -25,12 +26,17 @@ class CameraDisplayView: UIView {
     var blendImage:PictureInput? = nil
     let blendImageName = "bl_topaz_warm.png"
     
+    ///////////////////////////////////
+    // MARK: - Setup/teardown
+    ///////////////////////////////////
     convenience init(){
         self.init(frame: CGRect.zero)
     }
     
     
     func initViews(){
+        
+        if (filterManager == nil) { filterManager = FilterManager.sharedInstance }
         
         if (!initDone){
             //self.backgroundColor = UIColor.black
@@ -41,6 +47,9 @@ class CameraDisplayView: UIView {
             
             renderView?.fillSuperview()
             
+            
+            // register for change notifications (don't do this before the views are set up)
+            filterManager.setFilterChangeNotification(callback: self.filterChanged())
             initDone = true
         }
     }
@@ -62,6 +71,9 @@ class CameraDisplayView: UIView {
     }
     
 
+    ///////////////////////////////////
+    // MARK: pipeline setup
+    ///////////////////////////////////
     
     // Sets up the filter pipeline. Call when filter, orientation or camera changes
     func setupFilterPipeline(){
@@ -84,13 +96,14 @@ class CameraDisplayView: UIView {
                 log.debug("Crop(w:\(res.width), h:\(res.height))")
             }
             
+            /***
             if (rotateFilter == nil){
                 // generate a zero rotation transform, just for correcting camera inversions
                 rotateDescriptor = RotateDescriptor()
                 rotateDescriptor?.setParameter(1, value: 0.0) // zero rotation
                 rotateFilter = rotateDescriptor?.filter
             }
-            
+            ***/
             camera = CameraManager.getCamera()
             if (camera != nil){
                 //log.debug("Resetting filter pipeline")
@@ -99,6 +112,7 @@ class CameraDisplayView: UIView {
                 
                 //TODO: figure out how to remove just the previous filter, not all of them because it stops other render views
                 
+                /** fixed with pull request #70 from morizotter, custom change to Camera.swift
                 // GPUImage bug: front facing camera image is flipped
                 // Use a zero rotation filter to flip the image
                 
@@ -108,35 +122,37 @@ class CameraDisplayView: UIView {
                 } else {
                     rotateFilter!.overriddenOutputRotation = Rotation.noRotation
                 }
+                 **/
                 
                 //TODO: apply aspect ratio to crop filter
                 
                 // Redirect the camera output through the selected filter (if any)
                 //TOFIX: crop filter seems to only work if it's last in the chain before rendering
+                
+                //currFilter = filterManager.getCurrentFilter()
+                
                 if (currFilter == nil){
                     log.debug("No filter applied, using camera feed")
-                    camera! --> rotateFilter! --> cropFilter! --> renderView!
+                    //camera! --> rotateFilter! --> cropFilter! --> renderView!
+                    camera! --> cropFilter! --> renderView!
                 } else {
                     if (currFilter?.filter != nil){
-                        log.debug("Using filter: \(currFilter?.key)")
                         let filter = currFilter?.filter
-                        let opType = currFilter?.filterOperationType // wierd Swift unwrapping problem, can't use currFilter?.filterOperationType directly in swicth
+                        let opType = currFilter?.filterOperationType // wierd Swift unwrapping problem, can't use currFilter?.filterOperationType directly in switch
                         switch (opType!){
                         case .singleInput:
-                            camera! --> filter! --> rotateFilter! --> cropFilter! --> renderView!
+                            log.debug("Using filter: \(currFilter?.key)")
+                            //camera! --> filter! --> rotateFilter! --> cropFilter! --> renderView!
+                            camera! --> filter! --> cropFilter! --> renderView!
                             break
                         case .blend:
                             log.debug("Using BLEND mode for filter: \(currFilter?.key)")
+                            //TOFIX: blend image needs to be resized to fit the render view
                             camera!.addTarget(filter!)
                             blendImage = PictureInput(imageName:blendImageName)
-                            /***
-                            blendImage?.addTarget(filter!)
-                            blendImage?.processImage()
-                            blendImage?.addTarget(renderView!)
-                            filter?.addTarget(renderView!)
-                             ***/
                             blendImage! --> filter!
-                            camera! --> filter! --> rotateFilter! --> cropFilter! --> renderView!
+                            camera! --> filter! --> cropFilter! --> renderView!
+                            //camera! --> filter! --> rotateFilter! --> cropFilter! --> renderView!
                             blendImage?.processImage()
                             break
                         }
@@ -144,12 +160,14 @@ class CameraDisplayView: UIView {
                     } else if (currFilter?.filterGroup != nil){
                         log.debug("Using group: \(currFilter?.key)")
                         let group = currFilter?.filterGroup
-                        camera! -->  group! --> rotateFilter! --> cropFilter! --> renderView!
+                        //camera! -->  group! --> rotateFilter! --> cropFilter! --> renderView!
+                        camera! -->  group! --> cropFilter! --> renderView!
                     } else {
                         log.error("!!! Filter (\(currFilter?.title) has no operation assigned !!!")
                     }
                 }
                 // (Re-)start the camera capture
+                log.debug("Restarting camera feed")
                 camera?.startCapture()
             } else {
                 log.warning("No camera active, ignoring")
@@ -160,11 +178,21 @@ class CameraDisplayView: UIView {
         }
     }
     
+    
+    ///////////////////////////////////
+    // MARK: - Utilities
+    ///////////////////////////////////
+
     // sets the filter to be applied (nil for no filter)
     open func setFilter(_ descriptor: FilterDescriptorInterface?){
-        removeTargets(currFilter)
-        currFilter = descriptor
-        setupFilterPipeline()
+        //if (currFilter?.key != descriptor?.key){
+            log.debug("\(currFilter?.key)->\(descriptor?.key)")
+            removeTargets(currFilter)
+            currFilter = descriptor
+            setupFilterPipeline()
+        //} else {
+         //   log.debug("Ignoring \(currFilter?.key)->\(descriptor?.key) change")
+        //}
     }
     
     fileprivate func removeTargets(_ from: FilterDescriptorInterface?){
@@ -222,8 +250,22 @@ class CameraDisplayView: UIView {
 
     
     
-    //MARK: - Handlers for actions on sub-views
+    ///////////////////////////////////
+    //MARK: - Callbacks
+    ///////////////////////////////////
     
-    
+    func filterChanged(){
+        log.verbose("filter changed")
+        let descriptor = filterManager.getCurrentFilter()
+        if (currFilter?.key != descriptor?.key){
+            log.debug("\(currFilter?.key)->\(descriptor?.key)")
+            removeTargets(currFilter)
+            currFilter = descriptor
+            setupFilterPipeline()
+        } else {
+            log.debug("Ignoring \(currFilter?.key)->\(descriptor?.key) change")
+        }
+    }
+ 
     
 }

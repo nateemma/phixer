@@ -17,23 +17,37 @@ import Neon
 protocol FilterControlsViewDelegate: class {
     func categoryPressed()
     func filterPressed()
-    func filterSettingsPressed()
+    func filterParametersPressed()
 }
 
 
+
+
 class FilterControlsView: UIView {
+    
+
+    public enum ControlState{
+        case hidden
+        case shown
+        case disabled
+    }
     
     var isLandscape : Bool = false
     
     // display items
     var categoryButton: SquareButton! = SquareButton()
     var filterButton: SquareButton! = SquareButton()
-    var settingsButton: SquareButton! = SquareButton()
+    var parametersButton: SquareButton! = SquareButton()
+    
+    var categoryState:ControlState = .hidden
+    var filterState:ControlState = .hidden
+    var parametersState:ControlState = .hidden
 
     var buttonSize : CGFloat = 32.0
     
     var initDone: Bool = false
    
+    var filterManager = FilterManager.sharedInstance
     
     // delegate for handling events
     weak var delegate: FilterControlsViewDelegate?
@@ -56,22 +70,18 @@ class FilterControlsView: UIView {
             
             categoryButton = SquareButton(bsize: buttonSize)
             filterButton = SquareButton(bsize: buttonSize)
-            settingsButton = SquareButton(bsize: buttonSize)
-
-            // initial values, just to have something there
-
-            categoryButton.setImageAsset("ic_category")
-            filterButton.setImageAsset("ic_filters")
-            settingsButton.setImageAsset("ic_sliders")
-            settingsButton.highlightOnSelection(true)
-
+            parametersButton = SquareButton(bsize: buttonSize)
            
             // show the sub views
             self.addSubview(categoryButton)
             self.addSubview(filterButton)
-            self.addSubview(settingsButton)
+            self.addSubview(parametersButton)
             
             update()
+            
+            
+            // register for change notifications (don't do this before the views are set up)
+            //filterManager.setFilterChangeNotification(callback: filterChanged())
             
             initDone = true
         }
@@ -88,18 +98,18 @@ class FilterControlsView: UIView {
             initViews()
         }
         
-        //self.groupAndFill(.horizontal, views: [categoryButton, filterButton, settingsButton], padding: 2)
+        //self.groupAndFill(.horizontal, views: [categoryButton, filterButton, parametersButton], padding: 2)
         categoryButton.anchorToEdge(.left, padding: 8, width: buttonSize, height: buttonSize)
-        settingsButton.anchorToEdge(.right, padding: 8, width: buttonSize, height: buttonSize)
+        parametersButton.anchorToEdge(.right, padding: 8, width: buttonSize, height: buttonSize)
         filterButton.anchorInCenter(buttonSize, height: buttonSize)
         
         // TODO: update current values
         update()
         
-        // register handler for the filter and settings button
+        // register handler for the filter and parameters button
         categoryButton.addTarget(self, action: #selector(self.categoryDidPress), for: .touchUpInside)
         filterButton.addTarget(self, action: #selector(self.filterDidPress), for: .touchUpInside)
-        settingsButton.addTarget(self, action: #selector(self.filterSettingsDidPress), for: .touchUpInside)
+        parametersButton.addTarget(self, action: #selector(self.filterParametersDidPress), for: .touchUpInside)
       
     }
     
@@ -107,12 +117,118 @@ class FilterControlsView: UIView {
     
     func update(){
         
-        // leave filter for now, updated directly from setFilterName. Eventually replace when filter management is implemented
+        //TOFIX: get rid of borders?
+        
+        // set icons based on control state for each button
+        switch (categoryState){
+        case .hidden:
+            categoryButton.setImageAsset("ic_category_show")
+            //categoryButton.setImageAsset("ic_category")
+            categoryButton.layer.borderColor = UIColor.clear.cgColor
+            categoryButton.alpha = 1.0
+            break
+        case .shown:
+            categoryButton.setImageAsset("ic_category_hide")
+            //categoryButton.setImageAsset("ic_category")
+            categoryButton.layer.cornerRadius = 4.0
+            categoryButton.layer.borderWidth = 1.0
+            categoryButton.layer.borderColor = UIColor.white.cgColor
+            categoryButton.alpha = 1.0
+            break
+        case .disabled:
+            categoryButton.setImageAsset("ic_category")
+            categoryButton.layer.borderColor = UIColor.clear.cgColor
+            categoryButton.alpha = 0.5
+            break
+        }
+        
+        switch (filterState){
+        case .hidden:
+            //filterButton.setImageAsset("ic_filters")
+            filterButton.setImageAsset("ic_filters_show")
+            filterButton.layer.borderColor = UIColor.clear.cgColor
+            filterButton.alpha = 1.0
+            break
+        case .shown:
+            //filterButton.setImageAsset("ic_filters")
+            filterButton.setImageAsset("ic_filters_hide")
+            filterButton.layer.cornerRadius = 4.0
+            filterButton.layer.borderWidth = 1.0
+            filterButton.layer.borderColor = UIColor.white.cgColor
+            filterButton.alpha = 1.0
+            break
+        case .disabled:
+            filterButton.setImageAsset("ic_filters")
+            filterButton.layer.borderColor = UIColor.clear.cgColor
+            filterButton.alpha = 0.5
+            break
+        }
+        
+        switch (parametersState){
+        case .hidden:
+            //parametersButton.setImageAsset("ic_sliders")
+            parametersButton.setImageAsset("ic_sliders_show")
+            parametersButton.layer.borderColor = UIColor.clear.cgColor
+            parametersButton.alpha = 1.0
+            break
+        case .shown:
+            //parametersButton.setImageAsset("ic_sliders")
+            parametersButton.setImageAsset("ic_sliders_hide")
+            parametersButton.layer.cornerRadius = 4.0
+            parametersButton.layer.borderWidth = 1.0
+            parametersButton.layer.borderColor = UIColor.white.cgColor
+            parametersButton.alpha = 1.0
+            break
+        case .disabled:
+            parametersButton.setImageAsset("ic_sliders")
+            parametersButton.layer.borderColor = UIColor.clear.cgColor
+            parametersButton.button.alpha = 0.5
+            log.debug("Parameter button disabled")
+            break
+        }
+        
     }
     
+    
+    // MARK: - Public Accessors
+    
+    open func setCategoryControlState(_ state:ControlState){
+        if (categoryState != state){
+            categoryState = state
+                update()
+            }
+        }
+        
+        open func setFilterControlState(_ state:ControlState){
+            if (filterState != state){
+                filterState = state
+                update()
+            }
+        }
+        
+        open func setParametersControlState(_ state:ControlState){
+            if (parametersState != state){
+                parametersState = state
+                update()
+            }
+        }
+    
+    
+    ///////////////////////////////////
+    //MARK: - Callbacks
+    ///////////////////////////////////
+    
+    func filterChanged(){
+        log.debug("filter changed")
+        update()
+    }
+
+    ///////////////////////////////////
     //MARK: - touch handlers
+    ///////////////////////////////////
     
     func categoryDidPress() {
+        
         delegate?.categoryPressed()
     }
     
@@ -120,8 +236,8 @@ class FilterControlsView: UIView {
         delegate?.filterPressed()
     }
     
-    func filterSettingsDidPress() {
-        delegate?.filterSettingsPressed()
+    func filterParametersDidPress() {
+        delegate?.filterParametersPressed()
     }
     
 }

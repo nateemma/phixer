@@ -37,6 +37,9 @@ fileprivate var _presetsDictionary: FilterDictionary = [:]
 fileprivate var _drawingDictionary: FilterDictionary = [:]
 fileprivate var _blursDictionary: FilterDictionary = [:]
 
+// list of callbacks for change notification
+fileprivate var _categoryChangeCallbackList:[()] = []
+fileprivate var _filterChangeCallbackList:[()] = []
 
 // enum that lists the available categories
 enum FilterCategoryType: String {
@@ -103,81 +106,138 @@ class FilterManager{
     static var currFilterKey: String = ""
     static var currIndex:Int = -1
     
-    //MARK: - Setup/Teardown
+    static var categoryChangeNotification = Notification.Name(rawValue:"CategoryChangeNotification")
+    static var filterChangeNotification = Notification.Name(rawValue:"FilterChangeNotification")
+    static var notificationCenter = NotificationCenter.default
     
-    fileprivate init(){
-        
+    //////////////////////////////////////////////
+    //MARK: - Setup/Teardown
+    //////////////////////////////////////////////
+    
+    fileprivate func checkSetup(){
         if (!FilterManager.initDone) {
-            
+            FilterManager.initDone = true
             
             // Add filter definitions to the appropriate categories
             populateCategories()
+            
             // Need to start somewhere...
             setCurrentCategory(.quickSelect)
-            FilterManager.initDone = true
         }
+
+    }
+    
+    func reset(){
+        FilterManager.initDone = false
+        checkSetup()
+    }
+    
+    fileprivate init(){
+        checkSetup()
+    }
+    
+    deinit{
+        _categoryChangeCallbackList = []
+        _filterChangeCallbackList = []
+    }
+    
+    
+    
+    //////////////////////////////////////////////
+    // MARK: - Accessors
+    //////////////////////////////////////////////
+    
+    open func getCategoryList()->[FilterCategoryType]{
+        checkSetup()
+        return _categoryList
     }
     
     func getCurrentCategory() -> FilterCategoryType{
+        checkSetup()
         return FilterManager.currCategory
     }
     
     func setCurrentCategory(_ category:FilterCategoryType){
-        log.debug("Category set to: \(category.rawValue)")
-        FilterManager.currCategory = category
-        
-        // set current filter to the first filter (alphabetically) in the dictionary
-        let dict = category.getDictionary()
-        if ((dict != nil) && !(dict?.isEmpty)!){
-            var filterList: [String] = []
-            filterList = (getFilterList(category))
-            filterList.sort(by: { (value1: String, value2: String) -> Bool in return value1 < value2 }) // sort ascending
-
-            setCurrentFilterKey(filterList[0])
-        } else {
-            log.debug("Dictionary empty: \(category)")
-            setCurrentFilterDescriptor(nil)
+        checkSetup()
+        if (FilterManager.currCategory != category){
+            log.debug("Category set to: \(category.rawValue)")
+            FilterManager.currCategory = category
+            
+            // set current filter to the first filter (alphabetically) in the dictionary
+            log.verbose("### CHECK 1")
+            let dict = category.getDictionary()
+            log.verbose("### CHECK 2")
+            if ((dict != nil) && !(dict?.isEmpty)!){
+                log.verbose("### CHECK 3")
+                var filterList: [String] = []
+                filterList = (getFilterList(category))
+                log.verbose ("\(filterList.count) items found")
+                filterList.sort(by: { (value1: String, value2: String) -> Bool in return value1 < value2 }) // sort ascending
+                log.verbose("Setting filter to: \(filterList[0])")
+                setCurrentFilterKey(filterList[0])
+            } else {
+                log.verbose("### CHECK 4")
+                log.debug("Dictionary empty: \(category)")
+                setCurrentFilterDescriptor(nil)
+            }
+            log.verbose("### CHECK 5")
+           
+            
+            // notify clients
+            issueCategoryChangeNotification()
         }
-        
-        //TODO: execute callbacks/notifications
     }
     
     func getCurrentFilterDescriptor() -> FilterDescriptorInterface?{
+        checkSetup()
         return FilterManager.currFilterDescriptor
     }
     
     func setCurrentFilterDescriptor(_ descriptor: FilterDescriptorInterface?){
-        FilterManager.currFilterDescriptor = descriptor
-        if (descriptor != nil){
-            FilterManager.currFilterKey = (descriptor?.key)!
-        } else {
-            FilterManager.currFilterKey = ""
+        checkSetup()
+        if (FilterManager.currFilterDescriptor?.key != descriptor?.key){
+            FilterManager.currFilterDescriptor = descriptor
+            if (descriptor != nil){
+                FilterManager.currFilterKey = (descriptor?.key)!
+            } else {
+                FilterManager.currFilterKey = ""
+            }
+
+            log.debug("Filter changed to: \(descriptor?.key)")
+            
+            // Notify clients
+            issueFilterChangeNotification()
         }
-        //TODO: execute callbacks
-        log.debug("Default descriptor: \(descriptor?.key)")
     }
     
     func getCurrentFilterKey() -> String{
+        checkSetup()
         return FilterManager.currFilterKey
     }
     
     func setCurrentFilterKey(_ key:String) {
+        checkSetup()
+        log.verbose("Key: \(key)")
         FilterManager.currFilterKey = key
         setCurrentFilterDescriptor(getFilterDescriptor(FilterManager.currCategory, name:FilterManager.currFilterKey))
     }
     
     func getCurrentFilter() -> FilterDescriptorInterface? {
-        return getFilterDescriptor(FilterManager.currCategory, name:FilterManager.currFilterKey)!
-    }
-    
-    open func getCategoryList()->[FilterCategoryType]{
-        return _categoryList
+        checkSetup()
+        
+        guard (FilterManager.currFilterKey != "") else {
+            return nil
+        }
+        
+        return getFilterDescriptor(FilterManager.currCategory, name:FilterManager.currFilterKey)
     }
     
     
     open func getFilterList(_ category:FilterCategoryType)->[String]{
+        checkSetup()
         let dict = category.getDictionary()
         if ((dict == nil) || (dict?.isEmpty)!){
+            log.verbose("Empty category")
             return []
         } else {
             return Array(category.getDictionary()!.keys)
@@ -192,7 +252,7 @@ class FilterManager{
         var dict: FilterDictionary?
         var filterDescr: FilterDescriptorInterface?
         
-        if (!FilterManager.initDone) { populateCategories() }
+        checkSetup()
         
         //log.verbose("cat:\(category.rawValue), name:\(name)")
         //dict = FilterManager._dictionaryList[category.rawValue]!
@@ -222,11 +282,52 @@ class FilterManager{
 
     
     
+    //////////////////////////////////////////////
+    // MARK: - Callback/Notification methods
+    //////////////////////////////////////////////
+    
+    
+    open func setCategoryChangeNotification(callback: ()) {
+        if ((callback) != nil){
+            _categoryChangeCallbackList.append(callback)
+        }
+    }
+    
+    
+    open func setFilterChangeNotification(callback: ()) {
+        if ((callback) != nil){
+            _filterChangeCallbackList.append(callback)
+        }
+    }
+    
+    func issueCategoryChangeNotification(){
+        if (_categoryChangeCallbackList.count>0){
+            log.debug("Issuing \(_categoryChangeCallbackList.count) CategoryChange callbacks")
+            for cb in _categoryChangeCallbackList {
+                cb
+            }
+        }
+    }
+    
+    func issueFilterChangeNotification(){
+        if (_filterChangeCallbackList.count>0){
+            DispatchQueue.main.asyncAfter(deadline: .now()) {
+                log.debug("Issuing \(_categoryChangeCallbackList.count) FilterChange callbacks")
+                for cb in _filterChangeCallbackList {
+                    cb
+                }
+            }
+        }
+    }
+    
+    //////////////////////////////////////////////
+    // MARK: - Category/Filter Assignments
+    //////////////////////////////////////////////
+    
     func populateCategories(){
         
         //var dict: FilterDictionary?
         
-        if (!FilterManager.initDone) {
             log.verbose("populateCategories() - Loading Dictionaries...")
             //TODO: load from some kind of configuration file?
             
@@ -375,8 +476,6 @@ class FilterManager{
             _blursDictionary["BoxBlur"] = BoxBlurDescriptor()
             //_blursDictionary[""] = Decsriptor
             
-            FilterManager.initDone = true
-        }
         
     }
     

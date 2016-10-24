@@ -21,11 +21,11 @@ protocol FilterSelectionViewDelegate: class {
 
 class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
 
-    var filterCarousel:iCarousel? = nil
+    var filterCarousel:iCarousel? = iCarousel()
     var filterManager: FilterManager? = FilterManager.sharedInstance
     var filterNameList: [String] = []
     var filterViewList: [RenderContainerView] = []
-    var filterCategory:FilterCategoryType = FilterCategoryType.quickSelect
+    var filterCategory:FilterCategoryType = FilterCategoryType.none
     var filterLabel:UILabel = UILabel()
     var carouselHeight:CGFloat = 80.0
     var camera: Camera? = nil
@@ -37,36 +37,43 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     // delegate for handling events
     weak var delegate: FilterSelectionViewDelegate?
 
+    ///////////////////////////////////
     //MARK: - Public accessors
+    ///////////////////////////////////
     
     func setFilterCategory(_ category:FilterCategoryType){
         
-        // need to clear everything from carousel, so just create a new one...
-        filterCarousel?.removeFromSuperview()
-        filterCarousel = iCarousel()
-        filterCarousel?.frame = self.frame
-        self.addSubview(filterCarousel!)
-        
-        filterCategory = category
-        filterNameList = (filterManager?.getFilterList(category))!
-        filterNameList.sort(by: { (value1: String, value2: String) -> Bool in return value1 < value2 }) // sort ascending
-        log.debug("Filter category set to: \(category.rawValue)")
-        
-        // Pre-allocate views for the filters, makes it much easier and we can update in the background if needed
-        filterViewList = []
-        
-        if (filterNameList.count > 0){
-            for i in (0...filterNameList.count-1) {
-                filterViewList.append(createFilterContainerView((filterManager?.getFilterDescriptor(category, name:filterNameList[i]))!))
-            }
+        if (category != filterCategory){
             
-            updateVisibleItems()
-            
-            filterCarousel?.setNeedsLayout()
-        } else {
-            
+            // need to clear everything from carousel, so just create a new one...
             filterCarousel?.removeFromSuperview()
+            filterCarousel = iCarousel()
+            filterCarousel?.frame = self.frame
+            self.addSubview(filterCarousel!)
             
+            filterCategory = category
+            filterNameList = (filterManager?.getFilterList(category))!
+            filterNameList.sort(by: { (value1: String, value2: String) -> Bool in return value1 < value2 }) // sort ascending
+            log.debug("Filter category set to: \(category.rawValue)")
+            
+            // Pre-allocate views for the filters, makes it much easier and we can update in the background if needed
+            filterViewList = []
+            
+            if (filterNameList.count > 0){
+                for i in (0...filterNameList.count-1) {
+                    filterViewList.append(createFilterContainerView((filterManager?.getFilterDescriptor(category, name:filterNameList[i]))!))
+                }
+                
+                updateVisibleItems()
+                
+                filterCarousel?.setNeedsLayout()
+            } else {
+                
+                filterCarousel?.removeFromSuperview()
+                
+            }
+        } else {
+            log.verbose("Ignored \(category)->\(filterCategory) change")
         }
     }
     
@@ -84,7 +91,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     
     
     private func createFilterContainerView(_ descriptor: FilterDescriptorInterface) -> RenderContainerView{
-        var view:RenderContainerView = RenderContainerView()
+        let view:RenderContainerView = RenderContainerView()
         view.frame.size = CGSize(width:carouselHeight, height:carouselHeight)
         view.label.text = descriptor.key
         
@@ -93,7 +100,9 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         return view
     }
     
+    ///////////////////////////////////
     //MARK: - UIView required functions
+    ///////////////////////////////////
     convenience init(){
         self.init(frame: CGRect.zero)
         
@@ -102,6 +111,9 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         carouselHeight = fmax((self.frame.size.height * 0.8), 80.0) // doesn't seem to work at less than 80 (empirical)
         //carouselHeight = self.frame.size.height * 0.82
         
+        
+        // register for change notifications (don't do this before the views are set up)
+        //filterManager?.setCategoryChangeNotification(callback: categoryChanged())
     }
 
     
@@ -133,14 +145,16 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         super.layoutSubviews()
         
         layoutViews()
-
+        
         //updateVisibleItems()
        
         // don't do anything until filter list has been assigned
     }
 
     
+    ///////////////////////////////////
     //MARK: - iCarousel reequired functions
+    ///////////////////////////////////
 
     // TODO: pre-load images for initial display
     
@@ -259,9 +273,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
             }
             
             let newView = filterViewList[index]
-            if (newView != nil){
-                newView.label.textColor = UIColor.flatLime()
-            }
+            newView.label.textColor = UIColor.flatLime()
             
             // update current index
             currIndex = index
@@ -327,6 +339,18 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
             self.filterCarousel?.setNeedsLayout()
         }
         
+    }
+    
+    
+    
+    ///////////////////////////////////
+    //MARK: - Callbacks
+    ///////////////////////////////////
+    
+    
+    func categoryChanged(){
+        log.debug("category changed")
+        setFilterCategory((filterManager?.getCurrentCategory())!)
     }
 
 }

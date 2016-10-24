@@ -33,10 +33,6 @@ class FiltersViewController: UIViewController, SegueHandlerType {
     // Views for holding the (modal) overlays. Note: must come after CameraDisplayView()
     var filterControlsView : FilterControlsView! = FilterControlsView()
     
-    // the current display mode for the information view
-    var currInfoMode:InfoMode = .filter
-    
-    
     // The Camera controls/options
     var cameraControlsView: CameraControlsView! = CameraControlsView()
 
@@ -78,7 +74,7 @@ class FiltersViewController: UIViewController, SegueHandlerType {
     
     convenience init(){
         self.init(nibName:nil, bundle:nil)
-        doInit()
+        //doInit()
     }
 
     static var initDone:Bool = false
@@ -86,7 +82,7 @@ class FiltersViewController: UIViewController, SegueHandlerType {
     func doInit(){
         
         if (!FiltersViewController.initDone){
-            filterManager = FilterManager.sharedInstance
+            //filterManager = FilterManager.sharedInstance
             filterManager?.setCurrentCategory(FilterCategoryType.quickSelect)
             FiltersViewController.initDone = true
             updateCurrentFilter()
@@ -108,6 +104,7 @@ class FiltersViewController: UIViewController, SegueHandlerType {
             //isLandscape = UIDevice.current.orientation.isLandscape // doesn't always work properly, especially in simulator
             isLandscape = (displayWidth > displayHeight)
             
+            filterManager?.reset()
             doInit()
            
             // Note: need to add subviews before modifying constraints
@@ -211,12 +208,9 @@ class FiltersViewController: UIViewController, SegueHandlerType {
             // listen to key press events
             setVolumeListener()
             
-            setInfoMode(currInfoMode) // must be after view setup
             
             //TODO: select filter category somehow
             //filterSelectionView.setFilterCategory(FilterCategoryType.quickSelect)
-            //filterSelectionView.isHidden = true
-            //filterSelectionView.isHidden = false // TEMP
             
             //TODO: remeber state?
             hideCategorySelector()
@@ -228,6 +222,11 @@ class FiltersViewController: UIViewController, SegueHandlerType {
             setupAds()
            
             //TODO: start timer and update setting display peridodically
+            
+            // register for change notifications (don't do this before the views are set up)
+            filterManager?.setCategoryChangeNotification(callback: categoryChanged())
+            filterManager?.setFilterChangeNotification(callback: filterChanged())
+
         }
         catch  let error as NSError {
             log.error ("Error detected: \(error.localizedDescription)");
@@ -403,58 +402,40 @@ class FiltersViewController: UIViewController, SegueHandlerType {
         }
     }
     
-    //MARK: - Info Mode Management
-    
-    fileprivate func setInfoMode(_ mode:InfoMode){
-        currInfoMode = mode
-        
-        switch (currInfoMode){
-        case .camera:
-            //TODO: sitch to Camera view
-            break
-        case .filter:
-            updateCurrentFilter()
-            cameraDisplayView.setFilter(currFilterDescriptor)
-            filterSelectionView.update()
-            filterInfoView.update()
-            filterInfoView.isHidden = false
-            filterSelectionView.isHidden = false
-            view.bringSubview(toFront: filterSelectionView)
-            break
-        }
-        
-        cameraControlsView.setInfoMode(currInfoMode)
-    }
 
-    
-    fileprivate func swapInfoMode(){
-        switch (currInfoMode){
-        case .camera:
-            setInfoMode(.filter)
-            break
-        case .filter:
-            setInfoMode(.camera)
-            break
-        }
-    }
     
     //////////////////////////////////////
     // MARK: - Filter/Category Management
     //////////////////////////////////////
 
+    func categoryChanged(){
+        updateCurrentFilter()
+    }
+    
+    func filterChanged(){
+        updateCurrentFilter()
+    }
 
-    // retriev current settings from FilterManager and store locally
+    // retrive current settings from FilterManager and store locally
     func updateCurrentFilter(){
         let descriptor = filterManager?.getCurrentFilterDescriptor()
-        if (descriptor?.key != currFilterDescriptor?.key){
+        //log.verbose("Current filter: \(descriptor?.key)")
+        //if (descriptor?.key != currFilterDescriptor?.key){
             currFilterDescriptor = descriptor
             cameraDisplayView.setFilter(currFilterDescriptor)
             filterSelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)
             filterSelectionView.update()
             filterInfoView.update()
+        //} else {
+        //    log.debug("Ignoring \(currFilterDescriptor?.key)->\(descriptor?.key) transition")
+        //}
+        
+        if (currFilterDescriptor != nil){
+            if ((currFilterDescriptor?.numParameters)! == 0){
+                filterControlsView.setParametersControlState(.disabled)
+            }
         }
     }
-    
     
     // Management of Category Selection view
     fileprivate var categorySelectorShown: Bool = false
@@ -471,13 +452,15 @@ class FiltersViewController: UIViewController, SegueHandlerType {
         updateCurrentFilter()
         categorySelectionView.isHidden = true
         categorySelectorShown = false
+        filterControlsView.setCategoryControlState(.hidden)
     }
     
     func showCategorySelector(){
         updateCurrentFilter()
         categorySelectionView.isHidden = false
         categorySelectorShown = true
-        view.bringSubview(toFront: categorySelectionView)
+        filterControlsView.setCategoryControlState(.shown)
+       view.bringSubview(toFront: categorySelectionView)
     }
     
     
@@ -496,6 +479,7 @@ class FiltersViewController: UIViewController, SegueHandlerType {
         updateCurrentFilter()
         filterSelectionView.isHidden = true
         filterSelectorShown = false
+        filterControlsView.setFilterControlState(.hidden)
     }
     
     func showFilterSelector(){
@@ -503,7 +487,10 @@ class FiltersViewController: UIViewController, SegueHandlerType {
         if (currFilterDescriptor != nil){
             filterSelectionView.isHidden = false
             filterSelectorShown = true
+            filterControlsView.setFilterControlState(.shown)
             view.bringSubview(toFront: filterSelectionView)
+        } else {
+            log.warning("WARN: current filter not set")
         }
     }
     
@@ -520,9 +507,11 @@ class FiltersViewController: UIViewController, SegueHandlerType {
             filterSettingsView.isHidden = false
             filterSettingsShown = true
             view.bringSubview(toFront: filterSettingsView)
-            //filterSettingsView.show()
+            filterControlsView.setParametersControlState(.shown)
+           //filterSettingsView.show()
         } else {
             log.debug("No parameters to display")
+            filterControlsView.setParametersControlState(.disabled)
             hideFilterSettings()
         }
     }
@@ -531,6 +520,7 @@ class FiltersViewController: UIViewController, SegueHandlerType {
         filterSettingsView.dismiss()
         filterSettingsView.isHidden = true
         filterSettingsShown = false
+        filterControlsView.setParametersControlState(.hidden)
     }
 
     func toggleFilterSettings(){
@@ -567,7 +557,7 @@ extension FiltersViewController: CameraControlsViewDelegate {
     }
     func modePressed(){
         log.debug("Filter Mgr pressed")
-        swapInfoMode()
+        //swapInfoMode()
     }
     func settingsPressed(){
         log.debug("Settings pressed")
@@ -577,9 +567,11 @@ extension FiltersViewController: CameraControlsViewDelegate {
 
 
 extension FiltersViewController: FilterInfoViewDelegate {   
+
     func swapCameraPressed(){
         log.debug("swapCameraPressed pressed")
         CameraManager.switchCameraLocation()
+        cameraDisplayView.setFilter(currFilterDescriptor)
     }
 }
 
@@ -594,7 +586,7 @@ extension FiltersViewController: FilterControlsViewDelegate {
         toggleFilterState()
     }
     
-    func filterSettingsPressed(){
+    func filterParametersPressed(){
         log.debug("Show/Hide Filter Settings pressed")
         toggleFilterSettings()
     }
@@ -614,7 +606,9 @@ extension FiltersViewController: FilterSelectionViewDelegate{
         // setup the filter descriptor
         let category = filterManager?.getCurrentCategory()
         currFilterDescriptor = filterManager?.getFilterDescriptor(category!, name:key)
+        updateCurrentFilter()
         
+/***
         // only update if filters are currently shown
         if (currInfoMode == .filter){
             cameraDisplayView.setFilter(currFilterDescriptor)
@@ -623,6 +617,7 @@ extension FiltersViewController: FilterSelectionViewDelegate{
             filterSelectionView.update()
             filterInfoView.update()
         }
+ ***/
     }
 }
 
