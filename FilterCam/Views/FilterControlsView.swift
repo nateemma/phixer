@@ -66,7 +66,8 @@ class FilterControlsView: UIView {
 
             self.backgroundColor = UIColor.black
             
-            if (buttonSize>self.frame.size.height){ buttonSize = self.frame.size.height - 4 }
+            //if (buttonSize>self.frame.size.height){ buttonSize = self.frame.size.height - 4 }
+            buttonSize = fmin(self.frame.size.height, self.frame.size.width) - 8
             
             categoryButton = SquareButton(bsize: buttonSize)
             filterButton = SquareButton(bsize: buttonSize)
@@ -99,8 +100,8 @@ class FilterControlsView: UIView {
         }
         
         //self.groupAndFill(.horizontal, views: [categoryButton, filterButton, parametersButton], padding: 2)
-        categoryButton.anchorToEdge(.left, padding: 8, width: buttonSize, height: buttonSize)
-        parametersButton.anchorToEdge(.right, padding: 8, width: buttonSize, height: buttonSize)
+        categoryButton.anchorToEdge(.left, padding: 2, width: buttonSize, height: buttonSize)
+        parametersButton.anchorToEdge(.right, padding: 2, width: buttonSize, height: buttonSize)
         filterButton.anchorInCenter(buttonSize, height: buttonSize)
         
         // TODO: update current values

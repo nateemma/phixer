@@ -33,7 +33,7 @@ class FilterInfoView: UIView {
     var filterLabel: UIButton! = UIButton()
     var swapIcon: SquareButton! = SquareButton()
 
-    var buttonSize : CGFloat = 32.0
+    var buttonSize : CGFloat = 48.0
     
     var initDone: Bool = false
     
@@ -59,7 +59,8 @@ class FilterInfoView: UIView {
 
             self.backgroundColor = UIColor.black
             
-            if (buttonSize>self.frame.size.height){ buttonSize = self.frame.size.height - 2 }
+            //if (buttonSize>self.frame.size.height){ buttonSize = self.frame.size.height - 4 }
+            buttonSize = fmin(self.frame.size.height, self.frame.size.width) - 8
             
             categoryIcon = SquareButton(bsize: buttonSize)
             filterIcon = SquareButton(bsize: buttonSize)
@@ -74,7 +75,8 @@ class FilterInfoView: UIView {
             categoryLabel.frame.size.width = self.frame.size.width / 3.0
             categoryLabel.setTitleColor(UIColor.white, for: .normal)
             categoryLabel.titleLabel!.font = UIFont.boldSystemFont(ofSize: 14.0)
-            categoryLabel.titleLabel!.textAlignment = .left
+            //categoryLabel.titleLabel!.textAlignment = .left
+            categoryLabel.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
 
             
             filterIcon.setImageAsset("ic_filters")
@@ -83,7 +85,8 @@ class FilterInfoView: UIView {
             filterLabel.frame.size.width = self.frame.size.width / 3.0
             filterLabel.setTitleColor(UIColor.white, for: .normal)
             filterLabel.titleLabel!.font = UIFont.boldSystemFont(ofSize: 14.0)
-            filterLabel.titleLabel!.textAlignment = .left
+            //filterLabel.titleLabel!.textAlignment = .left
+            filterLabel.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
             
             swapIcon.setImageAsset("ic_swap")
 
@@ -115,12 +118,12 @@ class FilterInfoView: UIView {
             initViews()
         }
         
-        //self.groupAndFill(.horizontal, views: [categoryIcon, categoryLabel, filterIcon, filterLabel, swapIcon], padding: 8)
-        categoryIcon.anchorToEdge(.left, padding: 8, width: buttonSize, height: buttonSize)
+        // place at the bottom of the view to avoid the battery icon
+        categoryIcon.anchorInCorner(.bottomLeft, xPad: 2, yPad: 2, width: buttonSize, height: buttonSize)
         categoryLabel.align(.toTheRightCentered, relativeTo: categoryIcon, padding: 0, width: categoryLabel.frame.size.width, height: categoryLabel.frame.size.height)
-        filterIcon.anchorInCenter(buttonSize, height: buttonSize)
+        filterIcon.anchorToEdge(.bottom, padding: 2, width: buttonSize, height: buttonSize)
         filterLabel.align(.toTheRightCentered, relativeTo: filterIcon, padding: 0, width: filterLabel.frame.size.width, height: filterLabel.frame.size.height)
-        swapIcon.anchorToEdge(.right, padding: 8, width: buttonSize, height: buttonSize)
+        swapIcon.anchorInCorner(.bottomRight, xPad: 2, yPad: 2, width: buttonSize, height: buttonSize)
         
         
         // register touch handlers

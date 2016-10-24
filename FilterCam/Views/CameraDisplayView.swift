@@ -185,13 +185,13 @@ class CameraDisplayView: UIView {
 
     // sets the filter to be applied (nil for no filter)
     open func setFilter(_ descriptor: FilterDescriptorInterface?){
-        //if (currFilter?.key != descriptor?.key){
+        if (currFilter?.key != descriptor?.key){
             log.debug("\(currFilter?.key)->\(descriptor?.key)")
             removeTargets(currFilter)
             currFilter = descriptor
             setupFilterPipeline()
-        //} else {
-         //   log.debug("Ignoring \(currFilter?.key)->\(descriptor?.key) change")
+        } //else {
+        //    log.debug("Ignoring \(currFilter?.key)->\(descriptor?.key) change")
         //}
     }
     

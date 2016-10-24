@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		250716061DBEB13800CDDF42 /* LevelsAdjustmentDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250716051DBEB13800CDDF42 /* LevelsAdjustmentDescriptor.swift */; };
 		251375511DB6AD6200A319DC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 251375501DB6AD6200A319DC /* GoogleService-Info.plist */; };
 		251375541DB6B4C600A319DC /* BoxBlurDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251375531DB6B4C600A319DC /* BoxBlurDescriptor.swift */; };
 		251375561DB6BE0D00A319DC /* GammaDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251375551DB6BE0D00A319DC /* GammaDescriptor.swift */; };
@@ -211,6 +212,7 @@
 /* Begin PBXFileReference section */
 		139F285AF8C5B2C24479BD32 /* Pods-FilterCam.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FilterCam.release.xcconfig"; path = "Pods/Target Support Files/Pods-FilterCam/Pods-FilterCam.release.xcconfig"; sourceTree = "<group>"; };
 		1DDC117A644402CB333D19D8 /* Pods_FilterCam.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FilterCam.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		250716051DBEB13800CDDF42 /* LevelsAdjustmentDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LevelsAdjustmentDescriptor.swift; path = Filters/LevelsAdjustmentDescriptor.swift; sourceTree = "<group>"; };
 		251375501DB6AD6200A319DC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		251375531DB6B4C600A319DC /* BoxBlurDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoxBlurDescriptor.swift; path = Filters/BoxBlurDescriptor.swift; sourceTree = "<group>"; };
 		251375551DB6BE0D00A319DC /* GammaDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GammaDescriptor.swift; path = Filters/GammaDescriptor.swift; sourceTree = "<group>"; };
@@ -502,6 +504,7 @@
 				251375571DB6BEE900A319DC /* XXX0Descriptor.swift */,
 				25B24D291DB0459E008CD38A /* XXX1Descriptor.swift */,
 				25B24CF91DAE9605008CD38A /* XXX2Descriptor.swift */,
+				250716051DBEB13800CDDF42 /* LevelsAdjustmentDescriptor.swift */,
 				25B24CFD1DAE97F6008CD38A /* XXX2Filter.swift */,
 				25B24CFB1DAE9709008CD38A /* XXXFilter.swift */,
 				253B23921DA999CC00203ECB /* ZoomBlurDescriptor.swift */,
@@ -968,6 +971,7 @@
 				25B24D181DAFE255008CD38A /* FilterInfoView.swift in Sources */,
 				251375781DB6DD4B00A319DC /* DivideBlendDescriptor.swift in Sources */,
 				251375901DB6DFE100A319DC /* NormalBlendDescriptor.swift in Sources */,
+				250716061DBEB13800CDDF42 /* LevelsAdjustmentDescriptor.swift in Sources */,
 				25910B191DB738B3007EC926 /* CategorySelectionView.swift in Sources */,
 				2513757E1DB6DE0C00A319DC /* LightenBlendDescriptor.swift in Sources */,
 				251375861DB6DEDE00A319DC /* ExclusionBlendDescriptor.swift in Sources */,

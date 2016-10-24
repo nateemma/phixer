@@ -328,154 +328,155 @@ class FilterManager{
         
         //var dict: FilterDictionary?
         
-            log.verbose("populateCategories() - Loading Dictionaries...")
-            //TODO: load from some kind of configuration file?
-            
-            // Quick Select
-            //TEMP: populate with some filters, but this should really be done by the user (and saved/restored)
-            
-            _quickSelectDictionary["BulgeDistortion"] = BulgeDistortionDescriptor()
-            _quickSelectDictionary["Crosshatch"] = CrosshatchDescriptor()
-            _quickSelectDictionary["Emboss"] = EmbossDescriptor()
-            _quickSelectDictionary["GlassSphereRefraction"] = GlassSphereRefractionDescriptor()
-            _quickSelectDictionary["PolarPixellate"] = PolarPixellateDescriptor()
-            _quickSelectDictionary["PolkaDot"] = PolkaDotDescriptor()
-            _quickSelectDictionary["Posterize"] = PosterizeDescriptor()
-            _quickSelectDictionary["Sketch"] = SketchDescriptor()
-            _quickSelectDictionary["Solarize"] = SolarizeDescriptor()
-            _quickSelectDictionary["ThresholdSketch"] = ThresholdSketchDescriptor()
-            _quickSelectDictionary["Toon"] = ToonDescriptor()
-            _quickSelectDictionary["FalseColor"] = FalseColorDescriptor()
-            _quickSelectDictionary["ThresholdSobelEdgeDetection"] = ThresholdSobelEdgeDetectionDescriptor()
-            _quickSelectDictionary["Laplacian"] = LaplacianDescriptor()
-            _quickSelectDictionary["ColorInversion"] = ColorInversionDescriptor()
-            _quickSelectDictionary["Pixellate"] = PixellateDescriptor()
-            _quickSelectDictionary["Luminance"] = LuminanceDescriptor()
-            _quickSelectDictionary["Halftone"] = HalftoneDescriptor()
-            _quickSelectDictionary["SmoothToon"] = SmoothToonDescriptor()
-            _quickSelectDictionary["SoftElegance"] = SoftEleganceDescriptor()
-            _quickSelectDictionary["CGAColorspace"] = CGAColorspaceDescriptor()
-            _quickSelectDictionary["PinchDistortion"] = PinchDistortionDescriptor()
-            _quickSelectDictionary["SwirlDistortion"] = SwirlDistortionDescriptor()
-            //_quickSelectDictionary[""] = Descriptor()
-            
-            // move these to different categories once tested:
-          
-
-            //dumpDictionary(_quickSelectDictionary)//DEBUG
-            
-            // Basic Adjustments
-            
-            _basicAdjustmentsDictionary["Saturation"] = SaturationDescriptor()
-            _basicAdjustmentsDictionary["Warmth"] = WarmthDescriptor()
-            _basicAdjustmentsDictionary["WhiteBalance"] = WhiteBalanceDescriptor()
-            _basicAdjustmentsDictionary["Brightness"] = BrightnessDescriptor()
-            _basicAdjustmentsDictionary["Contrast"] = ContrastDescriptor()
-            _basicAdjustmentsDictionary["UnsharpMask"] = UnsharpMaskDescriptor()
-            _basicAdjustmentsDictionary["Exposure"] = ExposureDescriptor()
-            _basicAdjustmentsDictionary["Sharpen"] = SharpenDescriptor()
-            _basicAdjustmentsDictionary["Crop"] = CropDescriptor()
-            _basicAdjustmentsDictionary["Gamma"] = GammaDescriptor()
-            _basicAdjustmentsDictionary["Vibrance"] = VibranceDescriptor()
-            _basicAdjustmentsDictionary["Highlights"] = HighlightsDescriptor()
-            //_basicAdjustmentsDictionary[""] = Descriptor()
-            
-            
-            // Image Processing
-            _imageProcessingDictionary["Vignette"] = VignetteDescriptor()
-            _imageProcessingDictionary["FalseColor"] = FalseColorDescriptor()
-            _imageProcessingDictionary["Hue"] = HueDescriptor()
-            _imageProcessingDictionary["RGB"] = RGBDescriptor()
-            _imageProcessingDictionary["Rotate"] = RotateDescriptor()
-            _imageProcessingDictionary["Median"] = MedianDescriptor()
-            _imageProcessingDictionary["Opening"] = OpeningFilterDescriptor()
-            _imageProcessingDictionary["Closing"] = ClosingFilterDescriptor()
-            _imageProcessingDictionary["OpacityAdjustment"] = OpacityAdjustmentDescriptor()
-            _imageProcessingDictionary["ChromaKeying"] = ChromaKeyingDescriptor()
-            _imageProcessingDictionary["LowPassFilter"] = LowPassFilterDescriptor()
-            _imageProcessingDictionary["HighPassFilter"] = HighPassFilterDescriptor()
-            _imageProcessingDictionary["Haze"] = HazeDescriptor()
-            //_imageProcessingDictionary[""] = Decsriptor
-            
-            // Blend Modes
-            _blendModesDictionary["AddBlend"] = AddBlendDescriptor()
-            _blendModesDictionary["AlphaBlend"] = AlphaBlendDescriptor()
-            _blendModesDictionary["ColorDodgeBlend"] = ColorDodgeBlendDescriptor()
-            _blendModesDictionary["ChromaKeyBlend"] = ChromaKeyBlendDescriptor()
-            _blendModesDictionary["ColorBlend"] = ColorBlendDescriptor()
-            _blendModesDictionary["ColorBurnBlend"] = ColorBurnBlendDescriptor()
-            _blendModesDictionary["ColorDodgeBlend"] = ColorDodgeBlendDescriptor()
-            _blendModesDictionary["DarkenBlend"] = DarkenBlendDescriptor()
-            _blendModesDictionary["DifferenceBlend"] = DifferenceBlendDescriptor()
-            _blendModesDictionary["DissolveBlend"] = DissolveBlendDescriptor()
-            _blendModesDictionary["DivideBlend"] = DivideBlendDescriptor()
-            _blendModesDictionary["ExclusionBlend"] = ExclusionBlendDescriptor()
-            _blendModesDictionary["HardLightBlend"] = HardLightBlendDescriptor()
-            _blendModesDictionary["HueBlend"] = HueBlendDescriptor()
-            _blendModesDictionary["LightenBlend"] = LightenBlendDescriptor()
-            _blendModesDictionary["LinearBurnBlend"] = LinearBurnBlendDescriptor()
-            _blendModesDictionary["LuminosityBlend"] = LuminosityBlendDescriptor()
-            _blendModesDictionary["MultiplyBlend"] = MultiplyBlendDescriptor()
-            _blendModesDictionary["NormalBlend"] = NormalBlendDescriptor()
-            _blendModesDictionary["OverlayBlend"] = OverlayBlendDescriptor()
-            _blendModesDictionary["SaturationBlend"] = SaturationBlendDescriptor()
-            _blendModesDictionary["ScreenBlend"] = ScreenBlendDescriptor()
-            _blendModesDictionary["SoftLightBlend"] = SoftLightBlendDescriptor()
-            _blendModesDictionary["SourceOverBlend"] = SourceOverBlendDescriptor()
-            _blendModesDictionary["SubtractBlend"] = SubtractBlendDescriptor()
-            //_blendModesDictionary[""] = Decsriptor
-            
-            // Visual Effects
-            _visualEffectsDictionary["BulgeDistortion"] = BulgeDistortionDescriptor()
-            _visualEffectsDictionary["GlassSphereRefraction"] = GlassSphereRefractionDescriptor()
-            _visualEffectsDictionary["PolarPixellate"] = PolarPixellateDescriptor()
-            _visualEffectsDictionary["PolkaDot"] = PolkaDotDescriptor()
-            _visualEffectsDictionary["FalseColor"] = FalseColorDescriptor()
-            _visualEffectsDictionary["Pixellate"] = PixellateDescriptor()
-            _visualEffectsDictionary["TiltShift"] = TiltShiftDescriptor()
-            _visualEffectsDictionary["HighlightShadowTint"] = HighlightAndShadowTintDescriptor()
-            _visualEffectsDictionary["ChromaKeying"] = ChromaKeyingDescriptor()
-            _visualEffectsDictionary["SphereRefraction"] = SphereRefractionDescriptor()
-            _visualEffectsDictionary["PinchDistortion"] = PinchDistortionDescriptor()
-            _visualEffectsDictionary["SwirlDistortion"] = SwirlDistortionDescriptor()
-            _visualEffectsDictionary["SphereRefraction"] = SphereRefractionDescriptor()
-            //_visualEffectsDictionary[""] = Decsriptor
-            
-            // Presets
-            _presetsDictionary["Monochrome"] = MonochromeDescriptor()
-            _presetsDictionary["Sepia"] = SepiaDescriptor()
-            _presetsDictionary["ColorInversion"] = ColorInversionDescriptor()
-            _presetsDictionary["MissEtikate"] = MissEtikateDescriptor()
-            _presetsDictionary["Amatorka"] = AmatorkaDescriptor()
-            _presetsDictionary["Grayscale"] = GrayscaleDescriptor()
-            _presetsDictionary["Luminance"] = LuminanceDescriptor()
-            _presetsDictionary["SoftElegance"] = SoftEleganceDescriptor()
-            _presetsDictionary["CGAColorspace"] = CGAColorspaceDescriptor()
-            //_presetsDictionary[""] = Decsriptor
-            
-            // Drawing/Sketches/Edge Detection
-            _drawingDictionary["Crosshatch"] = CrosshatchDescriptor()
-            _drawingDictionary["Emboss"] = EmbossDescriptor()
-            _drawingDictionary["LuminanceThreshold"] = LuminanceThresholdDescriptor()
-            _drawingDictionary["Sketch"] = SketchDescriptor()
-            _drawingDictionary["ThresholdSketch"] = ThresholdSketchDescriptor()
-            _drawingDictionary["Toon"] = ToonDescriptor()
-            _drawingDictionary["Kuwahara"] = KuwaharaDescriptor()
-            _drawingDictionary["KuwaharaRadius3"] = KuwaharaRadius3Descriptor()
-            _drawingDictionary["AverageLuminanceThreshold"] = AverageLuminanceThresholdDescriptor()
-            _drawingDictionary["AdaptiveThreshold"] = AdaptiveThresholdDescriptor()
-            _drawingDictionary["SmoothToon"] = SmoothToonDescriptor()
-            //_drawingDictionary[""] = Decsriptor
-            
-            
-            // Blurs
-            _blursDictionary["ZoomBlur"] = ZoomBlurDescriptor()
-            _blursDictionary["BilateralBlur"] = BilateralBlurDescriptor()
-            _blursDictionary["GaussianBlur"] = GaussianBlurDescriptor()
-            _blursDictionary["SingleComponentGaussianBlur"] = SingleComponentGaussianBlurDescriptor()
-            _blursDictionary["BoxBlur"] = BoxBlurDescriptor()
-            //_blursDictionary[""] = Decsriptor
-            
+        log.verbose("populateCategories() - Loading Dictionaries...")
+        //TODO: load from some kind of configuration file?
+        
+        // Quick Select
+        //TEMP: populate with some filters, but this should really be done by the user (and saved/restored)
+        
+        _quickSelectDictionary["BulgeDistortion"] = BulgeDistortionDescriptor()
+        _quickSelectDictionary["Crosshatch"] = CrosshatchDescriptor()
+        _quickSelectDictionary["Emboss"] = EmbossDescriptor()
+        _quickSelectDictionary["GlassSphereRefraction"] = GlassSphereRefractionDescriptor()
+        _quickSelectDictionary["PolarPixellate"] = PolarPixellateDescriptor()
+        _quickSelectDictionary["PolkaDot"] = PolkaDotDescriptor()
+        _quickSelectDictionary["Posterize"] = PosterizeDescriptor()
+        _quickSelectDictionary["Sketch"] = SketchDescriptor()
+        _quickSelectDictionary["Solarize"] = SolarizeDescriptor()
+        _quickSelectDictionary["ThresholdSketch"] = ThresholdSketchDescriptor()
+        _quickSelectDictionary["Toon"] = ToonDescriptor()
+        _quickSelectDictionary["FalseColor"] = FalseColorDescriptor()
+        _quickSelectDictionary["ThresholdSobelEdgeDetection"] = ThresholdSobelEdgeDetectionDescriptor()
+        _quickSelectDictionary["Laplacian"] = LaplacianDescriptor()
+        _quickSelectDictionary["ColorInversion"] = ColorInversionDescriptor()
+        _quickSelectDictionary["Pixellate"] = PixellateDescriptor()
+        _quickSelectDictionary["Luminance"] = LuminanceDescriptor()
+        _quickSelectDictionary["Halftone"] = HalftoneDescriptor()
+        _quickSelectDictionary["SmoothToon"] = SmoothToonDescriptor()
+        _quickSelectDictionary["SoftElegance"] = SoftEleganceDescriptor()
+        _quickSelectDictionary["CGAColorspace"] = CGAColorspaceDescriptor()
+        _quickSelectDictionary["PinchDistortion"] = PinchDistortionDescriptor()
+        _quickSelectDictionary["SwirlDistortion"] = SwirlDistortionDescriptor()
+        //_quickSelectDictionary[""] = Descriptor()
+        
+        // move these to different categories once tested:
+        
+        
+        //dumpDictionary(_quickSelectDictionary)//DEBUG
+        
+        // Basic Adjustments
+        
+        _basicAdjustmentsDictionary["Saturation"] = SaturationDescriptor()
+        _basicAdjustmentsDictionary["Warmth"] = WarmthDescriptor()
+        _basicAdjustmentsDictionary["WhiteBalance"] = WhiteBalanceDescriptor()
+        _basicAdjustmentsDictionary["Brightness"] = BrightnessDescriptor()
+        _basicAdjustmentsDictionary["Contrast"] = ContrastDescriptor()
+        _basicAdjustmentsDictionary["UnsharpMask"] = UnsharpMaskDescriptor()
+        _basicAdjustmentsDictionary["Exposure"] = ExposureDescriptor()
+        _basicAdjustmentsDictionary["Sharpen"] = SharpenDescriptor()
+        _basicAdjustmentsDictionary["Crop"] = CropDescriptor()
+        _basicAdjustmentsDictionary["Gamma"] = GammaDescriptor()
+        _basicAdjustmentsDictionary["Vibrance"] = VibranceDescriptor()
+        _basicAdjustmentsDictionary["Highlights"] = HighlightsDescriptor()
+        _basicAdjustmentsDictionary["LevelsAdjustment"] = LevelsAdjustmentDescriptor()
+        //_basicAdjustmentsDictionary[""] = Descriptor()
+        
+        
+        // Image Processing
+        _imageProcessingDictionary["Vignette"] = VignetteDescriptor()
+        _imageProcessingDictionary["FalseColor"] = FalseColorDescriptor()
+        _imageProcessingDictionary["Hue"] = HueDescriptor()
+        _imageProcessingDictionary["RGB"] = RGBDescriptor()
+        _imageProcessingDictionary["Rotate"] = RotateDescriptor()
+        _imageProcessingDictionary["Median"] = MedianDescriptor()
+        _imageProcessingDictionary["Opening"] = OpeningFilterDescriptor()
+        _imageProcessingDictionary["Closing"] = ClosingFilterDescriptor()
+        _imageProcessingDictionary["OpacityAdjustment"] = OpacityAdjustmentDescriptor()
+        _imageProcessingDictionary["ChromaKeying"] = ChromaKeyingDescriptor()
+        _imageProcessingDictionary["LowPassFilter"] = LowPassFilterDescriptor()
+        _imageProcessingDictionary["HighPassFilter"] = HighPassFilterDescriptor()
+        _imageProcessingDictionary["Haze"] = HazeDescriptor()
+        //_imageProcessingDictionary[""] = Decsriptor
+        
+        // Blend Modes
+        _blendModesDictionary["AddBlend"] = AddBlendDescriptor()
+        _blendModesDictionary["AlphaBlend"] = AlphaBlendDescriptor()
+        _blendModesDictionary["ColorDodgeBlend"] = ColorDodgeBlendDescriptor()
+        _blendModesDictionary["ChromaKeyBlend"] = ChromaKeyBlendDescriptor()
+        _blendModesDictionary["ColorBlend"] = ColorBlendDescriptor()
+        _blendModesDictionary["ColorBurnBlend"] = ColorBurnBlendDescriptor()
+        _blendModesDictionary["ColorDodgeBlend"] = ColorDodgeBlendDescriptor()
+        _blendModesDictionary["DarkenBlend"] = DarkenBlendDescriptor()
+        _blendModesDictionary["DifferenceBlend"] = DifferenceBlendDescriptor()
+        _blendModesDictionary["DissolveBlend"] = DissolveBlendDescriptor()
+        _blendModesDictionary["DivideBlend"] = DivideBlendDescriptor()
+        _blendModesDictionary["ExclusionBlend"] = ExclusionBlendDescriptor()
+        _blendModesDictionary["HardLightBlend"] = HardLightBlendDescriptor()
+        _blendModesDictionary["HueBlend"] = HueBlendDescriptor()
+        _blendModesDictionary["LightenBlend"] = LightenBlendDescriptor()
+        _blendModesDictionary["LinearBurnBlend"] = LinearBurnBlendDescriptor()
+        _blendModesDictionary["LuminosityBlend"] = LuminosityBlendDescriptor()
+        _blendModesDictionary["MultiplyBlend"] = MultiplyBlendDescriptor()
+        _blendModesDictionary["NormalBlend"] = NormalBlendDescriptor()
+        _blendModesDictionary["OverlayBlend"] = OverlayBlendDescriptor()
+        _blendModesDictionary["SaturationBlend"] = SaturationBlendDescriptor()
+        _blendModesDictionary["ScreenBlend"] = ScreenBlendDescriptor()
+        _blendModesDictionary["SoftLightBlend"] = SoftLightBlendDescriptor()
+        _blendModesDictionary["SourceOverBlend"] = SourceOverBlendDescriptor()
+        _blendModesDictionary["SubtractBlend"] = SubtractBlendDescriptor()
+        //_blendModesDictionary[""] = Decsriptor
+        
+        // Visual Effects
+        _visualEffectsDictionary["BulgeDistortion"] = BulgeDistortionDescriptor()
+        _visualEffectsDictionary["GlassSphereRefraction"] = GlassSphereRefractionDescriptor()
+        _visualEffectsDictionary["PolarPixellate"] = PolarPixellateDescriptor()
+        _visualEffectsDictionary["PolkaDot"] = PolkaDotDescriptor()
+        _visualEffectsDictionary["FalseColor"] = FalseColorDescriptor()
+        _visualEffectsDictionary["Pixellate"] = PixellateDescriptor()
+        _visualEffectsDictionary["TiltShift"] = TiltShiftDescriptor()
+        _visualEffectsDictionary["HighlightShadowTint"] = HighlightAndShadowTintDescriptor()
+        _visualEffectsDictionary["ChromaKeying"] = ChromaKeyingDescriptor()
+        _visualEffectsDictionary["SphereRefraction"] = SphereRefractionDescriptor()
+        _visualEffectsDictionary["PinchDistortion"] = PinchDistortionDescriptor()
+        _visualEffectsDictionary["SwirlDistortion"] = SwirlDistortionDescriptor()
+        _visualEffectsDictionary["SphereRefraction"] = SphereRefractionDescriptor()
+        //_visualEffectsDictionary[""] = Decsriptor
+        
+        // Presets
+        _presetsDictionary["Monochrome"] = MonochromeDescriptor()
+        _presetsDictionary["Sepia"] = SepiaDescriptor()
+        _presetsDictionary["ColorInversion"] = ColorInversionDescriptor()
+        _presetsDictionary["MissEtikate"] = MissEtikateDescriptor()
+        _presetsDictionary["Amatorka"] = AmatorkaDescriptor()
+        _presetsDictionary["Grayscale"] = GrayscaleDescriptor()
+        _presetsDictionary["Luminance"] = LuminanceDescriptor()
+        _presetsDictionary["SoftElegance"] = SoftEleganceDescriptor()
+        _presetsDictionary["CGAColorspace"] = CGAColorspaceDescriptor()
+        //_presetsDictionary[""] = Decsriptor
+        
+        // Drawing/Sketches/Edge Detection
+        _drawingDictionary["Crosshatch"] = CrosshatchDescriptor()
+        _drawingDictionary["Emboss"] = EmbossDescriptor()
+        _drawingDictionary["LuminanceThreshold"] = LuminanceThresholdDescriptor()
+        _drawingDictionary["Sketch"] = SketchDescriptor()
+        _drawingDictionary["ThresholdSketch"] = ThresholdSketchDescriptor()
+        _drawingDictionary["Toon"] = ToonDescriptor()
+        _drawingDictionary["Kuwahara"] = KuwaharaDescriptor()
+        _drawingDictionary["KuwaharaRadius3"] = KuwaharaRadius3Descriptor()
+        _drawingDictionary["AverageLuminanceThreshold"] = AverageLuminanceThresholdDescriptor()
+        _drawingDictionary["AdaptiveThreshold"] = AdaptiveThresholdDescriptor()
+        _drawingDictionary["SmoothToon"] = SmoothToonDescriptor()
+        //_drawingDictionary[""] = Decsriptor
+        
+        
+        // Blurs
+        _blursDictionary["ZoomBlur"] = ZoomBlurDescriptor()
+        _blursDictionary["BilateralBlur"] = BilateralBlurDescriptor()
+        _blursDictionary["GaussianBlur"] = GaussianBlurDescriptor()
+        _blursDictionary["SingleComponentGaussianBlur"] = SingleComponentGaussianBlurDescriptor()
+        _blursDictionary["BoxBlur"] = BoxBlurDescriptor()
+        //_blursDictionary[""] = Decsriptor
+        
         
     }
     
