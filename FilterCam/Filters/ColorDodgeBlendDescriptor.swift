@@ -36,6 +36,13 @@ class ColorDodgeBlendDescriptor: FilterDescriptorInterface {
     //MARK: - Required funcs
     
     
+    func reset(){
+        lclFilter.removeAllTargets()
+        lclFilter = ColorDodgeBlend()
+        restoreParameters()
+    }
+    
+   
     // stubs for required but unused functions
 
     func configureCustomFilter(_ input:(filter:BasicOperation, secondInput:BasicOperation?)){ }

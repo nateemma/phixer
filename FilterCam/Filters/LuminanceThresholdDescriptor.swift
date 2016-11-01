@@ -41,6 +41,13 @@ class LuminanceThresholdDescriptor: FilterDescriptorInterface {
     
     //MARK: - Required funcs
     
+    func reset(){
+        lclFilter.removeAllTargets()
+        lclFilter = LuminanceThreshold()
+        restoreParameters()
+    }
+    
+
     func configureCustomFilter(_ input:(filter:BasicOperation, secondInput:BasicOperation?)){
         // nothing to do
     }

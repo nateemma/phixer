@@ -49,6 +49,13 @@ class SmoothToonDescriptor: FilterDescriptorInterface {
     
     //MARK: - Required funcs
     
+    func reset(){
+        lclFilter.removeAllTargets()
+        lclFilter = SmoothToonFilter()
+        restoreParameters()
+    }
+    
+   
     func configureCustomFilter(_ input:(filter:BasicOperation, secondInput:BasicOperation?)){
         // nothing to do
     }

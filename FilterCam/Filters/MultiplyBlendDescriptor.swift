@@ -36,6 +36,13 @@ class MultiplyBlendDescriptor: FilterDescriptorInterface {
     //MARK: - Required funcs
     
     
+    func reset(){
+        lclFilter.removeAllTargets()
+        lclFilter = MultiplyBlend()
+        restoreParameters()
+    }
+    
+
     // stubs for required but unused functions
 
     func configureCustomFilter(_ input:(filter:BasicOperation, secondInput:BasicOperation?)){ }

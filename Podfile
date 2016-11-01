@@ -19,6 +19,9 @@ target 'FilterCam' do
   #Google AdMob framework
   pod 'Firebase/Core'
   pod 'Firebase/AdMob'
+  
+  #Image Caching
+  pod 'Kingfisher'
 
   target 'FilterCamTests' do
     inherit! :search_paths

@@ -25,7 +25,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     var filterManager: FilterManager? = FilterManager.sharedInstance
     var filterNameList: [String] = []
     var filterViewList: [RenderContainerView] = []
-    var filterCategory:FilterCategoryType = FilterCategoryType.none
+    var filterCategory:FilterManager.CategoryType = FilterManager.CategoryType.none
     var filterLabel:UILabel = UILabel()
     var carouselHeight:CGFloat = 80.0
     var camera: Camera? = nil
@@ -41,7 +41,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     //MARK: - Public accessors
     ///////////////////////////////////
     
-    func setFilterCategory(_ category:FilterCategoryType){
+    func setFilterCategory(_ category:FilterManager.CategoryType){
         
         if (category != filterCategory){
             
@@ -61,7 +61,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
             
             if (filterNameList.count > 0){
                 for i in (0...filterNameList.count-1) {
-                    filterViewList.append(createFilterContainerView((filterManager?.getFilterDescriptor(category, name:filterNameList[i]))!))
+                    filterViewList.append(createFilterContainerView((filterManager?.getFilterDescriptor(key:filterNameList[i]))!))
                 }
                 
                 updateVisibleItems()
@@ -73,7 +73,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
                 
             }
         } else {
-            log.verbose("Ignored \(category)->\(filterCategory) change")
+            //log.verbose("Ignored \(category)->\(filterCategory) change")
         }
     }
     
@@ -134,7 +134,8 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         
         filterCarousel?.dataSource = self
         filterCarousel?.delegate = self
-        filterCarousel?.type = .rotary
+        //filterCarousel?.type = .rotary
+        filterCarousel?.type = .linear
         
         //self.groupAndFill(.vertical, views: [filterLabel, filterCarousel], padding: 4.0)
         filterLabel.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: filterLabel.frame.size.height)
@@ -183,22 +184,12 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
             if (camera != nil){
                 do{
                     filterCategory = (filterManager?.getCurrentCategory())!
-                    currFilter = filterManager?.getFilterDescriptor(filterCategory, name:filterNameList[index])
+                    currFilter = filterManager?.getFilterDescriptor(key:filterNameList[index])
                     //tempView.label.text = currFilter?.key
                     let filter = currFilter?.filter
                     if (filter != nil){
                         
                         camera! --> filter! --> filterViewList[index].renderView!
-/***
-                         let image = UIImage(contentsOfFile: (self.previewURL?.path)!)
-                         self.cameraPreviewInput = PictureInput(image:image!)
-                        if (cameraPreviewInput != nil){
-                            cameraPreviewInput!  --> filter! --> self.filterViewList[index].renderView!
-                            cameraPreviewInput?.processImage()
-                        } else {
-                            log.error("ERR: cameraPreviewInput not set up")
-                        }
- ***/
                         
                     } else {
                         let filterGroup = currFilter?.filterGroup
@@ -224,6 +215,8 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         if (option == iCarouselOption.spacing){
             //return value * 1.1
             return value
+        } else if (option == iCarouselOption.wrap){
+            return 1.0
         }
         
         // default
@@ -263,7 +256,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         if ((index != currIndex) && isValidIndex(index)){
             log.debug("Selected: \(filterNameList[index])")
             filterCategory = (filterManager?.getCurrentCategory())!
-            currFilter = filterManager?.getFilterDescriptor(filterCategory, name:filterNameList[index])
+            currFilter = filterManager?.getFilterDescriptor(key:filterNameList[index])
             filterLabel.text = currFilter?.title
             
             // updates label colors of selected item, reset old selection
@@ -304,20 +297,37 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
              ***/
         }
     }
+ 
+    open func suspend(){
+        var index:Int
+        var descriptor:FilterDescriptorInterface?
+        for i in (self.filterCarousel?.indexesForVisibleItems)! {
+            if (self.camera != nil){
+                index = i as! Int
+                if (self.isValidIndex(index)){ // filterNameList can change asynchronously
+                    descriptor = (self.filterManager?.getFilterDescriptor(key:self.filterNameList[index]))
+                    log.verbose("Suspending \(self.filterNameList[index])  address:\(filterManager?.filterAddress(descriptor))...")
+                    descriptor?.reset()
+                }
+            }
+        }
+        filterNameList = []
+    }
+    
     
     private func updateVisibleItems(){
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             var index:Int
-            var descriptor:FilterDescriptorInterface
+            var descriptor:FilterDescriptorInterface?
             log.verbose("Updating...")
             for i in (self.filterCarousel?.indexesForVisibleItems)! {
                 if (self.camera != nil){
                     do{
                         index = i as! Int
                         if (self.isValidIndex(index)){ // filterNameList can change asynchronously
-                            descriptor = (self.filterManager?.getFilterDescriptor(self.filterCategory, name:self.filterNameList[index]))!
+                            descriptor = (self.filterManager?.getFilterDescriptor(key:self.filterNameList[index]))
                             //tempView.label.text = currFilter?.key
-                            let filter = descriptor.filter
+                            let filter = descriptor?.filter
                             if (filter != nil){
                                 //log.verbose("updating index:\(index) (\(descriptor.key))")
                                 //TODO: apply rotation filter

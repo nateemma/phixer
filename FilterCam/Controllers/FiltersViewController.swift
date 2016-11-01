@@ -68,6 +68,7 @@ class FiltersViewController: UIViewController, SegueHandlerType {
         case attributions
         case about
         case preferences
+        case categoryManager
     }
  
     
@@ -83,7 +84,8 @@ class FiltersViewController: UIViewController, SegueHandlerType {
         
         if (!FiltersViewController.initDone){
             //filterManager = FilterManager.sharedInstance
-            filterManager?.setCurrentCategory(FilterCategoryType.quickSelect)
+            filterManager?.setCurrentCategory(FilterManager.CategoryType.quickSelect)
+            categorySelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)
             FiltersViewController.initDone = true
             updateCurrentFilter()
         }
@@ -104,7 +106,7 @@ class FiltersViewController: UIViewController, SegueHandlerType {
             //isLandscape = UIDevice.current.orientation.isLandscape // doesn't always work properly, especially in simulator
             isLandscape = (displayWidth > displayHeight)
             
-            filterManager?.reset()
+            //filterManager?.reset()
             doInit()
            
             // Note: need to add subviews before modifying constraints
@@ -195,11 +197,10 @@ class FiltersViewController: UIViewController, SegueHandlerType {
             // add delegates to sub-views (for callbacks)
             filterInfoView.delegate = self
             cameraControlsView.delegate = self
-            //cameraInfoView.delegate = self
             filterInfoView.delegate = self
             filterControlsView.delegate = self
-            //filterSettingsView.delegate = self
             filterSelectionView.delegate = self
+            categorySelectionView.delegate = self
             
             // set gesture detction for Filter Settings view
             //setGestureDetectors(view: filterSettingsView)
@@ -210,7 +211,7 @@ class FiltersViewController: UIViewController, SegueHandlerType {
             
             
             //TODO: select filter category somehow
-            //filterSelectionView.setFilterCategory(FilterCategoryType.quickSelect)
+            //filterSelectionView.setFilterCategory(FilterManager.CategoryType.quickSelect)
             
             //TODO: remeber state?
             hideCategorySelector()
@@ -305,7 +306,7 @@ class FiltersViewController: UIViewController, SegueHandlerType {
     
     fileprivate func setupAds(){
         log.debug("Google Mobile Ads SDK version: " + GADRequest.sdkVersion())
-        adView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        adView.adUnitID = admobID
         adView.rootViewController = self
         adView.load(GADRequest())
         adView.backgroundColor = UIColor.black
@@ -364,7 +365,9 @@ class FiltersViewController: UIViewController, SegueHandlerType {
         }
     }
    
+    //////////////////////////////////////
     //MARK: - Utility functions
+    //////////////////////////////////////
     
     open func saveImage(){
         do{
@@ -423,6 +426,7 @@ class FiltersViewController: UIViewController, SegueHandlerType {
         //if (descriptor?.key != currFilterDescriptor?.key){
             currFilterDescriptor = descriptor
             cameraDisplayView.setFilter(currFilterDescriptor)
+            categorySelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)
             filterSelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)
             filterSelectionView.update()
             filterInfoView.update()
@@ -460,6 +464,7 @@ class FiltersViewController: UIViewController, SegueHandlerType {
         categorySelectionView.isHidden = false
         categorySelectorShown = true
         filterControlsView.setCategoryControlState(.shown)
+        categorySelectionView.update()
        view.bringSubview(toFront: categorySelectionView)
     }
     
@@ -539,28 +544,45 @@ class FiltersViewController: UIViewController, SegueHandlerType {
         }
     }
     
+    
+    fileprivate func returnFromController(){
+        log.debug("Returned from ViewController")
+        CameraManager.startCapture()
+    }
 }
 
 //////////////////////////////////////////
 // MARK: - Delegate methods for sub-views
 //////////////////////////////////////////
 
+fileprivate var callbacksEnabled = true
 extension FiltersViewController: CameraControlsViewDelegate {
     func imagePreviewPressed(){
         log.debug("imagePreview pressed")
     }
+    
     func takePicturePressed(){
         log.debug("Take Picture pressed")
         saveImage()
         playCameraSound()
         cameraControlsView.update()
     }
+    
     func modePressed(){
         log.debug("Filter Mgr pressed")
         //swapInfoMode()
     }
+    
     func settingsPressed(){
         log.debug("Settings pressed")
+        //TEMP: launch Category Manager VC
+        CameraManager.stopCapture()
+        filterSelectionView.suspend()
+        callbacksEnabled = false  //TODO: how to turn back on?!
+
+        present(FilterGalleryViewController(), animated: false, completion: nil)
+        //present(CategoryManagerViewController(), animated: true, completion: nil)
+        //self.performSegueWithIdentifier(.categoryManager, sender: self)
     }
 }
 
@@ -579,17 +601,33 @@ extension FiltersViewController: FilterInfoViewDelegate {
 extension FiltersViewController: FilterControlsViewDelegate {
     func categoryPressed(){
         log.debug("Show/Hide Categories pressed")
+        callbacksEnabled = true
         toggleCategoryState()
     }
     func filterPressed(){
+        callbacksEnabled = true
         log.debug("Show/Hide Filters pressed")
         toggleFilterState()
     }
     
     func filterParametersPressed(){
+        callbacksEnabled = true
         log.debug("Show/Hide Filter Settings pressed")
         toggleFilterSettings()
     }
+}
+
+extension FiltersViewController: CategorySelectionViewDelegate {
+    func categorySelected(_ category:FilterManager.CategoryType){
+        
+        guard (callbacksEnabled) else {
+            log.info("Category Selected Callback ignored")
+            return
+        }
+        log.debug("Category Selected: \(category)")
+        filterManager?.setCurrentCategory(category)
+    }
+    
 }
 
 extension FiltersViewController: FilterSelectionViewDelegate{
@@ -603,9 +641,14 @@ extension FiltersViewController: FilterSelectionViewDelegate{
             return
         }
         
+        guard (callbacksEnabled) else {
+            log.info("Filter Selected Callback ignored")
+            return
+        }
+        
         // setup the filter descriptor
         let category = filterManager?.getCurrentCategory()
-        currFilterDescriptor = filterManager?.getFilterDescriptor(category!, name:key)
+        currFilterDescriptor = filterManager?.getFilterDescriptor(key:key)
         updateCurrentFilter()
         
 /***

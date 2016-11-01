@@ -35,6 +35,13 @@ class SoftLightBlendDescriptor: FilterDescriptorInterface {
     
     //MARK: - Required funcs
     
+    func reset(){
+        lclFilter.removeAllTargets()
+        lclFilter = SoftLightBlend()
+        restoreParameters()
+    }
+    
+
     
     // stubs for required but unused functions
 

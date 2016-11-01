@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
@@ -21,10 +21,49 @@
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <segue destination="n6k-1i-HOH" kind="show" identifier="categoryManager" id="1ff-Ny-Udx"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-257" y="-7"/>
+        </scene>
+        <!--Category Manager View Controller-->
+        <scene sceneID="nCa-c3-mP4">
+            <objects>
+                <viewController modalTransitionStyle="partialCurl" id="n6k-1i-HOH" customClass="CategoryManagerViewController" customModule="FilterCam" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="3li-QX-pfv"/>
+                        <viewControllerLayoutGuide type="bottom" id="7at-JI-yLf"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="dep-dr-h0s">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TQn-Bd-HBv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-258" y="652"/>
+        </scene>
+        <!--Filter Details View Controller-->
+        <scene sceneID="Na4-Z6-I4j">
+            <objects>
+                <viewController storyboardIdentifier="FilterDetailsViewController" id="1XT-0B-nRq" customClass="FilterDetailsViewController" customModule="FilterCam" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="bNz-aR-Vjp"/>
+                        <viewControllerLayoutGuide type="bottom" id="1yA-rh-UYg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="qnk-xn-M6I">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8fB-VV-czN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="492" y="654"/>
         </scene>
         <!--Camera View Controller-->
         <scene sceneID="7Kg-2p-35T">

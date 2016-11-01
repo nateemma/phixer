@@ -36,7 +36,7 @@ class FilterParametersView: UIView {
     
     var initDone: Bool = false
     
-    let sliderHeight: Float = 48.0
+    let sliderHeight: Float = 32.0
     
     let showButtons:Bool = false
 
@@ -45,9 +45,9 @@ class FilterParametersView: UIView {
     var titleLabel:UILabel! = UILabel()
     var titleView: UIView! = UIView()
 
-    var acceptButton: UIButton! = UIButton()
-    var cancelButton: UIButton! = UIButton()
-    var buttonContainerView: UIView! = UIView()
+    //var acceptButton: UIButton! = UIButton()
+    //var cancelButton: UIButton! = UIButton()
+    //var buttonContainerView: UIView! = UIView()
     
     var sliders: [UIView] = []
     
@@ -146,7 +146,7 @@ class FilterParametersView: UIView {
         }
         
         // TODO: "Reset" button
-        
+/*** Removed buttons for now
         initButton(acceptButton)
         acceptButton.setTitle("Accept", for: .normal)
         
@@ -169,7 +169,7 @@ class FilterParametersView: UIView {
         // register handlers for the buttons
         acceptButton.addTarget(self, action: #selector(self.acceptDidPress), for: .touchUpInside)
         cancelButton.addTarget(self, action: #selector(self.cancelDidPress), for: .touchUpInside)
-
+***/
     }
     
 
@@ -205,6 +205,7 @@ class FilterParametersView: UIView {
                 label.frame.size.height = CGFloat(sliderHeight/2.0)
                 label.textAlignment = .center
                 label.textColor = sliderTextColor
+                label.font = UIFont.systemFont(ofSize: 14.0)
                 sliderView.addSubview(label)
                 
                 if (!sliderConfig.isRGB){
@@ -343,9 +344,11 @@ class FilterParametersView: UIView {
 
         // Place the tile at the top, buttons at the bottom and sliders distributed in between
         titleView.anchorAndFillEdge(.top, xPad: 2.0, yPad: 2.0, otherSize: titleView.frame.size.height)
+/*** removed buttons for now
         if (showButtons){
             buttonContainerView.anchorAndFillEdge(.bottom, xPad: 2.0, yPad: 2.0, otherSize: buttonContainerView.frame.size.height)
         }
+ ***/
         if ((currFilterDesc?.numParameters)! > 0){
             //self.groupInCenter(.vertical, views: sliders, padding: 1.0, width: sliders[0].frame.size.width, height: sliders[0].frame.size.height)
             let n:CGFloat = CGFloat((currFilterDesc?.numParameters)!)
@@ -401,7 +404,18 @@ class FilterParametersView: UIView {
         } else {
             
             currFilterDesc = descriptor
+
+            let filter = currFilterDesc?.filter
+            if (filter != nil){
+                log.debug("filter: \(currFilterDesc?.key) address:\(Utilities.addressOf(filter!)) ()")
+            }
+            let filterGroup = currFilterDesc?.filterGroup
+            if (filterGroup != nil){
+                log.debug("filter: \(currFilterDesc?.key) address:\(Utilities.addressOf(filterGroup!))")
+            }
+
             currFilterDesc?.stashParameters() // save initial values in case the user cancels
+
             
             layoutUI()
         }

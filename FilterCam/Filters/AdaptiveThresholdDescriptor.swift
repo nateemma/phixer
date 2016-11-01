@@ -39,12 +39,19 @@ class AdaptiveThresholdDescriptor: FilterDescriptorInterface {
     
     //MARK: - Required funcs
     
+    
+    func reset(){
+        lclFilter.removeAllTargets()
+        lclFilter = AdaptiveThreshold()
+        restoreParameters()
+    }
+    
+   
     func configureCustomFilter(_ input:(filter:BasicOperation, secondInput:BasicOperation?)){
         // nothing to do
     }
     
-    
-    
+   
     func getParameter(_ index: Int)->Float {
         switch (index){
         case 1:

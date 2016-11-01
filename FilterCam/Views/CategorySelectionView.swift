@@ -15,7 +15,7 @@ import GPUImage
 
 // Interface required of controlling View
 protocol CategorySelectionViewDelegate: class {
-    func categorySelected(_ category:FilterCategoryType)
+    func categorySelected(_ category:FilterManager.CategoryType)
 }
 
 
@@ -23,9 +23,9 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
 
     var categoryCarousel:iCarousel = iCarousel()
     var filterManager: FilterManager? = FilterManager.sharedInstance
-    var categoryList: [FilterCategoryType] = []
+    var categoryList: [FilterManager.CategoryType] = []
     var categoryViewList: [UILabel] = []
-    var currCategory:FilterCategoryType = FilterCategoryType.quickSelect
+    var currCategory:FilterManager.CategoryType = FilterManager.CategoryType.none
     var categoryLabel:UILabel = UILabel()
     var carouselHeight:CGFloat = 80.0
     var currIndex:Int = -1
@@ -35,17 +35,25 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
 
     //MARK: - Public accessors
     
-    func setFilterCategory(_ category:FilterCategoryType){
-        currCategory = category
-        log.debug("Filter category set to: \(category.rawValue)")
-        categoryCarousel.setNeedsLayout()
+    func setFilterCategory(_ category:FilterManager.CategoryType){
+        if (currCategory != category){
+            currCategory = category
+            log.debug("Filter category set to: \(category.rawValue)")
+            update()
+        } else {
+            log.debug("Ignoring category \(category) change")
+        }
     }
     
     func update(){
-        let newIndex = filterManager?.getCurrentCategory().getIndex()
+        //let newIndex = filterManager?.getCurrentCategory().getIndex()
+        let newIndex = currCategory.getIndex()
         if (currIndex != newIndex){
-            categoryCarousel.scrollToItem(at: newIndex!, animated: true)
-            currIndex = newIndex!
+            log.verbose("Scroll \(currIndex)->\(newIndex)")
+            //categoryCarousel.scrollToItem(at: newIndex, animated: true)  // for some reason, animation causes a 'false' trigger at the end of the list
+            categoryCarousel.scrollToItem(at: newIndex, animated: false)
+            currIndex = newIndex
+            categoryCarousel.setNeedsLayout()
         }
     }
     
@@ -69,14 +77,15 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     }
  ***/
    
-    fileprivate static var initDone:Bool = false
+    fileprivate var initDone:Bool = false
     func doInit(){
-        if (!CategorySelectionView.initDone){
+        if (!initDone){
             carouselHeight = fmax((self.frame.size.height * 0.8), 80.0) // doesn't seem to work at less than 80 (empirical)
             //carouselHeight = self.frame.size.height * 0.82
             
             // Pre-allocate views for the filters, makes it much easier and we can update in the background if needed
             
+            //setFilterCategory((filterManager?.getCurrentCategory())!)
             categoryList = (filterManager?.getCategoryList())!
             categoryViewList = []
             
@@ -90,12 +99,12 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
             categoryLabel.text = "Categories"
             categoryLabel.textAlignment = .center
             categoryLabel.textColor = UIColor.white
-            categoryLabel.font = UIFont.boldSystemFont(ofSize: 14.0)
+            categoryLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
             categoryLabel.frame.size.height = carouselHeight * 0.18
             categoryLabel.frame.size.width = self.frame.size.width
             self.addSubview(categoryLabel)
            
-            CategorySelectionView.initDone = true
+            initDone = true
         }
     }
     //MARK: - UIView required functions
@@ -152,7 +161,7 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         label.textAlignment = .center
         label.textColor = UIColor.white
         label.backgroundColor = UIColor.black
-        label.font = UIFont.boldSystemFont(ofSize: 16.0)
+        label.font = UIFont.boldSystemFont(ofSize: 14.0)
         label.frame.size.height = carouselHeight * 0.95
         label.frame.size.width = label.frame.size.height // square
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
@@ -173,6 +182,9 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         if (option == iCarouselOption.spacing){
             //return value * 1.1
             return value
+        } else if (option == iCarouselOption.wrap){
+            //return 1.0
+            return 1.0
         }
         
         // default
@@ -191,12 +203,16 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     // called when an item is selected manually (i.e. touched).
     func carousel(_ carousel: iCarousel, didSelectItemAt index: Int) {
         updateSelection(carousel, index: index)
+        
+        // call delegate function to act on selection
+        delegate?.categorySelected(categoryList[index])
     }
     
     // called when user stops scrolling through list
     func carouselDidEndScrollingAnimation(_ carousel: iCarousel) {
         let index = carousel.currentItemIndex
  
+        //log.debug("index:\(index)")
         updateSelection(carousel, index: index)
     }
 
@@ -238,12 +254,8 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
             
             // update current index
             currIndex = index
-            
-            filterManager?.setCurrentCategory(categoryList[index])
-            
-            
-            // call delegate function to act on selection
-            delegate?.categorySelected(categoryList[index])
+            categoryCarousel.scrollToItem(at: index, animated: false)
+           
 
         }
     }

@@ -256,7 +256,7 @@ class CameraDisplayView: UIView {
     
     func filterChanged(){
         log.verbose("filter changed")
-        let descriptor = filterManager.getCurrentFilter()
+        let descriptor = filterManager.getCurrentFilterDescriptor()
         if (currFilter?.key != descriptor?.key){
             log.debug("\(currFilter?.key)->\(descriptor?.key)")
             removeTargets(currFilter)

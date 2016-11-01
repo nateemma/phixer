@@ -40,7 +40,14 @@ class SobelEdgeDetectionDescriptor: FilterDescriptorInterface {
     
     //MARK: - Required funcs
     
-    func configureCustomFilter(_ input:(filter:BasicOperation, secondInput:BasicOperation?)){
+    
+    func reset(){
+        lclFilter.removeAllTargets()
+        lclFilter = SobelEdgeDetection()
+        restoreParameters()
+    }
+    
+  func configureCustomFilter(_ input:(filter:BasicOperation, secondInput:BasicOperation?)){
         // nothing to do
     }
     

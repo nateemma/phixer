@@ -36,6 +36,13 @@ class LuminosityBlendDescriptor: FilterDescriptorInterface {
     //MARK: - Required funcs
     
     
+    func reset(){
+        lclFilter.removeAllTargets()
+        lclFilter = LuminosityBlend()
+        restoreParameters()
+   }
+    
+
     // stubs for required but unused functions
 
     func configureCustomFilter(_ input:(filter:BasicOperation, secondInput:BasicOperation?)){ }

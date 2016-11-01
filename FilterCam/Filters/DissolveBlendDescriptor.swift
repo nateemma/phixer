@@ -23,7 +23,7 @@ class DissolveBlendDescriptor: FilterDescriptorInterface {
     let parameterConfiguration = [ParameterSettings(title:"mix", minimumValue:0.0, maximumValue:1.0, initialValue:0.5, isRGB:false)]
     
     
-    let filterOperationType = FilterOperationType.singleInput
+    let filterOperationType = FilterOperationType.blend
     
     fileprivate var lclFilter:DissolveBlend = DissolveBlend() // the actual filter
     fileprivate var stash_mix: Float
@@ -39,6 +39,13 @@ class DissolveBlendDescriptor: FilterDescriptorInterface {
     
     //MARK: - Required funcs
     
+    func reset(){
+        lclFilter.removeAllTargets()
+        lclFilter = DissolveBlend()
+        restoreParameters()
+    }
+    
+   
     func configureCustomFilter(_ input:(filter:BasicOperation, secondInput:BasicOperation?)){
         // nothing to do
     }

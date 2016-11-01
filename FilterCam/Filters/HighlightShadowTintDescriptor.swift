@@ -15,7 +15,7 @@ class HighlightAndShadowTintDescriptor: FilterDescriptorInterface {
     
     
     
-    let key = "HighlightAndShadowTint"
+    let key = "HighlightShadowTint"
     let title = "Highlight And Shadow Tint"
     
     var filter: BasicOperation?  = nil
@@ -53,6 +53,13 @@ class HighlightAndShadowTintDescriptor: FilterDescriptorInterface {
     
     
     //MARK: - Required funcs
+    
+    func reset(){
+        lclFilter.removeAllTargets()
+        lclFilter = HighlightAndShadowTint()
+        restoreParameters()
+    }
+    
     
     func configureCustomFilter(_ input:(filter:BasicOperation, secondInput:BasicOperation?)){
         // nothing to do

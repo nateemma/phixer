@@ -39,6 +39,13 @@ class SingleComponentGaussianBlurDescriptor: FilterDescriptorInterface {
     
     //MARK: - Required funcs
     
+    func reset(){
+        lclFilter.removeAllTargets()
+        lclFilter = SingleComponentGaussianBlur()
+        restoreParameters()
+    }
+    
+   
     func configureCustomFilter(_ input:(filter:BasicOperation, secondInput:BasicOperation?)){
         // nothing to do
     }

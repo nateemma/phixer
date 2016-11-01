@@ -45,6 +45,13 @@ class ThresholdSobelEdgeDetectionDescriptor: FilterDescriptorInterface {
     
     //MARK: - Required funcs
     
+    func reset(){
+        lclFilter.removeAllTargets()
+        lclFilter = ThresholdSobelEdgeDetection()
+        restoreParameters()
+    }
+    
+  
     func configureCustomFilter(_ input:(filter:BasicOperation, secondInput:BasicOperation?)){
         // nothing to do
     }

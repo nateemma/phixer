@@ -35,6 +35,13 @@ class OpeningFilterDescriptor: FilterDescriptorInterface {
     
     //MARK: - Required funcs
     
+    func reset(){
+        lclFilter.removeAllTargets()
+        lclFilter = OpeningFilter()
+        restoreParameters()
+    }
+    
+
     
     // stubs for required but unused functions
 

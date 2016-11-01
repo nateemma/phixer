@@ -35,6 +35,13 @@ class XXX0Descriptor: FilterDescriptorInterface {
     
     //MARK: - Required funcs
     
+    func reset(){
+        lclFilter.removeAllTargets()
+        lclFilter = XXXFilter()
+        restoreParameters()
+    }
+    
+ 
     
     // stubs for required but unused functions
 

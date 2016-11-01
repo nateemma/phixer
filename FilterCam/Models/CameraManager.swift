@@ -104,6 +104,16 @@ class CameraManager {
         
     }
     
+    open static func startCapture(){
+        selectedCamera?.startCapture()
+        selectedCamera?.removeAllTargets()
+    }
+    
+    open static func stopCapture(){
+        selectedCamera?.stopCapture()
+        selectedCamera?.removeAllTargets()
+    }
+    
     
     open static func switchCameraLocation() {
         if (cameraLocation == .frontFacing){

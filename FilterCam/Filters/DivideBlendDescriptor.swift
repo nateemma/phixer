@@ -35,6 +35,13 @@ class DivideBlendDescriptor: FilterDescriptorInterface {
     
     //MARK: - Required funcs
     
+    func reset(){
+        lclFilter.removeAllTargets()
+        lclFilter = DivideBlend()
+        restoreParameters()
+   }
+    
+    
     
     // stubs for required but unused functions
 

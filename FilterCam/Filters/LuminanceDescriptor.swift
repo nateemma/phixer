@@ -35,6 +35,13 @@ class LuminanceDescriptor: FilterDescriptorInterface {
     
     //MARK: - Required funcs
     
+    func reset(){
+        lclFilter.removeAllTargets()
+        lclFilter = Luminance()
+        restoreParameters()
+    }
+    
+    
     
     // stubs for required but unused functions
 

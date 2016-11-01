@@ -30,7 +30,7 @@ let parameterNotSet:Float = -1000.00
 protocol FilterDescriptorInterface{
     var key: String { get }
     var title: String { get }
-    //var category: FilterCategoryType { get }
+
     var filter: BasicOperation? { get }
     var filterGroup: OperationGroup? { get }
     
@@ -53,5 +53,7 @@ protocol FilterDescriptorInterface{
     func stashParameters()
     func restoreParameters()
     
+    
+    func reset()
 }
 

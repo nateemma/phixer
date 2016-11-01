@@ -23,7 +23,7 @@ class AlphaBlendDescriptor: FilterDescriptorInterface {
     let parameterConfiguration = [ParameterSettings(title:"mix", minimumValue:0.0, maximumValue:1.0, initialValue:0.5, isRGB:false)]
     
     
-    let filterOperationType = FilterOperationType.singleInput
+    let filterOperationType = FilterOperationType.blend
     
     fileprivate var lclFilter:AlphaBlend = AlphaBlend() // the actual filter
     fileprivate var stash_mix: Float
@@ -38,6 +38,14 @@ class AlphaBlendDescriptor: FilterDescriptorInterface {
     
     
     //MARK: - Required funcs
+    
+    
+    func reset(){
+        lclFilter.removeAllTargets()
+        lclFilter = AlphaBlend()
+        restoreParameters()
+    }
+
     
     func configureCustomFilter(_ input:(filter:BasicOperation, secondInput:BasicOperation?)){
         // nothing to do

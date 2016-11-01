@@ -36,6 +36,13 @@ class ScreenBlendDescriptor: FilterDescriptorInterface {
     //MARK: - Required funcs
     
     
+    func reset(){
+        lclFilter.removeAllTargets()
+        lclFilter = ScreenBlend()
+        restoreParameters()
+    }
+    
+
     // stubs for required but unused functions
 
     func configureCustomFilter(_ input:(filter:BasicOperation, secondInput:BasicOperation?)){ }

@@ -26,7 +26,7 @@ class ChromaKeyBlendDescriptor: FilterDescriptorInterface {
                                   ParameterSettings(title:"smoothing", minimumValue:0.0, maximumValue:1.0, initialValue:0.1, isRGB:false)]
     
     
-    let filterOperationType = FilterOperationType.singleInput
+    let filterOperationType = FilterOperationType.blend
     
     fileprivate var lclFilter:ChromaKeyBlend = ChromaKeyBlend() // the actual filter
     fileprivate var stash_thresholdSensitivity: Float
@@ -44,6 +44,13 @@ class ChromaKeyBlendDescriptor: FilterDescriptorInterface {
     
     
     //MARK: - Required funcs
+    
+    
+    func reset(){
+        lclFilter.removeAllTargets()
+        lclFilter = ChromaKeyBlend()
+        restoreParameters()
+   }
     
     func configureCustomFilter(_ input:(filter:BasicOperation, secondInput:BasicOperation?)){
         // nothing to do

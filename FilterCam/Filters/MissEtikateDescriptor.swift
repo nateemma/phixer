@@ -36,6 +36,13 @@ class MissEtikateDescriptor: FilterDescriptorInterface {
     //MARK: - Required funcs
     
     
+    func reset(){
+        lclFilter.removeAllTargets()
+        lclFilter = MissEtikateFilter()
+        restoreParameters()
+   }
+    
+
     // stubs for required but unused functions
 
     func configureCustomFilter(_ input:(filter:BasicOperation, secondInput:BasicOperation?)){ }

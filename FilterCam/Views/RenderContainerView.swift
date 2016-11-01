@@ -31,7 +31,7 @@ class RenderContainerView: UIView {
         self.layer.borderColor = UIColor(white: 0.68, alpha: 1.0).cgColor
         self.clipsToBounds = true
         
-        renderView?.contentMode = .scaleAspectFit
+        renderView?.contentMode = .scaleAspectFill
         renderView?.clipsToBounds = true
         renderView?.frame.size = CGSize(width:defaultWidth, height:defaultHeight)
         self.addSubview(renderView!)

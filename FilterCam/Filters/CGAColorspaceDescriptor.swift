@@ -25,7 +25,7 @@ class CGAColorspaceDescriptor: FilterDescriptorInterface {
     
     let filterOperationType = FilterOperationType.singleInput
     
-    fileprivate var lclFilter:CGAColorspaceFilter = CGAColorspaceFilter() // the actual filter
+    fileprivate var lclFilter:CGAColorspaceFilter? = CGAColorspaceFilter() // the actual filter
     
     
     init(){
@@ -34,6 +34,13 @@ class CGAColorspaceDescriptor: FilterDescriptorInterface {
     
     
     //MARK: - Required funcs
+    
+    
+    func reset(){
+        lclFilter?.removeAllTargets()
+        lclFilter = CGAColorspaceFilter()
+        restoreParameters()
+    }
     
     
     // stubs for required but unused functions

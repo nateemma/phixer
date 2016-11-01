@@ -49,6 +49,13 @@ class ShiTomasiFeatureDetectorDescriptor: FilterDescriptorInterface {
     
     //MARK: - Required funcs
     
+    func reset(){
+        lclFilter.removeAllTargets()
+        lclFilter = ShiTomasiFeatureDetector()
+        restoreParameters()
+    }
+    
+   
     func configureCustomFilter(_ input:(filter:BasicOperation, secondInput:BasicOperation?)){
         // nothing to do
     }

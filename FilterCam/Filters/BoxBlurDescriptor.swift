@@ -20,7 +20,7 @@ class BoxBlurDescriptor: FilterDescriptorInterface {
     let filterGroup: OperationGroup? = nil
     
     let numParameters = 1
-    let parameterConfiguration = [ParameterSettings(title:"radius", minimumValue:0.0, maximumValue:24.0, initialValue:4.0, isRGB:false)]
+    let parameterConfiguration = [ParameterSettings(title:"radius", minimumValue:0.0, maximumValue:24.0, initialValue:8.0, isRGB:false)]
     
     
     let filterOperationType = FilterOperationType.singleInput
@@ -38,6 +38,14 @@ class BoxBlurDescriptor: FilterDescriptorInterface {
     
     
     //MARK: - Required funcs
+
+    
+    func reset(){
+        lclFilter.removeAllTargets()
+        lclFilter = BoxBlur()
+        restoreParameters()
+    }
+
     
     func configureCustomFilter(_ input:(filter:BasicOperation, secondInput:BasicOperation?)){
         // nothing to do

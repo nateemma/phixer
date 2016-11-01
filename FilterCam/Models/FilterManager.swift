@@ -1,5 +1,5 @@
 //
-//  FilterManager.swift
+//  FilterManager
 //  FilterCam
 //
 //  Created by Philip Price on 10/5/16.
@@ -13,188 +13,236 @@ import GPUImage
 
 
 
-// The list of Categories
-fileprivate var _categoryList:[FilterCategoryType] = [FilterCategoryType.none,
-                                          FilterCategoryType.quickSelect,
-                                          FilterCategoryType.basicAdjustments,
-                                          FilterCategoryType.imageProcessing,
-                                          FilterCategoryType.blendModes,
-                                          FilterCategoryType.visualEffects,
-                                          FilterCategoryType.presets,
-                                          FilterCategoryType.drawing,
-                                          FilterCategoryType.blurs]
-
-// typealias for dictionaries of FilterDescriptors
-typealias FilterDictionary = Dictionary<String, FilterDescriptorInterface>
-
-//dictionaries for each category
-fileprivate var _quickSelectDictionary: FilterDictionary = [:]
-fileprivate var _basicAdjustmentsDictionary: FilterDictionary = [:]
-fileprivate var _imageProcessingDictionary: FilterDictionary = [:]
-fileprivate var _blendModesDictionary: FilterDictionary = [:]
-fileprivate var _visualEffectsDictionary: FilterDictionary = [:]
-fileprivate var _presetsDictionary: FilterDictionary = [:]
-fileprivate var _drawingDictionary: FilterDictionary = [:]
-fileprivate var _blursDictionary: FilterDictionary = [:]
-
-// list of callbacks for change notification
-fileprivate var _categoryChangeCallbackList:[()] = []
-fileprivate var _filterChangeCallbackList:[()] = []
-
-// enum that lists the available categories
-enum FilterCategoryType: String {
-    case none             = "No Filters"
-    case quickSelect      = "Quick Select"
-    case basicAdjustments = "Basic Adjustments"
-    case imageProcessing  = "Image Processing"
-    case blendModes       = "Blend Modes"
-    case visualEffects    = "Visual Effects/Distortions"
-    case presets          = "Presets"
-    case drawing          = "Sketch/Edge Effects"
-    case blurs            = "Blur Effects"
-    
-    func getDictionary()->FilterDictionary? {
-        switch (self){
-        
-        case .none:
-            return nil
-        case .quickSelect:
-            return _quickSelectDictionary
-        case .basicAdjustments:
-            return _basicAdjustmentsDictionary
-       case .imageProcessing:
-            return _imageProcessingDictionary
-        case .blendModes:
-            return _blendModesDictionary
-        case .visualEffects:
-            return _visualEffectsDictionary
-        case .presets:
-            return _presetsDictionary
-        case .drawing:
-            return _drawingDictionary
-        case .blurs:
-            return _blursDictionary
-        }
-    }
-    
-    func getIndex()->Int{
-        switch (self){
-        case .none: return 0
-        case .quickSelect: return 1
-        case .basicAdjustments: return 2
-        case .imageProcessing: return 3
-        case .blendModes: return 4
-        case .visualEffects: return 5
-        case .presets: return 6
-        case .drawing: return 7
-        case .blurs: return 8
-        }
-    }
-}
-
-
-
 // SIngleton class that provides access to the categories/filters
 // use FilterManager.sharedInstance to get a reference
 
 class FilterManager{
     
     static let sharedInstance = FilterManager() // the actual instance shared by everyone
-    static var initDone:Bool = false
-    static var currCategory: FilterCategoryType = .quickSelect
-    static var currFilterDescriptor: FilterDescriptorInterface? = nil
-    static var currFilterKey: String = ""
-    static var currIndex:Int = -1
     
-    static var categoryChangeNotification = Notification.Name(rawValue:"CategoryChangeNotification")
-    static var filterChangeNotification = Notification.Name(rawValue:"FilterChangeNotification")
-    static var notificationCenter = NotificationCenter.default
+    let noneIndex             = -1
+    let quickSelectIndex      = 0
+    let basicAdjustmentsIndex = 1
+    let blendModesIndex       = 2
+    let visualEffectsIndex    = 3
+    let presetsIndex          = 4
+    let drawingIndex          = 5
+    let blursIndex            = 6
+    let imageProcessingIndex  = 7
+    
+    
+    
+    // enum that lists the available categories
+    enum CategoryType: String {
+        case none             = "No Filters"
+        case quickSelect      = "Quick Select"
+        case basicAdjustments = "Basic Adjustments"
+        case blendModes       = "Blend Modes"
+        case visualEffects    = "Visual Effects"
+        case presets          = "Presets"
+        case drawing          = "Sketch Effects"
+        case blurs            = "Blur Effects"
+        case imageProcessing  = "Image Processing"
+        
+        func getFilterList()->[String] {
+            
+            switch (self){
+                
+            case .none:
+                return []
+            case .quickSelect:
+                return FilterManager._quickSelectList
+            case .basicAdjustments:
+                return FilterManager._basicAdjustmentsList
+            case .blendModes:
+                return FilterManager._blendModesList
+            case .visualEffects:
+                return FilterManager._visualEffectsList
+            case .presets:
+                return FilterManager._presetsList
+            case .drawing:
+                return FilterManager._drawingList
+            case .blurs:
+                return FilterManager._blursList
+            case .imageProcessing:
+                return FilterManager._imageProcessingList
+            }
+            
+            
+            /***
+             return FilterManager._filterAssignments[self.getIndex()]
+             ***/
+        }
+        
+        func getIndex()->Int{
+            switch (self){
+            case .none: return 0
+            case .quickSelect: return 1
+            case .basicAdjustments: return 2
+            case .blendModes: return 3
+            case .visualEffects: return 4
+            case .presets: return 5
+            case .drawing: return 6
+            case .blurs: return 7
+            case .imageProcessing: return 8
+            }
+        }
+        
+        func contains(_ key:String)->Bool{
+            return self.getFilterList().contains(key)
+        }
+    }
+    
+    
+
+    fileprivate static var initDone:Bool = false
+    fileprivate static var currCategory: CategoryType = .quickSelect
+    fileprivate static var currFilterDescriptor: FilterDescriptorInterface? = nil
+    fileprivate static var currFilterKey: String = ""
+    fileprivate static var currIndex:Int = -1
+    
+    fileprivate static var categoryChangeNotification = Notification.Name(rawValue:"CategoryChangeNotification")
+    fileprivate static var filterChangeNotification = Notification.Name(rawValue:"FilterChangeNotification")
+    fileprivate static var notificationCenter = NotificationCenter.default
+
+    static let sortClosure = { (value1: String, value2: String) -> Bool in return value1 < value2 }
+    
+    //////////////////////////////////////////////
+    //MARK: - Category/Filter "Database"
+    //////////////////////////////////////////////
+    
+    // The list of Categories
+    fileprivate static var _categoryList:[CategoryType] = [CategoryType.none,
+                                                                 CategoryType.quickSelect,
+                                                                 CategoryType.basicAdjustments,
+                                                                 CategoryType.imageProcessing,
+                                                                 CategoryType.blendModes,
+                                                                 CategoryType.visualEffects,
+                                                                 CategoryType.presets,
+                                                                 CategoryType.drawing,
+                                                                 CategoryType.blurs]
+    
+    // typealias for dictionaries of FilterDescriptors
+    typealias FilterDictionary = Dictionary<String, FilterDescriptorInterface>
+    
+    fileprivate static var _filterDictionary:[String:FilterDescriptorInterface?] = [:]
+    
+    //fileprivate var _filterAssignments: [[String]] = [[], [], [], [], [], [], [], [], []]
+    
+    //dictionaries for each category
+    fileprivate static var _quickSelectList = [String]()
+    fileprivate static var _basicAdjustmentsList: [String] = []
+    fileprivate static var _imageProcessingList: [String] = []
+    fileprivate static var _blendModesList: [String] = []
+    fileprivate static var _visualEffectsList: [String] = []
+    fileprivate static var _presetsList: [String] = []
+    fileprivate static var _drawingList: [String] = []
+    fileprivate static var _blursList: [String] = []
+    
+    
+    // list of callbacks for change notification
+    fileprivate static var _categoryChangeCallbackList:[()] = []
+    fileprivate static var _filterChangeCallbackList:[()] = []
     
     //////////////////////////////////////////////
     //MARK: - Setup/Teardown
     //////////////////////////////////////////////
     
-    fileprivate func checkSetup(){
+    fileprivate static func checkSetup(){
         if (!FilterManager.initDone) {
             FilterManager.initDone = true
+            
+            // initArrays()
+            
+            // create the filter instances
+            createFilters()
             
             // Add filter definitions to the appropriate categories
             populateCategories()
             
+            // sort the lists
+            sortLists()
+            
             // Need to start somewhere...
-            setCurrentCategory(.quickSelect)
+            FilterManager.currCategory = .none
         }
-
+        
     }
     
-    func reset(){
+    private static func reset(){
         FilterManager.initDone = false
-        checkSetup()
+        FilterManager.checkSetup()
     }
     
     fileprivate init(){
-        checkSetup()
+        FilterManager.checkSetup()
     }
     
     deinit{
-        _categoryChangeCallbackList = []
-        _filterChangeCallbackList = []
+        FilterManager._categoryChangeCallbackList = []
+        FilterManager._filterChangeCallbackList = []
     }
     
     
-    
     //////////////////////////////////////////////
-    // MARK: - Accessors
+    // MARK: - Category-related Accessors
     //////////////////////////////////////////////
     
-    open func getCategoryList()->[FilterCategoryType]{
-        checkSetup()
-        return _categoryList
+    open func getCategoryList()->[CategoryType]{
+        FilterManager.checkSetup()
+        return FilterManager._categoryList
     }
     
-    func getCurrentCategory() -> FilterCategoryType{
-        checkSetup()
+    func getCategoryCount(_ category:CategoryType)->Int {
+        FilterManager.checkSetup()
+        let list = category.getFilterList()
+        return list.count
+    }
+    
+    func getCurrentCategory() -> CategoryType{
+        FilterManager.checkSetup()
         return FilterManager.currCategory
+        
     }
     
-    func setCurrentCategory(_ category:FilterCategoryType){
-        checkSetup()
+    func setCurrentCategory(_ category:CategoryType){
+        FilterManager.checkSetup()
         if (FilterManager.currCategory != category){
             log.debug("Category set to: \(category.rawValue)")
             FilterManager.currCategory = category
             
             // set current filter to the first filter (alphabetically) in the dictionary
-            log.verbose("### CHECK 1")
-            let dict = category.getDictionary()
-            log.verbose("### CHECK 2")
-            if ((dict != nil) && !(dict?.isEmpty)!){
-                log.verbose("### CHECK 3")
-                var filterList: [String] = []
-                filterList = (getFilterList(category))
-                log.verbose ("\(filterList.count) items found")
-                filterList.sort(by: { (value1: String, value2: String) -> Bool in return value1 < value2 }) // sort ascending
-                log.verbose("Setting filter to: \(filterList[0])")
-                setCurrentFilterKey(filterList[0])
+            let list = category.getFilterList()
+
+            if (list.count>0){
+                log.verbose ("\(list.count) items found")
+                log.verbose("Setting filter to: \(list[0])")
+                setCurrentFilterKey(list[0])
             } else {
-                log.verbose("### CHECK 4")
-                log.debug("Dictionary empty: \(category)")
+                log.debug("List empty: \(category)")
                 setCurrentFilterDescriptor(nil)
             }
-            log.verbose("### CHECK 5")
-           
             
             // notify clients
             issueCategoryChangeNotification()
         }
     }
     
+    
+    
+    //////////////////////////////////////////////
+    // MARK: - Category-related Accessors
+    //////////////////////////////////////////////
+    
+    
+    
     func getCurrentFilterDescriptor() -> FilterDescriptorInterface?{
-        checkSetup()
+        FilterManager.checkSetup()
         return FilterManager.currFilterDescriptor
     }
     
     func setCurrentFilterDescriptor(_ descriptor: FilterDescriptorInterface?){
-        checkSetup()
+        FilterManager.checkSetup()
         if (FilterManager.currFilterDescriptor?.key != descriptor?.key){
             FilterManager.currFilterDescriptor = descriptor
             if (descriptor != nil){
@@ -202,85 +250,104 @@ class FilterManager{
             } else {
                 FilterManager.currFilterKey = ""
             }
-
+            
             log.debug("Filter changed to: \(descriptor?.key)")
             
             // Notify clients
             issueFilterChangeNotification()
         }
     }
-    
     func getCurrentFilterKey() -> String{
-        checkSetup()
+        FilterManager.checkSetup()
         return FilterManager.currFilterKey
     }
     
     func setCurrentFilterKey(_ key:String) {
-        checkSetup()
+        FilterManager.checkSetup()
         log.verbose("Key: \(key)")
         FilterManager.currFilterKey = key
-        setCurrentFilterDescriptor(getFilterDescriptor(FilterManager.currCategory, name:FilterManager.currFilterKey))
-    }
-    
-    func getCurrentFilter() -> FilterDescriptorInterface? {
-        checkSetup()
-        
-        guard (FilterManager.currFilterKey != "") else {
-            return nil
-        }
-        
-        return getFilterDescriptor(FilterManager.currCategory, name:FilterManager.currFilterKey)
+        setCurrentFilterDescriptor(getFilterDescriptor(key:FilterManager.currFilterKey))
     }
     
     
-    open func getFilterList(_ category:FilterCategoryType)->[String]{
-        checkSetup()
-        let dict = category.getDictionary()
-        if ((dict == nil) || (dict?.isEmpty)!){
-            log.verbose("Empty category")
-            return []
-        } else {
-            return Array(category.getDictionary()!.keys)
-        }
+    private static var selectedFilter:String = ""
+    
+    func setSelectedFilter(key: String){
+        FilterManager.checkSetup()
+        FilterManager.selectedFilter = key
+        log.verbose("Selected filter: \(FilterManager.selectedFilter)")
     }
     
-    
-    
-    // get the filter descriptor for the supplied category & filter type
-    open func getFilterDescriptor(_ category:FilterCategoryType, name:String)->FilterDescriptorInterface? {
-        
-        var dict: FilterDictionary?
-        var filterDescr: FilterDescriptorInterface?
-        
-        checkSetup()
-        
-        //log.verbose("cat:\(category.rawValue), name:\(name)")
-        //dict = FilterManager._dictionaryList[category.rawValue]!
-        dict = category.getDictionary()
-        
-        if (dict == nil){
-            log.error("Null dictionary for:\(category.rawValue)")
-        } else {
-            
-            
-            filterDescr = (dict?[name])
-            if (filterDescr == nil){
-                log.error("Null filter for:\(name)")
-                dumpDictionary(dict)
-            }
-        }
-        
-        /***
-         if (filterDescr != nil){
-         log.verbose("Found:\(filterDescr?.key)")
-         } else {
-         log.verbose("!!! Filter not found:\(name) !!!")
-         }
-         ***/
-        return filterDescr
+    func getSelectedFilter()->FilterDescriptorInterface?{
+        FilterManager.checkSetup()
+        return getFilterDescriptor(key: FilterManager.selectedFilter)
     }
+    
 
     
+    open func getFilterList(_ category:CategoryType)->[String]?{
+        FilterManager.checkSetup()
+        return category.getFilterList()
+    }
+    
+    
+    
+    // get the filter descriptor for the supplied filter type
+    open func getFilterDescriptor(key:String)->FilterDescriptorInterface? {
+        
+        var filterDescr: FilterDescriptorInterface? = nil
+        
+        FilterManager.checkSetup()
+        
+        let index = FilterManager._filterDictionary.index(forKey: key)
+        if (index != nil){
+            filterDescr = (FilterManager._filterDictionary[key])!
+            //log.verbose("Found key:\((filterDescr?.key)!) addr:\(filterAddress(filterDescr))")
+        } else {
+            log.error("Filter (\(key)) not found")
+        }
+        
+        return filterDescr
+    }
+    
+    
+    func addFilterDescriptor(category:CategoryType, key:String, descriptor:FilterDescriptorInterface?){
+        // add to the filter list
+        FilterManager._filterDictionary[key] = descriptor
+        
+        //add to category list
+        var list = category.getFilterList()
+        if (!(list.contains(key))){
+            list.append(key)
+            FilterManager.sortLists()
+        }
+    }
+    
+    func removeFilterDescriptor(category:CategoryType, key:String){
+        var list = category.getFilterList()
+        if let index = list.index(of: key) {
+            list.remove(at: index)
+            log.verbose ("Key (\(key)) removed from category (\(category))")
+        }else {
+            log.warning("Key (\(key)) not present for category (\(category))")
+        }
+    }
+    
+    func filterAddress(_ descriptor:FilterDescriptorInterface?)->String{
+        var addr:String
+        guard (descriptor != nil) else {
+            return "NIL"
+        }
+        
+        if (descriptor?.filter != nil){
+            addr = Utilities.addressOf(descriptor?.filter) + " (filter)"
+        } else  if (descriptor?.filterGroup != nil){
+            addr = Utilities.addressOf(descriptor?.filterGroup) + " (group)"
+        } else {
+            addr = "INVALID"
+        }
+        return addr
+    }
     
     //////////////////////////////////////////////
     // MARK: - Callback/Notification methods
@@ -288,32 +355,28 @@ class FilterManager{
     
     
     open func setCategoryChangeNotification(callback: ()) {
-        if ((callback) != nil){
-            _categoryChangeCallbackList.append(callback)
-        }
+        FilterManager._categoryChangeCallbackList.append(callback)
     }
     
     
     open func setFilterChangeNotification(callback: ()) {
-        if ((callback) != nil){
-            _filterChangeCallbackList.append(callback)
-        }
+        FilterManager._filterChangeCallbackList.append(callback)
     }
     
     func issueCategoryChangeNotification(){
-        if (_categoryChangeCallbackList.count>0){
-            log.debug("Issuing \(_categoryChangeCallbackList.count) CategoryChange callbacks")
-            for cb in _categoryChangeCallbackList {
+        if (FilterManager._categoryChangeCallbackList.count>0){
+            log.debug("Issuing \(FilterManager._categoryChangeCallbackList.count) CategoryChange callbacks (->\(FilterManager.currCategory.rawValue))")
+            for cb in FilterManager._categoryChangeCallbackList {
                 cb
             }
         }
     }
     
     func issueFilterChangeNotification(){
-        if (_filterChangeCallbackList.count>0){
+        if (FilterManager._filterChangeCallbackList.count>0){
             DispatchQueue.main.asyncAfter(deadline: .now()) {
-                log.debug("Issuing \(_categoryChangeCallbackList.count) FilterChange callbacks")
-                for cb in _filterChangeCallbackList {
+                log.debug("Issuing \(FilterManager._categoryChangeCallbackList.count) FilterChange callbacks")
+                for cb in FilterManager._filterChangeCallbackList {
                     cb
                 }
             }
@@ -324,165 +387,200 @@ class FilterManager{
     // MARK: - Category/Filter Assignments
     //////////////////////////////////////////////
     
-    func populateCategories(){
+    static func makeFilter(key: String, descriptor:FilterDescriptorInterface){
+        if (FilterManager._filterDictionary[key] != nil){
+            log.warning("Duplicate key: \(key)")
+        }
         
-        //var dict: FilterDictionary?
+        if (key != descriptor.key){
+            log.warning("!!! Key/Index mismatch, check configuration for filter: \(key) or: \(descriptor.key)) ?!")
+        }
+        FilterManager._filterDictionary[key] = descriptor
+        //log.debug("Add key:\(key), address: \(filterAddress(descriptor))")
         
-        log.verbose("populateCategories() - Loading Dictionaries...")
+    }
+    
+    static func createFilters(){
+        log.verbose("Creating Filters...")
+        
+        // NOTE: I try to keep these in alphabetical order just because it's easier to compare to a directory listing (when adding/deleting filters)
+        
+        //makeFilter(key: "",  descriptor: Descriptor())
+        
+        FilterManager._filterDictionary = [:]
+        
+        makeFilter(key: "AdaptiveThreshold", descriptor: AdaptiveThresholdDescriptor())
+        makeFilter(key: "AddBlend", descriptor: AddBlendDescriptor())
+        makeFilter(key: "AlphaBlend", descriptor: AlphaBlendDescriptor())
+        makeFilter(key: "Amatorka", descriptor: AmatorkaDescriptor())
+        makeFilter(key: "AverageLuminanceThreshold", descriptor: AverageLuminanceThresholdDescriptor())
+        makeFilter(key: "BilateralBlur", descriptor: BilateralBlurDescriptor())
+        makeFilter(key: "BoxBlur", descriptor: BoxBlurDescriptor())
+        makeFilter(key: "Brightness", descriptor: BrightnessDescriptor())
+        makeFilter(key: "BulgeDistortion", descriptor: BulgeDistortionDescriptor())
+        makeFilter(key: "CGAColorspace", descriptor: CGAColorspaceDescriptor())
+        makeFilter(key: "CannyEdgeDetection", descriptor: CannyEdgeDetectionDescriptor())
+        makeFilter(key: "ChromaKeyBlend", descriptor: ChromaKeyBlendDescriptor())
+        makeFilter(key: "ChromaKeying", descriptor: ChromaKeyingDescriptor())
+        makeFilter(key: "ClosingFilter", descriptor: ClosingFilterDescriptor())
+        makeFilter(key: "ColorBlend", descriptor: ColorBlendDescriptor())
+        makeFilter(key: "ColorBurnBlend", descriptor: ColorBurnBlendDescriptor())
+        makeFilter(key: "ColorDodgeBlend", descriptor: ColorDodgeBlendDescriptor())
+        makeFilter(key: "ColorInversion", descriptor: ColorInversionDescriptor())
+        makeFilter(key: "Contrast", descriptor: ContrastDescriptor())
+        makeFilter(key: "Crop", descriptor: CropDescriptor())
+        makeFilter(key: "Crosshatch", descriptor: CrosshatchDescriptor())
+        makeFilter(key: "DarkenBlend", descriptor: DarkenBlendDescriptor())
+        makeFilter(key: "DifferenceBlend", descriptor: DifferenceBlendDescriptor())
+        makeFilter(key: "DissolveBlend", descriptor: DissolveBlendDescriptor())
+        makeFilter(key: "DivideBlend", descriptor: DivideBlendDescriptor())
+        makeFilter(key: "Emboss", descriptor: EmbossDescriptor())
+        makeFilter(key: "ExclusionBlend", descriptor: ExclusionBlendDescriptor())
+        makeFilter(key: "Exposure", descriptor: ExposureDescriptor())
+        makeFilter(key: "FalseColor", descriptor: FalseColorDescriptor())
+        makeFilter(key: "Gamma", descriptor: GammaDescriptor())
+        makeFilter(key: "GaussianBlur", descriptor: GaussianBlurDescriptor())
+        makeFilter(key: "GlassSphereRefraction", descriptor: GlassSphereRefractionDescriptor())
+        makeFilter(key: "Grayscale", descriptor: GrayscaleDescriptor())
+        makeFilter(key: "Halftone", descriptor: HalftoneDescriptor())
+        makeFilter(key: "HardLightBlend", descriptor: HardLightBlendDescriptor())
+        makeFilter(key: "HarrisCornerDetector", descriptor: HarrisCornerDetectorDescriptor())
+        makeFilter(key: "Haze", descriptor: HazeDescriptor())
+        makeFilter(key: "HighPassFilter", descriptor: HighPassFilterDescriptor())
+        makeFilter(key: "HighlightShadowTint", descriptor: HighlightAndShadowTintDescriptor())
+        makeFilter(key: "Highlights", descriptor: HighlightsDescriptor())
+        makeFilter(key: "HueBlend", descriptor: HueBlendDescriptor())
+        makeFilter(key: "Hue", descriptor: HueDescriptor())
+        makeFilter(key: "Kuwahara", descriptor: KuwaharaDescriptor())
+        makeFilter(key: "KuwaharaRadius3", descriptor: KuwaharaRadius3Descriptor())
+        makeFilter(key: "Laplacian", descriptor: LaplacianDescriptor())
+        makeFilter(key: "LevelsAdjustment", descriptor: LevelsAdjustmentDescriptor())
+        makeFilter(key: "LightenBlend", descriptor: LightenBlendDescriptor())
+        makeFilter(key: "LinearBurnBlend", descriptor: LinearBurnBlendDescriptor())
+        makeFilter(key: "LowPassFilter", descriptor: LowPassFilterDescriptor())
+        makeFilter(key: "Luminance", descriptor: LuminanceDescriptor())
+        makeFilter(key: "LuminanceThreshold", descriptor: LuminanceThresholdDescriptor())
+        makeFilter(key: "LuminosityBlend", descriptor: LuminosityBlendDescriptor())
+        makeFilter(key: "Median", descriptor: MedianDescriptor())
+        makeFilter(key: "MissEtikate", descriptor: MissEtikateDescriptor())
+        makeFilter(key: "Monochrome", descriptor: MonochromeDescriptor())
+        makeFilter(key: "MultiplyBlend", descriptor: MultiplyBlendDescriptor())
+        makeFilter(key: "NobleCornerDetector", descriptor: NobleCornerDetectorDescriptor())
+        makeFilter(key: "NormalBlend", descriptor: NormalBlendDescriptor())
+        makeFilter(key: "OpacityAdjustment", descriptor: OpacityAdjustmentDescriptor())
+        makeFilter(key: "OpeningFilter", descriptor: OpeningFilterDescriptor())
+        makeFilter(key: "OverlayBlend", descriptor: OverlayBlendDescriptor())
+        makeFilter(key: "PinchDistortion", descriptor: PinchDistortionDescriptor())
+        makeFilter(key: "Pixellate", descriptor: PixellateDescriptor())
+        makeFilter(key: "PolarPixellate", descriptor: PolarPixellateDescriptor())
+        makeFilter(key: "PolkaDot", descriptor: PolkaDotDescriptor())
+        makeFilter(key: "Posterize", descriptor: PosterizeDescriptor())
+        makeFilter(key: "PrewittEdgeDetection", descriptor: PrewittEdgeDetectionDescriptor())
+        makeFilter(key: "RGB", descriptor: RGBDescriptor())
+        makeFilter(key: "Rotate", descriptor: RotateDescriptor())
+        makeFilter(key: "SaturationBlend", descriptor: SaturationBlendDescriptor())
+        makeFilter(key: "Saturation", descriptor: SaturationDescriptor())
+        makeFilter(key: "ScreenBlend", descriptor: ScreenBlendDescriptor())
+        makeFilter(key: "Sepia", descriptor: SepiaDescriptor())
+        makeFilter(key: "Sharpen", descriptor: SharpenDescriptor())
+        makeFilter(key: "ShiTomasiFeatureDetector", descriptor: ShiTomasiFeatureDetectorDescriptor())
+        makeFilter(key: "SingleComponentGaussianBlur", descriptor: SingleComponentGaussianBlurDescriptor())
+        makeFilter(key: "Sketch", descriptor: SketchDescriptor())
+        makeFilter(key: "SmoothToon", descriptor: SmoothToonDescriptor())
+        makeFilter(key: "SobelEdgeDetection", descriptor: SobelEdgeDetectionDescriptor())
+        makeFilter(key: "SoftElegance", descriptor: SoftEleganceDescriptor())
+        makeFilter(key: "SoftLightBlend", descriptor: SoftLightBlendDescriptor())
+        makeFilter(key: "Solarize", descriptor: SolarizeDescriptor())
+        makeFilter(key: "SourceOverBlend", descriptor: SourceOverBlendDescriptor())
+        makeFilter(key: "SphereRefraction", descriptor: SphereRefractionDescriptor())
+        makeFilter(key: "SubtractBlend", descriptor: SubtractBlendDescriptor())
+        makeFilter(key: "SwirlDistortion", descriptor: SwirlDistortionDescriptor())
+        makeFilter(key: "ThresholdSketch", descriptor: ThresholdSketchDescriptor())
+        makeFilter(key: "ThresholdSobelEdgeDetection", descriptor: ThresholdSobelEdgeDetectionDescriptor())
+        makeFilter(key: "TiltShift", descriptor: TiltShiftDescriptor())
+        makeFilter(key: "Toon", descriptor: ToonDescriptor())
+        makeFilter(key: "UnsharpMask", descriptor: UnsharpMaskDescriptor())
+        makeFilter(key: "Vibrance", descriptor: VibranceDescriptor())
+        makeFilter(key: "Vignette", descriptor: VignetteDescriptor())
+        makeFilter(key: "Warmth", descriptor: WarmthDescriptor())
+        makeFilter(key: "WhiteBalance", descriptor: WhiteBalanceDescriptor())
+        makeFilter(key: "ZoomBlur", descriptor: ZoomBlurDescriptor())
+    }
+    
+    
+    
+    func addToCategory(_ category:CategoryType, key:String){
+        if (FilterManager._filterDictionary.index(forKey: key) != nil){
+            var list = category.getFilterList()
+            //var list = list
+
+            if (!((list.contains(key)))){
+                log.verbose("Adding key:\(key) for category:\(category)  (\(list.count))")
+                //list.append(key)
+                list.append(key)
+                log.verbose("list: \(list)")
+            } else {
+                log.warning("Filter:\(key) already member of category: \(category.rawValue)...")
+            }
+        } else {
+            log.warning("Filter:\(key) not defined. NOT added to category: \(category.rawValue)...")
+        }
+    }
+    
+    static func populateCategories(){
+        
+        
+        log.verbose("Loading Category Lists...")
         //TODO: load from some kind of configuration file?
         
         // Quick Select
         //TEMP: populate with some filters, but this should really be done by the user (and saved/restored)
         
-        _quickSelectDictionary["BulgeDistortion"] = BulgeDistortionDescriptor()
-        _quickSelectDictionary["Crosshatch"] = CrosshatchDescriptor()
-        _quickSelectDictionary["Emboss"] = EmbossDescriptor()
-        _quickSelectDictionary["GlassSphereRefraction"] = GlassSphereRefractionDescriptor()
-        _quickSelectDictionary["PolarPixellate"] = PolarPixellateDescriptor()
-        _quickSelectDictionary["PolkaDot"] = PolkaDotDescriptor()
-        _quickSelectDictionary["Posterize"] = PosterizeDescriptor()
-        _quickSelectDictionary["Sketch"] = SketchDescriptor()
-        _quickSelectDictionary["Solarize"] = SolarizeDescriptor()
-        _quickSelectDictionary["ThresholdSketch"] = ThresholdSketchDescriptor()
-        _quickSelectDictionary["Toon"] = ToonDescriptor()
-        _quickSelectDictionary["FalseColor"] = FalseColorDescriptor()
-        _quickSelectDictionary["ThresholdSobelEdgeDetection"] = ThresholdSobelEdgeDetectionDescriptor()
-        _quickSelectDictionary["Laplacian"] = LaplacianDescriptor()
-        _quickSelectDictionary["ColorInversion"] = ColorInversionDescriptor()
-        _quickSelectDictionary["Pixellate"] = PixellateDescriptor()
-        _quickSelectDictionary["Luminance"] = LuminanceDescriptor()
-        _quickSelectDictionary["Halftone"] = HalftoneDescriptor()
-        _quickSelectDictionary["SmoothToon"] = SmoothToonDescriptor()
-        _quickSelectDictionary["SoftElegance"] = SoftEleganceDescriptor()
-        _quickSelectDictionary["CGAColorspace"] = CGAColorspaceDescriptor()
-        _quickSelectDictionary["PinchDistortion"] = PinchDistortionDescriptor()
-        _quickSelectDictionary["SwirlDistortion"] = SwirlDistortionDescriptor()
-        //_quickSelectDictionary[""] = Descriptor()
+
+        // For some reason, I could only get this working with a static assignment
+        // Note that filters can be in multiple categories, but they will still be the 'same' filter
         
-        // move these to different categories once tested:
+        FilterManager._quickSelectList = [ "Crosshatch", "Emboss", "Halftone", "SwirlDistortion", "Luminance", "CGAColorspace"  ]
         
+        FilterManager._basicAdjustmentsList = [ "Saturation", "Warmth", "WhiteBalance", "Brightness", "Contrast", "UnsharpMask", "Exposure", "Sharpen", "Crop",
+                                  "Gamma", "Vibrance", "Highlights", "LevelsAdjustment", "Vignette"]
         
-        //dumpDictionary(_quickSelectDictionary)//DEBUG
+        FilterManager._imageProcessingList = [ "FalseColor", "Hue", "RGB", "Rotate", "Median", "OpeningFilter", "ClosingFilter", "OpacityAdjustment", "ChromaKeying", "Haze" ]
         
-        // Basic Adjustments
+        FilterManager._blendModesList = [ "AddBlend", "AlphaBlend", "ColorDodgeBlend", "ChromaKeyBlend", "ColorBlend", "ColorBurnBlend", "ColorDodgeBlend", "DarkenBlend",
+                            "DifferenceBlend", "DissolveBlend", "DivideBlend", "ExclusionBlend", "HardLightBlend", "HueBlend", "LightenBlend", "LinearBurnBlend",
+                            "LuminosityBlend", "MultiplyBlend", "NormalBlend", "OverlayBlend", "SaturationBlend", "ScreenBlend", "SoftLightBlend", "SourceOverBlend", "SubtractBlend"]
         
-        _basicAdjustmentsDictionary["Saturation"] = SaturationDescriptor()
-        _basicAdjustmentsDictionary["Warmth"] = WarmthDescriptor()
-        _basicAdjustmentsDictionary["WhiteBalance"] = WhiteBalanceDescriptor()
-        _basicAdjustmentsDictionary["Brightness"] = BrightnessDescriptor()
-        _basicAdjustmentsDictionary["Contrast"] = ContrastDescriptor()
-        _basicAdjustmentsDictionary["UnsharpMask"] = UnsharpMaskDescriptor()
-        _basicAdjustmentsDictionary["Exposure"] = ExposureDescriptor()
-        _basicAdjustmentsDictionary["Sharpen"] = SharpenDescriptor()
-        _basicAdjustmentsDictionary["Crop"] = CropDescriptor()
-        _basicAdjustmentsDictionary["Gamma"] = GammaDescriptor()
-        _basicAdjustmentsDictionary["Vibrance"] = VibranceDescriptor()
-        _basicAdjustmentsDictionary["Highlights"] = HighlightsDescriptor()
-        _basicAdjustmentsDictionary["LevelsAdjustment"] = LevelsAdjustmentDescriptor()
-        //_basicAdjustmentsDictionary[""] = Descriptor()
+        FilterManager._visualEffectsList = [ "BulgeDistortion", "GlassSphereRefraction", "PolarPixellate", "PolkaDot", "FalseColor", "Pixellate", "TiltShift", "HighlightShadowTint",
+                               "ChromaKeying", "PinchDistortion", "SwirlDistortion", "SphereRefraction", "Solarize"]
         
+        FilterManager._presetsList = [ "Monochrome", "Sepia", "ColorInversion", "MissEtikate", "Amatorka", "Grayscale", "Luminance", "SoftElegance", "CGAColorspace" ]
         
-        // Image Processing
-        _imageProcessingDictionary["Vignette"] = VignetteDescriptor()
-        _imageProcessingDictionary["FalseColor"] = FalseColorDescriptor()
-        _imageProcessingDictionary["Hue"] = HueDescriptor()
-        _imageProcessingDictionary["RGB"] = RGBDescriptor()
-        _imageProcessingDictionary["Rotate"] = RotateDescriptor()
-        _imageProcessingDictionary["Median"] = MedianDescriptor()
-        _imageProcessingDictionary["Opening"] = OpeningFilterDescriptor()
-        _imageProcessingDictionary["Closing"] = ClosingFilterDescriptor()
-        _imageProcessingDictionary["OpacityAdjustment"] = OpacityAdjustmentDescriptor()
-        _imageProcessingDictionary["ChromaKeying"] = ChromaKeyingDescriptor()
-        _imageProcessingDictionary["LowPassFilter"] = LowPassFilterDescriptor()
-        _imageProcessingDictionary["HighPassFilter"] = HighPassFilterDescriptor()
-        _imageProcessingDictionary["Haze"] = HazeDescriptor()
-        //_imageProcessingDictionary[""] = Decsriptor
+        FilterManager._drawingList = [ "Crosshatch", "Emboss", "LuminanceThreshold", "Sketch", "ThresholdSketch", "Toon", "Kuwahara", "AverageLuminanceThreshold", "AdaptiveThreshold",
+                         "SmoothToon", "Posterize", "ThresholdSobelEdgeDetection", "Halftone" ]
         
-        // Blend Modes
-        _blendModesDictionary["AddBlend"] = AddBlendDescriptor()
-        _blendModesDictionary["AlphaBlend"] = AlphaBlendDescriptor()
-        _blendModesDictionary["ColorDodgeBlend"] = ColorDodgeBlendDescriptor()
-        _blendModesDictionary["ChromaKeyBlend"] = ChromaKeyBlendDescriptor()
-        _blendModesDictionary["ColorBlend"] = ColorBlendDescriptor()
-        _blendModesDictionary["ColorBurnBlend"] = ColorBurnBlendDescriptor()
-        _blendModesDictionary["ColorDodgeBlend"] = ColorDodgeBlendDescriptor()
-        _blendModesDictionary["DarkenBlend"] = DarkenBlendDescriptor()
-        _blendModesDictionary["DifferenceBlend"] = DifferenceBlendDescriptor()
-        _blendModesDictionary["DissolveBlend"] = DissolveBlendDescriptor()
-        _blendModesDictionary["DivideBlend"] = DivideBlendDescriptor()
-        _blendModesDictionary["ExclusionBlend"] = ExclusionBlendDescriptor()
-        _blendModesDictionary["HardLightBlend"] = HardLightBlendDescriptor()
-        _blendModesDictionary["HueBlend"] = HueBlendDescriptor()
-        _blendModesDictionary["LightenBlend"] = LightenBlendDescriptor()
-        _blendModesDictionary["LinearBurnBlend"] = LinearBurnBlendDescriptor()
-        _blendModesDictionary["LuminosityBlend"] = LuminosityBlendDescriptor()
-        _blendModesDictionary["MultiplyBlend"] = MultiplyBlendDescriptor()
-        _blendModesDictionary["NormalBlend"] = NormalBlendDescriptor()
-        _blendModesDictionary["OverlayBlend"] = OverlayBlendDescriptor()
-        _blendModesDictionary["SaturationBlend"] = SaturationBlendDescriptor()
-        _blendModesDictionary["ScreenBlend"] = ScreenBlendDescriptor()
-        _blendModesDictionary["SoftLightBlend"] = SoftLightBlendDescriptor()
-        _blendModesDictionary["SourceOverBlend"] = SourceOverBlendDescriptor()
-        _blendModesDictionary["SubtractBlend"] = SubtractBlendDescriptor()
-        //_blendModesDictionary[""] = Decsriptor
-        
-        // Visual Effects
-        _visualEffectsDictionary["BulgeDistortion"] = BulgeDistortionDescriptor()
-        _visualEffectsDictionary["GlassSphereRefraction"] = GlassSphereRefractionDescriptor()
-        _visualEffectsDictionary["PolarPixellate"] = PolarPixellateDescriptor()
-        _visualEffectsDictionary["PolkaDot"] = PolkaDotDescriptor()
-        _visualEffectsDictionary["FalseColor"] = FalseColorDescriptor()
-        _visualEffectsDictionary["Pixellate"] = PixellateDescriptor()
-        _visualEffectsDictionary["TiltShift"] = TiltShiftDescriptor()
-        _visualEffectsDictionary["HighlightShadowTint"] = HighlightAndShadowTintDescriptor()
-        _visualEffectsDictionary["ChromaKeying"] = ChromaKeyingDescriptor()
-        _visualEffectsDictionary["SphereRefraction"] = SphereRefractionDescriptor()
-        _visualEffectsDictionary["PinchDistortion"] = PinchDistortionDescriptor()
-        _visualEffectsDictionary["SwirlDistortion"] = SwirlDistortionDescriptor()
-        _visualEffectsDictionary["SphereRefraction"] = SphereRefractionDescriptor()
-        //_visualEffectsDictionary[""] = Decsriptor
-        
-        // Presets
-        _presetsDictionary["Monochrome"] = MonochromeDescriptor()
-        _presetsDictionary["Sepia"] = SepiaDescriptor()
-        _presetsDictionary["ColorInversion"] = ColorInversionDescriptor()
-        _presetsDictionary["MissEtikate"] = MissEtikateDescriptor()
-        _presetsDictionary["Amatorka"] = AmatorkaDescriptor()
-        _presetsDictionary["Grayscale"] = GrayscaleDescriptor()
-        _presetsDictionary["Luminance"] = LuminanceDescriptor()
-        _presetsDictionary["SoftElegance"] = SoftEleganceDescriptor()
-        _presetsDictionary["CGAColorspace"] = CGAColorspaceDescriptor()
-        //_presetsDictionary[""] = Decsriptor
-        
-        // Drawing/Sketches/Edge Detection
-        _drawingDictionary["Crosshatch"] = CrosshatchDescriptor()
-        _drawingDictionary["Emboss"] = EmbossDescriptor()
-        _drawingDictionary["LuminanceThreshold"] = LuminanceThresholdDescriptor()
-        _drawingDictionary["Sketch"] = SketchDescriptor()
-        _drawingDictionary["ThresholdSketch"] = ThresholdSketchDescriptor()
-        _drawingDictionary["Toon"] = ToonDescriptor()
-        _drawingDictionary["Kuwahara"] = KuwaharaDescriptor()
-        _drawingDictionary["KuwaharaRadius3"] = KuwaharaRadius3Descriptor()
-        _drawingDictionary["AverageLuminanceThreshold"] = AverageLuminanceThresholdDescriptor()
-        _drawingDictionary["AdaptiveThreshold"] = AdaptiveThresholdDescriptor()
-        _drawingDictionary["SmoothToon"] = SmoothToonDescriptor()
-        //_drawingDictionary[""] = Decsriptor
-        
-        
-        // Blurs
-        _blursDictionary["ZoomBlur"] = ZoomBlurDescriptor()
-        _blursDictionary["BilateralBlur"] = BilateralBlurDescriptor()
-        _blursDictionary["GaussianBlur"] = GaussianBlurDescriptor()
-        _blursDictionary["SingleComponentGaussianBlur"] = SingleComponentGaussianBlurDescriptor()
-        _blursDictionary["BoxBlur"] = BoxBlurDescriptor()
-        //_blursDictionary[""] = Decsriptor
-        
-        
+        FilterManager._blursList = [ "ZoomBlur", "BilateralBlur", "GaussianBlur", "SingleComponentGaussianBlur", "BoxBlur" ]
+       
     }
     
     
+    static func sortLists(){
+
+        // Sort all category arrays alphabetically
+        log.verbose("Sorting lists...")
+        FilterManager._quickSelectList.sort(by: sortClosure)
+        FilterManager._basicAdjustmentsList.sort(by: sortClosure)
+        FilterManager._imageProcessingList.sort(by: sortClosure)
+        FilterManager._blendModesList.sort(by: sortClosure)
+        FilterManager._visualEffectsList.sort(by: sortClosure)
+        FilterManager._presetsList.sort(by: sortClosure)
+        FilterManager._drawingList.sort(by: sortClosure)
+        FilterManager._blursList.sort(by: sortClosure)
+        
+    }
+    
     // dump the keys amd filter names contained in the supplied dictionary
-    func dumpDictionary(_ dictionary:FilterDictionary?){
+    func dumpList(_ dictionary:FilterDictionary?){
         var fdi: FilterDescriptorInterface
         for key  in (dictionary?.keys)! {
             fdi = (dictionary?[key])!

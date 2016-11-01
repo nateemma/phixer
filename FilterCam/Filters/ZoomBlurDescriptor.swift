@@ -22,7 +22,7 @@ class ZoomBlurDescriptor: FilterDescriptorInterface {
     let filterGroup: OperationGroup? = nil
     
     let numParameters = 1
-    let parameterConfiguration = [ParameterSettings(title:"blur size", minimumValue:0.0, maximumValue:2.5, initialValue:1.0, isRGB:false)]
+    let parameterConfiguration = [ParameterSettings(title:"blur size", minimumValue:0.0, maximumValue:2.5, initialValue:2.0, isRGB:false)]
     
     
     let filterOperationType = FilterOperationType.singleInput
@@ -41,6 +41,13 @@ class ZoomBlurDescriptor: FilterDescriptorInterface {
     
     //MARK: - Required funcs
     
+    func reset(){
+        lclFilter.removeAllTargets()
+        lclFilter = ZoomBlur()
+        restoreParameters()
+    }
+    
+  
     func configureCustomFilter(_ input:(filter:BasicOperation, secondInput:BasicOperation?)){
         // nothing to do
     }
