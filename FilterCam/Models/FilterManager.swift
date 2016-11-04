@@ -20,21 +20,21 @@ class FilterManager{
     
     static let sharedInstance = FilterManager() // the actual instance shared by everyone
     
-    let noneIndex             = -1
-    let quickSelectIndex      = 0
-    let basicAdjustmentsIndex = 1
-    let blendModesIndex       = 2
-    let visualEffectsIndex    = 3
-    let presetsIndex          = 4
-    let drawingIndex          = 5
-    let blursIndex            = 6
-    let imageProcessingIndex  = 7
+    static let quickSelectIndex      = 0
+    static let basicAdjustmentsIndex = 1
+    static let blendModesIndex       = 2
+    static let visualEffectsIndex    = 3
+    static let presetsIndex          = 4
+    static let drawingIndex          = 5
+    static let blursIndex            = 6
+    static let imageProcessingIndex  = 7
+    static let maxIndex = 7
     
     
     
     // enum that lists the available categories
     enum CategoryType: String {
-        case none             = "No Filters"
+        //case none             = "No Filters"
         case quickSelect      = "Quick Select"
         case basicAdjustments = "Basic Adjustments"
         case blendModes       = "Blend Modes"
@@ -48,8 +48,6 @@ class FilterManager{
             
             switch (self){
                 
-            case .none:
-                return []
             case .quickSelect:
                 return FilterManager._quickSelectList
             case .basicAdjustments:
@@ -76,15 +74,14 @@ class FilterManager{
         
         func getIndex()->Int{
             switch (self){
-            case .none: return 0
-            case .quickSelect: return 1
-            case .basicAdjustments: return 2
-            case .blendModes: return 3
-            case .visualEffects: return 4
-            case .presets: return 5
-            case .drawing: return 6
-            case .blurs: return 7
-            case .imageProcessing: return 8
+            case .quickSelect:      return quickSelectIndex
+            case .basicAdjustments: return basicAdjustmentsIndex
+            case .blendModes:       return blendModesIndex
+            case .visualEffects:    return visualEffectsIndex
+            case .presets:          return presetsIndex
+            case .drawing:          return drawingIndex
+            case .blurs:            return blursIndex
+            case .imageProcessing:  return imageProcessingIndex
             }
         }
         
@@ -93,10 +90,22 @@ class FilterManager{
         }
     }
     
-    
+    static func getCategoryFromIndex(_ index:Int)->CategoryType{
+        switch (index){
+        case FilterManager.quickSelectIndex:      return .quickSelect
+        case FilterManager.basicAdjustmentsIndex: return .basicAdjustments
+        case FilterManager.blendModesIndex:       return .blendModes
+        case FilterManager.visualEffectsIndex:    return .visualEffects
+        case FilterManager.presetsIndex:          return .presets
+        case FilterManager.drawingIndex:          return .drawing
+        case FilterManager.blursIndex:            return .blurs
+        case FilterManager.imageProcessingIndex:  return .imageProcessing
+        default:                                  return .quickSelect
+        }
+    }
 
     fileprivate static var initDone:Bool = false
-    fileprivate static var currCategory: CategoryType = .quickSelect
+    fileprivate static var currCategory: CategoryType = .imageProcessing
     fileprivate static var currFilterDescriptor: FilterDescriptorInterface? = nil
     fileprivate static var currFilterKey: String = ""
     fileprivate static var currIndex:Int = -1
@@ -112,20 +121,20 @@ class FilterManager{
     //////////////////////////////////////////////
     
     // The list of Categories
-    fileprivate static var _categoryList:[CategoryType] = [CategoryType.none,
-                                                                 CategoryType.quickSelect,
-                                                                 CategoryType.basicAdjustments,
-                                                                 CategoryType.imageProcessing,
-                                                                 CategoryType.blendModes,
-                                                                 CategoryType.visualEffects,
-                                                                 CategoryType.presets,
-                                                                 CategoryType.drawing,
-                                                                 CategoryType.blurs]
+    fileprivate static var _categoryList:[CategoryType] = [CategoryType.quickSelect,
+                                                           CategoryType.basicAdjustments,
+                                                           CategoryType.imageProcessing,
+                                                           CategoryType.blendModes,
+                                                           CategoryType.visualEffects,
+                                                           CategoryType.presets,
+                                                           CategoryType.drawing,
+                                                           CategoryType.blurs]
     
     // typealias for dictionaries of FilterDescriptors
     typealias FilterDictionary = Dictionary<String, FilterDescriptorInterface>
     
     fileprivate static var _filterDictionary:[String:FilterDescriptorInterface?] = [:]
+    fileprivate static var _renderViewDictionary:[String:RenderView?] = [:]
     
     //fileprivate var _filterAssignments: [[String]] = [[], [], [], [], [], [], [], [], []]
     
@@ -164,7 +173,7 @@ class FilterManager{
             sortLists()
             
             // Need to start somewhere...
-            FilterManager.currCategory = .none
+            FilterManager.currCategory = .quickSelect
         }
         
     }
@@ -278,9 +287,9 @@ class FilterManager{
         log.verbose("Selected filter: \(FilterManager.selectedFilter)")
     }
     
-    func getSelectedFilter()->FilterDescriptorInterface?{
+    func getSelectedFilter()->String{
         FilterManager.checkSetup()
-        return getFilterDescriptor(key: FilterManager.selectedFilter)
+        return FilterManager.selectedFilter
     }
     
 
@@ -349,6 +358,22 @@ class FilterManager{
         return addr
     }
     
+    
+    
+    func getRenderView(key:String)->RenderView?{
+        var renderView: RenderView? = nil
+        
+        FilterManager.checkSetup()
+        
+        let index = FilterManager._renderViewDictionary.index(forKey: key)
+        if (index != nil){
+            renderView = (FilterManager._renderViewDictionary[key])!
+        } else {
+            log.error("RenderView for key:(\(key)) not found")
+        }
+        
+        return renderView
+    }
     //////////////////////////////////////////////
     // MARK: - Callback/Notification methods
     //////////////////////////////////////////////
@@ -395,7 +420,10 @@ class FilterManager{
         if (key != descriptor.key){
             log.warning("!!! Key/Index mismatch, check configuration for filter: \(key) or: \(descriptor.key)) ?!")
         }
+        
         FilterManager._filterDictionary[key] = descriptor
+        FilterManager._renderViewDictionary[key] = RenderView()
+        
         //log.debug("Add key:\(key), address: \(filterAddress(descriptor))")
         
     }
@@ -408,6 +436,7 @@ class FilterManager{
         //makeFilter(key: "",  descriptor: Descriptor())
         
         FilterManager._filterDictionary = [:]
+        FilterManager._renderViewDictionary = [:]
         
         makeFilter(key: "AdaptiveThreshold", descriptor: AdaptiveThresholdDescriptor())
         makeFilter(key: "AddBlend", descriptor: AddBlendDescriptor())
@@ -547,7 +576,7 @@ class FilterManager{
         
         FilterManager._imageProcessingList = [ "FalseColor", "Hue", "RGB", "Rotate", "Median", "OpeningFilter", "ClosingFilter", "OpacityAdjustment", "ChromaKeying", "Haze" ]
         
-        FilterManager._blendModesList = [ "AddBlend", "AlphaBlend", "ColorDodgeBlend", "ChromaKeyBlend", "ColorBlend", "ColorBurnBlend", "ColorDodgeBlend", "DarkenBlend",
+        FilterManager._blendModesList = [ "AddBlend", "AlphaBlend", "ChromaKeyBlend", "ColorBlend", "ColorBurnBlend", "ColorDodgeBlend", "DarkenBlend",
                             "DifferenceBlend", "DissolveBlend", "DivideBlend", "ExclusionBlend", "HardLightBlend", "HueBlend", "LightenBlend", "LinearBurnBlend",
                             "LuminosityBlend", "MultiplyBlend", "NormalBlend", "OverlayBlend", "SaturationBlend", "ScreenBlend", "SoftLightBlend", "SourceOverBlend", "SubtractBlend"]
         

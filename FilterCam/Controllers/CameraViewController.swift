@@ -39,13 +39,13 @@ class CameraViewController: UIViewController {
     
     // The Camera controls/options
     var cameraControlsView: CameraControlsView! = CameraControlsView()
-
+    
     
     // Advertisements View
     var adView: GADBannerView! = GADBannerView()
     
     
- 
+    
     var isLandscape : Bool = false
     var screenSize : CGRect = CGRect.zero
     var displayWidth : CGFloat = 0.0
@@ -54,7 +54,7 @@ class CameraViewController: UIViewController {
     let bannerHeight : CGFloat = 64.0
     let buttonSize : CGFloat = 48.0
     
- 
+    
     
     
     convenience init(){
@@ -66,109 +66,106 @@ class CameraViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        do {
+        // get display dimensions
+        displayHeight = view.height
+        displayWidth = view.width
+        
+        log.verbose("h:\(displayHeight) w:\(displayWidth)")
+        
+        // get orientation
+        //isLandscape = UIDevice.current.orientation.isLandscape // doesn't always work properly, especially in simulator
+        isLandscape = (displayWidth > displayHeight)
+        
+        
+        // Note: need to add subviews before modifying constraints
+        view.addSubview(cameraSettingsView)
+        view.addSubview(adView)
+        view.addSubview(cameraDisplayView)
+        view.addSubview(cameraInfoView) // must come after cameraDisplayView
+        view.addSubview(cameraControlsView)
+        
+        // set up layout based on orientation
+        if (isLandscape){
+            // left-to-right layout scheme
+            cameraSettingsView.frame.size.height = displayHeight
+            cameraSettingsView.frame.size.width = bannerHeight
+            cameraSettingsView.anchorAndFillEdge(.left, xPad: 0, yPad: 0, otherSize: bannerHeight)
             
-            // get display dimensions
-            displayHeight = view.height
-            displayWidth = view.width
             
-            log.verbose("h:\(displayHeight) w:\(displayWidth)")
+            adView.frame.size.height = bannerHeight
+            adView.frame.size.width = displayWidth - 2 * bannerHeight
+            adView.align(.underCentered, relativeTo: cameraSettingsView, padding: 0,
+                         width: displayWidth, height: adView.frame.size.height)
             
-            // get orientation
-            //isLandscape = UIDevice.current.orientation.isLandscape // doesn't always work properly, especially in simulator
-            isLandscape = (displayWidth > displayHeight)
+            cameraControlsView.frame.size.height = displayHeight
+            cameraControlsView.frame.size.width = bannerHeight
+            cameraControlsView.anchorAndFillEdge(.right, xPad: 0, yPad: 0, otherSize: bannerHeight)
+            
+            cameraDisplayView.frame.size.height = displayHeight
+            cameraDisplayView.frame.size.width = displayWidth - 2 * bannerHeight
+            cameraDisplayView.alignBetweenHorizontal(.toTheLeftMatchingTop, primaryView: cameraSettingsView, secondaryView: cameraControlsView, padding: 0, height: displayHeight)
             
             
-            // Note: need to add subviews before modifying constraints
-            view.addSubview(cameraSettingsView)
-            view.addSubview(adView)
-            view.addSubview(cameraDisplayView)
-            view.addSubview(cameraInfoView) // must come after cameraDisplayView
-            view.addSubview(cameraControlsView)
+            // Align Overlay view to bottom of Render View
+            cameraInfoView.frame.size.height = bannerHeight / 1.5
+            cameraInfoView.frame.size.width = displayWidth - 2 * bannerHeight
+            //cameraInfoView.align(.aboveCentered, relativeTo: cameraControlsView, padding: 0, width: displayWidth - 2 * bannerHeight, height: bannerHeight)
+            cameraInfoView.alignBetweenHorizontal(.toTheLeftMatchingBottom, primaryView: cameraControlsView, secondaryView: cameraSettingsView, padding: 0, height: bannerHeight)
+        } else {
+            // Portrait: top-to-bottom layout scheme
             
-            // set up layout based on orientation
-            if (isLandscape){
-                // left-to-right layout scheme
-                cameraSettingsView.frame.size.height = displayHeight
-                cameraSettingsView.frame.size.width = bannerHeight
-                cameraSettingsView.anchorAndFillEdge(.left, xPad: 0, yPad: 0, otherSize: bannerHeight)
-                
-                
-                adView.frame.size.height = bannerHeight
-                adView.frame.size.width = displayWidth - 2 * bannerHeight
-                adView.align(.underCentered, relativeTo: cameraSettingsView, padding: 0,
-                             width: displayWidth, height: adView.frame.size.height)
-                
-                cameraControlsView.frame.size.height = displayHeight
-                cameraControlsView.frame.size.width = bannerHeight
-                cameraControlsView.anchorAndFillEdge(.right, xPad: 0, yPad: 0, otherSize: bannerHeight)
-                
-                cameraDisplayView.frame.size.height = displayHeight
-                cameraDisplayView.frame.size.width = displayWidth - 2 * bannerHeight
-                cameraDisplayView.alignBetweenHorizontal(.toTheLeftMatchingTop, primaryView: cameraSettingsView, secondaryView: cameraControlsView, padding: 0, height: displayHeight)
-                
-                
-                // Align Overlay view to bottom of Render View
-                cameraInfoView.frame.size.height = bannerHeight / 1.5
-                cameraInfoView.frame.size.width = displayWidth - 2 * bannerHeight
-                //cameraInfoView.align(.aboveCentered, relativeTo: cameraControlsView, padding: 0, width: displayWidth - 2 * bannerHeight, height: bannerHeight)
-                cameraInfoView.alignBetweenHorizontal(.toTheLeftMatchingBottom, primaryView: cameraControlsView, secondaryView: cameraSettingsView, padding: 0, height: bannerHeight)
-            } else {
-                // Portrait: top-to-bottom layout scheme
-                
-                cameraSettingsView.frame.size.height = bannerHeight
-                cameraSettingsView.frame.size.width = displayWidth
-                cameraSettingsView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: bannerHeight)
-                
-                adView.frame.size.height = bannerHeight
-                adView.frame.size.width = displayWidth
-                adView.align(.underCentered, relativeTo: cameraSettingsView, padding: 0,
-                             width: displayWidth, height: adView.frame.size.height)
-                
-                cameraControlsView.frame.size.height = bannerHeight
-                cameraControlsView.frame.size.width = displayWidth
-                cameraControlsView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: bannerHeight)
-                
-                cameraInfoView.frame.size.height = bannerHeight / 1.5
-                cameraInfoView.frame.size.width = displayWidth
-                cameraInfoView.align(.aboveCentered, relativeTo: cameraControlsView, padding: 0,
-                                     width: displayWidth, height: cameraInfoView.frame.size.height)
-                
-                
-                cameraDisplayView.frame.size.height = displayHeight - 3.0 * bannerHeight
-                //cameraDisplayView.frame.size.height = displayHeight - 5.5 * bannerHeight
-                cameraDisplayView.frame.size.width = displayWidth
-                cameraDisplayView.align(.underCentered, relativeTo: adView, padding: 0,
-                                        width: displayWidth, height: cameraDisplayView.frame.size.height)
-                
-            }
+            cameraSettingsView.frame.size.height = bannerHeight
+            cameraSettingsView.frame.size.width = displayWidth
+            cameraSettingsView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: bannerHeight)
             
-            //setFilterIndex(0) // no filter
+            adView.frame.size.height = bannerHeight
+            adView.frame.size.width = displayWidth
+            adView.align(.underCentered, relativeTo: cameraSettingsView, padding: 0,
+                         width: displayWidth, height: adView.frame.size.height)
             
-            // add delegates to sub-views (for callbacks)
-            cameraSettingsView.delegate = self
-            cameraControlsView.delegate = self
-            //cameraInfoView.delegate = self
+            cameraControlsView.frame.size.height = bannerHeight
+            cameraControlsView.frame.size.width = displayWidth
+            cameraControlsView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: bannerHeight)
             
-            // set gesture detction for Filter Settings view
-            //setGestureDetectors(view: filterSettingsView)
-
+            cameraInfoView.frame.size.height = bannerHeight / 1.5
+            cameraInfoView.frame.size.width = displayWidth
+            cameraInfoView.align(.aboveCentered, relativeTo: cameraControlsView, padding: 0,
+                                 width: displayWidth, height: cameraInfoView.frame.size.height)
             
-            // listen to key press events
-            setVolumeListener()
             
-            setInfoMode(currInfoMode) // must be after view setup
-
+            cameraDisplayView.frame.size.height = displayHeight - 3.0 * bannerHeight
+            //cameraDisplayView.frame.size.height = displayHeight - 5.5 * bannerHeight
+            cameraDisplayView.frame.size.width = displayWidth
+            cameraDisplayView.align(.underCentered, relativeTo: adView, padding: 0,
+                                    width: displayWidth, height: cameraDisplayView.frame.size.height)
             
-            // start Ads
-            setupAds()
-           
-            //TODO: start timer and update setting display peridodically
         }
-        catch  let error as NSError {
-            log.error ("Error detected: \(error.localizedDescription)");
-        }
+        
+        //setFilterIndex(0) // no filter
+        
+        // add delegates to sub-views (for callbacks)
+        cameraSettingsView.delegate = self
+        cameraControlsView.delegate = self
+        //cameraInfoView.delegate = self
+        
+        // set gesture detction for Filter Settings view
+        //setGestureDetectors(view: filterSettingsView)
+        
+        
+        // listen to key press events
+        setVolumeListener()
+        
+        setInfoMode(currInfoMode) // must be after view setup
+        
+        
+        // start Ads
+        setupAds()
+        
+        //TODO: start timer and update setting display peridodically
     }
+    
+    
+    
     /*
      override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
      if UIDevice.current.orientation.isLandscape {
@@ -243,7 +240,7 @@ class CameraViewController: UIViewController {
         adView.backgroundColor = UIColor.black
     }
     
-   
+    
     //MARK: - Utility functions
     
     open func saveImage(){
@@ -257,11 +254,11 @@ class CameraViewController: UIViewController {
         }
         
     }
-
+    
     fileprivate func playCameraSound(){
         AudioServicesPlaySystemSound(1108) // undocumented iOS feature!
     }
-
+    
     
     //MARK: - Info Mode Management
     
@@ -270,16 +267,16 @@ class CameraViewController: UIViewController {
         
         switch (currInfoMode){
         case .camera:
-
+            
             break
         case .filter:
-
+            
             break
         }
         
         cameraControlsView.setInfoMode(currInfoMode)
     }
-
+    
     
     fileprivate func swapInfoMode(){
         switch (currInfoMode){
@@ -293,7 +290,7 @@ class CameraViewController: UIViewController {
     }
     
     
-
+    
     
 }
 
@@ -324,28 +321,28 @@ extension CameraViewController: CameraSettingsViewDelegate {
         log.debug("Flash pressed")
         //TODO: handle Flash options
     }
-
+    
     func gridPressed(){
         log.debug("Grid pressed")
         //TODO: handle Grid options
     }
-
+    
     func aspectPressed(){
         log.debug("Aspect Ratio pressed")
         //TODO: handle Aspect Ratio options
     }
-
+    
     func cameraPressed(){
         log.debug("Camera Options pressed")
         //TODO: handle Camera Exposure options
     }
-
+    
     func timerPressed(){
         log.debug("Timer pressed")
         //TODO: handle Timer options
     }
-
-
+    
+    
     func switchPressed(){
         //log.debug("Switch Cameras pressed")
         CameraManager.switchCameraLocation()

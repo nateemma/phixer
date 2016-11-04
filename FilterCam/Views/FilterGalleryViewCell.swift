@@ -292,12 +292,7 @@ class FilterGalleryViewCell: UICollectionViewCell {
             log.error("Could not load sample image")
             return view
         }
-        
-        guard (view.imageView != nil) else {
-            log.error("ImageView is NIL")
-            return view
-        }
-        
+                
         guard ((descriptor?.filter != nil) || (descriptor?.filterGroup != nil)) else {
             log.error("Both filter and filterGroup are NIL for filter:\(descriptor?.key)")
             return view

@@ -15,7 +15,9 @@ class FilterGalleryViewCell2: UICollectionViewCell {
     
     open static let reuseID: String = "FilterGalleryViewCell"
 
-    var renderView : RenderView? = RenderView()
+    var cellIndex:Int = -1 // used for racking cell reuse
+    
+    var renderView : RenderView! // only allocate when needed
     var label : UILabel = UILabel()
     
     let defaultWidth:CGFloat = 64.0
@@ -36,8 +38,8 @@ class FilterGalleryViewCell2: UICollectionViewCell {
 
     fileprivate var sampleImageFull:UIImage!
     fileprivate var blendImageFull:UIImage!
-    fileprivate var sampleImage:UIImage? = nil
-    fileprivate var blendImage:UIImage? = nil
+    fileprivate var sampleImageSmall:UIImage? = nil
+    fileprivate var blendImageSmall:UIImage? = nil
     fileprivate var sample:PictureInput? = nil
     fileprivate var blend:PictureInput? = nil
     
@@ -54,49 +56,21 @@ class FilterGalleryViewCell2: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        doInit()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 
-    func doInit(){
+    private func doInit(){
         if (!initDone){
             initDone = true
-
-            /***/
-            log.debug("creating scaled sample and blend images...")
-            sampleImageFull = UIImage(named:"sample_emma_01.png")!
-            blendImageFull = UIImage(named:"bl_topaz_warm.png")!
-
-            // create scaled down versions of the sample and blend images
-            //TODO: let user choose image
-            let size = sampleImageFull.size.applying(CGAffineTransform(scaleX: 0.5, y: 0.5))
-            
-            let hasAlpha = false
-            let scale: CGFloat = 0.0 // Automatically use scale factor of main screen
-            
-            // downsize input images since we really only need thumbnails
-            
-            UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, scale)
-            sampleImageFull.draw(in: CGRect(origin: CGPoint.zero, size: size))
-            sampleImage = UIGraphicsGetImageFromCurrentImageContext()!
-            UIGraphicsEndImageContext()
-            
-            UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, scale)
-            blendImageFull.draw(in: CGRect(origin: CGPoint.zero, size: size))
-            blendImage = UIGraphicsGetImageFromCurrentImageContext()!
-            UIGraphicsEndImageContext()
-            
-            sample = PictureInput(image:sampleImage!)
-            blend  = PictureInput(image:blendImage!)
-            /***/
-
+            //loadInputs()
         }
     }
-
+    
+    
+    
     private func doLayout(){
         
         self.backgroundColor = UIColor.flatBlack()
@@ -105,10 +79,10 @@ class FilterGalleryViewCell2: UICollectionViewCell {
         self.layer.borderColor = UIColor(white: 0.6, alpha: 1.0).cgColor
         self.clipsToBounds = true
         
-        renderView?.contentMode = .scaleAspectFill
-        renderView?.clipsToBounds = true
-        renderView?.frame.size = CGSize(width:defaultWidth, height:defaultHeight)
-        self.addSubview(renderView!)
+        renderView.contentMode = .scaleAspectFill
+        renderView.clipsToBounds = true
+        renderView.frame.size = CGSize(width:defaultWidth, height:defaultHeight)
+        self.addSubview(renderView)
         
         label.textAlignment = .center
         label.textColor = UIColor.white
@@ -116,36 +90,80 @@ class FilterGalleryViewCell2: UICollectionViewCell {
         self.addSubview(label)
         
         //log.verbose("renderView h:\(self.height * 0.7)")
-        renderView?.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: self.height * 0.7)
-        label.alignAndFill(.underCentered, relativeTo: renderView!, padding: 0)
+        renderView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: self.height * 0.7)
+        label.alignAndFill(.underCentered, relativeTo: renderView, padding: 0)
 
-        self.bringSubview(toFront: renderView!)
+        self.bringSubview(toFront: renderView)
+    }
+ 
+    
+    
+    fileprivate func loadInputs(){
+        /***/
+        //log.debug("creating scaled sample and blend images...")
+        sampleImageFull = UIImage(named:"sample_emma_01.png")!
+        blendImageFull = UIImage(named:"bl_topaz_warm.png")!
+        
+        // create scaled down versions of the sample and blend images
+        //TODO: let user choose image
+        let size = sampleImageFull.size.applying(CGAffineTransform(scaleX: 0.2, y: 0.2))
+        
+        let hasAlpha = false
+        let scale: CGFloat = 0.0 // Automatically use scale factor of main screen
+        
+        // downsize input images since we really only need thumbnails
+        
+        UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, scale)
+        sampleImageFull.draw(in: CGRect(origin: CGPoint.zero, size: size))
+        sampleImageSmall = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        
+        UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, scale)
+        blendImageFull.draw(in: CGRect(origin: CGPoint.zero, size: size))
+        blendImageSmall = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        
+        sample = PictureInput(image:sampleImageSmall!)
+        blend  = PictureInput(image:blendImageSmall!)
+        /***/
     }
     
-    // MARK: - Configuration
     
-    public func configureCell(frame: CGRect, key:String, render:Bool=true) {
+    
+    // MARK: - Configuration
+
+
+    override func prepareForReuse() {
+        //renderView = RenderView()
+        renderView = nil
+        //renderView.isHidden = true
+        super.prepareForReuse()
+    }
+
+    
+    
+    public func configureCell(frame: CGRect, index:Int, key:String, renderView:RenderView) {
+        
+        log.debug("index:\(index), key:\(key), view:\(Utilities.addressOf(renderView))")
+        cellIndex = index
+        
+        // allocate the RenderView
+        self.renderView = filterManager.getRenderView(key: key)
         
         // re-size the contents to match the cell
-        renderView?.frame = frame
+        self.renderView.frame = frame
+        
+        //self.renderContainer.label.text = descriptor?.key
+        self.label.text = key
+        
 
         doInit()
         doLayout()
         
-       DispatchQueue.main.async(execute: { () -> Void in
-
-            // check to see if we want to render the image or use the cache
-            if (render){
-                
-                // render filtered image via GPU
-                
-                self.filterDescriptor = self.filterManager.getFilterDescriptor(key: key)!
-                self.updateRenderCell(self.filterDescriptor)
-                
-            } else {
-                log.warning("Non-rendered version not supported")
-            }
-        })
+        //DispatchQueue.main.async(execute: { () -> Void in
+        //    // render filtered image via GPU
+        //    self.updateRenderCell(key:key, renderView:renderView)
+        //})
         
 
         
@@ -153,9 +171,13 @@ class FilterGalleryViewCell2: UICollectionViewCell {
     }
     
     
-    
-    // create RenedrView version of the cell
-    fileprivate func updateRenderCell(_ descriptor: FilterDescriptorInterface?){
+    // update the supplied RenderView with the supplied filter
+    public func updateRenderView(key: String, renderView:RenderView){
+        
+        var descriptor: FilterDescriptorInterface?
+        
+        descriptor = self.filterManager.getFilterDescriptor(key: key)
+        
         
         /***
         var sample:PictureInput? = nil // for some reason, need to use local variables
@@ -170,9 +192,13 @@ class FilterGalleryViewCell2: UICollectionViewCell {
          var filterGroup:OperationGroup? = nil
          ***/
  
-        //self.renderContainer.label.text = descriptor?.key
-        self.label.text = descriptor?.key
-       
+        if (sample == nil){
+            loadInputs()
+        } else {
+            sample?.removeAllTargets()
+            blend?.removeAllTargets()
+        }
+        
         
         //TODO: start rendering in an asynch queue
         //TODO: render to UIImage, no need for RenderView since image is static
@@ -187,81 +213,72 @@ class FilterGalleryViewCell2: UICollectionViewCell {
             return
         }
         
-        
-        //if (descriptor?.filter != nil) { descriptor?.filter?.removeAllTargets() }
-        //if (descriptor?.filterGroup != nil) { descriptor?.filterGroup?.removeAllTargets() }
-        //sample?.removeAllTargets()
-        //blend?.removeAllTargets()
 
         
         // annoyingly, we have to treat single and multiple filters differently
         if (descriptor?.filter != nil){ // single filter
-            //filter = testFilter?.filter
             filter = descriptor?.filter
             
-            log.debug("Run filter: \((descriptor?.key)!) address:\(Utilities.addressOf(filter))")
+            log.debug("Run filter: \((descriptor?.key)!) filter:\(Utilities.addressOf(filter)) view:\(Utilities.addressOf(renderView))")
             
             let opType:FilterOperationType = (descriptor?.filterOperationType)!
             switch (opType){
             case .singleInput:
                 //log.debug("filter: \(descriptor?.key) address:\(Utilities.addressOf(filter))")
-                //sample! --> filter! --> self.renderView!
-                sample! --> filter! --> self.renderView!
-                sample?.processImage()
+                sample! --> filter! --> renderView
+                sample?.processImage(synchronously: true)
                 break
             case .blend:
                 //log.debug("Using BLEND mode for filter: \(descriptor?.key)")
                 //TOFIX: blend image needs to be resized to fit the render view
                 sample!.addTarget(filter!)
                 blend! --> filter!
-                sample! --> filter! --> self.renderView!
+                sample! --> filter! --> renderView
                 blend?.processImage(synchronously: true)
-                sample?.processImage()
+                sample?.processImage(synchronously: true)
                 break
             }
             
+            filter?.removeAllTargets()
+            
         } else if (descriptor?.filterGroup != nil){ // group of filters
             filterGroup = descriptor?.filterGroup
-            log.debug("Run filterGroup: \(descriptor?.key) address:\(Utilities.addressOf(filterGroup))")
+            
+            log.debug("Run filterGroup: \(descriptor?.key) group:\(Utilities.addressOf(filterGroup)) view:\(Utilities.addressOf(renderView))")
             
             let opType:FilterOperationType = (descriptor?.filterOperationType)!
             switch (opType){
             case .singleInput:
                 //log.debug("filterGroup: \(descriptor?.key)")
-                sample! --> filterGroup! --> self.renderView!
-                sample?.processImage()
+                sample! --> filterGroup! --> renderView
+                sample?.processImage(synchronously: true)
                 break
             case .blend:
                 //log.debug("Using BLEND mode for group: \(descriptor?.key)")
                 //TOFIX: blend image needs to be resized to fit the render view
                 sample!.addTarget(filterGroup!)
                 blend! --> filterGroup!
-                sample! --> filterGroup! --> self.renderView!
+                sample! --> filterGroup! --> renderView
                 blend?.processImage(synchronously: true)
-                sample?.processImage()
+                sample?.processImage(synchronously: true)
                 break
             }
+            
+            filterGroup?.removeAllTargets()
+            
         } else {
             log.error("ERR!!! shouldn't be here!!!")
         }
-        
-        
-        //sample?.processImage(synchronously: true) // synchronous because objects are freed next
-        
-        // clean up so that object don't get left hanging around
-        //sample?.removeAllTargets()
-        //blend?.removeAllTargets()
-        //filter?.removeAllTargets()
-        //filterGroup?.removeAllTargets()
-        //sample = nil
-        //blend = nil
-        //filter = nil
-        //filterGroup = nil
 
+        
+        //renderView.isHidden = false
+
+ 
     }
 
  
     open func suspend(){
+        //log.debug("Suspending cell: \((filterDescriptor?.key)!)")
         sample?.removeAllTargets()
         blend?.removeAllTargets()
         filter?.removeAllTargets()

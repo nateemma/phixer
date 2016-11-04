@@ -35,7 +35,7 @@ class FiltersViewController: UIViewController, SegueHandlerType {
     
     // The Camera controls/options
     var cameraControlsView: CameraControlsView! = CameraControlsView()
-
+    
     // The filter configuration subview
     var filterSettingsView: FilterParametersView! = FilterParametersView()
     
@@ -51,7 +51,7 @@ class FiltersViewController: UIViewController, SegueHandlerType {
     var filterManager: FilterManager? = FilterManager.sharedInstance
     
     var currFilterDescriptor:FilterDescriptorInterface? = nil
- 
+    
     var isLandscape : Bool = false
     var screenSize : CGRect = CGRect.zero
     var displayWidth : CGFloat = 0.0
@@ -70,16 +70,16 @@ class FiltersViewController: UIViewController, SegueHandlerType {
         case preferences
         case categoryManager
     }
- 
+    
     
     
     convenience init(){
         self.init(nibName:nil, bundle:nil)
         //doInit()
     }
-
+    
     static var initDone:Bool = false
-
+    
     func doInit(){
         
         if (!FiltersViewController.initDone){
@@ -94,145 +94,140 @@ class FiltersViewController: UIViewController, SegueHandlerType {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        do {
-            
-            // get display dimensions
-            displayHeight = view.height
-            displayWidth = view.width
-            
-            log.verbose("h:\(displayHeight) w:\(displayWidth)")
-            
-            // get orientation
-            //isLandscape = UIDevice.current.orientation.isLandscape // doesn't always work properly, especially in simulator
-            isLandscape = (displayWidth > displayHeight)
-            
-            //filterManager?.reset()
-            doInit()
-           
-            // Note: need to add subviews before modifying constraints
-            view.addSubview(filterInfoView)
-            view.addSubview(adView)
-            view.addSubview(cameraDisplayView)
-            view.addSubview(filterControlsView) // must come after cameraDisplayView
-            view.addSubview(cameraControlsView)
-            
-            // hidden views:
-            view.addSubview(filterSelectionView)
-            view.addSubview(categorySelectionView)
-            
-            
-            // set up layout based on orientation
-            if (isLandscape){
-                // left-to-right layout scheme
-                filterInfoView.frame.size.height = displayHeight
-                filterInfoView.frame.size.width = bannerHeight / 1.5
-                filterInfoView.anchorAndFillEdge(.left, xPad: 0, yPad: 0, otherSize: bannerHeight)
-                
-                
-                adView.frame.size.height = bannerHeight
-                adView.frame.size.width = displayWidth - 2 * bannerHeight
-                adView.align(.underCentered, relativeTo: filterInfoView, padding: 0,
-                             width: displayWidth, height: adView.frame.size.height)
-                
-                cameraControlsView.frame.size.height = displayHeight
-                cameraControlsView.frame.size.width = bannerHeight
-                cameraControlsView.anchorAndFillEdge(.right, xPad: 0, yPad: 0, otherSize: bannerHeight)
-                
-                cameraDisplayView.frame.size.height = displayHeight
-                cameraDisplayView.frame.size.width = displayWidth - 2 * bannerHeight
-                cameraDisplayView.alignBetweenHorizontal(.toTheLeftMatchingTop, primaryView: filterInfoView, secondaryView: cameraControlsView, padding: 0, height: displayHeight)
-                
-                
-                // Align Overlay view to bottom of Render View
-                filterControlsView.frame.size.height = bannerHeight / 1.5
-                filterControlsView.frame.size.width = displayWidth - 2 * bannerHeight
-                filterControlsView.alignBetweenHorizontal(.toTheLeftMatchingBottom, primaryView: cameraControlsView, secondaryView: filterInfoView, padding: 0, height: bannerHeight)
-                
-                filterSelectionView.frame.size.height = 2.0 * bannerHeight
-                filterSelectionView.frame.size = filterInfoView.frame.size
-                filterSelectionView.alignBetweenHorizontal(.toTheLeftMatchingBottom, primaryView: cameraControlsView, secondaryView: filterInfoView,
-                                                           padding: 0, height: filterSelectionView.frame.size.height)
-                
-                categorySelectionView.frame.size.height = 2.0 * bannerHeight
-                categorySelectionView.frame.size = filterInfoView.frame.size
-                categorySelectionView.alignBetweenHorizontal(.toTheLeftMatchingBottom, primaryView: cameraControlsView, secondaryView: filterInfoView,
-                                                           padding: 0, height: categorySelectionView.frame.size.height)
-                
-            } else {
-                // Portrait: top-to-bottom layout scheme
-                
-                filterInfoView.frame.size.height = bannerHeight * 0.75
-                filterInfoView.frame.size.width = displayWidth
-                filterInfoView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: filterInfoView.frame.size.height)
-                
-                adView.frame.size.height = bannerHeight
-                adView.frame.size.width = displayWidth
-                adView.align(.underCentered, relativeTo: filterInfoView, padding: 0, width: displayWidth, height: adView.frame.size.height)
-                
-                
-                cameraDisplayView.frame.size.height = displayHeight - 2.5 * bannerHeight
-                //cameraDisplayView.frame.size.height = displayHeight - 5.5 * bannerHeight
-                cameraDisplayView.frame.size.width = displayWidth
-                cameraDisplayView.align(.underCentered, relativeTo: adView, padding: 0, width: displayWidth, height: cameraDisplayView.frame.size.height)
-
-                cameraControlsView.frame.size.height = bannerHeight
-                cameraControlsView.frame.size.width = displayWidth
-                cameraControlsView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: bannerHeight)
-                
-                filterControlsView.frame.size.height = bannerHeight * 0.75
-                filterControlsView.frame.size.width = displayWidth
-                filterControlsView.align(.aboveCentered, relativeTo: cameraControlsView, padding: 0, width: displayWidth, height: filterInfoView.frame.size.height)
-                
-                filterSelectionView.frame.size.height = 1.7 * bannerHeight
-                filterSelectionView.frame.size.width = displayWidth
-                filterSelectionView.align(.aboveCentered, relativeTo: filterControlsView, padding: 0, width: filterSelectionView.frame.size.width, height: filterSelectionView.frame.size.height)
-                
-                categorySelectionView.frame.size.height = 1.7 * bannerHeight
-                categorySelectionView.frame.size.width = displayWidth
-                categorySelectionView.align(.aboveCentered, relativeTo: filterControlsView, padding: 0, width: categorySelectionView.frame.size.width, height: categorySelectionView.frame.size.height)
-            }
-            
-            //setFilterIndex(0) // no filter
-            
-            // add delegates to sub-views (for callbacks)
-            filterInfoView.delegate = self
-            cameraControlsView.delegate = self
-            filterInfoView.delegate = self
-            filterControlsView.delegate = self
-            filterSelectionView.delegate = self
-            categorySelectionView.delegate = self
-            
-            // set gesture detction for Filter Settings view
-            //setGestureDetectors(view: filterSettingsView)
-
-            
-            // listen to key press events
-            setVolumeListener()
+        // get display dimensions
+        displayHeight = view.height
+        displayWidth = view.width
+        
+        log.verbose("h:\(displayHeight) w:\(displayWidth)")
+        
+        // get orientation
+        //isLandscape = UIDevice.current.orientation.isLandscape // doesn't always work properly, especially in simulator
+        isLandscape = (displayWidth > displayHeight)
+        
+        //filterManager?.reset()
+        doInit()
+        
+        // Note: need to add subviews before modifying constraints
+        view.addSubview(filterInfoView)
+        view.addSubview(adView)
+        view.addSubview(cameraDisplayView)
+        view.addSubview(filterControlsView) // must come after cameraDisplayView
+        view.addSubview(cameraControlsView)
+        
+        // hidden views:
+        view.addSubview(filterSelectionView)
+        view.addSubview(categorySelectionView)
+        
+        
+        // set up layout based on orientation
+        if (isLandscape){
+            // left-to-right layout scheme
+            filterInfoView.frame.size.height = displayHeight
+            filterInfoView.frame.size.width = bannerHeight / 1.5
+            filterInfoView.anchorAndFillEdge(.left, xPad: 0, yPad: 0, otherSize: bannerHeight)
             
             
-            //TODO: select filter category somehow
-            //filterSelectionView.setFilterCategory(FilterManager.CategoryType.quickSelect)
+            adView.frame.size.height = bannerHeight
+            adView.frame.size.width = displayWidth - 2 * bannerHeight
+            adView.align(.underCentered, relativeTo: filterInfoView, padding: 0,
+                         width: displayWidth, height: adView.frame.size.height)
             
-            //TODO: remeber state?
-            hideCategorySelector()
-            hideFilterSelector()
-     
-
+            cameraControlsView.frame.size.height = displayHeight
+            cameraControlsView.frame.size.width = bannerHeight
+            cameraControlsView.anchorAndFillEdge(.right, xPad: 0, yPad: 0, otherSize: bannerHeight)
             
-            // start Ads
-            setupAds()
-           
-            //TODO: start timer and update setting display peridodically
+            cameraDisplayView.frame.size.height = displayHeight
+            cameraDisplayView.frame.size.width = displayWidth - 2 * bannerHeight
+            cameraDisplayView.alignBetweenHorizontal(.toTheLeftMatchingTop, primaryView: filterInfoView, secondaryView: cameraControlsView, padding: 0, height: displayHeight)
             
-            // register for change notifications (don't do this before the views are set up)
-            filterManager?.setCategoryChangeNotification(callback: categoryChanged())
-            filterManager?.setFilterChangeNotification(callback: filterChanged())
-
+            
+            // Align Overlay view to bottom of Render View
+            filterControlsView.frame.size.height = bannerHeight / 1.5
+            filterControlsView.frame.size.width = displayWidth - 2 * bannerHeight
+            filterControlsView.alignBetweenHorizontal(.toTheLeftMatchingBottom, primaryView: cameraControlsView, secondaryView: filterInfoView, padding: 0, height: bannerHeight)
+            
+            filterSelectionView.frame.size.height = 2.0 * bannerHeight
+            filterSelectionView.frame.size = filterInfoView.frame.size
+            filterSelectionView.alignBetweenHorizontal(.toTheLeftMatchingBottom, primaryView: cameraControlsView, secondaryView: filterInfoView,
+                                                       padding: 0, height: filterSelectionView.frame.size.height)
+            
+            categorySelectionView.frame.size.height = 2.0 * bannerHeight
+            categorySelectionView.frame.size = filterInfoView.frame.size
+            categorySelectionView.alignBetweenHorizontal(.toTheLeftMatchingBottom, primaryView: cameraControlsView, secondaryView: filterInfoView,
+                                                         padding: 0, height: categorySelectionView.frame.size.height)
+            
+        } else {
+            // Portrait: top-to-bottom layout scheme
+            
+            filterInfoView.frame.size.height = bannerHeight * 0.75
+            filterInfoView.frame.size.width = displayWidth
+            filterInfoView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: filterInfoView.frame.size.height)
+            
+            adView.frame.size.height = bannerHeight
+            adView.frame.size.width = displayWidth
+            adView.align(.underCentered, relativeTo: filterInfoView, padding: 0, width: displayWidth, height: adView.frame.size.height)
+            
+            
+            cameraDisplayView.frame.size.height = displayHeight - 2.5 * bannerHeight
+            //cameraDisplayView.frame.size.height = displayHeight - 5.5 * bannerHeight
+            cameraDisplayView.frame.size.width = displayWidth
+            cameraDisplayView.align(.underCentered, relativeTo: adView, padding: 0, width: displayWidth, height: cameraDisplayView.frame.size.height)
+            
+            cameraControlsView.frame.size.height = bannerHeight
+            cameraControlsView.frame.size.width = displayWidth
+            cameraControlsView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: bannerHeight)
+            
+            filterControlsView.frame.size.height = bannerHeight * 0.75
+            filterControlsView.frame.size.width = displayWidth
+            filterControlsView.align(.aboveCentered, relativeTo: cameraControlsView, padding: 0, width: displayWidth, height: filterInfoView.frame.size.height)
+            
+            filterSelectionView.frame.size.height = 1.7 * bannerHeight
+            filterSelectionView.frame.size.width = displayWidth
+            filterSelectionView.align(.aboveCentered, relativeTo: filterControlsView, padding: 0, width: filterSelectionView.frame.size.width, height: filterSelectionView.frame.size.height)
+            
+            categorySelectionView.frame.size.height = 1.7 * bannerHeight
+            categorySelectionView.frame.size.width = displayWidth
+            categorySelectionView.align(.aboveCentered, relativeTo: filterControlsView, padding: 0, width: categorySelectionView.frame.size.width, height: categorySelectionView.frame.size.height)
         }
-        catch  let error as NSError {
-            log.error ("Error detected: \(error.localizedDescription)");
-        }
+        
+        //setFilterIndex(0) // no filter
+        
+        // add delegates to sub-views (for callbacks)
+        filterInfoView.delegate = self
+        cameraControlsView.delegate = self
+        filterInfoView.delegate = self
+        filterControlsView.delegate = self
+        filterSelectionView.delegate = self
+        categorySelectionView.delegate = self
+        
+        // set gesture detction for Filter Settings view
+        //setGestureDetectors(view: filterSettingsView)
+        
+        
+        // listen to key press events
+        setVolumeListener()
+        
+        
+        //TODO: select filter category somehow
+        //filterSelectionView.setFilterCategory(FilterManager.CategoryType.quickSelect)
+        
+        //TODO: remeber state?
+        hideCategorySelector()
+        hideFilterSelector()
+        
+        
+        
+        // start Ads
+        setupAds()
+        
+        //TODO: start timer and update setting display peridodically
+        
+        // register for change notifications (don't do this before the views are set up)
+        filterManager?.setCategoryChangeNotification(callback: categoryChanged())
+        filterManager?.setFilterChangeNotification(callback: filterChanged())
+        
     }
+    
     /*
      override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
      if UIDevice.current.orientation.isLandscape {
@@ -364,7 +359,7 @@ class FiltersViewController: UIViewController, SegueHandlerType {
             }
         }
     }
-   
+    
     //////////////////////////////////////
     //MARK: - Utility functions
     //////////////////////////////////////
@@ -380,11 +375,11 @@ class FiltersViewController: UIViewController, SegueHandlerType {
         }
         
     }
-
+    
     fileprivate func playCameraSound(){
         AudioServicesPlaySystemSound(1108) // undocumented iOS feature!
     }
-
+    
     fileprivate func populateFilterList(){
         
         // make sure the FilterManager instance has been loaded
@@ -405,12 +400,12 @@ class FiltersViewController: UIViewController, SegueHandlerType {
         }
     }
     
-
+    
     
     //////////////////////////////////////
     // MARK: - Filter/Category Management
     //////////////////////////////////////
-
+    
     func categoryChanged(){
         updateCurrentFilter()
     }
@@ -418,18 +413,18 @@ class FiltersViewController: UIViewController, SegueHandlerType {
     func filterChanged(){
         updateCurrentFilter()
     }
-
+    
     // retrive current settings from FilterManager and store locally
     func updateCurrentFilter(){
         let descriptor = filterManager?.getCurrentFilterDescriptor()
         //log.verbose("Current filter: \(descriptor?.key)")
         //if (descriptor?.key != currFilterDescriptor?.key){
-            currFilterDescriptor = descriptor
-            cameraDisplayView.setFilter(currFilterDescriptor)
-            categorySelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)
-            filterSelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)
-            filterSelectionView.update()
-            filterInfoView.update()
+        currFilterDescriptor = descriptor
+        cameraDisplayView.setFilter(currFilterDescriptor)
+        categorySelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)
+        filterSelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)
+        filterSelectionView.update()
+        filterInfoView.update()
         //} else {
         //    log.debug("Ignoring \(currFilterDescriptor?.key)->\(descriptor?.key) transition")
         //}
@@ -465,7 +460,7 @@ class FiltersViewController: UIViewController, SegueHandlerType {
         categorySelectorShown = true
         filterControlsView.setCategoryControlState(.shown)
         categorySelectionView.update()
-       view.bringSubview(toFront: categorySelectionView)
+        view.bringSubview(toFront: categorySelectionView)
     }
     
     
@@ -513,7 +508,7 @@ class FiltersViewController: UIViewController, SegueHandlerType {
             filterSettingsShown = true
             view.bringSubview(toFront: filterSettingsView)
             filterControlsView.setParametersControlState(.shown)
-           //filterSettingsView.show()
+            //filterSettingsView.show()
         } else {
             log.debug("No parameters to display")
             filterControlsView.setParametersControlState(.disabled)
@@ -527,7 +522,7 @@ class FiltersViewController: UIViewController, SegueHandlerType {
         filterSettingsShown = false
         filterControlsView.setParametersControlState(.hidden)
     }
-
+    
     func toggleFilterSettings(){
         if (filterSettingsShown){
             hideFilterSettings()
@@ -579,17 +574,17 @@ extension FiltersViewController: CameraControlsViewDelegate {
         CameraManager.stopCapture()
         filterSelectionView.suspend()
         callbacksEnabled = false  //TODO: how to turn back on?!
-
-        present(FilterGalleryViewController(), animated: false, completion: nil)
-        //present(CategoryManagerViewController(), animated: true, completion: nil)
+        
+        //present(FilterGalleryViewController(), animated: false, completion: nil)
+        present(CategoryManagerViewController(), animated: true, completion: nil)
         //self.performSegueWithIdentifier(.categoryManager, sender: self)
     }
 }
 
 
 
-extension FiltersViewController: FilterInfoViewDelegate {   
-
+extension FiltersViewController: FilterInfoViewDelegate {
+    
     func swapCameraPressed(){
         log.debug("swapCameraPressed pressed")
         CameraManager.switchCameraLocation()
@@ -647,20 +642,20 @@ extension FiltersViewController: FilterSelectionViewDelegate{
         }
         
         // setup the filter descriptor
-        let category = filterManager?.getCurrentCategory()
+        //let category = filterManager?.getCurrentCategory()
         currFilterDescriptor = filterManager?.getFilterDescriptor(key:key)
         updateCurrentFilter()
         
-/***
-        // only update if filters are currently shown
-        if (currInfoMode == .filter){
-            cameraDisplayView.setFilter(currFilterDescriptor)
-            //filterInfoView.setFilterName(key)
-            updateFilterSettings()
-            filterSelectionView.update()
-            filterInfoView.update()
-        }
- ***/
+        /***
+         // only update if filters are currently shown
+         if (currInfoMode == .filter){
+         cameraDisplayView.setFilter(currFilterDescriptor)
+         //filterInfoView.setFilterName(key)
+         updateFilterSettings()
+         filterSelectionView.update()
+         filterInfoView.update()
+         }
+         ***/
     }
 }
 

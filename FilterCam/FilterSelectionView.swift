@@ -25,7 +25,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     var filterManager: FilterManager? = FilterManager.sharedInstance
     var filterNameList: [String] = []
     var filterViewList: [RenderContainerView] = []
-    var filterCategory:FilterManager.CategoryType = FilterManager.CategoryType.none
+    var filterCategory:FilterManager.CategoryType = FilterManager.CategoryType.imageProcessing
     var filterLabel:UILabel = UILabel()
     var carouselHeight:CGFloat = 80.0
     var camera: Camera? = nil
@@ -43,7 +43,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     
     func setFilterCategory(_ category:FilterManager.CategoryType){
         
-        if (category != filterCategory){
+        if ((category != filterCategory) || (currIndex<0)){
             
             // need to clear everything from carousel, so just create a new one...
             filterCarousel?.removeFromSuperview()
@@ -182,23 +182,19 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
 
         if (index < filterNameList.count){
             if (camera != nil){
-                do{
-                    filterCategory = (filterManager?.getCurrentCategory())!
-                    currFilter = filterManager?.getFilterDescriptor(key:filterNameList[index])
-                    //tempView.label.text = currFilter?.key
-                    let filter = currFilter?.filter
-                    if (filter != nil){
-                        
-                        camera! --> filter! --> filterViewList[index].renderView!
-                        
-                    } else {
-                        let filterGroup = currFilter?.filterGroup
-                        if (filterGroup != nil){
-                            camera! --> filterGroup! --> filterViewList[index].renderView!
-                        }
+                filterCategory = (filterManager?.getCurrentCategory())!
+                currFilter = filterManager?.getFilterDescriptor(key:filterNameList[index])
+                //tempView.label.text = currFilter?.key
+                let filter = currFilter?.filter
+                if (filter != nil){
+                    
+                    camera! --> filter! --> filterViewList[index].renderView!
+                    
+                } else {
+                    let filterGroup = currFilter?.filterGroup
+                    if (filterGroup != nil){
+                        camera! --> filterGroup! --> filterViewList[index].renderView!
                     }
-                } catch {
-                    log.error("Error rendering view: \(error)")
                 }
             }
             return filterViewList[index]
@@ -307,7 +303,9 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
                 if (self.isValidIndex(index)){ // filterNameList can change asynchronously
                     descriptor = (self.filterManager?.getFilterDescriptor(key:self.filterNameList[index]))
                     log.verbose("Suspending \(self.filterNameList[index])  address:\(filterManager?.filterAddress(descriptor))...")
-                    descriptor?.reset()
+                    //descriptor?.reset()
+                    descriptor?.filter?.removeAllTargets()
+                    descriptor?.filterGroup?.removeAllTargets()
                 }
             }
         }
@@ -322,27 +320,23 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
             log.verbose("Updating...")
             for i in (self.filterCarousel?.indexesForVisibleItems)! {
                 if (self.camera != nil){
-                    do{
-                        index = i as! Int
-                        if (self.isValidIndex(index)){ // filterNameList can change asynchronously
-                            descriptor = (self.filterManager?.getFilterDescriptor(key:self.filterNameList[index]))
-                            //tempView.label.text = currFilter?.key
-                            let filter = descriptor?.filter
-                            if (filter != nil){
-                                //log.verbose("updating index:\(index) (\(descriptor.key))")
+                    index = i as! Int
+                    if (self.isValidIndex(index)){ // filterNameList can change asynchronously
+                        descriptor = (self.filterManager?.getFilterDescriptor(key:self.filterNameList[index]))
+                        //tempView.label.text = currFilter?.key
+                        let filter = descriptor?.filter
+                        if (filter != nil){
+                            //log.verbose("updating index:\(index) (\(descriptor.key))")
+                            //TODO: apply rotation filter
+                            self.camera! --> filter! --> self.filterViewList[index].renderView!
+                            
+                        } else {
+                            let filterGroup = self.currFilter?.filterGroup
+                            if (filterGroup != nil){
                                 //TODO: apply rotation filter
-                                self.camera! --> filter! --> self.filterViewList[index].renderView!
-                                
-                            } else {
-                                let filterGroup = self.currFilter?.filterGroup
-                                if (filterGroup != nil){
-                                    //TODO: apply rotation filter
-                                    self.camera! --> filterGroup! --> self.filterViewList[index].renderView!
-                                }
+                                self.camera! --> filterGroup! --> self.filterViewList[index].renderView!
                             }
                         }
-                    } catch {
-                        log.error("Error rendering view: \(error)")
                     }
                 }
             }

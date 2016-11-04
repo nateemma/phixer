@@ -25,10 +25,10 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     var filterManager: FilterManager? = FilterManager.sharedInstance
     var categoryList: [FilterManager.CategoryType] = []
     var categoryViewList: [UILabel] = []
-    var currCategory:FilterManager.CategoryType = FilterManager.CategoryType.none
+    var currCategory:FilterManager.CategoryType = FilterManager.CategoryType.imageProcessing
     var categoryLabel:UILabel = UILabel()
     var carouselHeight:CGFloat = 80.0
-    var currIndex:Int = -1
+    var currIndex:Int = -1 // forces initialisation
     
     // delegate for handling events
     weak var delegate: CategorySelectionViewDelegate?
@@ -36,7 +36,7 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     //MARK: - Public accessors
     
     func setFilterCategory(_ category:FilterManager.CategoryType){
-        if (currCategory != category){
+        if ((currCategory != category) || (currIndex<0)){
             currCategory = category
             log.debug("Filter category set to: \(category.rawValue)")
             update()
@@ -52,8 +52,9 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
             log.verbose("Scroll \(currIndex)->\(newIndex)")
             //categoryCarousel.scrollToItem(at: newIndex, animated: true)  // for some reason, animation causes a 'false' trigger at the end of the list
             categoryCarousel.scrollToItem(at: newIndex, animated: false)
+            highlightSelection(categoryCarousel, index: newIndex)
             currIndex = newIndex
-            categoryCarousel.setNeedsLayout()
+            //categoryCarousel.setNeedsLayout()
         }
     }
     
@@ -126,12 +127,13 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         categoryCarousel.dataSource = self
         categoryCarousel.delegate = self
         categoryCarousel.type = .linear
+        //categoryCarousel.centerItemWhenSelected = true
         
         //self.groupAndFill(.vertical, views: [categoryLabel, categoryCarousel], padding: 4.0)
         categoryLabel.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: categoryLabel.frame.size.height)
         categoryCarousel.align(.underCentered, relativeTo: categoryLabel, padding: 0, width: categoryCarousel.frame.size.width, height: categoryCarousel.frame.size.height)
 
-        update()
+        //update()
        
         // don't do anything until category list has been assigned
     }
@@ -180,10 +182,10 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         
         // spacing between items
         if (option == iCarouselOption.spacing){
-            //return value * 1.1
-            return value
+            return value * 1.1
+            //return value
         } else if (option == iCarouselOption.wrap){
-            //return 1.0
+            //return value
             return 1.0
         }
         
@@ -202,8 +204,10 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     
     // called when an item is selected manually (i.e. touched).
     func carousel(_ carousel: iCarousel, didSelectItemAt index: Int) {
-        updateSelection(carousel, index: index)
+        highlightSelection(carousel, index: index)
         
+        log.debug("Selected index:\(index)")
+        currIndex = index
         // call delegate function to act on selection
         delegate?.categorySelected(categoryList[index])
     }
@@ -212,8 +216,11 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     func carouselDidEndScrollingAnimation(_ carousel: iCarousel) {
         let index = carousel.currentItemIndex
  
-        //log.debug("index:\(index)")
-        updateSelection(carousel, index: index)
+        log.debug("End scrolling at index:\(index)")
+        //highlightSelection(carousel, index: index)
+        
+        // call delegate function to act on selection - debatable whether this is desirable or not...
+        //delegate?.categorySelected(categoryList[index])
     }
 
     
@@ -222,7 +229,7 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     }
 
     
-    fileprivate func updateSelection(_ carousel: iCarousel, index: Int){
+    fileprivate func highlightSelection(_ carousel: iCarousel, index: Int){
         
         guard (isValidIndex(index)) else {
             return
@@ -230,7 +237,7 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
 
         if (index != currIndex){
             
-            log.debug("Selected: \(categoryList[index]) (\(currIndex)->\(index))")
+            log.debug("Highlight: \(categoryList[index]) (\(currIndex)->\(index))")
 
             // updates label colors of selected item, reset old selection
             if (isValidIndex(currIndex)){
@@ -253,7 +260,7 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
             newView.layer.borderColor = UIColor.flatLime().cgColor
             
             // update current index
-            currIndex = index
+            //currIndex = index
             categoryCarousel.scrollToItem(at: index, animated: false)
            
 

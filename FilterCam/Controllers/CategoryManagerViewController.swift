@@ -36,12 +36,14 @@ class CategoryManagerViewController: UIViewController {
     
     // Category Selection View
     var categorySelectionView: CategorySelectionView!
+    var currCategoryIndex = -1
+    var currCategory:FilterManager.CategoryType = .quickSelect
     
-    // Filter Gallery
-    var filterGalleryView : FilterGalleryView! = FilterGalleryView()
+    // Filter Galleries (one per category).
+    var filterGalleryView : [FilterGalleryView] = []
+    
+    
     var filterManager:FilterManager = FilterManager.sharedInstance
-    
-    var currCategory:FilterManager.CategoryType = .none
     
     
     var isLandscape : Bool = false
@@ -61,18 +63,83 @@ class CategoryManagerViewController: UIViewController {
         self.init(nibName:nil, bundle:nil)
         doInit()
     }
+ 
     
+    
+    
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // get display dimensions
+        displayHeight = view.height
+        displayWidth = view.width
+        
+        
+        // get orientation
+        //isLandscape = UIDevice.current.orientation.isLandscape // doesn't always work properly, especially in simulator
+        isLandscape = (displayWidth > displayHeight)
+        
+        // initialisation workaroundm, set category to "none" during setup
+        //filterManager.setCurrentCategory(.none)
+        
+        doInit()
+        
+        doLayout()
+        
+        // start Ads
+        if (showAds){
+            setupAds()
+        }
+        
+        
+        // set up initial Category
+        currCategory = filterManager.getCurrentCategory()
+        selectCategory(currCategory)
+        categorySelectionView.setFilterCategory(currCategory)
+        
+        
+        // add delegates to sub-views (for callbacks)
+        //bannerView.delegate = self
+        
+        categorySelectionView.delegate = self
+        for gallery in filterGalleryView{
+            gallery.delegate = self
+        }
+        
+    }
+    
+    
+
     static var initDone:Bool = false
+  
+    
     
     func doInit(){
         
         if (!CategoryManagerViewController.initDone){
             CategoryManagerViewController.initDone = true
-            ImageCache.default.clearMemoryCache() // for testing
-            ImageCache.default.clearDiskCache() // for testing
             
+            //ImageCache.default.clearMemoryCache() // for testing
+            //ImageCache.default.clearDiskCache() // for testing
+            
+            // create an array of FilterGalleryViews and assign a category to each one
+            filterGalleryView = []
+            for _ in 0...FilterManager.maxIndex {
+                filterGalleryView.append(FilterGalleryView())
+            }
         }
     }
+    
+    
+    
+    func suspend(){
+        for filterView in filterGalleryView{
+            filterView.suspend()
+        }
+    }
+    
     
     func doLayout(){
         
@@ -103,12 +170,19 @@ class CategoryManagerViewController: UIViewController {
         }
         
         
-        
-        filterGalleryView.frame.size.height = displayHeight - bannerView.frame.size.height - 3.0 * bannerHeight - statusBarOffset
-        filterGalleryView.frame.size.width = displayWidth
-        filterGalleryView.backgroundColor = UIColor.black
-        //filterGalleryView.reload()
-        view.addSubview(filterGalleryView) // do this before categorySelectionView is assigned
+        // setup Galleries
+        for filterView in filterGalleryView{
+            if (showAds){
+                filterView.frame.size.height = displayHeight - 3.75 * bannerHeight
+            } else {
+                filterView.frame.size.height = displayHeight - 2.75 * bannerHeight
+            }
+            filterView.frame.size.width = displayWidth
+            filterView.backgroundColor = UIColor.black
+            filterView.isHidden = true
+            filterView.delegate = self
+            view.addSubview(filterView) // do this before categorySelectionView is assigned
+        }
 
         
         // Note: need to add subviews before modifying constraints
@@ -119,7 +193,6 @@ class CategoryManagerViewController: UIViewController {
         } else {
             log.debug("Not showing Ads in landscape mode")
             adView.isHidden = true
-            //adView.removeFromSuperview()
         }
         
         
@@ -132,8 +205,10 @@ class CategoryManagerViewController: UIViewController {
 
         // layout constraints
         bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
-        filterGalleryView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: filterGalleryView.frame.size.height)
-        //filterGalleryView.align(.underCentered, relativeTo: categorySelectionView, padding: 0, width: displayWidth, height: filterGalleryView.frame.size.height)
+        for filterView in filterGalleryView{
+            filterView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: filterView.frame.size.height)
+        }
+
         if (showAds){
             adView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: adView.frame.size.height)
             categorySelectionView.align(.underCentered, relativeTo: adView, padding: 0, width: displayWidth, height: categorySelectionView.frame.size.height)
@@ -156,7 +231,7 @@ class CategoryManagerViewController: UIViewController {
         
         titleLabel.frame.size.height = backButton.frame.size.height
         titleLabel.frame.size.width = displayWidth - backButton.frame.size.width
-        titleLabel.text = "Category/Filter Management"
+        titleLabel.text = "Filter Gallery"
         titleLabel.backgroundColor = UIColor.black
         titleLabel.textColor = UIColor.white
         titleLabel.font = UIFont.boldSystemFont(ofSize: 18.0)
@@ -171,61 +246,29 @@ class CategoryManagerViewController: UIViewController {
     }
     
 
-
+    fileprivate func isValidIndex(_ index:Int)->Bool{
+        return ((index>=0) && (index<filterGalleryView.count)) ? true : false
+    }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        do {
-            
-                        
-            // get display dimensions
-            displayHeight = view.height
-            displayWidth = view.width
-            
-            
-            // get orientation
-            //isLandscape = UIDevice.current.orientation.isLandscape // doesn't always work properly, especially in simulator
-            isLandscape = (displayWidth > displayHeight)
-            
-            currCategory = filterManager.getCurrentCategory()
-            
-            // initialisation workaroundm, set category to "none" during setup
-            filterManager.setCurrentCategory(.none)
-            
-            doInit()
-            
-            doLayout()
-           
-            filterGalleryView.setCategory(.none)
-            filterGalleryView.doLoadData()
-           
-            // start Ads
-            if (showAds){
-                setupAds()
-            }
-            
-            //self.filterManager.setCurrentCategory(.none)
-            //self.filterGalleryView.setCategory(.none)
-            //self.categorySelectionView.setFilterCategory(.none)
-          
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                self.filterManager.setCurrentCategory(self.currCategory)
-                self.filterGalleryView.setCategory(self.currCategory)
-                self.categorySelectionView.setFilterCategory(self.currCategory)
-                self.categorySelectionView.update()
-            }
-
-            //view.bringSubview(toFront: categorySelectionView)
-            
-            // add delegates to sub-views (for callbacks)
-            //bannerView.delegate = self
-            categorySelectionView.delegate = self
-            filterGalleryView.delegate = self
-            
+    fileprivate func selectCategory(_ category:FilterManager.CategoryType){
+        let index = category.getIndex()
+        if (isValidIndex(index) && (index != currCategoryIndex)){
+            log.debug("Category Selected: \(category) (\(currCategoryIndex)->\(index))")
+            if (isValidIndex(currCategoryIndex)) { filterGalleryView[currCategoryIndex].isHidden = true }
+            filterGalleryView[index].setCategory(FilterManager.getCategoryFromIndex(index))
+            currCategory = category
+            currCategoryIndex = index
+            filterGalleryView[index].isHidden = false
+        } else {
+            log.debug("Ignoring category change)")
         }
-        catch  let error as NSError {
-            log.error ("Error detected: \(error.localizedDescription)");
+    }
+    
+    
+    fileprivate func updateCategoryDisplay(_ category:FilterManager.CategoryType){
+        let index = category.getIndex()
+        if (isValidIndex(index)){
+            filterGalleryView[index].update()
         }
     }
     /*
@@ -290,6 +333,7 @@ class CategoryManagerViewController: UIViewController {
         //_ = self.navigationController?.popViewController(animated: true)
         guard navigationController?.popViewController(animated: true) != nil else { //modal
             //log.debug("Not a navigation Controller")
+            suspend()
             dismiss(animated: true, completion: nil)
             return
         }
@@ -305,9 +349,7 @@ class CategoryManagerViewController: UIViewController {
 
 extension CategoryManagerViewController: CategorySelectionViewDelegate {
     func categorySelected(_ category:FilterManager.CategoryType){
-        log.debug("Category Selected: \(category)")
-        filterGalleryView.setCategory(category)
-        currCategory = category
+        selectCategory(category)
     }
     
 }
@@ -318,7 +360,28 @@ extension CategoryManagerViewController: CategorySelectionViewDelegate {
 
 extension CategoryManagerViewController: FilterGalleryViewDelegate {
     func filterSelected(_ descriptor:FilterDescriptorInterface?){
+        suspend()
         filterManager.setSelectedFilter(key: (descriptor?.key)!)
-        self.present(FilterDetailsViewController(), animated: false, completion: nil)
+        let filterDetailsViewController = FilterDetailsViewController()
+        filterDetailsViewController.delegate = self
+        filterDetailsViewController.filterKey = (descriptor?.key)!
+        self.present(filterDetailsViewController, animated: false, completion: nil)
+    }
+    
+    func requestUpdate(category:FilterManager.CategoryType){
+        log.debug("Update requested for category: \(category.rawValue)")
     }
 }
+
+
+
+extension CategoryManagerViewController: FilterDetailsViewControllerDelegate {
+    func onCompletion(key:String){
+        //DispatchQueue.main.asyncAfter(deadline: .now() + 0.005, execute: {() -> Void in
+        //DispatchQueue.main.async(execute: {() -> Void in
+            log.verbose("FilterDetailsView completed")
+                self.updateCategoryDisplay(self.currCategory)
+        //})
+    }
+}
+

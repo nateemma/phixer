@@ -7,25 +7,16 @@
 //
 
 import Foundation
-//
-//  CameraInfoView.swift
-//  Philter
-//
-//  Created by Philip Price on 9/16/16.
-//  Copyright © 2016 Nateemma. All rights reserved.
-//
-
 import UIKit
 import Neon
 
 
-// Class responsible for laying out the Camera Information View
-// This is a container class for display the overlay that provides information about the current Camera/Image view
+// Class responsible for laying out the Parameters associated with a filter
 
 // Interface required of controlling View
-//protocol FilterParametersViewDelegate: class {
-//    func updateFilterSettings(value1:Float, value2:Float,  value3:Float,  value4:Float)
-//}
+protocol FilterParametersViewDelegate: class {
+    func settingsChanged()
+}
 
 
 class FilterParametersView: UIView {
@@ -63,7 +54,7 @@ class FilterParametersView: UIView {
     
     
     // delegate for handling events
-    //weak var delegate: FilterParametersViewDelegate?
+    weak var delegate: FilterParametersViewDelegate?
     
     
     
@@ -304,14 +295,20 @@ class FilterParametersView: UIView {
             break
         case 3:
             slider.addTarget(self, action: #selector(self.slider3ValueDidChange), for: .valueChanged)
-            break
+           break
         case 4:
             slider.addTarget(self, action: #selector(self.slider4ValueDidChange), for: .valueChanged)
+            break
+        case 5:
+            slider.addTarget(self, action: #selector(self.slider5ValueDidChange), for: .valueChanged)
             break
         default:
             log.error("Invalid slider index: \(index)")
             break
         }
+        
+        // shared callback for when user ends changing any slider (intended as an update trigger, don't need the value)
+        slider.addTarget(self, action: #selector(self.slidersDidEndChange), for: .touchUpInside)
     }
     
     
@@ -446,6 +443,8 @@ class FilterParametersView: UIView {
     
     func slider4ValueDidChange(_ sender:UISlider!){ currFilterDesc?.setParameter(4, value: sender.value) }
     
+    func slider5ValueDidChange(_ sender:UISlider!){ currFilterDesc?.setParameter(5, value: sender.value) }
+    
     func colorSlider1ValueDidChange(_ sender:GradientSlider!){ currFilterDesc?.setColorParameter(1, color: (gsliders[0]?.getSelectedColor())!) }
     
     func colorSlider2ValueDidChange(_ sender:GradientSlider!){ currFilterDesc?.setColorParameter(2, color: (gsliders[1]?.getSelectedColor())!) }
@@ -453,4 +452,11 @@ class FilterParametersView: UIView {
     func colorSlider3ValueDidChange(_ sender:GradientSlider!){ currFilterDesc?.setColorParameter(3, color: (gsliders[2]?.getSelectedColor())!) }
     
     func colorSlider4ValueDidChange(_ sender:GradientSlider!){ currFilterDesc?.setColorParameter(4, color: (gsliders[3]?.getSelectedColor())!) }
+    
+    func slidersDidEndChange(_ sender:UISlider!){
+        log.verbose("Settings changed for slider \(sender.tag)")
+        delegate?.settingsChanged()
+    }
+    
+
 }

@@ -31,7 +31,10 @@ enum InfoMode {
 
 class CameraControlsView: UIView {
     
-    //MARK: - Class variables:
+    // delegate for handling events
+    weak var delegate: CameraControlsViewDelegate?
+    
+   //MARK: - Class variables:
     
     let bannerHeight : CGFloat = 64.0
     let buttonSize : CGFloat = 48.0
@@ -53,9 +56,6 @@ class CameraControlsView: UIView {
     var currInfoMode: InfoMode = .filter
     
     var initDone: Bool = false
-    
-    // delegate for handling events
-    weak var delegate: CameraControlsViewDelegate?
     
     
     
@@ -99,7 +99,6 @@ class CameraControlsView: UIView {
             initDone = true
         }
         
-        weak var delegate: CameraControlsViewDelegate?
         
     }
     
