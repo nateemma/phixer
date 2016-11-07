@@ -118,13 +118,14 @@ class FilterInfoView: UIView {
             initViews()
         }
         
+
         // place at the bottom of the view to avoid the battery icon
         categoryIcon.anchorInCorner(.bottomLeft, xPad: 2, yPad: 2, width: buttonSize, height: buttonSize)
         categoryLabel.align(.toTheRightCentered, relativeTo: categoryIcon, padding: 0, width: categoryLabel.frame.size.width, height: categoryLabel.frame.size.height)
         filterIcon.anchorToEdge(.bottom, padding: 2, width: buttonSize, height: buttonSize)
         filterLabel.align(.toTheRightCentered, relativeTo: filterIcon, padding: 0, width: filterLabel.frame.size.width, height: filterLabel.frame.size.height)
         swapIcon.anchorInCorner(.bottomRight, xPad: 2, yPad: 2, width: buttonSize, height: buttonSize)
-        
+
         
         // register touch handlers
         categoryIcon.addTarget(self, action: #selector(self.categoryDidPress), for: .touchUpInside)

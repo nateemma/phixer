@@ -128,34 +128,36 @@ class FilterDetailsViewController: UIViewController {
             return
         }
         
-        // Note: need to add subviews before modifying constraints
-        
-        setupBanner()
-        //view.addSubview(adView)
-        setupDisplay()
-        setupControls()
 
-        setupConstraints()
+        doLayout()
         
         
         // start Advertisements
         //startAds()
-        
-        filterDisplayView.setFilter(key: currFilterKey)
-        filterControlsView.setFilter(currFilterDescriptor)
-        
-        
-        filterControlsView.delegate = self
         
         // that's it, rendering is handled by the FilterDisplayView and FilterControlsView classes
         
     }
     
     
+    fileprivate func doLayout(){
+        // Note: need to add subviews before modifying constraints
+        
+        setupBanner()
+        //view.addSubview(adView)
+        setupDisplay()
+        setupControls()
+        
+        setupConstraints()
+        filterDisplayView.setFilter(key: currFilterKey)
+        filterControlsView.setFilter(currFilterDescriptor)
+        
+        filterControlsView.delegate = self
+    }
     
     
     fileprivate func setupBanner(){
-
+        
         bannerView.frame.size.height = bannerHeight
         bannerView.frame.size.width = displayWidth
         bannerView.backgroundColor = UIColor.flatBlack() // temp debug
@@ -185,7 +187,7 @@ class FilterDetailsViewController: UIViewController {
         titleLabel.align(.toTheRightCentered, relativeTo: backButton, padding: 0, width: titleLabel.frame.size.width, height: titleLabel.frame.size.height)
         
         backButton.addTarget(self, action: #selector(self.backDidPress), for: .touchUpInside)
-       
+        
     }
     
     fileprivate func setupDisplay(){
@@ -213,17 +215,17 @@ class FilterDetailsViewController: UIViewController {
         //adView.frame.size.height = bannerHeight
         //adView.frame.size.width = displayWidth
         //adView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: adView.frame.size.height)
-      
+        
         // set up rest of layout based on orientation
         if (isLandscape){
             // left-to-right layout scheme
             
-            filterDisplayView.frame.size.height = displayHeight - 2 * bannerHeight
+            filterDisplayView.frame.size.height = displayHeight - bannerHeight
             filterDisplayView.frame.size.width = displayWidth / 2
             filterDisplayView.anchorInCorner(.bottomLeft, xPad: 0, yPad: 0, width: filterDisplayView.frame.size.width, height: filterDisplayView.frame.size.height)
             
             // Align Overlay view to bottom of Render View
-            filterControlsView.frame.size.height = displayHeight - 2 * bannerHeight
+            filterControlsView.frame.size.height = displayHeight - bannerHeight
             filterControlsView.frame.size.width = displayWidth / 2
             filterControlsView.anchorInCorner(.bottomRight, xPad: 0, yPad: 0, width: filterControlsView.frame.size.width, height: filterControlsView.frame.size.height)
             
@@ -231,20 +233,45 @@ class FilterDetailsViewController: UIViewController {
             // Portrait: top-to-bottom layout scheme
             
             if (currFilterDescriptor != nil) {
-                filterControlsView.frame.size.height = CGFloat((currFilterDescriptor?.numParameters)!) * bannerHeight
+                filterControlsView.frame.size.height = CGFloat(((currFilterDescriptor?.numParameters)! + 1)) * bannerHeight * 0.75
             } else {
                 filterControlsView.frame.size.height = (displayHeight - 2.0 * bannerHeight) * 0.3
             }
             filterControlsView.frame.size.width = displayWidth
             //filterControlsView.align(.underCentered, relativeTo: filterDisplayView, padding: 4, width: displayWidth, height: bannerView.frame.size.height)
             filterControlsView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 4, otherSize: filterControlsView.frame.size.height)
-        
+            
             filterDisplayView.frame.size.height = displayHeight - bannerHeight - filterControlsView.frame.size.height - 4
             filterDisplayView.frame.size.width = displayWidth
             //filterDisplayView.align(.underCentered, relativeTo: adView, padding: 0, width: displayWidth, height: filterDisplayView.frame.size.height)
             filterDisplayView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: filterDisplayView.frame.size.height)
-}
+        }
         
+    }
+    
+    
+    
+    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
+        displayHeight = view.height
+        displayWidth = view.width
+        if UIDevice.current.orientation.isLandscape{
+            log.verbose("### Detected change to: Landscape")
+            isLandscape = true
+        } else {
+            log.verbose("### Detected change to: Portrait")
+            isLandscape = false
+            
+        }
+        //TODO: animate and maybe handle before rotation finishes
+        self.removeSubviews()
+        self.doLayout()
+        
+    }
+    
+    func removeSubviews(){
+        for view in self.view.subviews {
+            view.removeFromSuperview()
+        }
     }
     
     /////////////////////////////
@@ -279,7 +306,6 @@ class FilterDetailsViewController: UIViewController {
 //////////////////////////////////////////
 // MARK: - Delegate methods for sub-views
 //////////////////////////////////////////
-
 
 
 

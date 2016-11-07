@@ -54,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FIRApp.configure()
         
         //GADMobileAds.configure(withApplicationID: "ca-app-pub-3940256099942544~1458002511"); // Test ID, replace when ready
-        GADMobileAds.configure(withApplicationID: admobAppID)
+        GADMobileAds.configure(withApplicationID: Admob.appID)
         
         return true
     }

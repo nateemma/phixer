@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		250716061DBEB13800CDDF42 /* LevelsAdjustmentDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250716051DBEB13800CDDF42 /* LevelsAdjustmentDescriptor.swift */; };
-		250716091DBEC19400CDDF42 /* CategoryManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250716081DBEC19400CDDF42 /* CategoryManagerViewController.swift */; };
+		250716091DBEC19400CDDF42 /* FilterGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250716081DBEC19400CDDF42 /* FilterGalleryViewController.swift */; };
 		2507160B1DBECDF200CDDF42 /* Admob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2507160A1DBECDF200CDDF42 /* Admob.swift */; };
 		2507160D1DBED62C00CDDF42 /* FilterGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2507160C1DBED62C00CDDF42 /* FilterGalleryView.swift */; };
 		251375511DB6AD6200A319DC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 251375501DB6AD6200A319DC /* GoogleService-Info.plist */; };
@@ -48,7 +48,6 @@
 		251375961DB6E06300A319DC /* AddBlendDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251375951DB6E06200A319DC /* AddBlendDescriptor.swift */; };
 		251375981DB6E0AD00A319DC /* LuminosityBlendDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251375971DB6E0AD00A319DC /* LuminosityBlendDescriptor.swift */; };
 		2513759A1DB6E10000A319DC /* LinearBurnBlendDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251375991DB6E10000A319DC /* LinearBurnBlendDescriptor.swift */; };
-		25319E671DBFE68E002DDD7E /* FilterGalleryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25319E661DBFE68E002DDD7E /* FilterGalleryViewCell.swift */; };
 		253B235B1DA2CFD400203ECB /* SegueHandlerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253B235A1DA2CFD400203ECB /* SegueHandlerType.swift */; };
 		253B23621DA301F500203ECB /* lookup_amatorka.png in Resources */ = {isa = PBXBuildFile; fileRef = 253B235D1DA301F500203ECB /* lookup_amatorka.png */; };
 		253B23631DA301F500203ECB /* lookup_miss_etikate.png in Resources */ = {isa = PBXBuildFile; fileRef = 253B235E1DA301F500203ECB /* lookup_miss_etikate.png */; };
@@ -83,7 +82,7 @@
 		255673231DB9BF0F00187F25 /* FilterControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255673221DB9BF0F00187F25 /* FilterControlsView.swift */; };
 		2569741D1D9B986E00DDF9E4 /* Fractional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2569741C1D9B986E00DDF9E4 /* Fractional.swift */; };
 		256D0FF11D98DB4C00220D7E /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256D0FF01D98DB4C00220D7E /* CameraManager.swift */; };
-		257F49E21D9448920083B1E4 /* FiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257F49E11D9448920083B1E4 /* FiltersViewController.swift */; };
+		257F49E21D9448920083B1E4 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257F49E11D9448920083B1E4 /* MainViewController.swift */; };
 		257F49E51D9448920083B1E4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 257F49E31D9448920083B1E4 /* Main.storyboard */; };
 		257F49E71D9448920083B1E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 257F49E61D9448920083B1E4 /* Assets.xcassets */; };
 		257F49EA1D9448920083B1E4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 257F49E81D9448920083B1E4 /* LaunchScreen.storyboard */; };
@@ -156,7 +155,6 @@
 		25CF4BDC1D94D93700D779CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BDB1D94D93700D779CF /* AppDelegate.swift */; };
 		25CF4BE81D94EA8100D779CF /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25CF4BE31D94EA5000D779CF /* GPUImage.framework */; };
 		25CF4BE91D94EA8D00D779CF /* GPUImage.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 25CF4BE31D94EA5000D779CF /* GPUImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		25D24AB41DC7C6F2001F65B9 /* FilterGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D24AB31DC7C6F2001F65B9 /* FilterGalleryViewController.swift */; };
 		25D24AB71DC7DCDB001F65B9 /* FilterGalleryViewCell2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D24AB61DC7DCDB001F65B9 /* FilterGalleryViewCell2.swift */; };
 		25F460181D99CCCE00EDA182 /* UISettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F460171D99CCCE00EDA182 /* UISettings.swift */; };
 		25F4601A1D99CE1E00EDA182 /* GridStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F460191D99CE1E00EDA182 /* GridStyle.swift */; };
@@ -223,7 +221,7 @@
 		139F285AF8C5B2C24479BD32 /* Pods-FilterCam.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FilterCam.release.xcconfig"; path = "Pods/Target Support Files/Pods-FilterCam/Pods-FilterCam.release.xcconfig"; sourceTree = "<group>"; };
 		1DDC117A644402CB333D19D8 /* Pods_FilterCam.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FilterCam.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		250716051DBEB13800CDDF42 /* LevelsAdjustmentDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LevelsAdjustmentDescriptor.swift; path = Filters/LevelsAdjustmentDescriptor.swift; sourceTree = "<group>"; };
-		250716081DBEC19400CDDF42 /* CategoryManagerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CategoryManagerViewController.swift; path = Controllers/CategoryManagerViewController.swift; sourceTree = "<group>"; };
+		250716081DBEC19400CDDF42 /* FilterGalleryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterGalleryViewController.swift; path = Controllers/FilterGalleryViewController.swift; sourceTree = "<group>"; };
 		2507160A1DBECDF200CDDF42 /* Admob.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Admob.swift; path = Models/Admob.swift; sourceTree = "<group>"; };
 		2507160C1DBED62C00CDDF42 /* FilterGalleryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterGalleryView.swift; path = Views/FilterGalleryView.swift; sourceTree = "<group>"; };
 		251375501DB6AD6200A319DC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -263,7 +261,6 @@
 		251375951DB6E06200A319DC /* AddBlendDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddBlendDescriptor.swift; path = Filters/AddBlendDescriptor.swift; sourceTree = "<group>"; };
 		251375971DB6E0AD00A319DC /* LuminosityBlendDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LuminosityBlendDescriptor.swift; path = Filters/LuminosityBlendDescriptor.swift; sourceTree = "<group>"; };
 		251375991DB6E10000A319DC /* LinearBurnBlendDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LinearBurnBlendDescriptor.swift; path = Filters/LinearBurnBlendDescriptor.swift; sourceTree = "<group>"; };
-		25319E661DBFE68E002DDD7E /* FilterGalleryViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterGalleryViewCell.swift; path = Views/FilterGalleryViewCell.swift; sourceTree = "<group>"; };
 		253B235A1DA2CFD400203ECB /* SegueHandlerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SegueHandlerType.swift; path = Controllers/SegueHandlerType.swift; sourceTree = "<group>"; };
 		253B235D1DA301F500203ECB /* lookup_amatorka.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lookup_amatorka.png; path = ../../GPUImage2/framework/Source/Operations/LookupImages/lookup_amatorka.png; sourceTree = "<group>"; };
 		253B235E1DA301F500203ECB /* lookup_miss_etikate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lookup_miss_etikate.png; path = ../../GPUImage2/framework/Source/Operations/LookupImages/lookup_miss_etikate.png; sourceTree = "<group>"; };
@@ -299,7 +296,7 @@
 		2569741C1D9B986E00DDF9E4 /* Fractional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Fractional.swift; path = Models/Fractional.swift; sourceTree = "<group>"; };
 		256D0FF01D98DB4C00220D7E /* CameraManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraManager.swift; path = Models/CameraManager.swift; sourceTree = "<group>"; };
 		257F49DC1D9448920083B1E4 /* FilterCam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FilterCam.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		257F49E11D9448920083B1E4 /* FiltersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FiltersViewController.swift; path = Controllers/FiltersViewController.swift; sourceTree = "<group>"; };
+		257F49E11D9448920083B1E4 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainViewController.swift; path = Controllers/MainViewController.swift; sourceTree = "<group>"; };
 		257F49E41D9448920083B1E4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		257F49E61D9448920083B1E4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		257F49E91D9448920083B1E4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -378,7 +375,6 @@
 		25CF4BD41D9490C400D779CF /* SquareButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SquareButton.swift; path = Views/SquareButton.swift; sourceTree = "<group>"; };
 		25CF4BDB1D94D93700D779CF /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		25CF4BDD1D94EA5000D779CF /* GPUImage-iOS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "GPUImage-iOS.xcodeproj"; path = "../GPUImage2/framework/GPUImage-iOS.xcodeproj"; sourceTree = "<group>"; };
-		25D24AB31DC7C6F2001F65B9 /* FilterGalleryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterGalleryViewController.swift; path = Controllers/FilterGalleryViewController.swift; sourceTree = "<group>"; };
 		25D24AB61DC7DCDB001F65B9 /* FilterGalleryViewCell2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterGalleryViewCell2.swift; path = Views/FilterGalleryViewCell2.swift; sourceTree = "<group>"; };
 		25F460171D99CCCE00EDA182 /* UISettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UISettings.swift; path = Models/UISettings.swift; sourceTree = "<group>"; };
 		25F460191D99CE1E00EDA182 /* GridStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GridStyle.swift; path = Models/GridStyle.swift; sourceTree = "<group>"; };
@@ -544,7 +540,6 @@
 				255673221DB9BF0F00187F25 /* FilterControlsView.swift */,
 				25A702941DC2FE3C009441E2 /* FilterDisplayView.swift */,
 				2507160C1DBED62C00CDDF42 /* FilterGalleryView.swift */,
-				25319E661DBFE68E002DDD7E /* FilterGalleryViewCell.swift */,
 				25D24AB61DC7DCDB001F65B9 /* FilterGalleryViewCell2.swift */,
 				25B24D171DAFE255008CD38A /* FilterInfoView.swift */,
 				253B237A1DA71F1900203ECB /* FilterParametersView.swift */,
@@ -582,11 +577,10 @@
 			children = (
 				253B235A1DA2CFD400203ECB /* SegueHandlerType.swift */,
 				2556731E1DB961F700187F25 /* DisplayMode.swift */,
-				257F49E11D9448920083B1E4 /* FiltersViewController.swift */,
-				250716081DBEC19400CDDF42 /* CategoryManagerViewController.swift */,
+				257F49E11D9448920083B1E4 /* MainViewController.swift */,
+				250716081DBEC19400CDDF42 /* FilterGalleryViewController.swift */,
 				255673201DB9653700187F25 /* CameraViewController.swift */,
 				25A702911DC2FCDD009441E2 /* FilterDetailsViewController.swift */,
-				25D24AB31DC7C6F2001F65B9 /* FilterGalleryViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1044,7 +1038,7 @@
 				25B24D0E1DAEDDFF008CD38A /* WhiteBalanceDescriptor.swift in Sources */,
 				253B23851DA998D100203ECB /* LuminanceThresholdDescriptor.swift in Sources */,
 				25910B1B1DB7D61A007EC926 /* RenderContainerView.swift in Sources */,
-				257F49E21D9448920083B1E4 /* FiltersViewController.swift in Sources */,
+				257F49E21D9448920083B1E4 /* MainViewController.swift in Sources */,
 				253B23831DA9989F00203ECB /* HighlightsDescriptor.swift in Sources */,
 				25B24CF81DAE958D008CD38A /* ExposureDescriptor.swift in Sources */,
 				25AEBB441DBA8AEC00AA6279 /* FilterSelectionView.swift in Sources */,
@@ -1056,7 +1050,6 @@
 				253B23751DA4B1A700203ECB /* PolarPixellateDescriptor.swift in Sources */,
 				253B236F1DA49B9A00203ECB /* SketchDescriptor.swift in Sources */,
 				25B24D2C1DB04843008CD38A /* AmatorkaDescriptor.swift in Sources */,
-				25319E671DBFE68E002DDD7E /* FilterGalleryViewCell.swift in Sources */,
 				251375701DB6DC2E00A319DC /* DissolveBlendDescriptor.swift in Sources */,
 				2507160B1DBECDF200CDDF42 /* Admob.swift in Sources */,
 				253B23871DA998F000203ECB /* PolkaDotDescriptor.swift in Sources */,
@@ -1083,7 +1076,7 @@
 				253B238D1DA9994F00203ECB /* PosterizeDescriptor.swift in Sources */,
 				251375581DB6BEE900A319DC /* XXX0Descriptor.swift in Sources */,
 				25B24D4E1DB059C4008CD38A /* CropDescriptor.swift in Sources */,
-				250716091DBEC19400CDDF42 /* CategoryManagerViewController.swift in Sources */,
+				250716091DBEC19400CDDF42 /* FilterGalleryViewController.swift in Sources */,
 				251375801DB6DE3E00A319DC /* ColorBurnBlendDescriptor.swift in Sources */,
 				25CF4BD91D9490C400D779CF /* ImageContainerView.swift in Sources */,
 				25B24D441DB05543008CD38A /* GaussianBlurDescriptor.swift in Sources */,
@@ -1096,7 +1089,6 @@
 				25A702951DC2FE3C009441E2 /* FilterDisplayView.swift in Sources */,
 				25B24D581DB17F07008CD38A /* SoftEleganceDescriptor.swift in Sources */,
 				251375881DB6DF1000A319DC /* DifferenceBlendDescriptor.swift in Sources */,
-				25D24AB41DC7C6F2001F65B9 /* FilterGalleryViewController.swift in Sources */,
 				251375821DB6DE5D00A319DC /* ColorDodgeBlendDescriptor.swift in Sources */,
 				25B24D5A1DB17F86008CD38A /* OpacityAdjustmentDescriptor.swift in Sources */,
 				25B24D641DB18888008CD38A /* TiltShiftDescriptor.swift in Sources */,

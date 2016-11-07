@@ -1,5 +1,5 @@
 //
-//  FiltersViewController.swift
+//  MainViewController.swift
 //  FilterCam
 //
 //  Created by Philip Price on 9/6/16.
@@ -20,9 +20,9 @@ import GoogleMobileAds
 private var filterList: [String] = []
 private var filterCount: Int = 0
 
-// This is the View Controller for displaying the filters functionality applied to the direct camera feed
+// This is the Main View Controller for FilterCam, and also displays  filters  applied to the direct camera feed
 
-class FiltersViewController: UIViewController, SegueHandlerType {
+class MainViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, SegueHandlerType {
     
     // Filter Info View
     var filterInfoView: FilterInfoView! = FilterInfoView()
@@ -41,12 +41,15 @@ class FiltersViewController: UIViewController, SegueHandlerType {
     
     // Advertisements View
     var adView: GADBannerView! = GADBannerView()
+    var showAds:Bool = true
     
     // Filter strip
     var filterSelectionView: FilterSelectionView! = FilterSelectionView()
     
     // Category Selection view
     var categorySelectionView: CategorySelectionView! = CategorySelectionView()
+    
+    let imagePicker = UIImagePickerController()
     
     var filterManager: FilterManager? = FilterManager.sharedInstance
     
@@ -82,17 +85,19 @@ class FiltersViewController: UIViewController, SegueHandlerType {
     
     func doInit(){
         
-        if (!FiltersViewController.initDone){
+        if (!MainViewController.initDone){
             //filterManager = FilterManager.sharedInstance
             filterManager?.setCurrentCategory(FilterManager.CategoryType.quickSelect)
             categorySelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)
-            FiltersViewController.initDone = true
+            MainViewController.initDone = true
             updateCurrentFilter()
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.backgroundColor = UIColor.black
         
         // get display dimensions
         displayHeight = view.height
@@ -104,12 +109,14 @@ class FiltersViewController: UIViewController, SegueHandlerType {
         //isLandscape = UIDevice.current.orientation.isLandscape // doesn't always work properly, especially in simulator
         isLandscape = (displayWidth > displayHeight)
         
+        showAds = (isLandscape == true) ? false : true // don't show in landscape mode, too cluttered
+        
         //filterManager?.reset()
         doInit()
         
         // Note: need to add subviews before modifying constraints
         view.addSubview(filterInfoView)
-        view.addSubview(adView)
+        if (showAds) { view.addSubview(adView) }
         view.addSubview(cameraDisplayView)
         view.addSubview(filterControlsView) // must come after cameraDisplayView
         view.addSubview(cameraControlsView)
@@ -117,59 +124,73 @@ class FiltersViewController: UIViewController, SegueHandlerType {
         // hidden views:
         view.addSubview(filterSelectionView)
         view.addSubview(categorySelectionView)
+        view.addSubview(filterSettingsView)
         
         
         // set up layout based on orientation
+        
+        // filter info view is always at the top of the screen
+        filterInfoView.frame.size.height = bannerHeight * 0.75
+        filterInfoView.frame.size.width = displayWidth
+        filterInfoView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: filterInfoView.frame.size.height)
+
         if (isLandscape){
-            // left-to-right layout scheme
-            filterInfoView.frame.size.height = displayHeight
-            filterInfoView.frame.size.width = bannerHeight / 1.5
-            filterInfoView.anchorAndFillEdge(.left, xPad: 0, yPad: 0, otherSize: bannerHeight)
+            // left-to-right layout scheme, but filter/catgeory/parameter overlays are at the bottom
             
+            if (showAds){
+                adView.isHidden = false
+                adView.frame.size.height = bannerHeight
+                adView.frame.size.width = displayWidth - 2 * bannerHeight
+                adView.align(.underCentered, relativeTo: filterInfoView, padding: 0, width: displayWidth, height: adView.frame.size.height)
+            } else {
+                adView.isHidden = true
+            }
             
-            adView.frame.size.height = bannerHeight
-            adView.frame.size.width = displayWidth - 2 * bannerHeight
-            adView.align(.underCentered, relativeTo: filterInfoView, padding: 0,
-                         width: displayWidth, height: adView.frame.size.height)
-            
-            cameraControlsView.frame.size.height = displayHeight
+            // Camera Controls at far right, vertically orientated
+            cameraControlsView.frame.size.height = displayHeight - filterInfoView.frame.size.height
             cameraControlsView.frame.size.width = bannerHeight
-            cameraControlsView.anchorAndFillEdge(.right, xPad: 0, yPad: 0, otherSize: bannerHeight)
+            cameraControlsView.anchorInCorner(.bottomRight, xPad: 0, yPad: 0, width: cameraControlsView.frame.size.width, height: cameraControlsView.frame.size.height)
             
-            cameraDisplayView.frame.size.height = displayHeight
-            cameraDisplayView.frame.size.width = displayWidth - 2 * bannerHeight
-            cameraDisplayView.alignBetweenHorizontal(.toTheLeftMatchingTop, primaryView: filterInfoView, secondaryView: cameraControlsView, padding: 0, height: displayHeight)
+            // filter controls vertical, to the left of camera controls
+            filterControlsView.frame.size.height = cameraControlsView.frame.size.height
+            filterControlsView.frame.size.width = bannerHeight
+            filterControlsView.align(.toTheLeftMatchingBottom, relativeTo: cameraControlsView, padding: 0, width: filterControlsView.frame.size.width, height: filterControlsView.frame.size.height)
+            
+            // camera display in bottom left corner
+            if (showAds){
+                cameraDisplayView.frame.size.height = displayHeight - filterInfoView.frame.size.height - adView.frame.size.height
+            } else {
+                cameraDisplayView.frame.size.height = displayHeight - filterInfoView.frame.size.height
+            }
+            cameraDisplayView.frame.size.width = displayWidth - cameraControlsView.frame.size.width - filterControlsView.frame.size.width - 8
+            cameraDisplayView.anchorInCorner(.bottomLeft, xPad: 0, yPad: 0, width: cameraDisplayView.frame.size.width, height: cameraDisplayView.frame.size.height)
             
             
-            // Align Overlay view to bottom of Render View
-            filterControlsView.frame.size.height = bannerHeight / 1.5
-            filterControlsView.frame.size.width = displayWidth - 2 * bannerHeight
-            filterControlsView.alignBetweenHorizontal(.toTheLeftMatchingBottom, primaryView: cameraControlsView, secondaryView: filterInfoView, padding: 0, height: bannerHeight)
-            
+            // Align Overlay views to bottom of Render View
             filterSelectionView.frame.size.height = 2.0 * bannerHeight
-            filterSelectionView.frame.size = filterInfoView.frame.size
-            filterSelectionView.alignBetweenHorizontal(.toTheLeftMatchingBottom, primaryView: cameraControlsView, secondaryView: filterInfoView,
-                                                       padding: 0, height: filterSelectionView.frame.size.height)
+            filterSelectionView.frame.size.width = cameraDisplayView.frame.size.width
+            filterSelectionView.anchorInCorner(.bottomLeft, xPad: 0, yPad: 0, width: filterSelectionView.frame.size.width, height: filterSelectionView.frame.size.height)
             
             categorySelectionView.frame.size.height = 2.0 * bannerHeight
-            categorySelectionView.frame.size = filterInfoView.frame.size
-            categorySelectionView.alignBetweenHorizontal(.toTheLeftMatchingBottom, primaryView: cameraControlsView, secondaryView: filterInfoView,
-                                                         padding: 0, height: categorySelectionView.frame.size.height)
+            categorySelectionView.frame.size.width = cameraDisplayView.frame.size.width
+            categorySelectionView.anchorInCorner(.bottomLeft, xPad: 0, yPad: 0, width: categorySelectionView.frame.size.width, height: categorySelectionView.frame.size.height)
+ 
             
+            filterSettingsView.frame.size.width = cameraDisplayView.frame.size.width
+            filterSettingsView.frame.size.height = bannerHeight // will be adjusted based on selected filter
+            filterSettingsView.anchorInCorner(.bottomLeft, xPad: 0, yPad: 0, width: filterSettingsView.frame.size.width, height: filterSettingsView.frame.size.height)
+
         } else {
             // Portrait: top-to-bottom layout scheme
             
-            filterInfoView.frame.size.height = bannerHeight * 0.75
-            filterInfoView.frame.size.width = displayWidth
-            filterInfoView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: filterInfoView.frame.size.height)
-            
-            adView.frame.size.height = bannerHeight
-            adView.frame.size.width = displayWidth
-            adView.align(.underCentered, relativeTo: filterInfoView, padding: 0, width: displayWidth, height: adView.frame.size.height)
-            
-            
-            cameraDisplayView.frame.size.height = displayHeight - 2.5 * bannerHeight
-            //cameraDisplayView.frame.size.height = displayHeight - 5.5 * bannerHeight
+            if (showAds){
+                adView.frame.size.height = bannerHeight
+                adView.frame.size.width = displayWidth
+                adView.align(.underCentered, relativeTo: filterInfoView, padding: 0, width: displayWidth, height: adView.frame.size.height)
+                cameraDisplayView.frame.size.height = displayHeight - 1.5 * bannerHeight
+            } else {
+                cameraDisplayView.frame.size.height = displayHeight - 2.5 * bannerHeight
+            }
             cameraDisplayView.frame.size.width = displayWidth
             cameraDisplayView.align(.underCentered, relativeTo: adView, padding: 0, width: displayWidth, height: cameraDisplayView.frame.size.height)
             
@@ -188,7 +209,11 @@ class FiltersViewController: UIViewController, SegueHandlerType {
             categorySelectionView.frame.size.height = 1.7 * bannerHeight
             categorySelectionView.frame.size.width = displayWidth
             categorySelectionView.align(.aboveCentered, relativeTo: filterControlsView, padding: 0, width: categorySelectionView.frame.size.width, height: categorySelectionView.frame.size.height)
-        }
+
+            filterSettingsView.frame.size.width = displayWidth
+            filterSettingsView.frame.size.height = bannerHeight // will be adjusted based on selected filter
+            filterSettingsView.align(.aboveCentered, relativeTo: filterControlsView, padding: 4, width: filterSettingsView.frame.size.width, height: filterSettingsView.frame.size.height)
+}
         
         //setFilterIndex(0) // no filter
         
@@ -199,6 +224,8 @@ class FiltersViewController: UIViewController, SegueHandlerType {
         filterControlsView.delegate = self
         filterSelectionView.delegate = self
         categorySelectionView.delegate = self
+        imagePicker.delegate = self
+
         
         // set gesture detction for Filter Settings view
         //setGestureDetectors(view: filterSettingsView)
@@ -211,14 +238,15 @@ class FiltersViewController: UIViewController, SegueHandlerType {
         //TODO: select filter category somehow
         //filterSelectionView.setFilterCategory(FilterManager.CategoryType.quickSelect)
         
-        //TODO: remeber state?
+        //TODO: remember state?
         hideCategorySelector()
         hideFilterSelector()
         
-        
-        
+
         // start Ads
-        setupAds()
+        if (showAds){
+            Admob.startAds(view:adView, viewController:self)
+        }
         
         //TODO: start timer and update setting display peridodically
         
@@ -247,6 +275,7 @@ class FiltersViewController: UIViewController, SegueHandlerType {
         }
         //TODO: animate and maybe handle before rotation finishes
         self.viewDidLoad()
+        cameraDisplayView.setFilter(nil)
         cameraDisplayView.setFilter(currFilterDescriptor) // forces reset of filter pipeline
     }
     
@@ -297,15 +326,7 @@ class FiltersViewController: UIViewController, SegueHandlerType {
         return view
     }()
     
-    // MARK: - Ad Framework
-    
-    fileprivate func setupAds(){
-        log.debug("Google Mobile Ads SDK version: " + GADRequest.sdkVersion())
-        adView.adUnitID = admobID
-        adView.rootViewController = self
-        adView.load(GADRequest())
-        adView.backgroundColor = UIColor.black
-    }
+
     
     // MARK: - Gesture Detection
     
@@ -500,10 +521,17 @@ class FiltersViewController: UIViewController, SegueHandlerType {
     fileprivate func showFilterSettings(){
         updateCurrentFilter()
         if ((currFilterDescriptor != nil) && ((currFilterDescriptor?.numParameters)! > 0)){
-            self.view.addSubview(filterSettingsView)
+            // re-layout based on selecetd filter
+            filterSettingsView.frame.size.height = CGFloat(((currFilterDescriptor?.numParameters)! + 1)) * bannerHeight * 0.75
+            if (isLandscape){
+                filterSettingsView.anchorInCorner(.bottomLeft, xPad: 0, yPad: 0, width: filterSettingsView.frame.size.width, height: filterSettingsView.frame.size.height)
+            } else {
+                filterSettingsView.align(.aboveCentered, relativeTo: filterControlsView, padding: 4, width: filterSettingsView.frame.size.width, height: filterSettingsView.frame.size.height)
+            }
+
             filterSettingsView.setFilter(currFilterDescriptor)
-            
-            filterSettingsView.align(.aboveCentered, relativeTo: filterControlsView, padding: 4, width: filterSettingsView.frame.size.width, height: filterSettingsView.frame.size.height)
+
+            //filterSettingsView.align(.aboveCentered, relativeTo: filterControlsView, padding: 4, width: filterSettingsView.frame.size.width, height: filterSettingsView.frame.size.height)
             filterSettingsView.isHidden = false
             filterSettingsShown = true
             view.bringSubview(toFront: filterSettingsView)
@@ -544,16 +572,51 @@ class FiltersViewController: UIViewController, SegueHandlerType {
         log.debug("Returned from ViewController")
         CameraManager.startCapture()
     }
-}
+    
+    //////////////////////////////////////////
+    // MARK: - ImagePicker handling
+    //////////////////////////////////////////
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        log.debug("Image returned: \(info[UIImagePickerControllerMediaURL])")
+        //TODO: save image to global location, launch VC to handle it
+        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            log.verbose("Image returned successfully")
+            // copy image to ImageManager storage and launch the Editor ViewController
+        } else {
+            log.error("Error accessing image")
+        }
+        
+        picker.dismiss(animated: true)
+    }
+    
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        picker.dismiss(animated: true)
+    }
+
+    
+} // MainViewController
+
+
+
+
 
 //////////////////////////////////////////
 // MARK: - Delegate methods for sub-views
 //////////////////////////////////////////
 
 fileprivate var callbacksEnabled = true
-extension FiltersViewController: CameraControlsViewDelegate {
+extension MainViewController: CameraControlsViewDelegate {
     func imagePreviewPressed(){
-        log.debug("imagePreview pressed")
+        DispatchQueue.main.async(execute: { () -> Void in
+            log.debug("imagePreview pressed - launching ImagePicker...")
+            // launch an ImagePicker
+            self.imagePicker.allowsEditing = false
+            self.imagePicker.sourceType = .photoLibrary
+            
+            self.present(self.imagePicker, animated: true, completion: nil)
+        })
     }
     
     func takePicturePressed(){
@@ -573,17 +636,18 @@ extension FiltersViewController: CameraControlsViewDelegate {
         //TEMP: launch Category Manager VC
         CameraManager.stopCapture()
         filterSelectionView.suspend()
-        callbacksEnabled = false  //TODO: how to turn back on?!
+        callbacksEnabled = false
         
-        //present(FilterGalleryViewController(), animated: false, completion: nil)
-        present(CategoryManagerViewController(), animated: true, completion: nil)
+        let cmvc = FilterGalleryViewController()
+        cmvc.delegate = self
+        present(cmvc, animated: true, completion: nil)
         //self.performSegueWithIdentifier(.categoryManager, sender: self)
     }
 }
 
 
 
-extension FiltersViewController: FilterInfoViewDelegate {
+extension MainViewController: FilterInfoViewDelegate {
     
     func swapCameraPressed(){
         log.debug("swapCameraPressed pressed")
@@ -593,7 +657,7 @@ extension FiltersViewController: FilterInfoViewDelegate {
 }
 
 
-extension FiltersViewController: FilterControlsViewDelegate {
+extension MainViewController: FilterControlsViewDelegate {
     func categoryPressed(){
         log.debug("Show/Hide Categories pressed")
         callbacksEnabled = true
@@ -612,7 +676,7 @@ extension FiltersViewController: FilterControlsViewDelegate {
     }
 }
 
-extension FiltersViewController: CategorySelectionViewDelegate {
+extension MainViewController: CategorySelectionViewDelegate {
     func categorySelected(_ category:FilterManager.CategoryType){
         
         guard (callbacksEnabled) else {
@@ -625,7 +689,7 @@ extension FiltersViewController: CategorySelectionViewDelegate {
     
 }
 
-extension FiltersViewController: FilterSelectionViewDelegate{
+extension MainViewController: FilterSelectionViewDelegate{
     func filterSelected(_ key:String){
         
         guard (filterManager != nil) else {
@@ -661,3 +725,15 @@ extension FiltersViewController: FilterSelectionViewDelegate{
 
 
 
+extension MainViewController: FilterGalleryViewControllerDelegate {
+    func onCompletion(){
+        log.debug("Returned from Category Manager")
+        callbacksEnabled = true
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.filterManager?.setCurrentCategory((self.filterManager?.getCurrentCategory())!)
+            self.viewDidLoad()
+            self.cameraDisplayView.setFilter(nil)
+            self.cameraDisplayView.setFilter(self.currFilterDescriptor) // forces reset of filter pipeline
+        })
+    }
+}

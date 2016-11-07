@@ -37,8 +37,8 @@ class CameraDisplayView: UIView {
     func initViews(){
         
         if (!initDone){
-            //self.backgroundColor = UIColor.black
-            self.backgroundColor = UIColor.red
+            self.backgroundColor = UIColor.black
+            //self.backgroundColor = UIColor.red
             
             renderView?.frame = self.frame
             self.addSubview(renderView!)

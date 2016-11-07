@@ -132,14 +132,14 @@ class FilterGalleryViewCell2: UICollectionViewCell {
     
     // MARK: - Configuration
 
-
+/***
     override func prepareForReuse() {
         //renderView = RenderView()
         renderView = nil
         //renderView.isHidden = true
         super.prepareForReuse()
     }
-
+***/
     
     
     public func configureCell(frame: CGRect, index:Int, key:String, renderView:RenderView) {

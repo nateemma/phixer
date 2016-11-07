@@ -120,10 +120,10 @@ class CameraControlsView: UIView {
         
         // set up layout based on orientation
         if (isLandscape){
-            // left-to-right layout scheme
+            // Landscape: top-to-bottom layout scheme
             
             
-            self.anchorAndFillEdge(.right, xPad: 0, yPad: 0, otherSize: bannerHeight)
+            //self.anchorAndFillEdge(.right, xPad: 0, yPad: 0, otherSize: bannerHeight)
             
             // add items to the  view
             photoThumbnail.anchorToEdge(.top, padding: 8, width: buttonSize, height: buttonSize)
@@ -133,9 +133,9 @@ class CameraControlsView: UIView {
             self.groupAgainstEdge(.vertical, views: [modeButton, menuButton], againstEdge: .bottom, padding: (bannerHeight-buttonSize*smallIconFactor)/2, width: buttonSize*smallIconFactor, height: buttonSize*smallIconFactor)
             
         } else {
-            // Portrait: top-to-bottom layout scheme
+            // left-to-right layout scheme
             
-            self.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: bannerHeight)
+            //self.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: bannerHeight)
             
             
             // add items to the  view

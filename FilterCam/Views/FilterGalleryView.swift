@@ -112,7 +112,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         
         
         if (isLandscape){
-            itemsPerRow = 4
+            itemsPerRow = 5
         } else {
             itemsPerRow = 3
         }
@@ -235,7 +235,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         
         descriptor = self.filterManager.getFilterDescriptor(key: key)
         
-        log.debug("index:\(index), key:\(key), view:\(Utilities.addressOf(renderView))")
+        //log.debug("index:\(index), key:\(key), view:\(Utilities.addressOf(renderView))")
         
         /***
          var sample:PictureInput? = nil // for some reason, need to use local variables
@@ -277,7 +277,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         if (descriptor?.filter != nil){ // single filter
             filter = descriptor?.filter
             
-            log.debug("Run filter: \((descriptor?.key)!) filter:\(Utilities.addressOf(filter)) view:\(Utilities.addressOf(renderView))")
+            //log.debug("Run filter: \((descriptor?.key)!) filter:\(Utilities.addressOf(filter)) view:\(Utilities.addressOf(renderView))")
             
             let opType:FilterOperationType = (descriptor?.filterOperationType)!
             switch (opType){
@@ -301,7 +301,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
             
         } else if (descriptor?.filterGroup != nil){ // group of filters
             filterGroup = descriptor?.filterGroup
-            log.debug("Run filterGroup: \(descriptor?.key) group:\(Utilities.addressOf(filterGroup)) view:\(Utilities.addressOf(renderView))")
+            //log.debug("Run filterGroup: \(descriptor?.key) group:\(Utilities.addressOf(filterGroup)) view:\(Utilities.addressOf(renderView))")
             
             let opType:FilterOperationType = (descriptor?.filterOperationType)!
             switch (opType){
@@ -388,7 +388,6 @@ extension FilterGalleryView {
             let key = self.filterList[index]
             let renderView = filterManager.getRenderView(key:key)
             renderView?.frame = cell.frame
-            //cell.updateRenderView(key: key, renderView: self.renderList[index])
             self.updateRenderView(index:index, key: key, renderView: renderView!)
             cell.configureCell(frame: cell.frame, index:index, key:key, renderView: renderView!)
             
@@ -397,10 +396,10 @@ extension FilterGalleryView {
             //        self.filterGallery?.reloadItems(at: [indexPath])
             //    }
             //})
+            //cell.layoutIfNeeded()
         } else {
             log.warning("Index out of range (\(index)/\(filterList.count))")
         }
-        //cell.layoutIfNeeded()
         return cell
     }
     

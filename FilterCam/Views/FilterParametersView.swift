@@ -84,7 +84,7 @@ class FilterParametersView: UIView {
             
             viewList = []
             
-            self.frame.size.width = self.superFrame.size.width - 16.0
+            self.frame.size.width = self.frame.size.width - 16.0
             // height: title + sliders + buttons (or not)
             var f1, f2: CGFloat
             if (showButtons){
@@ -107,14 +107,14 @@ class FilterParametersView: UIView {
             return
         }
         
-        titleLabel.frame.size.width = self.superFrame.size.width/3.0
+        titleLabel.frame.size.width = self.frame.size.width/3.0
         titleLabel.frame.size.height = CGFloat(sliderHeight*0.75)
         titleLabel.textColor = titleTextColor
         titleLabel.font = UIFont.systemFont(ofSize: 18)
         titleLabel.text = currFilterDesc?.title
         titleLabel.textAlignment = .center
         
-        titleView.frame.size.width = self.superFrame.size.width - 16.0
+        titleView.frame.size.width = self.frame.size.width - 16.0
         titleView.frame.size.height = CGFloat(sliderHeight*0.8)
         titleView.backgroundColor = titleBackgroundColor
         titleView.addSubview(titleLabel)
@@ -148,7 +148,7 @@ class FilterParametersView: UIView {
         buttonContainerView.addSubview(acceptButton)
         buttonContainerView.addSubview(cancelButton)
         
-        buttonContainerView.frame.size.width = self.superFrame.size.width
+        buttonContainerView.frame.size.width = self.frame.size.width
         buttonContainerView.frame.size.height = CGFloat(sliderHeight)
         
         self.addSubview(buttonContainerView)
@@ -333,6 +333,9 @@ class FilterParametersView: UIView {
             log.error("Invalid slider index: \(index)")
             break
         }
+        
+        // shared callback for when user ends changing any slider (intended as an update trigger, don't need the value)
+        gslider.addTarget(self, action: #selector(self.gslidersDidEndChange), for: .touchUpInside)
     }
     
     
@@ -388,7 +391,7 @@ class FilterParametersView: UIView {
             self.alpha = 0 }) { _ in
             self.clearSubviews()
             self.isHidden = true
-            self.removeFromSuperview()
+            //self.removeFromSuperview()
         }
     }
     
@@ -454,6 +457,11 @@ class FilterParametersView: UIView {
     func colorSlider4ValueDidChange(_ sender:GradientSlider!){ currFilterDesc?.setColorParameter(4, color: (gsliders[3]?.getSelectedColor())!) }
     
     func slidersDidEndChange(_ sender:UISlider!){
+        log.verbose("Settings changed for slider \(sender.tag)")
+        delegate?.settingsChanged()
+    }
+    
+    func gslidersDidEndChange(_ sender:GradientSlider!){
         log.verbose("Settings changed for slider \(sender.tag)")
         delegate?.settingsChanged()
     }

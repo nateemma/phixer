@@ -61,24 +61,6 @@ class FilterDisplayView: UIView {
         doLayout()
         
         // don't do anything else until filter has been set
-        /***
-        if (currFilterDescriptor == nil){
-            currFilterKey = filterManager.getSelectedFilter()
-            currFilterDescriptor = filterManager.getFilterDescriptor(key: currFilterKey)
-            if (currFilterDescriptor == nil){
-                log.warning("NIL descriptor provided")
-            } else {
-                if (currFilterDescriptor?.filter != nil){
-                    log.debug("descriptor:  \(currFilterDescriptor?.key) (\(Utilities.addressOf(currFilterDescriptor?.filter))")
-                }
-                if (currFilterDescriptor?.filterGroup != nil){
-                    log.debug("descriptor:  \(currFilterDescriptor?.key) (\(Utilities.addressOf(currFilterDescriptor?.filterGroup))")
-                }
-                
-            }
-        }
-        
-***/
         //update()
         
 
@@ -130,14 +112,16 @@ class FilterDisplayView: UIView {
             self.bringSubview(toFront: imageView)
             imageView.fillSuperview()
         } else {
-            //renderView = RenderView()
-            renderView?.frame = self.frame
-            self.addSubview(renderView!)
-            renderView?.fillSuperview()
-            imageView.isHidden = true
-            renderView?.isHidden = false
-            self.bringSubview(toFront: renderView!)
-            renderView?.fillSuperview()
+            if (renderView != nil) {
+                //renderView = RenderView()
+                renderView?.frame = self.frame
+                self.addSubview(renderView!)
+                renderView?.fillSuperview()
+                imageView.isHidden = true
+                renderView?.isHidden = false
+                self.bringSubview(toFront: renderView!)
+                renderView?.fillSuperview()
+            }
         }
     }
     
@@ -185,7 +169,7 @@ class FilterDisplayView: UIView {
         
         // create scaled down versions of the sample and blend images
         //TODO: let user choose image
-        let size = sampleImageFull.size.applying(CGAffineTransform(scaleX: 0.8, y: 0.8))
+        let size = sampleImageFull.size.applying(CGAffineTransform(scaleX: 0.5, y: 0.5))
         
         let hasAlpha = false
         let scale: CGFloat = 0.0 // Automatically use scale factor of main screen
@@ -325,10 +309,13 @@ class FilterDisplayView: UIView {
             return
         }
         
+        sample?.removeAllTargets()
+        blend?.removeAllTargets()
         
         // annoyingly, we have to treat single and multiple filters differently
         if (descriptor?.filter != nil){ // single filter
             filter = descriptor?.filter
+            filter?.removeAllTargets()
             
             log.debug("Run filter: \((descriptor?.key)!) filter:\(Utilities.addressOf(filter)) view:\(Utilities.addressOf(renderView))")
             
@@ -353,6 +340,7 @@ class FilterDisplayView: UIView {
             
         } else if (descriptor?.filterGroup != nil){ // group of filters
             filterGroup = descriptor?.filterGroup
+            filterGroup?.removeAllTargets()
             log.debug("Run filterGroup: \(descriptor?.key) group:\(Utilities.addressOf(filterGroup)) view:\(Utilities.addressOf(renderView))")
             
             let opType:FilterOperationType = (descriptor?.filterOperationType)!
@@ -378,6 +366,7 @@ class FilterDisplayView: UIView {
         
 
         self.renderView?.setNeedsDisplay()
+        
         sample?.removeAllTargets()
         blend?.removeAllTargets()
         filter?.removeAllTargets()

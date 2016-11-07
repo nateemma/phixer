@@ -99,10 +99,21 @@ class FilterControlsView: UIView {
             initViews()
         }
         
-        //self.groupAndFill(.horizontal, views: [categoryButton, filterButton, parametersButton], padding: 2)
-        categoryButton.anchorToEdge(.left, padding: 2, width: buttonSize, height: buttonSize)
-        parametersButton.anchorToEdge(.right, padding: 2, width: buttonSize, height: buttonSize)
-        filterButton.anchorInCenter(buttonSize, height: buttonSize)
+        let isLandscape:Bool = (self.height > self.width)
+        
+        if (isLandscape){
+            // top-to-bottom layout
+            //self.groupAndFill(.vertical, views: [categoryButton, filterButton, parametersButton], padding: 2)
+            categoryButton.anchorToEdge(.top, padding: 2, width: buttonSize, height: buttonSize)
+            parametersButton.anchorToEdge(.bottom, padding: 2, width: buttonSize, height: buttonSize)
+            filterButton.anchorInCenter(buttonSize, height: buttonSize)
+        } else {
+            // left-to-right layout
+            //self.groupAndFill(.horizontal, views: [categoryButton, filterButton, parametersButton], padding: 2)
+            categoryButton.anchorToEdge(.left, padding: 2, width: buttonSize, height: buttonSize)
+            parametersButton.anchorToEdge(.right, padding: 2, width: buttonSize, height: buttonSize)
+            filterButton.anchorInCenter(buttonSize, height: buttonSize)
+        }
         
         // TODO: update current values
         update()
