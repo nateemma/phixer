@@ -194,33 +194,14 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     
     
     fileprivate func loadInputs(){
-        /***/
-        //log.debug("creating scaled sample and blend images...")
-        sampleImageFull = UIImage(named:"sample_emma_01.png")!
-        blendImageFull = UIImage(named:"bl_topaz_warm.png")!
         
-        // create scaled down versions of the sample and blend images
-        //TODO: let user choose image
-        let size = sampleImageFull.size.applying(CGAffineTransform(scaleX: 0.2, y: 0.2))
+        sampleImageFull = UIImage(named:"sample_emma_01.png")
         
-        let hasAlpha = false
-        let scale: CGFloat = 0.0 // Automatically use scale factor of main screen
-        
-        // downsize input images since we really only need thumbnails
-        
-        UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, scale)
-        sampleImageFull.draw(in: CGRect(origin: CGPoint.zero, size: size))
-        sampleImageSmall = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        
-        UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, scale)
-        blendImageFull.draw(in: CGRect(origin: CGPoint.zero, size: size))
-        blendImageSmall = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        
+        let size = (sampleImageFull?.size.applying(CGAffineTransform(scaleX: 0.2, y: 0.2)))!
+        sampleImageSmall = ImageManager.scaleImage(sampleImageFull, widthRatio: 0.2, heightRatio: 0.2)
+        blendImageSmall = ImageManager.getCurrentBlendImage(size:size)
         sample = PictureInput(image:sampleImageSmall!)
         blend  = PictureInput(image:blendImageSmall!)
-        /***/
     }
     
     
@@ -237,18 +218,6 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         
         //log.debug("index:\(index), key:\(key), view:\(Utilities.addressOf(renderView))")
         
-        /***
-         var sample:PictureInput? = nil // for some reason, need to use local variables
-         var blend:PictureInput? = nil
-         let sampleImageFull:UIImage = UIImage(named:"sample_emma_01.png")!
-         let blendImageFull:UIImage = UIImage(named:"bl_topaz_warm.png")!
-         sample = PictureInput(image:sampleImageFull)
-         blend  = PictureInput(image:blendImageFull)
-         //sample = PictureInput(image:sampleImage)
-         //blend  = PictureInput(image:blendImage!)
-         var filter:BasicOperation? = nil
-         var filterGroup:OperationGroup? = nil
-         ***/
         
         if (sample == nil){
             loadInputs()

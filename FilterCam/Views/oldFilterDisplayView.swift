@@ -12,7 +12,7 @@ import AVFoundation
 
 
 // Class responsible for laying out the Camera Display View (i.e. what is currently viewed throughthe camera)
-class FilterDisplayView: UIView {
+class oldFilterDisplayView: UIView {
  
 
     //fileprivate var renderView: RenderView! // only allocate when needed
@@ -25,9 +25,19 @@ class FilterDisplayView: UIView {
     fileprivate var currFilterKey:String = ""
     fileprivate var currFilterDescriptor: FilterDescriptorInterface? = nil
     
+/***
+    // vars are class-scope so that they stay allocated
+    fileprivate var sampleImageFull:UIImage = UIImage(named:"sample_emma_01.png")!
+    fileprivate var blendImageFull:UIImage = UIImage(named:"bl_topaz_warm.png")!
+    fileprivate var sample:PictureInput? = nil
+    fileprivate var blend:PictureInput? = nil
+    fileprivate var filteredOutput:PictureOutput? = nil
+***/
+
+
     fileprivate var filter:BasicOperation? = nil
     fileprivate var filterGroup:OperationGroup? = nil
-
+/***/
     
     
     ///////////////////////////////////
@@ -142,34 +152,44 @@ class FilterDisplayView: UIView {
     
     fileprivate func runFilterToImage(){
         
-        currFilterDescriptor = filterManager.getFilterDescriptor(key: currFilterKey)
-        
-        
-        // get the current blend image and scale it match the sample image
-        var sampleImageFull:UIImage? = nil
-        var blendImageFull:UIImage? = nil
+        var sampleImageFull:UIImage = UIImage(named:"sample_emma_01.png")!
+        var blendImageFull:UIImage = UIImage(named:"bl_topaz_warm.png")!
         var sampleImageSmall:UIImage? = nil
         var blendImageSmall:UIImage? = nil
         var sample:PictureInput? = nil
         var blend:PictureInput? = nil
         var filteredOutput:PictureOutput? = nil
 
-        sampleImageFull = UIImage(named:"sample_emma_01.png")
+        currFilterDescriptor = filterManager.getFilterDescriptor(key: currFilterKey)
+
         
-        let reduceSize:Bool = false
         
-        if (reduceSize){
-            let size = (sampleImageFull?.size.applying(CGAffineTransform(scaleX: 0.5, y: 0.5)))!
-            sampleImageSmall = ImageManager.scaleImage(sampleImageFull, widthRatio: 0.5, heightRatio: 0.5)
-            blendImageSmall = ImageManager.getCurrentBlendImage(size:size)
-            sample = PictureInput(image:sampleImageSmall!)
-            blend  = PictureInput(image:blendImageSmall!)
-        } else {
-            blendImageFull  = ImageManager.getCurrentBlendImage(size:(sampleImageFull?.size)!)
-            sample = PictureInput(image:sampleImageFull!)
-            blend  = PictureInput(image:blendImageFull!)
-        }
-       
+        sampleImageFull = UIImage(named:"sample_emma_01.png")!
+        blendImageFull = UIImage(named:"bl_topaz_warm.png")!
+        
+        // create scaled down versions of the sample and blend images
+        //TODO: let user choose image
+        let size = sampleImageFull.size.applying(CGAffineTransform(scaleX: 0.5, y: 0.5))
+        
+        let hasAlpha = false
+        let scale: CGFloat = 0.0 // Automatically use scale factor of main screen
+        
+        // downsize input images since we really only need thumbnails
+        
+        UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, scale)
+        sampleImageFull.draw(in: CGRect(origin: CGPoint.zero, size: size))
+        sampleImageSmall = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        
+        UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, scale)
+        blendImageFull.draw(in: CGRect(origin: CGPoint.zero, size: size))
+        blendImageSmall = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        
+        sample = PictureInput(image:sampleImageSmall!)
+        blend  = PictureInput(image:blendImageSmall!)
+
+        
         
         guard (sample != nil) else {
             log.error("NIL Sample Input")
@@ -253,16 +273,12 @@ class FilterDisplayView: UIView {
     
     
     fileprivate func runFilterToRender(){
-    
-/**
+        
         let sampleImageFull:UIImage = UIImage(named:"sample_emma_01.png")!
         let blendImageFull:UIImage = UIImage(named:"bl_topaz_warm.png")!
         var sample:PictureInput? = nil
         var blend:PictureInput? = nil
         //var filteredOutput:PictureOutput? = nil
- **/
-        
-        
         var descriptor: FilterDescriptorInterface?
         
         guard (renderView != nil) else {
@@ -272,30 +288,8 @@ class FilterDisplayView: UIView {
         
         //sampleImageFull = UIImage(named:"sample_emma_01.png")!
         //blendImageFull = UIImage(named:"bl_topaz_warm.png")!
-        
-        
-        
-        // get the current blend image and scale it match the sample image
-        var sampleImageFull:UIImage? = nil
-        var blendImageFull:UIImage? = nil
-        //var sampleImageSmall:UIImage? = nil
-        //var blendImageSmall:UIImage? = nil
-        var sample:PictureInput? = nil
-        var blend:PictureInput? = nil
-        //var filteredOutput:PictureOutput? = nil
-        
-        sampleImageFull = UIImage(named:"sample_emma_01.png")
-        let size = (sampleImageFull?.size)!
-        //sampleImageSmall = ImageManager.scaleImage(sampleImageFull, widthRatio: 0.5, heightRatio: 0.5)
-
-        blendImageFull = ImageManager.getCurrentBlendImage(size: size)
-        
-        sample = PictureInput(image:sampleImageFull!)
-        blend  = PictureInput(image:blendImageFull!)
-        
-        
-        //sample = PictureInput(image:sampleImageFull)
-        //blend = PictureInput(image:blendImageFull)
+        sample = PictureInput(image:sampleImageFull)
+        blend = PictureInput(image:blendImageFull)
         
         descriptor = filterManager.getFilterDescriptor(key: currFilterKey)
         renderView = filterManager.getRenderView(key: currFilterKey)

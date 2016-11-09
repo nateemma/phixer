@@ -24,7 +24,7 @@ class CameraDisplayView: UIView {
     var rotateDescriptor: RotateDescriptor? = nil
     var rotateFilter: BasicOperation? = nil
     var blendImage:PictureInput? = nil
-    let blendImageName = "bl_topaz_warm.png"
+    //let blendImageName = "bl_topaz_warm.png"
     
     ///////////////////////////////////
     // MARK: - Setup/teardown
@@ -146,7 +146,9 @@ class CameraDisplayView: UIView {
                         log.debug("Using BLEND mode for filter: \(currFilter?.key)")
                         //TOFIX: blend image needs to be resized to fit the render view
                         camera!.addTarget(filter!)
-                        blendImage = PictureInput(imageName:blendImageName)
+                        //blendImage = PictureInput(imageName:blendImageName)
+                        let currBlendImage  = ImageManager.getCurrentBlendImage(size:(renderView?.frame.size)!)
+                        blendImage = PictureInput(image:currBlendImage!)
                         blendImage! --> filter!
                         camera! --> filter! --> cropFilter! --> renderView!
                         //camera! --> filter! --> rotateFilter! --> cropFilter! --> renderView!
