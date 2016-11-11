@@ -20,6 +20,9 @@ class FilterManager{
     
     static let sharedInstance = FilterManager() // the actual instance shared by everyone
     
+    
+    // types/constants for identfying and processing the category
+    
     static let quickSelectIndex      = 0
     static let basicAdjustmentsIndex = 1
     static let blendModesIndex       = 2

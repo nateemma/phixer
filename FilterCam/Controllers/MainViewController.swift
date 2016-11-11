@@ -567,11 +567,44 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         }
     }
     
+    func presentFilterGallery(){
+        //launch Category Manager VC
+        CameraManager.stopCapture()
+        filterSelectionView.suspend()
+        callbacksEnabled = false
+        
+        let gallery = FilterGalleryViewController()
+        gallery.delegate = self
+        present(gallery, animated: true, completion: nil)
+        //self.performSegueWithIdentifier(.categoryManager, sender: self)
+    }
+
     
+    
+    // generic handler to restart processing once another view controller has finished
     fileprivate func returnFromController(){
         log.debug("Returned from ViewController")
-        CameraManager.startCapture()
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.filterManager?.setCurrentCategory((self.filterManager?.getCurrentCategory())!)
+            self.viewDidLoad()
+            self.cameraDisplayView.setFilter(nil)
+            self.cameraDisplayView.setFilter(self.currFilterDescriptor) // forces reset of filter pipeline
+        })
+        //CameraManager.startCapture()
     }
+    
+    
+    //////////////////////////////////////////
+    // MARK: - Blend Gallery handling
+    //////////////////////////////////////////
+    
+    
+    func presentBlendGallery(){
+        let gallery = BlendGalleryViewController()
+        gallery.delegate = self
+        present(gallery, animated: true, completion: nil)
+    }
+    
     
     //////////////////////////////////////////
     // MARK: - ImagePicker handling
@@ -591,12 +624,69 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true)
     }
 
     
+    
+    
+    /////////////////////////////////
+    // Main Menu setup
+    /////////////////////////////////
+    
+    
+    fileprivate var optionsController:UIAlertController? = nil
+    
+     func showMenu(){
+        if (optionsController == nil){
+            let titleString  = "Options:"
+            optionsController = UIAlertController(title: titleString, message: "", preferredStyle: .alert)
+ 
+            let sysFont: UIFont = UIFont.boldSystemFont(ofSize: 22)
+            
+            var myMutableString = NSMutableAttributedString()
+            myMutableString = NSMutableAttributedString(string: titleString as String, attributes: [NSFontAttributeName:sysFont])
+            myMutableString.addAttribute(NSForegroundColorAttributeName, value: UIColor.blue, range: NSRange(location:0,length:titleString.characters.count))
+            optionsController?.setValue(myMutableString, forKey: "attributedTitle")
+            
+            let filterGalleryAction =  UIAlertAction(title: "View/Manage Filters", style: .default) { (action:UIAlertAction) in
+                log.debug("View/Manage Filters selected")
+                self.presentFilterGallery()
+            }
+            
+            let changeBlendAction =  UIAlertAction(title: "Change Blend Image", style: .default) { (action:UIAlertAction) in
+                log.debug("Change Blend Image")
+                self.presentBlendGallery()
+            }
+            
+            let changeSampleAction =  UIAlertAction(title: "Change Sample Image", style: .default) { (action:UIAlertAction) in
+                log.debug("Change Sample Image")
+            }
+            
+            let aboutAction =  UIAlertAction(title: "About FilterCam", style: .default) { (action:UIAlertAction) in
+                log.debug("About FilterCam")
+            }
+            
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action:UIAlertAction) in
+                log.debug("About FilterCam")
+            }
+
+            
+            optionsController?.addAction(filterGalleryAction)
+            optionsController?.addAction(changeBlendAction)
+            optionsController?.addAction(changeSampleAction)
+            optionsController?.addAction(aboutAction)
+            optionsController?.addAction(cancelAction)
+        }
+        
+        present(optionsController!, animated: true, completion:nil)
+    }
+    
+    
 } // MainViewController
+
+
 
 
 
@@ -605,6 +695,9 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
 //////////////////////////////////////////
 // MARK: - Delegate methods for sub-views
 //////////////////////////////////////////
+
+
+// CameraControlsViewDelegate
 
 fileprivate var callbacksEnabled = true
 extension MainViewController: CameraControlsViewDelegate {
@@ -633,19 +726,15 @@ extension MainViewController: CameraControlsViewDelegate {
     
     func settingsPressed(){
         log.debug("Settings pressed")
-        //TEMP: launch Category Manager VC
-        CameraManager.stopCapture()
-        filterSelectionView.suspend()
-        callbacksEnabled = false
         
-        let cmvc = FilterGalleryViewController()
-        cmvc.delegate = self
-        present(cmvc, animated: true, completion: nil)
-        //self.performSegueWithIdentifier(.categoryManager, sender: self)
+        // display the main menu
+        self.showMenu()
     }
 }
 
 
+
+// FilterInfoViewDelegate
 
 extension MainViewController: FilterInfoViewDelegate {
     
@@ -656,6 +745,8 @@ extension MainViewController: FilterInfoViewDelegate {
     }
 }
 
+
+// FilterControlsViewDelegate
 
 extension MainViewController: FilterControlsViewDelegate {
     func categoryPressed(){
@@ -676,6 +767,9 @@ extension MainViewController: FilterControlsViewDelegate {
     }
 }
 
+
+// CategorySelectionViewDelegate
+
 extension MainViewController: CategorySelectionViewDelegate {
     func categorySelected(_ category:FilterManager.CategoryType){
         
@@ -688,6 +782,9 @@ extension MainViewController: CategorySelectionViewDelegate {
     }
     
 }
+
+
+// FilterSelectionViewDelegate
 
 extension MainViewController: FilterSelectionViewDelegate{
     func filterSelected(_ key:String){
@@ -706,7 +803,6 @@ extension MainViewController: FilterSelectionViewDelegate{
         }
         
         // setup the filter descriptor
-        //let category = filterManager?.getCurrentCategory()
         currFilterDescriptor = filterManager?.getFilterDescriptor(key:key)
         updateCurrentFilter()
         
@@ -724,16 +820,25 @@ extension MainViewController: FilterSelectionViewDelegate{
 }
 
 
+// FilterGalleryViewControllerDelegate
 
 extension MainViewController: FilterGalleryViewControllerDelegate {
-    func onCompletion(){
-        log.debug("Returned from Category Manager")
+    internal func filterGalleryCompleted(){
+        log.debug("Returned from Filter Gallery")
         callbacksEnabled = true
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.filterManager?.setCurrentCategory((self.filterManager?.getCurrentCategory())!)
-            self.viewDidLoad()
-            self.cameraDisplayView.setFilter(nil)
-            self.cameraDisplayView.setFilter(self.currFilterDescriptor) // forces reset of filter pipeline
-        })
+        self.returnFromController()
     }
 }
+
+
+// BlendGalleryViewControllerDelegate
+
+extension MainViewController: BlendGalleryViewControllerDelegate {
+    internal func blendGalleryCompleted(){
+        log.debug("Returned from Blend Gallery")
+        callbacksEnabled = true
+        self.returnFromController()
+    }
+}
+
+

@@ -125,6 +125,8 @@
 		25910B171DB73834007EC926 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 25910B161DB73834007EC926 /* iCarousel.m */; };
 		25910B191DB738B3007EC926 /* CategorySelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25910B181DB738B3007EC926 /* CategorySelectionView.swift */; };
 		25910B1B1DB7D61A007EC926 /* RenderContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25910B1A1DB7D61A007EC926 /* RenderContainerView.swift */; };
+		25934FB11DD4EC1100C3D665 /* BlendGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25934FB01DD4EC1100C3D665 /* BlendGalleryView.swift */; };
+		25934FB31DD5109C00C3D665 /* BlendGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25934FB21DD5109C00C3D665 /* BlendGalleryViewController.swift */; };
 		259B31C91DC2675F001AC40D /* sample_emma_01.png in Resources */ = {isa = PBXBuildFile; fileRef = 259B31C81DC2675F001AC40D /* sample_emma_01.png */; };
 		25A702921DC2FCDD009441E2 /* FilterDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A702911DC2FCDD009441E2 /* FilterDetailsViewController.swift */; };
 		25A702951DC2FE3C009441E2 /* FilterDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A702941DC2FE3C009441E2 /* FilterDisplayView.swift */; };
@@ -383,6 +385,8 @@
 		25910B161DB73834007EC926 /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = iCarousel.m; path = Views/iCarousel.m; sourceTree = "<group>"; };
 		25910B181DB738B3007EC926 /* CategorySelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CategorySelectionView.swift; path = Views/CategorySelectionView.swift; sourceTree = "<group>"; };
 		25910B1A1DB7D61A007EC926 /* RenderContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RenderContainerView.swift; path = Views/RenderContainerView.swift; sourceTree = "<group>"; };
+		25934FB01DD4EC1100C3D665 /* BlendGalleryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlendGalleryView.swift; path = Views/BlendGalleryView.swift; sourceTree = "<group>"; };
+		25934FB21DD5109C00C3D665 /* BlendGalleryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlendGalleryViewController.swift; path = Controllers/BlendGalleryViewController.swift; sourceTree = "<group>"; };
 		259B31C81DC2675F001AC40D /* sample_emma_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sample_emma_01.png; path = ../../icons/sample_emma_01.png; sourceTree = "<group>"; };
 		25A702911DC2FCDD009441E2 /* FilterDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterDetailsViewController.swift; path = Controllers/FilterDetailsViewController.swift; sourceTree = "<group>"; };
 		25A702941DC2FE3C009441E2 /* FilterDisplayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterDisplayView.swift; path = Views/FilterDisplayView.swift; sourceTree = "<group>"; };
@@ -615,6 +619,7 @@
 				25A702941DC2FE3C009441E2 /* FilterDisplayView.swift */,
 				25F564091DD169ED00DFB125 /* oldFilterDisplayView.swift */,
 				2507160C1DBED62C00CDDF42 /* FilterGalleryView.swift */,
+				25934FB01DD4EC1100C3D665 /* BlendGalleryView.swift */,
 				25D24AB61DC7DCDB001F65B9 /* FilterGalleryViewCell2.swift */,
 				25B24D171DAFE255008CD38A /* FilterInfoView.swift */,
 				253B237A1DA71F1900203ECB /* FilterParametersView.swift */,
@@ -655,6 +660,7 @@
 				2556731E1DB961F700187F25 /* DisplayMode.swift */,
 				257F49E11D9448920083B1E4 /* MainViewController.swift */,
 				250716081DBEC19400CDDF42 /* FilterGalleryViewController.swift */,
+				25934FB21DD5109C00C3D665 /* BlendGalleryViewController.swift */,
 				255673201DB9653700187F25 /* CameraViewController.swift */,
 				25A702911DC2FCDD009441E2 /* FilterDetailsViewController.swift */,
 			);
@@ -1207,6 +1213,7 @@
 				25A702971DC3AEEA009441E2 /* Utiltities.swift in Sources */,
 				251375921DB6E00F00A319DC /* ColorBlendDescriptor.swift in Sources */,
 				25B24D681DB18B9D008CD38A /* OpeningFilterDescriptor.swift in Sources */,
+				25934FB11DD4EC1100C3D665 /* BlendGalleryView.swift in Sources */,
 				251375721DB6DCB000A319DC /* AlphaBlendDescriptor.swift in Sources */,
 				2513758E1DB6DF8B00A319DC /* SourceOverBlendDescriptor.swift in Sources */,
 				25CF4BDA1D9490C400D779CF /* SquareButton.swift in Sources */,
@@ -1222,6 +1229,7 @@
 				25AEBB441DBA8AEC00AA6279 /* FilterSelectionView.swift in Sources */,
 				253B23731DA4B09200203ECB /* CrosshatchDescriptor.swift in Sources */,
 				25B24D2E1DB04892008CD38A /* MissEtikateDescriptor.swift in Sources */,
+				25934FB31DD5109C00C3D665 /* BlendGalleryViewController.swift in Sources */,
 				253B23911DA9997F00203ECB /* VignetteDescriptor.swift in Sources */,
 				253B23951DA999E100203ECB /* BulgeDistortionDescriptor.swift in Sources */,
 				2513757C1DB6DD9600A319DC /* DarkenBlendDescriptor.swift in Sources */,

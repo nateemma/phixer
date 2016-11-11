@@ -23,6 +23,7 @@ protocol ImageManagerDelegate: class {
 class ImageManager {
     
     
+        
     
     
     //////////////////////////////////
@@ -55,7 +56,10 @@ class ImageManager {
     
     open static func setCurrentBlendImageName(_ name:String) {
         if (_blendNameList.contains(name)){
+            log.debug("Current Blend image set to:\(name)")
             _currBlendName = name
+            _currBlendImage = UIImage(named: _currBlendName)
+            _currBlendImageScaled = resizeImage(getCurrentBlendImage(), targetSize: _currBlendSize, mode:.scaleAspectFill)
         } else {
             log.warning("Unknown Blend name:\(name)")
         }
@@ -85,7 +89,14 @@ class ImageManager {
     }
     
     
-    
+    open static func getBlendImage(name: String, size:CGSize)->UIImage?{
+        if (_blendNameList.contains(name)){
+            return resizeImage(UIImage(named:name), targetSize:size, mode:.scaleAspectFill)
+        } else {
+            log.warning("Unknown Blend name:\(name)")
+            return nil
+        }
+    }
     
     
     //////////////////////////////////
@@ -108,7 +119,7 @@ class ImageManager {
         var srcSize:CGSize = CGSize.zero
         
         if (srcIsLandscape != tgtIsLandscape){
-            log.warning("Need to rotate src image")
+            //log.warning("Need to rotate src image")
             if (srcIsLandscape) {
                srcImage = rotateImage(image, degrees: -90.0)
             } else {
@@ -137,7 +148,7 @@ class ImageManager {
         if (newImage != nil){
             nsize = (newImage?.size)!
         }
-        
+        /***
         log.debug("SIZES: image:\(size), targetSize:\(targetSize), srcImage:\(srcSize), cropSize:\(cropSize), nsize:\(nsize)")
         let (r1n, r1d) = ClosestFraction.find(Float(size.width/size.height), maxDenominator:Int(size.height))
         let (r2n, r2d) = ClosestFraction.find(Float(targetSize.width/targetSize.height), maxDenominator:Int(targetSize.height))
@@ -145,7 +156,7 @@ class ImageManager {
         let (r4n, r4d) = ClosestFraction.find(Float(cropSize.width/cropSize.height), maxDenominator:Int(cropSize.height))
         let (r5n, r5d) = ClosestFraction.find(Float(nsize.width/nsize.height), maxDenominator:Int(nsize.height))
         log.debug("RATIOS: image:\(r1n)/\(r1d), targetSize:\(r2n)/\(r2d), srcImage:\(r3n)/\(r3d), cropSize:\(r4n)/\(r4d), nsize:\(r5n)/\(r5d)")
-        
+        ***/
         
         return newImage
     }

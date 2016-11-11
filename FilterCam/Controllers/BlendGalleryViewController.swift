@@ -1,5 +1,5 @@
 //
-//  FilterGalleryViewController.swift
+//  BlendGalleryViewController.swift
 //  FilterCam
 //
 //  Created by Philip Price on 10/24/16.
@@ -14,14 +14,13 @@ import MediaPlayer
 import AudioToolbox
 
 import GoogleMobileAds
-import Kingfisher
 
 
 
 
 // delegate method to let the launching ViewController know that this one has finished
-protocol FilterGalleryViewControllerDelegate: class {
-    func filterGalleryCompleted()
+protocol BlendGalleryViewControllerDelegate: class {
+    func blendGalleryCompleted()
 }
 
 
@@ -30,10 +29,10 @@ private var filterCount: Int = 0
 
 // This is the View Controller for displaying and organising filters into categories
 
-class FilterGalleryViewController: UIViewController {
+class BlendGalleryViewController: UIViewController {
     
     // delegate for handling events
-    weak var delegate: FilterGalleryViewControllerDelegate?
+    weak var delegate: BlendGalleryViewControllerDelegate?
     
     
     // Banner View (title)
@@ -45,13 +44,9 @@ class FilterGalleryViewController: UIViewController {
     // Advertisements View
     var adView: GADBannerView! = GADBannerView()
     
-    // Category Selection View
-    var categorySelectionView: CategorySelectionView!
-    var currCategoryIndex = -1
-    var currCategory:FilterManager.CategoryType = .quickSelect
     
-    // Filter Galleries (one per category).
-    var filterGalleryView : [FilterGalleryView] = []
+    // the gallery of Blend options
+    var blendGalleryView : BlendGalleryView! = BlendGalleryView()
     
     
     var filterManager:FilterManager = FilterManager.sharedInstance
@@ -92,9 +87,6 @@ class FilterGalleryViewController: UIViewController {
         //isLandscape = UIDevice.current.orientation.isLandscape // doesn't always work properly, especially in simulator
         isLandscape = (displayWidth > displayHeight)
         
-        // initialisation workaroundm, set category to "none" during setup
-        //filterManager.setCurrentCategory(.none)
-        
         doInit()
         
         doLayout()
@@ -104,43 +96,24 @@ class FilterGalleryViewController: UIViewController {
             Admob.startAds(view:adView, viewController:self)
         }
         
-        
-        // set up initial Category
-        currCategory = filterManager.getCurrentCategory()
-        selectCategory(currCategory)
-        categorySelectionView.setFilterCategory(currCategory)
-        
-        
     }
     
     
     
     static var initDone:Bool = false
     
-    
-    
     func doInit(){
         
-        if (!FilterGalleryViewController.initDone){
-            FilterGalleryViewController.initDone = true
+        if (!BlendGalleryViewController.initDone){
+            BlendGalleryViewController.initDone = true
             
-            //ImageCache.default.clearMemoryCache() // for testing
-            //ImageCache.default.clearDiskCache() // for testing
-            
-            // create an array of FilterGalleryViews and assign a category to each one
-            filterGalleryView = []
-            for _ in 0...FilterManager.maxIndex {
-                filterGalleryView.append(FilterGalleryView())
-            }
         }
     }
     
     
     
     func suspend(){
-        for filterView in filterGalleryView{
-            filterView.suspend()
-        }
+        
     }
     
     
@@ -174,18 +147,16 @@ class FilterGalleryViewController: UIViewController {
         
         
         // setup Galleries
-        for filterView in filterGalleryView{
-            if (showAds){
-                filterView.frame.size.height = displayHeight - 3.75 * bannerHeight
-            } else {
-                filterView.frame.size.height = displayHeight - 2.75 * bannerHeight
-            }
-            filterView.frame.size.width = displayWidth
-            filterView.backgroundColor = UIColor.black
-            filterView.isHidden = true
-            filterView.delegate = self
-            view.addSubview(filterView) // do this before categorySelectionView is assigned
+        
+        if (showAds){
+            blendGalleryView.frame.size.height = displayHeight - 3.75 * bannerHeight
+        } else {
+            blendGalleryView.frame.size.height = displayHeight - 2.75 * bannerHeight
         }
+        blendGalleryView.frame.size.width = displayWidth
+        blendGalleryView.backgroundColor = UIColor.black
+        blendGalleryView.delegate = self
+        view.addSubview(blendGalleryView) // do this before categorySelectionView is assigned
         
         
         // Note: need to add subviews before modifying constraints
@@ -199,36 +170,23 @@ class FilterGalleryViewController: UIViewController {
         }
         
         
-        categorySelectionView = CategorySelectionView()
-        
-        categorySelectionView.frame.size.height = 2.0 * bannerHeight
-        categorySelectionView.frame.size.width = displayWidth
-        categorySelectionView.backgroundColor = UIColor.black
-        view.addSubview(categorySelectionView)
-        
         // layout constraints
         bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
-        for filterView in filterGalleryView{
-            filterView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: filterView.frame.size.height)
-        }
+        blendGalleryView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: blendGalleryView.frame.size.height)
         
         if (showAds){
             adView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: adView.frame.size.height)
-            categorySelectionView.align(.underCentered, relativeTo: adView, padding: 0, width: displayWidth, height: categorySelectionView.frame.size.height)
-        } else {
-            categorySelectionView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: categorySelectionView.frame.size.height)
         }
         
         
         // add delegates to sub-views (for callbacks)
         //bannerView.delegate = self
         
-        categorySelectionView.delegate = self
-        for gallery in filterGalleryView{
-            gallery.delegate = self
-        }
+        blendGalleryView.delegate = self
         
     }
+    
+    
     
     func layoutBanner(){
         bannerView.addSubview(backButton)
@@ -244,7 +202,7 @@ class FilterGalleryViewController: UIViewController {
         
         titleLabel.frame.size.height = backButton.frame.size.height
         titleLabel.frame.size.width = displayWidth - backButton.frame.size.width
-        titleLabel.text = "Filter Gallery"
+        titleLabel.text = "Blend Image Gallery"
         titleLabel.backgroundColor = UIColor.black
         titleLabel.textColor = UIColor.white
         titleLabel.font = UIFont.boldSystemFont(ofSize: 18.0)
@@ -259,38 +217,6 @@ class FilterGalleryViewController: UIViewController {
     }
     
     
-    fileprivate func isValidIndex(_ index:Int)->Bool{
-        return ((index>=0) && (index<filterGalleryView.count)) ? true : false
-    }
-    
-    fileprivate func selectCategory(_ category:FilterManager.CategoryType){
-        let index = category.getIndex()
-        
-        guard (isValidIndex(index)) else {
-            log.warning("Invalid index:\(index) category:\(category.rawValue)")
-            return
-        }
-        
-        if (index != currCategoryIndex){
-            log.debug("Category Selected: \(category) (\(currCategoryIndex)->\(index))")
-            if (isValidIndex(currCategoryIndex)) { filterGalleryView[currCategoryIndex].isHidden = true }
-            filterGalleryView[index].setCategory(FilterManager.getCategoryFromIndex(index))
-            currCategory = category
-            currCategoryIndex = index
-            filterGalleryView[index].isHidden = false
-        } else {
-            if (isValidIndex(currCategoryIndex)) { filterGalleryView[currCategoryIndex].isHidden = false } // re-display just in case (e.g. could be a rotation)
-            log.debug("Ignoring category change \(currCategoryIndex)->\(index)")
-        }
-    }
-    
-    
-    fileprivate func updateCategoryDisplay(_ category:FilterManager.CategoryType){
-        let index = category.getIndex()
-        if (isValidIndex(index)){
-            filterGalleryView[index].update()
-        }
-    }
     
     
     /*
@@ -342,7 +268,7 @@ class FilterGalleryViewController: UIViewController {
         guard navigationController?.popViewController(animated: true) != nil else { //modal
             //log.debug("Not a navigation Controller")
             suspend()
-            dismiss(animated: true, completion:  { self.delegate?.filterGalleryCompleted() })
+            dismiss(animated: true, completion:  { self.delegate?.blendGalleryCompleted() })
             return
         }
     }
@@ -355,41 +281,16 @@ class FilterGalleryViewController: UIViewController {
 // MARK: - Delegate methods for sub-views
 //////////////////////////////////////////
 
-extension FilterGalleryViewController: CategorySelectionViewDelegate {
-    func categorySelected(_ category:FilterManager.CategoryType){
-        selectCategory(category)
-    }
-    
-}
 
 
 
 
-
-extension FilterGalleryViewController: FilterGalleryViewDelegate {
-    func filterSelected(_ descriptor:FilterDescriptorInterface?){
-        suspend()
-        filterManager.setSelectedFilter(key: (descriptor?.key)!)
-        let filterDetailsViewController = FilterDetailsViewController()
-        filterDetailsViewController.delegate = self
-        filterDetailsViewController.filterKey = (descriptor?.key)!
-        self.present(filterDetailsViewController, animated: false, completion: nil)
-    }
-    
-    func requestUpdate(category:FilterManager.CategoryType){
-        log.debug("Update requested for category: \(category.rawValue)")
+extension BlendGalleryViewController: BlendGalleryViewDelegate {
+    internal func imageSelected(name: String) {
+        log.debug("Blend image selected: \(name)")
+        ImageManager.setCurrentBlendImageName(name)
     }
 }
 
 
-
-extension FilterGalleryViewController: FilterDetailsViewControllerDelegate {
-    func onCompletion(key:String){
-        //DispatchQueue.main.asyncAfter(deadline: .now() + 0.005, execute: {() -> Void in
-        //DispatchQueue.main.async(execute: {() -> Void in
-        log.verbose("FilterDetailsView completed")
-        self.updateCategoryDisplay(self.currCategory)
-        //})
-    }
-}
 

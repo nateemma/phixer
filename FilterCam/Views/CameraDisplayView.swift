@@ -106,6 +106,8 @@ class CameraDisplayView: UIView {
             //log.debug("Resetting filter pipeline")
             camera?.stopCapture()
             camera?.removeAllTargets()
+            currFilter?.filter?.removeAllTargets()
+            blendImage?.removeAllTargets()
             
             //TODO: figure out how to remove just the previous filter, not all of them because it stops other render views
             

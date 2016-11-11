@@ -29,6 +29,8 @@ enum InfoMode {
 
 // Class responsible for laying out the Camera Controls View
 
+//TODO: split into distinct views for each mode
+
 class CameraControlsView: UIView {
     
     // delegate for handling events
@@ -149,8 +151,7 @@ class CameraControlsView: UIView {
         photoThumbnail.addTarget(self, action: #selector(self.imagePreviewDidPress), for: .touchUpInside)
         activateButton.addTarget(self, action: #selector(self.takePictureDidPress), for: .touchUpInside)
         modeButton.addTarget(self, action: #selector(self.ModeDidPress), for: .touchUpInside)
-        menuButton.addTarget(self, action: #selector(self.SettingsDidPress), for: .touchUpInside)
-        
+        menuButton.addTarget(self, action: #selector(self.SettingsDidPress), for: .touchUpInside)        
         
     }
     
@@ -205,7 +206,10 @@ class CameraControlsView: UIView {
         }
     }
     
+    
+    /////////////////////////////////
     //MARK: - touch handlers
+    /////////////////////////////////
     
     
     func imagePreviewDidPress() {
@@ -223,4 +227,5 @@ class CameraControlsView: UIView {
     func SettingsDidPress() {
         delegate?.settingsPressed()
     }
+
 }
