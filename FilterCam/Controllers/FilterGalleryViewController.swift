@@ -127,11 +127,7 @@ class FilterGalleryViewController: UIViewController {
             //ImageCache.default.clearMemoryCache() // for testing
             //ImageCache.default.clearDiskCache() // for testing
             
-            // create an array of FilterGalleryViews and assign a category to each one
-            filterGalleryView = []
-            for _ in 0...FilterManager.maxIndex {
-                filterGalleryView.append(FilterGalleryView())
-            }
+            loadGalleries()
         }
     }
     
@@ -143,6 +139,13 @@ class FilterGalleryViewController: UIViewController {
         }
     }
     
+    func loadGalleries(){
+        // create an array of FilterGalleryViews and assign a category to each one
+        filterGalleryView = []
+        for _ in 0...FilterManager.maxIndex {
+            filterGalleryView.append(FilterGalleryView())
+        }
+    }
     
     func doLayout(){
         
@@ -156,7 +159,11 @@ class FilterGalleryViewController: UIViewController {
         
         view.backgroundColor = UIColor.black // default seems to be white
         
-        
+        //HACK: double-check that category data is loaded
+        if (filterGalleryView.count==0) {
+            loadGalleries()
+        }
+    
         
         //top-to-bottom layout scheme
         
@@ -266,21 +273,25 @@ class FilterGalleryViewController: UIViewController {
     fileprivate func selectCategory(_ category:FilterManager.CategoryType){
         let index = category.getIndex()
         
-        guard (isValidIndex(index)) else {
-            log.warning("Invalid index:\(index) category:\(category.rawValue)")
+        guard (filterGalleryView.count > 0) else {
+            log.error("Galleries not initialised!")
             return
         }
         
-        if (index != currCategoryIndex){
-            log.debug("Category Selected: \(category) (\(currCategoryIndex)->\(index))")
-            if (isValidIndex(currCategoryIndex)) { filterGalleryView[currCategoryIndex].isHidden = true }
-            filterGalleryView[index].setCategory(FilterManager.getCategoryFromIndex(index))
-            currCategory = category
-            currCategoryIndex = index
-            filterGalleryView[index].isHidden = false
+        if (isValidIndex(index)){
+            if (index != currCategoryIndex){
+                log.debug("Category Selected: \(category) (\(currCategoryIndex)->\(index))")
+                if (isValidIndex(currCategoryIndex)) { filterGalleryView[currCategoryIndex].isHidden = true }
+                filterGalleryView[index].setCategory(FilterManager.getCategoryFromIndex(index))
+                currCategory = category
+                currCategoryIndex = index
+                filterGalleryView[index].isHidden = false
+            } else {
+                if (isValidIndex(currCategoryIndex)) { filterGalleryView[currCategoryIndex].isHidden = false } // re-display just in case (e.g. could be a rotation)
+                log.debug("Ignoring category change \(currCategoryIndex)->\(index)")
+            }
         } else {
-            if (isValidIndex(currCategoryIndex)) { filterGalleryView[currCategoryIndex].isHidden = false } // re-display just in case (e.g. could be a rotation)
-            log.debug("Ignoring category change \(currCategoryIndex)->\(index)")
+            log.warning("Invalid index: \(index)")
         }
     }
     

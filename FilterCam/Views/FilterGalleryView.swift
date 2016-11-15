@@ -49,6 +49,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     fileprivate var filterGallery:UICollectionView? = nil
     fileprivate var firstTime:Bool = true
     fileprivate var reuseId:String = "FilterGalleryView"
+    fileprivate var opacityFilter:OpacityAdjustment? = nil
     
     
     // delegate for handling events
@@ -167,7 +168,9 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         //}
     }
     
+    // Suspend all GPUImage-related operations
     open func suspend(){
+        /***
         let indexPath = filterGallery?.indexPathsForVisibleItems
         var cell: FilterGalleryViewCell2?
         if ((indexPath != nil) && (cell != nil)){ // there might not be any filters in the category
@@ -176,6 +179,16 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
                 cell?.suspend()
             }
         }
+        ***/
+        
+        var descriptor:FilterDescriptorInterface? = nil
+        for key in filterList {
+            descriptor = filterManager.getFilterDescriptor(key: key)
+            descriptor?.filter?.removeAllTargets()
+            descriptor?.filterGroup?.removeAllTargets()
+        }
+        blend?.removeAllTargets()
+        opacityFilter?.removeAllTargets()
     }
     
     
@@ -195,7 +208,8 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     
     fileprivate func loadInputs(){
         
-        sampleImageFull = UIImage(named:"sample_emma_01.png")
+        //sampleImageFull = UIImage(named:"sample_emma_01.png")
+        sampleImageFull = ImageManager.getCurrentSampleImage()
         
         let size = (sampleImageFull?.size.applying(CGAffineTransform(scaleX: 0.2, y: 0.2)))!
         sampleImageSmall = ImageManager.scaleImage(sampleImageFull, widthRatio: 0.2, heightRatio: 0.2)
@@ -241,6 +255,12 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         }
         
         
+        // reduce opacity of blends by default
+        if (opacityFilter == nil){
+            opacityFilter = OpacityAdjustment()
+            opacityFilter?.opacity = 0.8
+        }
+       
         
         // annoyingly, we have to treat single and multiple filters differently
         if (descriptor?.filter != nil){ // single filter
@@ -259,7 +279,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
                 //log.debug("Using BLEND mode for filter: \(descriptor?.key)")
                 //TOFIX: blend image needs to be resized to fit the render view
                 sample!.addTarget(filter!)
-                blend! --> filter!
+                blend! --> opacityFilter! --> filter!
                 sample! --> filter! --> renderView
                 blend?.processImage(synchronously: true)
                 sample?.processImage(synchronously: true)
@@ -283,7 +303,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
                 //log.debug("Using BLEND mode for group: \(descriptor?.key)")
                 //TOFIX: blend image needs to be resized to fit the render view
                 sample!.addTarget(filterGroup!)
-                blend! --> filterGroup!
+                blend! --> opacityFilter! --> filterGroup!
                 sample! --> filterGroup! --> renderView
                 blend?.processImage(synchronously: true)
                 sample?.processImage(synchronously: true)

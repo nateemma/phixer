@@ -12,6 +12,7 @@ import Foundation
 import UIKit
 import GPUImage
 import AVFoundation
+import Photos
 
 
 protocol ImageManagerDelegate: class {
@@ -23,11 +24,11 @@ protocol ImageManagerDelegate: class {
 class ImageManager {
     
     
-        
+    
     
     
     //////////////////////////////////
-    // Blend Image/Layer Management
+    // MARK: - Blend Image/Layer Management
     //////////////////////////////////
     
     private static let _blendNameList:[String] = ["bl_angelic.png", "bl_pools_cool.png", "bl_colour_creation_135.png", "bl_roots.png", "bl_cornered_cool.png", "bl_rusted_rainbow_cool.png",
@@ -36,7 +37,7 @@ class ImageManager {
                                                   "bl_lost_rainbow.png", "bl_sulphur_43.png", "bl_makeup.png", "bl_surface.png", "bl_mudflats_39.png", "bl_texture_202.png",
                                                   "bl_orange_41.png", "bl_tinsel_bokeh_texture.png", "bl_paint_21.png", "bl_vintage.png", "bl_paint_24.png", "bl_vintage_inverse.png",
                                                   "bl_paper_impasto_72.png", "bl_warm_bokeh.png", "bl_party_bokeh.png"
-                                                ]
+    ]
     private static var _currBlendName:String = "bl_texture_202.png"
     
     private static var _currBlendImage: UIImage? = nil
@@ -46,16 +47,26 @@ class ImageManager {
     
     
     
+    
+    
     open static func getBlendImageList()->[String]{
         return _blendNameList
     }
+    
+    
     
     open static func getCurrentBlendImageName()->String {
         return _currBlendName
     }
     
+    
+    
     open static func setCurrentBlendImageName(_ name:String) {
-        if (_blendNameList.contains(name)){
+        if (name.contains(":")){ // URL?
+            _currBlendName = name
+            _currBlendImage = getBlendImageFromURL(name)
+            _currBlendImageScaled = resizeImage(_currBlendImage, targetSize: _currBlendSize, mode:.scaleAspectFill)
+        } else if (_blendNameList.contains(name)){
             log.debug("Current Blend image set to:\(name)")
             _currBlendName = name
             _currBlendImage = UIImage(named: _currBlendName)
@@ -65,18 +76,22 @@ class ImageManager {
         }
     }
     
+    
+    
     open static func getCurrentBlendImage()->UIImage? {
         if (_currBlendImage == nil){
-            _currBlendImage = UIImage(named: _currBlendName)
+            _currBlendImage = getBlendImageFromURL(_currBlendName)
         }
         
         return _currBlendImage
     }
     
+    
+    
     open static func getCurrentBlendImage(size:CGSize)->UIImage? {
         // make sure current blend image has been loaded
         if (_currBlendImage == nil){
-            _currBlendImage = UIImage(named: _currBlendName)
+            _currBlendImage = getBlendImageFromURL(_currBlendName)
         }
         
         // check to see if we have already resized
@@ -89,19 +104,237 @@ class ImageManager {
     }
     
     
+    
+    
     open static func getBlendImage(name: String, size:CGSize)->UIImage?{
-        if (_blendNameList.contains(name)){
-            return resizeImage(UIImage(named:name), targetSize:size, mode:.scaleAspectFill)
+        return resizeImage(getBlendImageFromURL(name), targetSize:size, mode:.scaleAspectFill)
+    }
+    
+    
+    
+    // function to get a named image. Will check to see if a URL (provided by UIImagePicker) is provided
+    private static func getBlendImageFromURL(_ urlString:String)->UIImage? {
+        var image:UIImage? = nil
+        if (urlString.contains(":")){ // URL?
+            image = getImageFromAssets(assetUrl: urlString)
+        } else if (_blendNameList.contains(urlString)){
+            image = UIImage(named:urlString)
         } else {
-            log.warning("Unknown Blend name:\(name)")
-            return nil
+            log.warning("Unknown Blend name:\(urlString)")
         }
+        return image
     }
     
     
     //////////////////////////////////
-    // Utilities
+    // MARK: - Sample Image Management
     //////////////////////////////////
+    
+    private static let _sampleNameList:[String] = ["sample_0846.png", "sample_1149.png", "sample_1151.png", "sample_1412.png", "sample_1504.png", "sample_1533.png", "sample_1629.png",
+                                                   "sample_1687.png", "sample_1748.png", "sample_1902.png", "sample_2143.png", "sample_2216.png", "sample_9989.png"
+                                                  ]
+    private static var _currSampleName:String = _sampleNameList[0]
+    
+    private static var _currSampleImage: UIImage? = nil
+    
+    private static var _currSampleImageScaled: UIImage? = nil
+    private static var _currSampleSize: CGSize = CGSize(width: 0.0, height: 0.0)
+    
+    
+    
+    
+    
+    open static func getSampleImageList()->[String]{
+        return _sampleNameList
+    }
+    
+    
+    
+    open static func getCurrentSampleImageName()->String {
+        return _currSampleName
+    }
+    
+    
+    
+    open static func setCurrentSampleImageName(_ name:String) {
+        if (name.contains(":")){ // URL?
+            _currSampleName = name
+            _currSampleImage = getSampleImageFromURL(name)
+            _currSampleImageScaled = resizeImage(_currSampleImage, targetSize: _currSampleSize, mode:.scaleAspectFill)
+        } else if (_sampleNameList.contains(name)){
+            log.debug("Current Sample image set to:\(name)")
+            _currSampleName = name
+            _currSampleImage = UIImage(named: _currSampleName)
+            _currSampleImageScaled = resizeImage(getCurrentSampleImage(), targetSize: _currSampleSize, mode:.scaleAspectFill)
+        } else {
+            log.warning("Unknown Sample name:\(name)")
+        }
+    }
+    
+    
+    
+    open static func getCurrentSampleImage()->UIImage? {
+        if (_currSampleImage == nil){
+            _currSampleImage = getSampleImageFromURL(_currSampleName)
+        }
+        
+        return _currSampleImage
+    }
+    
+    
+    
+    open static func getCurrentSampleImage(size:CGSize)->UIImage? {
+        // make sure current blend image has been loaded
+        if (_currSampleImage == nil){
+            _currSampleImage = getSampleImageFromURL(_currSampleName)
+        }
+        
+        // check to see if we have already resized
+        if (_currSampleSize != size){
+            _currSampleSize = size
+            _currSampleImageScaled = resizeImage(getCurrentSampleImage(), targetSize: size, mode:.scaleAspectFill)
+        }
+        
+        return _currSampleImageScaled
+    }
+    
+    
+    
+    
+    open static func getSampleImage(name: String, size:CGSize)->UIImage?{
+        return resizeImage(getSampleImageFromURL(name), targetSize:size, mode:.scaleAspectFill)
+    }
+    
+    
+    
+    // function to get a named image. Will check to see if a URL (provided by UIImagePicker) is provided
+    private static func getSampleImageFromURL(_ urlString:String)->UIImage? {
+        var image:UIImage? = nil
+        if (urlString.contains(":")){ // URL?
+            image = getImageFromAssets(assetUrl: urlString)
+        } else if (_sampleNameList.contains(urlString)){
+            image = UIImage(named:urlString)
+        } else {
+            log.warning("Unknown Sample name:\(urlString)")
+        }
+        return image
+    }
+    
+    
+    
+    /////////////////////////////////////////////
+    // MARK: - Management of Image being edited
+    /////////////////////////////////////////////
+    
+    // NOTE: unlike other functions here, only photos from the library are edited
+    
+    private static var _currEditName:String = ""
+    
+    private static var _currEditImage: UIImage? = nil
+    
+    private static var _currEditImageScaled: UIImage? = nil
+    private static var _currEditSize: CGSize = CGSize(width: 0.0, height: 0.0)
+
+    
+    open static func getCurrentEditImageName()->String {
+        return _currEditName
+    }
+    
+    
+    
+    open static func setCurrentEditImageName(_ name:String) {
+        if (name.contains(":")){ // URL?
+            _currEditName = name
+            _currEditImage = getEditImageFromURL(name)
+            //_currEditImageScaled = resizeImage(_currEditImage, targetSize: _currEditSize, mode:.scaleAspectFill) // don't know size
+            log.verbose("Image set to:\(name)")
+        } else {
+            log.warning("Unexpected Edit name:\(name)")
+        }
+    }
+    
+    
+    open static func setCurrentEditImage(name: String, image:UIImage?) {
+            _currEditName = name
+            _currEditImage = image
+            //_currEditImageScaled = resizeImage(_currEditImage, targetSize: _currEditSize, mode:.scaleAspectFill) // don't know size
+            log.verbose("Image set to:\(name)")
+    }
+    
+    
+    
+    open static func getCurrentEditImage()->UIImage? {
+        if (_currEditImage == nil){
+            _currEditImage = getEditImageFromURL(_currEditName)
+        }
+        
+        return _currEditImage
+    }
+    
+    
+    
+    open static func getCurrentEditImage(size:CGSize)->UIImage? {
+        // make sure current blend image has been loaded
+        if (_currEditImage == nil){
+            _currEditImage = getEditImageFromURL(_currEditName)
+        }
+        
+        // check to see if we have already resized
+        if (_currEditSize != size){
+            _currEditSize = size
+            _currEditImageScaled = resizeImage(getCurrentEditImage(), targetSize: size, mode:.scaleAspectFill)
+        }
+        
+        return _currEditImageScaled
+    }
+    
+    
+    
+    // function to get a named image. Will check to see if a URL (provided by UIImagePicker) is provided
+    private static func getEditImageFromURL(_ urlString:String)->UIImage? {
+        var image:UIImage? = nil
+        if (urlString.contains(":")){ // URL?
+            image = getImageFromAssets(assetUrl: urlString)
+        } else {
+            log.warning("Unexpected Edit name:\(urlString). Checking App-specific Assets..")
+            image = UIImage(named:urlString)
+        }
+        
+        if (image == nil){
+            log.warning("No image found for:\(urlString)")
+        }
+        
+        return image
+    }
+    
+  
+    
+    //////////////////////////////////
+    // MARK: - Image Utilities
+    //////////////////////////////////
+    
+    
+    
+    private static func getImageFromAssets(assetUrl: String)->UIImage? {
+        var image:UIImage? = nil
+        if let imageUrl = NSURL(string: assetUrl) {
+            let assets = PHAsset.fetchAssets(withALAssetURLs: [imageUrl as URL], options: nil)
+            let asset = assets.firstObject
+            let targetSize:CGSize = UIScreen.main.bounds.size // don't know what other size to use
+            let options = PHImageRequestOptions()
+            //        options.deliveryMode = PHImageRequestOptionsDeliveryMode.Opportunistic
+            options.resizeMode = PHImageRequestOptionsResizeMode.exact
+            options.isSynchronous = true // need to set this to get the full size image
+            PHImageManager.default().requestImage(for: asset!, targetSize: targetSize, contentMode: .aspectFill, options: options, resultHandler: { img, _ in
+                image = img
+            })
+        } else {
+            log.error("Invalid URL: \(assetUrl)")
+        }
+        return image
+    }
+    
+
     
     open static func resizeImage(_ image: UIImage?, targetSize: CGSize, mode:UIViewContentMode) -> UIImage? {
         guard (image != nil) else {
@@ -109,7 +342,7 @@ class ImageManager {
             return nil
         }
         
-        var size = (image?.size)!
+        let size = (image?.size)!
         
         // figure out if we need to rotate the image to match the target
         let srcIsLandscape:Bool = (size.width > size.height)
@@ -121,7 +354,7 @@ class ImageManager {
         if (srcIsLandscape != tgtIsLandscape){
             //log.warning("Need to rotate src image")
             if (srcIsLandscape) {
-               srcImage = rotateImage(image, degrees: -90.0)
+                srcImage = rotateImage(image, degrees: -90.0)
             } else {
                 srcImage = rotateImage(image, degrees: 90.0)
             }
@@ -131,7 +364,7 @@ class ImageManager {
             srcImage = image
             srcSize = size
         }
-  
+        
         
         // crop the image to match the aspect ratio of the target size (resize doesn't seem to work)
         let bounds = CGRect(x:0, y:0, width:srcSize.width, height:srcSize.height)
@@ -144,24 +377,26 @@ class ImageManager {
         // resize to match the target
         let newImage = scaleImage(croppedImage, targetSize:targetSize)
         
-        var nsize:CGSize = CGSize.zero
-        if (newImage != nil){
-            nsize = (newImage?.size)!
-        }
         /***
-        log.debug("SIZES: image:\(size), targetSize:\(targetSize), srcImage:\(srcSize), cropSize:\(cropSize), nsize:\(nsize)")
-        let (r1n, r1d) = ClosestFraction.find(Float(size.width/size.height), maxDenominator:Int(size.height))
-        let (r2n, r2d) = ClosestFraction.find(Float(targetSize.width/targetSize.height), maxDenominator:Int(targetSize.height))
-        let (r3n, r3d) = ClosestFraction.find(Float(srcSize.width/srcSize.height), maxDenominator:Int(srcSize.height))
-        let (r4n, r4d) = ClosestFraction.find(Float(cropSize.width/cropSize.height), maxDenominator:Int(cropSize.height))
-        let (r5n, r5d) = ClosestFraction.find(Float(nsize.width/nsize.height), maxDenominator:Int(nsize.height))
-        log.debug("RATIOS: image:\(r1n)/\(r1d), targetSize:\(r2n)/\(r2d), srcImage:\(r3n)/\(r3d), cropSize:\(r4n)/\(r4d), nsize:\(r5n)/\(r5d)")
-        ***/
+         // debug
+         var nsize:CGSize = CGSize.zero
+         if (newImage != nil){
+         nsize = (newImage?.size)!
+         }
+         
+         log.debug("SIZES: image:\(size), targetSize:\(targetSize), srcImage:\(srcSize), cropSize:\(cropSize), nsize:\(nsize)")
+         let (r1n, r1d) = ClosestFraction.find(Float(size.width/size.height), maxDenominator:Int(size.height))
+         let (r2n, r2d) = ClosestFraction.find(Float(targetSize.width/targetSize.height), maxDenominator:Int(targetSize.height))
+         let (r3n, r3d) = ClosestFraction.find(Float(srcSize.width/srcSize.height), maxDenominator:Int(srcSize.height))
+         let (r4n, r4d) = ClosestFraction.find(Float(cropSize.width/cropSize.height), maxDenominator:Int(cropSize.height))
+         let (r5n, r5d) = ClosestFraction.find(Float(nsize.width/nsize.height), maxDenominator:Int(nsize.height))
+         log.debug("RATIOS: image:\(r1n)/\(r1d), targetSize:\(r2n)/\(r2d), srcImage:\(r3n)/\(r3d), cropSize:\(r4n)/\(r4d), nsize:\(r5n)/\(r5d)")
+         ***/
         
         return newImage
     }
     
-   
+    
     
     open static func scaleImage(_ image: UIImage?, targetSize:CGSize) -> UIImage? {
         guard (image != nil) else {
@@ -214,7 +449,7 @@ class ImageManager {
         
         return newImage
     }
- 
+    
     
     
     open static func rotateImage(_ image: UIImage?, degrees: Double) -> UIImage? {
@@ -225,7 +460,7 @@ class ImageManager {
         
         let radians = CGFloat(degrees*M_PI)/180.0 as CGFloat
         let size = (image?.size)!
-
+        
         UIGraphicsBeginImageContextWithOptions(size, false, 1.0)
         let bitmap = UIGraphicsGetCurrentContext()
         bitmap!.translateBy(x: size.width / 2, y: size.height / 2)
@@ -238,7 +473,7 @@ class ImageManager {
         return newImage
     }
     
- 
+    
     
     open static func cropImage(_ image:UIImage?, to:CGSize) -> UIImage? {
         guard (image != nil) else {
@@ -292,7 +527,7 @@ class ImageManager {
         
         return resized
     }
-  
+    
     
     
     static func aspectFit(aspectRatio : CGSize, boundingSize: CGSize) -> CGSize {
@@ -309,7 +544,7 @@ class ImageManager {
         
         return fitSize;
     }
- 
+    
     
     
     static func aspectFill(aspectRatio :CGSize, minimumSize: CGSize) -> CGSize {
@@ -326,7 +561,7 @@ class ImageManager {
         
         return fillSize;
     }
-
+    
     
     open static func fitIntoRect(srcSize:CGSize, targetRect: CGRect, withContentMode contentMode: UIViewContentMode)->CGRect {
         

@@ -1,5 +1,5 @@
 //
-//  FilterDescriptor.swift
+//  FilterDescriptorInterface.swift
 //  FilterCam
 //
 //  Created by Philip Price on 10/4/16.
@@ -36,7 +36,7 @@ protocol FilterDescriptorInterface{
     
     var filterOperationType: FilterOperationType { get }
     
-    var numParameters: Int { get } // 4 sliders max
+    var numParameters: Int { get } // 5 sliders max
     var parameterConfiguration: [ParameterSettings] { get }
     
     func configureCustomFilter(_ input:(filter:BasicOperation, secondInput:BasicOperation?))

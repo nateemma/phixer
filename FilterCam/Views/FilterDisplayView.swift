@@ -27,6 +27,7 @@ class FilterDisplayView: UIView {
     
     fileprivate var filter:BasicOperation? = nil
     fileprivate var filterGroup:OperationGroup? = nil
+    fileprivate var opacityFilter:OpacityAdjustment? = nil
 
     
     
@@ -154,9 +155,10 @@ class FilterDisplayView: UIView {
         var blend:PictureInput? = nil
         var filteredOutput:PictureOutput? = nil
 
-        sampleImageFull = UIImage(named:"sample_emma_01.png")
+        //sampleImageFull = UIImage(named:"sample_emma_01.png")
+        sampleImageFull = ImageManager.getCurrentSampleImage()
         
-        let reduceSize:Bool = false
+        let reduceSize:Bool = false // set to true if you need to reduce the image size/resolution
         
         if (reduceSize){
             let size = (sampleImageFull?.size.applying(CGAffineTransform(scaleX: 0.5, y: 0.5)))!
@@ -193,11 +195,17 @@ class FilterDisplayView: UIView {
         filteredOutput?.onlyCaptureNextFrame = false
         
         
+        // reduce opacity of blends by default
+        if (opacityFilter == nil){
+            opacityFilter = OpacityAdjustment()
+            opacityFilter?.opacity = 0.8
+        }
+        
         // annoyingly, we have to treat single and multiple filters differently
         if (currFilterDescriptor?.filter != nil){ // single filter
 
             filter = currFilterDescriptor?.filter
-            log.debug("Run filter: \((currFilterDescriptor?.key)!) address:\(Utilities.addressOf(filter))")
+            //log.debug("Run filter: \((currFilterDescriptor?.key)!) address:\(Utilities.addressOf(filter))")
             
             let opType:FilterOperationType = (currFilterDescriptor?.filterOperationType)!
             switch (opType){
@@ -206,10 +214,9 @@ class FilterDisplayView: UIView {
                 sample! --> filter! --> filteredOutput!
                 break
             case .blend:
-                //log.debug("Using BLEND mode for filter: \(currFilterDescriptor?.key)")
-                //TOFIX: blend image needs to be resized to fit the render view
+                log.debug("BLEND filter: \(currFilterDescriptor?.key) opacity:\(opacityFilter?.opacity)")
                 sample!.addTarget(filter!)
-                blend! --> filter!
+                blend! --> opacityFilter! --> filter!
                 sample! --> filter! --> filteredOutput!
                 blend?.processImage(synchronously: true)
                 break
@@ -218,7 +225,7 @@ class FilterDisplayView: UIView {
         } else if (currFilterDescriptor?.filterGroup != nil){ // group of filters
             //log.debug("filterGroup: \(currFilterDescriptor?.key)")
             filterGroup = currFilterDescriptor?.filterGroup
-            log.debug("Run filterGroup: \(currFilterDescriptor?.key) address:\(Utilities.addressOf(filterGroup))")
+            //log.debug("Run filterGroup: \(currFilterDescriptor?.key) address:\(Utilities.addressOf(filterGroup))")
             
             let opType:FilterOperationType = (currFilterDescriptor?.filterOperationType)!
             switch (opType){
@@ -227,10 +234,9 @@ class FilterDisplayView: UIView {
                 sample! --> filterGroup! --> filteredOutput!
                 break
             case .blend:
-                //log.debug("Using BLEND mode for group: \(currFilterDescriptor?.key)")
-                //TOFIX: blend image needs to be resized to fit the render view
+                log.debug("BLEND filter: \(currFilterDescriptor?.key) opacity:\(opacityFilter?.opacity)")
                 sample!.addTarget(filterGroup!)
-                blend! --> filterGroup!
+                blend! --> opacityFilter! --> filterGroup!
                 sample! --> filterGroup! --> filteredOutput!
                 blend?.processImage(synchronously: true)
                 break
@@ -244,7 +250,7 @@ class FilterDisplayView: UIView {
             self.imageView.setNeedsDisplay()
             log.verbose ("Image processed: \((self.currFilterDescriptor?.key)!)")
         }
-        sample?.processImage()
+        sample?.processImage(synchronously: true)
         
 
     }
@@ -284,7 +290,9 @@ class FilterDisplayView: UIView {
         var blend:PictureInput? = nil
         //var filteredOutput:PictureOutput? = nil
         
-        sampleImageFull = UIImage(named:"sample_emma_01.png")
+        //sampleImageFull = UIImage(named:"sample_emma_01.png")
+        sampleImageFull = ImageManager.getCurrentSampleImage() // reload each time because it can change
+        
         let size = (sampleImageFull?.size)!
         //sampleImageSmall = ImageManager.scaleImage(sampleImageFull, widthRatio: 0.5, heightRatio: 0.5)
 
@@ -318,26 +326,31 @@ class FilterDisplayView: UIView {
         sample?.removeAllTargets()
         blend?.removeAllTargets()
         
+        // reduce opacity of blends by default
+        if (opacityFilter == nil){
+            opacityFilter = OpacityAdjustment()
+            opacityFilter?.opacity = 0.8
+        }
+        
         // annoyingly, we have to treat single and multiple filters differently
         if (descriptor?.filter != nil){ // single filter
             filter = descriptor?.filter
             filter?.removeAllTargets()
             
-            log.debug("Run filter: \((descriptor?.key)!) filter:\(Utilities.addressOf(filter)) view:\(Utilities.addressOf(renderView))")
+            //log.debug("Run filter: \((descriptor?.key)!) filter:\(Utilities.addressOf(filter)) view:\(Utilities.addressOf(renderView))")
             
             let opType:FilterOperationType = (descriptor?.filterOperationType)!
             switch (opType){
             case .singleInput:
-                //log.debug("filter: \(descriptor?.key) address:\(Utilities.addressOf(filter))")
+                log.debug("filter: \(descriptor?.key) address:\(Utilities.addressOf(filter))")
                 //sample! --> filter! --> self.renderView!
                 sample! --> filter! --> self.renderView!
                 sample?.processImage(synchronously: true)
                 break
             case .blend:
-                //log.debug("Using BLEND mode for filter: \(descriptor?.key)")
-                //TOFIX: blend image needs to be resized to fit the render view
+                log.debug("BLEND filter: \(currFilterDescriptor?.key) opacity:\(opacityFilter?.opacity)")
                 sample!.addTarget(filter!)
-                blend! --> filter!
+                blend! --> opacityFilter! --> filter!
                 sample! --> filter! --> self.renderView!
                 blend?.processImage(synchronously: true)
                 sample?.processImage(synchronously: true)
@@ -347,20 +360,19 @@ class FilterDisplayView: UIView {
         } else if (descriptor?.filterGroup != nil){ // group of filters
             filterGroup = descriptor?.filterGroup
             filterGroup?.removeAllTargets()
-            log.debug("Run filterGroup: \(descriptor?.key) group:\(Utilities.addressOf(filterGroup)) view:\(Utilities.addressOf(renderView))")
+            //log.debug("Run filterGroup: \(descriptor?.key) group:\(Utilities.addressOf(filterGroup)) view:\(Utilities.addressOf(renderView))")
             
             let opType:FilterOperationType = (descriptor?.filterOperationType)!
             switch (opType){
             case .singleInput:
-                //log.debug("filterGroup: \(descriptor?.key)")
+                log.debug("filterGroup: \(descriptor?.key)")
                 sample! --> filterGroup! --> self.renderView!
                 sample?.processImage(synchronously: true)
                 break
             case .blend:
-                //log.debug("Using BLEND mode for group: \(descriptor?.key)")
-                //TOFIX: blend image needs to be resized to fit the render view
+                log.debug("BLEND filter: \(currFilterDescriptor?.key) opacity:\(opacityFilter?.opacity)")
                 sample!.addTarget(filterGroup!)
-                blend! --> filterGroup!
+                blend! --> opacityFilter! --> filterGroup!
                 sample! --> filterGroup! --> self.renderView!
                 blend?.processImage(synchronously: true)
                 sample?.processImage(synchronously: true)

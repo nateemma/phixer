@@ -1,5 +1,5 @@
 //
-//  BlendGalleryViewController.swift
+//  SampleGalleryViewController.swift
 //  FilterCam
 //
 //  Created by Philip Price on 10/24/16.
@@ -20,87 +20,75 @@ import Photos
 
 
 // delegate method to let the launching ViewController know that this one has finished
-protocol BlendGalleryViewControllerDelegate: class {
-    func blendGalleryCompleted()
+protocol SampleGalleryViewControllerDelegate: class {
+    func sampleGalleryCompleted()
 }
 
 
 private var filterList: [String] = []
 private var filterCount: Int = 0
 
-// This is the View Controller for displaying and organising filters into categories
+// This is the View Controller for displaying the available Sample images and setting the one to be used elsewhere
 
-class BlendGalleryViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class SampleGalleryViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     // delegate for handling events
-    weak var delegate: BlendGalleryViewControllerDelegate?
+    weak var delegate: SampleGalleryViewControllerDelegate?
     
     
     // Banner View (title)
-    fileprivate var bannerView: UIView! = UIView()
-    fileprivate var backButton:UIButton! = UIButton()
-    fileprivate var titleLabel:UILabel! = UILabel()
+    var bannerView: UIView! = UIView()
+    var backButton:UIButton! = UIButton()
+    var titleLabel:UILabel! = UILabel()
     
     
     // Advertisements View
-    fileprivate var adView: GADBannerView! = GADBannerView()
+    var adView: GADBannerView! = GADBannerView()
     
     // View containing previews, buttons etc.Advertisements
-    fileprivate var infoView: UIView! = UIView()
-    fileprivate var acceptButton:UIButton! = UIButton()
-    fileprivate var cancelButton:UIButton! = UIButton()
-    
-    fileprivate var helpLabel:UILabel! = UILabel()
-    fileprivate var selectedLabel:UILabel! = UILabel()
-    fileprivate var photosLabel:UILabel! = UILabel()
-    fileprivate var filterLabel:UILabel! = UILabel()
-    
-    fileprivate var selectedBlendImageName: String = ""
-    fileprivate var selectedBlendImage:UIImageView! = UIImageView()
-    fileprivate var selectedBlendImageSize: CGSize = CGSize.zero
-    fileprivate var blendInput:PictureInput? = nil
-    
-    fileprivate var photosLinkImage:UIImageView! = UIImageView()
-    fileprivate var filteredImage:RenderView! = nil
+    var infoView: UIView! = UIView()
+    var acceptButton:UIButton! = UIButton()
+    var cancelButton:UIButton! = UIButton()
+    var helpLabel:UILabel! = UILabel()
+    var currentLabel:UILabel! = UILabel()
+    var selectedLabel:UILabel! = UILabel()
+    var photosLabel:UILabel! = UILabel()
+    var currentSampleImage:UIImageView! = UIImageView()
+    var selectedSampleImage:UIImageView! = UIImageView()
+    var photosLinkImage:UIImageView! = UIImageView()
     
     // views used to manage layout of subviews
-    fileprivate let buttonContainerView: UIView! = UIView()
-    fileprivate let imageContainerView: UIView! = UIView()
+    let buttonContainerView: UIView! = UIView()
+    let imageContainerView: UIView! = UIView()
     
-    //let filteredView:ImageContainerView = ImageContainerView()
+    //let currentView:ImageContainerView = ImageContainerView()
     //let selectedView:ImageContainerView = ImageContainerView()
     //let photosView:ImageContainerView = ImageContainerView()
-    fileprivate let selectedView:UIView = UIView()
-    fileprivate let photosView:UIView = UIView()
-    fileprivate let filteredView:UIView = UIView()
+    let currentView:UIView = UIView()
+    let selectedView:UIView = UIView()
+    let photosView:UIView = UIView()
     
-    // the gallery of Blend options
-    fileprivate var blendGalleryView : BlendGalleryView! = BlendGalleryView()
+    // the gallery of Sample options
+    var sampleGalleryView : SampleGalleryView! = SampleGalleryView()
     
-    // sample image vars
-    fileprivate var sampleImageName: String = ""
-    fileprivate var sampleImage:UIImage? = nil
-    fileprivate var sampleInput:PictureInput? = nil
-    fileprivate var opacityFilter:OpacityAdjustment? = nil
+    let imagePicker = UIImagePickerController()
     
-    fileprivate let imagePicker = UIImagePickerController()
+    var filterManager:FilterManager = FilterManager.sharedInstance
     
-    fileprivate var filterManager:FilterManager = FilterManager.sharedInstance
-    fileprivate var currDescriptor:FilterDescriptorInterface? = nil
-    fileprivate var filterList:[String] = []
-    fileprivate var currFilterIndex:Int = 0
-    fileprivate var currFilterKey:String = ""
-    fileprivate var imageSize:CGSize = CGSize(width:96, height:96*3.0/2.0)
+    var selectedSampleImageName: String = ""
+    var currentSampleImageName: String = ""
     
-    fileprivate var isLandscape : Bool = false
-    fileprivate var showAds : Bool = true
-    fileprivate var screenSize : CGRect = CGRect.zero
-    fileprivate var displayWidth : CGFloat = 0.0
-    fileprivate var displayHeight : CGFloat = 0.0
+    var imageSize:CGSize = CGSize.zero
     
-    fileprivate let bannerHeight : CGFloat = 64.0
-    fileprivate let buttonSize : CGFloat = 48.0
-    fileprivate let statusBarOffset : CGFloat = 12.0
+    var isLandscape : Bool = false
+    var showAds : Bool = true
+    var screenSize : CGRect = CGRect.zero
+    var displayWidth : CGFloat = 0.0
+    var displayHeight : CGFloat = 0.0
+    
+    let bannerHeight : CGFloat = 64.0
+    let buttonSize : CGFloat = 48.0
+    let statusBarOffset : CGFloat = 12.0
     
     
     
@@ -145,27 +133,23 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
     
     func doInit(){
         
-        if (!BlendGalleryViewController.initDone){
-            BlendGalleryViewController.initDone = true
+        if (!SampleGalleryViewController.initDone){
+            SampleGalleryViewController.initDone = true
+            
         }
     }
     
     
     
     func suspend(){
-        removeTargets()
+        
     }
     
     
     func doLayout(){
         
-        doInit()
-        
-        filterList = filterManager.getFilterList(FilterManager.CategoryType.blendModes)!
-        currFilterIndex = 0
-        if (filterList.count>0){
-            currFilterKey = filterList[currFilterIndex]
-        }
+        currentSampleImageName = ImageManager.getCurrentSampleImageName()
+        selectedSampleImageName = currentSampleImageName
         
         displayHeight = view.height
         displayWidth = view.width
@@ -178,13 +162,6 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
         view.backgroundColor = UIColor.black // default seems to be white
         
         
-        selectedBlendImageName = ImageManager.getCurrentBlendImageName()
-        sampleImageName = ImageManager.getCurrentSampleImageName()
-        sampleImage = ImageManager.getCurrentSampleImage()
-        sampleInput = PictureInput(image:sampleImage!)
-        //filteredImage = filterManager.getRenderView(key: currFilterKey)
-        if (filteredImage == nil) {  filteredImage = RenderView() }
-      
         
         //set up dimensions
         
@@ -203,23 +180,23 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
             adView.layer.borderColor = UIColor.gray.cgColor
         }
         
-        infoView.frame.size.height = 4.2 * bannerHeight // TODO: calculate from components
+        infoView.frame.size.height = 3.5 * bannerHeight
         infoView.frame.size.width = displayWidth
         layoutInfoView()
         view.addSubview(infoView)
         
         if (showAds){
-            blendGalleryView.frame.size.height = displayHeight - bannerView.frame.size.height - adView.frame.size.height - infoView.frame.size.height
+            sampleGalleryView.frame.size.height = displayHeight - bannerView.frame.size.height - adView.frame.size.height - infoView.frame.size.height
         } else {
-            blendGalleryView.frame.size.height = displayHeight - bannerView.frame.size.height - infoView.frame.size.height
+            sampleGalleryView.frame.size.height = displayHeight - bannerView.frame.size.height - infoView.frame.size.height
         }
-        blendGalleryView.frame.size.width = displayWidth
-        //blendGalleryView.backgroundColor = UIColor.black
+        sampleGalleryView.frame.size.width = displayWidth
+        //sampleGalleryView.backgroundColor = UIColor.black
         
         
         
-        blendGalleryView.delegate = self
-        view.addSubview(blendGalleryView)
+        sampleGalleryView.delegate = self
+        view.addSubview(sampleGalleryView)
         
         
         // Note: need to add subviews before modifying constraints
@@ -243,19 +220,15 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
             infoView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: infoView.frame.size.height)
         }
         
-        blendGalleryView.align(.underCentered, relativeTo: infoView, padding: 0, width: displayWidth, height: blendGalleryView.frame.size.height)
+        sampleGalleryView.align(.underCentered, relativeTo: infoView, padding: 0, width: displayWidth, height: sampleGalleryView.frame.size.height)
         
-        log.verbose("H: banner:\(bannerView.frame.size.height) , ad:\(adView.frame.size.height), info:\(infoView.frame.size.height), gallery:\(blendGalleryView.frame.size.height)")
+        log.verbose("H: banner:\(bannerView.frame.size.height) , ad:\(adView.frame.size.height), info:\(infoView.frame.size.height), gallery:\(sampleGalleryView.frame.size.height)")
         
         // add delegates to sub-views (for callbacks)
         //bannerView.delegate = self
         
-        blendGalleryView.delegate = self
+        sampleGalleryView.delegate = self
         
-        
-        
-        // update the filtered image
-        updateFilteredImage()
     }
     
     
@@ -275,7 +248,7 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
         
         titleLabel.frame.size.height = backButton.frame.size.height
         titleLabel.frame.size.width = displayWidth - backButton.frame.size.width
-        titleLabel.text = "Blend Image Gallery"
+        titleLabel.text = "Sample Image Gallery"
         titleLabel.backgroundColor = UIColor.black
         titleLabel.textColor = UIColor.white
         titleLabel.font = UIFont.boldSystemFont(ofSize: 18.0)
@@ -313,9 +286,9 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
         buttonContainerView.frame.size.height = acceptButton.frame.size.height + 4
         
         
-        // helpLabel, filterLabel, selectedLabel
+        // helpLabel, currentLabel, selectedLabel
         
-        for label in [helpLabel, filterLabel, selectedLabel, photosLabel]{
+        for label in [helpLabel, currentLabel, selectedLabel, photosLabel]{
             label?.frame.size.width = displayWidth / 3.0
             label?.frame.size.height = 32.0
             label?.backgroundColor = UIColor.black
@@ -326,14 +299,15 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
         helpLabel.text = "Select an image from below or a photo"
         helpLabel.font = UIFont.systemFont(ofSize: 18)
         
+        currentLabel.text = "Current:"
         selectedLabel.text = "Selected:"
         photosLabel.text = "Photos:"
-        filterLabel.text = "Preview:"
         
-        // filteredImage
-        // selectedBlendImage
+        // currentSampleImage
+        // selectedSampleImage
         // photosLinkImage
-        for image in [filteredImage, selectedBlendImage, photosLinkImage]{
+        imageSize = CGSize(width:96, height:96)
+        for image in [currentSampleImage, selectedSampleImage, photosLinkImage]{
             image?.frame.size = imageSize
             image?.backgroundColor = UIColor.black
             image?.layer.cornerRadius = 0.0
@@ -342,41 +316,44 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
             image?.clipsToBounds = true
             image?.contentMode = .scaleAspectFill
         }
-        selectedBlendImage.image = ImageManager.getBlendImage(name: selectedBlendImageName, size: imageSize)
+        currentSampleImage.image = ImageManager.getCurrentSampleImage(size: imageSize)!
+        selectedSampleImage.image = ImageManager.getSampleImage(name: selectedSampleImageName, size: imageSize)
         loadPhotoThumbnail(view:photosLinkImage)
         
         // bundle the images and their labels into container Views
-        let viewSize = CGSize(width:(imageSize.width+2), height:(imageSize.height+filterLabel.frame.size.height + 2))
+        let viewSize = CGSize(width:(imageSize.width+2), height:(imageSize.height+currentLabel.frame.size.height + 2))
+        
+        currentView.frame.size = viewSize
+        currentView.addSubview(currentSampleImage)
+        currentView.addSubview(currentLabel)
+        currentSampleImage.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: imageSize.height)
+        currentLabel.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: currentLabel.frame.size.height)
+        selectedSampleImage.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: imageSize.height)
+        //currentLabel.alignAndFill(.aboveCentered, relativeTo: currentSampleImage, padding: 0)
         
         selectedView.frame.size = viewSize
-        selectedView.addSubview(selectedBlendImage)
+        selectedView.addSubview(selectedSampleImage)
         selectedView.addSubview(selectedLabel)
-        selectedBlendImage.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: imageSize.height)
+        selectedSampleImage.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: imageSize.height)
         selectedLabel.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: selectedLabel.frame.size.height)
+        //selectedLabel.alignAndFill(.aboveCentered, relativeTo: selectedSampleImage, padding: 0)
         
         photosView.frame.size = viewSize
         photosView.addSubview(photosLinkImage)
         photosView.addSubview(photosLabel)
         photosLinkImage.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: imageSize.height)
         photosLabel.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: photosLabel.frame.size.height)
+        //photosLabel.alignAndFill(.aboveCentered, relativeTo: photosLinkImage, padding: 0)
         
-        
-        filteredView.frame.size = viewSize
-        filteredView.addSubview(filteredImage)
-        filteredView.addSubview(filterLabel)
-        filteredImage.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: imageSize.height)
-        filterLabel.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: filterLabel.frame.size.height)
-        
-
-        imageContainerView.frame.size.height = filteredView.frame.size.height
+        imageContainerView.frame.size.height = currentView.frame.size.height
         imageContainerView.frame.size.width = infoView.frame.size.width
         
         // add the subviews to infoView
         infoView.addSubview(helpLabel)
         
+        imageContainerView.addSubview(currentView)
         imageContainerView.addSubview(selectedView)
         imageContainerView.addSubview(photosView)
-        imageContainerView.addSubview(filteredView)
         infoView.addSubview(imageContainerView)
         
         infoView.addSubview(buttonContainerView)
@@ -389,8 +366,8 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
         
         helpLabel.anchorAndFillEdge(.top, xPad: 2.0, yPad: 2.0, otherSize: helpLabel.frame.size.height)
         
-        imageContainerView.groupInCenter(.horizontal, views: [selectedView, photosView, filteredView], padding: 8, width: filteredView.frame.size.width, height: filteredView.frame.size.height)
-        imageContainerView.align(.underCentered, relativeTo: helpLabel, padding: 1, width: imageContainerView.frame.size.width, height: filteredView.frame.size.height)
+        imageContainerView.groupInCenter(.horizontal, views: [currentView, selectedView, photosView], padding: 8, width: currentView.frame.size.width, height: currentView.frame.size.height)
+        imageContainerView.align(.underCentered, relativeTo: helpLabel, padding: 1, width: imageContainerView.frame.size.width, height: currentView.frame.size.height)
         
         buttonContainerView.groupInCenter(.horizontal, views: [acceptButton, cancelButton], padding: 8, width: acceptButton.frame.size.width, height: acceptButton.frame.size.height)
         buttonContainerView.anchorAndFillEdge(.bottom, xPad: 2.0, yPad: 2.0, otherSize: buttonContainerView.frame.size.height)
@@ -399,11 +376,6 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
         // add touch handlers
         acceptButton.addTarget(self, action: #selector(self.acceptDidPress), for: .touchUpInside)
         cancelButton.addTarget(self, action: #selector(self.cancelDidPress), for: .touchUpInside)
-        
-        let filterTap = UITapGestureRecognizer(target: self, action: #selector(filterDidPress))
-        filteredView.addGestureRecognizer(filterTap)
-        filteredView.isUserInteractionEnabled = true
-        
         let photosTap = UITapGestureRecognizer(target: self, action: #selector(photosLinkDidPress))
         photosLinkImage.addGestureRecognizer(photosTap)
         photosLinkImage.isUserInteractionEnabled = true
@@ -451,7 +423,7 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
         guard navigationController?.popViewController(animated: true) != nil else { //modal
             //log.debug("Not a navigation Controller")
             suspend()
-            dismiss(animated: true, completion:  { self.delegate?.blendGalleryCompleted() })
+            dismiss(animated: true, completion:  { self.delegate?.sampleGalleryCompleted() })
             return
         }
     }
@@ -484,153 +456,11 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
     }
     
     
-    
-    
     func updateSelectedImage(){
         DispatchQueue.main.async(execute: { () -> Void in
-            self.selectedBlendImage.image = ImageManager.getBlendImage(name: self.selectedBlendImageName, size: self.imageSize)
-            self.updateFilteredImage()
+            self.selectedSampleImage.image = ImageManager.getSampleImage(name: self.selectedSampleImageName, size: self.imageSize)
         })
     }
-    
-    
-    
-    
-    // updates the filtered image view based on the currently selected blend image
-    func updateFilteredImage(){
-        
-        blendInput?.removeAllTargets()
-        selectedBlendImageSize = selectedBlendImage.frame.size
-        selectedBlendImage?.image = ImageManager.getBlendImage(name:selectedBlendImageName, size: selectedBlendImageSize)
-        blendInput  = PictureInput(image:(selectedBlendImage?.image)!)
-        
-        currDescriptor = filterManager.getFilterDescriptor(key: currFilterKey)
-        //filteredImage = filterManager.getRenderView(key: currFilterKey)
-        if (filteredImage == nil) {  filteredImage = RenderView() }
-        filteredImage.frame.size = imageSize
-
-        let descriptor = currDescriptor
-        
-        filterLabel.text = descriptor?.key
-
-        guard (sampleInput != nil) else {
-            log.error("NIL Sample Input")
-            return
-        }
-        
-        guard (blendInput != nil) else {
-            log.error("NIL Blend Input")
-            return
-        }
-        
-        guard (descriptor != nil) else {
-            log.error("NIL Filter Descriptor")
-            return
-        }
-        
-        guard (filteredImage != nil) else {
-            log.error("NIL RenderView")
-            return
-        }
-        
-        //sampleInput?.removeAllTargets()
-        //blendInput?.removeAllTargets()
-        //descriptor?.filter?.removeAllTargets()
-        //descriptor?.filterGroup?.removeAllTargets()
-        
-        // reduce opacity of blends by default
-        if (opacityFilter == nil){
-            opacityFilter = OpacityAdjustment()
-            opacityFilter?.opacity = 0.8
-        }
-        
-        // annoyingly, we have to treat single and multiple filters differently
-        if (descriptor?.filter != nil){ // single filter
-            let filter = descriptor?.filter
-            filter?.removeAllTargets()
-            
-            //log.debug("Run filter: \((descriptor?.key)!) filter:\(Utilities.addressOf(filter)) view:\(Utilities.addressOf(renderView))")
-            
-            let opType:FilterOperationType = (descriptor?.filterOperationType)!
-            switch (opType){
-            case .singleInput:
-                log.debug("filter: \(descriptor?.key) address:\(Utilities.addressOf(filter))")
-                //sampleInput! --> filter! --> self.renderView!
-                sampleInput! --> filter! --> filteredImage!
-                sampleInput?.processImage(synchronously: true)
-                break
-            case .blend:
-                log.debug("BLEND filter: \(descriptor?.key) opacity:\(opacityFilter?.opacity)")
-                sampleInput!.addTarget(filter!)
-                blendInput! --> opacityFilter! --> filter!
-                sampleInput! --> filter! --> filteredImage!
-                blendInput?.processImage(synchronously: true)
-                sampleInput?.processImage(synchronously: true)
-                break
-            }
-            
-        } else if (descriptor?.filterGroup != nil){ // group of filters
-            let filterGroup = descriptor?.filterGroup
-            filterGroup?.removeAllTargets()
-            //log.debug("Run filterGroup: \(descriptor?.key) group:\(Utilities.addressOf(filterGroup)) view:\(Utilities.addressOf(renderView))")
-            
-            let opType:FilterOperationType = (descriptor?.filterOperationType)!
-            switch (opType){
-            case .singleInput:
-                log.debug("filterGroup: \(descriptor?.key)")
-                sampleInput! --> filterGroup! --> filteredImage!
-                sampleInput?.processImage(synchronously: true)
-                break
-            case .blend:
-                log.debug("BLEND filter: \(descriptor?.key) opacity:\(opacityFilter?.opacity)")
-                sampleInput!.addTarget(filterGroup!)
-                blendInput! --> opacityFilter! --> filterGroup!
-                sampleInput! --> filterGroup! --> filteredImage!
-                blendInput?.processImage(synchronously: true)
-                sampleInput?.processImage(synchronously: true)
-                break
-            }
-        } else {
-            log.error("ERR!!! shouldn't be here!!!")
-        }
-        
-        
-        filteredImage?.setNeedsDisplay()
-        filteredView.setNeedsDisplay()
-        
-        //removeTargets()
-    }
-    
-    
-    
-    /////////////////////////////
-    // MARK: - Filter Management
-    /////////////////////////////
-
-    private func removeTargets(){
-        sampleInput?.removeAllTargets()
-        blendInput?.removeAllTargets()
-        currDescriptor?.filter?.removeAllTargets()
-        currDescriptor?.filterGroup?.removeAllTargets()
-        opacityFilter?.removeAllTargets()
-    }
-
-    fileprivate func nextFilter(){
-        removeTargets()
-        currFilterIndex = (currFilterIndex + 1) % filterList.count
-        currFilterKey = filterList[currFilterIndex]
-        updateFilteredImage()
-    }
-    
-    fileprivate func previousFilter(){
-        removeTargets()
-        currDescriptor?.filter?.removeAllTargets()
-        currDescriptor?.filterGroup?.removeAllTargets()
-        currFilterIndex = (currFilterIndex - 1) % filterList.count
-        currFilterKey = filterList[currFilterIndex]
-        updateFilteredImage()
-    }
-    
     
     /////////////////////////////
     // MARK: - Touch Handler(s)
@@ -644,18 +474,13 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
     
     func acceptDidPress(){
         log.verbose("Accept pressed")
-        ImageManager.setCurrentBlendImageName(selectedBlendImageName)
+        ImageManager.setCurrentSampleImageName(selectedSampleImageName)
         exitScreen()
     }
     
     func cancelDidPress(){
         log.verbose("Cancel pressed")
         exitScreen()
-    }
-    
-    func filterDidPress(){
-        log.verbose("Filter pressed")
-        nextFilter()
     }
     
     func photosLinkDidPress(){
@@ -678,7 +503,7 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let imageRefURL = info[UIImagePickerControllerReferenceURL] as? NSURL {
             log.verbose("URL:\(imageRefURL)")
-            self.selectedBlendImageName = imageRefURL.absoluteString!
+            self.selectedSampleImageName = imageRefURL.absoluteString!
             self.updateSelectedImage()
         } else {
             log.error("Error accessing image URL")
@@ -706,11 +531,11 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
 
 
 
-extension BlendGalleryViewController: BlendGalleryViewDelegate {
+extension SampleGalleryViewController: SampleGalleryViewDelegate {
     internal func imageSelected(name: String) {
         DispatchQueue.main.async(execute: { () -> Void in
-            log.debug("Blend image selected: \(name)")
-            self.selectedBlendImageName = name
+            log.debug("Sample image selected: \(name)")
+            self.selectedSampleImageName = name
             self.updateSelectedImage()
         })
     }

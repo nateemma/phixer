@@ -21,18 +21,22 @@ protocol FilterSelectionViewDelegate: class {
 
 class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
 
-    var filterCarousel:iCarousel? = iCarousel()
-    var filterManager: FilterManager? = FilterManager.sharedInstance
-    var filterNameList: [String] = []
-    var filterViewList: [RenderContainerView] = []
-    var filterCategory:FilterManager.CategoryType = FilterManager.CategoryType.imageProcessing
-    var filterLabel:UILabel = UILabel()
-    var carouselHeight:CGFloat = 80.0
-    var camera: Camera? = nil
-    var currFilter: FilterDescriptorInterface? = nil
-    var currIndex:Int = -1
-    var cameraPreviewInput: PictureInput? = nil
-    var previewURL: URL? = nil
+    fileprivate var filterCarousel:iCarousel? = iCarousel()
+    fileprivate var filterManager: FilterManager? = FilterManager.sharedInstance
+    fileprivate var filterNameList: [String] = []
+    fileprivate var filterViewList: [RenderContainerView] = []
+    fileprivate var filterCategory:FilterManager.CategoryType = FilterManager.CategoryType.imageProcessing
+    fileprivate var filterLabel:UILabel = UILabel()
+    fileprivate var carouselHeight:CGFloat = 80.0
+    fileprivate var camera: Camera? = nil
+    fileprivate var currFilter: FilterDescriptorInterface? = nil
+    fileprivate var opacityFilter:OpacityAdjustment? = nil
+    fileprivate var blendImageFull:UIImage? = nil
+    fileprivate var blend:PictureInput? = nil
+
+    fileprivate var currIndex:Int = -1
+    //fileprivate var cameraPreviewInput: PictureInput? = nil
+    //fileprivate var previewURL: URL? = nil
     
     // delegate for handling events
     weak var delegate: FilterSelectionViewDelegate?
@@ -140,6 +144,17 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         //self.groupAndFill(.vertical, views: [filterLabel, filterCarousel], padding: 4.0)
         filterLabel.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: filterLabel.frame.size.height)
         filterCarousel?.align(.underCentered, relativeTo: filterLabel, padding: 0, width: (filterCarousel?.frame.size.width)!, height: (filterCarousel?.frame.size.height)!)
+        
+        // load the blend image (assuming it cannot change while this view is displayed)
+        blendImageFull  = ImageManager.getCurrentBlendImage(size:CGSize(width: (filterCarousel?.frame.size.width)!, height: (filterCarousel?.frame.size.height)!))
+        blend = PictureInput(image:blendImageFull!)
+        
+        
+        // reduce opacity of blends by default
+        if (self.opacityFilter == nil){
+            self.opacityFilter = OpacityAdjustment()
+            self.opacityFilter?.opacity = 0.8
+        }
     }
     
     override func layoutSubviews() {
@@ -169,6 +184,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     // returns view for item at specific index
     func carousel(_ carousel: iCarousel, viewForItemAt index: Int, reusing view: UIView?) -> UIView {
         
+/***
         if (cameraPreviewInput == nil){
             do {
                 let documentsDir = try FileManager.default.url(for:.documentDirectory, in:.userDomainMask, appropriateFor:nil, create:true)
@@ -179,23 +195,54 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
                 log.error("Error rendering view: \(error)")
             }
         }
+ ***/
 
         if (index < filterNameList.count){
             if (camera != nil){
                 filterCategory = (filterManager?.getCurrentCategory())!
                 currFilter = filterManager?.getFilterDescriptor(key:filterNameList[index])
-                //tempView.label.text = currFilter?.key
-                let filter = currFilter?.filter
-                if (filter != nil){
+                
+                if (currFilter?.filter != nil){
                     
-                    camera! --> filter! --> filterViewList[index].renderView!
-                    
-                } else {
-                    let filterGroup = currFilter?.filterGroup
-                    if (filterGroup != nil){
-                        camera! --> filterGroup! --> filterViewList[index].renderView!
+                    let filter = currFilter?.filter
+                    let opType = currFilter?.filterOperationType // wierd Swift unwrapping problem, can't use filterOperationType directly in switch
+                    switch (opType!){
+                    case .singleInput:
+                        log.debug("Using filter: \(currFilter?.key)")
+                        self.camera! --> filter! --> self.filterViewList[index].renderView!
+                        break
+                    case .blend:
+                        log.debug("Using BLEND mode for filter: \(currFilter?.key)")
+                        self.camera!.addTarget(filter!)
+                        self.blend! --> self.opacityFilter! --> filter!
+                        self.camera! --> filter! --> self.filterViewList[index].renderView!
+                        self.blend?.processImage()
+                        break
                     }
+                    
+                } else if (currFilter?.filterGroup != nil){
+                    let filterGroup = currFilter?.filterGroup
+                    
+                    log.debug("Run filterGroup: \(currFilter?.key) address:\(Utilities.addressOf(filterGroup))")
+                    
+                    let opType:FilterOperationType = (currFilter?.filterOperationType)!
+                    switch (opType){
+                    case .singleInput:
+                        log.debug("filterGroup: \(currFilter?.key)")
+                        self.camera! --> filterGroup! --> self.filterViewList[index].renderView!
+                        break
+                    case .blend:
+                        //log.debug("Using BLEND mode for group: \(currFilterDescriptor?.key)")
+                        self.camera!.addTarget(filterGroup!)
+                        self.blend! --> self.opacityFilter! --> filterGroup!
+                        self.camera! --> filterGroup! --> self.filterViewList[index].renderView!
+                        self.blend?.processImage()
+                        break
+                    }
+                } else {
+                    log.error("!!! Filter (\(currFilter?.key) has no operation assigned !!!")
                 }
+  
             }
             return filterViewList[index]
         }
@@ -221,7 +268,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
 
 
     /* // don't use this as it will cause too many updates
-     // called whenever an ite passes to/through the center spot
+     // called whenever an item passes to/through the center spot
     func carouselCurrentItemIndexDidChange(_ carousel: iCarousel) {
         let index = carousel.currentItemIndex
         log.debug("Selected: \(filterNameList[index])")
@@ -294,21 +341,17 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         }
     }
  
+    // suspend all GPUImage-related processing
     open func suspend(){
-        var index:Int
         var descriptor:FilterDescriptorInterface?
-        for i in (self.filterCarousel?.indexesForVisibleItems)! {
-            if (self.camera != nil){
-                index = i as! Int
-                if (self.isValidIndex(index)){ // filterNameList can change asynchronously
-                    descriptor = (self.filterManager?.getFilterDescriptor(key:self.filterNameList[index]))
-                    log.verbose("Suspending \(self.filterNameList[index])  address:\(filterManager?.filterAddress(descriptor))...")
-                    //descriptor?.reset()
-                    descriptor?.filter?.removeAllTargets()
-                    descriptor?.filterGroup?.removeAllTargets()
-                }
-            }
+        for key in filterNameList {
+            descriptor = (self.filterManager?.getFilterDescriptor(key: key))
+            log.verbose("Suspending \(key)...")
+            descriptor?.filter?.removeAllTargets()
+            descriptor?.filterGroup?.removeAllTargets()
         }
+        blend?.removeAllTargets()
+        opacityFilter?.removeAllTargets()
         filterNameList = []
     }
     
@@ -317,25 +360,57 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             var index:Int
             var descriptor:FilterDescriptorInterface?
+            
+
+
             log.verbose("Updating...")
             for i in (self.filterCarousel?.indexesForVisibleItems)! {
                 if (self.camera != nil){
                     index = i as! Int
                     if (self.isValidIndex(index)){ // filterNameList can change asynchronously
                         descriptor = (self.filterManager?.getFilterDescriptor(key:self.filterNameList[index]))
-                        //tempView.label.text = currFilter?.key
-                        let filter = descriptor?.filter
-                        if (filter != nil){
-                            //log.verbose("updating index:\(index) (\(descriptor.key))")
-                            //TODO: apply rotation filter
-                            self.camera! --> filter! --> self.filterViewList[index].renderView!
-                            
-                        } else {
-                            let filterGroup = self.currFilter?.filterGroup
-                            if (filterGroup != nil){
-                                //TODO: apply rotation filter
-                                self.camera! --> filterGroup! --> self.filterViewList[index].renderView!
+                        
+                        if (descriptor?.filter != nil){
+
+                            let filter = descriptor?.filter
+                            let opType = descriptor?.filterOperationType // wierd Swift unwrapping problem, can't use filterOperationType directly in switch
+                            switch (opType!){
+                            case .singleInput:
+                                log.debug("Using filter: \(descriptor?.key)")
+                                self.camera! --> filter! --> self.filterViewList[index].renderView!
+                                break
+                            case .blend:
+                                log.debug("Using BLEND mode for filter: \(descriptor?.key)")
+                                //TOFIX: blend image needs to be resized to fit the render view
+                                self.camera!.addTarget(filter!)
+                                self.blend! --> self.opacityFilter! --> filter!
+                                self.camera! --> filter! --> self.filterViewList[index].renderView!
+                                self.blend?.processImage()
+                                break
                             }
+                            
+                        } else if (descriptor?.filterGroup != nil){
+                            let filterGroup = descriptor?.filterGroup
+
+                            log.debug("Run filterGroup: \(descriptor?.key) address:\(Utilities.addressOf(filterGroup))")
+                            
+                            let opType:FilterOperationType = (descriptor?.filterOperationType)!
+                            switch (opType){
+                            case .singleInput:
+                                log.debug("filterGroup: \(descriptor?.key)")
+                                self.camera! --> filterGroup! --> self.filterViewList[index].renderView!
+                                break
+                            case .blend:
+                                //log.debug("Using BLEND mode for group: \(currFilterDescriptor?.key)")
+                                //TOFIX: blend image needs to be resized to fit the render view
+                                self.camera!.addTarget(filterGroup!)
+                                self.blend! --> self.opacityFilter! --> filterGroup!
+                                self.camera! --> filterGroup! --> self.filterViewList[index].renderView!
+                                self.blend?.processImage()
+                                break
+                            }
+                        } else {
+                            log.error("!!! Filter (\(descriptor?.key) has no operation assigned !!!")
                         }
                     }
                 }

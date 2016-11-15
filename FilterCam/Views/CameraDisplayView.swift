@@ -21,6 +21,7 @@ class CameraDisplayView: UIView {
     var currFilter: FilterDescriptorInterface? = nil
     var camera: Camera? = nil
     var cropFilter: Crop? = nil
+    var opacityFilter:OpacityAdjustment? = nil
     var rotateDescriptor: RotateDescriptor? = nil
     var rotateFilter: BasicOperation? = nil
     var blendImage:PictureInput? = nil
@@ -65,7 +66,7 @@ class CameraDisplayView: UIView {
     }
     
     deinit {
-        camera?.stopCapture()
+        suspend()
     }
     
 
@@ -91,6 +92,12 @@ class CameraDisplayView: UIView {
             cropFilter!.cropSizeInPixels = Size(width: Float(res.width), height: Float(res.height))
             //cropFilter!.locationOfCropInPixels = Position(0,0)
             log.debug("Crop(w:\(res.width), h:\(res.height))")
+        }
+        
+        // reduce opacity of blends by default
+        if (opacityFilter == nil){
+            opacityFilter = OpacityAdjustment()
+            opacityFilter?.opacity = 0.8
         }
         
         /***
@@ -151,7 +158,7 @@ class CameraDisplayView: UIView {
                         //blendImage = PictureInput(imageName:blendImageName)
                         let currBlendImage  = ImageManager.getCurrentBlendImage(size:(renderView?.frame.size)!)
                         blendImage = PictureInput(image:currBlendImage!)
-                        blendImage! --> filter!
+                        blendImage! --> opacityFilter! --> filter!
                         camera! --> filter! --> cropFilter! --> renderView!
                         //camera! --> filter! --> rotateFilter! --> cropFilter! --> renderView!
                         blendImage?.processImage()
@@ -159,13 +166,38 @@ class CameraDisplayView: UIView {
                     }
                     
                 } else if (currFilter?.filterGroup != nil){
+                    /***
                     log.debug("Using group: \(currFilter?.key)")
                     let group = currFilter?.filterGroup
                     //camera! -->  group! --> rotateFilter! --> cropFilter! --> renderView!
                     camera! -->  group! --> cropFilter! --> renderView!
+                    ***/
+
+                    //log.debug("filterGroup: \(currFilter?.key)")
+                    let filterGroup = currFilter?.filterGroup
+                    log.debug("Run filterGroup: \(currFilter?.key) address:\(Utilities.addressOf(filterGroup))")
+                    
+                    let opType:FilterOperationType = (currFilter?.filterOperationType)!
+                    switch (opType){
+                    case .singleInput:
+                        log.debug("filterGroup: \(currFilter?.key)")
+                        camera! --> filterGroup! --> renderView!
+                        break
+                    case .blend:
+                        //log.debug("Using BLEND mode for group: \(currFilterDescriptor?.key)")
+                        //TOFIX: blend image needs to be resized to fit the render view
+                        camera!.addTarget(filterGroup!)
+                        let currBlendImage  = ImageManager.getCurrentBlendImage(size:(renderView?.frame.size)!)
+                        blendImage = PictureInput(image:currBlendImage!)
+                        blendImage! --> opacityFilter! --> filterGroup!
+                        camera! --> filterGroup! --> cropFilter! --> renderView!
+                        blendImage?.processImage()
+                        break
+                    }
                 } else {
                     log.error("!!! Filter (\(currFilter?.title) has no operation assigned !!!")
                 }
+
             }
             // (Re-)start the camera capture
             log.debug("Restarting camera feed")
@@ -176,6 +208,19 @@ class CameraDisplayView: UIView {
         
     }
     
+    
+    
+    // Suspend all GPUImage-related operations
+    open func suspend(){
+        camera?.stopCapture()
+        currFilter?.filter?.removeAllTargets()
+        currFilter?.filterGroup?.removeAllTargets()
+        blendImage?.removeAllTargets()
+        opacityFilter?.removeAllTargets()
+        cropFilter?.removeAllTargets()
+        
+        currFilter = nil
+    }
     
     ///////////////////////////////////
     // MARK: - Utilities

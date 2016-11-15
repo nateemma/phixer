@@ -12,8 +12,8 @@ import Neon
 // View that contains an image with a label underneath
 
 class ImageContainerView: UIView {
-    let imageView : UIImageView = UIImageView()
-    let label : UILabel = UILabel()
+    var imageView : UIImageView = UIImageView()
+    var label : UILabel = UILabel()
     
     convenience init() {
         self.init(frame: CGRect.zero)
