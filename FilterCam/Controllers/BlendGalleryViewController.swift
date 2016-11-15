@@ -256,6 +256,9 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
         
         // update the filtered image
         updateFilteredImage()
+        
+        // register gesture detection for Filter View
+        setGestureDetectors(infoView) // restrict more?!
     }
     
     
@@ -626,11 +629,54 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
         removeTargets()
         currDescriptor?.filter?.removeAllTargets()
         currDescriptor?.filterGroup?.removeAllTargets()
-        currFilterIndex = (currFilterIndex - 1) % filterList.count
+        currFilterIndex = (currFilterIndex - 1)
+        if (currFilterIndex<0) { currFilterIndex = filterList.count - 1 }
         currFilterKey = filterList[currFilterIndex]
         updateFilteredImage()
     }
     
+    
+    
+    //////////////////////////////////////
+    // MARK: - Gesture Detection
+    //////////////////////////////////////
+    
+    
+    func setGestureDetectors(_ view: UIView){
+        
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.swiped))
+        swipeRight.direction = .right
+        view.addGestureRecognizer(swipeRight)
+        
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.swiped))
+        swipeLeft.direction = .left
+        view.addGestureRecognizer(swipeLeft)
+    }
+    
+    
+    func swiped(_ gesture: UIGestureRecognizer)
+    {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer
+        {
+            switch swipeGesture.direction
+            {
+                
+            case UISwipeGestureRecognizerDirection.right:
+                //log.verbose("Swiped Right")
+                previousFilter()
+                break
+                
+            case UISwipeGestureRecognizerDirection.left:
+                //log.verbose("Swiped Left")
+                nextFilter()
+                break
+                
+            default:
+                log.debug("Unhandled gesture direction: \(swipeGesture.direction)")
+                break
+            }
+        }
+    }
     
     /////////////////////////////
     // MARK: - Touch Handler(s)

@@ -131,12 +131,14 @@ class FilterDisplayView: UIView {
         //sample?.removeAllTargets()
         //blend?.removeAllTargets()
 
-        
-        if (useImage){
-            runFilterToImage()
-        } else {
-            runFilterToRender()
-        }
+        DispatchQueue.main.async(execute: { () -> Void in
+            
+            if (self.useImage){
+                self.runFilterToImage()
+            } else {
+                self.runFilterToRender()
+            }
+        })
     }
     
     
@@ -271,10 +273,10 @@ class FilterDisplayView: UIView {
         
         var descriptor: FilterDescriptorInterface?
         
-        guard (renderView != nil) else {
-            log.error("ERR: RenderView not set up")
-            return
-        }
+        //guard (renderView != nil) else {
+        //    log.error("ERR: RenderView not set up")
+        //    return
+        //}
         
         //sampleImageFull = UIImage(named:"sample_emma_01.png")!
         //blendImageFull = UIImage(named:"bl_topaz_warm.png")!
@@ -298,15 +300,21 @@ class FilterDisplayView: UIView {
 
         blendImageFull = ImageManager.getCurrentBlendImage(size: size)
         
+        // sample and blend images can change, so load each time through
+        // TODO: track name, only load if they change
         sample = PictureInput(image:sampleImageFull!)
         blend  = PictureInput(image:blendImageFull!)
         
-        
-        //sample = PictureInput(image:sampleImageFull)
-        //blend = PictureInput(image:blendImageFull)
+        sample?.removeAllTargets()
+        blend?.removeAllTargets()
         
         descriptor = filterManager.getFilterDescriptor(key: currFilterKey)
         renderView = filterManager.getRenderView(key: currFilterKey)
+        if (renderView != nil) {
+            renderView?.frame = self.frame
+            self.addSubview(renderView!)
+            renderView?.fillSuperview()
+        }
         
         guard (sample != nil) else {
             log.error("NIL Sample Input")
@@ -338,6 +346,7 @@ class FilterDisplayView: UIView {
             filter?.removeAllTargets()
             
             //log.debug("Run filter: \((descriptor?.key)!) filter:\(Utilities.addressOf(filter)) view:\(Utilities.addressOf(renderView))")
+
             
             let opType:FilterOperationType = (descriptor?.filterOperationType)!
             switch (opType){
@@ -378,12 +387,14 @@ class FilterDisplayView: UIView {
                 sample?.processImage(synchronously: true)
                 break
             }
+
         } else {
             log.error("ERR!!! shouldn't be here!!!")
         }
         
 
-        self.renderView?.setNeedsDisplay()
+        //self.renderView?.setNeedsDisplay()
+        //self.renderView?.setNeedsLayout()
         
         sample?.removeAllTargets()
         blend?.removeAllTargets()

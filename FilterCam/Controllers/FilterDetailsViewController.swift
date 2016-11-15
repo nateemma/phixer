@@ -239,7 +239,7 @@ class FilterDetailsViewController: UIViewController {
             }
             filterControlsView.frame.size.width = displayWidth
             //filterControlsView.align(.underCentered, relativeTo: filterDisplayView, padding: 4, width: displayWidth, height: bannerView.frame.size.height)
-            filterControlsView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 4, otherSize: filterControlsView.frame.size.height)
+            filterControlsView.anchorAndFillEdge(.bottom, xPad: 1, yPad: 1, otherSize: filterControlsView.frame.size.height)
             
             filterDisplayView.frame.size.height = displayHeight - bannerHeight - filterControlsView.frame.size.height - 4
             filterDisplayView.frame.size.width = displayWidth

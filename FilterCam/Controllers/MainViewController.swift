@@ -579,7 +579,8 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     // routine to clean up before presenting a new View Controller
     fileprivate func prepareForViewController(){
-        //CameraManager.stopCapture()
+        self.cameraDisplayView.setFilter(nil)
+        CameraManager.stopCapture()
         cameraDisplayView.suspend()
         filterSelectionView.suspend()
         callbacksEnabled = false
@@ -806,6 +807,7 @@ extension MainViewController: FilterInfoViewDelegate {
     func swapCameraPressed(){
         log.debug("swapCameraPressed pressed")
         CameraManager.switchCameraLocation()
+        cameraDisplayView.setFilter(nil)
         cameraDisplayView.setFilter(currFilterDescriptor)
     }
 }
