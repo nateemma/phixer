@@ -38,13 +38,9 @@ class CameraDisplayView: UIView {
     func initViews(){
         
         if (!initDone){
-            self.backgroundColor = UIColor.black
+            //self.backgroundColor = UIColor.black
             //self.backgroundColor = UIColor.red
             
-            renderView?.frame = self.frame
-            self.addSubview(renderView!)
-            
-            renderView?.fillSuperview()
             
             
             // register for change notifications (don't do this before the views are set up)
@@ -60,6 +56,11 @@ class CameraDisplayView: UIView {
         if (!initDone){
             initViews()
         }
+        
+        self.backgroundColor = UIColor.red // DEBUG
+        renderView?.frame = self.frame
+        self.addSubview(renderView!)
+        renderView?.fillSuperview()
         
         setupFilterPipeline()
 
@@ -85,6 +86,9 @@ class CameraDisplayView: UIView {
             log.error("ERR: not ready for pipeline setup")
             return
         }
+        
+        //renderView?.fillSuperview()
+        //log.verbose("w: \(renderView?.frame.size.width) h:\(renderView?.frame.size.height)")
         
         if (cropFilter == nil){ // first time through?
             cropFilter = Crop()

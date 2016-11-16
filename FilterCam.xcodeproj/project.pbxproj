@@ -95,7 +95,6 @@
 		2553D5041DD2E4CE0091935D /* bl_colour_creation_135.png in Resources */ = {isa = PBXBuildFile; fileRef = 2553D4E31DD2E4CE0091935D /* bl_colour_creation_135.png */; };
 		2553D5051DD2E4CE0091935D /* bl_cornered_cool.png in Resources */ = {isa = PBXBuildFile; fileRef = 2553D4E41DD2E4CE0091935D /* bl_cornered_cool.png */; };
 		2553D5061DD2E4CE0091935D /* bl_dried_mud_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 2553D4E51DD2E4CE0091935D /* bl_dried_mud_2.png */; };
-		2553D5071DD2E4CE0091935D /* bl_film_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2553D4E61DD2E4CE0091935D /* bl_film_1.png */; };
 		2553D5081DD2E4CE0091935D /* bl_film_inverse_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2553D4E71DD2E4CE0091935D /* bl_film_inverse_1.png */; };
 		2553D5091DD2E4CE0091935D /* bl_goodness.png in Resources */ = {isa = PBXBuildFile; fileRef = 2553D4E81DD2E4CE0091935D /* bl_goodness.png */; };
 		2553D50A1DD2E4CE0091935D /* bl_late_moss_cool.png in Resources */ = {isa = PBXBuildFile; fileRef = 2553D4E91DD2E4CE0091935D /* bl_late_moss_cool.png */; };
@@ -205,7 +204,7 @@
 		25CF4BDC1D94D93700D779CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BDB1D94D93700D779CF /* AppDelegate.swift */; };
 		25CF4BE81D94EA8100D779CF /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25CF4BE31D94EA5000D779CF /* GPUImage.framework */; };
 		25CF4BE91D94EA8D00D779CF /* GPUImage.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 25CF4BE31D94EA5000D779CF /* GPUImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		25D24AB71DC7DCDB001F65B9 /* FilterGalleryViewCell2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D24AB61DC7DCDB001F65B9 /* FilterGalleryViewCell2.swift */; };
+		25D24AB71DC7DCDB001F65B9 /* FilterGalleryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D24AB61DC7DCDB001F65B9 /* FilterGalleryViewCell.swift */; };
 		25F460181D99CCCE00EDA182 /* UISettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F460171D99CCCE00EDA182 /* UISettings.swift */; };
 		25F4601A1D99CE1E00EDA182 /* GridStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F460191D99CE1E00EDA182 /* GridStyle.swift */; };
 		25F4601E1D99D65F00EDA182 /* CameraISO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F4601D1D99D65F00EDA182 /* CameraISO.swift */; };
@@ -214,7 +213,6 @@
 		25F563FC1DD1165C00DFB125 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F563FB1DD1165C00DFB125 /* ImageManager.swift */; };
 		25F5640A1DD169ED00DFB125 /* oldFilterDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F564091DD169ED00DFB125 /* oldFilterDisplayView.swift */; };
 		25F5640D1DD290D600DFB125 /* bl_film_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 25F5640B1DD290D600DFB125 /* bl_film_1.png */; };
-		25F564101DD290EC00DFB125 /* bl_film_inverse_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 25F5640F1DD290EC00DFB125 /* bl_film_inverse_1.png */; };
 		320B5A4E036DE6878CAF1ACE /* Pods_FilterCam.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DDC117A644402CB333D19D8 /* Pods_FilterCam.framework */; };
 		553B7AC286E6B4A46867DE7F /* Pods_FilterCamUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC02F3DF8ABAAA172F5D6258 /* Pods_FilterCamUITests.framework */; };
 		ADF2DE510AC3AFD3F452B261 /* Pods_FilterCamTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA2ACADDC5179782084C15D6 /* Pods_FilterCamTests.framework */; };
@@ -479,7 +477,7 @@
 		25CF4BD41D9490C400D779CF /* SquareButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SquareButton.swift; path = Views/SquareButton.swift; sourceTree = "<group>"; };
 		25CF4BDB1D94D93700D779CF /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		25CF4BDD1D94EA5000D779CF /* GPUImage-iOS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "GPUImage-iOS.xcodeproj"; path = "../GPUImage2/framework/GPUImage-iOS.xcodeproj"; sourceTree = "<group>"; };
-		25D24AB61DC7DCDB001F65B9 /* FilterGalleryViewCell2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterGalleryViewCell2.swift; path = Views/FilterGalleryViewCell2.swift; sourceTree = "<group>"; };
+		25D24AB61DC7DCDB001F65B9 /* FilterGalleryViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterGalleryViewCell.swift; path = Views/FilterGalleryViewCell.swift; sourceTree = "<group>"; };
 		25F460171D99CCCE00EDA182 /* UISettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UISettings.swift; path = Models/UISettings.swift; sourceTree = "<group>"; };
 		25F460191D99CE1E00EDA182 /* GridStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GridStyle.swift; path = Models/GridStyle.swift; sourceTree = "<group>"; };
 		25F4601D1D99D65F00EDA182 /* CameraISO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraISO.swift; path = Models/CameraISO.swift; sourceTree = "<group>"; };
@@ -651,7 +649,7 @@
 				2507160C1DBED62C00CDDF42 /* FilterGalleryView.swift */,
 				25934FB01DD4EC1100C3D665 /* BlendGalleryView.swift */,
 				253A39E31DDA979400A714D4 /* SampleGalleryView.swift */,
-				25D24AB61DC7DCDB001F65B9 /* FilterGalleryViewCell2.swift */,
+				25D24AB61DC7DCDB001F65B9 /* FilterGalleryViewCell.swift */,
 				25B24D171DAFE255008CD38A /* FilterInfoView.swift */,
 				253B237A1DA71F1900203ECB /* FilterParametersView.swift */,
 				25AEBB431DBA8AEC00AA6279 /* FilterSelectionView.swift */,
@@ -668,18 +666,18 @@
 		256D0FEE1D98DAD100220D7E /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				256D0FF01D98DB4C00220D7E /* CameraManager.swift */,
+				2507160A1DBECDF200CDDF42 /* Admob.swift */,
 				25F4601F1D99D79B00EDA182 /* AspectRatio.swift */,
-				25F460171D99CCCE00EDA182 /* UISettings.swift */,
-				25F460191D99CE1E00EDA182 /* GridStyle.swift */,
 				25F4601D1D99D65F00EDA182 /* CameraISO.swift */,
+				256D0FF01D98DB4C00220D7E /* CameraManager.swift */,
 				25F460211D99DBBA00EDA182 /* CameraSpeed.swift */,
+				253B23761DA4BB7800203ECB /* ClosestFraction.swift */,
 				253B23781DA5782300203ECB /* FilterManager.swift */,
 				2569741C1D9B986E00DDF9E4 /* Fractional.swift */,
-				253B23761DA4BB7800203ECB /* ClosestFraction.swift */,
-				2507160A1DBECDF200CDDF42 /* Admob.swift */,
-				25A702961DC3AEEA009441E2 /* Utiltities.swift */,
+				25F460191D99CE1E00EDA182 /* GridStyle.swift */,
 				25F563FB1DD1165C00DFB125 /* ImageManager.swift */,
+				25F460171D99CCCE00EDA182 /* UISettings.swift */,
+				25A702961DC3AEEA009441E2 /* Utiltities.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -687,14 +685,14 @@
 		256D0FEF1D98DADA00220D7E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				253B235A1DA2CFD400203ECB /* SegueHandlerType.swift */,
-				2556731E1DB961F700187F25 /* DisplayMode.swift */,
-				257F49E11D9448920083B1E4 /* MainViewController.swift */,
-				250716081DBEC19400CDDF42 /* FilterGalleryViewController.swift */,
 				25934FB21DD5109C00C3D665 /* BlendGalleryViewController.swift */,
-				253A39E11DDA965E00A714D4 /* SampleGalleryViewController.swift */,
 				255673201DB9653700187F25 /* CameraViewController.swift */,
+				2556731E1DB961F700187F25 /* DisplayMode.swift */,
 				25A702911DC2FCDD009441E2 /* FilterDetailsViewController.swift */,
+				250716081DBEC19400CDDF42 /* FilterGalleryViewController.swift */,
+				257F49E11D9448920083B1E4 /* MainViewController.swift */,
+				253A39E11DDA965E00A714D4 /* SampleGalleryViewController.swift */,
+				253B235A1DA2CFD400203ECB /* SegueHandlerType.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -951,7 +949,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = Nateemma;
 				TargetAttributes = {
 					257F49DB1D9448920083B1E4 = {
@@ -1055,7 +1053,6 @@
 				257F49EA1D9448920083B1E4 /* LaunchScreen.storyboard in Resources */,
 				2553D50D1DD2E4CE0091935D /* bl_makeup.png in Resources */,
 				2553D5091DD2E4CE0091935D /* bl_goodness.png in Resources */,
-				2553D5071DD2E4CE0091935D /* bl_film_1.png in Resources */,
 				2553D5211DD2E4CE0091935D /* bl_vintage_inverse.png in Resources */,
 				257F49E71D9448920083B1E4 /* Assets.xcassets in Resources */,
 				2553D51A1DD2E4CE0091935D /* bl_soul.png in Resources */,
@@ -1081,7 +1078,6 @@
 				2553D5081DD2E4CE0091935D /* bl_film_inverse_1.png in Resources */,
 				251375511DB6AD6200A319DC /* GoogleService-Info.plist in Resources */,
 				25B24D161DAFE0C3008CD38A /* app_icon.png in Resources */,
-				25F564101DD290EC00DFB125 /* bl_film_inverse_1.png in Resources */,
 				253B23631DA301F500203ECB /* lookup_miss_etikate.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1302,7 +1298,7 @@
 				253B237F1DA9986E00203ECB /* MonochromeDescriptor.swift in Sources */,
 				25B24D341DB04B91008CD38A /* PixellateDescriptor.swift in Sources */,
 				25B24D521DB0A038008CD38A /* HarrisCornerDetectorDescriptor.swift in Sources */,
-				25D24AB71DC7DCDB001F65B9 /* FilterGalleryViewCell2.swift in Sources */,
+				25D24AB71DC7DCDB001F65B9 /* FilterGalleryViewCell.swift in Sources */,
 				253B23931DA999CC00203ECB /* ZoomBlurDescriptor.swift in Sources */,
 				25F460181D99CCCE00EDA182 /* UISettings.swift in Sources */,
 				2513759A1DB6E10000A319DC /* LinearBurnBlendDescriptor.swift in Sources */,

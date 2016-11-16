@@ -30,8 +30,9 @@ class FilterManager{
     static let presetsIndex          = 4
     static let drawingIndex          = 5
     static let blursIndex            = 6
-    static let imageProcessingIndex  = 7
-    static let maxIndex = 7
+    static let monochromeIndex       = 7
+    static let colorIndex            = 8
+    static let maxIndex              = 8
     
     
     
@@ -39,13 +40,14 @@ class FilterManager{
     enum CategoryType: String {
         //case none             = "No Filters"
         case quickSelect      = "Quick Select"
-        case basicAdjustments = "Basic Adjustments"
-        case blendModes       = "Blend Modes"
-        case visualEffects    = "Visual Effects"
+        case basicAdjustments = "Basic"
+        case blendModes       = "Blends"
+        case visualEffects    = "Distortions"
         case presets          = "Presets"
-        case drawing          = "Sketch Effects"
-        case blurs            = "Blur Effects"
-        case imageProcessing  = "Image Processing"
+        case drawing          = "Drawing"
+        case blurs            = "Blurs"
+        case monochrome       = "Monochrome"
+        case color            = "Color Effects"
         
         func getFilterList()->[String] {
             
@@ -65,8 +67,10 @@ class FilterManager{
                 return FilterManager._drawingList
             case .blurs:
                 return FilterManager._blursList
-            case .imageProcessing:
-                return FilterManager._imageProcessingList
+            case .monochrome:
+                return FilterManager._monochromeList
+            case .color:
+                return FilterManager._colorList
             }
             
             
@@ -84,7 +88,8 @@ class FilterManager{
             case .presets:          return presetsIndex
             case .drawing:          return drawingIndex
             case .blurs:            return blursIndex
-            case .imageProcessing:  return imageProcessingIndex
+            case .monochrome:       return monochromeIndex
+            case .color:            return colorIndex
             }
         }
         
@@ -102,13 +107,14 @@ class FilterManager{
         case FilterManager.presetsIndex:          return .presets
         case FilterManager.drawingIndex:          return .drawing
         case FilterManager.blursIndex:            return .blurs
-        case FilterManager.imageProcessingIndex:  return .imageProcessing
+        case FilterManager.monochromeIndex:       return .monochrome
+        case FilterManager.colorIndex:            return .color
         default:                                  return .quickSelect
         }
     }
 
     fileprivate static var initDone:Bool = false
-    fileprivate static var currCategory: CategoryType = .imageProcessing
+    fileprivate static var currCategory: CategoryType = .monochrome
     fileprivate static var currFilterDescriptor: FilterDescriptorInterface? = nil
     fileprivate static var currFilterKey: String = ""
     fileprivate static var currIndex:Int = -1
@@ -126,12 +132,14 @@ class FilterManager{
     // The list of Categories
     fileprivate static var _categoryList:[CategoryType] = [CategoryType.quickSelect,
                                                            CategoryType.basicAdjustments,
-                                                           CategoryType.imageProcessing,
+                                                           CategoryType.monochrome,
                                                            CategoryType.blendModes,
                                                            CategoryType.visualEffects,
                                                            CategoryType.presets,
                                                            CategoryType.drawing,
-                                                           CategoryType.blurs]
+                                                           CategoryType.blurs,
+                                                           CategoryType.monochrome,
+                                                           CategoryType.color]
     
     // typealias for dictionaries of FilterDescriptors
     typealias FilterDictionary = Dictionary<String, FilterDescriptorInterface>
@@ -144,12 +152,13 @@ class FilterManager{
     //dictionaries for each category
     fileprivate static var _quickSelectList = [String]()
     fileprivate static var _basicAdjustmentsList: [String] = []
-    fileprivate static var _imageProcessingList: [String] = []
+    fileprivate static var _monochromeList: [String] = []
     fileprivate static var _blendModesList: [String] = []
     fileprivate static var _visualEffectsList: [String] = []
     fileprivate static var _presetsList: [String] = []
     fileprivate static var _drawingList: [String] = []
     fileprivate static var _blursList: [String] = []
+    fileprivate static var _colorList: [String] = []
     
     
     // list of callbacks for change notification
@@ -572,27 +581,31 @@ class FilterManager{
         // For some reason, I could only get this working with a static assignment
         // Note that filters can be in multiple categories, but they will still be the 'same' filter
         
-        FilterManager._quickSelectList = [ "Crosshatch", "Emboss", "Halftone", "SwirlDistortion", "Luminance", "CGAColorspace"  ]
+        FilterManager._quickSelectList = [ "Crosshatch", "Emboss", "Halftone", "SwirlDistortion", "Luminance", "ThresholdSketch"  ]
         
         FilterManager._basicAdjustmentsList = [ "Saturation", "Warmth", "WhiteBalance", "Brightness", "Contrast", "UnsharpMask", "Exposure", "Sharpen", "Crop",
-                                  "Gamma", "Vibrance", "Highlights", "LevelsAdjustment", "Vignette"]
-        
-        FilterManager._imageProcessingList = [ "FalseColor", "Hue", "RGB", "Rotate", "Median", "OpeningFilter", "ClosingFilter", "OpacityAdjustment", "ChromaKeying", "Haze" ]
+                                                "Gamma", "Vibrance", "Highlights", "LevelsAdjustment", "Vignette", "Haze"]
         
         FilterManager._blendModesList = [ "AddBlend", "AlphaBlend", "ChromaKeyBlend", "ColorBlend", "ColorBurnBlend", "ColorDodgeBlend", "DarkenBlend",
-                            "DifferenceBlend", "DissolveBlend", "DivideBlend", "ExclusionBlend", "HardLightBlend", "HueBlend", "LightenBlend", "LinearBurnBlend",
-                            "LuminosityBlend", "MultiplyBlend", "NormalBlend", "OverlayBlend", "SaturationBlend", "ScreenBlend", "SoftLightBlend", "SourceOverBlend", "SubtractBlend"]
+                                          "DifferenceBlend", "DissolveBlend", "DivideBlend", "ExclusionBlend", "HardLightBlend", "HueBlend", "LightenBlend",
+                                          "LinearBurnBlend", "LuminosityBlend", "MultiplyBlend", "NormalBlend", "OverlayBlend", "SaturationBlend", "ScreenBlend",
+                                          "SoftLightBlend", "SourceOverBlend", "SubtractBlend"]
         
-        FilterManager._visualEffectsList = [ "BulgeDistortion", "GlassSphereRefraction", "PolarPixellate", "PolkaDot", "FalseColor", "Pixellate", "TiltShift", "HighlightShadowTint",
-                               "ChromaKeying", "PinchDistortion", "SwirlDistortion", "SphereRefraction", "Solarize"]
+        FilterManager._visualEffectsList = [ "BulgeDistortion", "GlassSphereRefraction", "PolarPixellate", "PolkaDot", "Pixellate", "TiltShift",
+                                             "ChromaKeying", "PinchDistortion", "SwirlDistortion", "SphereRefraction"]
         
-        FilterManager._presetsList = [ "Monochrome", "Sepia", "ColorInversion", "MissEtikate", "Amatorka", "Grayscale", "Luminance", "SoftElegance", "CGAColorspace" ]
+        // Note: Soft Elegance causes problems wth still Images
+        FilterManager._presetsList = [ "MissEtikate", "Amatorka", "CGAColorspace" ]
         
         FilterManager._drawingList = [ "Crosshatch", "Emboss", "LuminanceThreshold", "Sketch", "ThresholdSketch", "Toon", "Kuwahara", "AverageLuminanceThreshold", "AdaptiveThreshold",
-                         "SmoothToon", "Posterize", "ThresholdSobelEdgeDetection", "Halftone" ]
+                                       "SmoothToon", "Posterize", "ThresholdSobelEdgeDetection", "Halftone" ]
         
         FilterManager._blursList = [ "ZoomBlur", "BilateralBlur", "GaussianBlur", "SingleComponentGaussianBlur", "BoxBlur" ]
        
+        
+        FilterManager._monochromeList = [ "Luminance",  "Monochrome", "Sepia", "Grayscale" ]
+        
+        FilterManager._colorList = [ "FalseColor", "Hue", "RGB",  "CGAColorspace", "Solarize", "ColorInversion", "HighlightShadowTint" ]
     }
     
     
@@ -602,12 +615,13 @@ class FilterManager{
         log.verbose("Sorting lists...")
         FilterManager._quickSelectList.sort(by: sortClosure)
         FilterManager._basicAdjustmentsList.sort(by: sortClosure)
-        FilterManager._imageProcessingList.sort(by: sortClosure)
+        FilterManager._monochromeList.sort(by: sortClosure)
         FilterManager._blendModesList.sort(by: sortClosure)
         FilterManager._visualEffectsList.sort(by: sortClosure)
         FilterManager._presetsList.sort(by: sortClosure)
         FilterManager._drawingList.sort(by: sortClosure)
         FilterManager._blursList.sort(by: sortClosure)
+        FilterManager._colorList.sort(by: sortClosure)
         
     }
     

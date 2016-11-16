@@ -25,7 +25,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     fileprivate var filterManager: FilterManager? = FilterManager.sharedInstance
     fileprivate var filterNameList: [String] = []
     fileprivate var filterViewList: [RenderContainerView] = []
-    fileprivate var filterCategory:FilterManager.CategoryType = FilterManager.CategoryType.imageProcessing
+    fileprivate var filterCategory:FilterManager.CategoryType = FilterManager.CategoryType.color
     fileprivate var filterLabel:UILabel = UILabel()
     fileprivate var carouselHeight:CGFloat = 80.0
     fileprivate var camera: Camera? = nil

@@ -25,7 +25,7 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     var filterManager: FilterManager? = FilterManager.sharedInstance
     var categoryList: [FilterManager.CategoryType] = []
     var categoryViewList: [UILabel] = []
-    var currCategory:FilterManager.CategoryType = FilterManager.CategoryType.imageProcessing
+    var currCategory:FilterManager.CategoryType = FilterManager.CategoryType.color
     var categoryLabel:UILabel = UILabel()
     var carouselHeight:CGFloat = 80.0
     var currIndex:Int = -1 // forces initialisation

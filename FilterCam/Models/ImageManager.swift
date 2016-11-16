@@ -347,11 +347,13 @@ class ImageManager {
         // figure out if we need to rotate the image to match the target
         let srcIsLandscape:Bool = (size.width > size.height)
         let tgtIsLandscape:Bool = (targetSize.width > targetSize.height)
+        let tgtIsSquare:Bool =  (fabs(Float(targetSize.width - targetSize.height)) < 0.001)
         
         var srcImage:UIImage? = image
         var srcSize:CGSize = CGSize.zero
         
-        if (srcIsLandscape != tgtIsLandscape){
+        // rotate if the target is not square (why rotate?) and the aspect ratios are not the same
+        if (!tgtIsSquare && (srcIsLandscape != tgtIsLandscape)){
             //log.warning("Need to rotate src image")
             if (srcIsLandscape) {
                 srcImage = rotateImage(image, degrees: -90.0)

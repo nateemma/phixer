@@ -164,6 +164,7 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             }
             cameraDisplayView.frame.size.width = displayWidth - cameraControlsView.frame.size.width - filterControlsView.frame.size.width - 8
             cameraDisplayView.anchorInCorner(.bottomLeft, xPad: 0, yPad: 0, width: cameraDisplayView.frame.size.width, height: cameraDisplayView.frame.size.height)
+            cameraDisplayView.backgroundColor = UIColor.red //DEBUG
             
             
             // Align Overlay views to bottom of Render View

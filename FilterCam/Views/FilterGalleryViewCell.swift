@@ -11,7 +11,7 @@ import UIKit
 import Kingfisher
 import GPUImage
 
-class FilterGalleryViewCell2: UICollectionViewCell {
+class FilterGalleryViewCell: UICollectionViewCell {
     
     open static let reuseID: String = "FilterGalleryViewCell"
 
@@ -73,6 +73,7 @@ class FilterGalleryViewCell2: UICollectionViewCell {
     
     private func doLayout(){
         
+        doInit()
         self.backgroundColor = UIColor.flatBlack()
         self.layer.cornerRadius = 4.0
         self.layer.borderWidth = 1.0
@@ -142,13 +143,14 @@ class FilterGalleryViewCell2: UICollectionViewCell {
 ***/
     
     
-    public func configureCell(frame: CGRect, index:Int, key:String, renderView:RenderView) {
+    public func configureCell(frame: CGRect, index:Int, key:String) {
         
-        log.debug("index:\(index), key:\(key), view:\(Utilities.addressOf(renderView))")
+        log.debug("index:\(index), key:\(key)")
         cellIndex = index
         
         // allocate the RenderView
         self.renderView = filterManager.getRenderView(key: key)
+        //self.renderView = renderView
         
         // re-size the contents to match the cell
         self.renderView.frame = frame
@@ -156,17 +158,8 @@ class FilterGalleryViewCell2: UICollectionViewCell {
         //self.renderContainer.label.text = descriptor?.key
         self.label.text = key
         
-
-        doInit()
         doLayout()
-        
-        //DispatchQueue.main.async(execute: { () -> Void in
-        //    // render filtered image via GPU
-        //    self.updateRenderCell(key:key, renderView:renderView)
-        //})
-        
-
-        
+                
         //TODO: set overlay image based on whether filter is in Quick Select category or not and define touch handlers
     }
     
@@ -279,9 +272,9 @@ class FilterGalleryViewCell2: UICollectionViewCell {
  
     open func suspend(){
         //log.debug("Suspending cell: \((filterDescriptor?.key)!)")
-        sample?.removeAllTargets()
-        blend?.removeAllTargets()
-        filter?.removeAllTargets()
-        filterGroup?.removeAllTargets()
+        //sample?.removeAllTargets()
+        //blend?.removeAllTargets()
+        //filter?.removeAllTargets()
+        //filterGroup?.removeAllTargets()
     }
 }

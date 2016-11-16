@@ -41,7 +41,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     
     
     fileprivate var filterList:[String] = []
-    fileprivate var currCategory: FilterManager.CategoryType = FilterManager.CategoryType.imageProcessing
+    fileprivate var currCategory: FilterManager.CategoryType = FilterManager.CategoryType.color
     fileprivate var filterManager:FilterManager = FilterManager.sharedInstance
     
     fileprivate let layout = UICollectionViewFlowLayout()
@@ -124,7 +124,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         filterGallery?.delegate   = self
         filterGallery?.dataSource = self
         reuseId = "FilterGalleryView_" + currCategory.rawValue
-        filterGallery?.register(FilterGalleryViewCell2.self, forCellWithReuseIdentifier: reuseId)
+        filterGallery?.register(FilterGalleryViewCell.self, forCellWithReuseIdentifier: reuseId)
         
         self.addSubview(filterGallery!)
         filterGallery?.fillSuperview()
@@ -172,10 +172,10 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     open func suspend(){
         /***
         let indexPath = filterGallery?.indexPathsForVisibleItems
-        var cell: FilterGalleryViewCell2?
+        var cell: FilterGalleryViewCell?
         if ((indexPath != nil) && (cell != nil)){ // there might not be any filters in the category
             for index in indexPath!{
-                cell = filterGallery?.cellForItem(at: index) as! FilterGalleryViewCell2?
+                cell = filterGallery?.cellForItem(at: index) as! FilterGalleryViewCell?
                 cell?.suspend()
             }
         }
@@ -366,7 +366,7 @@ extension FilterGalleryView {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         // dequeue the cell
-        let cell = filterGallery?.dequeueReusableCell(withReuseIdentifier: reuseId, for: indexPath) as! FilterGalleryViewCell2
+        let cell = filterGallery?.dequeueReusableCell(withReuseIdentifier: reuseId, for: indexPath) as! FilterGalleryViewCell
         
         // configure based on the index
         
@@ -377,15 +377,9 @@ extension FilterGalleryView {
             let key = self.filterList[index]
             let renderView = filterManager.getRenderView(key:key)
             renderView?.frame = cell.frame
-            self.updateRenderView(index:index, key: key, renderView: renderView!)
-            cell.configureCell(frame: cell.frame, index:index, key:key, renderView: renderView!)
+            self.updateRenderView(index:index, key: key, renderView: renderView!) // doesn't seem to work if we put this into the FilterGalleryViewCell logic (threading?!)
+            cell.configureCell(frame: cell.frame, index:index, key:key)
             
-            //DispatchQueue.main.async(execute: {() -> Void in
-            //    UIView.performWithoutAnimation {
-            //        self.filterGallery?.reloadItems(at: [indexPath])
-            //    }
-            //})
-            //cell.layoutIfNeeded()
         } else {
             log.warning("Index out of range (\(index)/\(filterList.count))")
         }
@@ -406,7 +400,7 @@ extension FilterGalleryView {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        guard (filterGallery?.cellForItem(at: indexPath) as? FilterGalleryViewCell2) != nil else {
+        guard (filterGallery?.cellForItem(at: indexPath) as? FilterGalleryViewCell) != nil else {
             log.error("NIL cell")
             return
         }
