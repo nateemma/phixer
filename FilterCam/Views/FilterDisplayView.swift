@@ -365,6 +365,10 @@ class FilterDisplayView: UIView {
                 sample?.processImage(synchronously: true)
                 break
             }
+            let targets = filter?.targets
+            for (target, index) in targets! {
+                filter?.transmitPreviousImage(to: target, atIndex: index)
+            }
             
         } else if (descriptor?.filterGroup != nil){ // group of filters
             filterGroup = descriptor?.filterGroup
@@ -386,6 +390,10 @@ class FilterDisplayView: UIView {
                 blend?.processImage(synchronously: true)
                 sample?.processImage(synchronously: true)
                 break
+            }
+            let targets = filterGroup?.targets
+            for (target, index) in targets! {
+                filterGroup?.transmitPreviousImage(to: target, atIndex: index)
             }
 
         } else {

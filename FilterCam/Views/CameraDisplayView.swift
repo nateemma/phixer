@@ -44,7 +44,7 @@ class CameraDisplayView: UIView {
             
             
             // register for change notifications (don't do this before the views are set up)
-            filterManager.setFilterChangeNotification(callback: self.filterChanged())
+            //filterManager.setFilterChangeNotification(callback: self.filterChanged())
             initDone = true
         }
     }
@@ -153,7 +153,8 @@ class CameraDisplayView: UIView {
                     case .singleInput:
                         log.debug("Using filter: \(currFilter?.key)")
                         //camera! --> filter! --> rotateFilter! --> cropFilter! --> renderView!
-                        camera! --> filter! --> cropFilter! --> renderView!
+                        camera! --> filter! --> renderView!
+                        //camera! --> filter! --> cropFilter! --> renderView!
                         break
                     case .blend:
                         log.debug("Using BLEND mode for filter: \(currFilter?.key)")
@@ -163,10 +164,15 @@ class CameraDisplayView: UIView {
                         let currBlendImage  = ImageManager.getCurrentBlendImage(size:(renderView?.frame.size)!)
                         blendImage = PictureInput(image:currBlendImage!)
                         blendImage! --> opacityFilter! --> filter!
-                        camera! --> filter! --> cropFilter! --> renderView!
+                        camera! --> filter! --> renderView!
+                        //camera! --> filter! --> cropFilter! --> renderView!
                         //camera! --> filter! --> rotateFilter! --> cropFilter! --> renderView!
                         blendImage?.processImage()
                         break
+                    }
+                    let targets = filter?.targets
+                    for (target, index) in targets! {
+                        filter?.transmitPreviousImage(to: target, atIndex: index)
                     }
                     
                 } else if (currFilter?.filterGroup != nil){
@@ -194,9 +200,14 @@ class CameraDisplayView: UIView {
                         let currBlendImage  = ImageManager.getCurrentBlendImage(size:(renderView?.frame.size)!)
                         blendImage = PictureInput(image:currBlendImage!)
                         blendImage! --> opacityFilter! --> filterGroup!
-                        camera! --> filterGroup! --> cropFilter! --> renderView!
+                        camera! --> filterGroup! --> renderView!
+                        //camera! --> filterGroup! --> cropFilter! --> renderView! // cropFilter appears to interfere with pipeline
                         blendImage?.processImage()
                         break
+                    }
+                    let targets = filterGroup?.targets
+                    for (target, index) in targets! {
+                        filterGroup?.transmitPreviousImage(to: target, atIndex: index)
                     }
                 } else {
                     log.error("!!! Filter (\(currFilter?.title) has no operation assigned !!!")

@@ -49,16 +49,21 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         
         if ((category != filterCategory) || (currIndex<0)){
             
+            log.debug("Filter category set to: \(category.rawValue)")
+            
+            
+            filterCategory = category
+            filterNameList = (filterManager?.getFilterList(category))!
+            //filterNameList.sort(by: { (value1: String, value2: String) -> Bool in return value1 < value2 }) // sort ascending
+            
             // need to clear everything from carousel, so just create a new one...
             filterCarousel?.removeFromSuperview()
             filterCarousel = iCarousel()
             filterCarousel?.frame = self.frame
             self.addSubview(filterCarousel!)
             
-            filterCategory = category
-            filterNameList = (filterManager?.getFilterList(category))!
-            filterNameList.sort(by: { (value1: String, value2: String) -> Bool in return value1 < value2 }) // sort ascending
-            log.debug("Filter category set to: \(category.rawValue)")
+            filterCarousel?.dataSource = self
+            filterCarousel?.delegate = self
             
             // Pre-allocate views for the filters, makes it much easier and we can update in the background if needed
             filterViewList = []
@@ -68,6 +73,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
                     filterViewList.append(createFilterContainerView((filterManager?.getFilterDescriptor(key:filterNameList[i]))!))
                 }
                 
+                let index = filterManager
                 updateVisibleItems()
                 
                 filterCarousel?.setNeedsLayout()
@@ -121,6 +127,13 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     }
 
     
+    
+    deinit {
+        suspend()
+    }
+    
+    
+    
     func layoutViews(){
         
         filterLabel.text = ""
@@ -135,9 +148,9 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         filterCarousel?.frame = self.frame
         self.addSubview(filterCarousel!)
         //filterCarousel?.fillSuperview()
-        
         filterCarousel?.dataSource = self
         filterCarousel?.delegate = self
+        
         //filterCarousel?.type = .rotary
         filterCarousel?.type = .linear
         
@@ -296,49 +309,40 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     fileprivate func updateSelection(_ carousel: iCarousel, index: Int){
         
         // Note that the Filter Category can change in the middle of an update, so be careful with indexes
-        if ((index != currIndex) && isValidIndex(index)){
-            log.debug("Selected: \(filterNameList[index])")
-            filterCategory = (filterManager?.getCurrentCategory())!
-            currFilter = filterManager?.getFilterDescriptor(key:filterNameList[index])
-            filterLabel.text = currFilter?.title
-            
-            // updates label colors of selected item, reset old selection
-            if ((currIndex != index) && isValidIndex(index) && isValidIndex(currIndex)){
-                let oldView = filterViewList[currIndex]
-                oldView.label.textColor = UIColor.white
-            }
-            
-            let newView = filterViewList[index]
-            newView.label.textColor = UIColor.flatLime()
-            
-            // update current index
-            currIndex = index
-            
-            filterManager?.setCurrentFilterKey(filterNameList[index])
-            
-            
-            // call delegate function to act on selection
-            delegate?.filterSelected(filterNameList[index])
-
-            
-            /***
-             //TODO: instead of live filter, just get current image from the camera and apply filters to that?
-             do{
-             if (previewURL != nil){
-             camera?.saveNextFrameToURL(previewURL!, format:.png)
-             /***
-             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-             let image = UIImage(contentsOfFile: (self.previewURL?.path)!)
-             self.cameraPreviewInput = PictureInput(image:image!)}
-             ***/
-             } else {
-             log.error("ERR: cameraPreviewInput not set up")
-             }
-             } catch {
-             log.error("Error saving image: \(error)")
-             }
-             ***/
+        
+        guard (index != currIndex) else {
+            //log.debug("Index did not change (\(currIndex)->\(index))")
+            return
         }
+        
+        guard (isValidIndex(index)) else {
+            log.debug("Invalid index: \(index)")
+            return
+        }
+        
+        log.debug("Selected: \(filterNameList[index])")
+        filterCategory = (filterManager?.getCurrentCategory())!
+        currFilter = filterManager?.getFilterDescriptor(key:filterNameList[index])
+        filterLabel.text = currFilter?.title
+        
+        // updates label colors of selected item, reset old selection
+        if ((currIndex != index) && isValidIndex(index) && isValidIndex(currIndex)){
+            let oldView = filterViewList[currIndex]
+            oldView.label.textColor = UIColor.white
+        }
+        
+        let newView = filterViewList[index]
+        newView.label.textColor = UIColor.flatLime()
+        
+        // update current index
+        currIndex = index
+        
+        //filterManager?.setCurrentFilterKey(filterNameList[index])
+        
+        
+        // call delegate function to act on selection
+        delegate?.filterSelected(filterNameList[index])
+        
     }
  
     // suspend all GPUImage-related processing
@@ -347,12 +351,15 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         for key in filterNameList {
             descriptor = (self.filterManager?.getFilterDescriptor(key: key))
             log.verbose("Suspending \(key)...")
+            opacityFilter?.removeAllTargets()
+            blend?.removeAllTargets()
             descriptor?.filter?.removeAllTargets()
             descriptor?.filterGroup?.removeAllTargets()
         }
         blend?.removeAllTargets()
         opacityFilter?.removeAllTargets()
-        filterNameList = []
+        //filterNameList = []
+        //currIndex = -1
     }
     
     
@@ -415,7 +422,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
                     }
                 }
             }
-            self.filterCarousel?.setNeedsLayout()
+            //self.filterCarousel?.setNeedsLayout()
         }
         
     }

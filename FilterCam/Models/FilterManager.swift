@@ -119,9 +119,9 @@ class FilterManager{
     fileprivate static var currFilterKey: String = ""
     fileprivate static var currIndex:Int = -1
     
-    fileprivate static var categoryChangeNotification = Notification.Name(rawValue:"CategoryChangeNotification")
-    fileprivate static var filterChangeNotification = Notification.Name(rawValue:"FilterChangeNotification")
-    fileprivate static var notificationCenter = NotificationCenter.default
+    //fileprivate static var categoryChangeNotification = Notification.Name(rawValue:"CategoryChangeNotification")
+    //fileprivate static var filterChangeNotification = Notification.Name(rawValue:"FilterChangeNotification")
+    //fileprivate static var notificationCenter = NotificationCenter.default
 
     static let sortClosure = { (value1: String, value2: String) -> Bool in return value1 < value2 }
     
@@ -132,7 +132,6 @@ class FilterManager{
     // The list of Categories
     fileprivate static var _categoryList:[CategoryType] = [CategoryType.quickSelect,
                                                            CategoryType.basicAdjustments,
-                                                           CategoryType.monochrome,
                                                            CategoryType.blendModes,
                                                            CategoryType.visualEffects,
                                                            CategoryType.presets,
@@ -185,7 +184,11 @@ class FilterManager{
             sortLists()
             
             // Need to start somewhere...
+            //FilterManager.currCategory = .basicAdjustments
             FilterManager.currCategory = .quickSelect
+            FilterManager.currIndex = 0
+            FilterManager.currFilterKey = _quickSelectList[FilterManager.currIndex]
+            FilterManager.currFilterDescriptor = _filterDictionary[FilterManager.currFilterKey]!
         }
         
     }
@@ -252,7 +255,7 @@ class FilterManager{
     
     
     //////////////////////////////////////////////
-    // MARK: - Category-related Accessors
+    // MARK: - Filter-related Accessors
     //////////////////////////////////////////////
     
     
@@ -332,6 +335,24 @@ class FilterManager{
     }
     
     
+    
+    
+    // get the index of the filter within the category list. -1 if not found
+    open func getFilterIndex(category:CategoryType, key:String)->Int {
+        
+        FilterManager.checkSetup()
+        
+        var index = -1
+        
+        let list = category.getFilterList()
+        if (list.contains(key)){
+            index = list.index(of: key)!
+        }
+
+        return index
+    }
+    
+    
     func addFilterDescriptor(category:CategoryType, key:String, descriptor:FilterDescriptorInterface?){
         // add to the filter list
         FilterManager._filterDictionary[key] = descriptor
@@ -390,7 +411,7 @@ class FilterManager{
     // MARK: - Callback/Notification methods
     //////////////////////////////////////////////
     
-    
+  /***
     open func setCategoryChangeNotification(callback: ()) {
         FilterManager._categoryChangeCallbackList.append(callback)
     }
@@ -399,6 +420,7 @@ class FilterManager{
     open func setFilterChangeNotification(callback: ()) {
         FilterManager._filterChangeCallbackList.append(callback)
     }
+***/
     
     func issueCategoryChangeNotification(){
         if (FilterManager._categoryChangeCallbackList.count>0){

@@ -86,9 +86,11 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     func doInit(){
         
         if (!MainViewController.initDone){
+            log.verbose("init")
             //filterManager = FilterManager.sharedInstance
             filterManager?.setCurrentCategory(FilterManager.CategoryType.quickSelect)
             categorySelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)
+            currFilterDescriptor = filterManager?.getCurrentFilterDescriptor()
             MainViewController.initDone = true
             updateCurrentFilter()
         }
@@ -252,8 +254,8 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         //TODO: start timer and update setting display peridodically
         
         // register for change notifications (don't do this before the views are set up)
-        filterManager?.setCategoryChangeNotification(callback: categoryChanged())
-        filterManager?.setFilterChangeNotification(callback: filterChanged())
+        //filterManager?.setCategoryChangeNotification(callback: categoryChanged())
+        //filterManager?.setFilterChangeNotification(callback: filterChanged())
         
     }
     
@@ -442,22 +444,28 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     // retrive current settings from FilterManager and store locally
     func updateCurrentFilter(){
-        let descriptor = filterManager?.getCurrentFilterDescriptor()
-        //log.verbose("Current filter: \(descriptor?.key)")
-        //if (descriptor?.key != currFilterDescriptor?.key){
-        currFilterDescriptor = descriptor
-        cameraDisplayView.setFilter(currFilterDescriptor)
-        categorySelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)
-        filterSelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)
-        filterSelectionView.update()
-        filterInfoView.update()
-        //} else {
-        //    log.debug("Ignoring \(currFilterDescriptor?.key)->\(descriptor?.key) transition")
-        //}
+        if let descriptor = filterManager?.getCurrentFilterDescriptor(){
+            //log.verbose("Current filter: \(descriptor.key)")
+            //if ((currFilterDescriptor == nil) || (descriptor.key != currFilterDescriptor?.key)){
+                log.debug("Filter change: \(descriptor.key)->\(currFilterDescriptor?.key)")
+                //currFilterDescriptor = descriptor
+                cameraDisplayView.setFilter(currFilterDescriptor)
+                categorySelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)
+                filterSelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)
+                //filterSelectionView.update()
+                filterInfoView.update()
+            //} else {
+            //    log.debug("Ignoring \(currFilterDescriptor?.key)->\(descriptor.key) transition")
+            //}
+        } else {
+            cameraDisplayView.setFilter(nil)
+        }
         
         if (currFilterDescriptor != nil){
             if ((currFilterDescriptor?.numParameters)! == 0){
                 filterControlsView.setParametersControlState(.disabled)
+            } else {
+                filterControlsView.setParametersControlState(.hidden)
             }
         }
     }
@@ -474,14 +482,14 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     func hideCategorySelector(){
-        updateCurrentFilter()
+        //updateCurrentFilter()
         categorySelectionView.isHidden = true
         categorySelectorShown = false
         filterControlsView.setCategoryControlState(.hidden)
     }
     
     func showCategorySelector(){
-        updateCurrentFilter()
+        //updateCurrentFilter()
         categorySelectionView.isHidden = false
         categorySelectorShown = true
         filterControlsView.setCategoryControlState(.shown)
@@ -502,14 +510,14 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     func hideFilterSelector(){
-        updateCurrentFilter()
+        //updateCurrentFilter()
         filterSelectionView.isHidden = true
         filterSelectorShown = false
         filterControlsView.setFilterControlState(.hidden)
     }
     
     func showFilterSelector(){
-        updateCurrentFilter()
+        //updateCurrentFilter()
         if (currFilterDescriptor != nil){
             filterSelectionView.isHidden = false
             filterSelectorShown = true
@@ -524,7 +532,7 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     fileprivate var filterSettingsShown: Bool = false
     
     fileprivate func showFilterSettings(){
-        updateCurrentFilter()
+        //updateCurrentFilter()
         if ((currFilterDescriptor != nil) && ((currFilterDescriptor?.numParameters)! > 0)){
             // re-layout based on selecetd filter
             filterSettingsView.frame.size.height = CGFloat(((currFilterDescriptor?.numParameters)! + 1)) * bannerHeight * 0.75
@@ -806,10 +814,14 @@ extension MainViewController: CameraControlsViewDelegate {
 extension MainViewController: FilterInfoViewDelegate {
     
     func swapCameraPressed(){
-        log.debug("swapCameraPressed pressed")
-        CameraManager.switchCameraLocation()
-        cameraDisplayView.setFilter(nil)
-        cameraDisplayView.setFilter(currFilterDescriptor)
+        DispatchQueue.main.async(execute: { () -> Void in
+            log.debug("swapCameraPressed pressed")
+            self.prepareForViewController()
+            CameraManager.switchCameraLocation()
+            //self.cameraDisplayView.setFilter(nil)
+            //self.cameraDisplayView.setFilter(self.currFilterDescriptor)
+            self.returnFromController()
+        })
     }
 }
 
@@ -845,8 +857,13 @@ extension MainViewController: CategorySelectionViewDelegate {
             log.info("Category Selected Callback ignored")
             return
         }
-        log.debug("Category Selected: \(category)")
-        filterManager?.setCurrentCategory(category)
+        
+        if (category != filterManager?.getCurrentCategory()){
+            log.debug("Category Selected: \(category)")
+            filterManager?.setCurrentCategory(category)
+            currFilterDescriptor = filterManager?.getCurrentFilterDescriptor()
+            updateCurrentFilter()
+        }
     }
     
 }
@@ -871,19 +888,11 @@ extension MainViewController: FilterSelectionViewDelegate{
         }
         
         // setup the filter descriptor
-        currFilterDescriptor = filterManager?.getFilterDescriptor(key:key)
-        updateCurrentFilter()
-        
-        /***
-         // only update if filters are currently shown
-         if (currInfoMode == .filter){
-         cameraDisplayView.setFilter(currFilterDescriptor)
-         //filterInfoView.setFilterName(key)
-         updateFilterSettings()
-         filterSelectionView.update()
-         filterInfoView.update()
-         }
-         ***/
+        if (key != filterManager?.getCurrentFilterKey()){
+            log.debug("Filter Selected: \(key)")
+            currFilterDescriptor = filterManager?.getFilterDescriptor(key:key)
+            updateCurrentFilter()
+        }
     }
 }
 

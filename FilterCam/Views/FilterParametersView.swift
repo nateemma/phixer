@@ -421,7 +421,20 @@ class FilterParametersView: UIView {
         }
     }
     
-    
+    func updateFilterTargets(){
+        if (currFilterDesc?.filter != nil){
+            let targets = currFilterDesc?.filter?.targets
+            for (target, index) in targets! {
+                currFilterDesc?.filter?.transmitPreviousImage(to: target, atIndex: index)
+            }
+        } else if (currFilterDesc?.filterGroup != nil){
+            let targets = currFilterDesc?.filterGroup?.targets
+            for (target, index) in targets! {
+                currFilterDesc?.filterGroup?.transmitPreviousImage(to: target, atIndex: index)
+            }
+        }
+
+    }
     
     //MARK: - touch handlers
     
@@ -438,7 +451,10 @@ class FilterParametersView: UIView {
     }
     
     
-    func slider1ValueDidChange(_ sender:UISlider!){ currFilterDesc?.setParameter(1, value: sender.value) }
+    func slider1ValueDidChange(_ sender:UISlider!){
+        currFilterDesc?.setParameter(1, value: sender.value)
+        updateFilterTargets()
+    }
     
     func slider2ValueDidChange(_ sender:UISlider!){ currFilterDesc?.setParameter(2, value: sender.value) }
     
