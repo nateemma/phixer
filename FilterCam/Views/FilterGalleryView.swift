@@ -411,6 +411,7 @@ extension FilterGalleryView {
         log.verbose("Selected filter: \((descr?.key)!)")
         
         // suspend all active rendering and launch viewer for this filter
+        filterManager.setSelectedCategory(currCategory)
         filterManager.setSelectedFilter(key: (descr?.key)!)
         suspend()
         //self.present(FilterDetailsViewController(), animated: true, completion: nil)

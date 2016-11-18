@@ -380,10 +380,11 @@ extension FilterGalleryViewController: CategorySelectionViewDelegate {
 extension FilterGalleryViewController: FilterGalleryViewDelegate {
     func filterSelected(_ descriptor:FilterDescriptorInterface?){
         suspend()
+        filterManager.setSelectedCategory(currCategory)
         filterManager.setSelectedFilter(key: (descriptor?.key)!)
         let filterDetailsViewController = FilterDetailsViewController()
         filterDetailsViewController.delegate = self
-        filterDetailsViewController.filterKey = (descriptor?.key)!
+        filterDetailsViewController.currFilterKey = (descriptor?.key)!
         self.present(filterDetailsViewController, animated: false, completion: nil)
     }
     
@@ -401,6 +402,14 @@ extension FilterGalleryViewController: FilterDetailsViewControllerDelegate {
         log.verbose("FilterDetailsView completed")
         self.updateCategoryDisplay(self.currCategory)
         //})
+    }
+    
+    func prevFilter(){
+        log.verbose("Previous Filter")
+    }
+    
+    func nextFilter(){
+        log.verbose("Next Filter")
     }
 }
 

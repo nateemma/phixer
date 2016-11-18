@@ -254,6 +254,20 @@ class FilterManager{
     
     
     
+    private static var selectedCategory:CategoryType = .quickSelect
+    
+    func setSelectedCategory(_ category: CategoryType){
+        FilterManager.checkSetup()
+        FilterManager.selectedCategory = category
+        log.verbose("Selected Category: \(FilterManager.selectedCategory)")
+    }
+    
+    func getSelectedCategory()->CategoryType{
+        FilterManager.checkSetup()
+        return FilterManager.selectedCategory
+    }
+  
+    
     //////////////////////////////////////////////
     // MARK: - Filter-related Accessors
     //////////////////////////////////////////////
@@ -348,8 +362,24 @@ class FilterManager{
         if (list.contains(key)){
             index = list.index(of: key)!
         }
-
+        
         return index
+    }
+    
+    
+    // returns the key based on the index in the list
+    open func getFilterKey(category:CategoryType, index:Int)->String {
+        
+        var key: String = ""
+        
+        FilterManager.checkSetup()
+        
+        let list = category.getFilterList()
+        if ((index>=0) && (index<list.count)){
+            key = list[index]
+        }
+        
+        return key
     }
     
     

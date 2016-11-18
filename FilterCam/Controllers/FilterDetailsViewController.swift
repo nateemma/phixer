@@ -21,6 +21,8 @@ import GoogleMobileAds
 // delegate method to let the launcing ViewController know that this one has finished
 protocol FilterDetailsViewControllerDelegate: class {
     func onCompletion(key:String)
+    func prevFilter()
+    func nextFilter()
 }
 
 
@@ -32,7 +34,7 @@ class FilterDetailsViewController: UIViewController {
     // delegate for handling events
     weak var delegate: FilterDetailsViewControllerDelegate?
     
-    open var filterKey: String = ""
+    open var currFilterKey: String = ""
     
     // Banner View (title)
     fileprivate var bannerView: UIView! = UIView()
@@ -47,12 +49,19 @@ class FilterDetailsViewController: UIViewController {
     fileprivate var filterDisplayView: FilterDisplayView! = FilterDisplayView()
     
     // The filter configuration subview
-    fileprivate var filterControlsView: FilterParametersView! = FilterParametersView()
+    fileprivate var filterParametersView: FilterParametersView! = FilterParametersView()
+    
+    // Navigation help views
+    fileprivate var navView: UIView! = UIView()
+    fileprivate var prevView: UIView! = UIView()
+    fileprivate var nextView: UIView! = UIView()
     
     
     fileprivate var filterManager: FilterManager? = FilterManager.sharedInstance
-    fileprivate var currFilterKey:String = ""
+    fileprivate var currCategory: FilterManager.CategoryType = FilterManager.CategoryType.quickSelect
     fileprivate var currFilterDescriptor:FilterDescriptorInterface? = nil
+    fileprivate var currFilterIndex:Int = -1
+    fileprivate var currFilterCount:Int = 0
     
     fileprivate var isLandscape : Bool = false
     fileprivate var screenSize : CGRect = CGRect.zero
@@ -91,16 +100,30 @@ class FilterDetailsViewController: UIViewController {
     }
     
     func update(){
-        setupDisplay()
-        setupConstraints()
-        filterDisplayView.setFilter(key: currFilterKey)
-        //filterDisplayView.update()
+        DispatchQueue.main.async(execute: { () -> Void in
+            //setupDisplay()
+            //setupConstraints()
+            self.doLayout()
+            self.filterDisplayView.setFilter(key: self.currFilterKey)
+            self.navView.setNeedsLayout()
+            //self.filterDisplayView.update()
+        })
     }
+
+    
+    func loadFilterInfo(category: FilterManager.CategoryType, key: String){
+        currFilterKey = key
+        currCategory = category
+        currFilterIndex = (filterManager?.getFilterIndex(category: category, key: key))!
+        currFilterDescriptor = filterManager?.getFilterDescriptor(key: key)
+        currFilterCount = (filterManager?.getCategoryCount(category))!
+    }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        log.verbose("filterKey:\(filterKey)")
+        log.verbose("currFilterKey:\(currFilterKey)")
         
         // get display dimensions
         displayHeight = view.height
@@ -115,13 +138,7 @@ class FilterDetailsViewController: UIViewController {
         
         doInit()
         
-        currFilterKey = (filterManager?.getSelectedFilter())!
-        currFilterDescriptor = filterManager?.getFilterDescriptor(key: currFilterKey)
-        if (currFilterDescriptor == nil){
-            log.warning("NIL descriptor provided")
-        } else {
-            log.debug("descriptor:  \(currFilterDescriptor?.key)")
-        }
+        loadFilterInfo(category: (filterManager?.getSelectedCategory())!, key: (filterManager?.getSelectedFilter())!)
         
         guard  (currFilterDescriptor != nil) else {
             log.error("!!! No descriptor provided !!!")
@@ -135,6 +152,9 @@ class FilterDetailsViewController: UIViewController {
         // start Advertisements
         //startAds()
         
+        
+        assignTouchHandlers()
+        
         // that's it, rendering is handled by the FilterDisplayView and FilterControlsView classes
         
     }
@@ -142,17 +162,21 @@ class FilterDetailsViewController: UIViewController {
     
     fileprivate func doLayout(){
         // Note: need to add subviews before modifying constraints
-        
+ 
+        // get display dimensions
+        displayHeight = view.height
+        displayWidth = view.width
+
         setupBanner()
         //view.addSubview(adView)
         setupDisplay()
-        setupControls()
+        setupNavigationControls()
         
         setupConstraints()
         filterDisplayView.setFilter(key: currFilterKey)
-        filterControlsView.setFilter(currFilterDescriptor)
+        filterParametersView.setFilter(currFilterDescriptor)
         
-        filterControlsView.delegate = self
+        filterParametersView.delegate = self
     }
     
     
@@ -195,7 +219,50 @@ class FilterDetailsViewController: UIViewController {
         filterDisplayView = FilterDisplayView() // create new one each time, doesn't seem to update properly
     }
     
-    fileprivate func setupControls(){
+    fileprivate func setupNavigationControls(){
+        // add the left and right arrows for filter navigation
+        
+        // a little complicated, but we define navView as the overall holding view (transparent, used for placement over the filter display)
+        // next/prevImage views are the actual images, next/prevBack is a partially transparent background and next/prevView are the views taht are placed onto navView
+        
+        let nextImage:UIImageView = UIImageView()
+        let prevImage:UIImageView = UIImageView()
+        let nextBack:UIView = UIView()
+        let prevBack:UIView = UIView()
+        
+        nextImage.image = UIImage(named:"ic_next")
+        prevImage.image = UIImage(named:"ic_prev")
+        
+        nextBack.backgroundColor = UIColor.black
+        nextBack.alpha = 0.2
+        
+        prevBack.backgroundColor = UIColor.black
+        prevBack.alpha = 0.2
+        
+        nextView.addSubview(nextBack)
+        nextView.addSubview(nextImage)
+        nextBack.fillSuperview()
+        nextImage.fillSuperview()
+        nextView.bringSubview(toFront: nextImage)
+        
+        prevView.addSubview(prevBack)
+        prevView.addSubview(prevImage)
+        prevBack.fillSuperview()
+        prevImage.fillSuperview()
+        prevView.bringSubview(toFront: prevImage)
+        
+        navView.backgroundColor = UIColor.clear
+        prevView.backgroundColor = UIColor.clear
+        nextView.backgroundColor = UIColor.clear
+        
+        navView.addSubview(prevView)
+        navView.addSubview(nextView)
+        
+        prevView.frame.size.height = bannerHeight
+        prevView.frame.size.width = bannerHeight
+        
+        nextView.frame.size.height = bannerHeight
+        nextView.frame.size.width = bannerHeight
     }
     
     
@@ -204,7 +271,8 @@ class FilterDetailsViewController: UIViewController {
         
         view.addSubview(bannerView)
         view.addSubview(filterDisplayView)
-        view.addSubview(filterControlsView)
+        view.addSubview(navView)
+        view.addSubview(filterParametersView)
         
         bannerView.frame.size.height = bannerHeight
         bannerView.frame.size.width = displayWidth
@@ -225,28 +293,50 @@ class FilterDetailsViewController: UIViewController {
             filterDisplayView.anchorInCorner(.bottomLeft, xPad: 0, yPad: 0, width: filterDisplayView.frame.size.width, height: filterDisplayView.frame.size.height)
             
             // Align Overlay view to bottom of Render View
-            filterControlsView.frame.size.height = displayHeight - bannerHeight
-            filterControlsView.frame.size.width = displayWidth / 2
-            filterControlsView.anchorInCorner(.bottomRight, xPad: 0, yPad: 0, width: filterControlsView.frame.size.width, height: filterControlsView.frame.size.height)
+            filterParametersView.frame.size.height = displayHeight - bannerHeight
+            filterParametersView.frame.size.width = displayWidth / 2
+            filterParametersView.anchorInCorner(.bottomRight, xPad: 0, yPad: 0, width: filterParametersView.frame.size.width, height: filterParametersView.frame.size.height)
+            
+            // put controls in the middle of the ;eft/right edges
             
         } else {
             // Portrait: top-to-bottom layout scheme
             
-            if (currFilterDescriptor != nil) {
-                filterControlsView.frame.size.height = CGFloat(((currFilterDescriptor?.numParameters)! + 1)) * bannerHeight * 0.75
-            } else {
-                filterControlsView.frame.size.height = (displayHeight - 2.0 * bannerHeight) * 0.3
-            }
-            filterControlsView.frame.size.width = displayWidth
-            //filterControlsView.align(.underCentered, relativeTo: filterDisplayView, padding: 4, width: displayWidth, height: bannerView.frame.size.height)
-            filterControlsView.anchorAndFillEdge(.bottom, xPad: 1, yPad: 1, otherSize: filterControlsView.frame.size.height)
             
-            filterDisplayView.frame.size.height = displayHeight - bannerHeight - filterControlsView.frame.size.height - 4
+            // Parameters on the bottom
+            if (currFilterDescriptor != nil) {
+                filterParametersView.frame.size.height = CGFloat(((currFilterDescriptor?.numParameters)! + 1)) * bannerHeight * 0.75
+            } else {
+                filterParametersView.frame.size.height = (displayHeight - 2.0 * bannerHeight) * 0.3
+            }
+            
+            filterParametersView.frame.size.width = displayWidth
+            //filterParametersView.align(.underCentered, relativeTo: filterDisplayView, padding: 4, width: displayWidth, height: bannerView.frame.size.height)
+            filterParametersView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 1, otherSize: filterParametersView.frame.size.height)
+            //filterParametersView.anchorInCorner(.bottomLeft, xPad: 0, yPad: 1, width: filterParametersView.frame.size.width, height: filterParametersView.frame.size.height)
+            
+            // Filter display takes the rest of the screen
+            //filterDisplayView.frame.size.height = displayHeight - bannerHeight - filterParametersView.frame.size.height - 4
+            filterDisplayView.frame.size.height = displayHeight - bannerHeight
             filterDisplayView.frame.size.width = displayWidth
             //filterDisplayView.align(.underCentered, relativeTo: adView, padding: 0, width: displayWidth, height: filterDisplayView.frame.size.height)
-            filterDisplayView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: filterDisplayView.frame.size.height)
+            //filterDisplayView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: filterDisplayView.frame.size.height)
+            filterDisplayView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 1, otherSize: filterDisplayView.frame.size.height)
+        
         }
         
+        
+        // prev/next navigation (same for both layouts)
+
+        log.debug("Overlaying navigation buttons")
+        
+        // resize navView to match the display view
+        navView.frame = filterDisplayView.frame
+        prevView.anchorToEdge(.left, padding: 0, width: prevView.frame.size.width, height: prevView.frame.size.height)
+        nextView.anchorToEdge(.right, padding: 0, width: nextView.frame.size.width, height: nextView.frame.size.height)
+        view.bringSubview(toFront: navView)
+        navView.setNeedsDisplay() // for some reason it doesn't display the first time through
+
     }
     
     
@@ -273,6 +363,8 @@ class FilterDetailsViewController: UIViewController {
             view.removeFromSuperview()
         }
     }
+ 
+    
     
     /////////////////////////////
     // MARK: - Ad Framework
@@ -286,11 +378,44 @@ class FilterDetailsViewController: UIViewController {
      adView.backgroundColor = UIColor.black
      }
      */
+  
+    
+    
+    /////////////////////////////
+    // MARK: - Filter Management
+    /////////////////////////////
+    
+    fileprivate func nextFilter(){
+        currFilterIndex = (currFilterIndex + 1) % currFilterCount
+        let key = (filterManager?.getFilterKey(category: currCategory, index: currFilterIndex))!
+        loadFilterInfo(category: currCategory, key: key)
+    }
+    
+    
+    fileprivate func previousFilter(){
+        currFilterIndex = (currFilterIndex - 1)
+        if (currFilterIndex < 0) { currFilterIndex = currFilterCount - 1 }
+        let key = (filterManager?.getFilterKey(category: currCategory, index: currFilterIndex))!
+        loadFilterInfo(category: currCategory, key: key)
+    }
     
     /////////////////////////////
     // MARK: - Touch Handler(s)
     /////////////////////////////
     
+    func assignTouchHandlers(){
+        let prevTap = UITapGestureRecognizer(target: self, action: #selector(prevDidPress))
+        prevView.addGestureRecognizer(prevTap)
+        prevView.isUserInteractionEnabled = true
+        
+        let nextTap = UITapGestureRecognizer(target: self, action: #selector(nextDidPress))
+        nextView.addGestureRecognizer(nextTap)
+        nextView.isUserInteractionEnabled = true
+        
+        setGestureDetectors(navView)
+    
+    }
+
     func backDidPress(){
         log.verbose("Back pressed")
         guard navigationController?.popViewController(animated: true) != nil else { //modal
@@ -300,8 +425,92 @@ class FilterDetailsViewController: UIViewController {
             return
         }
     }
-}
-
+    
+    func prevDidPress(){
+        log.verbose("Previous Filter pressed")
+        suspend()
+        previousFilter()
+        update()
+    }
+    
+    func nextDidPress(){
+        log.verbose("Next Filter pressed")
+        suspend()
+        nextFilter()
+        update()
+    }
+    
+    func showParameters(){
+        filterParametersView.isHidden = false
+        filterParametersView.setNeedsDisplay()
+    }
+    
+    func hideParameters(){
+        filterParametersView.isHidden = true
+    }
+    
+    
+    //////////////////////////////////////
+    // MARK: - Gesture Detection
+    //////////////////////////////////////
+    
+    
+    func setGestureDetectors(_ view: UIView){
+        
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.swiped))
+        swipeRight.direction = .right
+        view.addGestureRecognizer(swipeRight)
+        
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.swiped))
+        swipeLeft.direction = .left
+        view.addGestureRecognizer(swipeLeft)
+        
+        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(self.swiped))
+        swipeUp.direction = .up
+        view.addGestureRecognizer(swipeUp)
+        
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.swiped))
+        swipeDown.direction = .down
+        view.addGestureRecognizer(swipeDown)
+    }
+    
+    
+    func swiped(_ gesture: UIGestureRecognizer)
+    {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer
+        {
+            switch swipeGesture.direction
+            {
+                
+            case UISwipeGestureRecognizerDirection.right:
+                //log.verbose("Swiped Right")
+                prevDidPress()
+                break
+                
+            case UISwipeGestureRecognizerDirection.left:
+                //log.verbose("Swiped Left")
+                nextDidPress()
+                break
+                
+            case UISwipeGestureRecognizerDirection.up:
+                log.verbose("Swiped Up")
+                showParameters()
+                break
+                
+            case UISwipeGestureRecognizerDirection.down:
+                log.verbose("Swiped Down")
+                hideParameters()
+                break
+                
+            default:
+                log.debug("Unhandled gesture direction: \(swipeGesture.direction)")
+                break
+            }
+        }
+    }
+    
+    
+} // FilterDetailsViewController class
 
 //////////////////////////////////////////
 // MARK: - Delegate methods for sub-views

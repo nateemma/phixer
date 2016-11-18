@@ -730,6 +730,7 @@
 				25CF4BDB1D94D93700D779CF /* AppDelegate.swift */,
 				251375501DB6AD6200A319DC /* GoogleService-Info.plist */,
 				257F49E31D9448920083B1E4 /* Main.storyboard */,
+				257F49E81D9448920083B1E4 /* LaunchScreen.storyboard */,
 				257F49E61D9448920083B1E4 /* Assets.xcassets */,
 				25F563FD1DD146D100DFB125 /* Images */,
 				257F49EB1D9448920083B1E4 /* Info.plist */,
@@ -772,7 +773,6 @@
 				25F563FF1DD1470200DFB125 /* Blends */,
 				25F563FE1DD146EC00DFB125 /* Samples */,
 				25B24D151DAFE0C3008CD38A /* app_icon.png */,
-				257F49E81D9448920083B1E4 /* LaunchScreen.storyboard */,
 			);
 			name = Images;
 			sourceTree = "<group>";
