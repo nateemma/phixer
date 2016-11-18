@@ -133,12 +133,12 @@ class FilterManager{
     fileprivate static var _categoryList:[CategoryType] = [CategoryType.quickSelect,
                                                            CategoryType.basicAdjustments,
                                                            CategoryType.blendModes,
-                                                           CategoryType.visualEffects,
-                                                           CategoryType.presets,
-                                                           CategoryType.drawing,
                                                            CategoryType.blurs,
+                                                           CategoryType.color,
+                                                           CategoryType.visualEffects,
+                                                           CategoryType.drawing,
                                                            CategoryType.monochrome,
-                                                           CategoryType.color]
+                                                           CategoryType.presets]
     
     // typealias for dictionaries of FilterDescriptors
     typealias FilterDictionary = Dictionary<String, FilterDescriptorInterface>
@@ -552,6 +552,7 @@ class FilterManager{
         makeFilter(key: "CannyEdgeDetection", descriptor: CannyEdgeDetectionDescriptor())
         makeFilter(key: "ChromaKeyBlend", descriptor: ChromaKeyBlendDescriptor())
         makeFilter(key: "ChromaKeying", descriptor: ChromaKeyingDescriptor())
+        makeFilter(key: "Clarity", descriptor: ClarityDescriptor())
         makeFilter(key: "ClosingFilter", descriptor: ClosingFilterDescriptor())
         makeFilter(key: "ColorBlend", descriptor: ColorBlendDescriptor())
         makeFilter(key: "ColorBurnBlend", descriptor: ColorBurnBlendDescriptor())
@@ -669,11 +670,12 @@ class FilterManager{
 
         // For some reason, I could only get this working with a static assignment
         // Note that filters can be in multiple categories, but they will still be the 'same' filter
+        // Lists will be sorted, so don't worry about the order
         
         FilterManager._quickSelectList = [ "Crosshatch", "Emboss", "Halftone", "SwirlDistortion", "Luminance", "ThresholdSketch"  ]
         
         FilterManager._basicAdjustmentsList = [ "Saturation", "Warmth", "WhiteBalance", "Brightness", "Contrast", "UnsharpMask", "Exposure", "Sharpen", "Crop",
-                                                "Gamma", "Vibrance", "Highlights", "LevelsAdjustment", "Vignette", "Haze"]
+                                                "Gamma", "Vibrance", "Highlights", "LevelsAdjustment", "Vignette", "Haze", "Clarity"]
         
         FilterManager._blendModesList = [ "AddBlend", "AlphaBlend", "ChromaKeyBlend", "ColorBlend", "ColorBurnBlend", "ColorDodgeBlend", "DarkenBlend",
                                           "DifferenceBlend", "DissolveBlend", "DivideBlend", "ExclusionBlend", "HardLightBlend", "HueBlend", "LightenBlend",
