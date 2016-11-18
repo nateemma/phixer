@@ -73,7 +73,6 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
                     filterViewList.append(createFilterContainerView((filterManager?.getFilterDescriptor(key:filterNameList[i]))!))
                 }
                 
-                let index = filterManager
                 updateVisibleItems()
                 
                 filterCarousel?.setNeedsLayout()

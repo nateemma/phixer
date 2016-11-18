@@ -106,7 +106,7 @@ class FilterDetailsViewController: UIViewController {
             self.doLayout()
             self.filterDisplayView.setFilter(key: self.currFilterKey)
             self.navView.setNeedsLayout()
-            //self.filterDisplayView.update()
+            self.filterDisplayView.setNeedsLayout()
         })
     }
 
@@ -116,7 +116,7 @@ class FilterDetailsViewController: UIViewController {
         currCategory = category
         currFilterIndex = (filterManager?.getFilterIndex(category: category, key: key))!
         currFilterDescriptor = filterManager?.getFilterDescriptor(key: key)
-        currFilterCount = (filterManager?.getCategoryCount(category))!
+        currFilterCount = (filterManager?.getFilterCount(category))!
     }
 
     
@@ -330,8 +330,11 @@ class FilterDetailsViewController: UIViewController {
 
         log.debug("Overlaying navigation buttons")
         
-        // resize navView to match the display view
-        navView.frame = filterDisplayView.frame
+        // resize navView to match the display view (minus the parameters view)
+        navView.frame.size.width  = filterDisplayView.frame.size.width
+        navView.frame.size.height  = filterDisplayView.frame.size.height - filterParametersView.frame.size.height
+        navView.align(.underCentered, relativeTo: bannerView, padding: 0, width: navView.frame.size.width, height: navView.frame.size.height)
+        
         prevView.anchorToEdge(.left, padding: 0, width: prevView.frame.size.width, height: prevView.frame.size.height)
         nextView.anchorToEdge(.right, padding: 0, width: nextView.frame.size.width, height: nextView.frame.size.height)
         view.bringSubview(toFront: navView)

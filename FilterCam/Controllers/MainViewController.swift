@@ -230,8 +230,8 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         imagePicker.delegate = self
 
         
-        // set gesture detction for Filter Settings view
-        //setGestureDetectors(view: filterSettingsView)
+        // set gesture detection for the camera display view
+        setGestureDetectors(view: cameraDisplayView)
         
         
         // listen to key press events
@@ -331,14 +331,67 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         return view
     }()
     
-
+    
+    
+    //////////////////////////////////////
+    // MARK: - Category/Filter Navigation
+    //////////////////////////////////////
+    
+    
+    // Note: look up current values each time because they can be changed in multiple ways (so difficult to track)
+    
+    fileprivate func nextFilter(){
+        var index  = (filterManager?.getCurrentFilterIndex())!
+        let category = (filterManager?.getCurrentCategory())!
+        let oldIndex = index
+        let oldKey = (filterManager?.getFilterKey(category: category, index: index))!
+            
+        index = (index + 1) % (filterManager?.getFilterCount(category))!
+        let key = (filterManager?.getFilterKey(category: category, index: index))!
+        
+        log.debug("Changing filter: \(oldKey)(\(oldIndex))->\(key)(\(index))")
+        changeFilterTo(key)
+    }
+    
+    
+    fileprivate func previousFilter(){
+        var index  = (filterManager?.getCurrentFilterIndex())!
+        let category = (filterManager?.getCurrentCategory())!
+        let oldIndex = index
+        let oldKey = (filterManager?.getFilterKey(category: category, index: index))!
+        
+        index = index - 1
+        if (index < 0) { index = (filterManager?.getFilterCount(category))! - 1 }
+        let key = (filterManager?.getFilterKey(category: category, index: index))!
+        
+        log.debug("Changing filter: \(oldKey)(\(oldIndex))->\(key)(\(index))")
+        changeFilterTo(key)
+    }
+    
+    fileprivate func nextCategory(){
+        var category = (filterManager?.getCurrentCategory())!
+        var index = (filterManager?.getCurrentCategoryIndex())!
+        index = (index + 1) % (filterManager?.getCategoryCount())!
+        category = (filterManager?.getCategory(index: index))!
+        changeCategoryTo(category)
+    }
+    
+    fileprivate func previousCategory(){
+        var category = (filterManager?.getCurrentCategory())!
+        var index = (filterManager?.getCurrentCategoryIndex())!
+        index = (index - 1)
+        if (index < 0) { index = (filterManager?.getCategoryCount())! - 1 }
+        category = (filterManager?.getCategory(index: index))!
+        changeCategoryTo(category)
+    }
+    
     
     //////////////////////////////////////
     // MARK: - Gesture Detection
     //////////////////////////////////////
     
     
-    func setGestureDetectors(_ view: UIView){
+    func setGestureDetectors(view: UIView){
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.swiped))
         swipeDown.direction = .down
         view.addGestureRecognizer(swipeDown)
@@ -366,18 +419,21 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                 
             case UISwipeGestureRecognizerDirection.right:
                 //log.verbose("Swiped Right")
+                previousFilter()
                 break
                 
             case UISwipeGestureRecognizerDirection.left:
                 //log.verbose("Swiped Left")
+                nextFilter()
                 break
                 
             case UISwipeGestureRecognizerDirection.up:
                 //log.verbose("Swiped Up")
+                previousCategory()
                 break
                 
             case UISwipeGestureRecognizerDirection.down:
-                filterSettingsView.dismiss()
+                nextCategory()
                 //log.verbose("Swiped Down")
                 break
                 
@@ -433,6 +489,26 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     //////////////////////////////////////
     // MARK: - Filter/Category Management
     //////////////////////////////////////
+
+    func changeCategoryTo(_ category: FilterManager.CategoryType){
+        if (category != filterManager?.getCurrentCategory()){
+            log.debug("Category Selected: \(category)")
+            filterManager?.setCurrentCategory(category)
+            currFilterDescriptor = filterManager?.getCurrentFilterDescriptor()
+            updateCurrentFilter()
+        }
+    }
+    
+    func changeFilterTo(_ key:String){
+        // setup the filter descriptor
+        if (key != filterManager?.getCurrentFilterKey()){
+            log.debug("Filter Selected: \(key)")
+            filterManager?.setCurrentFilterKey(key)
+            currFilterDescriptor = filterManager?.getFilterDescriptor(key:key)
+            updateCurrentFilter()
+        }
+    }
+    
     
     func categoryChanged(){
         updateCurrentFilter()
@@ -858,12 +934,7 @@ extension MainViewController: CategorySelectionViewDelegate {
             return
         }
         
-        if (category != filterManager?.getCurrentCategory()){
-            log.debug("Category Selected: \(category)")
-            filterManager?.setCurrentCategory(category)
-            currFilterDescriptor = filterManager?.getCurrentFilterDescriptor()
-            updateCurrentFilter()
-        }
+        changeCategoryTo(category)
     }
     
 }
@@ -887,12 +958,7 @@ extension MainViewController: FilterSelectionViewDelegate{
             return
         }
         
-        // setup the filter descriptor
-        if (key != filterManager?.getCurrentFilterKey()){
-            log.debug("Filter Selected: \(key)")
-            currFilterDescriptor = filterManager?.getFilterDescriptor(key:key)
-            updateCurrentFilter()
-        }
+        changeFilterTo(key)
     }
 }
 

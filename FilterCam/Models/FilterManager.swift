@@ -217,10 +217,15 @@ class FilterManager{
         return FilterManager._categoryList
     }
     
-    func getCategoryCount(_ category:CategoryType)->Int {
+    func getFilterCount(_ category:CategoryType)->Int {
         FilterManager.checkSetup()
         let list = category.getFilterList()
         return list.count
+    }
+    
+    func getCategoryCount()->Int {
+        FilterManager.checkSetup()
+        return FilterManager._categoryList.count
     }
     
     func getCurrentCategory() -> CategoryType{
@@ -267,6 +272,32 @@ class FilterManager{
         return FilterManager.selectedCategory
     }
   
+    
+    // 'Index' methods are provided to support previous/next types of navigation
+    
+    // get the index of the category within the category list.
+    open func getCategoryIndex(category:CategoryType)->Int {
+        
+        FilterManager.checkSetup()
+        return FilterManager._categoryList.index(of: category)!
+    }
+    
+    
+    open func getCurrentCategoryIndex()->Int {
+        
+        return getCategoryIndex(category:FilterManager.currCategory)
+    }
+  
+    
+    open func getCategory(index: Int) -> CategoryType{
+        FilterManager.checkSetup()
+        var category:CategoryType = .quickSelect
+        if ((index >= 0) && (index < FilterManager._categoryList.count)){
+            category =  FilterManager._categoryList[index]
+        }
+        return category
+    }
+ 
     
     //////////////////////////////////////////////
     // MARK: - Filter-related Accessors
@@ -349,7 +380,7 @@ class FilterManager{
     }
     
     
-    
+    // 'Index' methods are provided to support previous/next types of navigation
     
     // get the index of the filter within the category list. -1 if not found
     open func getFilterIndex(category:CategoryType, key:String)->Int {
@@ -364,6 +395,12 @@ class FilterManager{
         }
         
         return index
+    }
+    
+    
+    open func getCurrentFilterIndex()->Int {
+   
+        return getFilterIndex(category:FilterManager.currCategory, key:FilterManager.currFilterKey)
     }
     
     
