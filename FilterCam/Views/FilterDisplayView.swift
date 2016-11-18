@@ -414,6 +414,7 @@ class FilterDisplayView: UIView {
     func suspend(){
         currFilterDescriptor?.filter?.removeAllTargets()
         currFilterDescriptor?.filterGroup?.removeAllTargets()
+        opacityFilter?.removeAllTargets()
         //sample?.removeAllTargets()
         //blend?.removeAllTargets()
     }
