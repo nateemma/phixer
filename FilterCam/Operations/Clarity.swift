@@ -31,8 +31,8 @@ class Clarity: OperationGroup {
         self.vibrance.vibrance = 0.05
         
         self.configureGroup{input, output in
-            input --> self.vibrance --> self.blend
-            input --> self.unsharpMask --> self.opacity --> self.blend --> output
+            input --> self.vibrance --> self.blend  --> output
+                      self.unsharpMask --> self.opacity --> self.blend
             //input --> self.luminance --> self.unsharpMask --> self.opacity --> self.blend --> output
         }
     }

@@ -8,6 +8,7 @@
 
 import Foundation
 import GPUImage
+import SwiftyJSON
 
 // class that manages the list of available filters and groups them into categories
 
@@ -148,7 +149,7 @@ class FilterManager{
     
     //fileprivate var _filterAssignments: [[String]] = [[], [], [], [], [], [], [], [], []]
     
-    //dictionaries for each category
+    //List for each category
     fileprivate static var _quickSelectList = [String]()
     fileprivate static var _basicAdjustmentsList: [String] = []
     fileprivate static var _monochromeList: [String] = []
@@ -529,6 +530,8 @@ class FilterManager{
         
     }
     
+    
+    
     static func createFilters(){
         log.verbose("Creating Filters...")
         
@@ -636,27 +639,231 @@ class FilterManager{
         makeFilter(key: "Warmth", descriptor: WarmthDescriptor())
         makeFilter(key: "WhiteBalance", descriptor: WhiteBalanceDescriptor())
         makeFilter(key: "ZoomBlur", descriptor: ZoomBlurDescriptor())
+        
+        createLookupFilters()
+        createPresetFilters()
     }
-    
-    
-    
-    func addToCategory(_ category:CategoryType, key:String){
-        if (FilterManager._filterDictionary.index(forKey: key) != nil){
-            var list = category.getFilterList()
-            //var list = list
 
-            if (!((list.contains(key)))){
-                log.verbose("Adding key:\(key) for category:\(category)  (\(list.count))")
-                //list.append(key)
-                list.append(key)
-                log.verbose("list: \(list)")
-            } else {
-                log.warning("Filter:\(key) already member of category: \(category.rawValue)...")
-            }
-        } else {
-            log.warning("Filter:\(key) not defined. NOT added to category: \(category.rawValue)...")
+    ////////////////////////////
+    // Lookup Filters
+    ////////////////////////////
+    
+    // the images listed here are based on Lookup.png, with various photoshop actions applied to them. They are then used to transform colours
+    
+    private static let _bwLookupList:[String] = ["bw_000_neutral.JPG", "bw_001_underexposed.JPG", "bw_002_overexposed.JPG", "bw_003_hi_contrast_harsh.JPG", "bw_004_hi_contrst_smooth.JPG",
+                                               "bw_005_hi_structure_harsh.JPG", "bw_006_hi_structure_smooth.JPG", "bw_007_hi_key_1.JPG", "bw_008_hi_key_2.JPG", "bw_009_lo_key_1.JPG",
+                                               "bw_010_lo_key_2.JPG", "bw_011_push_1.JPG", "bw_012_push_2.JPG", "bw_013_grad_nd_1.JPG", "bw_014_grad_nd_2.JPG", "bw_015_full_dynamic_harsh.JPG",
+                                               "bw_016_full_dynamic_smooth.JPG", "bw_017_full_spectrum.JPG", "bw_018_full_spectrum_inverse.JPG", "bw_019_fine_art.JPG", "bw_020_fine_art_hi_key.JPG",
+                                               "bw_021_triste_1.JPG", "bw_022_triste_2.JPG", "bw_023_wet_rocks.JPG", "bw_024_full_contrast_structure.JPG", "bw_025_silhouette.JPG",
+                                               "bw_026_dark_sepia.JPG", "bw_027_soft_sepia.JPG", "bw_028_cool_tones_1.JPG", "bw_029_cool_tones_2.JPG", "bw_030_film_noir_1.JPG",
+                                               "bw_031_film_noir_2.JPG", "bw_032_film_noir_3.JPG", "bw_033_yellowed_1.JPG", "bw_034_yellowed_2.JPG", "bw_035_antique_plate_1.JPG",
+                                               "bw_036_antique_plate_2.JPG", "bw_037_pinhole.JPG"
+                                              ]
+    
+    private static let _fxLookupList:[String] = ["fx_001_bleach_bypass.JPG", "fx_035_monday_morning_1.JPG", "fx_002_duplex.JPG", "fx_036_monday_morning_2.JPG", "fx_003_fog.JPG",
+                                                 "fx_037_monday_morning_3.JPG", "fx_004_foliage_1.JPG", "fx_038_monday_morning_4.JPG", "fx_005_foliage_2.JPG", "fx_039_monday_morning_5.JPG",
+                                                 "fx_006_foliage_3.JPG", "fx_040_old_photo_1.JPG", "fx_007_hi_key.JPG", "fx_041_old_photo_2.JPG", "fx_008_indian_summer.JPG", "fx_042_old_photo_3.JPG",
+                                                 "fx_009_infrared_1.JPG", "fx_043_old_photo_4.JPG", "fx_010_infrared_2.JPG", "fx_044_old_photo_5.JPG", "fx_011_infrared_3.JPG", "fx_045_old_photo_6.JPG",
+                                                 "fx_012_infrared_4.JPG", "fx_046_old_photo_color_1.JPG", "fx_013_infrared_color_1.JPG", "fx_047_old_photo_color_2.JPG", "fx_014_infrared_color_2.JPG",
+                                                 "fx_048_old_photo_color_3.JPG", "fx_015_infrared_color_3.JPG", "fx_049_old_photo_color_4.JPG", "fx_016_infrared_color_4.JPG", "fx_050_old_photo_color_5.JPG",
+                                                 "fx_017_infrared_color_5.JPG", "fx_051_old_photo_color_6.JPG", "fx_018_ink_1.JPG", "fx_052_pastel_1.JPG", "fx_019_ink_2.JPG", "fx_053_pastel_2.JPG",
+                                                 "fx_020_ink_3.JPG", "fx_054_pastel_3.JPG", "fx_021_ink_4.JPG", "fx_055_solarize_1.JPG", "fx_022_ink_5.JPG", "fx_056_solarize_2.JPG", "fx_023_ink_6.JPG",
+                                                 "fx_057_solarize_3.JPG", "fx_024_ink_7.JPG", "fx_058_solarize_4.JPG", "fx_025_ink_8.JPG", "fx_060_solarize_5.JPG", "fx_026_ink_9.JPG",
+                                                 "fx_061_solarize_6.JPG", "fx_027_ink_10.JPG", "fx_062_solarize_bw_1.JPG", "fx_028_ink_11.JPG", "fx_063_solarize_bw_2.JPG", "fx_029_lo_key.JPG",
+                                                 "fx_064_solarize_bw_3.JPG", "fx_030_midnight_1.JPG", "fx_065_solarize_bw_4.JPG", "fx_031_midnight_2.JPG", "fx_066_solarize_bw_5.JPG",
+                                                 "fx_032_midnight_3.JPG", "fx_067_solarize_bw_6.JPG", "fx_033_midnight_4.JPG", "fx_034_midnight_5.JPG"
+                                                ]
+    private static func createLookupFilters(){
+        var key: String
+        var descriptor:  LookupFilterDescriptor?
+        
+        //  B&W
+        for name in FilterManager._bwLookupList {
+            key = name[name.startIndex...name.index(name.startIndex, offsetBy:5)]
+            descriptor = LookupFilterDescriptor()
+            descriptor?.key = key
+            descriptor?.title = name[name.startIndex...name.index(name.endIndex, offsetBy:-5)]
+            descriptor?.setLookupFile(name: name)
+            makeFilter(key:key, descriptor: descriptor!)
+            //log.debug("Preset: \(key) (\(name))")
+            //print("Preset: \(key) (\(name))")
+        }
+        
+        // Colour Effects
+        for name in FilterManager._fxLookupList {
+            key = name[name.startIndex...name.index(name.startIndex, offsetBy:5)]
+            descriptor = LookupFilterDescriptor()
+            descriptor?.key = key
+            descriptor?.title = name[name.startIndex...name.index(name.endIndex, offsetBy:-5)]
+            descriptor?.setLookupFile(name: name)
+            makeFilter(key:key, descriptor: descriptor!)
         }
     }
+    
+
+    // loading is a separate function because it is done after populateCategories static initialisation
+    
+    private static func loadLookupFilters(){
+        var key: String
+        
+        //  B&W
+        for name in FilterManager._bwLookupList {
+            key = name[name.startIndex...name.index(name.startIndex, offsetBy:5)]
+            //addToCategory(.presets, key:key)
+            FilterManager._monochromeList.append(key)
+        }
+        
+        // Colour Effects
+        for name in FilterManager._fxLookupList {
+            key = name[name.startIndex...name.index(name.startIndex, offsetBy:5)]
+            //addToCategory(.presets, key:key)
+            FilterManager._colorList.append(key)
+        }
+        
+        //print("Preset list: \(FilterManager._presetsList)")
+    }
+    
+    
+    ////////////////////////////
+    // JSON-based Image Presets
+    ////////////////////////////
+    
+    // the presets are defined in ImagePresets.json, which should be in the app bundle somewhere
+    // This is used to define Lightroom-style presets
+    
+    private static func createPresetFilters(){
+    
+        // parameters retrieved from the preset definition
+        var key:String
+        var title:String
+        
+        var temperature: Float
+        var tint: Float
+        
+        var exposure: Float
+        var contrast: Float
+        var highlights: Float
+        var shadows: Float
+        
+        var clarity: Float
+        var vibrance: Float
+        var saturation: Float
+        
+        var minOutput: Float
+        var minimum: Float
+        var middle: Float
+        var maximum: Float
+        var maxOutput: Float
+        
+        
+        var sharpness: Float
+
+        var slope: Float
+        var distance: Float
+        
+        var start: Float
+        var end: Float
+        
+    
+    print ("createPresetFilters() - Loading presets...")
+        // read the configuration file, which must be part of the project
+        let path = Bundle.main.path(forResource: "ImagePresets", ofType: "json")
+        
+        do {
+            let fileContents = try NSString(contentsOfFile: path!, encoding: String.Encoding.utf8.rawValue) as String
+            if let data = fileContents.data(using: String.Encoding.utf8) {
+                let json = JSON(data: data)
+                print("createPresetFilters() - parsing data")
+                
+                var count:Int = 0
+                for item in json["presets"].arrayValue {
+                    count = count + 1
+                    
+                    // Parse the Preset
+                    key = item["key"].stringValue
+                    title = item["title"].stringValue
+                    
+                    temperature = item["parameters"]["whiteBalance"]["temperature"].floatValue
+                    tint = item["parameters"]["whiteBalance"]["tint"].floatValue
+                    
+                    exposure = item["parameters"]["tone"]["exposure"].floatValue
+                    contrast = item["parameters"]["tone"]["contrast"].floatValue
+                    highlights = item["parameters"]["tone"]["highlights"].floatValue
+                    shadows = item["parameters"]["tone"]["shadows"].floatValue
+                    
+                    clarity = item["parameters"]["presence"]["clarity"].floatValue
+                    vibrance = item["parameters"]["presence"]["vibrance"].floatValue
+                    saturation = item["parameters"]["presence"]["saturation"].floatValue
+                    
+                    minOutput = item["parameters"]["levels"]["minOutput"].floatValue
+                    minimum = item["parameters"]["levels"]["minimum"].floatValue
+                    middle = item["parameters"]["levels"]["middle"].floatValue
+                    maximum = item["parameters"]["levels"]["maximum"].floatValue
+                    maxOutput = item["parameters"]["levels"]["maxOutput"].floatValue
+                    
+                    sharpness = item["parameters"]["sharpen"]["sharpness"].floatValue
+                    
+                    slope = item["parameters"]["haze"]["slope"].floatValue
+                    distance = item["parameters"]["haze"]["distance"].floatValue
+                    
+                    start = item["parameters"]["vignette"]["start"].floatValue
+                    end = item["parameters"]["vignette"]["end"].floatValue
+                    
+                    //DEBUG: print values (comment out later)
+                    print("Key: \(key), Title: \(title)")
+                    //print("Parameters: \(item["parameters"])")
+                    print("WB: (\(temperature), \(tint)), Exposure:(\(exposure), \(contrast), \(highlights), \(shadows)), Presence: (\(clarity), \(vibrance), \(saturation))")
+                    print("Levels:(\(minOutput), \(minimum), \(middle), \(maximum), \(maxOutput)), Sharpen:(\(sharpness)), Haze:(\(slope), \(distance)), Vignette:(\(start), \(end))")
+                    
+    
+                    // build a descriptor
+                    
+                    // add it to the Filter dictionary
+                    
+                    // add it to the preset list
+                }
+                
+                print ("\(count) Presets found")
+                
+            } else {
+                print("createPresetFilters() - ERROR : no data found")
+            }
+        }
+        catch let error as NSError {
+            print("createPresetFilters() - ERROR : reading from presets file : \(error.localizedDescription)")
+        }
+    }
+    
+    private static func loadPresetFilters(){
+    
+    }
+    
+    ////////////////////////////
+    // Data loading
+    ////////////////////////////
+    
+    
+    
+    // TODO: figure out how to modify the global list, not a copy
+    static func addToCategory(_ category:CategoryType, key:String){
+        if (FilterManager._filterDictionary.index(forKey: key) != nil){
+            var list = category.getFilterList()
+
+
+            if (!(list.contains(key))){
+                //log.verbose("Adding key:\(key) for category:\(category)  (\(list.count))")
+                print("addToCategory() Adding key:\(key) for category:\(category)  (\(list.count))")
+                list.append(key)
+                print("addToCategory() list: \(list)")
+            } else {
+                print("addToCategory() Filter:\(key) already member of category: \(category.rawValue)...")
+            }
+        } else {
+            print("addToCategory() Filter:\(key) not defined. NOT added to category: \(category.rawValue)...")
+        }
+    }
+    
+    
     
     static func populateCategories(){
         
@@ -672,31 +879,34 @@ class FilterManager{
         // Note that filters can be in multiple categories, but they will still be the 'same' filter
         // Lists will be sorted, so don't worry about the order
         
-        FilterManager._quickSelectList = [ "Crosshatch", "Emboss", "Halftone", "SwirlDistortion", "Luminance", "ThresholdSketch"  ]
+        FilterManager._quickSelectList += [ "Crosshatch", "Emboss", "Halftone", "SwirlDistortion", "Luminance", "ThresholdSketch"  ]
         
-        FilterManager._basicAdjustmentsList = [ "Saturation", "Warmth", "WhiteBalance", "Brightness", "Contrast", "UnsharpMask", "Exposure", "Sharpen", "Crop",
+        FilterManager._basicAdjustmentsList += [ "Saturation", "Warmth", "WhiteBalance", "Brightness", "Contrast", "UnsharpMask", "Exposure", "Sharpen", "Crop",
                                                 "Gamma", "Vibrance", "Highlights", "LevelsAdjustment", "Vignette", "Haze", "Clarity"]
         
-        FilterManager._blendModesList = [ "AddBlend", "AlphaBlend", "ChromaKeyBlend", "ColorBlend", "ColorBurnBlend", "ColorDodgeBlend", "DarkenBlend",
+        FilterManager._blendModesList += [ "AddBlend", "AlphaBlend", "ChromaKeyBlend", "ColorBlend", "ColorBurnBlend", "ColorDodgeBlend", "DarkenBlend",
                                           "DifferenceBlend", "DissolveBlend", "DivideBlend", "ExclusionBlend", "HardLightBlend", "HueBlend", "LightenBlend",
                                           "LinearBurnBlend", "LuminosityBlend", "MultiplyBlend", "NormalBlend", "OverlayBlend", "SaturationBlend", "ScreenBlend",
                                           "SoftLightBlend", "SourceOverBlend", "SubtractBlend"]
         
-        FilterManager._visualEffectsList = [ "BulgeDistortion", "GlassSphereRefraction", "PolarPixellate", "PolkaDot", "Pixellate", "TiltShift",
+        FilterManager._visualEffectsList += [ "BulgeDistortion", "GlassSphereRefraction", "PolarPixellate", "PolkaDot", "Pixellate", "TiltShift",
                                              "ChromaKeying", "PinchDistortion", "SwirlDistortion", "SphereRefraction"]
         
         // Note: Soft Elegance causes problems wth still Images
-        FilterManager._presetsList = [ "MissEtikate", "Amatorka", "CGAColorspace" ]
+        FilterManager._presetsList += [ "MissEtikate", "Amatorka", "CGAColorspace" ]
         
-        FilterManager._drawingList = [ "Crosshatch", "Emboss", "LuminanceThreshold", "Sketch", "ThresholdSketch", "Toon", "Kuwahara", "AverageLuminanceThreshold", "AdaptiveThreshold",
+        FilterManager._drawingList += [ "Crosshatch", "Emboss", "LuminanceThreshold", "Sketch", "ThresholdSketch", "Toon", "Kuwahara", "AverageLuminanceThreshold", "AdaptiveThreshold",
                                        "SmoothToon", "Posterize", "ThresholdSobelEdgeDetection", "Halftone" ]
         
-        FilterManager._blursList = [ "ZoomBlur", "BilateralBlur", "GaussianBlur", "SingleComponentGaussianBlur", "BoxBlur" ]
+        FilterManager._blursList += [ "ZoomBlur", "BilateralBlur", "GaussianBlur", "SingleComponentGaussianBlur", "BoxBlur" ]
        
         
-        FilterManager._monochromeList = [ "Luminance",  "Monochrome", "Sepia", "Grayscale" ]
+        FilterManager._monochromeList += [ "Luminance",  "Monochrome", "Sepia", "Grayscale" ]
         
-        FilterManager._colorList = [ "FalseColor", "Hue", "RGB",  "CGAColorspace", "Solarize", "ColorInversion", "HighlightShadowTint" ]
+        FilterManager._colorList += [ "FalseColor", "Hue", "RGB",  "CGAColorspace", "Solarize", "ColorInversion", "HighlightShadowTint" ]
+        
+        loadLookupFilters()
+        loadPresetFilters()
     }
     
     

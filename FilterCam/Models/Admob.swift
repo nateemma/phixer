@@ -27,6 +27,8 @@ class Admob {
         log.debug("Google Mobile Ads SDK version: " + GADRequest.sdkVersion())
         view.adUnitID = Admob.unitID
         view.rootViewController = viewController
-        view.load(GADRequest())
+        let request = GADRequest()
+        request.testDevices = ["223ed91126323ff1d7c3f5ed80f3515a"]
+        view.load(request)
     }
 }

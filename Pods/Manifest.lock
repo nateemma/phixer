@@ -28,6 +28,7 @@ PODS:
   - Kingfisher (3.1.4)
   - Neon (0.4.0)
   - SwiftyBeaver (1.1.1)
+  - SwiftyJSON (3.1.1)
 
 DEPENDENCIES:
   - ChameleonFramework/Swift
@@ -36,6 +37,7 @@ DEPENDENCIES:
   - Kingfisher
   - Neon
   - SwiftyBeaver
+  - SwiftyJSON
 
 SPEC CHECKSUMS:
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
@@ -50,7 +52,8 @@ SPEC CHECKSUMS:
   Kingfisher: 6c67e3e57f2d81a9cfdfa25052cd86f33ceac9bb
   Neon: 7fb5a9327e7e57911843f608e08f4893a74deaf9
   SwiftyBeaver: 2b68694df862381235e32bcfc4ec991e26bf131d
+  SwiftyJSON: f0be2e604f83e8405a624e9f891898bf6ed4e019
 
-PODFILE CHECKSUM: 9bf29dc4b81ac4f75148bba792faf64143c219b5
+PODFILE CHECKSUM: 92f8a89faf6831826aab432b9289b2df26aa80a4
 
 COCOAPODS: 1.0.1

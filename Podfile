@@ -23,6 +23,10 @@ target 'FilterCam' do
   #Image Caching
   pod 'Kingfisher'
 
+  # JSON Parsing
+  pod 'SwiftyJSON'
+
+
   target 'FilterCamTests' do
     inherit! :search_paths
     # Pods for testing
