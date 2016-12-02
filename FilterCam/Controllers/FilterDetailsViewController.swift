@@ -105,6 +105,7 @@ class FilterDetailsViewController: UIViewController {
             //setupConstraints()
             self.doLayout()
             self.filterDisplayView.setFilter(key: self.currFilterKey)
+            self.updateBanner(key: self.currFilterKey)
             self.navView.setNeedsLayout()
             self.filterDisplayView.setNeedsLayout()
         })
@@ -175,6 +176,7 @@ class FilterDetailsViewController: UIViewController {
         setupConstraints()
         filterDisplayView.setFilter(key: currFilterKey)
         filterParametersView.setFilter(currFilterDescriptor)
+        updateBanner(key: self.currFilterKey)
         
         filterParametersView.delegate = self
     }
@@ -213,6 +215,12 @@ class FilterDetailsViewController: UIViewController {
         backButton.addTarget(self, action: #selector(self.backDidPress), for: .touchUpInside)
         
     }
+  
+    
+    fileprivate func updateBanner(key: String){
+        titleLabel.text = key
+    }
+    
     
     fileprivate func setupDisplay(){
         if (filterDisplayView != nil) { filterDisplayView.removeFromSuperview() }
@@ -305,7 +313,7 @@ class FilterDetailsViewController: UIViewController {
             
             // Parameters on the bottom
             if (currFilterDescriptor != nil) {
-                filterParametersView.frame.size.height = CGFloat(((currFilterDescriptor?.numParameters)! + 1)) * bannerHeight * 0.75
+                filterParametersView.frame.size.height = fmin((CGFloat(((currFilterDescriptor?.numParameters)! + 1)) * bannerHeight * 0.75), (displayHeight*0.75))
             } else {
                 filterParametersView.frame.size.height = (displayHeight - 2.0 * bannerHeight) * 0.3
             }

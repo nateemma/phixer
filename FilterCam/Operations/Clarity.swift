@@ -13,7 +13,7 @@ import GPUImage
 // Custom Operation that implements a Clarity Adjustment
 
 class Clarity: OperationGroup {
-    public var strength:Float = 1.0 { didSet { opacity.opacity = strength * 0.1 } }
+    public var clarity:Float = 1.0 { didSet { opacity.opacity = clarity * 0.1 } }
     
     let unsharpMask = UnsharpMask()
     let blend = LuminosityBlend()

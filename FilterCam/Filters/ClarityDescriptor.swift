@@ -20,19 +20,19 @@ class ClarityDescriptor: FilterDescriptorInterface {
     var filterGroup: OperationGroup? = nil
     
     let numParameters = 1
-    let parameterConfiguration = [ParameterSettings(title:"strength", minimumValue:0.0, maximumValue:2.0, initialValue:1.0, isRGB:false)]
+    let parameterConfiguration = [ParameterSettings(title:"clarity", minimumValue:0.0, maximumValue:2.0, initialValue:1.0, isRGB:false)]
     
     
     let filterOperationType = FilterOperationType.singleInput
     
     fileprivate var lclFilter:Clarity = Clarity() // the actual filter
-    fileprivate var stash_strength: Float
+    fileprivate var stash_clarity: Float
     
     
     init(){
         filterGroup = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
-        lclFilter.strength = parameterConfiguration[0].initialValue
-        stash_strength = lclFilter.strength
+        lclFilter.clarity = parameterConfiguration[0].initialValue
+        stash_clarity = lclFilter.clarity
         log.verbose("config: \(parameterConfiguration)")
     }
     
@@ -55,7 +55,7 @@ class ClarityDescriptor: FilterDescriptorInterface {
     func getParameter(_ index: Int)->Float {
         switch (index){
         case 1:
-            return lclFilter.strength
+            return lclFilter.clarity
         default:
             return parameterNotSet
         }
@@ -65,7 +65,7 @@ class ClarityDescriptor: FilterDescriptorInterface {
     func setParameter(_ index: Int, value: Float) {
         switch (index){
         case 1:
-            lclFilter.strength = value
+            lclFilter.clarity = value
             log.debug("\(parameterConfiguration[0].title):\(value)")
             break
         default:
@@ -80,10 +80,10 @@ class ClarityDescriptor: FilterDescriptorInterface {
     
     
     func stashParameters(){
-        stash_strength = lclFilter.strength
+        stash_clarity = lclFilter.clarity
     }
     
     func restoreParameters(){
-        lclFilter.strength = stash_strength
+        lclFilter.clarity = stash_clarity
     }
 }

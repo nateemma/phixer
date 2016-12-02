@@ -745,21 +745,10 @@ class FilterManager{
         var highlights: Float
         var shadows: Float
         
-        var clarity: Float
         var vibrance: Float
         var saturation: Float
         
-        var minOutput: Float
-        var minimum: Float
-        var middle: Float
-        var maximum: Float
-        var maxOutput: Float
-        
-        
         var sharpness: Float
-
-        var slope: Float
-        var distance: Float
         
         var start: Float
         var end: Float
@@ -767,13 +756,15 @@ class FilterManager{
     
     print ("createPresetFilters() - Loading presets...")
         // read the configuration file, which must be part of the project
-        let path = Bundle.main.path(forResource: "ImagePresets", ofType: "json")
+        let path = Bundle.main.path(forResource: "PresetList", ofType: "json")
         
         do {
             let fileContents = try NSString(contentsOfFile: path!, encoding: String.Encoding.utf8.rawValue) as String
             if let data = fileContents.data(using: String.Encoding.utf8) {
                 let json = JSON(data: data)
                 print("createPresetFilters() - parsing data")
+                
+                var presetDescriptor:PresetDescriptor? = nil
                 
                 var count:Int = 0
                 for item in json["presets"].arrayValue {
@@ -791,20 +782,10 @@ class FilterManager{
                     highlights = item["parameters"]["tone"]["highlights"].floatValue
                     shadows = item["parameters"]["tone"]["shadows"].floatValue
                     
-                    clarity = item["parameters"]["presence"]["clarity"].floatValue
                     vibrance = item["parameters"]["presence"]["vibrance"].floatValue
                     saturation = item["parameters"]["presence"]["saturation"].floatValue
                     
-                    minOutput = item["parameters"]["levels"]["minOutput"].floatValue
-                    minimum = item["parameters"]["levels"]["minimum"].floatValue
-                    middle = item["parameters"]["levels"]["middle"].floatValue
-                    maximum = item["parameters"]["levels"]["maximum"].floatValue
-                    maxOutput = item["parameters"]["levels"]["maxOutput"].floatValue
-                    
                     sharpness = item["parameters"]["sharpen"]["sharpness"].floatValue
-                    
-                    slope = item["parameters"]["haze"]["slope"].floatValue
-                    distance = item["parameters"]["haze"]["distance"].floatValue
                     
                     start = item["parameters"]["vignette"]["start"].floatValue
                     end = item["parameters"]["vignette"]["end"].floatValue
@@ -812,15 +793,30 @@ class FilterManager{
                     //DEBUG: print values (comment out later)
                     print("Key: \(key), Title: \(title)")
                     //print("Parameters: \(item["parameters"])")
-                    print("WB: (\(temperature), \(tint)), Exposure:(\(exposure), \(contrast), \(highlights), \(shadows)), Presence: (\(clarity), \(vibrance), \(saturation))")
-                    print("Levels:(\(minOutput), \(minimum), \(middle), \(maximum), \(maxOutput)), Sharpen:(\(sharpness)), Haze:(\(slope), \(distance)), Vignette:(\(start), \(end))")
+                    print("WB: (\(temperature), \(tint)), Exposure:(\(exposure), \(contrast), \(highlights), \(shadows)), Presence: (\(vibrance), \(saturation)), Sharpen:(\(sharpness)), Vignette:(\(start), \(end))")
                     
     
                     // build a descriptor
+                    presetDescriptor = PresetDescriptor()
+                    presetDescriptor?.key = key
+                    presetDescriptor?.title = title
+                    presetDescriptor?.temperature = temperature
+                    presetDescriptor?.tint = tint
+                    presetDescriptor?.exposure = exposure
+                    presetDescriptor?.contrast = contrast
+                    presetDescriptor?.highlights = highlights
+                    presetDescriptor?.shadows = shadows
+                    presetDescriptor?.vibrance = vibrance
+                    presetDescriptor?.saturation = saturation
+                    presetDescriptor?.sharpness = sharpness
+                    presetDescriptor?.start = start
+                    presetDescriptor?.end = end
                     
                     // add it to the Filter dictionary
-                    
+                    makeFilter(key:key, descriptor: presetDescriptor!)
+
                     // add it to the preset list
+                    FilterManager._presetsList.append(key)
                 }
                 
                 print ("\(count) Presets found")

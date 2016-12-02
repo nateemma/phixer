@@ -375,6 +375,12 @@ class FilterDisplayView: UIView {
             filterGroup?.removeAllTargets()
             //log.debug("Run filterGroup: \(descriptor?.key) group:\(Utilities.addressOf(filterGroup)) view:\(Utilities.addressOf(renderView))")
             
+            // TEMP DEBUG:
+            if (descriptor is PresetDescriptor){
+                let preset:PresetDescriptor = descriptor as! PresetDescriptor
+                preset.logParameters()
+            }
+            
             let opType:FilterOperationType = (descriptor?.filterOperationType)!
             switch (opType){
             case .singleInput:

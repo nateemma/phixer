@@ -13,8 +13,6 @@ import GPUImage
 
 class XXX2Descriptor: FilterDescriptorInterface {
     
-    
-    
     let key = "XXX2"
     let title = "XXX2"
     
