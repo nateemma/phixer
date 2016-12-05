@@ -28,7 +28,7 @@ class ExclusionBlendDescriptor: FilterDescriptorInterface {
     fileprivate var lclFilter:ExclusionBlend = ExclusionBlend() // the actual filter
     
     
-    init(){
+    required init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
     }
     

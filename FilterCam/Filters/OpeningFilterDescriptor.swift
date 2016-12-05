@@ -28,7 +28,7 @@ class OpeningFilterDescriptor: FilterDescriptorInterface {
     fileprivate var lclFilter:OpeningFilter = OpeningFilter() // the actual filter
     
     
-    init(){
+    required init(){
         filterGroup = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
     }
     

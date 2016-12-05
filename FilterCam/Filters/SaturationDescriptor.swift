@@ -31,7 +31,7 @@ class SaturationDescriptor: FilterDescriptorInterface {
     fileprivate var stash_saturation: Float
     
     
-    init(){
+    required init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
         lclFilter.saturation = parameterConfiguration[0].initialValue
         stash_saturation = lclFilter.saturation

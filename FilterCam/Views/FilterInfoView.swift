@@ -139,7 +139,7 @@ class FilterInfoView: UIView {
     
 
     func update(){
-        categoryLabel.setTitle(filterManager.getCurrentCategory().rawValue, for: .normal)
+        categoryLabel.setTitle(filterManager.getCurrentCategory(), for: .normal)
         filterLabel.setTitle(filterManager.getCurrentFilterKey(), for: .normal)
         //log.verbose("key: \(filterManager.getCurrentFilterKey())")
     }

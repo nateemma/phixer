@@ -28,7 +28,7 @@ class XXX0Descriptor: FilterDescriptorInterface {
     fileprivate var lclFilter:XXXFilter = XXXFilter() // the actual filter
     
     
-    init(){
+    required init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
     }
     

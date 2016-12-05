@@ -28,7 +28,7 @@ class ColorBurnBlendDescriptor: FilterDescriptorInterface {
     fileprivate var lclFilter:ColorBurnBlend = ColorBurnBlend() // the actual filter
     
     
-    init(){
+    required init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
     }
     

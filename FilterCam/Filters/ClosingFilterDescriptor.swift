@@ -28,7 +28,7 @@ class ClosingFilterDescriptor: FilterDescriptorInterface {
     fileprivate var lclFilter:ClosingFilter = ClosingFilter() // the actual filter
     
     
-    init(){
+    required init(){
         filterGroup = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
     }
     

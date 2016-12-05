@@ -35,7 +35,7 @@ class SmoothToonDescriptor: FilterDescriptorInterface {
     fileprivate var stash_quantizationLevels: Float
     
     
-    init(){
+    required init(){
         filterGroup = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
         lclFilter.blurRadiusInPixels = parameterConfiguration[0].initialValue
         lclFilter.threshold = parameterConfiguration[1].initialValue

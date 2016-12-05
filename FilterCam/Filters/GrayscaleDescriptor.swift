@@ -29,7 +29,7 @@ class GrayscaleDescriptor: FilterDescriptorInterface {
     fileprivate var stash_intensity: Float
     
     
-    init(){
+    required init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
         lclFilter.intensity = parameterConfiguration[0].initialValue
         stash_intensity = lclFilter.intensity

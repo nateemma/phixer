@@ -34,7 +34,7 @@ class ChromaKeyingDescriptor: FilterDescriptorInterface {
     fileprivate var stash_smoothing: Float
     fileprivate var stash_colorToReplace: Color
     
-    init(){
+    required init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
         lclFilter.thresholdSensitivity = parameterConfiguration[0].initialValue
         lclFilter.smoothing = parameterConfiguration[1].initialValue

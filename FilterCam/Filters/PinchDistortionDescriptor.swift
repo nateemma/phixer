@@ -33,7 +33,7 @@ class PinchDistortionDescriptor: FilterDescriptorInterface {
     fileprivate var stash_radius: Float
     
     
-    init(){
+    required init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
         lclFilter.scale = parameterConfiguration[0].initialValue
         lclFilter.radius = parameterConfiguration[1].initialValue

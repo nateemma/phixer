@@ -32,7 +32,7 @@ class CrosshatchDescriptor: FilterDescriptorInterface {
     fileprivate var stash_lineWidth: Float
     
 
-    init(){
+    required init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
         lclFilter.crossHatchSpacing = parameterConfiguration[0].initialValue
         lclFilter.lineWidth = parameterConfiguration[1].initialValue

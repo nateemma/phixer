@@ -31,7 +31,7 @@ class PolarPixellateDescriptor: FilterDescriptorInterface {
     fileprivate var pixelEdge: Float
     
 
-    init(){
+    required init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
         pixelEdge = parameterConfiguration[0].initialValue
         stash_pixelEdge = pixelEdge

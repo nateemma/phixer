@@ -29,7 +29,7 @@ class WarmthDescriptor: FilterDescriptorInterface {
     fileprivate var stash_temperature: Float
     
     
-    init(){
+    required init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
         lclFilter.temperature = parameterConfiguration[0].initialValue
         stash_temperature = lclFilter.temperature

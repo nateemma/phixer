@@ -28,7 +28,7 @@ class KuwaharaRadius3Descriptor: FilterDescriptorInterface {
     fileprivate var lclFilter:KuwaharaRadius3Filter = KuwaharaRadius3Filter() // the actual filter
     
     
-    init(){
+    required init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
     }
     

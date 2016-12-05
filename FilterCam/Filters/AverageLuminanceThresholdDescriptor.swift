@@ -31,7 +31,7 @@ class AverageLuminanceThresholdDescriptor: FilterDescriptorInterface {
     fileprivate var stash_thresholdMultiplier: Float
     
     
-    init(){
+    required init(){
         filterGroup = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
         lclFilter.thresholdMultiplier = parameterConfiguration[0].initialValue
         stash_thresholdMultiplier = lclFilter.thresholdMultiplier

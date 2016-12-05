@@ -33,7 +33,7 @@ class RGBDescriptor: FilterDescriptorInterface {
     fileprivate var stash_blue: Float
     
     
-    init(){
+    required init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
         lclFilter.red = parameterConfiguration[0].initialValue
         lclFilter.green = parameterConfiguration[1].initialValue

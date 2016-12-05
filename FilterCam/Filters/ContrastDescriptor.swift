@@ -31,7 +31,7 @@ class ContrastDescriptor: FilterDescriptorInterface {
     fileprivate var stash_contrast: Float
     
     
-    init(){
+    required init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
         lclFilter.contrast = parameterConfiguration[0].initialValue
         stash_contrast = lclFilter.contrast

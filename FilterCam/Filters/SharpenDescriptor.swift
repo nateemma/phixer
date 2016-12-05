@@ -29,7 +29,7 @@ class SharpenDescriptor: FilterDescriptorInterface {
     fileprivate var stash_sharpness: Float
     
     
-    init(){
+    required init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
         lclFilter.sharpness = parameterConfiguration[0].initialValue
         stash_sharpness = lclFilter.sharpness

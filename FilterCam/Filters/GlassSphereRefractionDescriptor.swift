@@ -33,7 +33,7 @@ class SphereRefractionDescriptor: FilterDescriptorInterface {
     fileprivate var stash_refractiveIndex: Float
     
     
-    init(){
+    required init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
         lclFilter.radius = parameterConfiguration[0].initialValue
         lclFilter.refractiveIndex = parameterConfiguration[1].initialValue

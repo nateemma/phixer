@@ -31,7 +31,7 @@ class WhiteBalanceDescriptor: FilterDescriptorInterface {
     fileprivate var stash_tint: Float
     
     
-    init(){
+    required init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
         lclFilter.temperature = parameterConfiguration[0].initialValue
         lclFilter.tint = parameterConfiguration[1].initialValue

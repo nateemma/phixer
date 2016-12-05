@@ -35,7 +35,7 @@ class VignetteDescriptor: FilterDescriptorInterface {
     fileprivate var stash_color: Color
     
     
-    init(){
+    required init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
         lclFilter.start = parameterConfiguration[0].initialValue
         lclFilter.end = parameterConfiguration[1].initialValue

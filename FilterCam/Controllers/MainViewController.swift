@@ -88,7 +88,7 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         if (!MainViewController.initDone){
             log.verbose("init")
             //filterManager = FilterManager.sharedInstance
-            filterManager?.setCurrentCategory(FilterManager.CategoryType.quickSelect)
+            filterManager?.setCurrentCategory(FilterManager.defaultCategory)
             categorySelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)
             currFilterDescriptor = filterManager?.getCurrentFilterDescriptor()
             MainViewController.initDone = true
@@ -239,7 +239,7 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         
         //TODO: select filter category somehow
-        //filterSelectionView.setFilterCategory(FilterManager.CategoryType.quickSelect)
+        //filterSelectionView.setFilterCategory(String.quickSelect)
         
         //TODO: remember state?
         hideCategorySelector()
@@ -490,7 +490,7 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     // MARK: - Filter/Category Management
     //////////////////////////////////////
 
-    func changeCategoryTo(_ category: FilterManager.CategoryType){
+    func changeCategoryTo(_ category: String){
         if (category != filterManager?.getCurrentCategory()){
             log.debug("Category Selected: \(category)")
             filterManager?.setCurrentCategory(category)
@@ -927,7 +927,7 @@ extension MainViewController: FilterControlsViewDelegate {
 // CategorySelectionViewDelegate
 
 extension MainViewController: CategorySelectionViewDelegate {
-    func categorySelected(_ category:FilterManager.CategoryType){
+    func categorySelected(_ category:String){
         
         guard (callbacksEnabled) else {
             log.info("Category Selected Callback ignored")

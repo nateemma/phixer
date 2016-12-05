@@ -30,7 +30,7 @@ class PrewittEdgeDetectionDescriptor: FilterDescriptorInterface {
     fileprivate var stash_edgeStrength: Float
     
 
-    init(){
+    required init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
         lclFilter.edgeStrength = parameterConfiguration[0].initialValue
         stash_edgeStrength = lclFilter.edgeStrength

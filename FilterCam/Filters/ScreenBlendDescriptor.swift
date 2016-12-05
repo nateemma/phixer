@@ -28,7 +28,7 @@ class ScreenBlendDescriptor: FilterDescriptorInterface {
     fileprivate var lclFilter:ScreenBlend = ScreenBlend() // the actual filter
     
     
-    init(){
+    required init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
     }
     

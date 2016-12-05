@@ -161,7 +161,7 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
         
         doInit()
         
-        filterList = filterManager.getFilterList(FilterManager.CategoryType.blendModes)!
+        filterList = filterManager.getFilterList("blends")!
         currFilterIndex = 0
         if (filterList.count>0){
             currFilterKey = filterList[currFilterIndex]

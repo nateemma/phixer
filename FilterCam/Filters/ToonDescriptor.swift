@@ -33,7 +33,7 @@ class ToonDescriptor: FilterDescriptorInterface {
     fileprivate var stash_quantizationLevels: Float
     
     
-    init(){
+    required init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
         lclFilter.threshold = parameterConfiguration[0].initialValue
         lclFilter.quantizationLevels = parameterConfiguration[1].initialValue

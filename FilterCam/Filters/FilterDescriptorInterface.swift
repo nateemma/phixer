@@ -39,6 +39,8 @@ protocol FilterDescriptorInterface{
     var numParameters: Int { get } // 5 sliders max
     var parameterConfiguration: [ParameterSettings] { get }
     
+    init()
+    
     func configureCustomFilter(_ input:(filter:BasicOperation, secondInput:BasicOperation?))
     
     // Parameter access for Float parameters (most of them)

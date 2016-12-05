@@ -34,7 +34,7 @@ class RotateDescriptor: FilterDescriptorInterface {
     
 
     
-    init(){
+    required init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
         stash_rotation = parameterConfiguration[0].initialValue
         currRotation = stash_rotation

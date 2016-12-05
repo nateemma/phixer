@@ -33,7 +33,7 @@ class UnsharpMaskDescriptor: FilterDescriptorInterface {
     fileprivate var stash_intensity: Float
     
     
-    init(){
+    required init(){
         filterGroup = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
         lclFilter.blurRadiusInPixels = parameterConfiguration[0].initialValue
         lclFilter.intensity = parameterConfiguration[1].initialValue

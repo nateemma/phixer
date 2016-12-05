@@ -33,7 +33,7 @@ class ChromaKeyBlendDescriptor: FilterDescriptorInterface {
     fileprivate var stash_smoothing: Float
     
     
-    init(){
+    required init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
         lclFilter.thresholdSensitivity = parameterConfiguration[0].initialValue
         lclFilter.smoothing = parameterConfiguration[1].initialValue

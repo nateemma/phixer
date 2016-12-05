@@ -29,7 +29,7 @@ class HighPassFilterDescriptor: FilterDescriptorInterface {
     fileprivate var stash_strength: Float
     
     
-    init(){
+    required init(){
         filterGroup = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
         lclFilter.strength = parameterConfiguration[0].initialValue
         stash_strength = lclFilter.strength

@@ -15,7 +15,7 @@ import GPUImage
 
 // Interface required of controlling View
 protocol CategorySelectionViewDelegate: class {
-    func categorySelected(_ category:FilterManager.CategoryType)
+    func categorySelected(_ category:String)
 }
 
 
@@ -23,9 +23,9 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
 
     var categoryCarousel:iCarousel = iCarousel()
     var filterManager: FilterManager? = FilterManager.sharedInstance
-    var categoryList: [FilterManager.CategoryType] = []
+    var categoryList: [String] = []
     var categoryViewList: [UILabel] = []
-    var currCategory:FilterManager.CategoryType = FilterManager.CategoryType.color
+    var currCategory:String = FilterManager.defaultCategory
     var categoryLabel:UILabel = UILabel()
     var carouselHeight:CGFloat = 80.0
     var currIndex:Int = -1 // forces initialisation
@@ -35,10 +35,10 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
 
     //MARK: - Public accessors
     
-    func setFilterCategory(_ category:FilterManager.CategoryType){
+    func setFilterCategory(_ category:String){
         if ((currCategory != category) || (currIndex<0)){
             currCategory = category
-            log.debug("Filter category set to: \(category.rawValue)")
+            log.debug("Filter category set to: \(category)")
             update()
         } else {
             log.debug("Ignoring category \(category) change")
@@ -47,7 +47,7 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     
     func update(){
         //let newIndex = filterManager?.getCurrentCategory().getIndex()
-        let newIndex = currCategory.getIndex()
+        let newIndex = (filterManager?.getCategoryIndex(category: currCategory))!
         if (currIndex != newIndex){
             log.verbose("Scroll \(currIndex)->\(newIndex)")
             //categoryCarousel.scrollToItem(at: newIndex, animated: true)  // for some reason, animation causes a 'false' trigger at the end of the list
@@ -63,7 +63,7 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
             return ""
         }
         
-        return categoryList[currIndex].rawValue
+        return categoryList[currIndex]
     }
     
     /*** //TODO: define container view for categories. Probably just 2 labels (title and description)
@@ -170,7 +170,7 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         label.numberOfLines = 0
         
         if (index < categoryList.count){
-            label.text = categoryList[index].rawValue
+            label.text = categoryList[index]
         }
         
         return label

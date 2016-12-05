@@ -42,7 +42,7 @@ class LevelsAdjustmentDescriptor: FilterDescriptorInterface {
     fileprivate var stash_maxOutput: Float
     
     
-    init(){
+    required init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
 
         // a little different from other filters since we are storing a single value that is applied to all color components 

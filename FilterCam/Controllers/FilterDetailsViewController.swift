@@ -58,7 +58,7 @@ class FilterDetailsViewController: UIViewController {
     
     
     fileprivate var filterManager: FilterManager? = FilterManager.sharedInstance
-    fileprivate var currCategory: FilterManager.CategoryType = FilterManager.CategoryType.quickSelect
+    fileprivate var currCategory: String = ""
     fileprivate var currFilterDescriptor:FilterDescriptorInterface? = nil
     fileprivate var currFilterIndex:Int = -1
     fileprivate var currFilterCount:Int = 0
@@ -112,7 +112,7 @@ class FilterDetailsViewController: UIViewController {
     }
 
     
-    func loadFilterInfo(category: FilterManager.CategoryType, key: String){
+    func loadFilterInfo(category: String, key: String){
         currFilterKey = key
         currCategory = category
         currFilterIndex = (filterManager?.getFilterIndex(category: category, key: key))!

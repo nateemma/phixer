@@ -29,7 +29,7 @@ class ClarityDescriptor: FilterDescriptorInterface {
     fileprivate var stash_clarity: Float
     
     
-    init(){
+    required init(){
         filterGroup = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
         lclFilter.clarity = parameterConfiguration[0].initialValue
         stash_clarity = lclFilter.clarity

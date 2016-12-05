@@ -29,7 +29,7 @@ class KuwaharaDescriptor: FilterDescriptorInterface {
     fileprivate var stash_radius: Float
     
     
-    init(){
+    required init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
         lclFilter.radius = Int(parameterConfiguration[0].initialValue)
         stash_radius = Float(lclFilter.radius)

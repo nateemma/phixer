@@ -31,7 +31,7 @@ class XXX2Descriptor: FilterDescriptorInterface {
     fileprivate var stash_yyy: Float
     
     
-    init(){
+    required init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
         lclFilter.xxx = parameterConfiguration[0].initialValue
         lclFilter.yyy = parameterConfiguration[1].initialValue

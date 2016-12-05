@@ -48,7 +48,7 @@ class FilterGalleryViewController: UIViewController {
     // Category Selection View
     var categorySelectionView: CategorySelectionView!
     var currCategoryIndex = -1
-    var currCategory:FilterManager.CategoryType = .quickSelect
+    var currCategory:String = FilterManager.defaultCategory
     
     // Filter Galleries (one per category).
     var filterGalleryView : [FilterGalleryView] = []
@@ -142,7 +142,8 @@ class FilterGalleryViewController: UIViewController {
     func loadGalleries(){
         // create an array of FilterGalleryViews and assign a category to each one
         filterGalleryView = []
-        for _ in 0...FilterManager.maxIndex {
+        let count = filterManager.getCategoryCount()
+        for _ in 0...count {
             filterGalleryView.append(FilterGalleryView())
         }
     }
@@ -270,8 +271,8 @@ class FilterGalleryViewController: UIViewController {
         return ((index>=0) && (index<filterGalleryView.count)) ? true : false
     }
     
-    fileprivate func selectCategory(_ category:FilterManager.CategoryType){
-        let index = category.getIndex()
+    fileprivate func selectCategory(_ category:String){
+        let index = filterManager.getCategoryIndex(category: category)
         
         guard (filterGalleryView.count > 0) else {
             log.error("Galleries not initialised!")
@@ -282,7 +283,7 @@ class FilterGalleryViewController: UIViewController {
             if (index != currCategoryIndex){
                 log.debug("Category Selected: \(category) (\(currCategoryIndex)->\(index))")
                 if (isValidIndex(currCategoryIndex)) { filterGalleryView[currCategoryIndex].isHidden = true }
-                filterGalleryView[index].setCategory(FilterManager.getCategoryFromIndex(index))
+                filterGalleryView[index].setCategory(filterManager.getCategory(index: index))
                 currCategory = category
                 currCategoryIndex = index
                 filterGalleryView[index].isHidden = false
@@ -296,8 +297,8 @@ class FilterGalleryViewController: UIViewController {
     }
     
     
-    fileprivate func updateCategoryDisplay(_ category:FilterManager.CategoryType){
-        let index = category.getIndex()
+    fileprivate func updateCategoryDisplay(_ category:String){
+        let index = filterManager.getCategoryIndex(category: category)
         if (isValidIndex(index)){
             filterGalleryView[index].update()
         }
@@ -367,7 +368,7 @@ class FilterGalleryViewController: UIViewController {
 //////////////////////////////////////////
 
 extension FilterGalleryViewController: CategorySelectionViewDelegate {
-    func categorySelected(_ category:FilterManager.CategoryType){
+    func categorySelected(_ category:String){
         selectCategory(category)
     }
     
@@ -388,8 +389,8 @@ extension FilterGalleryViewController: FilterGalleryViewDelegate {
         self.present(filterDetailsViewController, animated: false, completion: nil)
     }
     
-    func requestUpdate(category:FilterManager.CategoryType){
-        log.debug("Update requested for category: \(category.rawValue)")
+    func requestUpdate(category:String){
+        log.debug("Update requested for category: \(category)")
     }
 }
 

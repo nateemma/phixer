@@ -13,7 +13,7 @@ import GPUImage
 // Interface required of controlling View
 protocol FilterGalleryViewDelegate: class {
     func filterSelected(_ descriptor:FilterDescriptorInterface?)
-    func requestUpdate(category:FilterManager.CategoryType)
+    func requestUpdate(category:String)
 }
 
 
@@ -41,7 +41,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     
     
     fileprivate var filterList:[String] = []
-    fileprivate var currCategory: FilterManager.CategoryType = FilterManager.CategoryType.color
+    fileprivate var currCategory: String = FilterManager.defaultCategory
     fileprivate var filterManager:FilterManager = FilterManager.sharedInstance
     
     fileprivate let layout = UICollectionViewFlowLayout()
@@ -123,7 +123,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         filterGallery = UICollectionView(frame: self.frame, collectionViewLayout: layout)
         filterGallery?.delegate   = self
         filterGallery?.dataSource = self
-        reuseId = "FilterGalleryView_" + currCategory.rawValue
+        reuseId = "FilterGalleryView_" + currCategory
         filterGallery?.register(FilterGalleryViewCell.self, forCellWithReuseIdentifier: reuseId)
         
         self.addSubview(filterGallery!)
@@ -154,11 +154,11 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         //doLoadData()
     }
     
-    open func setCategory(_ category:FilterManager.CategoryType){
+    open func setCategory(_ category:String){
         if (currCategory == category) { log.warning("Warning: category was already set to: \(category). Check logic") }
         
         //if ((currCategory != category) || firstTime){
-            log.debug("Category: \(category.rawValue)")
+            log.debug("Category: \(category)")
             currCategory = category
             firstTime = false
             doLayout()

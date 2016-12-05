@@ -31,7 +31,7 @@ class ZoomBlurDescriptor: FilterDescriptorInterface {
     fileprivate var stash_blurSize: Float
     
     
-    init(){
+    required init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
         lclFilter.blurSize = parameterConfiguration[0].initialValue
         stash_blurSize = lclFilter.blurSize

@@ -35,7 +35,7 @@ class CannyEdgeDetectionDescriptor: FilterDescriptorInterface {
     fileprivate var stash_lowerThreshold: Float
     
     
-    init(){
+    required init(){
         filterGroup = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
         lclFilter.blurRadiusInPixels = parameterConfiguration[0].initialValue
         lclFilter.upperThreshold = parameterConfiguration[1].initialValue

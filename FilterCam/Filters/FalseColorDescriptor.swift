@@ -32,7 +32,7 @@ class FalseColorDescriptor: FilterDescriptorInterface {
     fileprivate var stash_secondColor: Color
     
     
-    init(){
+    required init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
         stash_firstColor = lclFilter.firstColor
         stash_secondColor = lclFilter.secondColor

@@ -25,7 +25,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     fileprivate var filterManager: FilterManager? = FilterManager.sharedInstance
     fileprivate var filterNameList: [String] = []
     fileprivate var filterViewList: [RenderContainerView] = []
-    fileprivate var filterCategory:FilterManager.CategoryType = FilterManager.CategoryType.color
+    fileprivate var filterCategory:String = FilterManager.defaultCategory
     fileprivate var filterLabel:UILabel = UILabel()
     fileprivate var carouselHeight:CGFloat = 80.0
     fileprivate var camera: Camera? = nil
@@ -45,11 +45,11 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     //MARK: - Public accessors
     ///////////////////////////////////
     
-    func setFilterCategory(_ category:FilterManager.CategoryType){
+    func setFilterCategory(_ category:String){
         
         if ((category != filterCategory) || (currIndex<0)){
             
-            log.debug("Filter category set to: \(category.rawValue)")
+            log.debug("Filter category set to: \(category)")
             
             
             filterCategory = category

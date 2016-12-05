@@ -33,7 +33,7 @@ class HighlightsDescriptor: FilterDescriptorInterface {
     fileprivate var stash_shadows: Float
     
     
-    init(){
+    required init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
         lclFilter.highlights = parameterConfiguration[0].initialValue
         lclFilter.shadows = parameterConfiguration[1].initialValue

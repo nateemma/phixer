@@ -31,7 +31,7 @@ class HazeDescriptor: FilterDescriptorInterface {
     fileprivate var stash_slope: Float
     
     
-    init(){
+    required init(){
         filter = lclFilter // assign the filter defined in the interface to the instantiated filter of the desired sub-type
         lclFilter.distance = parameterConfiguration[0].initialValue
         stash_distance = lclFilter.distance
