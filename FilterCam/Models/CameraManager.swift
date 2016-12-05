@@ -23,6 +23,7 @@ class CameraManager {
     fileprivate static var selectedCamera : Camera? = nil
     fileprivate static var cameraLocation: PhysicalCameraLocation = .backFacing
     fileprivate static var cameraDevice: AVCaptureDevice? = nil
+    fileprivate static var cameraRunning:Bool = false
     
     // ISO
     fileprivate static var currISO: Float = 0.0
@@ -106,12 +107,16 @@ class CameraManager {
     
     open static func startCapture(){
         selectedCamera?.startCapture()
-        selectedCamera?.removeAllTargets()
+        cameraRunning = true
+        //selectedCamera?.removeAllTargets()
     }
     
     open static func stopCapture(){
-        selectedCamera?.stopCapture()
-        selectedCamera?.removeAllTargets()
+        if (cameraRunning){
+            cameraRunning = false
+            selectedCamera?.stopCapture()
+            selectedCamera?.removeAllTargets()
+        }
     }
     
     

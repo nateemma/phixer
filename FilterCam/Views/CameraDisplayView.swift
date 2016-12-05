@@ -115,7 +115,7 @@ class CameraDisplayView: UIView {
         camera = CameraManager.getCamera()
         if (camera != nil){
             //log.debug("Resetting filter pipeline")
-            camera?.stopCapture()
+            //camera?.stopCapture()
             camera?.removeAllTargets()
             currFilter?.filter?.removeAllTargets()
             blendImage?.removeAllTargets()
@@ -215,8 +215,9 @@ class CameraDisplayView: UIView {
 
             }
             // (Re-)start the camera capture
-            log.debug("Restarting camera feed")
-            camera?.startCapture()
+            //log.debug("Restarting camera feed")
+            //camera?.startCapture()
+            CameraManager.startCapture()
         } else {
             log.warning("No camera active, ignoring")
         }
