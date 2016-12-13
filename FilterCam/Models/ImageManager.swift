@@ -45,7 +45,9 @@ class ImageManager {
     private static var _currBlendImageScaled: UIImage? = nil
     private static var _currBlendSize: CGSize = CGSize(width: 0.0, height: 0.0)
     
+    private static var _currBlendInput: PictureInput? = nil
     
+  
     
     
     
@@ -66,11 +68,13 @@ class ImageManager {
             _currBlendName = name
             _currBlendImage = getBlendImageFromURL(name)
             _currBlendImageScaled = resizeImage(_currBlendImage, targetSize: _currBlendSize, mode:.scaleAspectFill)
+            setBlendInput(image: _currBlendImageScaled!)
         } else if (_blendNameList.contains(name)){
             log.debug("Current Blend image set to:\(name)")
             _currBlendName = name
             _currBlendImage = UIImage(named: _currBlendName)
             _currBlendImageScaled = resizeImage(getCurrentBlendImage(), targetSize: _currBlendSize, mode:.scaleAspectFill)
+            setBlendInput(image: _currBlendImageScaled!)
         } else {
             log.warning("Unknown Blend name:\(name)")
         }
@@ -79,37 +83,54 @@ class ImageManager {
     
     
     open static func getCurrentBlendImage()->UIImage? {
-        if (_currBlendImage == nil){
-            _currBlendImage = getBlendImageFromURL(_currBlendName)
-        }
-        
+        checkBlendImage()
         return _currBlendImage
     }
     
     
     
     open static func getCurrentBlendImage(size:CGSize)->UIImage? {
-        // make sure current blend image has been loaded
-        if (_currBlendImage == nil){
-            _currBlendImage = getBlendImageFromURL(_currBlendName)
-        }
-        
-        // check to see if we have already resized
-        if (_currBlendSize != size){
-            _currBlendSize = size
-            _currBlendImageScaled = resizeImage(getCurrentBlendImage(), targetSize: size, mode:.scaleAspectFill)
-        }
-        
+        checkBlendImage()
         return _currBlendImageScaled
     }
     
     
+    open static func getCurrentBlendInput()->PictureInput? {
+        checkBlendImage()
+        return _currBlendInput
+    }
     
     
     open static func getBlendImage(name: String, size:CGSize)->UIImage?{
         return resizeImage(getBlendImageFromURL(name), targetSize:size, mode:.scaleAspectFill)
     }
     
+    
+    open static func setBlendInput(image: UIImage){
+        if (_currBlendInput != nil){
+            _currBlendInput?.removeAllTargets()
+        }
+        _currBlendInput = PictureInput(image: image)
+    }
+    
+   
+    
+    private static func checkBlendImage(){
+        // make sure current blend image has been loaded
+        if (_currBlendImage == nil){
+            _currBlendImage = getBlendImageFromURL(_currBlendName)
+            setBlendInput(image: _currBlendImage!)
+        }
+        
+        // check to see if we have already resized
+        if (_currBlendImageScaled == nil){
+            if (_currBlendSize == CGSize.zero){
+                _currBlendSize = (_currBlendImage?.size)!
+            }
+            _currBlendImageScaled = resizeImage(_currBlendImage, targetSize: _currBlendSize, mode:.scaleAspectFill)
+            setBlendInput(image: _currBlendImageScaled!)
+        }
+    }
     
     
     // function to get a named image. Will check to see if a URL (provided by UIImagePicker) is provided
@@ -140,7 +161,7 @@ class ImageManager {
     private static var _currSampleImageScaled: UIImage? = nil
     private static var _currSampleSize: CGSize = CGSize(width: 0.0, height: 0.0)
     
-    
+    private static var _currSampleInput: PictureInput? = nil
     
     
     
@@ -161,11 +182,13 @@ class ImageManager {
             _currSampleName = name
             _currSampleImage = getSampleImageFromURL(name)
             _currSampleImageScaled = resizeImage(_currSampleImage, targetSize: _currSampleSize, mode:.scaleAspectFill)
+            setSampleInput(image: _currSampleImageScaled!)
         } else if (_sampleNameList.contains(name)){
             log.debug("Current Sample image set to:\(name)")
             _currSampleName = name
             _currSampleImage = UIImage(named: _currSampleName)
             _currSampleImageScaled = resizeImage(getCurrentSampleImage(), targetSize: _currSampleSize, mode:.scaleAspectFill)
+            setSampleInput(image: _currSampleImageScaled!)
         } else {
             log.warning("Unknown Sample name:\(name)")
         }
@@ -174,28 +197,24 @@ class ImageManager {
     
     
     open static func getCurrentSampleImage()->UIImage? {
-        if (_currSampleImage == nil){
-            _currSampleImage = getSampleImageFromURL(_currSampleName)
-        }
-        
+
+        checkSampleImage()
+
         return _currSampleImage
     }
     
     
     
     open static func getCurrentSampleImage(size:CGSize)->UIImage? {
-        // make sure current blend image has been loaded
-        if (_currSampleImage == nil){
-            _currSampleImage = getSampleImageFromURL(_currSampleName)
-        }
-        
-        // check to see if we have already resized
-        if (_currSampleSize != size){
-            _currSampleSize = size
-            _currSampleImageScaled = resizeImage(getCurrentSampleImage(), targetSize: size, mode:.scaleAspectFill)
-        }
-        
+        checkSampleImage()
         return _currSampleImageScaled
+    }
+    
+    
+    
+    open static func getCurrentSampleInput()->PictureInput? {
+        checkSampleImage()
+        return _currSampleInput
     }
     
     
@@ -205,7 +224,30 @@ class ImageManager {
         return resizeImage(getSampleImageFromURL(name), targetSize:size, mode:.scaleAspectFill)
     }
     
+    open static func setSampleInput(image: UIImage){
+        if (_currSampleInput != nil){
+            _currSampleInput?.removeAllTargets()
+        }
+        _currSampleInput = PictureInput(image: image)
+    }
     
+    private static func checkSampleImage(){
+        // make sure current blend image has been loaded
+        if (_currSampleImage == nil){
+            _currSampleImage = getSampleImageFromURL(_currSampleName)
+            setSampleInput(image: _currSampleImage!)
+        }
+        
+        // check to see if we have already resized
+        if (_currSampleImageScaled == nil){
+            if (_currSampleSize == CGSize.zero){
+                _currSampleSize = (_currSampleImage?.size)!
+            }
+            _currSampleImageScaled = resizeImage(_currSampleImage, targetSize: _currSampleSize, mode:.scaleAspectFill)
+            setSampleInput(image: _currSampleImageScaled!)
+        }
+    }
+
     
     // function to get a named image. Will check to see if a URL (provided by UIImagePicker) is provided
     private static func getSampleImageFromURL(_ urlString:String)->UIImage? {

@@ -181,7 +181,8 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
         selectedBlendImageName = ImageManager.getCurrentBlendImageName()
         sampleImageName = ImageManager.getCurrentSampleImageName()
         sampleImage = ImageManager.getCurrentSampleImage()
-        sampleInput = PictureInput(image:sampleImage!)
+        //sampleInput = PictureInput(image:sampleImage!)
+        sampleInput = ImageManager.getCurrentSampleInput()
         //filteredImage = filterManager.getRenderView(key: currFilterKey)
         if (filteredImage == nil) {  filteredImage = RenderView() }
       
@@ -506,6 +507,7 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
         selectedBlendImageSize = selectedBlendImage.frame.size
         selectedBlendImage?.image = ImageManager.getBlendImage(name:selectedBlendImageName, size: selectedBlendImageSize)
         blendInput  = PictureInput(image:(selectedBlendImage?.image)!)
+        //blendInput  = ImageManager.getCurrentBlendInput()
         
         currDescriptor = filterManager.getFilterDescriptor(key: currFilterKey)
         //filteredImage = filterManager.getRenderView(key: currFilterKey)

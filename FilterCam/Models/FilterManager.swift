@@ -370,6 +370,7 @@ class FilterManager{
     
     
     
+    // returns the RenderView associated with the supplied filter key
     func getRenderView(key:String)->RenderView?{
         var renderView: RenderView? = nil
         
@@ -380,13 +381,27 @@ class FilterManager{
             renderView = (FilterManager._renderViewDictionary[key])!
         } else {
             //log.error("RenderView for key:(\(key)) not found")
-            // not an error, just lazy allocation. Create the RenedrView and add it to the dictionary
+            // not an error, just lazy allocation. Create the RenderView and add it to the dictionary
             renderView = RenderView()
             FilterManager._renderViewDictionary[key] = renderView
         }
         
         return renderView
     }
+    
+    
+    
+    // releases the RenderView associated with the supplied filter key
+    func releaseRenderView(key:String){
+        
+        FilterManager.checkSetup()
+        
+        let index = FilterManager._renderViewDictionary.index(forKey: key)
+        if (index != nil){
+            FilterManager._renderViewDictionary[key] = nil
+        }
+    }
+    
     //////////////////////////////////////////////
     // MARK: - Callback/Notification methods
     //////////////////////////////////////////////

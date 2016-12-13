@@ -22,6 +22,11 @@ class FilterDisplayView: UIView {
     
     fileprivate var initDone: Bool = false
     fileprivate var filterManager = FilterManager.sharedInstance
+    
+    
+    fileprivate var currSampleInput:PictureInput? = nil
+    fileprivate var currBlendInput:PictureInput? = nil
+    
     fileprivate var currFilterKey:String = ""
     fileprivate var currFilterDescriptor: FilterDescriptorInterface? = nil
     
@@ -153,8 +158,8 @@ class FilterDisplayView: UIView {
         var blendImageFull:UIImage? = nil
         var sampleImageSmall:UIImage? = nil
         var blendImageSmall:UIImage? = nil
-        var sample:PictureInput? = nil
-        var blend:PictureInput? = nil
+        //var sample:PictureInput? = nil
+        //var blend:PictureInput? = nil
         var filteredOutput:PictureOutput? = nil
 
         //sampleImageFull = UIImage(named:"sample_emma_01.png")
@@ -166,21 +171,25 @@ class FilterDisplayView: UIView {
             let size = (sampleImageFull?.size.applying(CGAffineTransform(scaleX: 0.5, y: 0.5)))!
             sampleImageSmall = ImageManager.scaleImage(sampleImageFull, widthRatio: 0.5, heightRatio: 0.5)
             blendImageSmall = ImageManager.getCurrentBlendImage(size:size)
-            sample = PictureInput(image:sampleImageSmall!)
-            blend  = PictureInput(image:blendImageSmall!)
+            //sample = PictureInput(image:sampleImageSmall!)
+            //blend  = PictureInput(image:blendImageSmall!)
+            currSampleInput = PictureInput(image:sampleImageSmall!)
+            currBlendInput  = PictureInput(image:blendImageSmall!)
         } else {
             blendImageFull  = ImageManager.getCurrentBlendImage(size:(sampleImageFull?.size)!)
-            sample = PictureInput(image:sampleImageFull!)
-            blend  = PictureInput(image:blendImageFull!)
+            //sample = PictureInput(image:sampleImageFull!)
+            //blend  = PictureInput(image:blendImageFull!)
+            currSampleInput = ImageManager.getCurrentSampleInput()
+            currBlendInput = ImageManager.getCurrentBlendInput()
         }
        
         
-        guard (sample != nil) else {
+        guard (currSampleInput != nil) else {
             log.error("NIL Sample Input")
             return
         }
         
-        guard (blend != nil) else {
+        guard (currBlendInput != nil) else {
             log.error("NIL Blend Input")
             return
         }
@@ -213,14 +222,14 @@ class FilterDisplayView: UIView {
             switch (opType){
             case .singleInput:
                 log.debug("filter: \((currFilterDescriptor?.key)!) address:\(Utilities.addressOf(filter))")
-                sample! --> filter! --> filteredOutput!
+                currSampleInput! --> filter! --> filteredOutput!
                 break
             case .blend:
                 log.debug("BLEND filter: \(currFilterDescriptor?.key) opacity:\(opacityFilter?.opacity)")
-                sample!.addTarget(filter!)
-                blend! --> opacityFilter! --> filter!
-                sample! --> filter! --> filteredOutput!
-                blend?.processImage(synchronously: true)
+                currSampleInput!.addTarget(filter!)
+                currBlendInput! --> opacityFilter! --> filter!
+                currSampleInput! --> filter! --> filteredOutput!
+                currBlendInput?.processImage(synchronously: true)
                 break
             }
             
@@ -233,14 +242,14 @@ class FilterDisplayView: UIView {
             switch (opType){
             case .singleInput:
                 log.debug("filterGroup: \(currFilterDescriptor?.key)")
-                sample! --> filterGroup! --> filteredOutput!
+                currSampleInput! --> filterGroup! --> filteredOutput!
                 break
             case .blend:
                 log.debug("BLEND filter: \(currFilterDescriptor?.key) opacity:\(opacityFilter?.opacity)")
-                sample!.addTarget(filterGroup!)
-                blend! --> opacityFilter! --> filterGroup!
-                sample! --> filterGroup! --> filteredOutput!
-                blend?.processImage(synchronously: true)
+                currSampleInput!.addTarget(filterGroup!)
+                currBlendInput! --> opacityFilter! --> filterGroup!
+                currSampleInput! --> filterGroup! --> filteredOutput!
+                currBlendInput?.processImage(synchronously: true)
                 break
             }
         } else {
@@ -252,7 +261,7 @@ class FilterDisplayView: UIView {
             self.imageView.setNeedsDisplay()
             log.verbose ("Image processed: \((self.currFilterDescriptor?.key)!)")
         }
-        sample?.processImage(synchronously: true)
+        currSampleInput?.processImage(synchronously: true)
         
 
     }
@@ -288,8 +297,8 @@ class FilterDisplayView: UIView {
         var blendImageFull:UIImage? = nil
         //var sampleImageSmall:UIImage? = nil
         //var blendImageSmall:UIImage? = nil
-        var sample:PictureInput? = nil
-        var blend:PictureInput? = nil
+        //var sample:PictureInput? = nil
+        //var blend:PictureInput? = nil
         //var filteredOutput:PictureOutput? = nil
         
         //sampleImageFull = UIImage(named:"sample_emma_01.png")
@@ -302,11 +311,13 @@ class FilterDisplayView: UIView {
         
         // sample and blend images can change, so load each time through
         // TODO: track name, only load if they change
-        sample = PictureInput(image:sampleImageFull!)
-        blend  = PictureInput(image:blendImageFull!)
+        //sample = PictureInput(image:sampleImageFull!)
+        //blend  = PictureInput(image:blendImageFull!)
+        currSampleInput = ImageManager.getCurrentSampleInput()
+        currBlendInput  = ImageManager.getCurrentBlendInput()
         
-        sample?.removeAllTargets()
-        blend?.removeAllTargets()
+        currSampleInput?.removeAllTargets()
+        currBlendInput?.removeAllTargets()
         
         descriptor = filterManager.getFilterDescriptor(key: currFilterKey)
         renderView = filterManager.getRenderView(key: currFilterKey)
@@ -316,12 +327,12 @@ class FilterDisplayView: UIView {
             renderView?.fillSuperview()
         }
         
-        guard (sample != nil) else {
+        guard (currSampleInput != nil) else {
             log.error("NIL Sample Input")
             return
         }
         
-        guard (blend != nil) else {
+        guard (currBlendInput != nil) else {
             log.error("NIL Blend Input")
             return
         }
@@ -331,8 +342,6 @@ class FilterDisplayView: UIView {
             return
         }
         
-        sample?.removeAllTargets()
-        blend?.removeAllTargets()
         
         // reduce opacity of blends by default
         if (opacityFilter == nil){
@@ -353,22 +362,24 @@ class FilterDisplayView: UIView {
             case .singleInput:
                 log.debug("filter: \(descriptor?.key) address:\(Utilities.addressOf(filter))")
                 //sample! --> filter! --> self.renderView!
-                sample! --> filter! --> self.renderView!
-                sample?.processImage(synchronously: true)
+                currSampleInput! --> filter! --> self.renderView!
+                currSampleInput?.processImage(synchronously: true)
                 break
             case .blend:
                 log.debug("BLEND filter: \(currFilterDescriptor?.key) opacity:\(opacityFilter?.opacity)")
-                sample!.addTarget(filter!)
-                blend! --> opacityFilter! --> filter!
-                sample! --> filter! --> self.renderView!
-                blend?.processImage(synchronously: true)
-                sample?.processImage(synchronously: true)
+                currSampleInput!.addTarget(filter!)
+                currBlendInput! --> opacityFilter! --> filter!
+                currSampleInput! --> filter! --> self.renderView!
+                currBlendInput?.processImage(synchronously: true)
+                currSampleInput?.processImage(synchronously: true)
                 break
             }
+/***
             let targets = filter?.targets
             for (target, index) in targets! {
                 filter?.transmitPreviousImage(to: target, atIndex: index)
             }
+ ***/
             
         } else if (descriptor?.filterGroup != nil){ // group of filters
             filterGroup = descriptor?.filterGroup
@@ -385,22 +396,25 @@ class FilterDisplayView: UIView {
             switch (opType){
             case .singleInput:
                 log.debug("filterGroup: \(descriptor?.key)")
-                sample! --> filterGroup! --> self.renderView!
-                sample?.processImage(synchronously: true)
+                currSampleInput! --> filterGroup! --> self.renderView!
+                currSampleInput?.processImage(synchronously: true)
                 break
             case .blend:
                 log.debug("BLEND filter: \(currFilterDescriptor?.key) opacity:\(opacityFilter?.opacity)")
-                sample!.addTarget(filterGroup!)
-                blend! --> opacityFilter! --> filterGroup!
-                sample! --> filterGroup! --> self.renderView!
-                blend?.processImage(synchronously: true)
-                sample?.processImage(synchronously: true)
+                currSampleInput!.addTarget(filterGroup!)
+                currBlendInput! --> opacityFilter! --> filterGroup!
+                currSampleInput! --> filterGroup! --> self.renderView!
+                currBlendInput?.processImage(synchronously: true)
+                currSampleInput?.processImage(synchronously: true)
                 break
             }
+            //currSampleInput?.processImage() // run twice for group filters
+/***
             let targets = filterGroup?.targets
             for (target, index) in targets! {
                 filterGroup?.transmitPreviousImage(to: target, atIndex: index)
             }
+ ***/
 
         } else {
             log.error("ERR!!! shouldn't be here!!!")
@@ -410,10 +424,10 @@ class FilterDisplayView: UIView {
         //self.renderView?.setNeedsDisplay()
         //self.renderView?.setNeedsLayout()
         
-        sample?.removeAllTargets()
-        blend?.removeAllTargets()
-        filter?.removeAllTargets()
-        filterGroup?.removeAllTargets()
+        //currSampleInput?.removeAllTargets()
+        //currBlendInput?.removeAllTargets()
+        //filter?.removeAllTargets()
+        //filterGroup?.removeAllTargets()
     }
     
     
@@ -421,6 +435,8 @@ class FilterDisplayView: UIView {
         currFilterDescriptor?.filter?.removeAllTargets()
         currFilterDescriptor?.filterGroup?.removeAllTargets()
         opacityFilter?.removeAllTargets()
+        currBlendInput?.removeAllTargets()
+        currSampleInput?.removeAllTargets()
         //sample?.removeAllTargets()
         //blend?.removeAllTargets()
     }

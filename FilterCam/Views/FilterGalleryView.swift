@@ -186,7 +186,9 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
             descriptor = filterManager.getFilterDescriptor(key: key)
             descriptor?.filter?.removeAllTargets()
             descriptor?.filterGroup?.removeAllTargets()
+            filterManager.releaseRenderView(key: key)
         }
+        sample?.removeAllTargets()
         blend?.removeAllTargets()
         opacityFilter?.removeAllTargets()
     }

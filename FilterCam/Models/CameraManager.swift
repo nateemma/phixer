@@ -96,8 +96,7 @@ class CameraManager {
     open static func setCameraLocation(_ location: PhysicalCameraLocation) {
         if (cameraLocation != location){
             cameraLocation = location
-            selectedCamera?.stopCapture()
-            selectedCamera?.removeAllTargets()
+            stopCapture()
             selectedCamera = nil // force reallocation of Camera device (HACK)
             selectedCamera = getCamera()
             log.info("Changed Camera location to:\(location)")
