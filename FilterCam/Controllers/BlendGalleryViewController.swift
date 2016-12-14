@@ -337,14 +337,14 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
         // filteredImage
         // selectedBlendImage
         // photosLinkImage
-        for image in [filteredImage, selectedBlendImage, photosLinkImage]{
-            image?.frame.size = imageSize
-            image?.backgroundColor = UIColor.black
-            image?.layer.cornerRadius = 0.0
-            image?.layer.borderWidth = 1.0
-            image?.layer.borderColor = UIColor.white.cgColor
-            image?.clipsToBounds = true
-            image?.contentMode = .scaleAspectFill
+        for image in [filteredImage, selectedBlendImage, photosLinkImage] as [UIView]{
+            image.frame.size = imageSize
+            image.backgroundColor = UIColor.black
+            image.layer.cornerRadius = 0.0
+            image.layer.borderWidth = 1.0
+            image.layer.borderColor = UIColor.white.cgColor
+            image.clipsToBounds = true
+            image.contentMode = .scaleAspectFill
         }
         selectedBlendImage.image = ImageManager.getBlendImage(name: selectedBlendImageName, size: imageSize)
         loadPhotoThumbnail(view:photosLinkImage)

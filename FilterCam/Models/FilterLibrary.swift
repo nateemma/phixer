@@ -185,11 +185,26 @@ class FilterLibrary{
     
     
     private static func addLookup(key:String, image:String){
+        
+        //var title: String
+        //var ext: String
+        
+        let l = image.components(separatedBy:".")
+        let title = l[0]
+        let ext = l[1]
+        //title = image[image.startIndex...image.index(image.endIndex, offsetBy:-5)]
+        //ext = image[image.index(image.endIndex, offsetBy:-4)...image.endIndex]
+        
+        guard let path = Bundle.main.path(forResource: title, ofType: ext) else {
+            print("addLookup() File not found:\(image)")
+            return
+        }
+        
         // create a Lookup filter, set the name/title/image and add it to the Filter dictioary
         var descriptor:LookupFilterDescriptor
         descriptor = LookupFilterDescriptor()
         descriptor.key = key
-        descriptor.title = image[image.startIndex...image.index(image.endIndex, offsetBy:-5)]
+        descriptor.title = title
         descriptor.setLookupFile(name: image)
         FilterLibrary.filterDictionary[key] = descriptor
     }
