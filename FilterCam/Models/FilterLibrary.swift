@@ -167,6 +167,7 @@ class FilterLibrary{
     
     
     private static func addFilter(key:String, classname:String){
+        /*
         // create an instance from the classname and add it to the dictionary
         var descriptor:FilterDescriptorInterface? = nil
         let ns = Bundle.main.infoDictionary!["CFBundleExecutable"] as! String
@@ -180,20 +181,19 @@ class FilterLibrary{
         } else {
             print ("FilterLibrary.addFilter() ERR: Could not create class: \(classname)")
         }
+ */
+        // just store the mapping. Do lazy allocation as needed because of the potentially large number of filters
+        FilterLibrary.filterDictionary[key] = nil // just make sure there is an entry to find later
+        FilterFactory.addFilterDefinition(key: key, classname: classname)
     }
     
     
     
     private static func addLookup(key:String, image:String){
         
-        //var title: String
-        //var ext: String
-        
         let l = image.components(separatedBy:".")
         let title = l[0]
         let ext = l[1]
-        //title = image[image.startIndex...image.index(image.endIndex, offsetBy:-5)]
-        //ext = image[image.index(image.endIndex, offsetBy:-4)...image.endIndex]
         
         guard let path = Bundle.main.path(forResource: title, ofType: ext) else {
             print("addLookup() File not found:\(image)")
@@ -219,11 +219,11 @@ class FilterLibrary{
         }
         
         // double-check that filters exist
-        for key in filters {
-            if (FilterLibrary.filterDictionary[key] == nil){
-                print("addAssignment() ERROR: Filter not defined: \(key)")
-            }
-        }
+        //for key in filters {
+        //    if (FilterLibrary.filterDictionary[key] == nil){
+        //        print("addAssignment() ERROR: Filter not defined: \(key)")
+        //    }
+        //}
         //print("Category:\(category) Filters: \(filters)")
     }
 

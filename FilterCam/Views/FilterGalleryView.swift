@@ -210,7 +210,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     
     fileprivate func loadInputs(){
         
-        //sampleImageFull = UIImage(named:"sample_emma_01.png")
+        //sampleImageFull = UIImage(named:"sample_9989.png")
         sampleImageFull = ImageManager.getCurrentSampleImage()
         
         let size = (sampleImageFull?.size.applying(CGAffineTransform(scaleX: 0.2, y: 0.2)))!

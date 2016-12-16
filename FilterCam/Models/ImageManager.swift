@@ -154,7 +154,7 @@ class ImageManager {
     private static let _sampleNameList:[String] = ["sample_0846.png", "sample_1149.png", "sample_1151.png", "sample_1412.png", "sample_1504.png", "sample_1533.png", "sample_1629.png",
                                                    "sample_1687.png", "sample_1748.png", "sample_1902.png", "sample_2143.png", "sample_2216.png", "sample_9989.png"
                                                   ]
-    private static var _currSampleName:String = _sampleNameList[0]
+    private static var _currSampleName:String = "sample_9989.png"
     
     private static var _currSampleImage: UIImage? = nil
     

@@ -77,6 +77,9 @@ class FilterManager{
                     log.error("No filters for category: \(defaultCategory)")
                     FilterManager.currFilterKey = "Crosshatch"
                 }
+                if (FilterLibrary.filterDictionary[FilterManager.currFilterKey] == nil){
+                    FilterLibrary.filterDictionary[FilterManager.currFilterKey] = FilterFactory.createFilter(key: FilterManager.currFilterKey)
+                }
                 FilterManager.currFilterDescriptor = (FilterLibrary.filterDictionary[FilterManager.currFilterKey])!
             } else {
                 log.error("Invalid filter list for: \(defaultCategory)")
@@ -277,13 +280,18 @@ class FilterManager{
         
         FilterManager.checkSetup()
         
-        let index = FilterLibrary.filterDictionary.index(forKey: key)
-        if (index != nil){
-            filterDescr = (FilterLibrary.filterDictionary[key])!
-            //log.verbose("Found key:\((filterDescr?.key)!) addr:\(filterAddress(filterDescr))")
+        if (FilterLibrary.filterDictionary[key] == nil){    // if not allocatd, try creating it, i.e. only created if requested
+            log.debug("Creating filter object for:\(key)")
+            filterDescr = FilterFactory.createFilter(key: key)
+            FilterLibrary.filterDictionary[key] = filterDescr
+            if (filterDescr == nil){ // error somewhere
+                log.error("NIL descriptor returned for:\(key)")
+            }
         } else {
-            log.error("Filter (\(key)) not found")
+            filterDescr = FilterLibrary.filterDictionary[key]!
         }
+        //log.verbose("Found key:\((filterDescr?.key)!) addr:\(filterAddress(filterDescr))")
+        
         
         return filterDescr
     }

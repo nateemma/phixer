@@ -27,7 +27,7 @@ class oldFilterDisplayView: UIView {
     
 /***
     // vars are class-scope so that they stay allocated
-    fileprivate var sampleImageFull:UIImage = UIImage(named:"sample_emma_01.png")!
+    fileprivate var sampleImageFull:UIImage = UIImage(named:"sample_9989.png")!
     fileprivate var blendImageFull:UIImage = UIImage(named:"bl_topaz_warm.png")!
     fileprivate var sample:PictureInput? = nil
     fileprivate var blend:PictureInput? = nil
@@ -152,7 +152,7 @@ class oldFilterDisplayView: UIView {
     
     fileprivate func runFilterToImage(){
         
-        var sampleImageFull:UIImage = UIImage(named:"sample_emma_01.png")!
+        var sampleImageFull:UIImage = UIImage(named:"sample_9989.png")!
         var blendImageFull:UIImage = UIImage(named:"bl_topaz_warm.png")!
         var sampleImageSmall:UIImage? = nil
         var blendImageSmall:UIImage? = nil
@@ -164,7 +164,7 @@ class oldFilterDisplayView: UIView {
 
         
         
-        sampleImageFull = UIImage(named:"sample_emma_01.png")!
+        sampleImageFull = UIImage(named:"sample_9989.png")!
         blendImageFull = UIImage(named:"bl_topaz_warm.png")!
         
         // create scaled down versions of the sample and blend images
@@ -274,7 +274,7 @@ class oldFilterDisplayView: UIView {
     
     fileprivate func runFilterToRender(){
         
-        let sampleImageFull:UIImage = UIImage(named:"sample_emma_01.png")!
+        let sampleImageFull:UIImage = UIImage(named:"sample_9989.png")!
         let blendImageFull:UIImage = UIImage(named:"bl_topaz_warm.png")!
         var sample:PictureInput? = nil
         var blend:PictureInput? = nil
@@ -286,7 +286,7 @@ class oldFilterDisplayView: UIView {
             return
         }
         
-        //sampleImageFull = UIImage(named:"sample_emma_01.png")!
+        //sampleImageFull = UIImage(named:"sample_9989.png")!
         //blendImageFull = UIImage(named:"bl_topaz_warm.png")!
         sample = PictureInput(image:sampleImageFull)
         blend = PictureInput(image:blendImageFull)

@@ -68,9 +68,15 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
             // Pre-allocate views for the filters, makes it much easier and we can update in the background if needed
             filterViewList = []
             
+            var descriptor: FilterDescriptorInterface?
             if (filterNameList.count > 0){
                 for i in (0...filterNameList.count-1) {
-                    filterViewList.append(createFilterContainerView((filterManager?.getFilterDescriptor(key:filterNameList[i]))!))
+                    descriptor = filterManager?.getFilterDescriptor(key:filterNameList[i])
+                    if (descriptor != nil){
+                        filterViewList.append(createFilterContainerView((descriptor)!))
+                    } else {
+                        log.error("NIL Descriptor for:\(filterNameList[i])")
+                    }
                 }
                 
                 updateVisibleItems()
@@ -209,7 +215,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         }
  ***/
 
-        if (index < filterNameList.count){
+        if ((index < filterNameList.count) && (index>=0)){
             if (camera != nil){
                 filterCategory = (filterManager?.getCurrentCategory())!
                 currFilter = filterManager?.getFilterDescriptor(key:filterNameList[index])

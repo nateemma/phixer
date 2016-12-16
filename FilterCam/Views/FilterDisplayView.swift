@@ -162,7 +162,7 @@ class FilterDisplayView: UIView {
         //var blend:PictureInput? = nil
         var filteredOutput:PictureOutput? = nil
 
-        //sampleImageFull = UIImage(named:"sample_emma_01.png")
+        //sampleImageFull = UIImage(named:"sample_9989.png")
         sampleImageFull = ImageManager.getCurrentSampleImage()
         
         let reduceSize:Bool = false // set to true if you need to reduce the image size/resolution
@@ -272,7 +272,7 @@ class FilterDisplayView: UIView {
     fileprivate func runFilterToRender(){
     
 /**
-        let sampleImageFull:UIImage = UIImage(named:"sample_emma_01.png")!
+        let sampleImageFull:UIImage = UIImage(named:"sample_9989.png")!
         let blendImageFull:UIImage = UIImage(named:"bl_topaz_warm.png")!
         var sample:PictureInput? = nil
         var blend:PictureInput? = nil
@@ -287,7 +287,7 @@ class FilterDisplayView: UIView {
         //    return
         //}
         
-        //sampleImageFull = UIImage(named:"sample_emma_01.png")!
+        //sampleImageFull = UIImage(named:"sample_9989.png")!
         //blendImageFull = UIImage(named:"bl_topaz_warm.png")!
         
         
@@ -301,7 +301,7 @@ class FilterDisplayView: UIView {
         //var blend:PictureInput? = nil
         //var filteredOutput:PictureOutput? = nil
         
-        //sampleImageFull = UIImage(named:"sample_emma_01.png")
+        //sampleImageFull = UIImage(named:"sample_9989.png")
         sampleImageFull = ImageManager.getCurrentSampleImage() // reload each time because it can change
         
         let size = (sampleImageFull?.size)!

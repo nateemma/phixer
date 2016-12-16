@@ -102,7 +102,7 @@ class FilterGalleryViewCell: UICollectionViewCell {
     fileprivate func loadInputs(){
         /***/
         //log.debug("creating scaled sample and blend images...")
-        sampleImageFull = UIImage(named:"sample_emma_01.png")!
+        sampleImageFull = UIImage(named:"sample_9989.png")!
         blendImageFull = UIImage(named:"bl_topaz_warm.png")!
         
         // create scaled down versions of the sample and blend images
@@ -175,7 +175,7 @@ class FilterGalleryViewCell: UICollectionViewCell {
         /***
         var sample:PictureInput? = nil // for some reason, need to use local variables
         var blend:PictureInput? = nil
-         let sampleImageFull:UIImage = UIImage(named:"sample_emma_01.png")!
+         let sampleImageFull:UIImage = UIImage(named:"sample_9989.png")!
          let blendImageFull:UIImage = UIImage(named:"bl_topaz_warm.png")!
          sample = PictureInput(image:sampleImageFull)
          blend  = PictureInput(image:blendImageFull)
