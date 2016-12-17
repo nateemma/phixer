@@ -32,7 +32,7 @@ class LookupFilterDescriptor: FilterDescriptorInterface {
     let filterGroup: OperationGroup? = nil
     
     let numParameters = 1
-    let parameterConfiguration = [ParameterSettings(title:"intensity", minimumValue:0.0, maximumValue:1.0, initialValue:0.75, isRGB:false)]
+    let parameterConfiguration = [ParameterSettings(title:"intensity", minimumValue:0.0, maximumValue:1.0, initialValue:0.99, isRGB:false)]
     
     
     let filterOperationType = FilterOperationType.singleInput
@@ -55,6 +55,7 @@ class LookupFilterDescriptor: FilterDescriptorInterface {
         lookupName = name
         lookupInput = PictureInput(imageName:lookupName)
         lclFilter.lookupImage = lookupInput
+
     }
   
     

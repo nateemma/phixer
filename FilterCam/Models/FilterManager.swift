@@ -81,6 +81,7 @@ class FilterManager{
                     FilterLibrary.filterDictionary[FilterManager.currFilterKey] = FilterFactory.createFilter(key: FilterManager.currFilterKey)
                 }
                 FilterManager.currFilterDescriptor = (FilterLibrary.filterDictionary[FilterManager.currFilterKey])!
+                //TODO: class-specific init?!
             } else {
                 log.error("Invalid filter list for: \(defaultCategory)")
                 FilterManager.currFilterDescriptor = nil
@@ -281,20 +282,63 @@ class FilterManager{
         FilterManager.checkSetup()
         
         if (FilterLibrary.filterDictionary[key] == nil){    // if not allocatd, try creating it, i.e. only created if requested
-            log.debug("Creating filter object for:\(key)")
-            filterDescr = FilterFactory.createFilter(key: key)
-            FilterLibrary.filterDictionary[key] = filterDescr
-            if (filterDescr == nil){ // error somewhere
-                log.error("NIL descriptor returned for:\(key)")
+            
+            // check to see if this is a lookup filter. If so, then use the key for the 'base' lokup filter
+            // NOTE: make sure the base filter is in the list of filters at startup
+            if (FilterLibrary.lookupDictionary[key] != nil){
+                let lookupkey = "LookupFilter" // TODO: better way to mange string?!
+                log.debug("Creating lookup filter object for key:\(key)")
+                filterDescr = FilterFactory.createFilter(key: lookupkey)
+            } else {
+                log.debug("Creating filter object for key:\(key)")
+                filterDescr = FilterFactory.createFilter(key: key)
             }
+            
+            if (filterDescr == nil){ // error somewhere
+                log.error("NIL descriptor returned for key:\(key)")
+            }
+            
+            FilterLibrary.filterDictionary[key] = filterDescr
+            
+            // class-specific processing:
+            if (filterDescr is LookupFilterDescriptor){
+                initLookupFilter(key: key)
+            }
+
         } else {
             filterDescr = FilterLibrary.filterDictionary[key]!
         }
         //log.verbose("Found key:\((filterDescr?.key)!) addr:\(filterAddress(filterDescr))")
         
-        
+        // make sure RenderView has been allocated
+        if (FilterManager._renderViewDictionary[key] == nil){
+            FilterManager._renderViewDictionary[key] = RenderView()
+        }
+
         return filterDescr
     }
+  
+    
+    // 'Release' a filter descriptor. Should allow expensive OpenGL resources to be re-used
+    open func releaseFilterDescriptor(key:String){
+        
+        // release the filter descriptor
+        if (FilterLibrary.filterDictionary[key] != nil){
+            let descr = (FilterLibrary.filterDictionary[key])!
+            descr?.filter?.removeAllTargets()
+            descr?.filterGroup?.removeAllTargets()
+            FilterLibrary.filterDictionary[key] = nil
+            log.debug("key:\(key)")
+        }
+        
+        
+        // make sure RenderView has been released
+        if (FilterManager._renderViewDictionary[key] != nil){
+            releaseRenderView(key: key)
+        }
+
+    }
+    
     
     
     // 'Index' methods are provided to support previous/next types of navigation
@@ -380,21 +424,19 @@ class FilterManager{
     
     // returns the RenderView associated with the supplied filter key
     func getRenderView(key:String)->RenderView?{
-        var renderView: RenderView? = nil
         
         FilterManager.checkSetup()
         
-        let index = FilterManager._renderViewDictionary.index(forKey: key)
-        if (index != nil){
-            renderView = (FilterManager._renderViewDictionary[key])!
+        if (FilterManager._renderViewDictionary[key] != nil){
+            log.debug("reuse key:\(key)")
+            //renderView = (FilterManager._renderViewDictionary[key])!
         } else {
-            //log.error("RenderView for key:(\(key)) not found")
             // not an error, just lazy allocation. Create the RenderView and add it to the dictionary
-            renderView = RenderView()
-            FilterManager._renderViewDictionary[key] = renderView
+            log.debug("create key:\(key)")
+            FilterManager._renderViewDictionary[key] = RenderView()
         }
         
-        return renderView
+        return (FilterManager._renderViewDictionary[key])!
     }
     
     
@@ -404,10 +446,37 @@ class FilterManager{
         
         FilterManager.checkSetup()
         
-        let index = FilterManager._renderViewDictionary.index(forKey: key)
-        if (index != nil){
+        if (FilterManager._renderViewDictionary[key] != nil){
             FilterManager._renderViewDictionary[key] = nil
+            log.debug("key:\(key)")
         }
+    }
+    
+    
+    // class-specific init of LookupFilterDescriptor
+    fileprivate func initLookupFilter(key: String){
+        
+        var lookup:LookupFilterDescriptor? = nil
+        
+        // set the image file for this key
+        if (FilterLibrary.lookupDictionary[key] != nil){
+            
+            lookup = FilterLibrary.filterDictionary[key] as! LookupFilterDescriptor?
+            let image:String = (FilterLibrary.lookupDictionary[key])!
+            log.debug("key:\(key), image:\(image)")
+            
+            let l = image.components(separatedBy:".")
+            let title = l[0]
+            lookup?.key = key
+            lookup?.title = title
+            
+            lookup?.setLookupFile(name:image)
+            FilterLibrary.filterDictionary[key] = lookup
+            
+        } else {
+            log.error("ERR: Entry not found for LookupFilter:\(key)")
+        }
+        
     }
     
     //////////////////////////////////////////////

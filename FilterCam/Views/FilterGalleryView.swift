@@ -37,7 +37,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     fileprivate let height: CGFloat = 34
     
     //fileprivate let sectionInsets = UIEdgeInsets(top: 50.0, left: 20.0, bottom: 50.0, right: 20.0)
-    fileprivate let sectionInsets = UIEdgeInsets(top: 11.0, left: 10.0, bottom: 11.0, right: 10.0)
+    fileprivate let sectionInsets = UIEdgeInsets(top: 9.0, left: 10.0, bottom: 9.0, right: 10.0)
     
     
     fileprivate var filterList:[String] = []
@@ -69,7 +69,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     
     
     deinit{
-        suspend()
+        //suspend()
     }
     
     
@@ -133,6 +133,8 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     
     fileprivate func doLoadData(){
         //log.verbose("activated")
+        var filter:FilterDescriptorInterface? = nil
+        var renderview:RenderView? = nil
         
         if (self.filterList.count > 0){
             self.filterList = []
@@ -142,6 +144,14 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         self.filterList = self.filterManager.getFilterList(self.currCategory)!
         self.filterList.sort(by: { (value1: String, value2: String) -> Bool in return value1 < value2 }) // sort ascending
         log.debug ("Loading... \(self.filterList.count) filters for category: \(self.currCategory)")
+        
+        // pre-load filters. Inefficient, but it avoids multi-thread timing issues when rendering cells
+        if (self.filterList.count > 0){
+            for key in filterList{
+                filter = filterManager.getFilterDescriptor(key: key)
+                renderview = filterManager.getRenderView(key: key)
+            }
+        }
  
         
         self.filterGallery?.reloadData()
@@ -181,12 +191,13 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         }
         ***/
         
-        var descriptor:FilterDescriptorInterface? = nil
+        //var descriptor:FilterDescriptorInterface? = nil
         for key in filterList {
-            descriptor = filterManager.getFilterDescriptor(key: key)
-            descriptor?.filter?.removeAllTargets()
-            descriptor?.filterGroup?.removeAllTargets()
-            filterManager.releaseRenderView(key: key)
+            //descriptor = filterManager.getFilterDescriptor(key: key)
+            //descriptor?.filter?.removeAllTargets()
+            //descriptor?.filterGroup?.removeAllTargets()
+            filterManager.releaseFilterDescriptor(key: key)
+            //filterManager.releaseRenderView(key: key)
         }
         sample?.removeAllTargets()
         blend?.removeAllTargets()
@@ -244,7 +255,6 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         
         
         //TODO: start rendering in an asynch queue
-        //TODO: render to UIImage, no need for RenderView since image is static
         
         guard (sample != nil) else {
             log.error("Could not load sample image")
@@ -261,13 +271,16 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         if (opacityFilter == nil){
             opacityFilter = OpacityAdjustment()
             opacityFilter?.opacity = 0.8
+        } else {
+            opacityFilter?.removeAllTargets()
         }
        
         
         // annoyingly, we have to treat single and multiple filters differently
         if (descriptor?.filter != nil){ // single filter
             filter = descriptor?.filter
-            
+            //filter?.removeAllTargets()
+           
             //log.debug("Run filter: \((descriptor?.key)!) filter:\(Utilities.addressOf(filter)) view:\(Utilities.addressOf(renderView))")
             
             let opType:FilterOperationType = (descriptor?.filterOperationType)!
@@ -276,6 +289,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
                 //log.debug("filter: \(descriptor?.key) address:\(Utilities.addressOf(filter))")
                 sample! --> filter! --> renderView
                 sample?.processImage(synchronously: true)
+                //sample?.processImage()
                 break
             case .blend:
                 //log.debug("Using BLEND mode for filter: \(descriptor?.key)")
@@ -376,11 +390,13 @@ extension FilterGalleryView {
         let index:Int = (indexPath as NSIndexPath).item
         //log.verbose("Index: \(index) (\(self.filterList[index]))")
         if ((index>=0) && (index<filterList.count)){
-            let key = self.filterList[index]
-            let renderView = filterManager.getRenderView(key:key)
-            renderView?.frame = cell.frame
-            self.updateRenderView(index:index, key: key, renderView: renderView!) // doesn't seem to work if we put this into the FilterGalleryViewCell logic (threading?!)
-            cell.configureCell(frame: cell.frame, index:index, key:key)
+            DispatchQueue.main.async(execute: { () -> Void in
+                let key = self.filterList[index]
+                let renderView = self.filterManager.getRenderView(key:key)
+                renderView?.frame = cell.frame
+                self.updateRenderView(index:index, key: key, renderView: renderView!) // doesn't seem to work if we put this into the FilterGalleryViewCell logic (threading?!)
+                cell.configureCell(frame: cell.frame, index:index, key:key)
+            })
             
         } else {
             log.warning("Index out of range (\(index)/\(filterList.count))")
@@ -415,7 +431,7 @@ extension FilterGalleryView {
         // suspend all active rendering and launch viewer for this filter
         filterManager.setSelectedCategory(currCategory)
         filterManager.setSelectedFilter(key: (descr?.key)!)
-        suspend()
+        //suspend()
         //self.present(FilterDetailsViewController(), animated: true, completion: nil)
         delegate?.filterSelected(descr!)
     }
@@ -438,7 +454,7 @@ extension FilterGalleryView {
         let widthPerItem = availableWidth / itemsPerRow
         
         //log.debug("ItemSize: \(widthPerItem)")
-        return CGSize(width: widthPerItem, height: widthPerItem)
+        return CGSize(width: widthPerItem, height: widthPerItem*1.5)
     }
     
     

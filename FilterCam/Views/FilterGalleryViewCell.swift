@@ -75,7 +75,7 @@ class FilterGalleryViewCell: UICollectionViewCell {
         
         doInit()
         self.backgroundColor = UIColor.flatBlack()
-        self.layer.cornerRadius = 4.0
+        self.layer.cornerRadius = 2.0
         self.layer.borderWidth = 1.0
         self.layer.borderColor = UIColor(white: 0.6, alpha: 1.0).cgColor
         self.clipsToBounds = true
@@ -87,11 +87,12 @@ class FilterGalleryViewCell: UICollectionViewCell {
         
         label.textAlignment = .center
         label.textColor = UIColor.white
+        label.backgroundColor = UIColor.flatMint().withAlphaComponent(0.6)
         label.font = UIFont.boldSystemFont(ofSize: 12.0)
         self.addSubview(label)
         
         //log.verbose("renderView h:\(self.height * 0.7)")
-        renderView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: self.height * 0.7)
+        renderView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: self.height * 0.8)
         label.alignAndFill(.underCentered, relativeTo: renderView, padding: 0)
 
         self.bringSubview(toFront: renderView)
@@ -145,21 +146,23 @@ class FilterGalleryViewCell: UICollectionViewCell {
     
     public func configureCell(frame: CGRect, index:Int, key:String) {
         
-        log.debug("index:\(index), key:\(key)")
-        cellIndex = index
+        DispatchQueue.main.async(execute: { () -> Void in
+            log.debug("index:\(index), key:\(key)")
+            self.cellIndex = index
+            
+            // allocate the RenderView
+            self.renderView = self.filterManager.getRenderView(key: key)
+            //self.renderView = renderView
+            
+            // re-size the contents to match the cell
+            self.renderView.frame = frame
+            
+            //self.renderContainer.label.text = descriptor?.key
+            self.label.text = key
+            
+            self.doLayout()
+        })
         
-        // allocate the RenderView
-        self.renderView = filterManager.getRenderView(key: key)
-        //self.renderView = renderView
-        
-        // re-size the contents to match the cell
-        self.renderView.frame = frame
-        
-        //self.renderContainer.label.text = descriptor?.key
-        self.label.text = key
-        
-        doLayout()
-                
         //TODO: set overlay image based on whether filter is in Quick Select category or not and define touch handlers
     }
     

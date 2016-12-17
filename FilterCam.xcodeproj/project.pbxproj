@@ -2609,7 +2609,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Nateemma;
 				TargetAttributes = {
 					257F49DB1D9448920083B1E4 = {

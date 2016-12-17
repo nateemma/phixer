@@ -96,7 +96,7 @@ class FilterDetailsViewController: UIViewController {
     }
     
     func suspend(){
-        filterDisplayView.suspend()
+        self.filterDisplayView.suspend()
     }
     
     func update(){
@@ -431,7 +431,7 @@ class FilterDetailsViewController: UIViewController {
         log.verbose("Back pressed")
         guard navigationController?.popViewController(animated: true) != nil else { //modal
             //log.debug("Not a navigation Controller")
-            suspend()
+            //suspend()
             dismiss(animated: true, completion: { self.delegate?.onCompletion(key: self.currFilterKey) })
             return
         }

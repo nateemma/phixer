@@ -71,6 +71,7 @@
                 {"key": "LevelsAdjustment", "class": "LevelsAdjustmentDescriptor" },
                 {"key": "LightenBlend", "class": "LightenBlendDescriptor" },
                 {"key": "LinearBurnBlend", "class": "LinearBurnBlendDescriptor" },
+                {"key": "LookupFilter", "class": "LookupFilterDescriptor" },
                 {"key": "LowPassFilter", "class": "LowPassFilterDescriptor" },
                 {"key": "Luminance", "class": "LuminanceDescriptor" },
                 {"key": "LuminanceThreshold", "class": "LuminanceThresholdDescriptor" },
@@ -597,7 +598,7 @@
                { "key": "tn_002", "image": "tn_002_isolate_green.jpg" },
                { "key": "tn_003", "image": "tn_003_isolate_yellow.jpg" },
                { "key": "tn_004", "image": "tn_004_isolate_red.jpg" },
-               { "key": "tn_004", "image": "tn_004_tint_aqua.jpg" },
+               { "key": "tn_04b", "image": "tn_004_tint_aqua.jpg" },
                { "key": "tn_005", "image": "tn_005_tint_blue.jpg" },
                { "key": "tn_006", "image": "tn_006_tint_brown.jpg" },
                { "key": "tn_007", "image": "tn_007_tint_green.jpg" },
@@ -790,7 +791,7 @@
                },
                
                {"category": "tint",
-               "filters": ["tn_001", "tn_002", "tn_003", "tn_004", "tn_004", "tn_005", "tn_006", "tn_007", "tn_008", "tn_009",
+               "filters": ["tn_001", "tn_002", "tn_003", "tn_004", "tn_04b", "tn_005", "tn_006", "tn_007", "tn_008", "tn_009",
                            "tn_010", "tn_011"
                ]
                },

@@ -26,7 +26,7 @@ class RenderContainerView: UIView {
         self.init(frame: CGRect.zero)
         
         self.backgroundColor = UIColor.black
-        self.layer.cornerRadius = 4.0
+        self.layer.cornerRadius = 2.0
         self.layer.borderWidth = 1.0
         self.layer.borderColor = UIColor(white: 0.68, alpha: 1.0).cgColor
         self.clipsToBounds = true
@@ -38,6 +38,7 @@ class RenderContainerView: UIView {
         
         label.textAlignment = .center
         label.textColor = UIColor.white
+        label.backgroundColor = UIColor.flatMint().withAlphaComponent(0.6)
         label.font = UIFont.boldSystemFont(ofSize: 12.0)
         self.addSubview(label)
     }
@@ -45,7 +46,7 @@ class RenderContainerView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        renderView?.anchorAndFillEdge(.top, xPad: 0, yPad: 8, otherSize: self.height * 0.7)
+        renderView?.anchorAndFillEdge(.top, xPad: 0, yPad: 2, otherSize: self.height * 0.8)
         label.alignAndFill(.underCentered, relativeTo: renderView!, padding: 0)
     }
     

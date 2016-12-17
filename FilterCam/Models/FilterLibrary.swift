@@ -30,6 +30,9 @@ class FilterLibrary{
     // Dictionary of FilterDescriptors (key, FilterDescriptorInterface). key is filter name
     open static var filterDictionary:[String:FilterDescriptorInterface?] = [:]
     
+    // Dictionary of Lookup images (key, image name). key is filter name
+    open static var lookupDictionary:[String:String] = [:]
+    
     // Dictionary of Category Dictionaries. Use category as key to get list of filters in that category
     typealias FilterList = Array<String>
     //open static var categoryFilters:[String:FilterList] = [:]
@@ -79,6 +82,7 @@ class FilterLibrary{
         categoryDictionary = [:]
         categoryList = []
         filterDictionary = [:]
+        lookupDictionary = [:]
         categoryFilters = [:]
         
         print ("FilterLibrary.restore() - loading configuration...")
@@ -196,10 +200,11 @@ class FilterLibrary{
         let ext = l[1]
         
         guard let path = Bundle.main.path(forResource: title, ofType: ext) else {
-            print("addLookup() File not found:\(image)")
+            print("addLookup() ERR: File not found:\(image)")
             return
         }
         
+        /** old way
         // create a Lookup filter, set the name/title/image and add it to the Filter dictioary
         var descriptor:LookupFilterDescriptor
         descriptor = LookupFilterDescriptor()
@@ -207,6 +212,14 @@ class FilterLibrary{
         descriptor.title = title
         descriptor.setLookupFile(name: image)
         FilterLibrary.filterDictionary[key] = descriptor
+ **/
+        
+        // new way: save the image name for later use, when the filter is created
+        if (FilterLibrary.lookupDictionary[key] != nil){ // check for duplicate and warn
+            print("addLookup() WARN: Duplicate key:\(key)")
+        }
+        FilterLibrary.lookupDictionary[key] = image
+        FilterLibrary.filterDictionary[key] = nil
     }
     
     

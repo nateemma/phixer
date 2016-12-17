@@ -134,9 +134,11 @@ class FilterGalleryViewController: UIViewController {
     
     
     func suspend(){
-        for filterView in filterGalleryView{
-            filterView.suspend()
-        }
+        DispatchQueue.main.async(execute: { () -> Void in
+            for filterView in self.filterGalleryView{
+                filterView.suspend()
+            }
+        })
     }
     
     func loadGalleries(){
@@ -272,28 +274,32 @@ class FilterGalleryViewController: UIViewController {
     }
     
     fileprivate func selectCategory(_ category:String){
-        let index = filterManager.getCategoryIndex(category: category)
-        
-        guard (filterGalleryView.count > 0) else {
-            log.error("Galleries not initialised!")
-            return
-        }
-        
-        if (isValidIndex(index)){
-            if (index != currCategoryIndex){
-                log.debug("Category Selected: \(category) (\(currCategoryIndex)->\(index))")
-                if (isValidIndex(currCategoryIndex)) { filterGalleryView[currCategoryIndex].isHidden = true }
-                filterGalleryView[index].setCategory(filterManager.getCategory(index: index))
-                currCategory = category
-                currCategoryIndex = index
-                filterGalleryView[index].isHidden = false
-            } else {
-                if (isValidIndex(currCategoryIndex)) { filterGalleryView[currCategoryIndex].isHidden = false } // re-display just in case (e.g. could be a rotation)
-                log.debug("Ignoring category change \(currCategoryIndex)->\(index)")
+        DispatchQueue.main.async(execute: { () -> Void in
+            
+            
+            let index = self.filterManager.getCategoryIndex(category: category)
+            
+            guard (self.filterGalleryView.count > 0) else {
+                log.error("Galleries not initialised!")
+                return
             }
-        } else {
-            log.warning("Invalid index: \(index)")
-        }
+            
+            if (self.isValidIndex(index)){
+                if (index != self.currCategoryIndex){
+                    log.debug("Category Selected: \(category) (\(self.currCategoryIndex)->\(index))")
+                    if (self.isValidIndex(self.currCategoryIndex)) { self.filterGalleryView[self.currCategoryIndex].isHidden = true }
+                    self.filterGalleryView[index].setCategory(self.filterManager.getCategory(index: index))
+                    self.currCategory = category
+                    self.currCategoryIndex = index
+                    self.filterGalleryView[index].isHidden = false
+                } else {
+                    if (self.isValidIndex(self.currCategoryIndex)) { self.filterGalleryView[self.currCategoryIndex].isHidden = false } // re-display just in case (e.g. could be a rotation)
+                    log.debug("Ignoring category change \(self.currCategoryIndex)->\(index)")
+                }
+            } else {
+                log.warning("Invalid index: \(index)")
+            }
+        })
     }
     
     
@@ -380,7 +386,7 @@ extension FilterGalleryViewController: CategorySelectionViewDelegate {
 
 extension FilterGalleryViewController: FilterGalleryViewDelegate {
     func filterSelected(_ descriptor:FilterDescriptorInterface?){
-        suspend()
+        //suspend()
         filterManager.setSelectedCategory(currCategory)
         filterManager.setSelectedFilter(key: (descriptor?.key)!)
         let filterDetailsViewController = FilterDetailsViewController()
@@ -398,11 +404,11 @@ extension FilterGalleryViewController: FilterGalleryViewDelegate {
 
 extension FilterGalleryViewController: FilterDetailsViewControllerDelegate {
     func onCompletion(key:String){
-        //DispatchQueue.main.asyncAfter(deadline: .now() + 0.005, execute: {() -> Void in
-        //DispatchQueue.main.async(execute: {() -> Void in
-        log.verbose("FilterDetailsView completed")
-        self.updateCategoryDisplay(self.currCategory)
-        //})
+        //DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {() -> Void in
+        DispatchQueue.main.async(execute: {() -> Void in
+            log.verbose("FilterDetailsView completed")
+            self.updateCategoryDisplay(self.currCategory)
+        })
     }
     
     func prevFilter(){

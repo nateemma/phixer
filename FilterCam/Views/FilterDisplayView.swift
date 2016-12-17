@@ -45,7 +45,7 @@ class FilterDisplayView: UIView {
     
     
     deinit {
-        suspend()
+        //suspend()
     }
 
    
@@ -432,8 +432,12 @@ class FilterDisplayView: UIView {
     
     
     func suspend(){
-        currFilterDescriptor?.filter?.removeAllTargets()
-        currFilterDescriptor?.filterGroup?.removeAllTargets()
+        //currFilterDescriptor?.filter?.removeAllTargets()
+        //currFilterDescriptor?.filterGroup?.removeAllTargets()
+        //if (currFilterDescriptor != nil){
+        //    filterManager.releaseFilterDescriptor(key: (currFilterDescriptor?.key)!)
+        //    filterManager.releaseRenderView(key: (currFilterDescriptor?.key)!)
+        //}
         opacityFilter?.removeAllTargets()
         currBlendInput?.removeAllTargets()
         currSampleInput?.removeAllTargets()
