@@ -287,7 +287,10 @@ class FilterGalleryViewController: UIViewController {
             if (self.isValidIndex(index)){
                 if (index != self.currCategoryIndex){
                     log.debug("Category Selected: \(category) (\(self.currCategoryIndex)->\(index))")
-                    if (self.isValidIndex(self.currCategoryIndex)) { self.filterGalleryView[self.currCategoryIndex].isHidden = true }
+                    if (self.isValidIndex(self.currCategoryIndex)) {
+                        self.filterGalleryView[self.currCategoryIndex].isHidden = true
+                        self.filterGalleryView[self.currCategoryIndex].suspend()
+                    }
                     self.filterGalleryView[index].setCategory(self.filterManager.getCategory(index: index))
                     self.currCategory = category
                     self.currCategoryIndex = index

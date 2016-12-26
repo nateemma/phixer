@@ -111,12 +111,13 @@ class FilterDisplayView: UIView {
             if (renderView != nil) {
                 //renderView = RenderView()
                 renderView?.frame = self.frame
+                //TODO: maintain aspect ration of source image
                 self.addSubview(renderView!)
                 renderView?.fillSuperview()
                 imageView.isHidden = true
                 renderView?.isHidden = false
                 self.bringSubview(toFront: renderView!)
-                renderView?.fillSuperview()
+                //renderView?.fillSuperview()
             }
         }
     }

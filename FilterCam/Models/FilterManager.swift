@@ -340,7 +340,6 @@ class FilterManager{
     }
     
     
-    
     // 'Index' methods are provided to support previous/next types of navigation
     
     // get the index of the filter within the category list. -1 if not found

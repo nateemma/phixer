@@ -263,7 +263,7 @@ class FilterGalleryViewCell: UICollectionViewCell {
             filterGroup?.removeAllTargets()
             
         } else {
-            log.error("ERR!!! shouldn't be here!!!")
+            log.error("ERR!!! Both Filter and Group are NIL")
         }
 
         

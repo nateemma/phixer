@@ -197,7 +197,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
             //descriptor?.filter?.removeAllTargets()
             //descriptor?.filterGroup?.removeAllTargets()
             filterManager.releaseFilterDescriptor(key: key)
-            //filterManager.releaseRenderView(key: key)
+            filterManager.releaseRenderView(key: key)
         }
         sample?.removeAllTargets()
         blend?.removeAllTargets()
@@ -279,7 +279,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         // annoyingly, we have to treat single and multiple filters differently
         if (descriptor?.filter != nil){ // single filter
             filter = descriptor?.filter
-            //filter?.removeAllTargets()
+            filter?.removeAllTargets()
            
             //log.debug("Run filter: \((descriptor?.key)!) filter:\(Utilities.addressOf(filter)) view:\(Utilities.addressOf(renderView))")
             
@@ -302,10 +302,11 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
                 break
             }
             
-            filter?.removeAllTargets()
+            //filter?.removeAllTargets()
             
         } else if (descriptor?.filterGroup != nil){ // group of filters
             filterGroup = descriptor?.filterGroup
+            filterGroup?.removeAllTargets()
             //log.debug("Run filterGroup: \(descriptor?.key) group:\(Utilities.addressOf(filterGroup)) view:\(Utilities.addressOf(renderView))")
             
             let opType:FilterOperationType = (descriptor?.filterOperationType)!
@@ -326,7 +327,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
                 break
             }
             
-            filterGroup?.removeAllTargets()
+            //filterGroup?.removeAllTargets()
             
         } else {
             log.error("ERR!!! shouldn't be here!!!")

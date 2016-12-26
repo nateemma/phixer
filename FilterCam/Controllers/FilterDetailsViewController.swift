@@ -104,10 +104,10 @@ class FilterDetailsViewController: UIViewController {
             //setupDisplay()
             //setupConstraints()
             self.doLayout()
-            self.filterDisplayView.setFilter(key: self.currFilterKey)
-            self.updateBanner(key: self.currFilterKey)
+            //self.filterDisplayView.setFilter(key: self.currFilterKey)
+            //self.updateBanner(key: self.currFilterKey)
             self.navView.setNeedsLayout()
-            self.filterDisplayView.setNeedsLayout()
+            //self.filterDisplayView.setNeedsLayout()
         })
     }
 
