@@ -455,7 +455,7 @@ extension FilterGalleryView {
         let widthPerItem = availableWidth / itemsPerRow
         
         //log.debug("ItemSize: \(widthPerItem)")
-        return CGSize(width: widthPerItem, height: widthPerItem*1.5)
+        return CGSize(width: widthPerItem, height: widthPerItem*1.5) // use 2:3 (4:6) ratio
     }
     
     

@@ -101,13 +101,8 @@ class FilterDetailsViewController: UIViewController {
     
     func update(){
         DispatchQueue.main.async(execute: { () -> Void in
-            //setupDisplay()
-            //setupConstraints()
             self.doLayout()
-            //self.filterDisplayView.setFilter(key: self.currFilterKey)
-            //self.updateBanner(key: self.currFilterKey)
             self.navView.setNeedsLayout()
-            //self.filterDisplayView.setNeedsLayout()
         })
     }
 
@@ -202,7 +197,7 @@ class FilterDetailsViewController: UIViewController {
         
         titleLabel.frame.size.height = backButton.frame.size.height
         titleLabel.frame.size.width = displayWidth - backButton.frame.size.width
-        titleLabel.text = "Filter Gallery"
+        titleLabel.text = "Filter Preview"
         titleLabel.backgroundColor = UIColor.black
         titleLabel.textColor = UIColor.white
         titleLabel.font = UIFont.boldSystemFont(ofSize: 18.0)
@@ -231,7 +226,7 @@ class FilterDetailsViewController: UIViewController {
         // add the left and right arrows for filter navigation
         
         // a little complicated, but we define navView as the overall holding view (transparent, used for placement over the filter display)
-        // next/prevImage views are the actual images, next/prevBack is a partially transparent background and next/prevView are the views taht are placed onto navView
+        // next/prevImage views are the actual images, next/prevBack is a partially transparent background and next/prevView are the views that are placed onto navView
         
         let nextImage:UIImageView = UIImageView()
         let prevImage:UIImageView = UIImageView()
@@ -293,7 +288,7 @@ class FilterDetailsViewController: UIViewController {
         //adView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: adView.frame.size.height)
         
         // set up rest of layout based on orientation
-        if (isLandscape){
+        if (UIDevice.current.orientation.isLandscape){
             // left-to-right layout scheme
             
             filterDisplayView.frame.size.height = displayHeight - bannerHeight
@@ -305,7 +300,7 @@ class FilterDetailsViewController: UIViewController {
             filterParametersView.frame.size.width = displayWidth / 2
             filterParametersView.anchorInCorner(.bottomRight, xPad: 0, yPad: 0, width: filterParametersView.frame.size.width, height: filterParametersView.frame.size.height)
             
-            // put controls in the middle of the ;eft/right edges
+            // put controls in the middle of the left/right edges
             
         } else {
             // Portrait: top-to-bottom layout scheme
@@ -319,17 +314,16 @@ class FilterDetailsViewController: UIViewController {
             }
             
             filterParametersView.frame.size.width = displayWidth
-            //filterParametersView.align(.underCentered, relativeTo: filterDisplayView, padding: 4, width: displayWidth, height: bannerView.frame.size.height)
+            
             filterParametersView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 1, otherSize: filterParametersView.frame.size.height)
-            //filterParametersView.anchorInCorner(.bottomLeft, xPad: 0, yPad: 1, width: filterParametersView.frame.size.width, height: filterParametersView.frame.size.height)
             
             // Filter display takes the rest of the screen
             //filterDisplayView.frame.size.height = displayHeight - bannerHeight - filterParametersView.frame.size.height - 4
             filterDisplayView.frame.size.height = displayHeight - bannerHeight
             filterDisplayView.frame.size.width = displayWidth
-            //filterDisplayView.align(.underCentered, relativeTo: adView, padding: 0, width: displayWidth, height: filterDisplayView.frame.size.height)
-            //filterDisplayView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: filterDisplayView.frame.size.height)
-            filterDisplayView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 1, otherSize: filterDisplayView.frame.size.height)
+            log.verbose("FilterDisplay: (w:\(filterDisplayView.frame.size.width), h:\(filterDisplayView.frame.size.height))")
+            
+            filterDisplayView.align(.underCentered, relativeTo: bannerView, padding: 0, width: filterDisplayView.frame.size.width, height: filterDisplayView.frame.size.height)
         
         }
         
@@ -338,8 +332,11 @@ class FilterDetailsViewController: UIViewController {
 
         log.debug("Overlaying navigation buttons")
         
+        //TODO: fix landscape layout
+        
         // resize navView to match the display view (minus the parameters view)
         navView.frame.size.width  = filterDisplayView.frame.size.width
+        //navView.frame.size.height  = filterDisplayView.frame.size.height
         navView.frame.size.height  = filterDisplayView.frame.size.height - filterParametersView.frame.size.height
         navView.align(.underCentered, relativeTo: bannerView, padding: 0, width: navView.frame.size.width, height: navView.frame.size.height)
         

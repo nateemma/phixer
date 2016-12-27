@@ -111,9 +111,13 @@ class FilterDisplayView: UIView {
             if (renderView != nil) {
                 //renderView = RenderView()
                 renderView?.frame = self.frame
-                //TODO: maintain aspect ration of source image
+                
+                setRenderViewSize()
+                
                 self.addSubview(renderView!)
-                renderView?.fillSuperview()
+                //renderView?.fillSuperview()
+                renderView?.anchorToEdge(.top, padding: 0, width: (renderView?.frame.size.width)!, height: (renderView?.frame.size.height)!)
+                //renderView?.anchorInCenter((renderView?.frame.size.width)!, height: (renderView?.frame.size.height)!)
                 imageView.isHidden = true
                 renderView?.isHidden = false
                 self.bringSubview(toFront: renderView!)
@@ -121,8 +125,20 @@ class FilterDisplayView: UIView {
             }
         }
     }
-    
 
+    
+    fileprivate func setRenderViewSize(){
+        // maintain aspect ratio and fit inside available space
+        
+        let srcSize = ImageManager.getCurrentSampleImageSize()
+        let tgtRect:CGRect = CGRect(origin: CGPoint.zero, size: self.frame.size)
+        let rect = ImageManager.fitIntoRect(srcSize: srcSize, targetRect: tgtRect, withContentMode: .scaleAspectFit)
+        renderView?.frame.size.width = rect.width
+        renderView?.frame.size.height = rect.height
+        log.debug("View:(\(self.frame.size.width), \(self.frame.size.height)) Tgt: (\(srcSize.width),\(srcSize.height)) Rect:(\(rect.width),\(rect.height))")
+    }
+
+    
     ///////////////////////////////////
     // MARK: pipeline setup
     ///////////////////////////////////
@@ -210,7 +226,7 @@ class FilterDisplayView: UIView {
         // reduce opacity of blends by default
         if (opacityFilter == nil){
             opacityFilter = OpacityAdjustment()
-            opacityFilter?.opacity = 0.8
+            opacityFilter?.opacity = 0.7
         }
         
         // annoyingly, we have to treat single and multiple filters differently
@@ -315,7 +331,8 @@ class FilterDisplayView: UIView {
         //sample = PictureInput(image:sampleImageFull!)
         //blend  = PictureInput(image:blendImageFull!)
         currSampleInput = ImageManager.getCurrentSampleInput()
-        currBlendInput  = ImageManager.getCurrentBlendInput()
+        //currBlendInput  = ImageManager.getCurrentBlendInput()
+        currBlendInput  = PictureInput(image: blendImageFull!)
         
         currSampleInput?.removeAllTargets()
         currBlendInput?.removeAllTargets()
@@ -323,9 +340,10 @@ class FilterDisplayView: UIView {
         descriptor = filterManager.getFilterDescriptor(key: currFilterKey)
         renderView = filterManager.getRenderView(key: currFilterKey)
         if (renderView != nil) {
-            renderView?.frame = self.frame
+            setRenderViewSize()
             self.addSubview(renderView!)
-            renderView?.fillSuperview()
+            renderView?.anchorToEdge(.top, padding: 0, width: (renderView?.frame.size.width)!, height: (renderView?.frame.size.height)!)
+            //renderView?.fillSuperview()
         }
         
         guard (currSampleInput != nil) else {
@@ -347,7 +365,7 @@ class FilterDisplayView: UIView {
         // reduce opacity of blends by default
         if (opacityFilter == nil){
             opacityFilter = OpacityAdjustment()
-            opacityFilter?.opacity = 0.8
+            opacityFilter?.opacity = 0.7
         }
         
         // annoyingly, we have to treat single and multiple filters differently
@@ -368,6 +386,7 @@ class FilterDisplayView: UIView {
                 break
             case .blend:
                 log.debug("BLEND filter: \(currFilterDescriptor?.key) opacity:\(opacityFilter?.opacity)")
+                log.debug("Sample:(\((sampleImageFull?.size.width)!),\((sampleImageFull?.size.height)!)) Blend:(\((blendImageFull?.size.width)!),\((blendImageFull?.size.height)!))")
                 currSampleInput!.addTarget(filter!)
                 currBlendInput! --> opacityFilter! --> filter!
                 currSampleInput! --> filter! --> self.renderView!

@@ -91,7 +91,9 @@ class ImageManager {
     
     open static func getCurrentBlendImage(size:CGSize)->UIImage? {
         checkBlendImage()
-        return _currBlendImageScaled
+        var scaledImage:UIImage? = nil
+        scaledImage = resizeImage(_currBlendImage, targetSize: size, mode:.scaleAspectFill)
+        return scaledImage
     }
     
     
@@ -211,6 +213,11 @@ class ImageManager {
     }
     
     
+    open static func getCurrentSampleImageSize()->CGSize{
+        checkSampleImage()
+        return _currSampleSize
+    }
+    
     
     open static func getCurrentSampleInput()->PictureInput? {
         checkSampleImage()
@@ -232,7 +239,7 @@ class ImageManager {
     }
     
     private static func checkSampleImage(){
-        // make sure current blend image has been loaded
+        // make sure current sample image has been loaded
         if (_currSampleImage == nil){
             _currSampleImage = getSampleImageFromURL(_currSampleName)
             setSampleInput(image: _currSampleImage!)
