@@ -45,9 +45,18 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         }
     }
     
+    
+    
     func update(){
         //let newIndex = filterManager?.getCurrentCategory().getIndex()
         let newIndex = (filterManager?.getCategoryIndex(category: currCategory))!
+        
+        // if valid index, just scroll there. It could be the first time displaying, but index did not change
+        if ((newIndex>=0) && (newIndex<categoryList.count)){
+            log.debug("Scroll to: \(newIndex)")
+            categoryCarousel.scrollToItem(at: newIndex, animated: false)
+        }
+
         if (currIndex != newIndex){
             log.verbose("Scroll \(currIndex)->\(newIndex)")
             //categoryCarousel.scrollToItem(at: newIndex, animated: true)  // for some reason, animation causes a 'false' trigger at the end of the list
@@ -57,6 +66,7 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
             //categoryCarousel.setNeedsLayout()
         }
     }
+   
     
     func getCurrentSelection()->String{
         guard ((categoryList.count>0) && (currIndex<categoryList.count) && (currIndex>=0)) else {
@@ -66,17 +76,7 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         return categoryList[currIndex]
     }
     
-    /*** //TODO: define container view for categories. Probably just 2 labels (title and description)
-    private func createCategoryContainerView(_ descriptor: FilterDescriptorInterface) -> RenderContainerView{
-        var view:RenderContainerView = RenderContainerView()
-        view.frame.size = CGSize(width:carouselHeight, height:carouselHeight)
-        view.label.text = descriptor.key
-        
-        //TODO: start rendering in an asynch queue
-        
-        return view
-    }
- ***/
+    
    
     fileprivate var initDone:Bool = false
     func doInit(){
@@ -259,8 +259,7 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
             newView.layer.borderWidth = 1.0
             newView.layer.borderColor = UIColor.flatLime().cgColor
             
-            // update current index
-            //currIndex = index
+            // scroll to selected item
             categoryCarousel.scrollToItem(at: index, animated: false)
            
 

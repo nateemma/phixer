@@ -387,7 +387,7 @@ class FilterDisplayView: UIView {
             case .blend:
                 log.debug("BLEND filter: \(currFilterDescriptor?.key) opacity:\(opacityFilter?.opacity)")
                 log.debug("Sample:(\((sampleImageFull?.size.width)!),\((sampleImageFull?.size.height)!)) Blend:(\((blendImageFull?.size.width)!),\((blendImageFull?.size.height)!))")
-                currSampleInput!.addTarget(filter!)
+                //currSampleInput!.addTarget(filter!)
                 currBlendInput! --> opacityFilter! --> filter!
                 currSampleInput! --> filter! --> self.renderView!
                 currBlendInput?.processImage(synchronously: true)
@@ -421,7 +421,7 @@ class FilterDisplayView: UIView {
                 break
             case .blend:
                 log.debug("BLEND filter: \(currFilterDescriptor?.key) opacity:\(opacityFilter?.opacity)")
-                currSampleInput!.addTarget(filterGroup!)
+                //currSampleInput!.addTarget(filterGroup!)
                 currBlendInput! --> opacityFilter! --> filterGroup!
                 currSampleInput! --> filterGroup! --> self.renderView!
                 currBlendInput?.processImage(synchronously: true)

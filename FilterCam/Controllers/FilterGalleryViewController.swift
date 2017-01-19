@@ -92,9 +92,6 @@ class FilterGalleryViewController: UIViewController {
         //isLandscape = UIDevice.current.orientation.isLandscape // doesn't always work properly, especially in simulator
         isLandscape = (displayWidth > displayHeight)
         
-        // initialisation workaroundm, set category to "none" during setup
-        //filterManager.setCurrentCategory(.none)
-        
         doInit()
         
         doLayout()
@@ -299,6 +296,7 @@ class FilterGalleryViewController: UIViewController {
                     if (self.isValidIndex(self.currCategoryIndex)) { self.filterGalleryView[self.currCategoryIndex].isHidden = false } // re-display just in case (e.g. could be a rotation)
                     log.debug("Ignoring category change \(self.currCategoryIndex)->\(index)")
                 }
+                self.categorySelectionView.setFilterCategory(self.currCategory)
             } else {
                 log.warning("Invalid index: \(index)")
             }
