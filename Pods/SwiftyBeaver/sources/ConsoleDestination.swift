@@ -11,15 +11,38 @@ import Foundation
 
 public class ConsoleDestination: BaseDestination {
 
+    /// use NSLog instead of print, default is false
     public var useNSLog = false
+    /// uses colors compatible to Terminal instead of Xcode, default is false
+    public var useTerminalColors: Bool = false {
+        didSet {
+            if useTerminalColors {
+                // use Terminal colors
+                reset = "\u{001b}[0m"
+                escape = "\u{001b}[38;5;"
+                levelColor.verbose = "251m"     // silver
+                levelColor.debug = "35m"        // green
+                levelColor.info = "38m"         // blue
+                levelColor.warning = "178m"     // yellow
+                levelColor.error = "197m"       // red
+
+            } else {
+                // use colored Emojis for better visual distinction
+                // of log level for Xcode 8
+                levelColor.verbose = "💜 "     // silver
+                levelColor.debug = "💚 "        // green
+                levelColor.info = "💙 "         // blue
+                levelColor.warning = "💛 "     // yellow
+                levelColor.error = "❤️ "       // red
+
+            }
+        }
+    }
 
     override public var defaultHashValue: Int { return 1 }
 
     public override init() {
         super.init()
-
-        // use colored Emojis for better visual distinction
-        // of log level for Xcode 8
         levelColor.verbose = "💜 "     // silver
         levelColor.debug = "💚 "        // green
         levelColor.info = "💙 "         // blue
@@ -29,7 +52,7 @@ public class ConsoleDestination: BaseDestination {
 
     // print to Xcode Console. uses full base class functionality
     override public func send(_ level: SwiftyBeaver.Level, msg: String, thread: String,
-        file: String, function: String, line: Int) -> String? {
+                                file: String, function: String, line: Int) -> String? {
         let formattedString = super.send(level, msg: msg, thread: thread, file: file, function: function, line: line)
 
         if let str = formattedString {

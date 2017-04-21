@@ -120,8 +120,6 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     ///////////////////////////////////
     convenience init(){
         self.init(frame: CGRect.zero)
-        
-        camera = CameraManager.getCamera()!
 
         carouselHeight = fmax((self.frame.size.height * 0.8), 80.0) // doesn't seem to work at less than 80 (empirical)
         //carouselHeight = self.frame.size.height * 0.82
@@ -140,6 +138,12 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     
     
     func layoutViews(){
+        
+        
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.camera = CameraManager.getCamera()
+            
+        })
         
         filterLabel.text = ""
         filterLabel.textAlignment = .center

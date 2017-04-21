@@ -153,8 +153,8 @@ class CameraDisplayView: UIView {
                     case .singleInput:
                         log.debug("Using filter: \(currFilter?.key)")
                         //camera! --> filter! --> rotateFilter! --> cropFilter! --> renderView!
-                        camera! --> filter! --> renderView!
-                        //camera! --> filter! --> cropFilter! --> renderView!
+                        //camera! --> filter! --> renderView!
+                        camera! --> filter! --> cropFilter! --> renderView!
                         break
                     case .blend:
                         log.debug("Using BLEND mode for filter: \(currFilter?.key)")
@@ -164,8 +164,8 @@ class CameraDisplayView: UIView {
                         let currBlendImage  = ImageManager.getCurrentBlendImage(size:(renderView?.frame.size)!)
                         blendImage = PictureInput(image:currBlendImage!)
                         blendImage! --> opacityFilter! --> filter!
-                        camera! --> filter! --> renderView!
-                        //camera! --> filter! --> cropFilter! --> renderView!
+                        //camera! --> filter! --> renderView!
+                        camera! --> filter! --> cropFilter! --> renderView!
                         //camera! --> filter! --> rotateFilter! --> cropFilter! --> renderView!
                         blendImage?.processImage()
                         break
@@ -191,7 +191,8 @@ class CameraDisplayView: UIView {
                     switch (opType){
                     case .singleInput:
                         log.debug("filterGroup: \(currFilter?.key)")
-                        camera! --> filterGroup! --> renderView!
+                        //camera! --> filterGroup! --> renderView!
+                        camera! --> filterGroup! --> cropFilter! --> renderView!
                         break
                     case .blend:
                         //log.debug("Using BLEND mode for group: \(currFilterDescriptor?.key)")
@@ -200,8 +201,8 @@ class CameraDisplayView: UIView {
                         let currBlendImage  = ImageManager.getCurrentBlendImage(size:(renderView?.frame.size)!)
                         blendImage = PictureInput(image:currBlendImage!)
                         blendImage! --> opacityFilter! --> filterGroup!
-                        camera! --> filterGroup! --> renderView!
-                        //camera! --> filterGroup! --> cropFilter! --> renderView! // cropFilter appears to interfere with pipeline
+                        //camera! --> filterGroup! --> renderView!
+                        camera! --> filterGroup! --> cropFilter! --> renderView! // cropFilter appears to interfere with pipeline
                         blendImage?.processImage()
                         break
                     }
@@ -299,7 +300,11 @@ class CameraDisplayView: UIView {
     func saveToPhotoAlbum(_ url:URL){
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             let image = UIImage(contentsOfFile: url.path)
-            UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil)
+            if (image != nil){
+                UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil)
+            } else {
+                log.error("Error saving photo")
+            }
         }
     }
 

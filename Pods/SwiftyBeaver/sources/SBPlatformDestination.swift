@@ -37,18 +37,13 @@ import Foundation
     let DEVICE_NAME = ""
 #endif
 
-
 public class SBPlatformDestination: BaseDestination {
 
     public var appID = ""
     public var appSecret = ""
     public var encryptionKey = ""
     public var analyticsUserName = "" // user email, ID, name, etc.
-    public var analyticsUUID: String {
-        get {
-            return uuid
-        }
-    }
+    public var analyticsUUID: String { return uuid }
 
     // when to send to server
     public struct SendingPoints {
@@ -81,8 +76,11 @@ public class SBPlatformDestination: BaseDestination {
     let fileManager = FileManager.default
     let isoDateFormatter = DateFormatter()
 
-
-    public init(appID: String, appSecret: String, encryptionKey: String) {
+    /// init platform with default internal filenames
+    public init(appID: String, appSecret: String, encryptionKey: String,
+        entriesFileName: String = "sbplatform_entries.json",
+        sendingfileName: String = "sbplatform_entries_sending.json",
+        analyticsFileName: String = "sbplatform_analytics.json") {
         super.init()
         self.appID = appID
         self.appSecret = appSecret
@@ -116,9 +114,9 @@ public class SBPlatformDestination: BaseDestination {
             #elseif os(Linux)
                 // Linux is using /var/cache
                 let baseDir = "/var/cache/"
-                entriesFileURL = URL(fileURLWithPath: baseDir + "sbplatform_entries.json")
-                sendingFileURL = URL(fileURLWithPath: baseDir + "sbplatform_entries_sending.json")
-                analyticsFileURL = URL(fileURLWithPath: baseDir + "sbplatform_analytics.json")
+                entriesFileURL = URL(fileURLWithPath: baseDir + entriesFileName)
+                sendingFileURL = URL(fileURLWithPath: baseDir + sendingfileName)
+                analyticsFileURL = URL(fileURLWithPath: baseDir + analyticsFileName)
             #else
                 // iOS and watchOS are using the app’s document directory
                 if let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
@@ -127,7 +125,6 @@ public class SBPlatformDestination: BaseDestination {
             #endif
         #endif
 
-
         #if os(Linux)
             // get, update loaded and save analytics data to file on start
             let dict = analytics(analyticsFileURL, update: true)
@@ -135,11 +132,11 @@ public class SBPlatformDestination: BaseDestination {
         #else
             if let baseURL = baseURL {
                 // is just set for everything but not Linux
-                entriesFileURL = baseURL.appendingPathComponent("sbplatform_entries.json",
+                entriesFileURL = baseURL.appendingPathComponent(entriesFileName,
                                                                 isDirectory: false)
-                sendingFileURL = baseURL.appendingPathComponent("sbplatform_entries_sending.json",
+                sendingFileURL = baseURL.appendingPathComponent(sendingfileName,
                                                                 isDirectory: false)
-                analyticsFileURL = baseURL.appendingPathComponent("sbplatform_analytics.json",
+                analyticsFileURL = baseURL.appendingPathComponent(analyticsFileName,
                                                                   isDirectory: false)
 
                 // get, update loaded and save analytics data to file on start
@@ -148,7 +145,6 @@ public class SBPlatformDestination: BaseDestination {
             }
         #endif
     }
-
 
     // append to file, each line is a JSON dict
     override public func send(_ level: SwiftyBeaver.Level, msg: String, thread: String,
@@ -163,7 +159,7 @@ public class SBPlatformDestination: BaseDestination {
             "thread": thread,
             "fileName": file.components(separatedBy: "/").last!,
             "function": function,
-            "line":line]
+            "line": line]
 
         jsonString = jsonStringFromDict(dict)
 
@@ -202,7 +198,6 @@ public class SBPlatformDestination: BaseDestination {
         return jsonString
     }
 
-
     // MARK: Send-to-Server Logic
 
     /// does a (manual) sending attempt of all unsent log entries to SwiftyBeaver Platform
@@ -229,9 +224,8 @@ public class SBPlatformDestination: BaseDestination {
 
             lines = logEntries.count
 
-
             if lines > 0 {
-                var payload = [String:Any]()
+                var payload = [String: Any]()
                 // merge device and analytics dictionaries
                 let deviceDetailsDict = deviceDetails()
 
@@ -252,8 +246,7 @@ public class SBPlatformDestination: BaseDestination {
                         toNSLog(msg)
                         //toNSLog("Sending \(encryptedStr) ...")
 
-                        sendToServerAsync(encryptedStr) {
-                            ok, status in
+                        sendToServerAsync(encryptedStr) { ok, _ in
 
                             self.toNSLog("Sent \(lines) encrypted log entries to server, received ok: \(ok)")
                             if ok {
@@ -271,7 +264,9 @@ public class SBPlatformDestination: BaseDestination {
     }
 
     /// sends a string to the SwiftyBeaver Platform server, returns ok if status 200 and HTTP status
-    func sendToServerAsync(_ str: String?, complete: @escaping (_ ok: Bool, _ status: Int) -> ()) {
+    func sendToServerAsync(_ str: String?, complete: @escaping (_ ok: Bool, _ status: Int) -> Void) {
+
+        let timeout = 10.0
 
         if let payload = str, let queue = self.queue, let serverURL = serverURL {
 
@@ -286,15 +281,22 @@ public class SBPlatformDestination: BaseDestination {
             toNSLog("assembling request ...")
 
              // assemble request
-            var request = URLRequest(url: serverURL)
+             var request = URLRequest(url: serverURL,
+                                     cachePolicy: .reloadIgnoringLocalAndRemoteCacheData,
+                                     timeoutInterval: timeout)
             request.httpMethod = "POST"
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.addValue("application/json", forHTTPHeaderField: "Accept")
 
-            // basic auth header
-            let credentials = "\(appID):\(appSecret)".data(using: String.Encoding.utf8)!
+            // basic auth header (just works on Linux for Swift 3.1+, macOS is fine)
+            guard let credentials = "\(appID):\(appSecret)".data(using: String.Encoding.utf8) else {
+                    toNSLog("Error! Could not set basic auth header")
+                    return complete(false, 0)
+            }
             let base64Credentials = credentials.base64EncodedString(options: [])
             request.setValue("Basic \(base64Credentials)", forHTTPHeaderField: "Authorization")
+            //toNSLog("\nrequest:")
+            //print(request)
 
             // POST parameters
             let params = ["payload": payload]
@@ -302,8 +304,9 @@ public class SBPlatformDestination: BaseDestination {
                 request.httpBody = try JSONSerialization.data(withJSONObject: params, options: [])
             } catch {
                 toNSLog("Error! Could not create JSON for server payload.")
+                return complete(false, 0)
             }
-            //toNSLog("sending params: \(params)")
+            toNSLog("sending params: \(params)")
             toNSLog("sending ...")
 
             sendingInProgress = true
@@ -354,7 +357,6 @@ public class SBPlatformDestination: BaseDestination {
             return sendingPoints.verbose
         }
     }
-
 
     // MARK: File Handling
 
@@ -433,7 +435,6 @@ public class SBPlatformDestination: BaseDestination {
         return nil
     }
 
-
     /// returns AES-256 CBC encrypted optional string
     func encrypt(_ str: String) -> String? {
         return AES256CBC.encryptString(str, password: encryptionKey)
@@ -449,7 +450,6 @@ public class SBPlatformDestination: BaseDestination {
         }
         return false
     }
-
 
     // MARK: Device & Analytics
 
@@ -480,7 +480,7 @@ public class SBPlatformDestination: BaseDestination {
     /// returns (updated) analytics dict, optionally loaded from file.
     func analytics(_ url: URL, update: Bool = false) -> [String:Any] {
 
-        var dict = [String:Any]()
+        var dict = [String: Any]()
         let now = NSDate().timeIntervalSince1970
 
         uuid =  NSUUID().uuidString
@@ -567,7 +567,6 @@ public class SBPlatformDestination: BaseDestination {
         return nil
     }
 
-
     // turns dict into JSON and saves it to file
     func saveDictToFile(_ dict: [String: Any], url: URL) -> Bool {
         let jsonString = jsonStringFromDict(dict)
@@ -578,7 +577,6 @@ public class SBPlatformDestination: BaseDestination {
         }
         return false
     }
-
 
     // MARK: Debug Helpers
 

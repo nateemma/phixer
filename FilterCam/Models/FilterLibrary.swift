@@ -72,7 +72,7 @@ class FilterLibrary{
     
     fileprivate static let configFile = "FilterConfig"
     
-    fileprivate static var parsedConfig:JSON = nil
+    fileprivate static var parsedConfig:JSON = JSON.null
     
     open static func restore(){
         var count:Int = 0

@@ -750,7 +750,6 @@
 		25B24D0E1DAEDDFF008CD38A /* WhiteBalanceDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D0D1DAEDDFF008CD38A /* WhiteBalanceDescriptor.swift */; };
 		25B24D101DAEE037008CD38A /* FalseColorDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D0F1DAEE037008CD38A /* FalseColorDescriptor.swift */; };
 		25B24D121DAEE1B5008CD38A /* GradientSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D111DAEE1B5008CD38A /* GradientSlider.swift */; };
-		25B24D161DAFE0C3008CD38A /* app_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 25B24D151DAFE0C3008CD38A /* app_icon.png */; };
 		25B24D181DAFE255008CD38A /* FilterInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D171DAFE255008CD38A /* FilterInfoView.swift */; };
 		25B24D1A1DB0351C008CD38A /* SharpenDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D191DB0351C008CD38A /* SharpenDescriptor.swift */; };
 		25B24D201DB03633008CD38A /* GrayscaleDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D1F1DB03633008CD38A /* GrayscaleDescriptor.swift */; };
@@ -794,8 +793,8 @@
 		25CF4BD91D9490C400D779CF /* ImageContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BD31D9490C400D779CF /* ImageContainerView.swift */; };
 		25CF4BDA1D9490C400D779CF /* SquareButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BD41D9490C400D779CF /* SquareButton.swift */; };
 		25CF4BDC1D94D93700D779CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BDB1D94D93700D779CF /* AppDelegate.swift */; };
-		25CF4BE81D94EA8100D779CF /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25CF4BE31D94EA5000D779CF /* GPUImage.framework */; };
-		25CF4BE91D94EA8D00D779CF /* GPUImage.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 25CF4BE31D94EA5000D779CF /* GPUImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		25CF4BE81D94EA8100D779CF /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 25CF4BE31D94EA5000D779CF /* GPUImage.framework */; };
+		25CF4BE91D94EA8D00D779CF /* ReferenceProxy in CopyFiles */ = {isa = PBXBuildFile; fileRef = 25CF4BE31D94EA5000D779CF /* GPUImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		25D24AB71DC7DCDB001F65B9 /* FilterGalleryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D24AB61DC7DCDB001F65B9 /* FilterGalleryViewCell.swift */; };
 		25F460181D99CCCE00EDA182 /* UISettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F460171D99CCCE00EDA182 /* UISettings.swift */; };
 		25F4601A1D99CE1E00EDA182 /* GridStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F460191D99CE1E00EDA182 /* GridStyle.swift */; };
@@ -806,6 +805,8 @@
 		25F5640A1DD169ED00DFB125 /* oldFilterDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F564091DD169ED00DFB125 /* oldFilterDisplayView.swift */; };
 		320B5A4E036DE6878CAF1ACE /* Pods_FilterCam.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DDC117A644402CB333D19D8 /* Pods_FilterCam.framework */; };
 		553B7AC286E6B4A46867DE7F /* Pods_FilterCamUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC02F3DF8ABAAA172F5D6258 /* Pods_FilterCamUITests.framework */; };
+		863ABCBA1EA6CE5B00B2AED2 /* LiveFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863ABCB91EA6CE5B00B2AED2 /* LiveFilterViewController.swift */; };
+		86DD9D951E9C5A7000A5D855 /* MainMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DD9D941E9C5A7000A5D855 /* MainMenuController.swift */; };
 		ADF2DE510AC3AFD3F452B261 /* Pods_FilterCamTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA2ACADDC5179782084C15D6 /* Pods_FilterCamTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -854,7 +855,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				25CF4BE91D94EA8D00D779CF /* GPUImage.framework in CopyFiles */,
+				25CF4BE91D94EA8D00D779CF /* ReferenceProxy in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1614,7 +1615,6 @@
 		25B24D0D1DAEDDFF008CD38A /* WhiteBalanceDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WhiteBalanceDescriptor.swift; path = Filters/WhiteBalanceDescriptor.swift; sourceTree = "<group>"; };
 		25B24D0F1DAEE037008CD38A /* FalseColorDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FalseColorDescriptor.swift; path = Filters/FalseColorDescriptor.swift; sourceTree = "<group>"; };
 		25B24D111DAEE1B5008CD38A /* GradientSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GradientSlider.swift; path = Views/GradientSlider.swift; sourceTree = "<group>"; };
-		25B24D151DAFE0C3008CD38A /* app_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = app_icon.png; path = ../../icons/app_icon.png; sourceTree = "<group>"; };
 		25B24D171DAFE255008CD38A /* FilterInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterInfoView.swift; path = Views/FilterInfoView.swift; sourceTree = "<group>"; };
 		25B24D191DB0351C008CD38A /* SharpenDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SharpenDescriptor.swift; path = Filters/SharpenDescriptor.swift; sourceTree = "<group>"; };
 		25B24D1F1DB03633008CD38A /* GrayscaleDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GrayscaleDescriptor.swift; path = Filters/GrayscaleDescriptor.swift; sourceTree = "<group>"; };
@@ -1670,6 +1670,8 @@
 		382358EB20863648A6D9C297 /* Pods-FilterCamUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FilterCamUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FilterCamUITests/Pods-FilterCamUITests.release.xcconfig"; sourceTree = "<group>"; };
 		48EDC44D2D28292F9E9F3121 /* Pods-FilterCamTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FilterCamTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FilterCamTests/Pods-FilterCamTests.release.xcconfig"; sourceTree = "<group>"; };
 		5CEF3CB7DD1C04D9EBA3B1FD /* Pods-FilterCamTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FilterCamTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FilterCamTests/Pods-FilterCamTests.debug.xcconfig"; sourceTree = "<group>"; };
+		863ABCB91EA6CE5B00B2AED2 /* LiveFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LiveFilterViewController.swift; path = Controllers/LiveFilterViewController.swift; sourceTree = "<group>"; };
+		86DD9D941E9C5A7000A5D855 /* MainMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainMenuController.swift; path = Controllers/MainMenuController.swift; sourceTree = "<group>"; };
 		BC04C590E3C8A8781EA4978B /* Pods-FilterCam.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FilterCam.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FilterCam/Pods-FilterCam.debug.xcconfig"; sourceTree = "<group>"; };
 		D4779EC8F7F18A442BA04162 /* Pods-FilterCamUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FilterCamUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FilterCamUITests/Pods-FilterCamUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		EA2ACADDC5179782084C15D6 /* Pods_FilterCamTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FilterCamTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1681,7 +1683,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				25CF4BE81D94EA8100D779CF /* GPUImage.framework in Frameworks */,
+				25CF4BE81D94EA8100D779CF /* ReferenceProxy in Frameworks */,
 				320B5A4E036DE6878CAF1ACE /* Pods_FilterCam.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1895,6 +1897,8 @@
 				25A702911DC2FCDD009441E2 /* FilterDetailsViewController.swift */,
 				250716081DBEC19400CDDF42 /* FilterGalleryViewController.swift */,
 				257F49E11D9448920083B1E4 /* MainViewController.swift */,
+				863ABCB91EA6CE5B00B2AED2 /* LiveFilterViewController.swift */,
+				86DD9D941E9C5A7000A5D855 /* MainMenuController.swift */,
 				253A39E11DDA965E00A714D4 /* SampleGalleryViewController.swift */,
 				253B235A1DA2CFD400203ECB /* SegueHandlerType.swift */,
 			);
@@ -1978,7 +1982,6 @@
 				25F564001DD1471B00DFB125 /* Lookup */,
 				25F563FF1DD1470200DFB125 /* Blends */,
 				25F563FE1DD146EC00DFB125 /* Samples */,
-				25B24D151DAFE0C3008CD38A /* app_icon.png */,
 			);
 			name = Images;
 			path = ../Images;
@@ -2718,6 +2721,7 @@
 				257F49F81D9448920083B1E4 /* Frameworks */,
 				257F49F91D9448920083B1E4 /* Resources */,
 				D323E9A77C4589A1B810939F /* [CP] Copy Pods Resources */,
+				208D08F4D37C9D9FDE2F4BBD /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -3426,7 +3430,6 @@
 				252B0E001E30690F005A0C2D /* vn_005_yesteryear.jpg in Resources */,
 				252B0E951E30690F005A0C2D /* mo_019_smart_bw3.jpg in Resources */,
 				252B0E281E30690F005A0C2D /* ps_033_night_from_day.jpg in Resources */,
-				25B24D161DAFE0C3008CD38A /* app_icon.png in Resources */,
 				252B0F431E30690F005A0C2D /* et_061_a25_1.jpg in Resources */,
 				252B0EC61E30690F005A0C2D /* fx_045_old_photo_6.jpg in Resources */,
 				252B0EFF1E30690F005A0C2D /* fd_04k_dark_purple.jpg in Resources */,
@@ -3514,6 +3517,21 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FilterCam/Pods-FilterCam-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		208D08F4D37C9D9FDE2F4BBD /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FilterCamUITests/Pods-FilterCamUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		5F9B8BDF4E5DB926F5F8DC2D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3526,7 +3544,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		9CBD2D05481C456EC759FA11 /* [CP] Check Pods Manifest.lock */ = {
@@ -3541,7 +3559,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		B6E490EBC83C5D96A25031D7 /* [CP] Embed Pods Frameworks */ = {
@@ -3586,7 +3604,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -3689,6 +3707,7 @@
 				251375661DB6CC8600A319DC /* SwirlDistortionDescriptor.swift in Sources */,
 				253B238D1DA9994F00203ECB /* PosterizeDescriptor.swift in Sources */,
 				251375581DB6BEE900A319DC /* XXX0Descriptor.swift in Sources */,
+				863ABCBA1EA6CE5B00B2AED2 /* LiveFilterViewController.swift in Sources */,
 				25B24D4E1DB059C4008CD38A /* CropDescriptor.swift in Sources */,
 				250716091DBEC19400CDDF42 /* FilterGalleryViewController.swift in Sources */,
 				251375801DB6DE3E00A319DC /* ColorBurnBlendDescriptor.swift in Sources */,
@@ -3717,6 +3736,7 @@
 				2556731F1DB961F700187F25 /* DisplayMode.swift in Sources */,
 				251375941DB6E02600A319DC /* HueBlendDescriptor.swift in Sources */,
 				251375621DB6CAB300A319DC /* HalftoneDescriptor.swift in Sources */,
+				86DD9D951E9C5A7000A5D855 /* MainMenuController.swift in Sources */,
 				251375961DB6E06300A319DC /* AddBlendDescriptor.swift in Sources */,
 				253B237D1DA9905900203ECB /* SaturationDescriptor.swift in Sources */,
 				25A702921DC2FCDD009441E2 /* FilterDetailsViewController.swift in Sources */,

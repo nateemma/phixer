@@ -4,7 +4,6 @@
                    {"key": "basic",       "title": "Basic Adjustments" },
                    {"key": "blends",      "title": "Blends"       },
                    {"key": "distortions", "title": "Distortions"  },
-                   {"key": "presets",     "title": "Presets"      },
                    {"key": "drawing",     "title": "Drawing"      },
                    {"key": "blurs",       "title": "Blurs"        },
                    {"key": "monochrome",  "title": "Monochrome"   },
@@ -25,7 +24,6 @@
                 {"key": "AdaptiveThreshold", "class": "AdaptiveThresholdDescriptor" },
                 {"key": "AddBlend",          "class": "AddBlendDescriptor" },
                 {"key": "AlphaBlend", "class": "AlphaBlendDescriptor" },
-                {"key": "Amatorka", "class": "AmatorkaDescriptor" },
                 {"key": "AverageLuminanceThreshold", "class": "AverageLuminanceThresholdDescriptor" },
                 {"key": "BilateralBlur", "class": "BilateralBlurDescriptor" },
                 {"key": "BoxBlur", "class": "BoxBlurDescriptor" },
@@ -77,7 +75,6 @@
                 {"key": "LuminanceThreshold", "class": "LuminanceThresholdDescriptor" },
                 {"key": "LuminosityBlend", "class": "LuminosityBlendDescriptor" },
                 {"key": "Median", "class": "MedianDescriptor" },
-                {"key": "MissEtikate", "class": "MissEtikateDescriptor" },
                 {"key": "Monochrome", "class": "MonochromeDescriptor" },
                 {"key": "MultiplyBlend", "class": "MultiplyBlendDescriptor" },
                 {"key": "NobleCornerDetector", "class": "NobleCornerDetectorDescriptor" },
@@ -691,9 +688,7 @@
                "filters": ["BulgeDistortion", "GlassSphereRefraction", "PolarPixellate", "PolkaDot", "Pixellate", "TiltShift",
                            "ChromaKeying", "PinchDistortion", "SwirlDistortion", "SphereRefraction" ]
                },
-               {"category": "presets",
-               "filters": ["MissEtikate", "Amatorka", "CGAColorspace" ]
-               },
+
                {"category": "drawing",
                "filters": ["Crosshatch", "Emboss", "LuminanceThreshold", "Sketch", "ThresholdSketch", "Toon", "Kuwahara", "AverageLuminanceThreshold", "AdaptiveThreshold",
                            "SmoothToon", "Posterize", "ThresholdSobelEdgeDetection", "Halftone", "Laplacian", "CannyEdgeDetection" ]
@@ -723,8 +718,7 @@
                },
 
                {"category": "etikate",
-               "filters": ["MissEtikate",
-                           "et_001", "et_002", "et_003", "et_004", "et_005", "et_006", "et_007", "et_008", "et_009", "et_010",
+               "filters": ["et_001", "et_002", "et_003", "et_004", "et_005", "et_006", "et_007", "et_008", "et_009", "et_010",
                            "et_011", "et_012", "et_013", "et_014", "et_015", "et_016", "et_017", "et_018", "et_019", "et_020",
                            "et_021", "et_022", "et_023", "et_024", "et_025", "et_026", "et_027", "et_028", "et_029", "et_030",
                            "et_031", "et_032", "et_033", "et_034", "et_035", "et_036", "et_037", "et_038", "et_039", "et_040",

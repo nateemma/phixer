@@ -36,6 +36,8 @@
 &gt; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 &gt; SOFTWARE. 
 </string>
+			<key>License</key>
+			<string>MIT</string>
 			<key>Title</key>
 			<string>ChameleonFramework</string>
 			<key>Type</key>
@@ -43,7 +45,9 @@
 		</dict>
 		<dict>
 			<key>FooterText</key>
-			<string>Copyright 2016 Google</string>
+			<string>Copyright 2017 Google</string>
+			<key>License</key>
+			<string>Copyright</string>
 			<key>Title</key>
 			<string>Firebase</string>
 			<key>Type</key>
@@ -51,7 +55,9 @@
 		</dict>
 		<dict>
 			<key>FooterText</key>
-			<string>Copyright 2016 Google</string>
+			<string>Copyright 2017 Google</string>
+			<key>License</key>
+			<string>Copyright</string>
 			<key>Title</key>
 			<string>FirebaseAnalytics</string>
 			<key>Type</key>
@@ -59,7 +65,9 @@
 		</dict>
 		<dict>
 			<key>FooterText</key>
-			<string>Copyright 2016 Google</string>
+			<string>Copyright 2017 Google</string>
+			<key>License</key>
+			<string>Copyright</string>
 			<key>Title</key>
 			<string>FirebaseCore</string>
 			<key>Type</key>
@@ -67,7 +75,9 @@
 		</dict>
 		<dict>
 			<key>FooterText</key>
-			<string>Copyright 2016 Google</string>
+			<string>Copyright 2017 Google</string>
+			<key>License</key>
+			<string>Copyright</string>
 			<key>Title</key>
 			<string>FirebaseInstanceID</string>
 			<key>Type</key>
@@ -75,25 +85,11 @@
 		</dict>
 		<dict>
 			<key>FooterText</key>
-			<string>Copyright 2011 Google Inc. All Rights Reserved.</string>
+			<string>Copyright 2017 Google</string>
+			<key>License</key>
+			<string>Copyright</string>
 			<key>Title</key>
 			<string>Google-Mobile-Ads-SDK</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
-			<string>Copyright 2016 Google</string>
-			<key>Title</key>
-			<string>GoogleInterchangeUtilities</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
-			<string>Copyright 2016 Google</string>
-			<key>Title</key>
-			<string>GoogleSymbolUtilities</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>
@@ -302,6 +298,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 </string>
+			<key>License</key>
+			<string>Apache</string>
 			<key>Title</key>
 			<string>GoogleToolboxForMac</string>
 			<key>Type</key>
@@ -311,7 +309,7 @@
 			<key>FooterText</key>
 			<string>The MIT License (MIT)
 
-Copyright (c) 2015 Wei Wang
+Copyright (c) 2017 Wei Wang
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -332,6 +330,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 </string>
+			<key>License</key>
+			<string>MIT</string>
 			<key>Title</key>
 			<string>Kingfisher</string>
 			<key>Type</key>
@@ -361,6 +361,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 </string>
+			<key>License</key>
+			<string>MIT</string>
 			<key>Title</key>
 			<string>Neon</string>
 			<key>Type</key>
@@ -390,6 +392,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 </string>
+			<key>License</key>
+			<string>MIT</string>
 			<key>Title</key>
 			<string>SwiftyBeaver</string>
 			<key>Type</key>
@@ -419,6 +423,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 </string>
+			<key>License</key>
+			<string>MIT</string>
 			<key>Title</key>
 			<string>SwiftyJSON</string>
 			<key>Type</key>

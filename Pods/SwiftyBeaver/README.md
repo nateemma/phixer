@@ -1,17 +1,7 @@
-<p align="center"><img src="https://cloud.githubusercontent.com/assets/564725/13137893/1b8eced2-d624-11e5-9264-3416ff821657.png" width="280" alt="SwiftyBeaver"><br/><b>Colorful</b>, flexible, <b>lightweight</b> logging for Swift 2 & <b>Swift 3</b>.<br/>Great for <b>development & release</b> with support for Console, File & cloud platforms.<br/>NEW: Log <b>during release</b> to the conveniently built-in SwiftyBeaver Platform and Mac App!<br/><br/>
+<p align="center"><a href="https://swiftybeaver.com"><img src="https://cloud.githubusercontent.com/assets/564725/19889302/73b1ee84-a034-11e6-8753-2d060502397c.jpg" style="width: 888px;" alt="SwiftyBeaver"></a><br/><b>Colorful</b>, flexible, <b>lightweight</b> logging for Swift 2 & <b>Swift 3</b>.<br/>Great for <b>development & release</b> with support for Console, File & cloud platforms.<br/>NEW: Log <b>during release</b> to the conveniently built-in SwiftyBeaver Platform and Mac App!<br/><br/><a href="http://docs.swiftybeaver.com">Docs</a> | <a href="https://swiftybeaver.com">Website</a> | <a href="https://slack.swiftybeaver.com">Slack</a> | <a href="https://twitter.com/SwiftyBeaver">Twitter</a> | <a href="https://github.com/SwiftyBeaver/SwiftyBeaver/blob/master/LICENSE">License</a><br/></p>
 
-<a href="http://docs.swiftybeaver.com">Docs</a> |
-<a href="https://swiftybeaver.com">Website</a> |
-<a href="https://slack.swiftybeaver.com">Slack</a> |
-<a href="https://twitter.com/SwiftyBeaver">Twitter</a> | 
-<a href="https://github.com/SwiftyBeaver/SwiftyBeaver/blob/master/LICENSE">License</a>
-<br/>
-</p>
+<p align="center"><a href="https://swift.org" target="_blank"><img src="https://img.shields.io/badge/Language-Swift%202%20&%203-orange.svg" alt="Language Swift 3"></a> <a href="https://circleci.com/gh/SwiftyBeaver/SwiftyBeaver" target="_blank"><img src="https://circleci.com/gh/SwiftyBeaver/SwiftyBeaver/tree/master.svg?style=shield" alt="CircleCI"/></a> <a href="https://slack.swiftybeaver.com" target="_blank"><img src="https://img.shields.io/badge/Join-Our%20Slack%20Chat-blue.svg" alt="Slack Status"/></a><br/><p>
 
-<p align="center">
-[![Language Swift 3](https://img.shields.io/badge/Language-Swift%202%20&%203-orange.svg)](https://swift.org) [![Travis Build Status](https://travis-ci.org/SwiftyBeaver/SwiftyBeaver.svg)](https://travis-ci.org/SwiftyBeaver/SwiftyBeaver) [![Slack Status](https://slack.swiftybeaver.com/badge.svg)](https://slack.swiftybeaver.com) 
-<br/>
-<p>
 ----
 
 <br/>
@@ -48,8 +38,13 @@
 
 Conveniently access your logs during development & release with our [free Mac App](https://swiftybeaver.com).
 
-<br/><br/>
+<br/>
 
+### Google Cloud & More
+
+You can fully customize your log format, turn it into JSON, or create your own destinations. For example our [Google Cloud Destination](https://github.com/SwiftyBeaver/SwiftyBeaver/blob/master/Sources/GoogleCloudDestination.swift) is just another customized logging format which adds the powerful functionality of automatic server-side Swift logging when hosted on Google Cloud Platform.
+
+<br/><br/>
 
 ## Installation
 
@@ -57,6 +52,7 @@ Conveniently access your logs during development & release with our [free Mac Ap
 - For **Swift 2** install SwiftyBeaver 0.7.0
 
 <br/>
+
 ### Carthage
 
 You can use [Carthage](https://github.com/Carthage/Carthage) to install SwiftyBeaver by adding that to your Cartfile:
@@ -72,6 +68,7 @@ github "SwiftyBeaver/SwiftyBeaver" ~> 0.7
 ```
 
 <br/>
+
 ### CocoaPods
 
 To use [CocoaPods](https://cocoapods.org) just add this to your Podfile:
@@ -99,6 +96,7 @@ end
 ```
 
 <br/>
+
 ### Swift Package Manager
 
 For [Swift Package Manager](https://swift.org/package-manager/) add the following package to your Package.swift file. Just Swift 3 is supported:
@@ -130,6 +128,7 @@ let cloud = SBPlatformDestination(appID: "foo", appSecret: "bar", encryptionKey:
 
 // use custom format and set console output to short time, log level & message
 console.format = "$DHH:mm:ss$d $L $M"
+// or use this for JSON output: console.format = "$J"
 
 // add the destinations to SwiftyBeaver
 log.addDestination(console)
@@ -202,6 +201,7 @@ More destination & system documentation is coming soon! <br/>Get support via Git
 
 <br/>
 <br/>
+
 ## License
 
 SwiftyBeaver Framework is released under the [MIT License](https://github.com/SwiftyBeaver/SwiftyBeaver/blob/master/LICENSE).
