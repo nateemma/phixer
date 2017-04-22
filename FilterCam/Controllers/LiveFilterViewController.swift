@@ -24,6 +24,13 @@ private var filterCount: Int = 0
 
 class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, SegueHandlerType {
     
+    
+    // Banner/Navigation View (title)
+    fileprivate var bannerView: UIView! = UIView()
+    fileprivate var backButton:UIButton! = UIButton()
+    fileprivate var titleLabel:UILabel! = UILabel()
+
+    
     // Filter Info View
     var filterInfoView: FilterInfoView! = FilterInfoView()
     
@@ -62,6 +69,7 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
     
     let bannerHeight : CGFloat = 64.0
     let buttonSize : CGFloat = 48.0
+    fileprivate let statusBarOffset : CGFloat = 12.0
     
     
     // the list of segues initiated from this view controller
@@ -111,12 +119,14 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
         //isLandscape = UIDevice.current.orientation.isLandscape // doesn't always work properly, especially in simulator
         isLandscape = (displayWidth > displayHeight)
         
-        showAds = (isLandscape == true) ? false : true // don't show in landscape mode, too cluttered
+        //showAds = (isLandscape == true) ? false : true // don't show in landscape mode, too cluttered
+        showAds = false // since I added the navigation bar, there's not much room for the ads
         
         //filterManager?.reset()
         doInit()
         
         // Note: need to add subviews before modifying constraints
+        view.addSubview(bannerView)
         view.addSubview(filterInfoView)
         if (showAds) { view.addSubview(adView) }
         view.addSubview(cameraDisplayView)
@@ -131,10 +141,19 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
         
         // set up layout based on orientation
         
-        // filter info view is always at the top of the screen
+        // Bannsr and filter info view are always at the top of the screen
+        bannerView.frame.size.height = bannerHeight * 0.75
+        bannerView.frame.size.width = displayWidth
+        bannerView.backgroundColor = UIColor.black
+        
+        
+        layoutBanner()
+        bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
+
         filterInfoView.frame.size.height = bannerHeight * 0.75
         filterInfoView.frame.size.width = displayWidth
-        filterInfoView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: filterInfoView.frame.size.height)
+        //filterInfoView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: filterInfoView.frame.size.height)
+        filterInfoView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: filterInfoView.frame.size.height)
 
         if (isLandscape){
             // left-to-right layout scheme, but filter/catgeory/parameter overlays are at the bottom
@@ -186,16 +205,17 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
         } else {
             // Portrait: top-to-bottom layout scheme
             
+            cameraDisplayView.frame.size.width = displayWidth
             if (showAds){
                 adView.frame.size.height = bannerHeight
                 adView.frame.size.width = displayWidth
                 adView.align(.underCentered, relativeTo: filterInfoView, padding: 0, width: displayWidth, height: adView.frame.size.height)
                 cameraDisplayView.frame.size.height = displayHeight - 1.5 * bannerHeight
+                cameraDisplayView.align(.underCentered, relativeTo: adView, padding: 0, width: displayWidth, height: cameraDisplayView.frame.size.height)
             } else {
                 cameraDisplayView.frame.size.height = displayHeight - 2.5 * bannerHeight
+                cameraDisplayView.align(.underCentered, relativeTo: filterInfoView, padding: 0, width: displayWidth, height: cameraDisplayView.frame.size.height)
             }
-            cameraDisplayView.frame.size.width = displayWidth
-            cameraDisplayView.align(.underCentered, relativeTo: adView, padding: 0, width: displayWidth, height: cameraDisplayView.frame.size.height)
             
             cameraControlsView.frame.size.height = bannerHeight
             cameraControlsView.frame.size.width = displayWidth
@@ -295,6 +315,37 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
     }
     
     
+    
+    // layout the banner view, with the Back button, title etc.
+    func layoutBanner(){
+        bannerView.addSubview(backButton)
+        bannerView.addSubview(titleLabel)
+        
+        backButton.frame.size.height = bannerView.frame.size.height - 8
+        backButton.frame.size.width = 2.0 * backButton.frame.size.height
+        backButton.setTitle("< Back", for: .normal)
+        backButton.backgroundColor = UIColor.flatMint()
+        backButton.setTitleColor(UIColor.white, for: .normal)
+        backButton.titleLabel!.font = UIFont.boldSystemFont(ofSize: 20.0)
+        backButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.center
+        
+        titleLabel.frame.size.height = backButton.frame.size.height
+        titleLabel.frame.size.width = displayWidth - backButton.frame.size.width
+        titleLabel.text = "Live Filters"
+        titleLabel.backgroundColor = UIColor.black
+        titleLabel.textColor = UIColor.white
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 18.0)
+        titleLabel.textAlignment = .center
+        
+        
+        backButton.anchorInCorner(.bottomLeft, xPad: 4, yPad: 4, width: backButton.frame.size.width, height: backButton.frame.size.height)
+        titleLabel.align(.toTheRightCentered, relativeTo: backButton, padding: 0, width: titleLabel.frame.size.width, height: titleLabel.frame.size.height)
+        
+        backButton.addTarget(self, action: #selector(self.backDidPress), for: .touchUpInside)
+        
+    }
+    
+ 
     
     //////////////////////////////////////
     // MARK: - Volume buttons
@@ -444,6 +495,24 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
         }
     }
     
+    
+    //////////////////////////////////////
+    //MARK: - Navigation
+    //////////////////////////////////////
+    func backDidPress(){
+        log.verbose("Back pressed")
+        exitScreen()
+    }
+  
+    
+    func exitScreen(){
+        guard navigationController?.popViewController(animated: true) != nil else { //modal
+            //log.debug("Not a navigation Controller")
+            suspend()
+            dismiss(animated: true, completion:  { })
+            return
+        }
+    }
     //////////////////////////////////////
     //MARK: - Utility functions
     //////////////////////////////////////
@@ -663,12 +732,17 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
    
     
     // routine to clean up before presenting a new View Controller
-    fileprivate func prepareForViewController(){
+    fileprivate func suspend(){
         self.cameraDisplayView.setFilter(nil)
         CameraManager.stopCapture()
         cameraDisplayView.suspend()
         filterSelectionView.suspend()
         callbacksEnabled = false
+    }
+    
+    // routine to clean up before presenting a new View Controller
+    fileprivate func prepareForViewController(){
+        suspend()
     }
     
     // generic handler to restart processing once another view controller has finished
