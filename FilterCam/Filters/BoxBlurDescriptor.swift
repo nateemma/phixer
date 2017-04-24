@@ -16,6 +16,9 @@ class BoxBlurDescriptor: FilterDescriptorInterface {
     let key = "BoxBlur"
     let title = "Box Blur"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     

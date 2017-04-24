@@ -16,6 +16,9 @@ class MedianDescriptor: FilterDescriptorInterface {
     let key = "Median"
     let title = "Median"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     

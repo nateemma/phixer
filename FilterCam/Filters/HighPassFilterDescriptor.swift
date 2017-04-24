@@ -16,6 +16,9 @@ class HighPassFilterDescriptor: FilterDescriptorInterface {
     let key = "HighPassFilter"
     let title = "High Pass Filter"
     
+    var show: Bool = true
+    var rating: Int = 0
+    
     let filter: BasicOperation?  = nil
     var filterGroup: OperationGroup? = nil
     

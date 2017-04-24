@@ -16,6 +16,9 @@ class KuwaharaRadius3Descriptor: FilterDescriptorInterface {
     let key = "KuwaharaRadius3"
     let title = "Kuwahara (Radius 3)"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     

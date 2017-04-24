@@ -18,6 +18,9 @@ class SphereRefractionDescriptor: FilterDescriptorInterface {
     let key = "SphereRefraction"
     let title = "Sphere Refraction"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     

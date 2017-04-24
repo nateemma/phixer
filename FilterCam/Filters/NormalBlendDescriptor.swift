@@ -16,6 +16,9 @@ class NormalBlendDescriptor: FilterDescriptorInterface {
     let key = "NormalBlend"
     let title = "Normal Blend"
     
+    var show: Bool = true
+    var rating: Int = 0
+  
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     

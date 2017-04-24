@@ -18,6 +18,9 @@ class PolkaDotDescriptor: FilterDescriptorInterface {
     let key = "PolkaDot"
     let title = "Polka Dot"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     

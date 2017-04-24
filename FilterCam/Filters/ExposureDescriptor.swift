@@ -16,6 +16,9 @@ class ExposureDescriptor: FilterDescriptorInterface {
     let key = "Exposure"
     let title = "Exposure"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     

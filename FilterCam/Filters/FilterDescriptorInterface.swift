@@ -30,6 +30,9 @@ let parameterNotSet:Float = -1000.00
 protocol FilterDescriptorInterface{
     var key: String { get }
     var title: String { get }
+    
+    var show: Bool { get set }
+    var rating: Int { get set }
 
     var filter: BasicOperation? { get }
     var filterGroup: OperationGroup? { get }

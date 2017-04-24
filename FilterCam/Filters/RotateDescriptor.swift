@@ -12,11 +12,14 @@ import CoreGraphics
 
 
 class RotateDescriptor: FilterDescriptorInterface {
-    
+
     
     let key = "Rotate"
     let title = "Rotate"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     

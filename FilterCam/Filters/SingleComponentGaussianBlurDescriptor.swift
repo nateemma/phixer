@@ -16,6 +16,9 @@ class SingleComponentGaussianBlurDescriptor: FilterDescriptorInterface {
     let key = "SingleComponentGaussianBlur"
     let title = "Single Component Gaussian Blur"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     

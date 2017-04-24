@@ -11,11 +11,13 @@ import GPUImage
 
 
 class OverlayBlendDescriptor: FilterDescriptorInterface {
-    
-    
+
     let key = "OverlayBlend"
     let title = "Overlay Blend"
     
+    var show: Bool = true
+    var rating: Int = 0
+  
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     

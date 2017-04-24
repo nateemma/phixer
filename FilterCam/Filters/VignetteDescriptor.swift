@@ -18,6 +18,9 @@ class VignetteDescriptor: FilterDescriptorInterface {
     let key = "Vignette"
     let title = "Vignette"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     

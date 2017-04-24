@@ -18,6 +18,9 @@ class ThresholdSketchDescriptor: FilterDescriptorInterface {
     let key = "ThresholdSketch"
     let title = "Threshold Sketch"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     

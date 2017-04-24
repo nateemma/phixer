@@ -16,6 +16,9 @@ class AdaptiveThresholdDescriptor: FilterDescriptorInterface {
     let key = "AdaptiveThreshold"
     let title = "Adaptive Threshold"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     let filter: BasicOperation?  = nil
     var filterGroup: OperationGroup? = nil
     

@@ -16,6 +16,9 @@ class FalseColorDescriptor: FilterDescriptorInterface {
     let key = "FalseColor"
     let title = "FalseColor"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     

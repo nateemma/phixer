@@ -14,8 +14,11 @@ class KuwaharaDescriptor: FilterDescriptorInterface {
     
     
     let key = "Kuwahara"
-    let title = "Kuwahara Filter (Oil Painting) - SLOW"
+    let title = "Kuwahara Filter (Oil Painting)"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     

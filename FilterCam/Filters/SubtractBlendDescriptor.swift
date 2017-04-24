@@ -16,6 +16,9 @@ class SubtractBlendDescriptor: FilterDescriptorInterface {
     let key = "SubtractBlend"
     let title = "Subtract Blend"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     

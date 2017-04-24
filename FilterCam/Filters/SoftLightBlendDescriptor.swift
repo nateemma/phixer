@@ -16,6 +16,9 @@ class SoftLightBlendDescriptor: FilterDescriptorInterface {
     let key = "SoftLightBlend"
     let title = "SoftLight Blend"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     

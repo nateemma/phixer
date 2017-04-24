@@ -78,6 +78,8 @@ class FilterLibrary{
         var count:Int = 0
         var key:String
         var value:String
+        var show:Bool
+        var rating:Int
      
         categoryDictionary = [:]
         categoryList = []
@@ -118,7 +120,9 @@ class FilterLibrary{
                     count = count + 1
                     key = item["key"].stringValue
                     value = item["class"].stringValue
-                    addFilter(key:key, classname:value)
+                    show = item["show"].boolValue
+                    rating = item["rating"].intValue
+                    addFilter(key:key, classname:value, show:show, rating:rating)
                 }
                 print ("\(count) Filters found")
                 
@@ -170,7 +174,7 @@ class FilterLibrary{
   
     
     
-    private static func addFilter(key:String, classname:String){
+    private static func addFilter(key:String, classname:String, show:Bool, rating:Int){
         /*
         // create an instance from the classname and add it to the dictionary
         var descriptor:FilterDescriptorInterface? = nil
@@ -188,7 +192,7 @@ class FilterLibrary{
  */
         // just store the mapping. Do lazy allocation as needed because of the potentially large number of filters
         FilterLibrary.filterDictionary[key] = nil // just make sure there is an entry to find later
-        FilterFactory.addFilterDefinition(key: key, classname: classname)
+        FilterFactory.addFilterDefinition(key: key, classname: classname,  show:show, rating:rating)
     }
     
     

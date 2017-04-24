@@ -16,6 +16,9 @@ class ClarityDescriptor: FilterDescriptorInterface {
     let key = "Clarity"
     let title = "Clarity"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     let filter: BasicOperation?  = nil
     var filterGroup: OperationGroup? = nil
     

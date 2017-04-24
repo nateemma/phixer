@@ -18,6 +18,9 @@ class CannyEdgeDetectionDescriptor: FilterDescriptorInterface {
     let key = "CannyEdgeDetection"
     let title = "Canny Edge Detection"
     
+    var show: Bool = true
+    var rating: Int = 0
+  
     let filter: BasicOperation?  = nil
     var filterGroup: OperationGroup? = nil
     

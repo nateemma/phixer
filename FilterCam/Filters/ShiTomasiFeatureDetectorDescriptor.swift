@@ -18,6 +18,9 @@ class ShiTomasiFeatureDetectorDescriptor: FilterDescriptorInterface {
     let key = "ShiTomasiFeatureDetector"
     let title = "Shi-Tomasi Feature Detector"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     let filter: BasicOperation?  = nil
     var filterGroup: OperationGroup? = nil
     

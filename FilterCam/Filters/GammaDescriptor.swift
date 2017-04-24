@@ -16,6 +16,9 @@ class GammaDescriptor: FilterDescriptorInterface {
     let key = "Gamma"
     let title = "Gamma Adjustment"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     

@@ -18,6 +18,9 @@ class AverageLuminanceThresholdDescriptor: FilterDescriptorInterface {
     let key = "AverageLuminanceThreshold"
     let title = "Average Luminance Threshold"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     let filter: BasicOperation?  = nil
     var filterGroup: OperationGroup? = nil
     

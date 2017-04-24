@@ -18,6 +18,9 @@ class NobleCornerDetectorDescriptor: FilterDescriptorInterface {
     let key = "NobleCornerDetector"
     let title = "Noble Corner Detector"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     let filter: BasicOperation?  = nil
     var filterGroup: OperationGroup? = nil
     

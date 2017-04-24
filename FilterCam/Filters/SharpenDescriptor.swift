@@ -16,6 +16,9 @@ class SharpenDescriptor: FilterDescriptorInterface {
     let key = "Sharpen"
     let title = "Sharpen"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     

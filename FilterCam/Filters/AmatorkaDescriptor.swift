@@ -16,6 +16,9 @@ class AmatorkaDescriptor: FilterDescriptorInterface {
     let key = "Amatorka"
     let title = "Amatorka"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     

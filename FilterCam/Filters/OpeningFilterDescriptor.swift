@@ -16,6 +16,9 @@ class OpeningFilterDescriptor: FilterDescriptorInterface {
     let key = "OpeningFilter"
     let title = "Opening Filter"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     let filter: BasicOperation?  = nil
     var filterGroup: OperationGroup? = nil
     

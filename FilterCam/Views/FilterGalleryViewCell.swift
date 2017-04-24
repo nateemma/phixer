@@ -19,6 +19,7 @@ class FilterGalleryViewCell: UICollectionViewCell {
     
     var renderView : RenderView! // only allocate when needed
     var label : UILabel = UILabel()
+    var descriptor: FilterDescriptorInterface!
     
     let defaultWidth:CGFloat = 64.0
     let defaultHeight:CGFloat = 64.0
@@ -147,7 +148,7 @@ class FilterGalleryViewCell: UICollectionViewCell {
     public func configureCell(frame: CGRect, index:Int, key:String) {
         
         DispatchQueue.main.async(execute: { () -> Void in
-            log.debug("index:\(index), key:\(key)")
+            //log.debug("index:\(index), key:\(key)")
             self.cellIndex = index
             
             // allocate the RenderView
@@ -159,6 +160,21 @@ class FilterGalleryViewCell: UICollectionViewCell {
             
             //self.renderContainer.label.text = descriptor?.key
             self.label.text = key
+            
+            // get the descriptor and setup adornments etc. accordingly
+            self.descriptor = self.filterManager.getFilterDescriptor(key: key)
+            
+            // If filter is disabled, show at half intensity
+            if (self.descriptor != nil){
+                if (!self.descriptor.show){
+                    self.renderView.alpha = 0.25
+                    self.label.alpha = 0.4
+                    //self.layer.borderColor = UIColor(white: 0.6, alpha: 0.4).cgColor
+                    self.layer.borderColor = UIColor.flatGrayColorDark().cgColor
+                }
+            } else {
+                log.error("NIL descriptor for key: \(key)")
+            }
             
             self.doLayout()
         })

@@ -16,6 +16,9 @@ class SolarizeDescriptor: FilterDescriptorInterface {
     let key = "Solarize"
     let title = "Solarize"
     
+    var show: Bool = true
+    var rating: Int = 0
+ 
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     

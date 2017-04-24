@@ -18,6 +18,9 @@ class SmoothToonDescriptor: FilterDescriptorInterface {
     let key = "SmoothToon"
     let title = "SmoothToon"
     
+    var show: Bool = true
+    var rating: Int = 0
+ 
     let filter: BasicOperation?  = nil
     var filterGroup: OperationGroup? = nil
     

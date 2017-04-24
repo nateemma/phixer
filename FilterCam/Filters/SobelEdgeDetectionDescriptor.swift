@@ -17,6 +17,9 @@ class SobelEdgeDetectionDescriptor: FilterDescriptorInterface {
     let key = "SobelEdgeDetection"
     let title = "Sobel Edge Detection"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     

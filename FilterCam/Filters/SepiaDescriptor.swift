@@ -18,6 +18,9 @@ class SepiaDescriptor: FilterDescriptorInterface {
     let key = "Sepia"
     let title = "Sepia Tone"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     

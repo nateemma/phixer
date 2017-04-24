@@ -18,6 +18,9 @@ class ChromaKeyBlendDescriptor: FilterDescriptorInterface {
     let key = "ChromaKeyBlend"
     let title = "Chroma Key Blend"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     

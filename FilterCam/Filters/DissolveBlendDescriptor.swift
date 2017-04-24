@@ -16,6 +16,9 @@ class DissolveBlendDescriptor: FilterDescriptorInterface {
     let key = "DissolveBlend"
     let title = "Dissolve Blend"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     

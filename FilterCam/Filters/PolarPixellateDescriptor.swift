@@ -16,6 +16,9 @@ class PolarPixellateDescriptor: FilterDescriptorInterface {
     let key = "PolarPixellate"
     let title = "Polar Pixellate"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     

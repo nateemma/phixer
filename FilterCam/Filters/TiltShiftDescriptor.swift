@@ -18,6 +18,9 @@ class TiltShiftDescriptor: FilterDescriptorInterface {
     let key = "TiltShift"
     let title = "Tilt-Shift Lens Effect"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     let filter: BasicOperation?  = nil
     var filterGroup: OperationGroup? = nil
     

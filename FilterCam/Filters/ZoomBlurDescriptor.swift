@@ -18,6 +18,9 @@ class ZoomBlurDescriptor: FilterDescriptorInterface {
     let key = "ZoomBlur"
     let title = "Zoom Blur"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     

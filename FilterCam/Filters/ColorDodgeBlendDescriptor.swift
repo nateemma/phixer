@@ -16,6 +16,9 @@ class ColorDodgeBlendDescriptor: FilterDescriptorInterface {
     let key = "ColorDodgeBlend"
     let title = "ColorDodge Blend"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     

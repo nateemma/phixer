@@ -16,6 +16,9 @@ class DivideBlendDescriptor: FilterDescriptorInterface {
     let key = "DivideBlend"
     let title = "Divide Blend"
     
+    var show: Bool = true
+    var rating: Int = 0
+   
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     

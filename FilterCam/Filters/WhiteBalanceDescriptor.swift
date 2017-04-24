@@ -16,6 +16,9 @@ class WhiteBalanceDescriptor: FilterDescriptorInterface {
     let key = "WhiteBalance"
     let title = "White Balance"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     

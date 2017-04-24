@@ -15,6 +15,10 @@ import GPUImage
 // Input parameter ranges match those of Lightroom/Photoshop, and are translated to GUImage ranges
 class PresetDescriptor: FilterDescriptorInterface {
     
+    
+    var show: Bool = true
+    var rating: Int = 0
+
     // settable parameters:
     
     var temperature: Float { didSet {

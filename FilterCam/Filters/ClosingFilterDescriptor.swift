@@ -16,6 +16,9 @@ class ClosingFilterDescriptor: FilterDescriptorInterface {
     let key = "ClosingFilter"
     let title = "Closing Filter"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     let filter: BasicOperation?  = nil
     var filterGroup: OperationGroup? = nil
     

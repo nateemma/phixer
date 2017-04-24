@@ -18,6 +18,9 @@ class PosterizeDescriptor: FilterDescriptorInterface {
     let key = "Posterize"
     let title = "Posterize"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     

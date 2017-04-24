@@ -18,6 +18,9 @@ class UnsharpMaskDescriptor: FilterDescriptorInterface {
     let key = "UnsharpMask"
     let title = "Unsharp Mask"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     let filter: BasicOperation?  = nil
     var filterGroup: OperationGroup? = nil
     

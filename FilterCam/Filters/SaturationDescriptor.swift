@@ -18,6 +18,9 @@ class SaturationDescriptor: FilterDescriptorInterface {
     let key = "Saturation"
     let title = "Saturation"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     

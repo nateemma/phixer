@@ -16,6 +16,9 @@ class XXX0Descriptor: FilterDescriptorInterface {
     let key = "XXX"
     let title = "XXX"
     
+    var show: Bool = true
+    var rating: Int = 0
+
     var filter: BasicOperation?  = nil
     let filterGroup: OperationGroup? = nil
     

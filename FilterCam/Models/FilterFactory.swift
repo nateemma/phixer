@@ -14,6 +14,9 @@ import Foundation
 class FilterFactory{
     
     private static var filterList: [String:String] = [:]
+    private static var showList: [String:Bool] = [:]
+    private static var ratingList: [String:Int] = [:]
+    
     private static var initDone: Bool  = false
     
     // since this is a static class, there are no guarantees that initialisation will be complete before one of the methods is called,
@@ -23,6 +26,8 @@ class FilterFactory{
         if (!FilterFactory.initDone){
             FilterFactory.initDone = true
             filterList = [:]
+            showList = [:]
+            ratingList = [:]
         }
     }
     
@@ -30,9 +35,11 @@ class FilterFactory{
     
     
     // Adds a filter definition to the dictionary
-    open static func addFilterDefinition(key: String, classname: String){
+    open static func addFilterDefinition(key: String, classname: String,  show:Bool, rating:Int){
         checkSetup()
         FilterFactory.filterList[key] = classname
+        FilterFactory.showList[key] = show
+        FilterFactory.ratingList[key] = rating
     }
     
     
@@ -56,6 +63,9 @@ class FilterFactory{
             
             if (descriptor == nil){
                 print ("FilterFactory.createFilter() ERR: Could not create class: \(classname)")
+            } else {
+                descriptor?.show = FilterFactory.showList[key]!
+                descriptor?.rating = FilterFactory.ratingList[key]!
             }
             
         } else {
