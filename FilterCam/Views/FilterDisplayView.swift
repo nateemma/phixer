@@ -242,7 +242,7 @@ class FilterDisplayView: UIView {
                 currSampleInput! --> filter! --> filteredOutput!
                 break
             case .blend:
-                log.debug("BLEND filter: \(currFilterDescriptor?.key) opacity:\(opacityFilter?.opacity)")
+                log.debug("BLEND filter: \(String(describing: currFilterDescriptor?.key)) opacity:\(String(describing: opacityFilter?.opacity))")
                 currSampleInput!.addTarget(filter!)
                 currBlendInput! --> opacityFilter! --> filter!
                 currSampleInput! --> filter! --> filteredOutput!
@@ -258,11 +258,11 @@ class FilterDisplayView: UIView {
             let opType:FilterOperationType = (currFilterDescriptor?.filterOperationType)!
             switch (opType){
             case .singleInput:
-                log.debug("filterGroup: \(currFilterDescriptor?.key)")
+                log.debug("filterGroup: \(String(describing: currFilterDescriptor?.key))")
                 currSampleInput! --> filterGroup! --> filteredOutput!
                 break
             case .blend:
-                log.debug("BLEND filter: \(currFilterDescriptor?.key) opacity:\(opacityFilter?.opacity)")
+                log.debug("BLEND filter: \(String(describing: currFilterDescriptor?.key)) opacity:\(String(describing: opacityFilter?.opacity))")
                 currSampleInput!.addTarget(filterGroup!)
                 currBlendInput! --> opacityFilter! --> filterGroup!
                 currSampleInput! --> filterGroup! --> filteredOutput!
@@ -379,13 +379,13 @@ class FilterDisplayView: UIView {
             let opType:FilterOperationType = (descriptor?.filterOperationType)!
             switch (opType){
             case .singleInput:
-                log.debug("filter: \(descriptor?.key) address:\(Utilities.addressOf(filter))")
+                log.debug("filter: \(String(describing: descriptor?.key)) address:\(Utilities.addressOf(filter))")
                 //sample! --> filter! --> self.renderView!
                 currSampleInput! --> filter! --> self.renderView!
                 currSampleInput?.processImage(synchronously: true)
                 break
             case .blend:
-                log.debug("BLEND filter: \(currFilterDescriptor?.key) opacity:\(opacityFilter?.opacity)")
+                log.debug("BLEND filter: \(String(describing: currFilterDescriptor?.key)) opacity:\(String(describing: opacityFilter?.opacity))")
                 log.debug("Sample:(\((sampleImageFull?.size.width)!),\((sampleImageFull?.size.height)!)) Blend:(\((blendImageFull?.size.width)!),\((blendImageFull?.size.height)!))")
                 //currSampleInput!.addTarget(filter!)
                 currBlendInput! --> opacityFilter! --> filter!
@@ -415,12 +415,12 @@ class FilterDisplayView: UIView {
             let opType:FilterOperationType = (descriptor?.filterOperationType)!
             switch (opType){
             case .singleInput:
-                log.debug("filterGroup: \(descriptor?.key)")
+                log.debug("filterGroup: \(String(describing: descriptor?.key))")
                 currSampleInput! --> filterGroup! --> self.renderView!
                 currSampleInput?.processImage(synchronously: true)
                 break
             case .blend:
-                log.debug("BLEND filter: \(currFilterDescriptor?.key) opacity:\(opacityFilter?.opacity)")
+                log.debug("BLEND filter: \(String(describing: currFilterDescriptor?.key)) opacity:\(String(describing: opacityFilter?.opacity))")
                 //currSampleInput!.addTarget(filterGroup!)
                 currBlendInput! --> opacityFilter! --> filterGroup!
                 currSampleInput! --> filterGroup! --> self.renderView!

@@ -238,12 +238,12 @@ class oldFilterDisplayView: UIView {
         } else if (currFilterDescriptor?.filterGroup != nil){ // group of filters
             //log.debug("filterGroup: \(currFilterDescriptor?.key)")
             filterGroup = currFilterDescriptor?.filterGroup
-            log.debug("Run filterGroup: \(currFilterDescriptor?.key) address:\(Utilities.addressOf(filterGroup))")
+            log.debug("Run filterGroup: \(String(describing: currFilterDescriptor?.key)) address:\(Utilities.addressOf(filterGroup))")
             
             let opType:FilterOperationType = (currFilterDescriptor?.filterOperationType)!
             switch (opType){
             case .singleInput:
-                log.debug("filterGroup: \(currFilterDescriptor?.key)")
+                log.debug("filterGroup: \(String(describing: currFilterDescriptor?.key))")
                 sample! --> filterGroup! --> filteredOutput!
                 break
             case .blend:
@@ -341,7 +341,7 @@ class oldFilterDisplayView: UIView {
         } else if (descriptor?.filterGroup != nil){ // group of filters
             filterGroup = descriptor?.filterGroup
             filterGroup?.removeAllTargets()
-            log.debug("Run filterGroup: \(descriptor?.key) group:\(Utilities.addressOf(filterGroup)) view:\(Utilities.addressOf(renderView))")
+            log.debug("Run filterGroup: \(String(describing: descriptor?.key)) group:\(Utilities.addressOf(filterGroup)) view:\(Utilities.addressOf(renderView))")
             
             let opType:FilterOperationType = (descriptor?.filterOperationType)!
             switch (opType){

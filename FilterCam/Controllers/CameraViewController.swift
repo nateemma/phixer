@@ -215,7 +215,7 @@ class CameraViewController: UIViewController {
     
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        log.debug("Key event: \(keyPath)")
+        log.debug("Key event: \(String(describing: keyPath))")
         if keyPath == "outputVolume" {
             log.debug("Volume Button press detected, taking picture")
             saveImage()

@@ -230,11 +230,11 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
                     let opType = currFilter?.filterOperationType // wierd Swift unwrapping problem, can't use filterOperationType directly in switch
                     switch (opType!){
                     case .singleInput:
-                        log.debug("Using filter: \(currFilter?.key)")
+                        log.debug("Using filter: \(String(describing: currFilter?.key))")
                         self.camera! --> filter! --> self.filterViewList[index].renderView!
                         break
                     case .blend:
-                        log.debug("Using BLEND mode for filter: \(currFilter?.key)")
+                        log.debug("Using BLEND mode for filter: \(String(describing: currFilter?.key))")
                         self.camera!.addTarget(filter!)
                         self.blend! --> self.opacityFilter! --> filter!
                         self.camera! --> filter! --> self.filterViewList[index].renderView!
@@ -245,12 +245,12 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
                 } else if (currFilter?.filterGroup != nil){
                     let filterGroup = currFilter?.filterGroup
                     
-                    log.debug("Run filterGroup: \(currFilter?.key) address:\(Utilities.addressOf(filterGroup))")
+                    log.debug("Run filterGroup: \(String(describing: currFilter?.key)) address:\(Utilities.addressOf(filterGroup))")
                     
                     let opType:FilterOperationType = (currFilter?.filterOperationType)!
                     switch (opType){
                     case .singleInput:
-                        log.debug("filterGroup: \(currFilter?.key)")
+                        log.debug("filterGroup: \(String(describing: currFilter?.key))")
                         self.camera! --> filterGroup! --> self.filterViewList[index].renderView!
                         break
                     case .blend:
@@ -262,7 +262,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
                         break
                     }
                 } else {
-                    log.error("!!! Filter (\(currFilter?.key) has no operation assigned !!!")
+                    log.error("!!! Filter (\(String(describing: currFilter?.key)) has no operation assigned !!!")
                 }
   
             }
@@ -392,11 +392,11 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
                             let opType = descriptor?.filterOperationType // wierd Swift unwrapping problem, can't use filterOperationType directly in switch
                             switch (opType!){
                             case .singleInput:
-                                log.debug("Using filter: \(descriptor?.key)")
+                                log.debug("Using filter: \(String(describing: descriptor?.key))")
                                 self.camera! --> filter! --> self.filterViewList[index].renderView!
                                 break
                             case .blend:
-                                log.debug("Using BLEND mode for filter: \(descriptor?.key)")
+                                log.debug("Using BLEND mode for filter: \(String(describing: descriptor?.key))")
                                 //TOFIX: blend image needs to be resized to fit the render view
                                 self.camera!.addTarget(filter!)
                                 self.blend! --> self.opacityFilter! --> filter!
@@ -408,12 +408,12 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
                         } else if (descriptor?.filterGroup != nil){
                             let filterGroup = descriptor?.filterGroup
 
-                            log.debug("Run filterGroup: \(descriptor?.key) address:\(Utilities.addressOf(filterGroup))")
+                            log.debug("Run filterGroup: \(String(describing: descriptor?.key)) address:\(Utilities.addressOf(filterGroup))")
                             
                             let opType:FilterOperationType = (descriptor?.filterOperationType)!
                             switch (opType){
                             case .singleInput:
-                                log.debug("filterGroup: \(descriptor?.key)")
+                                log.debug("filterGroup: \(String(describing: descriptor?.key))")
                                 self.camera! --> filterGroup! --> self.filterViewList[index].renderView!
                                 break
                             case .blend:
@@ -426,7 +426,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
                                 break
                             }
                         } else {
-                            log.error("!!! Filter (\(descriptor?.key) has no operation assigned !!!")
+                            log.error("!!! Filter (\(String(describing: descriptor?.key)) has no operation assigned !!!")
                         }
                     }
                 }

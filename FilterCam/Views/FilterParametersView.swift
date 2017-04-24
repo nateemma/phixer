@@ -135,7 +135,7 @@ class FilterParametersView: UIView {
         //titleLabel.anchorInCenter(CGFloat(self.frame.size.width-8.0), height: CGFloat(sliderHeight))
         titleLabel.fillSuperview()
         
-        log.verbose("Filter Title: \(currFilterDesc?.title) h:\(titleLabel.frame.size.height) w:\(titleLabel.frame.size.width)")
+        log.verbose("Filter Title: \(String(describing: currFilterDesc?.title)) h:\(titleLabel.frame.size.height) w:\(titleLabel.frame.size.width)")
     }
   
     
@@ -447,11 +447,11 @@ class FilterParametersView: UIView {
 
             let filter = currFilterDesc?.filter
             if (filter != nil){
-                log.debug("filter: \(currFilterDesc?.key) address:\(Utilities.addressOf(filter!)) ()")
+                log.debug("filter: \(String(describing: currFilterDesc?.key)) address:\(Utilities.addressOf(filter!)) ()")
             }
             let filterGroup = currFilterDesc?.filterGroup
             if (filterGroup != nil){
-                log.debug("filter: \(currFilterDesc?.key) address:\(Utilities.addressOf(filterGroup!))")
+                log.debug("filter: \(String(describing: currFilterDesc?.key)) address:\(Utilities.addressOf(filterGroup!))")
             }
 
             currFilterDesc?.stashParameters() // save initial values in case the user cancels

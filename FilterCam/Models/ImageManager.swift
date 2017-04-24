@@ -565,7 +565,7 @@ class ImageManager {
             return nil
         }
         
-        let radians = CGFloat(degrees*M_PI)/180.0 as CGFloat
+        let radians = CGFloat(degrees*Double.pi)/180.0 as CGFloat
         let size = (image?.size)!
         
         UIGraphicsBeginImageContextWithOptions(size, false, 1.0)

@@ -151,13 +151,13 @@ class CameraDisplayView: UIView {
                     let opType = currFilter?.filterOperationType // wierd Swift unwrapping problem, can't use currFilter?.filterOperationType directly in switch
                     switch (opType!){
                     case .singleInput:
-                        log.debug("Using filter: \(currFilter?.key)")
+                        log.debug("Using filter: \(String(describing: currFilter?.key))")
                         //camera! --> filter! --> rotateFilter! --> cropFilter! --> renderView!
                         //camera! --> filter! --> renderView!
                         camera! --> filter! --> cropFilter! --> renderView!
                         break
                     case .blend:
-                        log.debug("Using BLEND mode for filter: \(currFilter?.key)")
+                        log.debug("Using BLEND mode for filter: \(String(describing: currFilter?.key))")
                         //TOFIX: blend image needs to be resized to fit the render view
                         camera!.addTarget(filter!)
                         //blendImage = PictureInput(imageName:blendImageName)
@@ -185,12 +185,12 @@ class CameraDisplayView: UIView {
 
                     //log.debug("filterGroup: \(currFilter?.key)")
                     let filterGroup = currFilter?.filterGroup
-                    log.debug("Run filterGroup: \(currFilter?.key) address:\(Utilities.addressOf(filterGroup))")
+                    log.debug("Run filterGroup: \(String(describing: currFilter?.key)) address:\(Utilities.addressOf(filterGroup))")
                     
                     let opType:FilterOperationType = (currFilter?.filterOperationType)!
                     switch (opType){
                     case .singleInput:
-                        log.debug("filterGroup: \(currFilter?.key)")
+                        log.debug("filterGroup: \(String(describing: currFilter?.key))")
                         //camera! --> filterGroup! --> renderView!
                         camera! --> filterGroup! --> cropFilter! --> renderView!
                         break
@@ -211,7 +211,7 @@ class CameraDisplayView: UIView {
                         filterGroup?.transmitPreviousImage(to: target, atIndex: index)
                     }
                 } else {
-                    log.error("!!! Filter (\(currFilter?.title) has no operation assigned !!!")
+                    log.error("!!! Filter (\(String(describing: currFilter?.title)) has no operation assigned !!!")
                 }
 
             }
@@ -246,7 +246,7 @@ class CameraDisplayView: UIView {
     // sets the filter to be applied (nil for no filter)
     open func setFilter(_ descriptor: FilterDescriptorInterface?){
         if (currFilter?.key != descriptor?.key){
-            log.debug("\(currFilter?.key)->\(descriptor?.key)")
+            log.debug("\(String(describing: currFilter?.key))->\(String(describing: descriptor?.key))")
             removeTargets(currFilter)
             currFilter = descriptor
             setupFilterPipeline()
@@ -318,12 +318,12 @@ class CameraDisplayView: UIView {
         log.verbose("filter changed")
         let descriptor = filterManager.getCurrentFilterDescriptor()
         if (currFilter?.key != descriptor?.key){
-            log.debug("\(currFilter?.key)->\(descriptor?.key)")
+            log.debug("\(String(describing: currFilter?.key))->\(String(describing: descriptor?.key))")
             removeTargets(currFilter)
             currFilter = descriptor
             setupFilterPipeline()
         } else {
-            log.debug("Ignoring \(currFilter?.key)->\(descriptor?.key) change")
+            log.debug("Ignoring \(String(describing: currFilter?.key))->\(String(describing: descriptor?.key)) change")
         }
     }
  

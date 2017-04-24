@@ -221,7 +221,7 @@ class FilterGalleryViewCell: UICollectionViewCell {
         }
         
         guard ((descriptor?.filter != nil) || (descriptor?.filterGroup != nil)) else {
-            log.error("Both filter and filterGroup are NIL for filter:\(descriptor?.key)")
+            log.error("Both filter and filterGroup are NIL for filter:\(String(describing: descriptor?.key))")
             return
         }
         
@@ -256,7 +256,7 @@ class FilterGalleryViewCell: UICollectionViewCell {
         } else if (descriptor?.filterGroup != nil){ // group of filters
             filterGroup = descriptor?.filterGroup
             
-            log.debug("Run filterGroup: \(descriptor?.key) group:\(Utilities.addressOf(filterGroup)) view:\(Utilities.addressOf(renderView))")
+            log.debug("Run filterGroup: \(String(describing: descriptor?.key)) group:\(Utilities.addressOf(filterGroup)) view:\(Utilities.addressOf(renderView))")
             
             let opType:FilterOperationType = (descriptor?.filterOperationType)!
             switch (opType){

@@ -559,13 +559,13 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
             let opType:FilterOperationType = (descriptor?.filterOperationType)!
             switch (opType){
             case .singleInput:
-                log.debug("filter: \(descriptor?.key) address:\(Utilities.addressOf(filter))")
+                log.debug("filter: \(String(describing: descriptor?.key)) address:\(Utilities.addressOf(filter))")
                 //sampleInput! --> filter! --> self.renderView!
                 sampleInput! --> filter! --> filteredImage!
                 sampleInput?.processImage(synchronously: true)
                 break
             case .blend:
-                log.debug("BLEND filter: \(descriptor?.key) opacity:\(opacityFilter?.opacity)")
+                log.debug("BLEND filter: \(String(describing: descriptor?.key)) opacity:\(String(describing: opacityFilter?.opacity))")
                 sampleInput!.addTarget(filter!)
                 blendInput! --> opacityFilter! --> filter!
                 sampleInput! --> filter! --> filteredImage!
@@ -582,12 +582,12 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
             let opType:FilterOperationType = (descriptor?.filterOperationType)!
             switch (opType){
             case .singleInput:
-                log.debug("filterGroup: \(descriptor?.key)")
+                log.debug("filterGroup: \(String(describing: descriptor?.key))")
                 sampleInput! --> filterGroup! --> filteredImage!
                 sampleInput?.processImage(synchronously: true)
                 break
             case .blend:
-                log.debug("BLEND filter: \(descriptor?.key) opacity:\(opacityFilter?.opacity)")
+                log.debug("BLEND filter: \(String(describing: descriptor?.key)) opacity:\(String(describing: opacityFilter?.opacity))")
                 sampleInput!.addTarget(filterGroup!)
                 blendInput! --> opacityFilter! --> filterGroup!
                 sampleInput! --> filterGroup! --> filteredImage!

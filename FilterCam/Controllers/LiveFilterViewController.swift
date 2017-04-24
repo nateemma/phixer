@@ -367,7 +367,7 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
     
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        log.debug("Key event: \(keyPath)")
+        log.debug("Key event: \(String(describing: keyPath))")
         if keyPath == "outputVolume" {
             log.debug("Volume Button press detected, taking picture")
             saveImage()
@@ -592,7 +592,7 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
         if let descriptor = filterManager?.getCurrentFilterDescriptor(){
             //log.verbose("Current filter: \(descriptor.key)")
             //if ((currFilterDescriptor == nil) || (descriptor.key != currFilterDescriptor?.key)){
-                log.debug("Filter change: \(descriptor.key)->\(currFilterDescriptor?.key)")
+                log.debug("Filter change: \(descriptor.key)->\(String(describing: currFilterDescriptor?.key))")
                 //currFilterDescriptor = descriptor
                 cameraDisplayView.setFilter(currFilterDescriptor)
                 categorySelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)

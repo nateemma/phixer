@@ -262,7 +262,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         }
         
         guard ((descriptor?.filter != nil) || (descriptor?.filterGroup != nil)) else {
-            log.error("Both filter and filterGroup are NIL for filter:\(descriptor?.key)")
+            log.error("Both filter and filterGroup are NIL for filter:\(String(describing: descriptor?.key))")
             return
         }
         
