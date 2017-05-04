@@ -21,7 +21,8 @@ class FilterManager{
     
     static let sharedInstance = FilterManager() // the actual instance shared by everyone
     
-    open static let defaultCategory = "quickselect"
+    open static let favouriteCategory = "favorites"
+    open static let defaultCategory = favouriteCategory
 
     fileprivate static var initDone:Bool = false
     fileprivate static var currCategory: String = defaultCategory
@@ -180,7 +181,7 @@ class FilterManager{
         if (FilterLibrary.categoryList.count > 0){
             if (FilterLibrary.categoryList.contains(category)){
                 index = FilterLibrary.categoryList.index(of: category)!
-                log.verbose("category:\(category) index:\(index)")
+                //log.verbose("category:\(category) index:\(index)")
             } else {
                 log.error("Category not found:\(category)")
             }
@@ -206,6 +207,23 @@ class FilterManager{
         return category
     }
  
+    
+    // indicates whether a filter is in the "Favourites" category/list
+    open func isFavourite(key: String) -> Bool {
+        var result:Bool = false
+        let index = getCategoryIndex(category: FilterManager.favouriteCategory)
+        if (index>=0) {
+            result = (FilterLibrary.categoryFilters[FilterManager.favouriteCategory]?.contains(key))!
+/***
+            if (result) {
+                log.verbose("Key: \(key) in favourites")
+            } else {
+                log.verbose("Key: \(key) NOT in favourites (\(index)): \(FilterLibrary.categoryFilters[FilterManager.favouriteCategory])")
+            }
+ ***/
+        }
+        return result
+    }
     
     //////////////////////////////////////////////
     // MARK: - Filter-related Accessors
@@ -260,12 +278,40 @@ class FilterManager{
         return FilterManager.selectedFilter
     }
     
-
+    
     
     open func getFilterList(_ category:String)->[String]?{
         FilterManager.checkSetup()
         if (FilterLibrary.categoryFilters[category] != nil){
             return FilterLibrary.categoryFilters[category]
+        } else {
+            log.error("Invalid category:\"\(category)\"")
+            return []
+        }
+    }
+    
+    
+    open static var shownFilterList:[String] = []
+    
+    open func getShownFilterList(_ category:String)->[String]?{
+        //var key:String = ""
+        
+        FilterManager.checkSetup()
+        if (FilterLibrary.categoryFilters[category] != nil){
+            FilterManager.shownFilterList = []
+            let count:Int = (FilterLibrary.categoryFilters[category]?.count)!
+            if (count > 0){
+                for key in FilterLibrary.categoryFilters[category]! {
+                    if (FilterFactory.isShown(key: key)){
+                        FilterManager.shownFilterList.append(key)
+                    }
+                }
+            } else {
+                log.warning("No filters found for category: \(category)")
+            }
+            FilterManager.shownFilterList.sort(by: { (value1: String, value2: String) -> Bool in return value1 < value2 }) // sort ascending
+            //log.verbose("\(FilterManager.shownFilterList.count) filters found for category: \(category): \(FilterManager.shownFilterList)")
+            return FilterManager.shownFilterList
         } else {
             log.error("Invalid category:\"\(category)\"")
             return []

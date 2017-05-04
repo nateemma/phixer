@@ -19,6 +19,7 @@ class FilterGalleryViewCell: UICollectionViewCell {
     
     var renderView : RenderView! // only allocate when needed
     var label : UILabel = UILabel()
+    var adornmentView: UIView = UIView()
     var descriptor: FilterDescriptorInterface!
     
     let defaultWidth:CGFloat = 64.0
@@ -96,7 +97,16 @@ class FilterGalleryViewCell: UICollectionViewCell {
         renderView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: self.height * 0.8)
         label.alignAndFill(.underCentered, relativeTo: renderView, padding: 0)
 
-        self.bringSubview(toFront: renderView)
+        adornmentView.backgroundColor = UIColor.clear
+        adornmentView.frame.size = renderView.frame.size
+        self.addSubview(adornmentView)
+        self.bringSubview(toFront: adornmentView)
+        adornmentView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: self.height * 0.8)
+
+        // position icons withing the adornment view
+        layoutAdornments()
+
+        //self.bringSubview(toFront: renderView)
     }
  
     
@@ -172,14 +182,93 @@ class FilterGalleryViewCell: UICollectionViewCell {
                     //self.layer.borderColor = UIColor(white: 0.6, alpha: 0.4).cgColor
                     self.layer.borderColor = UIColor.flatGrayColorDark().cgColor
                 }
+                // create the adornment overlay (even if hidden, because you need to be able to un-hide)
+                self.setupAdornments()
+                
             } else {
                 log.error("NIL descriptor for key: \(key)")
             }
             
+            //TODO: set overlay image based on whether filter is in Quick Select category or not and define touch handlers
+            
             self.doLayout()
         })
         
-        //TODO: set overlay image based on whether filter is in Quick Select category or not and define touch handlers
+    }
+    
+    // setup the adornments (favourites, show/hide, ratings etc.) for the current filter
+    
+    // individual adornments
+    fileprivate var showAdornment: UIImageView = UIImageView()
+    fileprivate var favAdornment: UIImageView = UIImageView()
+    fileprivate var ratingAdornment: UIImageView = UIImageView()
+    
+    fileprivate func setupAdornments() {
+    
+        guard (self.descriptor != nil)  else {
+            log.error ("NIL descriptor")
+            return
+        }
+        
+        adornmentView.frame = self.renderView.frame
+        
+        // set size of adornments
+        let dim: CGFloat = adornmentView.frame.size.height / 8.0
+
+        let adornmentSize = CGSize(width: dim, height: dim)
+        // show/hide
+        let showAsset: String =  (self.descriptor?.show == true) ? "ic_accept" : "ic_reject"
+        showAdornment.image = UIImage(named: showAsset)?.imageScaled(to: adornmentSize)
+
+        
+        // favourite
+        var favAsset: String =  "ic_heart_outline"
+        // TODO" figure out how to identify something in the favourite (quick select) list
+        if (self.filterManager.isFavourite(key: (self.descriptor?.key)!)){
+            favAsset = "ic_heart_filled"
+        }
+        favAdornment.image = UIImage(named: favAsset)?.imageScaled(to: adornmentSize)
+        
+        // rating
+        var ratingAsset: String =  "ic_star"
+        switch ((self.descriptor?.rating)!){
+        case 1:
+            ratingAsset = "ic_star_filled_1"
+        case 2:
+            ratingAsset = "ic_star_filled_2"
+        case 3:
+            ratingAsset = "ic_star_filled_3"
+        default:
+            break
+        }
+        ratingAdornment.image = UIImage(named: ratingAsset)?.imageScaled(to: adornmentSize)
+        
+
+        // add a little background so that you can see the icons
+        showAdornment.backgroundColor = UIColor.flatGray().withAlphaComponent(0.5)
+        showAdornment.layer.cornerRadius = 2.0
+        
+        favAdornment.backgroundColor = showAdornment.backgroundColor
+        favAdornment.alpha = showAdornment.alpha
+        favAdornment.layer.cornerRadius = showAdornment.layer.cornerRadius
+        
+        ratingAdornment.backgroundColor = showAdornment.backgroundColor
+        ratingAdornment.alpha = showAdornment.alpha
+        ratingAdornment.layer.cornerRadius = showAdornment.layer.cornerRadius
+        
+        // add icons to the adornment view
+        adornmentView.addSubview(showAdornment)
+        adornmentView.addSubview(favAdornment)
+        adornmentView.addSubview(ratingAdornment)
+        
+    }
+    
+    
+    fileprivate func layoutAdornments(){
+        let dim: CGFloat = adornmentView.frame.size.height / 8.0
+        showAdornment.anchorInCorner(.bottomLeft, xPad: 2.0, yPad: 2.0, width: dim, height: dim)
+        favAdornment.anchorInCorner(.topLeft, xPad: 2.0, yPad: 2.0, width: dim, height: dim)
+        ratingAdornment.anchorInCorner(.bottomRight, xPad: 2.0, yPad: 2.0, width: dim, height: dim)
     }
     
     

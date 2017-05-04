@@ -97,58 +97,67 @@ class FilterLibrary{
             let fileContents = try NSString(contentsOfFile: path!, encoding: String.Encoding.utf8.rawValue) as String
             if let data = fileContents.data(using: String.Encoding.utf8) {
                 parsedConfig = JSON(data: data)
-                print("restore() - parsing data")
-                //print ("\(parsedConfig)")
-                
-                // Category list
-                count = 0
-                for item in parsedConfig["categories"].arrayValue {
-                    count = count + 1
-                    key = item["key"].stringValue
-                    value = item["title"].stringValue
-                    addCategory(key:key, title:value)
+                if (parsedConfig != JSON.null){
+                    print("restore() - parsing data")
+                    print ("\(parsedConfig)")
+                    
+                    // Category list
+                    count = 0
+                    for item in parsedConfig["categories"].arrayValue {
+                        count = count + 1
+                        key = item["key"].stringValue
+                        value = item["title"].stringValue
+                        addCategory(key:key, title:value)
+                    }
+                    print ("\(count) Categories found")
+                    
+                    // Build Category array from dictionary. More convenient than a dictionary
+                    categoryList = Array(categoryDictionary.keys)
+                    categoryList.sort(by: sortClosure)
+                    
+                    // Filter list
+                    count = 0
+                    for item in parsedConfig["filters"].arrayValue {
+                        count = count + 1
+                        key = item["key"].stringValue
+                        value = item["class"].stringValue
+                        show = item["show"].boolValue
+                        rating = item["rating"].intValue
+                        addFilter(key:key, classname:value, show:show, rating:rating)
+                    }
+                    print ("\(count) Filters found")
+                    
+                    
+                    // Lookup Images
+                    count = 0
+                    for item in parsedConfig["lookup"].arrayValue {
+                        count = count + 1
+                        key = item["key"].stringValue
+                        value = item["image"].stringValue
+                        show = item["show"].boolValue
+                        rating = item["rating"].intValue
+                        addLookup(key:key, image:value, show:show, rating:rating)
+                    }
+                    print ("\(count) Lookup Images found")
+                    
+                    
+                    // List of Filters in each Category
+                    count = 0
+                    for item in parsedConfig["assign"].arrayValue {
+                        count = count + 1
+                        key = item["category"].stringValue
+                        var list:[String] = item["filters"].arrayValue.map { $0.string!}
+                        list.sort(by: sortClosure) // sort alphabetically
+                        addAssignment(category:key, filters:list)
+                    }
+                    print ("\(count) Category<-Filter Assignments found")
+                } else {
+                    print("ERROR parsing JSON file")
+                    print("*** categories error: \(String(describing: parsedConfig["categories"].error))")
+                    print("*** filters error: \(String(describing: parsedConfig["filters"].error))")
+                    print("*** lookup error: \(String(describing: parsedConfig["lookup"].error))")
+                    print("*** assign error: \(String(describing: parsedConfig["assign"].error))")
                 }
-                print ("\(count) Categories found")
-
-                // Build Category array from dictionary. More convenient than a dictionary
-                categoryList = Array(categoryDictionary.keys)
-                categoryList.sort(by: sortClosure)
-                
-                // Filter list
-                count = 0
-                for item in parsedConfig["filters"].arrayValue {
-                    count = count + 1
-                    key = item["key"].stringValue
-                    value = item["class"].stringValue
-                    show = item["show"].boolValue
-                    rating = item["rating"].intValue
-                    addFilter(key:key, classname:value, show:show, rating:rating)
-                }
-                print ("\(count) Filters found")
-                
-                
-                // Lookup Images
-                count = 0
-                for item in parsedConfig["lookup"].arrayValue {
-                    count = count + 1
-                    key = item["key"].stringValue
-                    value = item["image"].stringValue
-                    addLookup(key:key, image:value)
-                }
-                print ("\(count) Lookup Images found")
-                
-                
-                // List of Filters in each Category
-                count = 0
-                for item in parsedConfig["assign"].arrayValue {
-                    count = count + 1
-                    key = item["category"].stringValue
-                    var list:[String] = item["filters"].arrayValue.map { $0.string!}
-                    list.sort(by: sortClosure) // sort alphabetically
-                    addAssignment(category:key, filters:list)
-                }
-                print ("\(count) Category<-Filter Assignments found")
-                
             } else {
                 print("restore() - ERROR : no data found")
             }
@@ -197,7 +206,7 @@ class FilterLibrary{
     
     
     
-    private static func addLookup(key:String, image:String){
+    private static func addLookup(key:String, image:String, show:Bool, rating:Int){
         
         let l = image.components(separatedBy:".")
         let title = l[0]
@@ -224,6 +233,7 @@ class FilterLibrary{
         }
         FilterLibrary.lookupDictionary[key] = image
         FilterLibrary.filterDictionary[key] = nil
+        FilterFactory.addFilterDefinition(key: key, classname: "",  show:show, rating:rating)
     }
     
     

@@ -61,6 +61,7 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
     var filterManager: FilterManager? = FilterManager.sharedInstance
     
     var currFilterDescriptor:FilterDescriptorInterface? = nil
+    var currIndex:Int = 0
     
     var isLandscape : Bool = false
     var screenSize : CGRect = CGRect.zero
@@ -100,6 +101,7 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
             categorySelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)
             currFilterDescriptor = filterManager?.getCurrentFilterDescriptor()
             LiveFilterViewController.initDone = true
+            populateFilterList()
             updateCurrentFilter()
         }
     }
@@ -259,7 +261,7 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
         
         
         //TODO: select filter category somehow
-        //filterSelectionView.setFilterCategory(String.quickSelect)
+        //filterSelectionView.setFilterCategory(String.favorites)
         
         //TODO: remember state?
         hideCategorySelector()
@@ -391,7 +393,10 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
     
     // Note: look up current values each time because they can be changed in multiple ways (so difficult to track)
     
+    // TODO: use local list (filterList), since that takes into account whether a filter is shown or not
+    
     fileprivate func nextFilter(){
+        /***
         var index  = (filterManager?.getCurrentFilterIndex())!
         let category = (filterManager?.getCurrentCategory())!
         let oldIndex = index
@@ -399,6 +404,11 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
             
         index = (index + 1) % (filterManager?.getFilterCount(category))!
         let key = (filterManager?.getFilterKey(category: category, index: index))!
+        **/
+        let oldIndex = currIndex
+        let oldKey = filterList[currIndex]
+        currIndex = (currIndex + 1) % filterList.count
+        let key = filterList[currIndex]
         
         log.debug("Changing filter: \(oldKey)(\(oldIndex))->\(key)(\(index))")
         changeFilterTo(key)
@@ -406,6 +416,7 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
     
     
     fileprivate func previousFilter(){
+        /**
         var index  = (filterManager?.getCurrentFilterIndex())!
         let category = (filterManager?.getCurrentCategory())!
         let oldIndex = index
@@ -414,6 +425,13 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
         index = index - 1
         if (index < 0) { index = (filterManager?.getFilterCount(category))! - 1 }
         let key = (filterManager?.getFilterKey(category: category, index: index))!
+        **/
+        
+        let oldIndex = currIndex
+        let oldKey = filterList[currIndex]
+        currIndex = currIndex - 1
+        if (currIndex < 0) { currIndex = filterList.count - 1 }
+        let key = filterList[currIndex]
         
         log.debug("Changing filter: \(oldKey)(\(oldIndex))->\(key)(\(index))")
         changeFilterTo(key)
@@ -542,15 +560,16 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
         }
         
         // get list of filters in the current category
-        if (filterCount==0){
+        //if (filterCount==0){
             filterList = []
             let category = filterManager?.getCurrentCategory()
-            filterList = (filterManager?.getFilterList(category!))!
+            //filterList = (filterManager?.getFilterList(category!))!
+            filterList = (filterManager?.getShownFilterList(category!))!
             filterList.sort(by: { (value1: String, value2: String) -> Bool in return value1 < value2 }) // sort ascending
             filterCount = filterList.count
-            log.debug("Filter list: \(filterList)")
+            //log.debug("Filter list for \(category): \(filterList)")
             
-        }
+        //}
     }
     
     
@@ -565,6 +584,7 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
             filterManager?.setCurrentCategory(category)
             currFilterDescriptor = filterManager?.getCurrentFilterDescriptor()
             updateCurrentFilter()
+            populateFilterList()
         }
     }
     

@@ -48,6 +48,10 @@ class FilterDetailsViewController: UIViewController {
     // Main Filtered Output View
     fileprivate var filterDisplayView: FilterDisplayView! = FilterDisplayView()
     
+    // Adornment Overlay
+    var adornmentView: UIView = UIView()
+    
+    
     // The filter configuration subview
     fileprivate var filterParametersView: FilterParametersView! = FilterParametersView()
     
@@ -166,6 +170,7 @@ class FilterDetailsViewController: UIViewController {
         setupBanner()
         //view.addSubview(adView)
         setupDisplay()
+        setupAdornments()
         setupNavigationControls()
         
         setupConstraints()
@@ -274,6 +279,7 @@ class FilterDetailsViewController: UIViewController {
         
         view.addSubview(bannerView)
         view.addSubview(filterDisplayView)
+        view.addSubview(adornmentView)
         view.addSubview(navView)
         view.addSubview(filterParametersView)
         
@@ -295,6 +301,11 @@ class FilterDetailsViewController: UIViewController {
             filterDisplayView.frame.size.width = displayWidth / 2
             filterDisplayView.anchorInCorner(.bottomLeft, xPad: 0, yPad: 0, width: filterDisplayView.frame.size.width, height: filterDisplayView.frame.size.height)
             
+            // Adornment view is same size and location as filterDisplayView
+            adornmentView.frame.size = filterDisplayView.frame.size
+            adornmentView.anchorInCorner(.bottomLeft, xPad: 0, yPad: 0, width: adornmentView.frame.size.width, height: adornmentView.frame.size.height)
+            
+            
             // Align Overlay view to bottom of Render View
             filterParametersView.frame.size.height = displayHeight - bannerHeight
             filterParametersView.frame.size.width = displayWidth / 2
@@ -314,7 +325,6 @@ class FilterDetailsViewController: UIViewController {
             }
             
             filterParametersView.frame.size.width = displayWidth
-            
             filterParametersView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 1, otherSize: filterParametersView.frame.size.height)
             
             // Filter display takes the rest of the screen
@@ -325,8 +335,13 @@ class FilterDetailsViewController: UIViewController {
             
             filterDisplayView.align(.underCentered, relativeTo: bannerView, padding: 0, width: filterDisplayView.frame.size.width, height: filterDisplayView.frame.size.height)
         
+            
+            // Adornment view is same size and location as filterDisplayView
+            adornmentView.frame.size = filterDisplayView.frame.size
+            adornmentView.align(.underCentered, relativeTo: bannerView, padding: 0, width: adornmentView.frame.size.width, height: adornmentView.frame.size.height)
         }
         
+        layoutAdornments() // same for either rotation
         
         // prev/next navigation (same for both layouts)
 
@@ -348,6 +363,84 @@ class FilterDetailsViewController: UIViewController {
     }
     
     
+    // setup the adornments (favourites, show/hide, ratings etc.) for the current filter
+    
+    // individual adornments
+    fileprivate var showAdornment: UIImageView = UIImageView()
+    fileprivate var favAdornment: UIImageView = UIImageView()
+    fileprivate var ratingAdornment: UIImageView = UIImageView()
+    
+    fileprivate func setupAdornments() {
+        
+        guard (self.currFilterDescriptor != nil)  else {
+            log.error ("NIL descriptor")
+            return
+        }
+        
+        adornmentView.frame = self.filterDisplayView.frame
+        
+        // set size of adornments
+        //let dim: CGFloat = adornmentView.frame.size.height / 8.0
+        let dim: CGFloat = buttonSize
+        let adornmentSize = CGSize(width: dim, height: dim)
+        // show/hide
+        let showAsset: String =  (self.currFilterDescriptor?.show == true) ? "ic_accept" : "ic_reject"
+        showAdornment.image = UIImage(named: showAsset)?.imageScaled(to: adornmentSize)
+        
+        
+        // favourite
+        var favAsset: String =  "ic_heart_outline"
+        // TODO" figure out how to identify something in the favourite (quick select) list
+        if (self.filterManager?.isFavourite(key: (self.currFilterDescriptor?.key)!))!{
+            favAsset = "ic_heart_filled"
+        }
+        favAdornment.image = UIImage(named: favAsset)?.imageScaled(to: adornmentSize)
+        
+        // rating
+        var ratingAsset: String =  "ic_star"
+        switch ((self.currFilterDescriptor?.rating)!){
+        case 1:
+            ratingAsset = "ic_star_filled_1"
+        case 2:
+            ratingAsset = "ic_star_filled_2"
+        case 3:
+            ratingAsset = "ic_star_filled_3"
+        default:
+            break
+        }
+        ratingAdornment.image = UIImage(named: ratingAsset)?.imageScaled(to: adornmentSize)
+        
+        
+        // add a little background so that you can see the icons
+        showAdornment.backgroundColor = UIColor.flatGray().withAlphaComponent(0.5)
+        showAdornment.layer.cornerRadius = 2.0
+        
+        favAdornment.backgroundColor = showAdornment.backgroundColor
+        favAdornment.alpha = showAdornment.alpha
+        favAdornment.layer.cornerRadius = showAdornment.layer.cornerRadius
+        
+        ratingAdornment.backgroundColor = showAdornment.backgroundColor
+        ratingAdornment.alpha = showAdornment.alpha
+        ratingAdornment.layer.cornerRadius = showAdornment.layer.cornerRadius
+        
+        // add icons to the adornment view
+        adornmentView.addSubview(showAdornment)
+        adornmentView.addSubview(favAdornment)
+        adornmentView.addSubview(ratingAdornment)
+        
+    }
+    
+    
+    fileprivate func layoutAdornments(){
+        let dim: CGFloat = adornmentView.frame.size.height / 16.0
+        let pad: CGFloat = 2.0
+        showAdornment.anchorInCorner(.topLeft, xPad:pad, yPad:pad, width: dim, height: dim)
+        ratingAdornment.anchorInCorner(.topRight, xPad:pad, yPad:pad, width: dim, height: dim)
+        favAdornment.anchorToEdge(.top, padding:pad, width:dim, height:dim)
+        view.bringSubview(toFront: adornmentView)
+    }
+    
+
     
     override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
         displayHeight = view.height

@@ -239,7 +239,7 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         
         //TODO: select filter category somehow
-        //filterSelectionView.setFilterCategory(String.quickSelect)
+        //filterSelectionView.setFilterCategory(String.favorites)
         
         //TODO: remember state?
         hideCategorySelector()

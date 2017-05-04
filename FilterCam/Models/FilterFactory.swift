@@ -25,9 +25,9 @@ class FilterFactory{
     private static func checkSetup(){
         if (!FilterFactory.initDone){
             FilterFactory.initDone = true
-            filterList = [:]
-            showList = [:]
-            ratingList = [:]
+            FilterFactory.filterList = [:]
+            FilterFactory.showList = [:]
+            FilterFactory.ratingList = [:]
         }
     }
     
@@ -40,6 +40,7 @@ class FilterFactory{
         FilterFactory.filterList[key] = classname
         FilterFactory.showList[key] = show
         FilterFactory.ratingList[key] = rating
+        //log.verbose("ADD Filter - key:\(key) classname:\(classname) show:\(show) rating:\(rating)")
     }
     
     
@@ -74,5 +75,16 @@ class FilterFactory{
         
         
         return descriptor
+    }
+    
+    
+    // indicates whether filter should be shown or not
+    open static func isShown(key: String)->Bool{
+        if (FilterFactory.showList[key] != nil){
+            return FilterFactory.showList[key]!
+        } else {
+            log.error("ERR: unknown key:\"\(key)\"")
+            return false
+        }
     }
 }

@@ -265,7 +265,9 @@ class ImageManager {
     
     open static func getCurrentSampleImage(size:CGSize)->UIImage? {
         checkSampleImage()
-        return _currSampleImageScaled
+        var scaledImage:UIImage? = nil
+        scaledImage = resizeImage(_currSampleImage, targetSize: size, mode:.scaleAspectFill)
+        return scaledImage
     }
     
     

@@ -21,6 +21,7 @@ protocol FilterSelectionViewDelegate: class {
 
 class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
 
+    fileprivate var initDone:Bool = false
     fileprivate var filterCarousel:iCarousel? = iCarousel()
     fileprivate var filterManager: FilterManager? = FilterManager.sharedInstance
     fileprivate var filterNameList: [String] = []
@@ -31,9 +32,16 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     fileprivate var camera: Camera? = nil
     fileprivate var currFilter: FilterDescriptorInterface? = nil
     fileprivate var opacityFilter:OpacityAdjustment? = nil
+    
     fileprivate var blendImageFull:UIImage? = nil
     fileprivate var blend:PictureInput? = nil
 
+    fileprivate var sampleImageFull:UIImage? = nil
+    fileprivate var sampleImageSmall:UIImage? = nil
+    fileprivate var sampleInput:PictureInput? = nil
+
+    fileprivate var previewInput: ImageSource? = nil
+    
     fileprivate var currIndex:Int = -1
     //fileprivate var cameraPreviewInput: PictureInput? = nil
     //fileprivate var previewURL: URL? = nil
@@ -53,8 +61,10 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
             
             
             filterCategory = category
-            filterNameList = (filterManager?.getFilterList(category))!
+            //filterNameList = (filterManager?.getFilterList(category))!
+            filterNameList = (filterManager?.getShownFilterList(category))!
             //filterNameList.sort(by: { (value1: String, value2: String) -> Bool in return value1 < value2 }) // sort ascending
+            log.verbose("(\(category)) Found: \(filterNameList.count) filters")
             
             // need to clear everything from carousel, so just create a new one...
             filterCarousel?.removeFromSuperview()
@@ -73,7 +83,11 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
                 for i in (0...filterNameList.count-1) {
                     descriptor = filterManager?.getFilterDescriptor(key:filterNameList[i])
                     if (descriptor != nil){
-                        filterViewList.append(createFilterContainerView((descriptor)!))
+                        if (descriptor?.show)!{
+                            filterViewList.append(createFilterContainerView((descriptor)!))
+                        } else {
+                            log.debug("Not showing filter: \(String(describing: descriptor?.key))")
+                        }
                     } else {
                         log.error("NIL Descriptor for:\(filterNameList[i])")
                     }
@@ -121,12 +135,15 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     convenience init(){
         self.init(frame: CGRect.zero)
 
+        initDone = false
+
         carouselHeight = fmax((self.frame.size.height * 0.8), 80.0) // doesn't seem to work at less than 80 (empirical)
         //carouselHeight = self.frame.size.height * 0.82
         
         
         // register for change notifications (don't do this before the views are set up)
         //filterManager?.setCategoryChangeNotification(callback: categoryChanged())
+
     }
 
     
@@ -139,11 +156,40 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     
     func layoutViews(){
         
-        
-        DispatchQueue.main.async(execute: { () -> Void in
+        if (!self.initDone){
+            initDone = true
+            //DispatchQueue.main.async(execute: { () -> Void in
             self.camera = CameraManager.getCamera()
             
-        })
+            // load the blend and sample images (assuming they cannot change while this view is displayed)
+            self.blendImageFull  = ImageManager.getCurrentBlendImage()
+            //self.blendImageFull  = ImageManager.getCurrentBlendImage(size:CGSize(width: (self.filterCarousel?.frame.size.width)!, height: (self.filterCarousel?.frame.size.height)!))
+            if (self.blendImageFull != nil){
+                self.blend = PictureInput(image:self.blendImageFull!)
+            }
+            
+            self.sampleInput=nil
+            self.sampleImageFull = ImageManager.getCurrentSampleImage()
+            //self.sampleImageFull = ImageManager.getCurrentSampleImage(size:CGSize(width: (self.filterCarousel?.frame.size.width)!, height: (self.filterCarousel?.frame.size.height)!))
+            //let size = (self.sampleImageFull?.size.applying(CGAffineTransform(scaleX: 0.2, y: 0.2)))!
+            //self.sampleImageSmall = ImageManager.scaleImage(self.sampleImageFull, widthRatio: 0.2, heightRatio: 0.2)
+            //self.sampleInput = PictureInput(image:self.sampleImageSmall!)
+            if (self.sampleImageFull != nil){
+                self.sampleInput = PictureInput(image:self.sampleImageFull!)
+            }
+            
+            if (self.sampleInput==nil){
+                log.error("ERR: Sample input not created")
+            }
+            
+            // reduce opacity of blends by default
+            if (self.opacityFilter == nil){
+                self.opacityFilter = OpacityAdjustment()
+                self.opacityFilter?.opacity = 0.8
+            }
+            //})
+        }
+     
         
         filterLabel.text = ""
         filterLabel.textAlignment = .center
@@ -167,16 +213,6 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         filterLabel.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: filterLabel.frame.size.height)
         filterCarousel?.align(.underCentered, relativeTo: filterLabel, padding: 0, width: (filterCarousel?.frame.size.width)!, height: (filterCarousel?.frame.size.height)!)
         
-        // load the blend image (assuming it cannot change while this view is displayed)
-        blendImageFull  = ImageManager.getCurrentBlendImage(size:CGSize(width: (filterCarousel?.frame.size.width)!, height: (filterCarousel?.frame.size.height)!))
-        blend = PictureInput(image:blendImageFull!)
-        
-        
-        // reduce opacity of blends by default
-        if (self.opacityFilter == nil){
-            self.opacityFilter = OpacityAdjustment()
-            self.opacityFilter?.opacity = 0.8
-        }
     }
     
     override func layoutSubviews() {
@@ -219,8 +255,19 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         }
  ***/
 
-        if ((index < filterNameList.count) && (index>=0)){
-            if (camera != nil){
+        if ((index < filterViewList.count) && (index>=0)){
+            
+            // set the input to be either the camera or the current sample image
+            // We do this so that something is displayed when running on the simulator (no camera available)
+            
+            if (camera == nil){
+                previewInput = sampleInput
+                log.debug("Using Sample image instead of camera")
+            } else {
+                previewInput = camera
+            }
+            
+            if (previewInput != nil){
                 filterCategory = (filterManager?.getCurrentCategory())!
                 currFilter = filterManager?.getFilterDescriptor(key:filterNameList[index])
                 
@@ -231,14 +278,16 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
                     switch (opType!){
                     case .singleInput:
                         log.debug("Using filter: \(String(describing: currFilter?.key))")
-                        self.camera! --> filter! --> self.filterViewList[index].renderView!
+                        self.previewInput! --> filter! --> self.filterViewList[index].renderView!
+                        if (camera == nil){ self.sampleInput?.processImage(synchronously: true) } // need extra call for static picture
                         break
                     case .blend:
                         log.debug("Using BLEND mode for filter: \(String(describing: currFilter?.key))")
-                        self.camera!.addTarget(filter!)
+                        self.previewInput!.addTarget(filter!)
                         self.blend! --> self.opacityFilter! --> filter!
-                        self.camera! --> filter! --> self.filterViewList[index].renderView!
+                        self.previewInput! --> filter! --> self.filterViewList[index].renderView!
                         self.blend?.processImage()
+                        if (camera == nil){ self.sampleInput?.processImage(synchronously: true) }
                         break
                     }
                     
@@ -251,22 +300,26 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
                     switch (opType){
                     case .singleInput:
                         log.debug("filterGroup: \(String(describing: currFilter?.key))")
-                        self.camera! --> filterGroup! --> self.filterViewList[index].renderView!
+                        self.previewInput! --> filterGroup! --> self.filterViewList[index].renderView!
+                        if (camera == nil){ self.sampleInput?.processImage(synchronously: true) }
                         break
                     case .blend:
                         //log.debug("Using BLEND mode for group: \(currFilterDescriptor?.key)")
-                        self.camera!.addTarget(filterGroup!)
+                        self.previewInput!.addTarget(filterGroup!)
                         self.blend! --> self.opacityFilter! --> filterGroup!
-                        self.camera! --> filterGroup! --> self.filterViewList[index].renderView!
+                        self.previewInput! --> filterGroup! --> self.filterViewList[index].renderView!
                         self.blend?.processImage()
+                        if (camera == nil){ self.sampleInput?.processImage(synchronously: true) }
                         break
                     }
                 } else {
                     log.error("!!! Filter (\(String(describing: currFilter?.key)) has no operation assigned !!!")
                 }
   
+                return filterViewList[index]
+            } else {
+                log.error("ERR: No input available")
             }
-            return filterViewList[index]
         }
         return UIView()
 //        return tempView
@@ -313,16 +366,19 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     // Needed because the underlying filter list can can change asynchronously from the iCarousel background processing
     func isValidIndex(_ index:Int)->Bool{
         return ((index>=0) && (index < filterNameList.count) && (filterNameList.count>0))
+        //return ((index>=0) && (index < filterViewList.count) && (filterViewList.count>0))
     }
     
     fileprivate func updateSelection(_ carousel: iCarousel, index: Int){
         
         // Note that the Filter Category can change in the middle of an update, so be careful with indexes
         
+        /***
         guard (index != currIndex) else {
             //log.debug("Index did not change (\(currIndex)->\(index))")
             return
         }
+        ***/
         
         guard (isValidIndex(index)) else {
             log.debug("Invalid index: \(index)")
@@ -343,15 +399,17 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         let newView = filterViewList[index]
         newView.label.textColor = UIColor.flatLime()
         
-        // update current index
-        currIndex = index
-        
         //filterManager?.setCurrentFilterKey(filterNameList[index])
         
         
         // call delegate function to act on selection
-        delegate?.filterSelected(filterNameList[index])
+        if (index != currIndex) {
+            delegate?.filterSelected(filterNameList[index])
+        }
         
+        
+        // update current index
+        currIndex = index
     }
  
     // suspend all GPUImage-related processing

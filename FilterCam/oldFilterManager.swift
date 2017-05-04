@@ -24,7 +24,7 @@ class oldFilterManager{
     
     // types/constants for identfying and processing the category
     
-    static let quickSelectIndex      = 0
+    static let favoritesIndex      = 0
     static let basicAdjustmentsIndex = 1
     static let blendModesIndex       = 2
     static let visualEffectsIndex    = 3
@@ -40,7 +40,7 @@ class oldFilterManager{
     // enum that lists the available categories
     enum CategoryType: String {
         //case none             = "No Filters"
-        case quickSelect      = "Quick Select"
+        case favorites      = "Quick Select"
         case basicAdjustments = "Basic"
         case blendModes       = "Blends"
         case visualEffects    = "Distortions"
@@ -54,8 +54,8 @@ class oldFilterManager{
             
             switch (self){
                 
-            case .quickSelect:
-                return oldFilterManager._quickSelectList
+            case .favorites:
+                return oldFilterManager._favoritesList
             case .basicAdjustments:
                 return oldFilterManager._basicAdjustmentsList
             case .blendModes:
@@ -82,7 +82,7 @@ class oldFilterManager{
         
         func getIndex()->Int{
             switch (self){
-            case .quickSelect:      return quickSelectIndex
+            case .favorites:      return favoritesIndex
             case .basicAdjustments: return basicAdjustmentsIndex
             case .blendModes:       return blendModesIndex
             case .visualEffects:    return visualEffectsIndex
@@ -101,7 +101,7 @@ class oldFilterManager{
     
     static func getCategoryFromIndex(_ index:Int)->CategoryType{
         switch (index){
-        case oldFilterManager.quickSelectIndex:      return .quickSelect
+        case oldFilterManager.favoritesIndex:      return .favorites
         case oldFilterManager.basicAdjustmentsIndex: return .basicAdjustments
         case oldFilterManager.blendModesIndex:       return .blendModes
         case oldFilterManager.visualEffectsIndex:    return .visualEffects
@@ -110,7 +110,7 @@ class oldFilterManager{
         case oldFilterManager.blursIndex:            return .blurs
         case oldFilterManager.monochromeIndex:       return .monochrome
         case oldFilterManager.colorIndex:            return .color
-        default:                                  return .quickSelect
+        default:                                  return .favorites
         }
     }
 
@@ -131,7 +131,7 @@ class oldFilterManager{
     //////////////////////////////////////////////
     
     // The list of Categories
-    fileprivate static var _categoryList:[CategoryType] = [CategoryType.quickSelect,
+    fileprivate static var _categoryList:[CategoryType] = [CategoryType.favorites,
                                                            CategoryType.basicAdjustments,
                                                            CategoryType.blendModes,
                                                            CategoryType.blurs,
@@ -150,7 +150,7 @@ class oldFilterManager{
     //fileprivate var _filterAssignments: [[String]] = [[], [], [], [], [], [], [], [], []]
     
     //List for each category
-    fileprivate static var _quickSelectList = [String]()
+    fileprivate static var _favoritesList = [String]()
     fileprivate static var _basicAdjustmentsList: [String] = []
     fileprivate static var _monochromeList: [String] = []
     fileprivate static var _blendModesList: [String] = []
@@ -186,9 +186,9 @@ class oldFilterManager{
             
             // Need to start somewhere...
             //oldFilterManager.currCategory = .basicAdjustments
-            oldFilterManager.currCategory = .quickSelect
+            oldFilterManager.currCategory = .favorites
             oldFilterManager.currIndex = 0
-            oldFilterManager.currFilterKey = _quickSelectList[oldFilterManager.currIndex]
+            oldFilterManager.currFilterKey = _favoritesList[oldFilterManager.currIndex]
             oldFilterManager.currFilterDescriptor = _filterDictionary[oldFilterManager.currFilterKey]!
             
             // TEMP DEBUG:
@@ -263,7 +263,7 @@ class oldFilterManager{
     
     
     
-    private static var selectedCategory:CategoryType = .quickSelect
+    private static var selectedCategory:CategoryType = .favorites
     
     func setSelectedCategory(_ category: CategoryType){
         oldFilterManager.checkSetup()
@@ -295,7 +295,7 @@ class oldFilterManager{
     
     open func getCategory(index: Int) -> CategoryType{
         oldFilterManager.checkSetup()
-        var category:CategoryType = .quickSelect
+        var category:CategoryType = .favorites
         if ((index >= 0) && (index < oldFilterManager._categoryList.count)){
             category =  oldFilterManager._categoryList[index]
         }
@@ -878,7 +878,7 @@ class oldFilterManager{
         // Note that filters can be in multiple categories, but they will still be the 'same' filter
         // Lists will be sorted, so don't worry about the order
         
-        oldFilterManager._quickSelectList += [ "Crosshatch", "Emboss", "Halftone", "SwirlDistortion", "Luminance", "ThresholdSketch"  ]
+        oldFilterManager._favoritesList += [ "Crosshatch", "Emboss", "Halftone", "SwirlDistortion", "Luminance", "ThresholdSketch"  ]
         
         oldFilterManager._basicAdjustmentsList += [ "Saturation", "Warmth", "WhiteBalance", "Brightness", "Contrast", "UnsharpMask", "Exposure", "Sharpen", "Crop",
                                                 "Gamma", "Vibrance", "Highlights", "LevelsAdjustment", "Vignette", "Haze", "Clarity"]
@@ -913,7 +913,7 @@ class oldFilterManager{
 
         // Sort all category arrays alphabetically
         log.verbose("Sorting lists...")
-        oldFilterManager._quickSelectList.sort(by: sortClosure)
+        oldFilterManager._favoritesList.sort(by: sortClosure)
         oldFilterManager._basicAdjustmentsList.sort(by: sortClosure)
         oldFilterManager._monochromeList.sort(by: sortClosure)
         oldFilterManager._blendModesList.sort(by: sortClosure)
