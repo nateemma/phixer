@@ -684,7 +684,7 @@
                            "LinearBurnBlend", "LuminosityBlend", "MultiplyBlend", "NormalBlend", "OverlayBlend", "SaturationBlend", "ScreenBlend",
                            "SoftLightBlend", "SourceOverBlend", "SubtractBlend" ]
                },
-               {"category": "distortions",
+               {"category": "distort",
                "filters": ["BulgeDistortion", "GlassSphereRefraction", "PolarPixellate", "PolkaDot", "Pixellate", "TiltShift",
                            "ChromaKeying", "PinchDistortion", "SwirlDistortion", "SphereRefraction" ]
                },

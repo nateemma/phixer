@@ -16,6 +16,7 @@ import MediaPlayer
 import AudioToolbox
 
 import GoogleMobileAds
+import Cosmos
 
 
 // delegate method to let the launcing ViewController know that this one has finished
@@ -48,15 +49,13 @@ class FilterDetailsViewController: UIViewController {
     // Main Filtered Output View
     fileprivate var filterDisplayView: FilterDisplayView! = FilterDisplayView()
     
-    // Adornment Overlay
-    var adornmentView: UIView = UIView()
     
     
     // The filter configuration subview
     fileprivate var filterParametersView: FilterParametersView! = FilterParametersView()
     
-    // Navigation help views
-    fileprivate var navView: UIView! = UIView()
+    // Overlay/Navigation help views
+    fileprivate var overlayView: UIView! = UIView()
     fileprivate var prevView: UIView! = UIView()
     fileprivate var nextView: UIView! = UIView()
     
@@ -106,7 +105,7 @@ class FilterDetailsViewController: UIViewController {
     func update(){
         DispatchQueue.main.async(execute: { () -> Void in
             self.doLayout()
-            self.navView.setNeedsLayout()
+            self.overlayView.setNeedsLayout()
         })
     }
 
@@ -147,6 +146,7 @@ class FilterDetailsViewController: UIViewController {
         
 
         doLayout()
+        self.overlayView.setNeedsLayout()
         
         
         // start Advertisements
@@ -230,8 +230,8 @@ class FilterDetailsViewController: UIViewController {
     fileprivate func setupNavigationControls(){
         // add the left and right arrows for filter navigation
         
-        // a little complicated, but we define navView as the overall holding view (transparent, used for placement over the filter display)
-        // next/prevImage views are the actual images, next/prevBack is a partially transparent background and next/prevView are the views that are placed onto navView
+        // a little complicated, but we define overlayView as the overall holding view (transparent, used for placement over the filter display)
+        // next/prevImage views are the actual images, next/prevBack is a partially transparent background and next/prevView are the views that are placed onto overlayView
         
         let nextImage:UIImageView = UIImageView()
         let prevImage:UIImageView = UIImageView()
@@ -259,12 +259,12 @@ class FilterDetailsViewController: UIViewController {
         prevImage.fillSuperview()
         prevView.bringSubview(toFront: prevImage)
         
-        navView.backgroundColor = UIColor.clear
+        overlayView.backgroundColor = UIColor.clear
         prevView.backgroundColor = UIColor.clear
         nextView.backgroundColor = UIColor.clear
         
-        navView.addSubview(prevView)
-        navView.addSubview(nextView)
+        overlayView.addSubview(prevView)
+        overlayView.addSubview(nextView)
         
         prevView.frame.size.height = bannerHeight
         prevView.frame.size.width = bannerHeight
@@ -279,8 +279,8 @@ class FilterDetailsViewController: UIViewController {
         
         view.addSubview(bannerView)
         view.addSubview(filterDisplayView)
-        view.addSubview(adornmentView)
-        view.addSubview(navView)
+        view.addSubview(overlayView)
+        view.addSubview(overlayView)
         view.addSubview(filterParametersView)
         
         bannerView.frame.size.height = bannerHeight
@@ -302,8 +302,8 @@ class FilterDetailsViewController: UIViewController {
             filterDisplayView.anchorInCorner(.bottomLeft, xPad: 0, yPad: 0, width: filterDisplayView.frame.size.width, height: filterDisplayView.frame.size.height)
             
             // Adornment view is same size and location as filterDisplayView
-            adornmentView.frame.size = filterDisplayView.frame.size
-            adornmentView.anchorInCorner(.bottomLeft, xPad: 0, yPad: 0, width: adornmentView.frame.size.width, height: adornmentView.frame.size.height)
+            overlayView.frame.size = filterDisplayView.frame.size
+            overlayView.anchorInCorner(.bottomLeft, xPad: 0, yPad: 0, width: overlayView.frame.size.width, height: overlayView.frame.size.height)
             
             
             // Align Overlay view to bottom of Render View
@@ -337,11 +337,9 @@ class FilterDetailsViewController: UIViewController {
         
             
             // Adornment view is same size and location as filterDisplayView
-            adornmentView.frame.size = filterDisplayView.frame.size
-            adornmentView.align(.underCentered, relativeTo: bannerView, padding: 0, width: adornmentView.frame.size.width, height: adornmentView.frame.size.height)
+            overlayView.frame.size = filterDisplayView.frame.size
+            overlayView.align(.underCentered, relativeTo: bannerView, padding: 0, width: overlayView.frame.size.width, height: overlayView.frame.size.height)
         }
-        
-        layoutAdornments() // same for either rotation
         
         // prev/next navigation (same for both layouts)
 
@@ -349,17 +347,19 @@ class FilterDetailsViewController: UIViewController {
         
         //TODO: fix landscape layout
         
-        // resize navView to match the display view (minus the parameters view)
-        navView.frame.size.width  = filterDisplayView.frame.size.width
-        //navView.frame.size.height  = filterDisplayView.frame.size.height
-        navView.frame.size.height  = filterDisplayView.frame.size.height - filterParametersView.frame.size.height
-        navView.align(.underCentered, relativeTo: bannerView, padding: 0, width: navView.frame.size.width, height: navView.frame.size.height)
+        // resize overlayView to match the display view (minus the parameters view)
+        overlayView.frame.size.width  = filterDisplayView.frame.size.width
+        //overlayView.frame.size.height  = filterDisplayView.frame.size.height
+        overlayView.frame.size.height  = filterDisplayView.frame.size.height - filterParametersView.frame.size.height
+        overlayView.align(.underCentered, relativeTo: bannerView, padding: 0, width: overlayView.frame.size.width, height: overlayView.frame.size.height)
         
         prevView.anchorToEdge(.left, padding: 0, width: prevView.frame.size.width, height: prevView.frame.size.height)
         nextView.anchorToEdge(.right, padding: 0, width: nextView.frame.size.width, height: nextView.frame.size.height)
-        view.bringSubview(toFront: navView)
-        navView.setNeedsDisplay() // for some reason it doesn't display the first time through
+        view.bringSubview(toFront: overlayView)
+        //overlayView.setNeedsDisplay() // for some reason it doesn't display the first time through
 
+        
+        layoutAdornments() // same for either rotation
     }
     
     
@@ -377,28 +377,30 @@ class FilterDetailsViewController: UIViewController {
             return
         }
         
-        adornmentView.frame = self.filterDisplayView.frame
+        overlayView.frame = self.filterDisplayView.frame
         
         // set size of adornments
-        //let dim: CGFloat = adornmentView.frame.size.height / 8.0
+        //let dim: CGFloat = overlayView.frame.size.height / 8.0
         let dim: CGFloat = buttonSize
         let adornmentSize = CGSize(width: dim, height: dim)
+        
+        let key = (self.currFilterDescriptor?.key)!
+
         // show/hide
-        let showAsset: String =  (self.currFilterDescriptor?.show == true) ? "ic_accept" : "ic_reject"
+        let showAsset: String =  (self.filterManager?.isHidden(key: key) == true) ? "ic_reject" : "ic_accept"
         showAdornment.image = UIImage(named: showAsset)?.imageScaled(to: adornmentSize)
         
         
         // favourite
         var favAsset: String =  "ic_heart_outline"
-        // TODO" figure out how to identify something in the favourite (quick select) list
-        if (self.filterManager?.isFavourite(key: (self.currFilterDescriptor?.key)!))!{
+        if (self.filterManager?.isFavourite(key: key))!{
             favAsset = "ic_heart_filled"
         }
         favAdornment.image = UIImage(named: favAsset)?.imageScaled(to: adornmentSize)
         
         // rating
         var ratingAsset: String =  "ic_star"
-        switch ((self.currFilterDescriptor?.rating)!){
+        switch ((self.filterManager?.getRating(key: key))!){
         case 1:
             ratingAsset = "ic_star_filled_1"
         case 2:
@@ -423,21 +425,38 @@ class FilterDetailsViewController: UIViewController {
         ratingAdornment.alpha = showAdornment.alpha
         ratingAdornment.layer.cornerRadius = showAdornment.layer.cornerRadius
         
-        // add icons to the adornment view
-        adornmentView.addSubview(showAdornment)
-        adornmentView.addSubview(favAdornment)
-        adornmentView.addSubview(ratingAdornment)
         
+        // add icons to the overlay view
+        overlayView.addSubview(showAdornment)
+        overlayView.addSubview(favAdornment)
+        overlayView.addSubview(ratingAdornment)
+        overlayView.setNeedsDisplay()
     }
     
     
     fileprivate func layoutAdornments(){
-        let dim: CGFloat = adornmentView.frame.size.height / 16.0
+        let dim: CGFloat = overlayView.frame.size.height / 16.0
         let pad: CGFloat = 2.0
         showAdornment.anchorInCorner(.topLeft, xPad:pad, yPad:pad, width: dim, height: dim)
         ratingAdornment.anchorInCorner(.topRight, xPad:pad, yPad:pad, width: dim, height: dim)
         favAdornment.anchorToEdge(.top, padding:pad, width:dim, height:dim)
-        view.bringSubview(toFront: adornmentView)
+        view.bringSubview(toFront: overlayView)
+        
+        // add touch handlers for the adornments
+        log.verbose("Adding adornment touch handlers")
+        showAdornment.isUserInteractionEnabled = true
+        favAdornment.isUserInteractionEnabled = true
+        ratingAdornment.isUserInteractionEnabled = true
+        overlayView.isUserInteractionEnabled = true
+        
+        
+        let showRecognizer = UITapGestureRecognizer(target: self, action: #selector(showTouched))
+        let favRecognizer = UITapGestureRecognizer(target: self, action: #selector(favTouched))
+        let ratingRecognizer = UITapGestureRecognizer(target: self, action: #selector(ratingTouched))
+        
+        showAdornment.addGestureRecognizer(showRecognizer)
+        favAdornment.addGestureRecognizer(favRecognizer)
+        ratingAdornment.addGestureRecognizer(ratingRecognizer)
     }
     
 
@@ -513,7 +532,7 @@ class FilterDetailsViewController: UIViewController {
         nextView.addGestureRecognizer(nextTap)
         nextView.isUserInteractionEnabled = true
         
-        setGestureDetectors(navView)
+        setGestureDetectors(overlayView)
     
     }
 
@@ -550,6 +569,103 @@ class FilterDetailsViewController: UIViewController {
         filterParametersView.isHidden = true
     }
     
+    // handles touch of the show/hide icon
+    func showTouched(){
+        log.verbose("hide/show touched")
+        //TODO: confirmation dialog?
+        let hidden =  (self.filterManager?.isHidden(key: self.currFilterKey))! ? false : true
+        self.filterManager?.setHidden(key: self.currFilterKey, hidden: hidden)
+        self.update()
+    }
+    
+    func favTouched(){
+        log.verbose("favourite touched")
+        //TODO: confirmation dialog?
+        if (self.filterManager?.isFavourite(key: self.currFilterKey))!{
+            log.verbose ("Removing from Favourites: \(self.currFilterKey)")
+            self.filterManager?.removeFromFavourites(key: self.currFilterKey)
+        } else {
+            log.verbose ("Adding to Favourites: \(self.currFilterKey)")
+            self.filterManager?.addToFavourites(key: self.currFilterKey)
+        }
+        self.update()
+    }
+    
+    func ratingTouched(){
+        log.verbose("rating touched")
+        self.currRatingKey = self.currFilterKey
+        self.currRating = (self.filterManager?.getRating(key: self.currRatingKey))!
+        displayRating()
+        //self.update()
+    }
+    
+    //////////////////////////////////////
+    // MARK: - Rating Popup
+    //////////////////////////////////////
+    
+    fileprivate var ratingAlert:UIAlertController? = nil
+    fileprivate var currRating: Int = 0
+    fileprivate var currRatingKey: String = ""
+    fileprivate static var starView: CosmosView? = nil
+    
+    fileprivate func displayRating(){
+        
+        
+        // build the rating stars display based on the current rating
+        // I'm using the 'Cosmos' class to do this
+        if (FilterDetailsViewController.starView == nil){
+            FilterDetailsViewController.starView = CosmosView()
+            
+            FilterDetailsViewController.starView?.settings.fillMode = .full // Show only fully filled stars
+            //starView?.settings.starSize = 30
+            FilterDetailsViewController.starView?.settings.starSize = Double(displayWidth / 16.0) - 2.0
+            //starView?.settings.starMargin = 5
+            
+            // Set the colours
+            FilterDetailsViewController.starView?.settings.totalStars = 3
+            FilterDetailsViewController.starView?.backgroundColor = UIColor.clear
+            FilterDetailsViewController.starView?.settings.filledColor = UIColor.flatYellow()
+            FilterDetailsViewController.starView?.settings.emptyBorderColor = UIColor.flatGrayColorDark()
+            FilterDetailsViewController.starView?.settings.filledBorderColor = UIColor.flatBlack()
+            
+            FilterDetailsViewController.starView?.didFinishTouchingCosmos = { rating in
+                self.currRating = Int(rating)
+                FilterDetailsViewController.starView?.anchorInCenter(self.displayWidth / 4.0, height: self.displayWidth / 16.0) // re-centre
+            }
+        }
+        FilterDetailsViewController.starView?.rating = Double(currRating)
+        
+        // igf not already done, build the alert
+        if (ratingAlert == nil){
+            // setup the basic info
+            ratingAlert = UIAlertController(title: "Rating", message: " ", preferredStyle: .alert)
+            
+            // add the OK button
+            let okAction = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction) in
+                self.filterManager?.setRating(key: self.currRatingKey, rating: self.currRating)
+                log.debug("OK")
+            }
+            ratingAlert?.addAction(okAction)
+            
+            // add the Cancel Button
+            let cancelAction = UIAlertAction(title: "Cancel", style: .default) { (action:UIAlertAction) in
+                log.debug("Cancel")
+            }
+            ratingAlert?.addAction(cancelAction)
+            
+            
+            // add the star rating view
+            ratingAlert?.view.addSubview(FilterDetailsViewController.starView!)
+        }
+        
+        FilterDetailsViewController.starView?.anchorInCenter(displayWidth / 4.0, height: displayWidth / 16.0)
+        
+        // launch the Alert. Need to get the Controller to do this though, since we are calling from a View
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.present(self.ratingAlert!, animated: true, completion:{ self.update() })
+        })
+    }
+
     
     //////////////////////////////////////
     // MARK: - Gesture Detection
@@ -626,4 +742,18 @@ extension FilterDetailsViewController: FilterParametersViewDelegate {
         self.update()
     }
 }
+
+////////////////////////////////////////////
+// MARK: - UIAlertController
+////////////////////////////////////////////
+/***/
+// why do we have to do this?! when AlertController is set up, re-position the stars
+extension UIAlertController {
+    override open func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        // TODO: figure out sizes
+        FilterDetailsViewController.starView?.anchorInCenter(128, height: 32)
+    }
+}
+/***/
 

@@ -99,7 +99,7 @@ class FilterLibrary{
                 parsedConfig = JSON(data: data)
                 if (parsedConfig != JSON.null){
                     print("restore() - parsing data")
-                    print ("\(parsedConfig)")
+                    //print ("\(parsedConfig)")
                     
                     // Category list
                     count = 0

@@ -78,13 +78,41 @@ class FilterFactory{
     }
     
     
-    // indicates whether filter should be shown or not
-    open static func isShown(key: String)->Bool{
+    // indicates whether filter should be hidden or not
+    open static func isHidden(key: String)->Bool{
         if (FilterFactory.showList[key] != nil){
-            return FilterFactory.showList[key]!
+            return !(FilterFactory.showList[key]!)
         } else {
             log.error("ERR: unknown key:\"\(key)\"")
             return false
         }
     }
+    
+    
+    // sets the hidden state of a filter
+    open static func setHidden(key: String, hidden:Bool) {
+        if (FilterFactory.showList[key] != nil){
+            FilterFactory.showList[key] = !hidden
+        } else {
+            log.error("ERR: unknown key:\"\(key)\"")
+        }
+    }
+    
+    open static func getRating(key:String) -> Int{
+        if (FilterFactory.ratingList[key] != nil){
+            return FilterFactory.ratingList[key]!
+        } else {
+            return 0
+        }
+    }
+    
+    // set the rating for a filter
+    open static func setRating(key:String, rating:Int){
+        if (FilterFactory.ratingList[key] != nil){
+            FilterFactory.ratingList[key] = rating
+        }else {
+            log.error("ERR: unknown key:\"\(key)\"")
+        }
+    }
+
 }

@@ -208,6 +208,11 @@ class FilterManager{
     }
  
     
+    
+    //////////////////////////////////////////////
+    // MARK: - Favourites-related Accessors
+    //////////////////////////////////////////////
+   
     // indicates whether a filter is in the "Favourites" category/list
     open func isFavourite(key: String) -> Bool {
         var result:Bool = false
@@ -221,9 +226,36 @@ class FilterManager{
                 log.verbose("Key: \(key) NOT in favourites (\(index)): \(FilterLibrary.categoryFilters[FilterManager.favouriteCategory])")
             }
  ***/
+        } else {
+            log.error("ERR: Favourites category not found")
         }
         return result
     }
+    
+    // add a filter to the "Favourites" list
+    open func addToFavourites(key: String) {
+        if (FilterLibrary.filterDictionary[key] != nil){ // filter exists
+            if (!((FilterLibrary.categoryFilters[FilterManager.favouriteCategory]?.contains(key))!)){ // not already there
+                FilterLibrary.categoryFilters[FilterManager.favouriteCategory]?.append(key)
+            }
+        } else {
+            log.error("ERR: Unknown filter: \(key)")
+        }
+    }
+    
+    // remove a filter from the "Favourites" list
+    open func removeFromFavourites(key: String) {
+        if (FilterLibrary.filterDictionary[key] != nil){ // filter exists
+            if ((FilterLibrary.categoryFilters[FilterManager.favouriteCategory]?.contains(key))!){ // in list?
+                if let index = FilterLibrary.categoryFilters[FilterManager.favouriteCategory]?.index(of: key) {
+                    FilterLibrary.categoryFilters[FilterManager.favouriteCategory]?.remove(at: index)
+                }
+            }
+        } else {
+            log.error("ERR: Unknown filter: \(key)")
+        }
+    }
+    
     
     //////////////////////////////////////////////
     // MARK: - Filter-related Accessors
@@ -302,7 +334,7 @@ class FilterManager{
             let count:Int = (FilterLibrary.categoryFilters[category]?.count)!
             if (count > 0){
                 for key in FilterLibrary.categoryFilters[category]! {
-                    if (FilterFactory.isShown(key: key)){
+                    if (!FilterFactory.isHidden(key: key)){
                         FilterManager.shownFilterList.append(key)
                     }
                 }
@@ -522,6 +554,26 @@ class FilterManager{
             log.error("ERR: Entry not found for LookupFilter:\(key)")
         }
         
+    }
+    
+    
+    open func isHidden(key:String) -> Bool {
+        return FilterFactory.isHidden(key:key)
+    }
+    
+    // designate a filter as hidden or not
+    open func setHidden(key:String, hidden:Bool){
+        FilterFactory.setHidden(key: key, hidden: hidden)
+    }
+    
+    // get the rating for a filter
+    open func getRating(key:String) -> Int{
+        return FilterFactory.getRating(key:key)
+    }
+    
+    // set the rating for a filter
+    open func setRating(key:String, rating:Int){
+        FilterFactory.setRating(key:key, rating:rating)
     }
     
     //////////////////////////////////////////////

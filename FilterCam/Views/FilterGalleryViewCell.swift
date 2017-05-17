@@ -11,11 +11,24 @@ import UIKit
 import Kingfisher
 import GPUImage
 
+// callback interfaces
+protocol FilterGalleryViewCellDelegate: class {
+    func hiddenTouched(key:String)
+    func favouriteTouched(key:String)
+    func ratingTouched(key:String)
+}
+
+
 class FilterGalleryViewCell: UICollectionViewCell {
+    
+    
+    // delegate for handling events
+    weak var delegate: FilterGalleryViewCellDelegate?
+
     
     open static let reuseID: String = "FilterGalleryViewCell"
 
-    var cellIndex:Int = -1 // used for racking cell reuse
+    var cellIndex:Int = -1 // used for tracking cell reuse
     
     var renderView : RenderView! // only allocate when needed
     var label : UILabel = UILabel()
@@ -176,7 +189,7 @@ class FilterGalleryViewCell: UICollectionViewCell {
             
             // If filter is disabled, show at half intensity
             if (self.descriptor != nil){
-                if (!self.descriptor.show){
+                if (self.filterManager.isHidden(key: key)){
                     self.renderView.alpha = 0.25
                     self.label.alpha = 0.4
                     //self.layer.borderColor = UIColor(white: 0.6, alpha: 0.4).cgColor
@@ -216,22 +229,25 @@ class FilterGalleryViewCell: UICollectionViewCell {
         let dim: CGFloat = adornmentView.frame.size.height / 8.0
 
         let adornmentSize = CGSize(width: dim, height: dim)
-        // show/hide
-        let showAsset: String =  (self.descriptor?.show == true) ? "ic_accept" : "ic_reject"
-        showAdornment.image = UIImage(named: showAsset)?.imageScaled(to: adornmentSize)
+        
+        
+        let key = (self.descriptor?.key)!
 
+        // show/hide
+        let showAsset: String =  (self.filterManager.isHidden(key: key) == true) ? "ic_reject" : "ic_accept"
+        showAdornment.image = UIImage(named: showAsset)?.imageScaled(to: adornmentSize)
         
         // favourite
         var favAsset: String =  "ic_heart_outline"
         // TODO" figure out how to identify something in the favourite (quick select) list
-        if (self.filterManager.isFavourite(key: (self.descriptor?.key)!)){
+        if (self.filterManager.isFavourite(key: key)){
             favAsset = "ic_heart_filled"
         }
         favAdornment.image = UIImage(named: favAsset)?.imageScaled(to: adornmentSize)
         
         // rating
         var ratingAsset: String =  "ic_star"
-        switch ((self.descriptor?.rating)!){
+        switch (self.filterManager.getRating(key: key)){
         case 1:
             ratingAsset = "ic_star_filled_1"
         case 2:
@@ -265,19 +281,26 @@ class FilterGalleryViewCell: UICollectionViewCell {
     
     
     fileprivate func layoutAdornments(){
+        // layout the adornments across the top of the cell
         let dim: CGFloat = adornmentView.frame.size.height / 8.0
-        showAdornment.anchorInCorner(.bottomLeft, xPad: 2.0, yPad: 2.0, width: dim, height: dim)
-        favAdornment.anchorInCorner(.topLeft, xPad: 2.0, yPad: 2.0, width: dim, height: dim)
-        ratingAdornment.anchorInCorner(.bottomRight, xPad: 2.0, yPad: 2.0, width: dim, height: dim)
+        showAdornment.anchorInCorner(.topLeft, xPad: 2.0, yPad: 2.0, width: dim, height: dim)
+        favAdornment.anchorToEdge(.top, padding:2.0, width:dim, height:dim)
+        ratingAdornment.anchorInCorner(.topRight, xPad: 2.0, yPad: 2.0, width: dim, height: dim)
+        
+        // make sure the adornment overlay is on top
+        self.bringSubview(toFront: adornmentView)
+        
+        // set the touch handlers
+        setAdornmentTouchHandlers()
     }
     
     
     // update the supplied RenderView with the supplied filter
     public func updateRenderView(key: String, renderView:RenderView){
         
-        var descriptor: FilterDescriptorInterface?
+        //var descriptor: FilterDescriptorInterface?
         
-        descriptor = self.filterManager.getFilterDescriptor(key: key)
+        self.descriptor = self.filterManager.getFilterDescriptor(key: key)
         
         
         /***
@@ -377,7 +400,6 @@ class FilterGalleryViewCell: UICollectionViewCell {
  
     }
 
- 
     open func suspend(){
         //log.debug("Suspending cell: \((filterDescriptor?.key)!)")
         //sample?.removeAllTargets()
@@ -385,4 +407,69 @@ class FilterGalleryViewCell: UICollectionViewCell {
         //filter?.removeAllTargets()
         //filterGroup?.removeAllTargets()
     }
+    
+    
+    /////////////////////
+    // Touch Handlers
+    /////////////////////
+    
+    func setAdornmentTouchHandlers(){
+        //log.verbose("Adding adornment touch handlers")
+        showAdornment.isUserInteractionEnabled = true
+        favAdornment.isUserInteractionEnabled = true
+        ratingAdornment.isUserInteractionEnabled = true
+        adornmentView.isUserInteractionEnabled = true
+        
+        
+        let showRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.showHandler))
+        let favRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.favHandler))
+        let ratingRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.ratingHandler))
+        
+        showAdornment.addGestureRecognizer(showRecognizer)
+        favAdornment.addGestureRecognizer(favRecognizer)
+        ratingAdornment.addGestureRecognizer(ratingRecognizer)
+
+    }
+
+    
+    
+    // handles touch of the favourite icon
+    func showHandler(){
+        //log.verbose("hide/show touched")
+        guard (self.descriptor != nil) else {
+            log.error("NIL descriptor")
+            return
+        }
+        
+        if (delegate != nil){
+            delegate?.hiddenTouched(key: self.descriptor.key)
+        }
+    }
+    
+    // handles touch of the show/hide icon
+    func favHandler(){
+        //log.verbose("favourite touched")
+        guard (self.descriptor != nil) else {
+            log.error("NIL descriptor")
+            return
+        }
+        
+        if (delegate != nil){
+            delegate?.favouriteTouched(key: self.descriptor.key)
+        }
+    }
+    
+    // handles touch of the rating icon
+    func ratingHandler(){
+        //log.verbose("rating touched")
+        guard (self.descriptor != nil) else {
+            log.error("NIL descriptor")
+            return
+        }
+        
+        if (delegate != nil){
+            delegate?.ratingTouched(key: self.descriptor.key)
+        }
+    }
+
 }

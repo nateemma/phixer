@@ -25,6 +25,9 @@ target 'FilterCam' do
 
   # JSON Parsing
   pod 'SwiftyJSON'
+  
+  # Star rating view
+  pod 'Cosmos'
 
 
   target 'FilterCamTests' do

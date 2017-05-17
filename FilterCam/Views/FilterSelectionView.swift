@@ -83,7 +83,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
                 for i in (0...filterNameList.count-1) {
                     descriptor = filterManager?.getFilterDescriptor(key:filterNameList[i])
                     if (descriptor != nil){
-                        if (descriptor?.show)!{
+                        if !((filterManager?.isHidden(key: filterNameList[i]))!){
                             filterViewList.append(createFilterContainerView((descriptor)!))
                         } else {
                             log.debug("Not showing filter: \(String(describing: descriptor?.key))")

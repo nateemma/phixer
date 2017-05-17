@@ -397,7 +397,35 @@ extension FilterGalleryViewController: FilterGalleryViewDelegate {
     }
     
     func requestUpdate(category:String){
-        log.debug("Update requested for category: \(category)")
+        DispatchQueue.main.async(execute: {() -> Void in
+            log.debug("Update requested for category: \(category)")
+            self.updateCategoryDisplay(category)
+        })
+    }
+    
+    func setHidden(key:String, hidden:Bool){
+        self.filterManager.setHidden(key:key, hidden:hidden)
+        DispatchQueue.main.async(execute: {() -> Void in
+            self.updateCategoryDisplay(self.currCategory)
+        })
+    }
+    
+    func setFavourite(key:String, fav:Bool){
+        if (fav){
+            self.filterManager.addToFavourites(key:key)
+        } else {
+            self.filterManager.removeFromFavourites(key:key)
+        }
+        DispatchQueue.main.async(execute: {() -> Void in
+            self.updateCategoryDisplay(self.currCategory)
+        })
+    }
+    
+    func setRating(key:String, rating:Int){
+        self.filterManager.setRating(key:key, rating:rating)
+        DispatchQueue.main.async(execute: {() -> Void in
+            self.updateCategoryDisplay(self.currCategory)
+        })
     }
 }
 

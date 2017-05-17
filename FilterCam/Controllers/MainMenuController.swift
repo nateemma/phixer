@@ -177,6 +177,10 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
         // set size
         label.frame.size.height = height
         label.frame.size.width = width
+        
+        // change font to bold (and slightly bigger size)
+        let size = label.font.pointSize + 2.0
+        label.font = UIFont.boldSystemFont(ofSize: size)
  
         // set text
         label.text = title

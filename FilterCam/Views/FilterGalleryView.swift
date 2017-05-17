@@ -8,19 +8,24 @@
 
 import Foundation
 import GPUImage
+import Cosmos
 
 
 // Interface required of controlling View
 protocol FilterGalleryViewDelegate: class {
     func filterSelected(_ descriptor:FilterDescriptorInterface?)
     func requestUpdate(category:String)
+    func setHidden(key:String, hidden:Bool)
+    func setFavourite(key:String, fav:Bool)
+    func setRating(key:String, rating:Int)
 }
 
 
 
 // this class displays a CollectionView populated with the filters for the specified category
 //class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDelegate{
-class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
+class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, FilterGalleryViewCellDelegate {
+
     
     fileprivate var isLandscape : Bool = false
     fileprivate var screenSize : CGRect = CGRect.zero
@@ -37,7 +42,8 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     fileprivate let height: CGFloat = 34
     
     //fileprivate let sectionInsets = UIEdgeInsets(top: 50.0, left: 20.0, bottom: 50.0, right: 20.0)
-    fileprivate let sectionInsets = UIEdgeInsets(top: 9.0, left: 10.0, bottom: 9.0, right: 10.0)
+    //fileprivate let sectionInsets = UIEdgeInsets(top: 9.0, left: 10.0, bottom: 9.0, right: 10.0)
+    fileprivate let sectionInsets = UIEdgeInsets(top: 4.0, left: 4.0, bottom: 4.0, right: 4.0) // layout is *really* sensitive to left/right for some reason
     
     
     fileprivate var filterList:[String] = []
@@ -207,6 +213,87 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     
     
     ////////////////////////////////////////////
+    // MARK: - Rating Alert (for showing rating and allowing change)
+    ////////////////////////////////////////////
+    
+    fileprivate var ratingAlert:UIAlertController? = nil
+    fileprivate var currRating: Int = 0
+    fileprivate var currRatingKey: String = ""
+    fileprivate static var starView: CosmosView? = nil
+    
+    fileprivate func displayRating(){
+        
+        
+        // build the rating stars display based on the current rating
+        // I'm using the 'Cosmos' class to do this
+        if (FilterGalleryView.starView == nil){
+            FilterGalleryView.starView = CosmosView()
+            
+            FilterGalleryView.starView?.settings.fillMode = .full // Show only fully filled stars
+            //starView?.settings.starSize = 30
+            FilterGalleryView.starView?.settings.starSize = Double(self.frame.size.width / 16.0) - 2.0
+            //starView?.settings.starMargin = 5
+            
+            // Set the colours
+            FilterGalleryView.starView?.settings.totalStars = 3
+            FilterGalleryView.starView?.backgroundColor = UIColor.clear
+            FilterGalleryView.starView?.settings.filledColor = UIColor.flatYellow()
+            FilterGalleryView.starView?.settings.emptyBorderColor = UIColor.flatGrayColorDark()
+            FilterGalleryView.starView?.settings.filledBorderColor = UIColor.flatBlack()
+            
+            FilterGalleryView.starView?.didFinishTouchingCosmos = { rating in
+                self.currRating = Int(rating)
+                FilterGalleryView.starView?.anchorInCenter(self.frame.size.width / 4.0, height: self.frame.size.width / 16.0)
+            }
+        }
+        FilterGalleryView.starView?.rating = Double(currRating)
+        
+        // igf not already done, build the alert
+        if (ratingAlert == nil){
+            // setup the basic info
+            ratingAlert = UIAlertController(title: "Rating", message: " ", preferredStyle: .alert)
+            
+            // add the OK button
+            let okAction = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction) in
+                self.filterManager.setRating(key: self.currRatingKey, rating: self.currRating)
+                log.debug("OK")
+            }
+            ratingAlert?.addAction(okAction)
+            
+            // add the Cancel Button
+            let cancelAction = UIAlertAction(title: "Cancel", style: .default) { (action:UIAlertAction) in
+                log.debug("Cancel")
+            }
+            ratingAlert?.addAction(cancelAction)
+            
+            
+            // add the star rating view
+            ratingAlert?.view.addSubview(FilterGalleryView.starView!)
+        }
+        
+        FilterGalleryView.starView?.anchorInCenter(self.frame.size.width / 4.0, height: self.frame.size.width / 16.0)
+        
+        // launch the Alert. Need to get the Controller to do this though, since we are calling from a View
+        DispatchQueue.main.async(execute: { () -> Void in
+            let ctlr = self.getCurrentViewController()
+            ctlr?.present(self.ratingAlert!, animated: true, completion:nil)
+        })
+    }
+    
+    func getCurrentViewController() -> UIViewController? {
+        
+        if let rootController = UIApplication.shared.keyWindow?.rootViewController {
+            var currentController: UIViewController! = rootController
+            while( currentController.presentedViewController != nil ) {
+                currentController = currentController.presentedViewController
+            }
+            return currentController
+        }
+        return nil
+        
+    }
+    
+    ////////////////////////////////////////////
     // MARK: - Rendering stuff
     ////////////////////////////////////////////
     
@@ -369,6 +456,19 @@ private extension FilterGalleryView {
 
 
 ////////////////////////////////////////////
+// MARK: - UIAlertController
+////////////////////////////////////////////
+
+// why do we have to do this?! when AlertController is set up, re-position the stars
+extension UIAlertController {
+    override open func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // TODO: figure out sizes
+        FilterGalleryView.starView?.anchorInCenter(128, height: 32)
+    }
+}
+
+////////////////////////////////////////////
 // MARK: - UICollectionViewDataSource
 ////////////////////////////////////////////
 
@@ -396,6 +496,7 @@ extension FilterGalleryView {
                 let renderView = self.filterManager.getRenderView(key:key)
                 renderView?.frame = cell.frame
                 self.updateRenderView(index:index, key: key, renderView: renderView!) // doesn't seem to work if we put this into the FilterGalleryViewCell logic (threading?!)
+                cell.delegate = self
                 cell.configureCell(frame: cell.frame, index:index, key:key)
             })
             
@@ -443,6 +544,43 @@ extension FilterGalleryView {
 
 
 ////////////////////////////////////////////
+// MARK: - FilterGalleryViewCell
+////////////////////////////////////////////
+extension FilterGalleryView {
+    
+    // handle touch of show/hide icon in cell
+    func hiddenTouched(key:String){
+        log.verbose("key: \(key)")
+        let hidden =  (self.filterManager.isHidden(key: key)) ? false : true
+        self.filterManager.setHidden(key: key, hidden: hidden)
+        self.update()
+    }
+    
+    // handle touch of favourite icon in cell
+    func favouriteTouched(key:String){
+        log.verbose("key: \(key)")
+        //TODO: confirmation dialog?
+        if (self.filterManager.isFavourite(key: key)){
+            log.verbose ("Removing from Favourites: \(key)")
+            self.filterManager.removeFromFavourites(key: key)
+        } else {
+            log.verbose ("Adding to Favourites: \(key)")
+            self.filterManager.addToFavourites(key: key)
+        }
+        self.update()
+    }
+    
+    // handle touch of rating icon in cell
+    func ratingTouched(key:String){
+        log.verbose("key: \(key)")
+        currRating = self.filterManager.getRating(key: key)
+        currRatingKey = key
+        displayRating()
+    }
+
+}
+
+////////////////////////////////////////////
 // MARK: - UICollectionViewFlowLayout
 ////////////////////////////////////////////
 
@@ -450,11 +588,13 @@ extension FilterGalleryView {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let paddingSpace = sectionInsets.left * (itemsPerRow + 1)
+        //let paddingSpace = sectionInsets.left * (itemsPerRow + 1)
+        //let paddingSpace = sectionInsets.left * (itemsPerRow + 2)
+        let paddingSpace = (sectionInsets.left * (itemsPerRow+1)) + (sectionInsets.right * (itemsPerRow+1)) + 2.0
         let availableWidth = self.frame.width - paddingSpace
         let widthPerItem = availableWidth / itemsPerRow
         
-        //log.debug("ItemSize: \(widthPerItem)")
+        //log.debug("view:\(availableWidth) cell: \(widthPerItem)")
         return CGSize(width: widthPerItem, height: widthPerItem*1.5) // use 2:3 (4:6) ratio
     }
     
