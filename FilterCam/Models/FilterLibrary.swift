@@ -34,7 +34,8 @@ class FilterLibrary{
     open static var lookupDictionary:[String:String] = [:]
     
     // Dictionary of Category Dictionaries. Use category as key to get list of filters in that category
-    typealias FilterList = Array<String>
+    //typealias FilterList = Array<String>
+    //typealias FilterList = [String]
     //open static var categoryFilters:[String:FilterList] = [:]
     open static var categoryFilters:[String:[String]] = [:]
 
@@ -64,7 +65,24 @@ class FilterLibrary{
         }
     }
     
+    
+    ////////////////////////////
+    // Restore from persistent storage
+    ////////////////////////////
+    
+    
+    open static func restore(){
+        
+        // TODO: check version number and/or allow 'reset' to contents of config file
+        if (Database.isSetup()){
+            loadFromDatabase()
+        } else {
+            loadFromConfigFile()
+            commitChanges()
+        }
+    }
 
+    
     ////////////////////////////
     // Config File Processing
     ////////////////////////////
@@ -74,11 +92,12 @@ class FilterLibrary{
     
     fileprivate static var parsedConfig:JSON = JSON.null
     
-    open static func restore(){
+    
+    fileprivate  static func loadFromConfigFile(){
         var count:Int = 0
         var key:String
         var value:String
-        var show:Bool
+        var hide:Bool
         var rating:Int
      
         categoryDictionary = [:]
@@ -87,7 +106,7 @@ class FilterLibrary{
         lookupDictionary = [:]
         categoryFilters = [:]
         
-        print ("FilterLibrary.restore() - loading configuration...")
+        print ("FilterLibrary.loadFromConfigFile() - loading configuration...")
         
         // find the configuration file, which must be part of the project
         let path = Bundle.main.path(forResource: configFile, ofType: "json")
@@ -121,9 +140,9 @@ class FilterLibrary{
                         count = count + 1
                         key = item["key"].stringValue
                         value = item["class"].stringValue
-                        show = item["show"].boolValue
+                        hide = item["hide"].boolValue
                         rating = item["rating"].intValue
-                        addFilter(key:key, classname:value, show:show, rating:rating)
+                        addFilter(key:key, classname:value, hide:hide, rating:rating)
                     }
                     print ("\(count) Filters found")
                     
@@ -134,9 +153,9 @@ class FilterLibrary{
                         count = count + 1
                         key = item["key"].stringValue
                         value = item["image"].stringValue
-                        show = item["show"].boolValue
+                        hide = item["hide"].boolValue
                         rating = item["rating"].intValue
-                        addLookup(key:key, image:value, show:show, rating:rating)
+                        addLookup(key:key, image:value, hide:hide, rating:rating)
                     }
                     print ("\(count) Lookup Images found")
                     
@@ -172,6 +191,7 @@ class FilterLibrary{
 
     open static func save(){
         print ("FilterLibrary.save() - saving configuration...")
+        commitChanges()
     }
 
  
@@ -179,11 +199,12 @@ class FilterLibrary{
     private static func addCategory(key:String, title:String){
         // just add the data to the dictionary
         FilterLibrary.categoryDictionary[key] = title
+        print("addCategory(\(key), \(title))")
     }
   
     
     
-    private static func addFilter(key:String, classname:String, show:Bool, rating:Int){
+    private static func addFilter(key:String, classname:String, hide:Bool, rating:Int){
         /*
         // create an instance from the classname and add it to the dictionary
         var descriptor:FilterDescriptorInterface? = nil
@@ -201,12 +222,13 @@ class FilterLibrary{
  */
         // just store the mapping. Do lazy allocation as needed because of the potentially large number of filters
         FilterLibrary.filterDictionary[key] = nil // just make sure there is an entry to find later
-        FilterFactory.addFilterDefinition(key: key, classname: classname,  show:show, rating:rating)
+        FilterFactory.addFilterDefinition(key: key, classname: classname,  hide:hide, rating:rating)
+        print("addFilter(\(key), \(classname), \(hide), \(rating))")
     }
     
     
     
-    private static func addLookup(key:String, image:String, show:Bool, rating:Int){
+    private static func addLookup(key:String, image:String, hide:Bool, rating:Int){
         
         let l = image.components(separatedBy:".")
         let title = l[0]
@@ -233,14 +255,16 @@ class FilterLibrary{
         }
         FilterLibrary.lookupDictionary[key] = image
         FilterLibrary.filterDictionary[key] = nil
-        FilterFactory.addFilterDefinition(key: key, classname: "",  show:show, rating:rating)
+        FilterFactory.addFilterDefinition(key: key, classname: "",  hide:hide, rating:rating)
+        print("addLookup(\(key), \(image), \(hide), \(rating))")
     }
     
     
     
     private static func addAssignment(category:String, filters: [String]){
         FilterLibrary.categoryFilters[category] = filters
-        
+        print("addAssignment(\(category), \(filters))")
+       
         if (!FilterLibrary.categoryList.contains(category)){
             print("addAssignment() ERROR: invalid category:\(category)")
         }
@@ -252,6 +276,145 @@ class FilterLibrary{
         //    }
         //}
         //print("Category:\(category) Filters: \(filters)")
+    }
+
+    
+    
+    
+    ////////////////////////////
+    // Database Processing
+    ////////////////////////////
+    
+    fileprivate static func loadFromDatabase(){
+
+        categoryDictionary = [:]
+        categoryList = []
+        filterDictionary = [:]
+        lookupDictionary = [:]
+        categoryFilters = [:]
+
+        
+        // restore the settings
+        
+        if let settings = Database.getSettings() {
+            print("loadFromDatabase() - Restoring Settings: Sample:\(settings.sampleImage!) Blend:\(settings.blendImage!)")
+            ImageManager.setCurrentBlendImageName(settings.blendImage!)
+            ImageManager.setCurrentSampleImageName(settings.sampleImage!)
+        } else {
+            print("loadFromDatabase() - ERR: settings NOT found...")
+        }
+        
+        
+        // Categories
+        for crec in Database.getCategoryRecords(){
+            addCategory(key:(crec.key)!, title:(crec.title)!)
+        }
+        
+        // Build Category array from dictionary. More convenient than a dictionary
+        categoryList = Array(categoryDictionary.keys)
+        categoryList.sort(by: sortClosure)
+        
+        
+        
+        // Builtin Filters
+        for frec in Database.getFilterRecords(){
+            if (frec.key != nil){
+                if (frec.classname != nil){
+                    addFilter(key:frec.key!, classname:frec.classname!, hide:frec.hide, rating:frec.rating)
+                } else {
+                    print("loadFromDatabase() - NIL classname returned")
+                }
+            } else {
+                print("loadFromDatabase() - NIL key returned")
+            }
+        }
+        
+        
+        
+        // Lookup Filters
+        for lrec in Database.getLookupLookupFilterRecords(){
+            addLookup(key:lrec.key!, image:lrec.image!, hide:lrec.hide, rating:lrec.rating)
+        }
+        
+        
+        
+        // Assignments
+        for arec in Database.getAssignmentRecords(){
+            addAssignment(category:arec.category!, filters:arec.filters)
+        }
+
+/***
+        // TEMP: just load config file until full database is ready
+        print("loadFromDatabase() - TEMP: loading config file anyway...")
+        loadFromConfigFile()
+        commitChanges()()
+***/
+        
+    }
+    
+    
+    open static func commitChanges(){
+        
+        // Settings
+        let settings = SettingsRecord()
+        
+        settings.blendImage = ImageManager.getCurrentBlendImageName()
+        settings.sampleImage = ImageManager.getCurrentSampleImageName()
+        
+        Database.saveSettings(settings)
+        
+        
+        // Categories
+        
+        let crec: CategoryRecord = CategoryRecord()
+        for key in FilterLibrary.categoryList {
+            crec.key = key
+            crec.title = FilterLibrary.categoryDictionary[key]
+            crec.hide = false
+            Database.updateCategoryRecord(crec)
+        }
+        
+        // Standard and Lookup filters
+        let frec: FilterRecord = FilterRecord()
+        let lrec: LookupFilterRecord = LookupFilterRecord()
+        
+        for key in FilterFactory.getFilterList() {
+            // built-in or preset?
+            if (FilterLibrary.lookupDictionary[key] == nil){ // built-in filter
+                frec.key = key
+                frec.classname = FilterFactory.getClassname(key: key)
+                frec.title = frec.classname //TODO: fix title
+                frec.hide = FilterFactory.isHidden(key: key)
+                frec.rating = FilterFactory.getRating(key: key)
+                Database.updateFilterRecord(frec)
+            } else { // Lookup Filter
+                lrec.key = key
+                lrec.image = FilterLibrary.lookupDictionary[key]
+                lrec.hide = FilterFactory.isHidden(key: key)
+                lrec.rating = FilterFactory.getRating(key: key)
+                Database.updateLookupFilterRecord(lrec)
+            }
+        }
+        
+        // Category->Filter Assignments
+        
+        let arec:AssignmentRecord = AssignmentRecord()
+        
+        for category in FilterLibrary.categoryList {
+            arec.category = category
+            arec.filters = []
+            if ((FilterLibrary.categoryFilters[category]?.count)! > 0){
+                for f in (FilterLibrary.categoryFilters[category])!{
+                    arec.filters.append(f)
+                }
+                //arec.filters = (FilterLibrary.categoryFilters[category])!
+            } else {
+                print("commitChanges()() no filters found for: \(category)")
+            }
+            Database.updateAssignmentRecord(arec)
+        }
+
+        Database.save()
     }
 
 }

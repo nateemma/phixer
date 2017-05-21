@@ -241,7 +241,7 @@ class SampleGalleryViewController: UIViewController, UIImagePickerControllerDele
         backButton.frame.size.height = bannerView.frame.size.height - 8
         backButton.frame.size.width = 2.0 * backButton.frame.size.height
         backButton.setTitle("< Back", for: .normal)
-        backButton.backgroundColor = UIColor.flatMint()
+        backButton.backgroundColor = UIColor.flatMint
         backButton.setTitleColor(UIColor.white, for: .normal)
         backButton.titleLabel!.font = UIFont.boldSystemFont(ofSize: 20.0)
         backButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.center
@@ -271,7 +271,7 @@ class SampleGalleryViewController: UIViewController, UIImagePickerControllerDele
         for button in [acceptButton, cancelButton] {
             button?.frame.size.height = bannerView.frame.size.height - 8
             button?.frame.size.width = 3.0 * (button?.frame.size.height)!
-            button?.backgroundColor = UIColor.flatMint()
+            button?.backgroundColor = UIColor.flatMint
             button?.setTitleColor(UIColor.white, for: .normal)
             button?.titleLabel!.font = UIFont.boldSystemFont(ofSize: 20.0)
             button?.contentHorizontalAlignment = UIControlContentHorizontalAlignment.center

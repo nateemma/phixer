@@ -397,7 +397,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         }
         
         let newView = filterViewList[index]
-        newView.label.textColor = UIColor.flatLime()
+        newView.label.textColor = UIColor.flatLime
         
         //filterManager?.setCurrentFilterKey(filterNameList[index])
         

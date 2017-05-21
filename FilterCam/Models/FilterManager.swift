@@ -237,6 +237,7 @@ class FilterManager{
         if (FilterLibrary.filterDictionary[key] != nil){ // filter exists
             if (!((FilterLibrary.categoryFilters[FilterManager.favouriteCategory]?.contains(key))!)){ // not already there
                 FilterLibrary.categoryFilters[FilterManager.favouriteCategory]?.append(key)
+                FilterLibrary.commitChanges() // HACK: should update single record
             }
         } else {
             log.error("ERR: Unknown filter: \(key)")
@@ -249,6 +250,7 @@ class FilterManager{
             if ((FilterLibrary.categoryFilters[FilterManager.favouriteCategory]?.contains(key))!){ // in list?
                 if let index = FilterLibrary.categoryFilters[FilterManager.favouriteCategory]?.index(of: key) {
                     FilterLibrary.categoryFilters[FilterManager.favouriteCategory]?.remove(at: index)
+                    FilterLibrary.commitChanges() // HACK: should update single record
                 }
             }
         } else {
@@ -361,7 +363,7 @@ class FilterManager{
         
         if (FilterLibrary.filterDictionary[key] == nil){    // if not allocatd, try creating it, i.e. only created if requested
             
-            // check to see if this is a lookup filter. If so, then use the key for the 'base' lokup filter
+            // check to see if this is a lookup filter. If so, then use the key for the 'base' lookup filter
             // NOTE: make sure the base filter is in the list of filters at startup
             if (FilterLibrary.lookupDictionary[key] != nil){
                 let lookupkey = "LookupFilter" // TODO: better way to mange string?!
@@ -564,6 +566,7 @@ class FilterManager{
     // designate a filter as hidden or not
     open func setHidden(key:String, hidden:Bool){
         FilterFactory.setHidden(key: key, hidden: hidden)
+        FilterLibrary.commitChanges() // HACK: should update single record
     }
     
     // get the rating for a filter
@@ -574,6 +577,7 @@ class FilterManager{
     // set the rating for a filter
     open func setRating(key:String, rating:Int){
         FilterFactory.setRating(key:key, rating:rating)
+        FilterLibrary.commitChanges() // HACK: should update single record
     }
     
     //////////////////////////////////////////////

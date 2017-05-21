@@ -148,99 +148,99 @@
 
 #pragma mark - Chameleon - Dark Shades
 
-+ (UIColor *)flatBlackColorDark {
++ (UIColor *)flatBlackDarkColor {
     return hsb(0, 0, 15);
 }
 
-+ (UIColor *)flatBlueColorDark {
++ (UIColor *)flatBlueDarkColor {
     return hsb(224, 56, 51);
 }
 
-+ (UIColor *)flatBrownColorDark {
++ (UIColor *)flatBrownDarkColor {
     return hsb(25, 45, 31);
 }
 
-+ (UIColor *)flatCoffeeColorDark {
++ (UIColor *)flatCoffeeDarkColor {
     return hsb(25, 34, 56);
 }
 
-+ (UIColor *)flatForestGreenColorDark {
++ (UIColor *)flatForestGreenDarkColor {
     return hsb(135, 44, 31);
 }
 
-+ (UIColor *)flatGrayColorDark {
++ (UIColor *)flatGrayDarkColor {
     return hsb(184, 10, 55);
 }
 
-+ (UIColor *)flatGreenColorDark {
++ (UIColor *)flatGreenDarkColor {
     return hsb(145, 78, 68);
 }
 
-+ (UIColor *)flatLimeColorDark {
++ (UIColor *)flatLimeDarkColor {
     return hsb(74, 81, 69);
 }
 
-+ (UIColor *)flatMagentaColorDark {
++ (UIColor *)flatMagentaDarkColor {
     return hsb(282, 61, 68);
 }
 
-+ (UIColor *)flatMaroonColorDark {
++ (UIColor *)flatMaroonDarkColor {
     return hsb(4, 68, 40);
 }
 
-+ (UIColor *)flatMintColorDark {
++ (UIColor *)flatMintDarkColor {
     return hsb(168, 86, 63);
 }
 
-+ (UIColor *)flatNavyBlueColorDark {
++ (UIColor *)flatNavyBlueDarkColor {
     return hsb(210, 45, 31);
 }
 
-+ (UIColor *)flatOrangeColorDark {
++ (UIColor *)flatOrangeDarkColor {
     return hsb(24, 100, 83);
 }
 
-+ (UIColor *)flatPinkColorDark {
++ (UIColor *)flatPinkDarkColor {
     return hsb(327, 57, 83);
 }
 
-+ (UIColor *)flatPlumColorDark {
++ (UIColor *)flatPlumDarkColor {
     return hsb(300, 46, 31);
 }
 
-+ (UIColor *)flatPowderBlueColorDark {
++ (UIColor *)flatPowderBlueDarkColor {
     return hsb(222, 28, 84);
 }
 
-+ (UIColor *)flatPurpleColorDark {
++ (UIColor *)flatPurpleDarkColor {
     return hsb(253, 56, 64);
 }
 
-+ (UIColor *)flatRedColorDark {
++ (UIColor *)flatRedDarkColor {
     return hsb(6, 78, 75);
 }
 
-+ (UIColor *)flatSandColorDark {
++ (UIColor *)flatSandDarkColor {
     return hsb(42, 30, 84);
 }
 
-+ (UIColor *)flatSkyBlueColorDark {
++ (UIColor *)flatSkyBlueDarkColor {
     return hsb(204, 78, 73);
 }
 
-+ (UIColor *)flatTealColorDark {
++ (UIColor *)flatTealDarkColor {
     return hsb(196, 54, 45);
 }
 
-+ (UIColor *)flatWatermelonColorDark {
++ (UIColor *)flatWatermelonDarkColor {
     return hsb(358, 61, 85);
 }
 
-+ (UIColor *)flatWhiteColorDark {
++ (UIColor *)flatWhiteDarkColor {
     return hsb(204, 5, 78);
 }
 
-+ (UIColor *)flatYellowColorDark {
++ (UIColor *)flatYellowDarkColor {
     return hsb(40, 100, 100);
 }
 
@@ -373,7 +373,7 @@
     return [[self class] colorWithFlatVersionOf:color withAlpha:colorAlpha];
 }
 
-+ (UIColor *)colorWithFlatVersionOf:(UIColor *)color withAlpha:(CGFloat)alpha {
++ (UIColor * _Nullable)colorWithFlatVersionOf:(UIColor *)color withAlpha:(CGFloat)alpha {
     
     //Check if input UIColor is a gradient aka a pattern
     if (CGColorGetPattern(color.CGColor)) {
@@ -470,7 +470,7 @@
     }
 }
 
-+ (UIColor *)colorWithGradientStyle:(UIGradientStyle)gradientStyle withFrame:(CGRect)frame andColors:(NSArray *)colors; {
++ (UIColor *)colorWithGradientStyle:(UIGradientStyle)gradientStyle withFrame:(CGRect)frame andColors:(NSArray<UIColor *> * _Nonnull)colors; {
     
     //Create our background gradient layer
     CAGradientLayer *backgroundGradientLayer = [CAGradientLayer layer];
@@ -520,7 +520,7 @@
  
             // Normalise the 0-1 ranged inputs to the width of the image
             CGPoint myCentrePoint = CGPointMake(0.5 * frame.size.width, 0.5 * frame.size.height);
-            float myRadius = MIN(frame.size.width, frame.size.height) * 1.0;
+            float myRadius = MIN(frame.size.width, frame.size.height) * 0.5;
             
             // Draw our Gradient
             CGContextDrawRadialGradient (UIGraphicsGetCurrentContext(), myGradient, myCentrePoint,
@@ -558,13 +558,13 @@
     }
 }
 
-+ (UIColor *)colorWithHexString:(NSString *)string {
++ (UIColor * _Nullable)colorWithHexString:(NSString * _Nonnull)string {
     
     //Color with string and a defualt alpha value of 1.0
     return [self colorWithHexString:string withAlpha:1.0];
 }
 
-+ (UIColor *)colorWithHexString:(NSString *)string withAlpha:(CGFloat)alpha {
++ (UIColor * _Nullable)colorWithHexString:(NSString * _Nonnull)string withAlpha:(CGFloat)alpha {
  
     //Quick return in case string is empty
     if (string.length == 0) {
@@ -659,7 +659,7 @@
     return [self flatColors][randomColorChosen];
 }
 
-+ (UIColor *)colorWithRandomColorInArray:(NSArray *)colors {
++ (UIColor * _Nullable)colorWithRandomColorInArray:(NSArray<UIColor *> *)colors {
     
     UIColor *randomColor;
     if (colors.count) {
@@ -680,7 +680,7 @@
     return randomColor;
 }
 
-+ (UIColor *)colorWithRandomFlatColorExcludingColorsInArray:(NSArray *)colors {
++ (UIColor *)colorWithRandomFlatColorExcludingColorsInArray:(NSArray<UIColor *> *)colors {
     
     //Set random flat color
     UIColor *randomColor = [[self class] randomFlatColor];
@@ -763,7 +763,23 @@
     return [UIColor colorWithFlatVersionFrom:self];
 }
 
-- (UIColor *)darkenByPercentage:(CGFloat)percentage {
+- (NSString *)hexValue {
+    
+    UIColor *currentColor = self;
+    if (CGColorGetNumberOfComponents(self.CGColor) < 4) {
+        const CGFloat *components = CGColorGetComponents(self.CGColor);
+        currentColor = [UIColor colorWithRed:components[0] green:components[0] blue:components[0] alpha:components[1]];
+    }
+    
+    if (CGColorSpaceGetModel(CGColorGetColorSpace(currentColor.CGColor)) != kCGColorSpaceModelRGB) {
+        return [NSString stringWithFormat:@"#FFFFFF"];
+    }
+    
+    return [NSString stringWithFormat:@"#%02X%02X%02X", (int)((CGColorGetComponents(currentColor.CGColor))[0]*255.0), (int)((CGColorGetComponents(currentColor.CGColor))[1]*255.0), (int)((CGColorGetComponents(currentColor.CGColor))[2]*255.0)];
+    
+}
+
+- (UIColor * _Nullable)darkenByPercentage:(CGFloat)percentage {
     
     //Define HSBA values
     CGFloat h, s, b, a;
@@ -783,23 +799,7 @@
     return nil;
 }
 
-- (NSString *)hexValue {
-    
-    UIColor *currentColor = self;
-    if (CGColorGetNumberOfComponents(self.CGColor) < 4) {
-        const CGFloat *components = CGColorGetComponents(self.CGColor);
-        currentColor = [UIColor colorWithRed:components[0] green:components[0] blue:components[0] alpha:components[1]];
-    }
-    
-    if (CGColorSpaceGetModel(CGColorGetColorSpace(currentColor.CGColor)) != kCGColorSpaceModelRGB) {
-        return [NSString stringWithFormat:@"#FFFFFF"];
-    }
-    
-    return [NSString stringWithFormat:@"#%02X%02X%02X", (int)((CGColorGetComponents(currentColor.CGColor))[0]*255.0), (int)((CGColorGetComponents(currentColor.CGColor))[1]*255.0), (int)((CGColorGetComponents(currentColor.CGColor))[2]*255.0)];
-    
-}
-
-- (UIColor *)lightenByPercentage:(CGFloat)percentage {
+- (UIColor * _Nullable)lightenByPercentage:(CGFloat)percentage {
     
     //Define HSBA values
     CGFloat h, s, b, a;
@@ -810,6 +810,46 @@
         //Make sure our percentage is greater than 0
         if (percentage > 0) {
            b = MIN(b + percentage, 1.0);
+        }
+        
+        //Return lighter color
+        return [UIColor colorWithHue:h saturation:s brightness:b alpha:a];
+    }
+    
+    return nil;
+}
+
+- (UIColor * _Nullable)desaturateByPercentage:(CGFloat)percentage {
+    
+    //Define HSBA values
+    CGFloat h, s, b, a;
+    
+    //Check if HSBA values exist
+    if ([self getHue:&h saturation:&s brightness:&b alpha:&a]) {
+        
+        //Make sure our percentage is greater than 0
+        if (percentage > 0) {
+            s = MIN(s - percentage, 1.0);
+        }
+        
+        //Return darker color
+        return [UIColor colorWithHue:h saturation:s brightness:b alpha:a];
+    }
+    
+    return nil;
+}
+
+- (UIColor * _Nullable)saturateByPercentage:(CGFloat)percentage {
+    
+    //Define HSBA values
+    CGFloat h, s, b, a;
+    
+    //Check if HSBA values exist
+    if ([self getHue:&h saturation:&s brightness:&b alpha:&a]) {
+        
+        //Make sure our percentage is greater than 0
+        if (percentage > 0) {
+           s = MIN(s + percentage, 1.0);
         }
         
         //Return lighter color

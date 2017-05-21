@@ -94,7 +94,7 @@ class ImageManager {
         "wet_cellophane_texture_by_fantasystock-d3gigxz.jpg"
     ]
     
-    private static var _currBlendName:String = _blendNameList[0]
+    private static var _currBlendName:String = _blendNameList[1]
     
     private static var _currBlendImage: UIImage? = nil
     
@@ -125,12 +125,14 @@ class ImageManager {
             _currBlendImage = getBlendImageFromURL(name)
             _currBlendImageScaled = resizeImage(_currBlendImage, targetSize: _currBlendSize, mode:.scaleAspectFill)
             setBlendInput(image: _currBlendImageScaled!)
+            updateStoredSettings()
         } else if (_blendNameList.contains(name)){
             log.debug("Current Blend image set to:\(name)")
             _currBlendName = name
             _currBlendImage = UIImage(named: _currBlendName)
             _currBlendImageScaled = resizeImage(getCurrentBlendImage(), targetSize: _currBlendSize, mode:.scaleAspectFill)
             setBlendInput(image: _currBlendImageScaled!)
+            updateStoredSettings()
         } else {
             log.warning("Unknown Blend name:\(name)")
         }
@@ -212,7 +214,7 @@ class ImageManager {
     private static let _sampleNameList:[String] = ["sample_0846.png", "sample_1149.png", "sample_1151.png", "sample_1412.png", "sample_1504.png", "sample_1533.png", "sample_1629.png",
                                                    "sample_1687.png", "sample_1748.png", "sample_1902.png", "sample_2143.png", "sample_2216.png", "sample_9989.png"
                                                   ]
-    private static var _currSampleName:String = "sample_9989.png"
+    private static var _currSampleName:String = _sampleNameList[1]
     
     private static var _currSampleImage: UIImage? = nil
     
@@ -230,6 +232,7 @@ class ImageManager {
     
     
     open static func getCurrentSampleImageName()->String {
+
         return _currSampleName
     }
     
@@ -237,16 +240,19 @@ class ImageManager {
     
     open static func setCurrentSampleImageName(_ name:String) {
         if (name.contains(":")){ // URL?
+            log.debug("Current Sample image set to:\(name)")
             _currSampleName = name
             _currSampleImage = getSampleImageFromURL(name)
             _currSampleImageScaled = resizeImage(_currSampleImage, targetSize: _currSampleSize, mode:.scaleAspectFill)
             setSampleInput(image: _currSampleImageScaled!)
+            updateStoredSettings()
         } else if (_sampleNameList.contains(name)){
             log.debug("Current Sample image set to:\(name)")
             _currSampleName = name
             _currSampleImage = UIImage(named: _currSampleName)
             _currSampleImageScaled = resizeImage(getCurrentSampleImage(), targetSize: _currSampleSize, mode:.scaleAspectFill)
             setSampleInput(image: _currSampleImageScaled!)
+            updateStoredSettings()
         } else {
             log.warning("Unknown Sample name:\(name)")
         }
@@ -355,6 +361,7 @@ class ImageManager {
             _currEditImage = getEditImageFromURL(name)
             //_currEditImageScaled = resizeImage(_currEditImage, targetSize: _currEditSize, mode:.scaleAspectFill) // don't know size
             log.verbose("Image set to:\(name)")
+            updateStoredSettings()
         } else {
             log.warning("Unexpected Edit name:\(name)")
         }
@@ -414,7 +421,25 @@ class ImageManager {
         return image
     }
     
-  
+    
+    
+    
+    
+    //////////////////////////////////
+    // MARK: - Persistent Storage Utilities
+    //////////////////////////////////
+    
+    fileprivate static func updateStoredSettings(){
+        let settings = SettingsRecord()
+        
+        settings.blendImage = getCurrentBlendImageName()
+        settings.sampleImage = getCurrentSampleImageName()
+        
+        Database.saveSettings(settings)
+    }
+
+    
+    
     
     //////////////////////////////////
     // MARK: - Image Utilities

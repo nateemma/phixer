@@ -89,7 +89,7 @@ class FilterGalleryViewCell: UICollectionViewCell {
     private func doLayout(){
         
         doInit()
-        self.backgroundColor = UIColor.flatBlack()
+        self.backgroundColor = UIColor.flatBlack
         self.layer.cornerRadius = 2.0
         self.layer.borderWidth = 1.0
         self.layer.borderColor = UIColor(white: 0.6, alpha: 1.0).cgColor
@@ -102,7 +102,7 @@ class FilterGalleryViewCell: UICollectionViewCell {
         
         label.textAlignment = .center
         label.textColor = UIColor.white
-        label.backgroundColor = UIColor.flatMint().withAlphaComponent(0.6)
+        label.backgroundColor = UIColor.flatMint.withAlphaComponent(0.6)
         label.font = UIFont.boldSystemFont(ofSize: 12.0)
         self.addSubview(label)
         
@@ -127,8 +127,10 @@ class FilterGalleryViewCell: UICollectionViewCell {
     fileprivate func loadInputs(){
         /***/
         //log.debug("creating scaled sample and blend images...")
-        sampleImageFull = UIImage(named:"sample_9989.png")!
-        blendImageFull = UIImage(named:"bl_topaz_warm.png")!
+        //sampleImageFull = UIImage(named:"sample_9989.png")!
+        //blendImageFull = UIImage(named:"bl_topaz_warm.png")!
+        sampleImageFull = UIImage(named:ImageManager.getCurrentSampleImageName())!
+        blendImageFull = UIImage(named:ImageManager.getCurrentBlendImageName())!
         
         // create scaled down versions of the sample and blend images
         //TODO: let user choose image
@@ -193,7 +195,7 @@ class FilterGalleryViewCell: UICollectionViewCell {
                     self.renderView.alpha = 0.25
                     self.label.alpha = 0.4
                     //self.layer.borderColor = UIColor(white: 0.6, alpha: 0.4).cgColor
-                    self.layer.borderColor = UIColor.flatGrayColorDark().cgColor
+                    self.layer.borderColor = UIColor.flatGrayDark.cgColor
                 }
                 // create the adornment overlay (even if hidden, because you need to be able to un-hide)
                 self.setupAdornments()
@@ -261,7 +263,7 @@ class FilterGalleryViewCell: UICollectionViewCell {
         
 
         // add a little background so that you can see the icons
-        showAdornment.backgroundColor = UIColor.flatGray().withAlphaComponent(0.5)
+        showAdornment.backgroundColor = UIColor.flatGray.withAlphaComponent(0.5)
         showAdornment.layer.cornerRadius = 2.0
         
         favAdornment.backgroundColor = showAdornment.backgroundColor

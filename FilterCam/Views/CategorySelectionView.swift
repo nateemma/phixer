@@ -254,10 +254,10 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
             
             let newView = categoryViewList[index]
             //newView.label.textColor = UIColor.flatLime()
-            newView.textColor = UIColor.flatLime()
+            newView.textColor = UIColor.flatLime
             newView.layer.cornerRadius = 4.0
             newView.layer.borderWidth = 1.0
-            newView.layer.borderColor = UIColor.flatLime().cgColor
+            newView.layer.borderColor = UIColor.flatLime.cgColor
             
             // scroll to selected item
             categoryCarousel.scrollToItem(at: index, animated: false)

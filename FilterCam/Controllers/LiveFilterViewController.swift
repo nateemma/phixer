@@ -326,7 +326,7 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
         backButton.frame.size.height = bannerView.frame.size.height - 8
         backButton.frame.size.width = 2.0 * backButton.frame.size.height
         backButton.setTitle("< Back", for: .normal)
-        backButton.backgroundColor = UIColor.flatMint()
+        backButton.backgroundColor = UIColor.flatMint
         backButton.setTitleColor(UIColor.white, for: .normal)
         backButton.titleLabel!.font = UIFont.boldSystemFont(ofSize: 20.0)
         backButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.center

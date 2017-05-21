@@ -11,19 +11,45 @@ import SwiftyBeaver
 
 import Firebase
 import GoogleMobileAds
+import CoreData
 
 let log = SwiftyBeaver.self
 
 let themeColor = UIColor(red: 0.01, green: 0.41, blue: 0.22, alpha: 1.0)
 
-let filterManager:FilterManager = FilterManager.sharedInstance
+//let filterManager:FilterManager = FilterManager.sharedInstance
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
+    // MARK: - Core Data stack
+    
+    lazy var persistentContainer: NSPersistentContainer = {
+        /*
+         The persistent container for the application. This implementation creates and returns a container, having loaded the store for the
+         application to it. This property is optional since there are legitimate error conditions that could cause the creation of the store 
+         to fail.
+         */
+        let container = NSPersistentContainer(name: "")
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+            if let error = error as NSError? {
+                /*
+                 Typical reasons for an error here include:
+                 * The parent directory does not exist, cannot be created, or disallows writing.
+                 * The persistent store is not accessible, due to permissions or data protection when the device is locked.
+                 * The device is out of space.
+                 * The store could not be migrated to the current model version.
+                 Check the error message to determine what the actual problem was.
+                 */
+                print("AppDelegate.loadPersistentStores() ERROR: \(error), \(error.userInfo)")
+            }
+        })
+        return container
+    }()
+    
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
@@ -51,10 +77,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // set up Google banner ad framework
         // Use Firebase library to configure APIs
-        FIRApp.configure()
+        FirebaseApp.configure()
         
         //GADMobileAds.configure(withApplicationID: "ca-app-pub-3940256099942544~1458002511"); // Test ID, replace when ready
         GADMobileAds.configure(withApplicationID: Admob.appID)
+        
         
         return true
     }
@@ -80,6 +107,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        FilterLibrary.commitChanges()
     }
 
 

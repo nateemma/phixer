@@ -11,7 +11,8 @@ target 'FilterCam' do
   pod 'Neon'
   
   # Chameloen colour schemes
-  pod 'ChameleonFramework/Swift'
+  #pod 'ChameleonFramework/Swift'
+  pod 'ChameleonFramework/Swift', :git => 'https://github.com/ViccAlexander/Chameleon.git'
   
   # Swifty Beaver logging framework
   pod 'SwiftyBeaver'
@@ -27,8 +28,8 @@ target 'FilterCam' do
   pod 'SwiftyJSON'
   
   # Star rating view
-  pod 'Cosmos'
-
+  pod 'Cosmos', '~> 9.0'
+  
 
   target 'FilterCamTests' do
     inherit! :search_paths

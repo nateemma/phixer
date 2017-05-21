@@ -14,7 +14,7 @@ import Foundation
 class FilterFactory{
     
     private static var filterList: [String:String] = [:]
-    private static var showList: [String:Bool] = [:]
+    private static var hideList: [String:Bool] = [:]
     private static var ratingList: [String:Int] = [:]
     
     private static var initDone: Bool  = false
@@ -26,19 +26,22 @@ class FilterFactory{
         if (!FilterFactory.initDone){
             FilterFactory.initDone = true
             FilterFactory.filterList = [:]
-            FilterFactory.showList = [:]
+            FilterFactory.hideList = [:]
             FilterFactory.ratingList = [:]
         }
     }
     
-    
+    // return the full filter list
+    open static func getFilterList() -> [String]{
+        return Array(filterList.keys)
+    }
     
     
     // Adds a filter definition to the dictionary
-    open static func addFilterDefinition(key: String, classname: String,  show:Bool, rating:Int){
+    open static func addFilterDefinition(key: String, classname: String,  hide:Bool, rating:Int){
         checkSetup()
         FilterFactory.filterList[key] = classname
-        FilterFactory.showList[key] = show
+        FilterFactory.hideList[key] = hide
         FilterFactory.ratingList[key] = rating
         //log.verbose("ADD Filter - key:\(key) classname:\(classname) show:\(show) rating:\(rating)")
     }
@@ -65,7 +68,7 @@ class FilterFactory{
             if (descriptor == nil){
                 print ("FilterFactory.createFilter() ERR: Could not create class: \(classname)")
             } else {
-                descriptor?.show = FilterFactory.showList[key]!
+                descriptor?.show = FilterFactory.hideList[key]!
                 descriptor?.rating = FilterFactory.ratingList[key]!
             }
             
@@ -78,21 +81,26 @@ class FilterFactory{
     }
     
     
+    // returns the classname of the requested filter. nil if not found
+    open static func getClassname(key:String)->String?{
+        return FilterFactory.filterList[key]
+    }
+    
     // indicates whether filter should be hidden or not
     open static func isHidden(key: String)->Bool{
-        if (FilterFactory.showList[key] != nil){
-            return !(FilterFactory.showList[key]!)
+        if (FilterFactory.hideList[key] != nil){
+            return (FilterFactory.hideList[key]!)
         } else {
             log.error("ERR: unknown key:\"\(key)\"")
-            return false
+            return true
         }
     }
     
     
     // sets the hidden state of a filter
     open static func setHidden(key: String, hidden:Bool) {
-        if (FilterFactory.showList[key] != nil){
-            FilterFactory.showList[key] = !hidden
+        if (FilterFactory.hideList[key] != nil){
+            FilterFactory.hideList[key] = hidden
         } else {
             log.error("ERR: unknown key:\"\(key)\"")
         }

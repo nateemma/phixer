@@ -230,6 +230,7 @@
 		4ABF17D2DB556CC8A3182B2B0395274B /* NeonGroupable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NeonGroupable.swift; path = Source/NeonGroupable.swift; sourceTree = "<group>"; };
 		4DE4C4AF328DF299D5903CB0A3834058 /* UIColor+ChameleonPrivate.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIColor+ChameleonPrivate.m"; path = "Pod/Classes/Objective-C/UIColor+ChameleonPrivate.m"; sourceTree = "<group>"; };
 		50490DD0ED11ADCF03D397CAFBAEAAD1 /* Kingfisher-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Kingfisher-prefix.pch"; sourceTree = "<group>"; };
+		5239BF301D6FF3FAE592A6603421F0F0 /* FirebaseCoreDiagnostics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseCoreDiagnostics.framework; path = Frameworks/FirebaseCoreDiagnostics.framework; sourceTree = "<group>"; };
 		52DF1753C9340E81F6AE2D5A9734CCB5 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5383190F7853740745E21C64F3C26876 /* SwiftyBeaver.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftyBeaver.xcconfig; sourceTree = "<group>"; };
 		54726FA4BD1A2BFC2EE40A83F831812E /* Firebase.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Firebase.h; path = Core/Sources/Firebase.h; sourceTree = "<group>"; };
@@ -308,6 +309,7 @@
 		C260949EB56E5A7171CEF1F68E127558 /* UIViewController+Chameleon.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIViewController+Chameleon.h"; path = "Pod/Classes/Objective-C/UIViewController+Chameleon.h"; sourceTree = "<group>"; };
 		C2FA267D3937C680A5AACA75B7E5B9BF /* Pods-FilterCamTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-FilterCamTests.release.xcconfig"; sourceTree = "<group>"; };
 		C3E62B21FED11A09A12E647A2A64B02D /* Kingfisher.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Kingfisher.h; path = Sources/Kingfisher.h; sourceTree = "<group>"; };
+		C42B159D273F9F8186DEA348CE8DC61E /* FirebaseNanoPB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseNanoPB.framework; path = Frameworks/FirebaseNanoPB.framework; sourceTree = "<group>"; };
 		C4333A9D6B2646280502D82EA5157AA8 /* CosmosLayerHelper.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CosmosLayerHelper.swift; path = Cosmos/CosmosLayerHelper.swift; sourceTree = "<group>"; };
 		C61C98AB050662BE93F6C643D8D56687 /* UIColor+ChameleonPrivate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIColor+ChameleonPrivate.h"; path = "Pod/Classes/Objective-C/UIColor+ChameleonPrivate.h"; sourceTree = "<group>"; };
 		C7376B2C70D005ADBF32422C96B169F1 /* CosmosDefaultSettings.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CosmosDefaultSettings.swift; path = Cosmos/CosmosDefaultSettings.swift; sourceTree = "<group>"; };
@@ -320,7 +322,6 @@
 		CEE7E7BF29F1C2D1C3C5B6665434A45D /* ChameleonFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ChameleonFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0180C0D94EA3BF98C5F6D74EBD0B291 /* Box.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Box.swift; path = Sources/Box.swift; sourceTree = "<group>"; };
 		D0728BBAFAAEA1C544A5126524D2EE7F /* Pods-FilterCamUITests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-FilterCamUITests-frameworks.sh"; sourceTree = "<group>"; };
-		D1257D7DE6FCE43B17928510A2287F23 /* FirebaseCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseCore.framework; path = Frameworks/FirebaseCore.framework; sourceTree = "<group>"; };
 		D1F5C1BB0C58FAB49A1ED0CF8663046D /* Chameleon.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Chameleon.h; path = "Pod/Classes/Objective-C/Chameleon.h"; sourceTree = "<group>"; };
 		D29C01F22B01A472A91BA92C5C0B8296 /* ImageDownloader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ImageDownloader.swift; path = Sources/ImageDownloader.swift; sourceTree = "<group>"; };
 		D39BA1BA06F33ACB2B4B4FEE7F28CBB6 /* Pods-FilterCam-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-FilterCam-acknowledgements.markdown"; sourceTree = "<group>"; };
@@ -334,6 +335,7 @@
 		E004BAE1729F13467326227A48F1FFA9 /* Kingfisher.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Kingfisher.xcconfig; sourceTree = "<group>"; };
 		E1238E71BE0D6A5D4980BB5308D348D9 /* SwiftyJSON-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftyJSON-prefix.pch"; sourceTree = "<group>"; };
 		E1302CEC781C123598D5A2DFAF533BDF /* NSArray+Chameleon.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSArray+Chameleon.m"; path = "Pod/Classes/Objective-C/NSArray+Chameleon.m"; sourceTree = "<group>"; };
+		E445E5DEBD7ED7892EF1816F9D4CA8CA /* FirebaseCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseCore.framework; path = Frameworks/FirebaseCore.framework; sourceTree = "<group>"; };
 		E5AFB67C9C6872B5CBE221C51457C0FD /* Pods-FilterCamTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-FilterCamTests.debug.xcconfig"; sourceTree = "<group>"; };
 		E85C8546ADF05F9350CB97EF7ECB0DFE /* Pods-FilterCam.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-FilterCam.release.xcconfig"; sourceTree = "<group>"; };
 		E97F2ADC499309D5CE82A93F70ECCF01 /* Kingfisher.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Kingfisher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -560,14 +562,6 @@
 			path = "Target Support Files/Pods-FilterCamUITests";
 			sourceTree = "<group>";
 		};
-		3550FA3FC6D57B5DF2DBECC649BDDADB /* FirebaseCore */ = {
-			isa = PBXGroup;
-			children = (
-				97D6932CAECD9C14378D57AB55395ECA /* Frameworks */,
-			);
-			path = FirebaseCore;
-			sourceTree = "<group>";
-		};
 		3F5755DCB825DFE928F2D54A61228CF9 /* ChameleonFramework */ = {
 			isa = PBXGroup;
 			children = (
@@ -585,7 +579,7 @@
 				2FC5839C3D0FB2DD59A26D3BD5F4AD1F /* Cosmos */,
 				5AD72D0815055F72499759D387D58706 /* Firebase */,
 				0603A6DEDEDFCC5A597F888068E24690 /* FirebaseAnalytics */,
-				3550FA3FC6D57B5DF2DBECC649BDDADB /* FirebaseCore */,
+				ECB01923418BF70D715EC4418B907B62 /* FirebaseCore */,
 				5EB544DAA069E16287F721F4FD22D62F /* FirebaseInstanceID */,
 				7047C898F2CC2645850128156171DFB9 /* Google-Mobile-Ads-SDK */,
 				6EBFB1866138040EC1C17AAFBB0F59DD /* GoogleToolboxForMac */,
@@ -777,14 +771,6 @@
 			name = "NSData+zlib";
 			sourceTree = "<group>";
 		};
-		97D6932CAECD9C14378D57AB55395ECA /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				D1257D7DE6FCE43B17928510A2287F23 /* FirebaseCore.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		A5E7F32D9C4BCBDE7D7ACAB031964913 /* Defines */ = {
 			isa = PBXGroup;
 			children = (
@@ -800,6 +786,16 @@
 				01D9189A78B3B090BDD22290415D3CCF /* Support Files */,
 			);
 			path = SwiftyJSON;
+			sourceTree = "<group>";
+		};
+		A6EFDB2A49DEDD6FEDBDC37E83FDC398 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E445E5DEBD7ED7892EF1816F9D4CA8CA /* FirebaseCore.framework */,
+				5239BF301D6FF3FAE592A6603421F0F0 /* FirebaseCoreDiagnostics.framework */,
+				C42B159D273F9F8186DEA348CE8DC61E /* FirebaseNanoPB.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		BD8D8A1D04DDE6B10433D00AE6426D76 /* Frameworks */ = {
@@ -838,6 +834,14 @@
 			);
 			name = "Support Files";
 			path = "../Target Support Files/SwiftyBeaver";
+			sourceTree = "<group>";
+		};
+		ECB01923418BF70D715EC4418B907B62 /* FirebaseCore */ = {
+			isa = PBXGroup;
+			children = (
+				A6EFDB2A49DEDD6FEDBDC37E83FDC398 /* Frameworks */,
+			);
+			path = FirebaseCore;
 			sourceTree = "<group>";
 		};
 		EDBE2B6AFA27BF2C80A24DD3BD2DCC08 /* Default */ = {

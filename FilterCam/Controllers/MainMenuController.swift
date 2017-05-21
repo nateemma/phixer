@@ -119,22 +119,22 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
 
         // setup text, colours etc.
         setupMenuItem(label:liveFilterMenuItem, height:h, width:w,
-                      title:"Live Filters", color:UIColor.flatWatermelonColorDark(), handler: tap1)
+                      title:"Live Filters", color:UIColor.flatWatermelonDark, handler: tap1)
         
         setupMenuItem(label:editPictureMenuItem, height:h, width:w,
-                      title:"Edit Picture", color:UIColor.flatMint(), handler: tap2)
+                      title:"Edit Picture", color:UIColor.flatMint, handler: tap2)
         
         setupMenuItem(label:viewFiltersMenuItem, height:h, width:w,
-                      title:"Manage Filters", color:UIColor.flatMintColorDark(), handler: tap3)
+                      title:"Manage Filters", color:UIColor.flatMintDark, handler: tap3)
         
         setupMenuItem(label:changeBlendMenuItem, height:h, width:w,
-                      title:"Manage Blend Image", color:UIColor.flatTeal(), handler: tap4)
+                      title:"Manage Blend Image", color:UIColor.flatTeal, handler: tap4)
         
         setupMenuItem(label:changeSampleMenuItem, height:h, width:w,
-                      title:"Manage Sample Image", color:UIColor.flatBlue(), handler: tap5)
+                      title:"Manage Sample Image", color:UIColor.flatBlue, handler: tap5)
         
         setupMenuItem(label:aboutMenuItem, height:h, width:w,
-                      title:"About", color:UIColor.flatPurple(), handler: tap6)
+                      title:"About", color:UIColor.flatPurple, handler: tap6)
         
 
         // set layout constraints

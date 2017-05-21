@@ -186,7 +186,7 @@ class FilterDetailsViewController: UIViewController {
         
         bannerView.frame.size.height = bannerHeight
         bannerView.frame.size.width = displayWidth
-        bannerView.backgroundColor = UIColor.flatBlack() // temp debug
+        bannerView.backgroundColor = UIColor.flatBlack // temp debug
         
         
         bannerView.addSubview(backButton)
@@ -195,7 +195,7 @@ class FilterDetailsViewController: UIViewController {
         backButton.frame.size.height = bannerView.frame.size.height - 8
         backButton.frame.size.width = 2.0 * backButton.frame.size.height
         backButton.setTitle("< Back", for: .normal)
-        backButton.backgroundColor = UIColor.flatMint()
+        backButton.backgroundColor = UIColor.flatMint
         backButton.setTitleColor(UIColor.white, for: .normal)
         backButton.titleLabel!.font = UIFont.boldSystemFont(ofSize: 20.0)
         backButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.center
@@ -414,7 +414,7 @@ class FilterDetailsViewController: UIViewController {
         
         
         // add a little background so that you can see the icons
-        showAdornment.backgroundColor = UIColor.flatGray().withAlphaComponent(0.5)
+        showAdornment.backgroundColor = UIColor.flatGray.withAlphaComponent(0.5)
         showAdornment.layer.cornerRadius = 2.0
         
         favAdornment.backgroundColor = showAdornment.backgroundColor
@@ -624,9 +624,9 @@ class FilterDetailsViewController: UIViewController {
             // Set the colours
             FilterDetailsViewController.starView?.settings.totalStars = 3
             FilterDetailsViewController.starView?.backgroundColor = UIColor.clear
-            FilterDetailsViewController.starView?.settings.filledColor = UIColor.flatYellow()
-            FilterDetailsViewController.starView?.settings.emptyBorderColor = UIColor.flatGrayColorDark()
-            FilterDetailsViewController.starView?.settings.filledBorderColor = UIColor.flatBlack()
+            FilterDetailsViewController.starView?.settings.filledColor = UIColor.flatYellow
+            FilterDetailsViewController.starView?.settings.emptyBorderColor = UIColor.flatGrayDark
+            FilterDetailsViewController.starView?.settings.filledBorderColor = UIColor.flatBlack
             
             FilterDetailsViewController.starView?.didFinishTouchingCosmos = { rating in
                 self.currRating = Int(rating)

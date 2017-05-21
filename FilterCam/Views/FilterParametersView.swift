@@ -47,9 +47,9 @@ class FilterParametersView: UIView {
     var viewList:[UIView] = []
     
     // Colours
-    let titleBackgroundColor:UIColor = UIColor.flatMint()
+    let titleBackgroundColor:UIColor = UIColor.flatMint
     let titleTextColor:UIColor = UIColor.black
-    let buttonBackgroundColor:UIColor = UIColor.flatSkyBlueColorDark()
+    let buttonBackgroundColor:UIColor = UIColor.flatSkyBlueDark
     let buttonTextColor:UIColor = UIColor.white
     let viewBackgroundColor:UIColor = UIColor.black
     let sliderTextColor:UIColor = UIColor.white
