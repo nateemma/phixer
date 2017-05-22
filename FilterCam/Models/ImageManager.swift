@@ -173,7 +173,18 @@ class ImageManager {
         _currBlendInput = PictureInput(image: image)
     }
     
-   
+    // returns the w:h aspect ratio
+    open static func getBlendImageAspectRatio() -> CGFloat{
+        var ratio: CGFloat = 1.0
+        
+        checkBlendImage()
+        
+        // calculate the aspect ratio as a 1:N (w:h) floating point number
+        if ((_currBlendImage?.size.height)!>CGFloat(0.0)){
+            ratio = (_currBlendImage?.size.width)! / (_currBlendImage?.size.height)!
+        }
+        return ratio
+    }
     
     private static func checkBlendImage(){
         // make sure current blend image has been loaded
@@ -289,6 +300,19 @@ class ImageManager {
     }
     
     
+    // returns the w:h aspect ratio
+    open static func getSampleImageAspectRatio() -> CGFloat{
+        var ratio: CGFloat = 1.0
+        
+        checkSampleImage()
+        
+        // calculate the aspect ratio as a 1:N (w:h) floating point number
+        if ((_currSampleImage?.size.height)!>CGFloat(0.0)){
+            ratio = (_currSampleImage?.size.width)! / (_currSampleImage?.size.height)!
+        }
+        return ratio
+    }
+  
     
     
     open static func getSampleImage(name: String, size:CGSize)->UIImage?{
@@ -344,6 +368,7 @@ class ImageManager {
     private static var _currEditName:String = ""
     
     private static var _currEditImage: UIImage? = nil
+    private static var _currEditInput: PictureInput? = nil
     
     private static var _currEditImageScaled: UIImage? = nil
     private static var _currEditSize: CGSize = CGSize(width: 0.0, height: 0.0)
@@ -421,9 +446,48 @@ class ImageManager {
         return image
     }
     
+
+  
+    
+    // returns the w:h aspect ratio
+    open static func getEditImageAspectRatio() -> CGFloat{
+        var ratio: CGFloat = 1.0
+        
+        checkEditImage()
+        
+        // calculate the aspect ratio as a 1:N (w:h) floating point number
+        if ((_currEditImage?.size.height)!>CGFloat(0.0)){
+            ratio = (_currEditImage?.size.width)! / (_currEditImage?.size.height)!
+        }
+        return ratio
+    }
     
     
+    open static func setEditInput(image: UIImage){
+        if (_currEditInput != nil){
+            _currEditInput?.removeAllTargets()
+        }
+        _currEditInput = PictureInput(image: image)
+    }
+   
     
+    private static func checkEditImage(){
+        // make sure current sample image has been loaded
+        if (_currEditImage == nil){
+            _currEditImage = getEditImageFromURL(_currEditName)
+            setEditInput(image: _currEditImage!)
+        }
+        
+        // check to see if we have already resized
+        if (_currEditImageScaled == nil){
+            if (_currEditSize == CGSize.zero){
+                _currEditSize = (_currEditImage?.size)!
+            }
+            _currEditImageScaled = resizeImage(_currEditImage, targetSize: _currEditSize, mode:.scaleAspectFill)
+            setEditInput(image: _currEditImageScaled!)
+        }
+    }
+  
     
     //////////////////////////////////
     // MARK: - Persistent Storage Utilities

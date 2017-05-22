@@ -32,6 +32,8 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     fileprivate var displayWidth : CGFloat = 0.0
     fileprivate var displayHeight : CGFloat = 0.0
     
+    fileprivate var aspectRatio : CGFloat = 1.0
+    
     fileprivate var itemsPerRow: CGFloat = 3
     fileprivate var cellSpacing: CGFloat = 2
     fileprivate var indicatorWidth: CGFloat = 41
@@ -117,11 +119,24 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         //isLandscape = (displayWidth > displayHeight)
         isLandscape = UIDevice.current.orientation.isLandscape
         
+        // get aspect ratio of sample (used for layout sizing)
+        
+        aspectRatio = ImageManager.getSampleImageAspectRatio()
+        
+        // set items per row. Add 1 if landscape, subtract one if sample is in landscape orientation
         
         if (isLandscape){
-            itemsPerRow = 5
+            if (aspectRatio > 1.0){ // w > h
+                itemsPerRow = 4
+            } else {
+                itemsPerRow = 5
+            }
         } else {
-            itemsPerRow = 3
+            if (aspectRatio > 1.0){ // w > h
+                itemsPerRow = 2
+            } else {
+                itemsPerRow = 3
+            }
         }
         
         layout.itemSize = self.frame.size
@@ -595,7 +610,8 @@ extension FilterGalleryView {
         let widthPerItem = availableWidth / itemsPerRow
         
         //log.debug("view:\(availableWidth) cell: \(widthPerItem)")
-        return CGSize(width: widthPerItem, height: widthPerItem*1.5) // use 2:3 (4:6) ratio
+        //return CGSize(width: widthPerItem, height: widthPerItem*1.5) // use 2:3 (4:6) ratio
+        return CGSize(width: widthPerItem, height: widthPerItem/aspectRatio) // use same aspect ratio as sample image
     }
     
     

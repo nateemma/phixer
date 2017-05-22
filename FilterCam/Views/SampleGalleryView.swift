@@ -25,6 +25,8 @@ class SampleGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     fileprivate var displayWidth : CGFloat = 0.0
     fileprivate var displayHeight : CGFloat = 0.0
     
+    fileprivate var aspectRatio : CGFloat = 1.0
+        
     fileprivate var itemsPerRow: CGFloat = 3
     fileprivate var cellSpacing: CGFloat = 2
     fileprivate var indicatorWidth: CGFloat = 41
@@ -35,7 +37,8 @@ class SampleGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     fileprivate let height: CGFloat = 34
     
     //fileprivate let sectionInsets = UIEdgeInsets(top: 50.0, left: 20.0, bottom: 50.0, right: 20.0)
-    fileprivate let sectionInsets = UIEdgeInsets(top: 11.0, left: 10.0, bottom: 11.0, right: 10.0)
+    //fileprivate let sectionInsets = UIEdgeInsets(top: 11.0, left: 10.0, bottom: 11.0, right: 10.0)
+    fileprivate let sectionInsets = UIEdgeInsets(top: 4.0, left: 4.0, bottom: 4.0, right: 4.0) // layout is *really* sensitive to left/right for some reason
     
     
     fileprivate var sampleList:[String] = []
@@ -103,6 +106,7 @@ class SampleGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         //isLandscape = (displayWidth > displayHeight)
         isLandscape = UIDevice.current.orientation.isLandscape
         
+        // set items per row. Add 1 if landscape,
         
         if (isLandscape){
             itemsPerRow = 5
@@ -251,12 +255,13 @@ extension SampleGalleryView {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let paddingSpace = sectionInsets.left * (itemsPerRow + 1)
+        //let paddingSpace = sectionInsets.left * (itemsPerRow + 1)
+        let paddingSpace = (sectionInsets.left * (itemsPerRow+1)) + (sectionInsets.right * (itemsPerRow+1)) + 2.0
         let availableWidth = self.frame.width - paddingSpace
         let widthPerItem = availableWidth / itemsPerRow
         
         //log.debug("ItemSize: \(widthPerItem)")
-        return CGSize(width: widthPerItem, height: widthPerItem)
+        return CGSize(width: widthPerItem, height: widthPerItem*1.5) // use 2:3 (4:6) ratio
     }
     
     
