@@ -106,6 +106,10 @@ class FilterManager{
     }
     
     
+    open func restoreDefaults(){
+        FilterLibrary.restoreDefaults()
+    }
+    
     //////////////////////////////////////////////
     // MARK: - Category-related Accessors
     //////////////////////////////////////////////

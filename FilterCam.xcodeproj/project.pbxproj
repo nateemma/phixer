@@ -686,7 +686,6 @@
 		252C17911ECE649500039BFC /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 252C17901ECE649500039BFC /* CoreData.framework */; };
 		252C17951ECE64EE00039BFC /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 252C17931ECE64EE00039BFC /* Model.xcdatamodeld */; };
 		252C17A01ECE75FC00039BFC /* SettingsEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252C17961ECE75FC00039BFC /* SettingsEntity+CoreDataClass.swift */; };
-		252C17A11ECE75FC00039BFC /* SettingsEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252C17971ECE75FC00039BFC /* SettingsEntity+CoreDataProperties.swift */; };
 		252C17A21ECE75FC00039BFC /* FilterEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252C17981ECE75FC00039BFC /* FilterEntity+CoreDataClass.swift */; };
 		252C17A31ECE75FC00039BFC /* FilterEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252C17991ECE75FC00039BFC /* FilterEntity+CoreDataProperties.swift */; };
 		252C17A41ECE75FC00039BFC /* CategoryEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252C179A1ECE75FC00039BFC /* CategoryEntity+CoreDataClass.swift */; };
@@ -731,6 +730,10 @@
 		2542DF551ECFB37400CEB968 /* CategoryRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2542DF541ECFB37400CEB968 /* CategoryRecord.swift */; };
 		2542DF571ECFB3F100CEB968 /* AssignmentRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2542DF561ECFB3F100CEB968 /* AssignmentRecord.swift */; };
 		2542DF591ECFB4DA00CEB968 /* LookupFilterRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2542DF581ECFB4DA00CEB968 /* LookupFilterRecord.swift */; };
+		2542DF5B1ED372BF00CEB968 /* SimpleEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2542DF5A1ED372BF00CEB968 /* SimpleEditViewController.swift */; };
+		2542DF5D1ED373F800CEB968 /* EditImageDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2542DF5C1ED373F800CEB968 /* EditImageDisplayView.swift */; };
+		2542DF5F1ED377A700CEB968 /* EditControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2542DF5E1ED377A700CEB968 /* EditControlsView.swift */; };
+		2542DF651ED6634800CEB968 /* SettingsEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2542DF641ED6634800CEB968 /* SettingsEntity+CoreDataProperties.swift */; };
 		2556731F1DB961F700187F25 /* DisplayMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2556731E1DB961F700187F25 /* DisplayMode.swift */; };
 		255673211DB9653700187F25 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255673201DB9653700187F25 /* CameraViewController.swift */; };
 		255673231DB9BF0F00187F25 /* FilterControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255673221DB9BF0F00187F25 /* FilterControlsView.swift */; };
@@ -746,6 +749,9 @@
 		257F49F51D9448920083B1E4 /* FilterCamTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257F49F41D9448920083B1E4 /* FilterCamTests.swift */; };
 		257F4A001D9448920083B1E4 /* FilterCamUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257F49FF1D9448920083B1E4 /* FilterCamUITests.swift */; };
 		257F4A141D947CF80083B1E4 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 257F4A131D947CF80083B1E4 /* Podfile */; };
+		258EA08E1ED90A7000D5E20E /* ManageFiltersMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258EA08D1ED90A7000D5E20E /* ManageFiltersMenuController.swift */; };
+		258EA0911ED9453300D5E20E /* NoFilterDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258EA0901ED9453300D5E20E /* NoFilterDescriptor.swift */; };
+		258EA0931ED9472600D5E20E /* ResetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258EA0921ED9472600D5E20E /* ResetViewController.swift */; };
 		25910B171DB73834007EC926 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 25910B161DB73834007EC926 /* iCarousel.m */; };
 		25910B191DB738B3007EC926 /* CategorySelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25910B181DB738B3007EC926 /* CategorySelectionView.swift */; };
 		25910B1B1DB7D61A007EC926 /* RenderContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25910B1A1DB7D61A007EC926 /* RenderContainerView.swift */; };
@@ -1561,7 +1567,6 @@
 		252C17901ECE649500039BFC /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		252C17941ECE64EE00039BFC /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		252C17961ECE75FC00039BFC /* SettingsEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SettingsEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
-		252C17971ECE75FC00039BFC /* SettingsEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SettingsEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		252C17981ECE75FC00039BFC /* FilterEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FilterEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		252C17991ECE75FC00039BFC /* FilterEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FilterEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		252C179A1ECE75FC00039BFC /* CategoryEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CategoryEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -1606,6 +1611,10 @@
 		2542DF541ECFB37400CEB968 /* CategoryRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryRecord.swift; sourceTree = "<group>"; };
 		2542DF561ECFB3F100CEB968 /* AssignmentRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssignmentRecord.swift; sourceTree = "<group>"; };
 		2542DF581ECFB4DA00CEB968 /* LookupFilterRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LookupFilterRecord.swift; sourceTree = "<group>"; };
+		2542DF5A1ED372BF00CEB968 /* SimpleEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SimpleEditViewController.swift; path = Controllers/SimpleEditViewController.swift; sourceTree = "<group>"; };
+		2542DF5C1ED373F800CEB968 /* EditImageDisplayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditImageDisplayView.swift; path = Views/EditImageDisplayView.swift; sourceTree = "<group>"; };
+		2542DF5E1ED377A700CEB968 /* EditControlsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditControlsView.swift; sourceTree = "<group>"; };
+		2542DF641ED6634800CEB968 /* SettingsEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SettingsEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		2556731E1DB961F700187F25 /* DisplayMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DisplayMode.swift; path = Models/DisplayMode.swift; sourceTree = "<group>"; };
 		255673201DB9653700187F25 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraViewController.swift; path = Controllers/CameraViewController.swift; sourceTree = "<group>"; };
 		255673221DB9BF0F00187F25 /* FilterControlsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterControlsView.swift; path = Views/FilterControlsView.swift; sourceTree = "<group>"; };
@@ -1627,6 +1636,9 @@
 		257F49FF1D9448920083B1E4 /* FilterCamUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCamUITests.swift; sourceTree = "<group>"; };
 		257F4A011D9448920083B1E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		257F4A131D947CF80083B1E4 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		258EA08D1ED90A7000D5E20E /* ManageFiltersMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ManageFiltersMenuController.swift; path = Controllers/ManageFiltersMenuController.swift; sourceTree = "<group>"; };
+		258EA0901ED9453300D5E20E /* NoFilterDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NoFilterDescriptor.swift; path = Filters/NoFilterDescriptor.swift; sourceTree = "<group>"; };
+		258EA0921ED9472600D5E20E /* ResetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResetViewController.swift; path = Controllers/ResetViewController.swift; sourceTree = "<group>"; };
 		25910B141DB73833007EC926 /* FilterCam-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FilterCam-Bridging-Header.h"; sourceTree = "<group>"; };
 		25910B151DB73834007EC926 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iCarousel.h; path = Views/iCarousel.h; sourceTree = "<group>"; };
 		25910B161DB73834007EC926 /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = iCarousel.m; path = Views/iCarousel.m; sourceTree = "<group>"; };
@@ -1818,6 +1830,7 @@
 				25B24D531DB0A0FC008CD38A /* NobleCornerDetectorDescriptor.swift */,
 				2513758F1DB6DFE100A319DC /* NormalBlendDescriptor.swift */,
 				25B24D591DB17F86008CD38A /* OpacityAdjustmentDescriptor.swift */,
+				258EA0901ED9453300D5E20E /* NoFilterDescriptor.swift */,
 				25B24D671DB18B9D008CD38A /* OpeningFilterDescriptor.swift */,
 				251375791DB6DD7000A319DC /* OverlayBlendDescriptor.swift */,
 				251375671DB6CD9400A319DC /* PinchDistortionDescriptor.swift */,
@@ -1883,6 +1896,8 @@
 				25CF4BD11D9490C400D779CF /* CameraInfoView.swift */,
 				25CF4BD21D9490C400D779CF /* CameraSettingsView.swift */,
 				25910B181DB738B3007EC926 /* CategorySelectionView.swift */,
+				2542DF5E1ED377A700CEB968 /* EditControlsView.swift */,
+				2542DF5C1ED373F800CEB968 /* EditImageDisplayView.swift */,
 				25910B141DB73833007EC926 /* FilterCam-Bridging-Header.h */,
 				255673221DB9BF0F00187F25 /* FilterControlsView.swift */,
 				25A702941DC2FE3C009441E2 /* FilterDisplayView.swift */,
@@ -1933,11 +1948,14 @@
 				2556731E1DB961F700187F25 /* DisplayMode.swift */,
 				25A702911DC2FCDD009441E2 /* FilterDetailsViewController.swift */,
 				250716081DBEC19400CDDF42 /* FilterGalleryViewController.swift */,
-				257F49E11D9448920083B1E4 /* MainViewController.swift */,
 				863ABCB91EA6CE5B00B2AED2 /* LiveFilterViewController.swift */,
 				86DD9D941E9C5A7000A5D855 /* MainMenuController.swift */,
+				258EA08D1ED90A7000D5E20E /* ManageFiltersMenuController.swift */,
+				258EA0921ED9472600D5E20E /* ResetViewController.swift */,
+				257F49E11D9448920083B1E4 /* MainViewController.swift */,
 				253A39E11DDA965E00A714D4 /* SampleGalleryViewController.swift */,
 				253B235A1DA2CFD400203ECB /* SegueHandlerType.swift */,
+				2542DF5A1ED372BF00CEB968 /* SimpleEditViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -2008,8 +2026,8 @@
 		259BE4DD1ECCFFFC00D1A5E8 /* Database */ = {
 			isa = PBXGroup;
 			children = (
+				2542DF641ED6634800CEB968 /* SettingsEntity+CoreDataProperties.swift */,
 				252C17961ECE75FC00039BFC /* SettingsEntity+CoreDataClass.swift */,
-				252C17971ECE75FC00039BFC /* SettingsEntity+CoreDataProperties.swift */,
 				252C17981ECE75FC00039BFC /* FilterEntity+CoreDataClass.swift */,
 				252C17991ECE75FC00039BFC /* FilterEntity+CoreDataProperties.swift */,
 				252C179A1ECE75FC00039BFC /* CategoryEntity+CoreDataClass.swift */,
@@ -3680,7 +3698,9 @@
 				25B24D661DB18B59008CD38A /* ClosingFilterDescriptor.swift in Sources */,
 				25B24D301DB0494F008CD38A /* ColorInversionDescriptor.swift in Sources */,
 				25CF4BDC1D94D93700D779CF /* AppDelegate.swift in Sources */,
+				258EA0911ED9453300D5E20E /* NoFilterDescriptor.swift in Sources */,
 				25B24D081DAE9BEA008CD38A /* RGBDescriptor.swift in Sources */,
+				2542DF5B1ED372BF00CEB968 /* SimpleEditViewController.swift in Sources */,
 				2507160D1DBED62C00CDDF42 /* FilterGalleryView.swift in Sources */,
 				2513758A1DB6DF4200A319DC /* HardLightBlendDescriptor.swift in Sources */,
 				25B24D181DAFE255008CD38A /* FilterInfoView.swift in Sources */,
@@ -3743,6 +3763,7 @@
 				253B23831DA9989F00203ECB /* HighlightsDescriptor.swift in Sources */,
 				25B24CF81DAE958D008CD38A /* ExposureDescriptor.swift in Sources */,
 				25AEBB441DBA8AEC00AA6279 /* FilterSelectionView.swift in Sources */,
+				2542DF5D1ED373F800CEB968 /* EditImageDisplayView.swift in Sources */,
 				253B23731DA4B09200203ECB /* CrosshatchDescriptor.swift in Sources */,
 				25B24D2E1DB04892008CD38A /* MissEtikateDescriptor.swift in Sources */,
 				25934FB31DD5109C00C3D665 /* BlendGalleryViewController.swift in Sources */,
@@ -3768,10 +3789,11 @@
 				25B24D3E1DB04E28008CD38A /* LaplacianDescriptor.swift in Sources */,
 				251375841DB6DE7800A319DC /* ScreenBlendDescriptor.swift in Sources */,
 				252C17951ECE64EE00039BFC /* Model.xcdatamodeld in Sources */,
+				258EA08E1ED90A7000D5E20E /* ManageFiltersMenuController.swift in Sources */,
 				25B24D4C1DB0582D008CD38A /* UnsharpMaskDescriptor.swift in Sources */,
-				252C17A11ECE75FC00039BFC /* SettingsEntity+CoreDataProperties.swift in Sources */,
 				25B24D481DB056E0008CD38A /* BilateralBlurDescriptor.swift in Sources */,
 				251375741DB6DCFE00A319DC /* SaturationBlendDescriptor.swift in Sources */,
+				2542DF5F1ED377A700CEB968 /* EditControlsView.swift in Sources */,
 				255673231DB9BF0F00187F25 /* FilterControlsView.swift in Sources */,
 				253B23811DA9988500203ECB /* SepiaDescriptor.swift in Sources */,
 				256D0FF11D98DB4C00220D7E /* CameraManager.swift in Sources */,
@@ -3801,6 +3823,7 @@
 				251375881DB6DF1000A319DC /* DifferenceBlendDescriptor.swift in Sources */,
 				251375821DB6DE5D00A319DC /* ColorDodgeBlendDescriptor.swift in Sources */,
 				25B24D5A1DB17F86008CD38A /* OpacityAdjustmentDescriptor.swift in Sources */,
+				2542DF651ED6634800CEB968 /* SettingsEntity+CoreDataProperties.swift in Sources */,
 				25B24D641DB18888008CD38A /* TiltShiftDescriptor.swift in Sources */,
 				2569741D1D9B986E00DDF9E4 /* Fractional.swift in Sources */,
 				2513755C1DB6C79B00A319DC /* LowPassFilterDescriptor.swift in Sources */,
@@ -3822,6 +3845,7 @@
 				25B24D5C1DB17FF6008CD38A /* ChromaKeyingDescriptor.swift in Sources */,
 				2542DF571ECFB3F100CEB968 /* AssignmentRecord.swift in Sources */,
 				2542DF591ECFB4DA00CEB968 /* LookupFilterRecord.swift in Sources */,
+				258EA0931ED9472600D5E20E /* ResetViewController.swift in Sources */,
 				253A39E21DDA965E00A714D4 /* SampleGalleryViewController.swift in Sources */,
 				25B24D261DB044C2008CD38A /* HazeDescriptor.swift in Sources */,
 				253B23971DA999FF00203ECB /* GlassSphereRefractionDescriptor.swift in Sources */,

@@ -28,6 +28,7 @@
     <entity name="SettingsEntity" representedClassName="SettingsEntity" syncable="YES">
         <attribute name="blendImage" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="configVersion" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="editImage" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sampleImage" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
@@ -35,6 +36,6 @@
         <element name="CategoryEntity" positionX="-56" positionY="-459" width="128" height="103"/>
         <element name="FilterEntity" positionX="169" positionY="-291" width="128" height="118"/>
         <element name="LookupFilterEntity" positionX="-56" positionY="-288" width="128" height="118"/>
-        <element name="SettingsEntity" positionX="88" positionY="-657" width="128" height="88"/>
+        <element name="SettingsEntity" positionX="88" positionY="-657" width="128" height="103"/>
     </elements>
 </model>

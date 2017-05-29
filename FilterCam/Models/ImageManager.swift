@@ -428,12 +428,25 @@ class ImageManager {
     }
     
     
+    open static func getCurrentEditInput()->PictureInput? {
+        checkEditImage()
+        return _currEditInput
+    }
+    
+    
+    
+    open static func getCurrentEditImageSize()->CGSize{
+        checkEditImage()
+        return _currEditSize
+    }
+
     
     // function to get a named image. Will check to see if a URL (provided by UIImagePicker) is provided
     private static func getEditImageFromURL(_ urlString:String)->UIImage? {
         var image:UIImage? = nil
         if (urlString.contains(":")){ // URL?
             image = getImageFromAssets(assetUrl: urlString)
+            log.verbose("Loading: \(urlString)")
         } else {
             log.warning("Unexpected Edit name:\(urlString). Checking App-specific Assets..")
             image = UIImage(named:urlString)
@@ -472,6 +485,13 @@ class ImageManager {
    
     
     private static func checkEditImage(){
+        
+        guard (!_currEditName.isEmpty) else {
+            _currEditSize = _currSampleSize // just to set it to something reasonable
+            log.debug("Edit image not set")
+            return
+        }
+        
         // make sure current sample image has been loaded
         if (_currEditImage == nil){
             _currEditImage = getEditImageFromURL(_currEditName)
@@ -498,6 +518,7 @@ class ImageManager {
         
         settings.blendImage = getCurrentBlendImageName()
         settings.sampleImage = getCurrentSampleImageName()
+        settings.editImage = getCurrentEditImageName()
         
         Database.saveSettings(settings)
     }

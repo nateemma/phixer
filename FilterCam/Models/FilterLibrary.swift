@@ -82,6 +82,12 @@ class FilterLibrary{
         }
     }
 
+   
+    // restore default parameters from the config file
+    open static func restoreDefaults(){
+        loadFromConfigFile()
+        commitChanges()
+    }
     
     ////////////////////////////
     // Config File Processing
@@ -300,6 +306,7 @@ class FilterLibrary{
             print("loadFromDatabase() - Restoring Settings: Sample:\(settings.sampleImage!) Blend:\(settings.blendImage!)")
             ImageManager.setCurrentBlendImageName(settings.blendImage!)
             ImageManager.setCurrentSampleImageName(settings.sampleImage!)
+            ImageManager.setCurrentEditImageName(settings.editImage!)
         } else {
             print("loadFromDatabase() - ERR: settings NOT found...")
         }
@@ -360,6 +367,7 @@ class FilterLibrary{
         
         settings.blendImage = ImageManager.getCurrentBlendImageName()
         settings.sampleImage = ImageManager.getCurrentSampleImageName()
+        settings.editImage = ImageManager.getCurrentEditImageName()
         
         Database.saveSettings(settings)
         

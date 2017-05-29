@@ -18,6 +18,7 @@ public class SettingsEntity: NSManagedObject {
         
         settingsRecord = SettingsRecord()
         settingsRecord.blendImage = self.blendImage
+        settingsRecord.editImage = self.editImage
         settingsRecord.sampleImage = self.sampleImage
         settingsRecord.configVersion = self.configVersion
         
@@ -31,6 +32,7 @@ public class SettingsEntity: NSManagedObject {
         //self.setValue(record.sampleImage, forKey: "sampleImage")
         
         self.blendImage = record.blendImage
+        self.editImage = record.editImage
         self.sampleImage = record.sampleImage
         self.configVersion = record.configVersion
         

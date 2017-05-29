@@ -1,5 +1,6 @@
 {
     "categories": [
+                   {"key": "none",        "title": "No Filters" },
                    {"key": "favorites",   "title": "Favorites" },
                    {"key": "basic",       "title": "Basic Adjustments" },
                    {"key": "blends",      "title": "Blends"       },
@@ -21,6 +22,7 @@
                    ],
     
     "filters": [
+                {"key": "NoFilter", "class": "NoFilterDescriptor", "show": true, "rating": 0 },
                 {"key": "AdaptiveThreshold", "class": "AdaptiveThresholdDescriptor", "show": true, "rating": 0 },
                 {"key": "AddBlend", "class": "AddBlendDescriptor", "show": true, "rating": 0 },
                 {"key": "AlphaBlend", "class": "AlphaBlendDescriptor", "show": true, "rating": 0 },
@@ -671,6 +673,9 @@
     
     
     "assign": [
+               {"category": "none",
+               "filters": ["NoFilter" ]
+               },
                {"category": "favorites",
                "filters": ["Crosshatch", "Emboss", "Halftone", "SwirlDistortion", "Luminance", "ThresholdSketch", "ps_004", "ps_009", "bw_031", "bw_037" ]
                },

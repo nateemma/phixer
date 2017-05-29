@@ -33,12 +33,15 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     fileprivate var currFilter: FilterDescriptorInterface? = nil
     fileprivate var opacityFilter:OpacityAdjustment? = nil
     
+    fileprivate var inputSource: InputSource = .photo
+    fileprivate var sourceInput:PictureInput? = nil
+    
     fileprivate var blendImageFull:UIImage? = nil
     fileprivate var blend:PictureInput? = nil
 
     fileprivate var sampleImageFull:UIImage? = nil
     fileprivate var sampleImageSmall:UIImage? = nil
-    fileprivate var sampleInput:PictureInput? = nil
+    
 
     fileprivate var previewInput: ImageSource? = nil
     
@@ -52,6 +55,38 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     ///////////////////////////////////
     //MARK: - Public accessors
     ///////////////////////////////////
+    
+    // enum describing th inpiut source for previewing filters
+    public enum InputSource {
+        case camera
+        case sample
+        case photo
+    }
+    
+    
+    func setInputSource(_ source: InputSource){
+        inputSource = source
+        switch (inputSource){
+        case .camera:
+            break // handled separately
+        case .sample:
+            sourceInput = ImageManager.getCurrentSampleInput()
+        case .photo:
+            sourceInput = ImageManager.getCurrentEditInput()
+        }
+    }
+    
+    fileprivate func getInputSource()->PictureInput?{
+        switch (inputSource){
+        case .camera:
+        return nil
+        case .sample:
+            sourceInput = ImageManager.getCurrentSampleInput()
+        case .photo:
+            sourceInput = ImageManager.getCurrentEditInput()
+        }
+        return sourceInput
+    }
     
     func setFilterCategory(_ category:String){
         
@@ -168,17 +203,21 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
                 self.blend = PictureInput(image:self.blendImageFull!)
             }
             
-            self.sampleInput=nil
+            /***
+            self.sourceInput=nil
             self.sampleImageFull = ImageManager.getCurrentSampleImage()
             //self.sampleImageFull = ImageManager.getCurrentSampleImage(size:CGSize(width: (self.filterCarousel?.frame.size.width)!, height: (self.filterCarousel?.frame.size.height)!))
             //let size = (self.sampleImageFull?.size.applying(CGAffineTransform(scaleX: 0.2, y: 0.2)))!
             //self.sampleImageSmall = ImageManager.scaleImage(self.sampleImageFull, widthRatio: 0.2, heightRatio: 0.2)
-            //self.sampleInput = PictureInput(image:self.sampleImageSmall!)
+            //self.sourceInput = PictureInput(image:self.sampleImageSmall!)
             if (self.sampleImageFull != nil){
-                self.sampleInput = PictureInput(image:self.sampleImageFull!)
+                self.sourceInput = PictureInput(image:self.sampleImageFull!)
             }
+            ***/
             
-            if (self.sampleInput==nil){
+            self.sourceInput = getInputSource()
+            
+            if (self.sourceInput==nil){
                 log.error("ERR: Sample input not created")
             }
             
@@ -261,7 +300,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
             // We do this so that something is displayed when running on the simulator (no camera available)
             
             if (camera == nil){
-                previewInput = sampleInput
+                previewInput = sourceInput
                 log.debug("Using Sample image instead of camera")
             } else {
                 previewInput = camera
@@ -279,7 +318,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
                     case .singleInput:
                         log.debug("Using filter: \(String(describing: currFilter?.key))")
                         self.previewInput! --> filter! --> self.filterViewList[index].renderView!
-                        if (camera == nil){ self.sampleInput?.processImage(synchronously: true) } // need extra call for static picture
+                        if (camera == nil){ self.sourceInput?.processImage(synchronously: true) } // need extra call for static picture
                         break
                     case .blend:
                         log.debug("Using BLEND mode for filter: \(String(describing: currFilter?.key))")
@@ -287,7 +326,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
                         self.blend! --> self.opacityFilter! --> filter!
                         self.previewInput! --> filter! --> self.filterViewList[index].renderView!
                         self.blend?.processImage()
-                        if (camera == nil){ self.sampleInput?.processImage(synchronously: true) }
+                        if (camera == nil){ self.sourceInput?.processImage(synchronously: true) }
                         break
                     }
                     
@@ -301,7 +340,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
                     case .singleInput:
                         log.debug("filterGroup: \(String(describing: currFilter?.key))")
                         self.previewInput! --> filterGroup! --> self.filterViewList[index].renderView!
-                        if (camera == nil){ self.sampleInput?.processImage(synchronously: true) }
+                        if (camera == nil){ self.sourceInput?.processImage(synchronously: true) }
                         break
                     case .blend:
                         //log.debug("Using BLEND mode for group: \(currFilterDescriptor?.key)")
@@ -309,7 +348,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
                         self.blend! --> self.opacityFilter! --> filterGroup!
                         self.previewInput! --> filterGroup! --> self.filterViewList[index].renderView!
                         self.blend?.processImage()
-                        if (camera == nil){ self.sampleInput?.processImage(synchronously: true) }
+                        if (camera == nil){ self.sourceInput?.processImage(synchronously: true) }
                         break
                     }
                 } else {

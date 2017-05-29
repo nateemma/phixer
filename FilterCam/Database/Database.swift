@@ -183,6 +183,7 @@ class Database {
         
         settingsRecord = SettingsRecord()
         settingsRecord.blendImage = settingsEntity?.blendImage
+        settingsRecord.editImage = settingsEntity?.editImage
         settingsRecord.sampleImage = settingsEntity?.sampleImage
         settingsRecord.configVersion = settingsEntity?.configVersion
         print("getSettings() - Sample:\(settingsRecord.sampleImage!) Blend:\(settingsRecord.blendImage!)")
@@ -226,7 +227,7 @@ class Database {
             //settingsEntity?.setValue(settings.blendImage, forKey: "blendImage")
             //settingsEntity?.setValue(settings.sampleImage, forKey: "sampleImage")
             settingsEntity?.update(record:settings)
-            print("saveSettings() - Sample:\(settings.sampleImage!) Blend:\(settings.blendImage!)")
+            print("saveSettings() - Sample:\(settings.sampleImage!) Blend:\(settings.blendImage!) Edit:\(settings.editImage!)")
             
             save()
         }

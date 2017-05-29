@@ -1,9 +1,9 @@
 //
 //  SettingsEntity+CoreDataProperties.swift
-//  FilterCam
+//  
 //
-//  Created by Philip Price on 5/18/17.
-//  Copyright © 2017 Nateemma. All rights reserved.
+//  Created by Philip Price on 5/24/17.
+//
 //
 
 import Foundation
@@ -16,8 +16,9 @@ extension SettingsEntity {
         return NSFetchRequest<SettingsEntity>(entityName: "SettingsEntity")
     }
 
+    @NSManaged public var blendImage: String?
     @NSManaged public var configVersion: String?
     @NSManaged public var sampleImage: String?
-    @NSManaged public var blendImage: String?
+    @NSManaged public var editImage: String?
 
 }

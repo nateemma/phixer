@@ -33,14 +33,14 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
     
     let buttonSize : CGFloat = 48.0
     
+    
     // Menu items
     var liveFilterMenuItem: UILabel = UILabel()
     var editPictureMenuItem: UILabel = UILabel()
-    var viewFiltersMenuItem: UILabel = UILabel()
-    var changeBlendMenuItem: UILabel = UILabel()
-    var changeSampleMenuItem: UILabel = UILabel()
+    var manageFiltersMenuItem: UILabel = UILabel()
     var aboutMenuItem: UILabel = UILabel()
  
+    let numItems = 4
     
     convenience init(){
         self.init(nibName:nil, bundle:nil)
@@ -85,20 +85,21 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
         view.addSubview(adView)
         view.addSubview(liveFilterMenuItem)
         view.addSubview(editPictureMenuItem)
-        view.addSubview(viewFiltersMenuItem)
-        view.addSubview(changeBlendMenuItem)
-        view.addSubview(changeSampleMenuItem)
+        view.addSubview(manageFiltersMenuItem)
         view.addSubview(aboutMenuItem)
         
         
         // set default size for menu items
-        if (bannerHeight < (view.frame.size.height/7)) {
-            bannerHeight = view.frame.size.height/7 + 8
+        if (bannerHeight < (view.frame.size.height/CGFloat(numItems+1))) {
+            bannerHeight = view.frame.size.height/CGFloat(numItems+1) + 8
         }
         
-        let h = (view.frame.size.height - bannerHeight) / 6 - 8
+        let h = (view.frame.size.height - bannerHeight) / CGFloat(numItems) - 8
         let w = displayWidth - 4
         
+        
+        
+        // set up Ads
         if (showAds){
             adView.isHidden = false
             adView.frame.size.height = bannerHeight
@@ -112,10 +113,8 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
         
         let tap1 = UITapGestureRecognizer(target: self, action: #selector(presentLiveFilter))
         let tap2 = UITapGestureRecognizer(target: self, action: #selector(presentImageEditor))
-        let tap3 = UITapGestureRecognizer(target: self, action: #selector(presentFilterGallery))
-        let tap4 = UITapGestureRecognizer(target: self, action: #selector(presentBlendGallery))
-        let tap5 = UITapGestureRecognizer(target: self, action: #selector(presentSampleGallery))
-        let tap6 = UITapGestureRecognizer(target: self, action: #selector(presentAbout))
+        let tap3 = UITapGestureRecognizer(target: self, action: #selector(presentManageFilters))
+        let tap4 = UITapGestureRecognizer(target: self, action: #selector(presentAbout))
 
         // setup text, colours etc.
         setupMenuItem(label:liveFilterMenuItem, height:h, width:w,
@@ -124,23 +123,17 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
         setupMenuItem(label:editPictureMenuItem, height:h, width:w,
                       title:"Edit Picture", color:UIColor.flatMint, handler: tap2)
         
-        setupMenuItem(label:viewFiltersMenuItem, height:h, width:w,
-                      title:"Manage Filters", color:UIColor.flatMintDark, handler: tap3)
-        
-        setupMenuItem(label:changeBlendMenuItem, height:h, width:w,
-                      title:"Manage Blend Image", color:UIColor.flatTeal, handler: tap4)
-        
-        setupMenuItem(label:changeSampleMenuItem, height:h, width:w,
-                      title:"Manage Sample Image", color:UIColor.flatBlue, handler: tap5)
+        setupMenuItem(label:manageFiltersMenuItem, height:h, width:w,
+                      title:"Manage Categories/Filters", color:UIColor.flatMintDark, handler: tap3)
+    
         
         setupMenuItem(label:aboutMenuItem, height:h, width:w,
-                      title:"About", color:UIColor.flatPurple, handler: tap6)
+                      title:"About", color:UIColor.flatPurple, handler: tap4)
         
 
         // set layout constraints
         view.groupAgainstEdge(.vertical,
-                              views: [liveFilterMenuItem, editPictureMenuItem, viewFiltersMenuItem, changeBlendMenuItem,
-                                      changeSampleMenuItem, aboutMenuItem],
+                              views: [liveFilterMenuItem, editPictureMenuItem, manageFiltersMenuItem, aboutMenuItem],
                               againstEdge: .bottom, padding: 8, width: w-8, height: h)
         
         // start Ads
@@ -179,7 +172,7 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
         label.frame.size.width = width
         
         // change font to bold (and slightly bigger size)
-        let size = label.font.pointSize + 2.0
+        let size = label.font.pointSize + 3.0
         label.font = UIFont.boldSystemFont(ofSize: size)
  
         // set text
@@ -210,40 +203,24 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
         //self.performSegueWithIdentifier(.categoryManager, sender: self)
     }
 
-    func presentFilterGallery(){
+    
+    func presentImageEditor(){
+         let vc = SimpleEditViewController()
+         //vc.delegate = self
+         present(vc, animated: true, completion: nil)
+        //notImplemented()
+    }
+    
+    
+    func presentManageFilters(){
         //launch Category Manager VC
-        let vc = FilterGalleryViewController()
-        vc.delegate = self
+        let vc = ManageFiltersMenuController()
+        //vc.delegate = self
         present(vc, animated: true, completion: nil)
         //self.performSegueWithIdentifier(.categoryManager, sender: self)
     }
     
-    func presentImageEditor(){
-        /***
-         let vc = ImageEditorViewController()
-         vc = self
-         present(vc, animated: true, completion: nil)
-         ***/
-        notImplemented()
-    }
-    
-    
-    
-    
-    func presentBlendGallery(){
-        let vc = BlendGalleryViewController()
-        vc.delegate = self
-        present(vc, animated: true, completion: nil)
-    }
-    
-    
-    func presentSampleGallery(){
-        let vc = SampleGalleryViewController()
-        vc.delegate = self
-        present(vc, animated: true, completion: nil)
-        
-    }
-    
+   
     
     func presentAbout(){
         /***
