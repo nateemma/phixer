@@ -216,7 +216,17 @@ class ImageManager {
         }
         return image
     }
+ 
     
+    // returns the default name
+    open static func getDefaultBlendImageName()->String?{
+        checkBlendImage()
+        
+        if (_currBlendName.isEmpty){
+            _currBlendName = _blendNameList[0]
+        }
+        return _currBlendName
+    }
     
     //////////////////////////////////
     // MARK: - Sample Image Management
@@ -359,6 +369,18 @@ class ImageManager {
     
     
     
+    
+    // returns the default name
+    open static func getDefaultSampleImageName()->String?{
+        checkBlendImage()
+        
+        if (_currSampleName.isEmpty){
+            _currSampleName = _sampleNameList[0]
+        }
+        return _currSampleName
+    }
+    
+  
     /////////////////////////////////////////////
     // MARK: - Management of Image being edited
     /////////////////////////////////////////////
@@ -489,6 +511,10 @@ class ImageManager {
         guard (!_currEditName.isEmpty) else {
             _currEditSize = _currSampleSize // just to set it to something reasonable
             log.debug("Edit image not set")
+            getLatestPhotoName(completion: { (name: String?) in
+                _currEditName = name!
+            })
+
             return
         }
         
@@ -507,7 +533,23 @@ class ImageManager {
             setEditInput(image: _currEditImageScaled!)
         }
     }
-  
+    
+    
+    // returns the default name
+    open static func getDefaultEditImageName()->String?{
+        checkBlendImage()
+        
+        if (_currEditName.isEmpty){
+            
+            _currEditName = ""
+            getLatestPhotoName(completion: { (name: String?) in
+                    _currEditName = name!
+                })
+        }
+        return _currEditName
+    }
+    
+    
     
     //////////////////////////////////
     // MARK: - Persistent Storage Utilities
@@ -530,7 +572,27 @@ class ImageManager {
     // MARK: - Image Utilities
     //////////////////////////////////
     
-    
+    // returns the name (URL) of the latest photo in the Camera Roll. Useful as a default setting
+    // NOTE: returns asynchronously via the 'completion(name)' callback
+
+    open static func getLatestPhotoName(completion: (_ name: String?) -> Void){
+        
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+        //fetchOptions.fetchLimit = 1
+        
+        
+        let fetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
+        
+        let last = fetchResult.lastObject
+        
+        if let lastAsset = last {
+            completion(lastAsset.localIdentifier)
+        } else {
+            completion(nil)
+        }
+
+    }
     
     private static func getImageFromAssets(assetUrl: String)->UIImage? {
         var image:UIImage? = nil

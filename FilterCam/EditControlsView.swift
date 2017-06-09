@@ -102,9 +102,8 @@ class EditControlsView: UIView, iCarouselDelegate, iCarouselDataSource{
         }
         view.imageView.image = image
         
-        // TEMP: fix colours to white, not black
-        
-        view.imageView.backgroundColor = UIColor.flatGray // REPLACE
+        view.imageView.backgroundColor = UIColor.black
+        view.layer.borderColor = UIColor.flatBlack.cgColor
         
         return view
     }
@@ -163,14 +162,8 @@ class EditControlsView: UIView, iCarouselDelegate, iCarouselDataSource{
 
         
         // populate the views. Only do this after views have been set up
-        if (!self.initDone){
-            self.initDone = true
-            
-            // create the views for each control
-            for i in 0...(controlNameList.count-1){
-                controlViewList.append(createContainerView(icon: controlAssetList[i], label: controlNameList[i]))
-            }
-        }
+        setupViews()
+
         
 
     }
@@ -185,7 +178,17 @@ class EditControlsView: UIView, iCarouselDelegate, iCarouselDataSource{
         // don't do anything until control list has been assigned
     }
     
-    
+    fileprivate func setupViews(){
+        if (!self.initDone){
+            self.initDone = true
+            
+            // create the views for each control
+            for i in 0...(controlNameList.count-1){
+                controlViewList.append(createContainerView(icon: controlAssetList[i], label: controlNameList[i]))
+            }
+        }
+    }
+
     ///////////////////////////////////
     //MARK: - iCarousel reequired functions
     ///////////////////////////////////
@@ -202,6 +205,8 @@ class EditControlsView: UIView, iCarouselDelegate, iCarouselDataSource{
     // returns view for item at specific index
     func carousel(_ carousel: iCarousel, viewForItemAt index: Int, reusing view: UIView?) -> UIView {
         
+        
+        setupViews() // just in case
         
         if (isValidIndex(index)){
             return controlViewList[index]
@@ -221,8 +226,8 @@ class EditControlsView: UIView, iCarouselDelegate, iCarouselDataSource{
             //return value * 1.1
             return value
         } else if (option == iCarouselOption.wrap){
-            //return 1.0
-            return 0.0
+            return 1.0
+            //return 0.0
         }
         
         // default
@@ -291,9 +296,9 @@ class EditControlsView: UIView, iCarouselDelegate, iCarouselDataSource{
         
         
         // call delegate function to act on selection
-        if (index != currIndex) {
+        //if (index != currIndex) {
             handlePress(index: index)
-        }
+        //}
         
         
         // update current index

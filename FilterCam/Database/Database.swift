@@ -174,7 +174,13 @@ class Database {
                 }
                 settingsEntity = settings[0]
             } else {
-                return nil
+                // build default settings
+                settingsEntity = SettingsEntity()
+                settingsEntity?.blendImage = ImageManager.getDefaultBlendImageName()
+                settingsEntity?.editImage = ImageManager.getDefaultEditImageName()
+                settingsEntity?.sampleImage = ImageManager.getDefaultSampleImageName()
+                settingsEntity?.configVersion = "1.0"
+                //return nil
             }
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
@@ -186,7 +192,7 @@ class Database {
         settingsRecord.editImage = settingsEntity?.editImage
         settingsRecord.sampleImage = settingsEntity?.sampleImage
         settingsRecord.configVersion = settingsEntity?.configVersion
-        print("getSettings() - Sample:\(settingsRecord.sampleImage!) Blend:\(settingsRecord.blendImage!)")
+        print("getSettings() - Sample:\(settingsRecord.sampleImage!) Blend:\(settingsRecord.blendImage!) Edit:\(settingsRecord.editImage!)")
         
         return settingsRecord
     }

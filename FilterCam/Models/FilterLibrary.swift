@@ -303,7 +303,7 @@ class FilterLibrary{
         // restore the settings
         
         if let settings = Database.getSettings() {
-            print("loadFromDatabase() - Restoring Settings: Sample:\(settings.sampleImage!) Blend:\(settings.blendImage!)")
+            print("loadFromDatabase() - Restoring Settings: Sample:\(settings.sampleImage!) Blend:\(settings.blendImage!) Edit:\(settings.editImage!)")
             ImageManager.setCurrentBlendImageName(settings.blendImage!)
             ImageManager.setCurrentSampleImageName(settings.sampleImage!)
             ImageManager.setCurrentEditImageName(settings.editImage!)

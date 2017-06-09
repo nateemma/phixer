@@ -53,6 +53,9 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     
     var filterManager: FilterManager? = FilterManager.sharedInstance
     
+    var currCategory:String? = nil
+    var currFilterKey:String? = nil
+    
     var currFilterDescriptor:FilterDescriptorInterface? = nil
     var currIndex:Int = 0
     
@@ -80,18 +83,23 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     
     func doInit(){
         
-        if (!SimpleEditViewController.initDone){
+        if (currFilterDescriptor == nil){
+            currFilterDescriptor = filterManager?.getFilterDescriptor(key: "NoFilter")
+        }
+        
+        //if (!SimpleEditViewController.initDone){
             log.verbose("init")
             //filterManager = FilterManager.sharedInstance
             //TODO: set to "No Filter"
-            filterManager?.setCurrentCategory(FilterManager.defaultCategory)
-            categorySelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)
-            currFilterDescriptor = filterManager?.getCurrentFilterDescriptor()
+            filterManager?.setCurrentCategory("none")
+            categorySelectionView.setFilterCategory("none")
+            currFilterDescriptor = filterManager?.getFilterDescriptor(key: "NoFilter")
             filterSelectionView.setInputSource(.photo)
+            editImageView.setFilter(key: "NoFilter")
             SimpleEditViewController.initDone = true
             populateFilterList()
             updateCurrentFilter()
-        }
+        //}
     }
     
     open func suspend(){
@@ -194,12 +202,9 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         hideFilterSelector()
         hideFilterControls()
         
-        
-        //TODO: start timer and update setting display peridodically
-        
-        // register for change notifications (don't do this before the views are set up)
-        //filterManager?.setCategoryChangeNotification(callback: categoryChanged())
-        //filterManager?.setFilterChangeNotification(callback: filterChanged())
+        //update filtered image
+        editImageView.updateImage()
+       
         
     }
     
@@ -531,6 +536,8 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     //////////////////////////////////////
     
     func changeCategoryTo(_ category: String){
+        currCategory = category
+        
         if (category != filterManager?.getCurrentCategory()){
             log.debug("Category Selected: \(category)")
             filterManager?.setCurrentCategory(category)
@@ -541,6 +548,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     }
     
     func changeFilterTo(_ key:String){
+        currFilterKey = key
         // setup the filter descriptor
         if (key != filterManager?.getCurrentFilterKey()){
             log.debug("Filter Selected: \(key)")
@@ -561,10 +569,11 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     
     // retrive current settings from FilterManager and store locally
     func updateCurrentFilter(){
-        if let descriptor = filterManager?.getCurrentFilterDescriptor(){
+        /***
+        //if let descriptor = filterManager?.getCurrentFilterDescriptor(){
             //log.verbose("Current filter: \(descriptor.key)")
             //if ((currFilterDescriptor == nil) || (descriptor.key != currFilterDescriptor?.key)){
-            log.debug("Filter change: \(descriptor.key)->\(String(describing: currFilterDescriptor?.key))")
+            //log.debug("Filter change: \(descriptor.key)->\(String(describing: currFilterDescriptor?.key))")
             //currFilterDescriptor = descriptor
             editImageView.setFilter(key:(self.currFilterDescriptor?.key)!)
             categorySelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)
@@ -573,9 +582,10 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
             //} else {
             //    log.debug("Ignoring \(currFilterDescriptor?.key)->\(descriptor.key) transition")
             //}
-        } else {
-            editImageView.setFilter(key:"")
-        }
+        //} else {
+        //    editImageView.setFilter(key:"")
+        //}
+ ***/
         
         if (currFilterDescriptor != nil){
             if ((currFilterDescriptor?.numParameters)! == 0){
@@ -583,6 +593,11 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
             } else {
                 filterControlsView.setParametersControlState(.hidden)
             }
+        }
+        if (currFilterKey != nil) { editImageView.setFilter(key:currFilterKey!) }
+        if (currCategory != nil) {
+            categorySelectionView.setFilterCategory(currCategory!)
+            filterSelectionView.setFilterCategory(currCategory!)
         }
     }
     
@@ -668,6 +683,8 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
             filterSelectionView.isHidden = false
             filterSelectorShown = true
             filterControlsView.setFilterControlState(.shown)
+            filterSelectionView.setFilterCategory(currCategory!)
+            filterSelectionView.update()
             view.bringSubview(toFront: filterSelectionView)
         } else {
             log.warning("WARN: current filter not set")
