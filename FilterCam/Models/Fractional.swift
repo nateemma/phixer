@@ -5,6 +5,7 @@
 // Based on:  https://github.com/JadenGeller/Fractional
 //
 //
+
 /*The MIT License (MIT)
 
 Copyright (c) 2015 Jaden Geller
@@ -27,6 +28,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+
+
+
 
 
 public typealias Fraction = Fractional<Int64>
@@ -58,7 +62,7 @@ public struct Fractional<Number: Integer> {
     fileprivate init(numerator: Number, denominator: Number) {
         var (numerator, denominator) = reduce(numerator, denominator: denominator)
         if denominator < 0 { numerator *= -1; denominator *= -1 }
-								
+        
         self.numerator = numerator
         self.denominator = denominator
     }
@@ -171,7 +175,7 @@ public func +<Number: Integer>(lhs: Fractional<Number>, rhs: Fractional<Number>)
         switch (lhs >= 0, rhs >= 0) {
         case (false, false): return -.infinity
         case (true, true):   return .infinity
-        default:			 return .NaN
+        default:             return .NaN
         }
     }
     return lhs.advanced(by: rhs)

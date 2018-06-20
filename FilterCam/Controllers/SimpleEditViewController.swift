@@ -20,7 +20,7 @@ import GoogleMobileAds
 private var filterList: [String] = []
 private var filterCount: Int = 0
 
-// This View Controller displays  filters  applied to the direct camera feed
+// This View Controller handles simple editing of a photo
 
 class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     

@@ -734,6 +734,8 @@
 		2542DF5D1ED373F800CEB968 /* EditImageDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2542DF5C1ED373F800CEB968 /* EditImageDisplayView.swift */; };
 		2542DF5F1ED377A700CEB968 /* EditControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2542DF5E1ED377A700CEB968 /* EditControlsView.swift */; };
 		2542DF651ED6634800CEB968 /* SettingsEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2542DF641ED6634800CEB968 /* SettingsEntity+CoreDataProperties.swift */; };
+		25532CBA20D9940000D284C3 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25532CB520D98B8100D284C3 /* GPUImage.framework */; };
+		25532CBB20D9941D00D284C3 /* GPUImage.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 25532CB520D98B8100D284C3 /* GPUImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2556731F1DB961F700187F25 /* DisplayMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2556731E1DB961F700187F25 /* DisplayMode.swift */; };
 		255673211DB9653700187F25 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255673201DB9653700187F25 /* CameraViewController.swift */; };
 		255673231DB9BF0F00187F25 /* FilterControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255673221DB9BF0F00187F25 /* FilterControlsView.swift */; };
@@ -817,8 +819,6 @@
 		25CF4BD91D9490C400D779CF /* ImageContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BD31D9490C400D779CF /* ImageContainerView.swift */; };
 		25CF4BDA1D9490C400D779CF /* SquareButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BD41D9490C400D779CF /* SquareButton.swift */; };
 		25CF4BDC1D94D93700D779CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BDB1D94D93700D779CF /* AppDelegate.swift */; };
-		25CF4BE81D94EA8100D779CF /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25CF4BE31D94EA5000D779CF /* GPUImage.framework */; };
-		25CF4BE91D94EA8D00D779CF /* GPUImage.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 25CF4BE31D94EA5000D779CF /* GPUImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		25D24AB71DC7DCDB001F65B9 /* FilterGalleryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D24AB61DC7DCDB001F65B9 /* FilterGalleryViewCell.swift */; };
 		25F460181D99CCCE00EDA182 /* UISettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F460171D99CCCE00EDA182 /* UISettings.swift */; };
 		25F4601A1D99CE1E00EDA182 /* GridStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F460191D99CE1E00EDA182 /* GridStyle.swift */; };
@@ -835,6 +835,41 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		25532CB020D98B8100D284C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 25CF4BDD1D94EA5000D779CF /* GPUImage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BC6E7CAB1C39A9D8006DF678;
+			remoteInfo = GPUImage_macOS;
+		};
+		25532CB220D98B8100D284C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 25CF4BDD1D94EA5000D779CF /* GPUImage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BC6E7CB51C39A9D8006DF678;
+			remoteInfo = GPUImageTests_macOS;
+		};
+		25532CB420D98B8100D284C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 25CF4BDD1D94EA5000D779CF /* GPUImage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BC9E34E91E524A2200B8604F;
+			remoteInfo = GPUImage_iOS;
+		};
+		25532CB620D98B8100D284C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 25CF4BDD1D94EA5000D779CF /* GPUImage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BC9E34F11E524A2200B8604F;
+			remoteInfo = GPUImageTests_iOS;
+		};
+		25532CB820D9939900D284C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 25CF4BDD1D94EA5000D779CF /* GPUImage.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = BC9E34E81E524A2200B8604F;
+			remoteInfo = GPUImage_iOS;
+		};
 		257F49F11D9448920083B1E4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 257F49D41D9448920083B1E4 /* Project object */;
@@ -849,27 +884,6 @@
 			remoteGlobalIDString = 257F49DB1D9448920083B1E4;
 			remoteInfo = FilterCam;
 		};
-		25CF4BE21D94EA5000D779CF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 25CF4BDD1D94EA5000D779CF /* GPUImage-iOS.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = BCD1B1251C66A262001F2BDC;
-			remoteInfo = GPUImage;
-		};
-		25CF4BE41D94EA5000D779CF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 25CF4BDD1D94EA5000D779CF /* GPUImage-iOS.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = BCD1B12F1C66A262001F2BDC;
-			remoteInfo = GPUImageTests;
-		};
-		25CF4BE61D94EA6800D779CF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 25CF4BDD1D94EA5000D779CF /* GPUImage-iOS.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = BCD1B1241C66A262001F2BDC;
-			remoteInfo = GPUImage;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -879,7 +893,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				25CF4BE91D94EA8D00D779CF /* GPUImage.framework in CopyFiles */,
+				25532CBB20D9941D00D284C3 /* GPUImage.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1706,7 +1720,7 @@
 		25CF4BD31D9490C400D779CF /* ImageContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageContainerView.swift; path = Views/ImageContainerView.swift; sourceTree = "<group>"; };
 		25CF4BD41D9490C400D779CF /* SquareButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SquareButton.swift; path = Views/SquareButton.swift; sourceTree = "<group>"; };
 		25CF4BDB1D94D93700D779CF /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		25CF4BDD1D94EA5000D779CF /* GPUImage-iOS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "GPUImage-iOS.xcodeproj"; path = "../GPUImage2/framework/GPUImage-iOS.xcodeproj"; sourceTree = "<group>"; };
+		25CF4BDD1D94EA5000D779CF /* GPUImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GPUImage.xcodeproj; path = ../GPUImage2/framework/GPUImage.xcodeproj; sourceTree = "<group>"; };
 		25D24AB61DC7DCDB001F65B9 /* FilterGalleryViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterGalleryViewCell.swift; path = Views/FilterGalleryViewCell.swift; sourceTree = "<group>"; };
 		25F460171D99CCCE00EDA182 /* UISettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UISettings.swift; path = Models/UISettings.swift; sourceTree = "<group>"; };
 		25F460191D99CE1E00EDA182 /* GridStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GridStyle.swift; path = Models/GridStyle.swift; sourceTree = "<group>"; };
@@ -1731,8 +1745,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25532CBA20D9940000D284C3 /* GPUImage.framework in Frameworks */,
 				252C17911ECE649500039BFC /* CoreData.framework in Frameworks */,
-				25CF4BE81D94EA8100D779CF /* GPUImage.framework in Frameworks */,
 				320B5A4E036DE6878CAF1ACE /* Pods_FilterCam.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1887,6 +1901,17 @@
 			name = Operations;
 			sourceTree = "<group>";
 		};
+		25532CAA20D98B8000D284C3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				25532CB120D98B8100D284C3 /* GPUImage.framework */,
+				25532CB320D98B8100D284C3 /* GPUImageTests_macOS.xctest */,
+				25532CB520D98B8100D284C3 /* GPUImage.framework */,
+				25532CB720D98B8100D284C3 /* GPUImageTests_iOS.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		256D0FEC1D98DAC600220D7E /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -1963,7 +1988,7 @@
 		257F49D31D9448920083B1E4 = {
 			isa = PBXGroup;
 			children = (
-				25CF4BDD1D94EA5000D779CF /* GPUImage-iOS.xcodeproj */,
+				25CF4BDD1D94EA5000D779CF /* GPUImage.xcodeproj */,
 				257F4A131D947CF80083B1E4 /* Podfile */,
 				257F49DE1D9448920083B1E4 /* FilterCam */,
 				257F49F31D9448920083B1E4 /* FilterCamTests */,
@@ -2045,15 +2070,6 @@
 				2542DF521ECFB2ED00CEB968 /* FilterRecord.swift */,
 			);
 			path = Database;
-			sourceTree = "<group>";
-		};
-		25CF4BDE1D94EA5000D779CF /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				25CF4BE31D94EA5000D779CF /* GPUImage.framework */,
-				25CF4BE51D94EA5000D779CF /* GPUImageTests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		25F563FD1DD146D100DFB125 /* Images */ = {
@@ -2759,13 +2775,12 @@
 				257F49D91D9448920083B1E4 /* Frameworks */,
 				257F49DA1D9448920083B1E4 /* Resources */,
 				B6E490EBC83C5D96A25031D7 /* [CP] Embed Pods Frameworks */,
-				1B28E6FD9CC98D8DA51BBCF5 /* [CP] Copy Pods Resources */,
 				25CF4BC11D947FCC00D779CF /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				25CF4BE71D94EA6800D779CF /* PBXTargetDependency */,
+				25532CB920D9939900D284C3 /* PBXTargetDependency */,
 			);
 			name = FilterCam;
 			productName = FilterCam;
@@ -2780,8 +2795,6 @@
 				257F49EC1D9448920083B1E4 /* Sources */,
 				257F49ED1D9448920083B1E4 /* Frameworks */,
 				257F49EE1D9448920083B1E4 /* Resources */,
-				0D417EFBBE83BC657FE54F03 /* [CP] Embed Pods Frameworks */,
-				0E3BD0376FE1812C0E967356 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2801,8 +2814,6 @@
 				257F49F71D9448920083B1E4 /* Sources */,
 				257F49F81D9448920083B1E4 /* Frameworks */,
 				257F49F91D9448920083B1E4 /* Resources */,
-				D323E9A77C4589A1B810939F /* [CP] Copy Pods Resources */,
-				208D08F4D37C9D9FDE2F4BBD /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2821,7 +2832,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = Nateemma;
 				TargetAttributes = {
 					257F49DB1D9448920083B1E4 = {
@@ -2857,8 +2868,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 25CF4BDE1D94EA5000D779CF /* Products */;
-					ProjectRef = 25CF4BDD1D94EA5000D779CF /* GPUImage-iOS.xcodeproj */;
+					ProductGroup = 25532CAA20D98B8000D284C3 /* Products */;
+					ProjectRef = 25CF4BDD1D94EA5000D779CF /* GPUImage.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -2871,18 +2882,32 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		25CF4BE31D94EA5000D779CF /* GPUImage.framework */ = {
+		25532CB120D98B8100D284C3 /* GPUImage.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = GPUImage.framework;
-			remoteRef = 25CF4BE21D94EA5000D779CF /* PBXContainerItemProxy */;
+			remoteRef = 25532CB020D98B8100D284C3 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		25CF4BE51D94EA5000D779CF /* GPUImageTests.xctest */ = {
+		25532CB320D98B8100D284C3 /* GPUImageTests_macOS.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = GPUImageTests.xctest;
-			remoteRef = 25CF4BE41D94EA5000D779CF /* PBXContainerItemProxy */;
+			path = GPUImageTests_macOS.xctest;
+			remoteRef = 25532CB220D98B8100D284C3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		25532CB520D98B8100D284C3 /* GPUImage.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = GPUImage.framework;
+			remoteRef = 25532CB420D98B8100D284C3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		25532CB720D98B8100D284C3 /* GPUImageTests_iOS.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = GPUImageTests_iOS.xctest;
+			remoteRef = 25532CB620D98B8100D284C3 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -3553,79 +3578,22 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0D417EFBBE83BC657FE54F03 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FilterCamTests/Pods-FilterCamTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		0E3BD0376FE1812C0E967356 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FilterCamTests/Pods-FilterCamTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		1B28E6FD9CC98D8DA51BBCF5 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FilterCam/Pods-FilterCam-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		208D08F4D37C9D9FDE2F4BBD /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FilterCamUITests/Pods-FilterCamUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		5F9B8BDF4E5DB926F5F8DC2D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FilterCam-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9CBD2D05481C456EC759FA11 /* [CP] Check Pods Manifest.lock */ = {
@@ -3634,13 +3602,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FilterCamTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B6E490EBC83C5D96A25031D7 /* [CP] Embed Pods Frameworks */ = {
@@ -3649,28 +3620,30 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-FilterCam/Pods-FilterCam-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/ChameleonFramework/ChameleonFramework.framework",
+				"${BUILT_PRODUCTS_DIR}/Cosmos/Cosmos.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
+				"${BUILT_PRODUCTS_DIR}/Neon/Neon.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyBeaver/SwiftyBeaver.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChameleonFramework.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cosmos.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Neon.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyBeaver.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FilterCam/Pods-FilterCam-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D323E9A77C4589A1B810939F /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FilterCamUITests/Pods-FilterCamUITests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		EDA72A91556A564F76844363 /* [CP] Check Pods Manifest.lock */ = {
@@ -3679,13 +3652,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FilterCamUITests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -3893,6 +3869,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		25532CB920D9939900D284C3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GPUImage_iOS;
+			targetProxy = 25532CB820D9939900D284C3 /* PBXContainerItemProxy */;
+		};
 		257F49F21D9448920083B1E4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 257F49DB1D9448920083B1E4 /* FilterCam */;
@@ -3902,11 +3883,6 @@
 			isa = PBXTargetDependency;
 			target = 257F49DB1D9448920083B1E4 /* FilterCam */;
 			targetProxy = 257F49FC1D9448920083B1E4 /* PBXContainerItemProxy */;
-		};
-		25CF4BE71D94EA6800D779CF /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = GPUImage;
-			targetProxy = 25CF4BE61D94EA6800D779CF /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -3939,15 +3915,23 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
@@ -3991,15 +3975,23 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;

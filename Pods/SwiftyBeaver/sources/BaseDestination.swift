@@ -72,6 +72,7 @@ open class BaseDestination: Hashable, Equatable {
 
     var filters = [FilterType]()
     let formatter = DateFormatter()
+    let startDate = Date()
 
     // each destination class must have an own hashValue Int
     lazy public var hashValue: Int = self.defaultHashValue
@@ -92,15 +93,15 @@ open class BaseDestination: Hashable, Equatable {
     /// returns the formatted log message for processing by inheriting method
     /// and for unit tests (nil if error)
     open func send(_ level: SwiftyBeaver.Level, msg: String, thread: String, file: String,
-        function: String, line: Int) -> String? {
+                   function: String, line: Int, context: Any? = nil) -> String? {
 
         if format.hasPrefix("$J") {
             return messageToJSON(level, msg: msg, thread: thread,
-                                 file: file, function: function, line: line)
+                                 file: file, function: function, line: line, context: context)
 
         } else {
             return formatMessage(format, level: level, msg: msg, thread: thread,
-                                 file: file, function: function, line: line)
+                                 file: file, function: function, line: line, context: context)
         }
     }
 
@@ -110,13 +111,12 @@ open class BaseDestination: Hashable, Equatable {
 
     /// returns the log message based on the format pattern
     func formatMessage(_ format: String, level: SwiftyBeaver.Level, msg: String, thread: String,
-        file: String, function: String, line: Int) -> String {
+        file: String, function: String, line: Int, context: Any? = nil) -> String {
 
         var text = ""
         let phrases: [String] = format.components(separatedBy: "$")
 
-        for phrase in phrases {
-            if !phrase.isEmpty {
+        for phrase in phrases where !phrase.isEmpty {
                 let firstChar = phrase[phrase.startIndex]
                 let rangeAfterFirstChar = phrase.index(phrase.startIndex, offsetBy: 1)..<phrase.endIndex
                 let remainingPhrase = phrase[rangeAfterFirstChar]
@@ -140,12 +140,22 @@ open class BaseDestination: Hashable, Equatable {
                     text += String(line) + remainingPhrase
                 case "D":
                     // start of datetime format
+                    #if swift(>=3.2)
+                    text += formatDate(String(remainingPhrase))
+                    #else
                     text += formatDate(remainingPhrase)
+                    #endif
                 case "d":
                     text += remainingPhrase
+                case "U":
+                    text += uptime() + remainingPhrase
                 case "Z":
                     // start of datetime format in UTC timezone
+                    #if swift(>=3.2)
+                    text += formatDate(String(remainingPhrase), timeZone: "UTC")
+                    #else
                     text += formatDate(remainingPhrase, timeZone: "UTC")
+                    #endif
                 case "z":
                     text += remainingPhrase
                 case "C":
@@ -153,25 +163,37 @@ open class BaseDestination: Hashable, Equatable {
                     text += escape + colorForLevel(level) + remainingPhrase
                 case "c":
                     text += reset + remainingPhrase
+                case "X":
+                    // add the context
+                    if let cx = context {
+                        text += String(describing: cx).trimmingCharacters(in: .whitespacesAndNewlines) + remainingPhrase
+                    }
+                    /*
+                    if let contextString = context as? String {
+                        text += contextString + remainingPhrase
+                    }*/
                 default:
                     text += phrase
                 }
-            }
         }
-        return text
+        return text.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     /// returns the log payload as optional JSON string
     func messageToJSON(_ level: SwiftyBeaver.Level, msg: String,
-        thread: String, file: String, function: String, line: Int) -> String? {
-        let dict: [String: Any] = [
+        thread: String, file: String, function: String, line: Int, context: Any? = nil) -> String? {
+        var dict: [String: Any] = [
             "timestamp": Date().timeIntervalSince1970,
             "level": level.rawValue,
             "message": msg,
             "thread": thread,
             "file": file,
             "function": function,
-            "line": line]
+            "line": line
+            ]
+        if let cx = context {
+            dict["context"] = cx
+        }
         return jsonStringFromDict(dict)
     }
 
@@ -256,6 +278,18 @@ open class BaseDestination: Hashable, Equatable {
         let dateStr = formatter.string(from: Date())
         return dateStr
     }
+    
+    /// returns a uptime string
+    func uptime() -> String {
+        let interval = Date().timeIntervalSince(startDate)
+        
+        let hours = Int(interval) / 3600
+        let minutes = Int(interval / 60) - Int(hours * 60)
+        let seconds = Int(interval) - (Int(interval / 60) * 60)
+        let milliseconds = Int(interval.truncatingRemainder(dividingBy: 1) * 1000)
+        
+        return String(format: "%0.2d:%0.2d:%0.2d.%03d", arguments: [hours, minutes, seconds, milliseconds])
+    }
 
     /// returns the json-encoded string value
     /// after it was encoded by jsonStringFromDict
@@ -265,11 +299,15 @@ open class BaseDestination: Hashable, Equatable {
         }
 
         // remove the leading {"key":" from the json string and the final }
-        let offset = key.characters.count + 5
+        let offset = key.length + 5
         let endIndex = str.index(str.startIndex,
-                                 offsetBy: str.characters.count - 2)
+                                 offsetBy: str.length - 2)
         let range = str.index(str.startIndex, offsetBy: offset)..<endIndex
+        #if swift(>=3.2)
+        return String(str[range])
+        #else
         return str[range]
+        #endif
     }
 
     /// turns dict into JSON-encoded string
@@ -348,21 +386,18 @@ open class BaseDestination: Hashable, Equatable {
                                                                    function: function, message: message)
         let (matchedNonRequired, allNonRequired) = passedNonRequiredFilters(level, path: path,
                                                                     function: function, message: message)
+
+        // If required filters exist, we should validate or invalidate the log if all of them pass or not
         if allRequired > 0 {
-            if matchedRequired == allRequired {
-                return true
-            }
-        } else {
-            // no required filters are existing so at least 1 optional needs to match
-            if allNonRequired > 0 {
-                if matchedNonRequired > 0 {
-                    return true
-                }
-            } else if allExclude == 0 {
-                // no optional is existing, so all is good
-                return true
-            }
+            return matchedRequired == allRequired
         }
+
+        // If a non-required filter matches, the log is validated
+		if allNonRequired > 0 {  // Non-required filters exist
+
+			if matchedNonRequired > 0 { return true }  // At least one non-required filter matched
+			else { return false }  // No non-required filters matched
+		}
 
         if level.rawValue < minLevel.rawValue {
             if debugPrint {
