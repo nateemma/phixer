@@ -239,16 +239,16 @@ class FilterControlsView: UIView {
     //MARK: - touch handlers
     ///////////////////////////////////
     
-    func categoryDidPress() {
+    @objc func categoryDidPress() {
         
         delegate?.categoryPressed()
     }
     
-    func filterDidPress() {
+    @objc func filterDidPress() {
         delegate?.filterPressed()
     }
     
-    func filterParametersDidPress() {
+    @objc func filterParametersDidPress() {
         delegate?.filterParametersPressed()
     }
     

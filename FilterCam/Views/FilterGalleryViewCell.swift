@@ -436,7 +436,7 @@ class FilterGalleryViewCell: UICollectionViewCell {
     
     
     // handles touch of the favourite icon
-    func showHandler(){
+    @objc func showHandler(){
         //log.verbose("hide/show touched")
         guard (self.descriptor != nil) else {
             log.error("NIL descriptor")
@@ -449,7 +449,7 @@ class FilterGalleryViewCell: UICollectionViewCell {
     }
     
     // handles touch of the show/hide icon
-    func favHandler(){
+    @objc func favHandler(){
         //log.verbose("favourite touched")
         guard (self.descriptor != nil) else {
             log.error("NIL descriptor")
@@ -462,7 +462,7 @@ class FilterGalleryViewCell: UICollectionViewCell {
     }
     
     // handles touch of the rating icon
-    func ratingHandler(){
+    @objc func ratingHandler(){
         //log.verbose("rating touched")
         guard (self.descriptor != nil) else {
             log.error("NIL descriptor")

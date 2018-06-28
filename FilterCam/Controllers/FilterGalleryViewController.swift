@@ -355,7 +355,7 @@ class FilterGalleryViewController: UIViewController {
     // MARK: - Touch Handler(s)
     /////////////////////////////
     
-    func backDidPress(){
+    @objc func backDidPress(){
         log.verbose("Back pressed")
         //_ = self.navigationController?.popViewController(animated: true)
         guard navigationController?.popViewController(animated: true) != nil else { //modal

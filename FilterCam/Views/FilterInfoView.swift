@@ -152,14 +152,14 @@ class FilterInfoView: UIView {
     //MARK: - touch handlers
     ///////////////////////////////////
     
-    func categoryDidPress() {
+    @objc func categoryDidPress() {
         delegate?.categoryPressed()
     }
     
-    func filterDidPress() {
+    @objc func filterDidPress() {
         delegate?.filterPressed()
     }
-    func swapDidPress() {
+    @objc func swapDidPress() {
         delegate?.swapCameraPressed()
     }
     

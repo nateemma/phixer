@@ -170,7 +170,7 @@ class ResetViewController: UIViewController, UINavigationControllerDelegate {
     //////////////////////////////////////
     //MARK: - Navigation
     //////////////////////////////////////
-    func backDidPress(){
+    @objc func backDidPress(){
         log.verbose("Back pressed")
         exitScreen()
     }

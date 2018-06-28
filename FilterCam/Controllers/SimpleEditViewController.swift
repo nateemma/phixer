@@ -434,7 +434,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     }
     
     
-    func swiped(_ gesture: UIGestureRecognizer)
+    @objc func swiped(_ gesture: UIGestureRecognizer)
     {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer
         {
@@ -472,7 +472,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     //////////////////////////////////////
     //MARK: - Navigation
     //////////////////////////////////////
-    func backDidPress(){
+    @objc func backDidPress(){
         log.verbose("Back pressed")
         exitScreen()
     }

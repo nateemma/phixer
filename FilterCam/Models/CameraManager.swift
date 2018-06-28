@@ -52,18 +52,18 @@ class CameraManager {
     fileprivate static func getDevice() -> AVCaptureDevice? {
         
         // look for the camera device in the selected position (front/back)
-        let devices = AVCaptureDevice.devices(withMediaType:AVMediaTypeVideo)
-        for case let device as AVCaptureDevice in devices! {
+        let devices = AVCaptureDevice.devices(for:AVMediaType.video)
+        for case let device as AVCaptureDevice in devices {
             if (device.position == translatePosition(cameraLocation)) {
                 //log.debug("Found device: \(cameraLocation)")
                 return device
             }
         }
         // if not found, return default device
-        return AVCaptureDevice.defaultDevice(withMediaType:AVMediaTypeVideo)
+        return AVCaptureDevice.default(for:AVMediaType.video)
     }
     
-    static func translatePosition(_ location:PhysicalCameraLocation)->AVCaptureDevicePosition {
+    static func translatePosition(_ location:PhysicalCameraLocation)->AVCaptureDevice.Position {
         switch location {
         case .backFacing: return .back
         case .frontFacing: return .front
@@ -81,7 +81,7 @@ class CameraManager {
         if (selectedCamera==nil){
             do {
                 //log.debug("Allocating Camera")
-                selectedCamera = try Camera(sessionPreset:AVCaptureSessionPresetPhoto, location:cameraLocation)
+                selectedCamera = try Camera(sessionPreset:AVCaptureSession.Preset.photo.rawValue, location:cameraLocation)
                 setCamera(selectedCamera!, location:cameraLocation)
                 //selectedCamera!.runBenchmark = true
             } catch {

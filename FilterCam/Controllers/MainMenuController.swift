@@ -195,7 +195,7 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
     /////////////////////////////////
     
     
-    func presentLiveFilter(){
+    @objc func presentLiveFilter(){
         //launch Live Filter VC
         let vc = LiveFilterViewController()
         //vc.delegate = self
@@ -204,7 +204,7 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
     }
 
     
-    func presentImageEditor(){
+    @objc func presentImageEditor(){
          let vc = SimpleEditViewController()
          //vc.delegate = self
          present(vc, animated: true, completion: nil)
@@ -212,7 +212,7 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
     }
     
     
-    func presentManageFilters(){
+    @objc func presentManageFilters(){
         //launch Category Manager VC
         let vc = ManageFiltersMenuController()
         //vc.delegate = self
@@ -222,7 +222,7 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
     
    
     
-    func presentAbout(){
+    @objc func presentAbout(){
         /***
          let vc = AboutViewController()
          vc.delegate = self

@@ -251,7 +251,7 @@ class ManageFiltersMenuController: UIViewController, UINavigationControllerDeleg
     /////////////////////////////////
     
 
-    func presentFilterGallery(){
+    @objc func presentFilterGallery(){
         //launch Category Manager VC
         let vc = FilterGalleryViewController()
         vc.delegate = self
@@ -260,14 +260,14 @@ class ManageFiltersMenuController: UIViewController, UINavigationControllerDeleg
     }
     
     
-    func presentBlendGallery(){
+    @objc func presentBlendGallery(){
         let vc = BlendGalleryViewController()
         vc.delegate = self
         present(vc, animated: true, completion: nil)
     }
     
     
-    func presentSampleGallery(){
+    @objc func presentSampleGallery(){
         let vc = SampleGalleryViewController()
         vc.delegate = self
         present(vc, animated: true, completion: nil)
@@ -275,7 +275,7 @@ class ManageFiltersMenuController: UIViewController, UINavigationControllerDeleg
     }
     
  
-    func presentManageCategories(){
+    @objc func presentManageCategories(){
         /***
          let vc = ManagerCategoriesViewController()
          vc.delegate = self
@@ -285,7 +285,7 @@ class ManageFiltersMenuController: UIViewController, UINavigationControllerDeleg
     }
     
     
-    func presentReset(){
+    @objc func presentReset(){
          let vc = ResetViewController()
          //vc.delegate = self
          present(vc, animated: true, completion: nil)
@@ -297,7 +297,7 @@ class ManageFiltersMenuController: UIViewController, UINavigationControllerDeleg
     //////////////////////////////////////
     //MARK: - Navigation
     //////////////////////////////////////
-    func backDidPress(){
+    @objc func backDidPress(){
         log.verbose("Back pressed")
         exitScreen()
     }

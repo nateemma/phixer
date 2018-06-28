@@ -720,7 +720,6 @@
 		253B23951DA999E100203ECB /* BulgeDistortionDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253B23941DA999E100203ECB /* BulgeDistortionDescriptor.swift */; };
 		253B23971DA999FF00203ECB /* GlassSphereRefractionDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253B23961DA999FF00203ECB /* GlassSphereRefractionDescriptor.swift */; };
 		253F54CD1DF24702007CCDEF /* FilterLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253F54CC1DF24702007CCDEF /* FilterLibrary.swift */; };
-		253F54CF1DF375FA007CCDEF /* oldFilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253F54CE1DF375FA007CCDEF /* oldFilterManager.swift */; };
 		254149A11DDF9FA6002C7BD5 /* Clarity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254149A01DDF9FA6002C7BD5 /* Clarity.swift */; };
 		254149A31DDFA2C8002C7BD5 /* ClarityDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254149A21DDFA2C8002C7BD5 /* ClarityDescriptor.swift */; };
 		254149A51DDFCA93002C7BD5 /* Preset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254149A41DDFCA93002C7BD5 /* Preset.swift */; };
@@ -1615,7 +1614,6 @@
 		253B23941DA999E100203ECB /* BulgeDistortionDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BulgeDistortionDescriptor.swift; path = Filters/BulgeDistortionDescriptor.swift; sourceTree = "<group>"; };
 		253B23961DA999FF00203ECB /* GlassSphereRefractionDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GlassSphereRefractionDescriptor.swift; path = Filters/GlassSphereRefractionDescriptor.swift; sourceTree = "<group>"; };
 		253F54CC1DF24702007CCDEF /* FilterLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterLibrary.swift; path = Models/FilterLibrary.swift; sourceTree = "<group>"; };
-		253F54CE1DF375FA007CCDEF /* oldFilterManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = oldFilterManager.swift; sourceTree = "<group>"; };
 		254149A01DDF9FA6002C7BD5 /* Clarity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Clarity.swift; path = Operations/Clarity.swift; sourceTree = "<group>"; };
 		254149A21DDFA2C8002C7BD5 /* ClarityDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ClarityDescriptor.swift; path = Filters/ClarityDescriptor.swift; sourceTree = "<group>"; };
 		254149A41DDFCA93002C7BD5 /* Preset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Preset.swift; path = Operations/Preset.swift; sourceTree = "<group>"; };
@@ -1953,7 +1951,6 @@
 				25F460211D99DBBA00EDA182 /* CameraSpeed.swift */,
 				253B23761DA4BB7800203ECB /* ClosestFraction.swift */,
 				253B23781DA5782300203ECB /* FilterManager.swift */,
-				253F54CE1DF375FA007CCDEF /* oldFilterManager.swift */,
 				253F54CC1DF24702007CCDEF /* FilterLibrary.swift */,
 				2569741C1D9B986E00DDF9E4 /* Fractional.swift */,
 				25F460191D99CE1E00EDA182 /* GridStyle.swift */,
@@ -2838,18 +2835,18 @@
 					257F49DB1D9448920083B1E4 = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = R27PD7337M;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0940;
 						ProvisioningStyle = Automatic;
 					};
 					257F49EF1D9448920083B1E4 = {
 						CreatedOnToolsVersion = 8.0;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0940;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 257F49DB1D9448920083B1E4;
 					};
 					257F49FA1D9448920083B1E4 = {
 						CreatedOnToolsVersion = 8.0;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0940;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 257F49DB1D9448920083B1E4;
 					};
@@ -3830,7 +3827,6 @@
 				25B24D461DB05688008CD38A /* MedianDescriptor.swift in Sources */,
 				25F563FC1DD1165C00DFB125 /* ImageManager.swift in Sources */,
 				25B24D021DAE99DE008CD38A /* BrightnessDescriptor.swift in Sources */,
-				253F54CF1DF375FA007CCDEF /* oldFilterManager.swift in Sources */,
 				253B235B1DA2CFD400203ECB /* SegueHandlerType.swift in Sources */,
 				2513756C1DB6CE8000A319DC /* CGAColorspaceDescriptor.swift in Sources */,
 				251375561DB6BE0D00A319DC /* GammaDescriptor.swift in Sources */,
@@ -4035,7 +4031,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "FilterCam/FilterCam-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -4054,7 +4051,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.nateemma.filtercam;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "FilterCam/FilterCam-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -4068,7 +4066,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nateemma.FilterCamTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FilterCam.app/FilterCam";
 			};
 			name = Debug;
@@ -4083,7 +4082,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nateemma.FilterCamTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FilterCam.app/FilterCam";
 			};
 			name = Release;
@@ -4097,7 +4097,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nateemma.FilterCamUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = FilterCam;
 			};
 			name = Debug;
@@ -4111,7 +4112,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nateemma.FilterCamUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = FilterCam;
 			};
 			name = Release;

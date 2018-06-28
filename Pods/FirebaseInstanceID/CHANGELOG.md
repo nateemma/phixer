@@ -1,3 +1,7 @@
+# 2018-06-19 -- v3.1.1
+- Ensure the checkin and tokens are refreshed if firebase project changed.
+- Fixed an issue that checkin should be turned off when FCM's autoInitEnabled flag is off.
+
 # 2018-06-12 -- v3.1.0
 - Added a new API to fetch InstanceID and Token with a completion handler. The completion handler returns a FIRInstanceIDResult with a instanceID and a token properties.
 - Deprecated the token method.

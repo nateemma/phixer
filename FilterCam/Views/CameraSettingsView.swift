@@ -190,37 +190,37 @@ class CameraSettingsView: UIView {
     //MARK: - touch handlers
     
     
-    func flashDidPress() {
+    @objc func flashDidPress() {
         log.debug("Flash pressed")
         delegate?.flashPressed()
     }
     
     
-    func gridDidPress() {
+    @objc func gridDidPress() {
         log.debug("Grid pressed")
         delegate?.gridPressed()
     }
     
     
-    func aspectDidPress() {
+    @objc func aspectDidPress() {
         log.debug("Aspect pressed")
         delegate?.aspectPressed()
     }
     
     
-    func cameraDidPress() {
+    @objc func cameraDidPress() {
         log.debug("Camera pressed")
         delegate?.cameraPressed()
     }
     
     
-    func timerDidPress() {
+    @objc func timerDidPress() {
         log.debug("Timer pressed")
         delegate?.timerPressed()
     }
     
     
-    func switchDidPress() {
+    @objc func switchDidPress() {
         log.debug("switch camera pressed")
         delegate?.switchPressed()
     }

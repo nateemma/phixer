@@ -410,7 +410,7 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     
-    func swiped(_ gesture: UIGestureRecognizer)
+    @objc func swiped(_ gesture: UIGestureRecognizer)
     {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer
         {
@@ -792,8 +792,8 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             // change the color and font of the title (why isn't this a default, Apple?!)
             let sysFont: UIFont = UIFont.boldSystemFont(ofSize: 22)
             var myMutableString = NSMutableAttributedString()
-            myMutableString = NSMutableAttributedString(string: titleString as String, attributes: [NSFontAttributeName:sysFont])
-            myMutableString.addAttribute(NSForegroundColorAttributeName, value: UIColor.blue, range: NSRange(location:0,length:titleString.characters.count))
+            myMutableString = NSMutableAttributedString(string: titleString as String, attributes: [NSAttributedStringKey.font:sysFont])
+            myMutableString.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.blue, range: NSRange(location:0,length:titleString.characters.count))
             optionsController?.setValue(myMutableString, forKey: "attributedTitle")
             
             // define actions and titles for each menu item

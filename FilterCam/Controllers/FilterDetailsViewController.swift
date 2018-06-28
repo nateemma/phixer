@@ -536,7 +536,7 @@ class FilterDetailsViewController: UIViewController {
     
     }
 
-    func backDidPress(){
+    @objc func backDidPress(){
         log.verbose("Back pressed")
         guard navigationController?.popViewController(animated: true) != nil else { //modal
             //log.debug("Not a navigation Controller")
@@ -546,14 +546,14 @@ class FilterDetailsViewController: UIViewController {
         }
     }
     
-    func prevDidPress(){
+    @objc func prevDidPress(){
         log.verbose("Previous Filter pressed")
         suspend()
         previousFilter()
         update()
     }
     
-    func nextDidPress(){
+    @objc func nextDidPress(){
         log.verbose("Next Filter pressed")
         suspend()
         nextFilter()
@@ -570,7 +570,7 @@ class FilterDetailsViewController: UIViewController {
     }
     
     // handles touch of the show/hide icon
-    func showTouched(){
+    @objc func showTouched(){
         log.verbose("hide/show touched")
         //TODO: confirmation dialog?
         let hidden =  (self.filterManager?.isHidden(key: self.currFilterKey))! ? false : true
@@ -578,7 +578,7 @@ class FilterDetailsViewController: UIViewController {
         self.update()
     }
     
-    func favTouched(){
+    @objc func favTouched(){
         log.verbose("favourite touched")
         //TODO: confirmation dialog?
         if (self.filterManager?.isFavourite(key: self.currFilterKey))!{
@@ -591,7 +591,7 @@ class FilterDetailsViewController: UIViewController {
         self.update()
     }
     
-    func ratingTouched(){
+    @objc func ratingTouched(){
         log.verbose("rating touched")
         self.currRatingKey = self.currFilterKey
         self.currRating = (self.filterManager?.getRating(key: self.currRatingKey))!
@@ -692,7 +692,7 @@ class FilterDetailsViewController: UIViewController {
     }
     
     
-    func swiped(_ gesture: UIGestureRecognizer)
+    @objc func swiped(_ gesture: UIGestureRecognizer)
     {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer
         {

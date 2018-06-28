@@ -491,7 +491,7 @@ class FilterParametersView: UIView {
     }
     
     
-    func sliderValueDidChange(_ sender:UISlider!){
+    @objc func sliderValueDidChange(_ sender:UISlider!){
         currFilterDesc?.setParameter(sender.tag, value: sender.value)
         //updateFilterTargets()
     }
@@ -518,17 +518,17 @@ class FilterParametersView: UIView {
     
     func colorSlider4ValueDidChange(_ sender:GradientSlider!){ currFilterDesc?.setColorParameter(4, color: (gsliders[3]?.getSelectedColor())!) }
     
-    func colorSliderValueDidChange(_ sender:GradientSlider!){
+    @objc func colorSliderValueDidChange(_ sender:GradientSlider!){
         let index = sender.tag
         currFilterDesc?.setColorParameter(index, color: (gsliders[index-1]?.getSelectedColor())!)
     }
     
-    func slidersDidEndChange(_ sender:UISlider!){
+    @objc func slidersDidEndChange(_ sender:UISlider!){
         log.verbose("Settings changed for slider \(sender.tag)")
         delegate?.settingsChanged()
     }
     
-    func gslidersDidEndChange(_ sender:GradientSlider!){
+    @objc func gslidersDidEndChange(_ sender:GradientSlider!){
         log.verbose("Settings changed for slider \(sender.tag)")
         delegate?.settingsChanged()
     }

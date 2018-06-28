@@ -212,19 +212,19 @@ class CameraControlsView: UIView {
     /////////////////////////////////
     
     
-    func imagePreviewDidPress() {
+    @objc func imagePreviewDidPress() {
         delegate?.imagePreviewPressed()
     }
     
-    func takePictureDidPress() {
+    @objc func takePictureDidPress() {
         delegate?.takePicturePressed()
     }
     
-    func ModeDidPress() {
+    @objc func ModeDidPress() {
         delegate?.modePressed()
     }
     
-    func SettingsDidPress() {
+    @objc func SettingsDidPress() {
         delegate?.settingsPressed()
     }
 
