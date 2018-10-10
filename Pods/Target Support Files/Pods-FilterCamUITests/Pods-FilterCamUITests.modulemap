@@ -1,6 +1,0 @@
-framework module Pods_FilterCamUITests {
-  umbrella header "Pods-FilterCamUITests-umbrella.h"
-
-  export *
-  module * { export * }
-}

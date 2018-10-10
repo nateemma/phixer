@@ -3,43 +3,68 @@ PODS:
   - ChameleonFramework/Swift (2.1.0):
     - ChameleonFramework/Default
   - Cosmos (9.0.0)
-  - Firebase/AdMob (5.3.0):
+  - Firebase/AdMob (5.10.0):
     - Firebase/Core
-    - Google-Mobile-Ads-SDK (= 7.31.0)
-  - Firebase/Core (5.3.0):
+    - Google-Mobile-Ads-SDK (~> 7.34)
+  - Firebase/Core (5.10.0):
     - Firebase/CoreOnly
-    - FirebaseAnalytics (= 5.0.1)
-  - Firebase/CoreOnly (5.3.0):
-    - FirebaseCore (= 5.0.4)
-  - FirebaseAnalytics (5.0.1):
-    - FirebaseCore (~> 5.0)
-    - FirebaseInstanceID (~> 3.0)
-    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
+    - FirebaseAnalytics (= 5.2.0)
+  - Firebase/CoreOnly (5.10.0):
+    - FirebaseCore (= 5.1.5)
+  - FirebaseAnalytics (5.2.0):
+    - FirebaseCore (~> 5.1)
+    - FirebaseInstanceID (~> 3.2)
+    - GoogleAppMeasurement (~> 5.2)
+    - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
+    - GoogleUtilities/MethodSwizzler (~> 5.2)
+    - GoogleUtilities/Network (~> 5.2)
+    - "GoogleUtilities/NSData+zlib (~> 5.2)"
     - nanopb (~> 0.3)
-  - FirebaseCore (5.0.4):
-    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
-  - FirebaseInstanceID (3.1.1):
-    - FirebaseCore (~> 5.0)
-  - Google-Mobile-Ads-SDK (7.31.0)
-  - GoogleToolboxForMac/Defines (2.1.4)
-  - "GoogleToolboxForMac/NSData+zlib (2.1.4)":
-    - GoogleToolboxForMac/Defines (= 2.1.4)
-  - Kingfisher (4.8.0)
+  - FirebaseCore (5.1.5):
+    - GoogleUtilities/Logger (~> 5.2)
+  - FirebaseInstanceID (3.2.2):
+    - FirebaseCore (~> 5.1)
+    - GoogleUtilities/Environment (~> 5.3)
+    - GoogleUtilities/UserDefaults (~> 5.3)
+  - Google-Mobile-Ads-SDK (7.34.0)
+  - GoogleAppMeasurement (5.2.0):
+    - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
+    - GoogleUtilities/MethodSwizzler (~> 5.2)
+    - GoogleUtilities/Network (~> 5.2)
+    - "GoogleUtilities/NSData+zlib (~> 5.2)"
+    - nanopb (~> 0.3)
+  - GoogleUtilities/AppDelegateSwizzler (5.3.0):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Network
+  - GoogleUtilities/Environment (5.3.0)
+  - GoogleUtilities/Logger (5.3.0):
+    - GoogleUtilities/Environment
+  - GoogleUtilities/MethodSwizzler (5.3.0):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/Network (5.3.0):
+    - GoogleUtilities/Logger
+    - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Reachability
+  - "GoogleUtilities/NSData+zlib (5.3.0)"
+  - GoogleUtilities/Reachability (5.3.0):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/UserDefaults (5.3.0):
+    - GoogleUtilities/Logger
   - nanopb (0.3.8):
     - nanopb/decode (= 0.3.8)
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
   - Neon (0.4.0)
-  - SwiftyBeaver (1.6.0)
-  - SwiftyJSON (4.1.0)
+  - SwiftyBeaver (1.6.1)
+  - SwiftyJSON (4.2.0)
 
 DEPENDENCIES:
   - ChameleonFramework/Swift (from `https://github.com/ViccAlexander/Chameleon.git`)
   - Cosmos (~> 9.0)
   - Firebase/AdMob
   - Firebase/Core
-  - Kingfisher
   - Neon
   - SwiftyBeaver
   - SwiftyJSON
@@ -52,8 +77,8 @@ SPEC REPOS:
     - FirebaseCore
     - FirebaseInstanceID
     - Google-Mobile-Ads-SDK
-    - GoogleToolboxForMac
-    - Kingfisher
+    - GoogleAppMeasurement
+    - GoogleUtilities
     - nanopb
     - Neon
     - SwiftyBeaver
@@ -71,18 +96,18 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
   Cosmos: 33eee62b2a0418452aef470f711f83c3ea061b7b
-  Firebase: 68afeeb05461db02d7c9e3215cda28068670f4aa
-  FirebaseAnalytics: b3628aea54c50464c32c393fb2ea032566e7ecc2
-  FirebaseCore: 62f1b792a49bb9e8b4073f24606d2c93ffc352f0
-  FirebaseInstanceID: f3f0657372592ecdfdfe2cac604a5a75758376a6
-  Google-Mobile-Ads-SDK: 6e529e748b45507a2ca904e0b5a52669ba3920c4
-  GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
-  Kingfisher: 976d828df2b24834c6a3f2fc4d82cdbd26552be1
+  Firebase: 6691d47562a780c26281ce8464518faafc90c610
+  FirebaseAnalytics: 831f1f127f4a75698e9875a87bf7e2668730d953
+  FirebaseCore: c6079de64c1a87000e52e9b408dddcadc901177f
+  FirebaseInstanceID: 78ba376fcd5b94c001f9999b2cbd3d1f1e56e78d
+  Google-Mobile-Ads-SDK: a1cbce28c0c78ca1fb0b6c4f213485f55527c99f
+  GoogleAppMeasurement: 2b3a023a61239c8d002e6e4fcf4abce8eddce0e0
+  GoogleUtilities: 760ccb53b7c7f40f9c02d8c241f76f841a7a6162
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Neon: 7fb5a9327e7e57911843f608e08f4893a74deaf9
-  SwiftyBeaver: e45759613e50b522b0e6f53b1f0f14389b45ca34
-  SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
+  SwiftyBeaver: ccfcdf85a04d429f1633f668650b0ce8020bda3a
+  SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
 
-PODFILE CHECKSUM: 00254cbc8c104bbf52d765fd102f9e272542305d
+PODFILE CHECKSUM: 0f85dd1df4efe4fff400b5076c87f731b989123d
 
 COCOAPODS: 1.5.3

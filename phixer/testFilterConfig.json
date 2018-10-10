@@ -1,0 +1,54 @@
+{
+    "version": 2.0,
+    
+    "categories": [
+        {"key": "none",               "title": "No Filters" },
+        {"key": "favorites",          "title": "Favorites" },
+        {"key": "basic",              "title": "Basic Adjustments" }
+    ],
+    
+    
+    "filters": [
+        {"key": "CIColorMap", "title": "Color Map", "ftype": "lookup", "show": false, "rating": 0,
+            "parameters": [
+                {"key": "inputGradientImage", "title": "Gradient Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeGradient"}
+            ]
+        },
+        {"key": "CIBokehBlur", "title": "Bokeh Blur", "ftype": "singleInput", "show": true, "rating": 0,
+            "parameters": [
+                {"key": "inputRadius", "title": "Radius", "min": 0.0, "max":100.0, "val": 20.0, "type": "CIAttributeTypeDistance"},
+                {"key": "inputRingAmount", "title": "Ring Amount", "min": 0.0, "max":1.0, "val": 0.0, "type": "CIAttributeTypeScalar"},
+                {"key": "inputRingSize", "title": "Ring Size", "min": 0.0, "max":0.2, "val": 0.1, "type": "CIAttributeTypeScalar"},
+                {"key": "inputSoftness", "title": "Softness", "min": 0.25, "max":0.4, "val": 1.0, "type": "CIAttributeTypeScalar"}
+            ]
+        },
+        {"key": "CIVibrance", "title": "Vibrance", "ftype": "singleInput", "show": true, "rating": 0,
+            "parameters": [
+                {"key": "inputAmount", "title": "Amount", "min": -1.0, "max":1.0, "val": 0.0, "type": "CIAttributeTypeScalar"}
+            ]
+        }
+        
+    ],
+    
+    
+    "lookup": [
+        { "key": "bw_000", "image": "bw_000_neutral.JPG", "show": true, "rating": 0 },
+        { "key": "ms_016", "image": "ms_016_clarity_color_pop.jpg", "show": true, "rating": 1 }
+    ],
+    
+    
+    "assign": [
+        {"category": "none",
+            "filters": ["NoFilter" ]
+        },
+        
+        {"category": "favorites",
+            "filters": ["bw_000", "ms_016" ]
+        },
+        
+        
+        {"category": "basic",
+            "filters": ["CIBokehBlur", "CIVibrance" ]
+        }
+    ]
+}

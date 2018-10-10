@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14315.18" systemVersion="18A391" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="AssignmentEntity" representedClassName="AssignmentEntity" syncable="YES">
+        <attribute name="category" attributeType="String" syncable="YES"/>
+        <attribute name="filters" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <relationship name="contains" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FilterEntity" syncable="YES"/>
+        <fetchIndex name="byCategoryIndex">
+            <fetchIndexElement property="category" type="Binary" order="ascending"/>
+        </fetchIndex>
+    </entity>
+    <entity name="CategoryEntity" representedClassName="CategoryEntity" syncable="YES">
+        <attribute name="hide" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="key" attributeType="String" syncable="YES"/>
+        <attribute name="title" attributeType="String" syncable="YES"/>
+        <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AssignmentEntity" syncable="YES"/>
+        <fetchIndex name="byKeyIndex">
+            <fetchIndexElement property="key" type="Binary" order="ascending"/>
+        </fetchIndex>
+    </entity>
+    <entity name="FilterEntity" representedClassName="FilterEntity" syncable="YES">
+        <attribute name="ftype" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="hide" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="key" attributeType="String" syncable="YES"/>
+        <attribute name="rating" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <fetchIndex name="byKeyIndex">
+            <fetchIndexElement property="key" type="Binary" order="ascending"/>
+        </fetchIndex>
+    </entity>
+    <entity name="LookupFilterEntity" representedClassName="LookupFilterEntity" syncable="YES">
+        <attribute name="hide" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="image" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="key" attributeType="String" syncable="YES"/>
+        <attribute name="rating" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <fetchIndex name="byKeyIndex">
+            <fetchIndexElement property="key" type="Binary" order="ascending"/>
+        </fetchIndex>
+    </entity>
+    <entity name="SettingsEntity" representedClassName="SettingsEntity" syncable="YES">
+        <attribute name="blendImage" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="configVersion" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="editImage" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sampleImage" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="AssignmentEntity" positionX="187" positionY="-450" width="128" height="88"/>
+        <element name="CategoryEntity" positionX="-56" positionY="-459" width="128" height="103"/>
+        <element name="FilterEntity" positionX="169" positionY="-291" width="128" height="120"/>
+        <element name="LookupFilterEntity" positionX="-56" positionY="-288" width="128" height="118"/>
+        <element name="SettingsEntity" positionX="88" positionY="-657" width="128" height="103"/>
+    </elements>
+</model>
