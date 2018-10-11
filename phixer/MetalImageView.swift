@@ -24,7 +24,8 @@ class MetalImageView: MTKView
         }()
     
     lazy var ciContext: CIContext = { [unowned self] in
-        return CIContext(mtlDevice: self.device!, options: [kCIImageColorSpace: NSNull(), kCIImageProperties: NSNull(), kCIContextWorkingColorSpace: NSNull()])
+        //return CIContext(mtlDevice: self.device!, options: [kCIImageColorSpace: NSNull(), kCIImageProperties: NSNull(), kCIContextWorkingColorSpace: NSNull()])
+        return CIContext(mtlDevice: self.device!)
         }()
     
     override init(frame frameRect: CGRect, device: MTLDevice?) {
@@ -78,6 +79,9 @@ class MetalImageView: MTKView
                 commandBuffer!.present(currentDrawable!)
                 
                 commandBuffer!.commit()
+                
+                self.bounds = bounds
+                self.frame.size = drawableSize
             } else {
                 log.error("Could not get texture")
             }

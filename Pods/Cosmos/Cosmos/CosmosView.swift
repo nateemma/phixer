@@ -37,14 +37,14 @@ Shows: ★★★★☆ (123)
   }
   
   /// Star rating settings.
-  open var settings = CosmosSettings() {
+  open var settings: CosmosSettings = .default {
     didSet {
       update()
     }
   }
   
   /// Stores calculated size of the view. It is used as intrinsic content size.
-  fileprivate var viewSize = CGSize()
+  private var viewSize = CGSize()
 
   /// Draws the stars when the view comes out of storyboard with default settings
   open override func awakeFromNib() {
@@ -52,17 +52,16 @@ Shows: ★★★★☆ (123)
     
     update()
   }
-  
-  
+
   /**
 
   Initializes and returns a newly allocated cosmos view object.
   
   */
-  convenience public init() {
-    self.init(frame: CGRect())
+  public convenience init(settings: CosmosSettings = .default) {
+    self.init(frame: .zero, settings: settings)
   }
-  
+
   /**
 
   Initializes and returns a newly allocated cosmos view object with the specified frame rectangle.
@@ -70,11 +69,14 @@ Shows: ★★★★☆ (123)
   - parameter frame: The frame rectangle for the view.
   
   */
-  override public init(frame: CGRect) {
+  override public convenience init(frame: CGRect) {
+    self.init(frame: frame, settings: .default)
+  }
+
+  public init(frame: CGRect, settings: CosmosSettings) {
     super.init(frame: frame)
+    self.settings = settings
     update()
-    self.frame.size = intrinsicContentSize
-    
     improvePerformance()
   }
   
@@ -86,7 +88,7 @@ Shows: ★★★★☆ (123)
   }
   
   /// Change view settings for faster drawing
-  fileprivate func improvePerformance() {
+  private func improvePerformance() {
     /// Cache the view into a bitmap instead of redrawing the stars each time
     layer.shouldRasterize = true
     layer.rasterizationScale = UIScreen.main.scale
@@ -115,7 +117,7 @@ Shows: ★★★★☆ (123)
 
     if let text = text {
       let textLayer = createTextLayer(text, layers: layers)
-      layers = addTextLayer(textLayer, layers: layers)
+      layers = addTextLayer(textLayer: textLayer, layers: layers)
     }
     
     layer.sublayers = layers
@@ -142,7 +144,7 @@ Shows: ★★★★☆ (123)
   - returns: The newly created text layer.
   
   */
-  fileprivate func createTextLayer(_ text: String, layers: [CALayer]) -> CALayer {
+  private func createTextLayer(_ text: String, layers: [CALayer]) -> CALayer {
     let textLayer = CosmosLayerHelper.createTextLayer(text,
       font: settings.textFont, color: settings.textColor)
     
@@ -168,7 +170,7 @@ Shows: ★★★★☆ (123)
    - returns: An array of layer with the text layer.
    
    */
-  fileprivate func addTextLayer(_ textLayer: CALayer, layers: [CALayer]) -> [CALayer] {
+  private func addTextLayer(textLayer: CALayer, layers: [CALayer]) -> [CALayer] {
     var allLayers = layers
     // Position stars after the text for right-to-left languages
     if RightToLeft.isRightToLeft(self) {
@@ -191,9 +193,13 @@ Shows: ★★★★☆ (123)
   - parameter layers: Array of layers containing stars and the text.
 
   */
-  fileprivate func updateSize(_ layers: [CALayer]) {
+  private func updateSize(_ layers: [CALayer]) {
     viewSize = CosmosSize.calculateSizeToFitLayers(layers)
     invalidateIntrinsicContentSize()
+
+    // Stretch the view to include all stars and the text.
+    // Needed when used without Auto Layout to receive touches for all stars.
+    frame.size = intrinsicContentSize
   }
   
   /// Returns the content size to fit all the star and text layers.
@@ -201,9 +207,21 @@ Shows: ★★★★☆ (123)
     return viewSize
   }
   
+  /**
+   
+  Prepares the Cosmos view for reuse in a table view cell.
+  If the cosmos view is used in a table view cell, call this method after the
+  cell is dequeued. Alternatively, override UITableViewCell's prepareForReuse method and call
+  this method from there.
+   
+  */
+  open func prepareForReuse() {
+    previousRatingForDidTouchCallback = -123.192
+  }
+  
   // MARK: - Accessibility
   
-  fileprivate func updateAccessibility() {
+  private func updateAccessibility() {
     CosmosAccessibility.update(self, rating: rating, text: text, settings: settings)
   }
   
@@ -266,6 +284,18 @@ Shows: ★★★★☆ (123)
   }
 
   /**
+   
+   Detecting event when the touches are cancelled (can happen in a scroll view).
+   Behave as if user has lifted their finger.
+   
+   */
+  open override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+    super.touchesCancelled(touches, with: event)
+    
+    didFinishTouchingCosmos?(rating)
+  }
+
+  /**
 
   Called when the view is touched.
 
@@ -290,7 +320,7 @@ Shows: ★★★★☆ (123)
     previousRatingForDidTouchCallback = calculatedTouchRating
   }
   
-  fileprivate var previousRatingForDidTouchCallback: Double = -123.192
+  private var previousRatingForDidTouchCallback: Double = -123.192
   
   /// Increase the hitsize of the view if it's less than 44px for easier touching.
   override open func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
@@ -388,6 +418,18 @@ Shows: ★★★★☆ (123)
   @IBInspectable var minTouchRating: Double = CosmosDefaultSettings.minTouchRating {
     didSet {
       settings.minTouchRating = minTouchRating
+    }
+  }
+  
+  @IBInspectable var filledImage: UIImage? {
+    didSet {
+      settings.filledImage = filledImage
+    }
+  }
+  
+  @IBInspectable var emptyImage: UIImage? {
+    didSet {
+      settings.emptyImage = emptyImage
     }
   }
   

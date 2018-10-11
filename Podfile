@@ -29,7 +29,8 @@ target 'phixer' do
   pod 'SwiftyJSON'
   
   # Star rating view
-  pod 'Cosmos', '~> 9.0'
+  #pod 'Cosmos', '~> 9.0'
+  pod 'Cosmos'
 
   target 'phixerTests' do
     inherit! :search_paths

@@ -91,9 +91,13 @@ class CameraCaptureHelper: NSObject {
     //Get the device (Front or Back)
     private func getDevice(position: AVCaptureDevice.Position) -> AVCaptureDevice? {
         let devices = AVCaptureDevice.DiscoverySession(deviceTypes: [], mediaType: .video, position: position).devices
-        print("devices:\(devices)")
-        for device in devices where device.position == position {
-            return device
+        if !devices.isEmpty {
+            log.debug("devices: \(devices)")
+            for device in devices where device.position == position {
+                return device
+            }
+        } else {
+            log.error("No camera device found for position: \(position)")
         }
         return AVCaptureDevice.default(for: .video)
     }

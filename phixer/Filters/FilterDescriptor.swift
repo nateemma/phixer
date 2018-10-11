@@ -102,14 +102,22 @@ class  FilterDescriptor {
         self.stashedParameters = [:]
         self.parameterConfiguration = [:]
         self.numParameters = 0
+        self.lookupImage = nil
+        self.lookupImageName = ""
         
         // create the filter
         if ftype == .lookup {
             self.filter = CIFilter(name: FilterDescriptor.lookupFilterName)
             //HACK: lookup image from FilterLibrary
             if let name = FilterLibrary.lookupDictionary[key] {
-                self.setLookupImage(name)
+                // set the name of the lookup image and default intensity
+                self.setLookupImage(name:name)
                 self.filter?.setValue(1.0, forKey:FilterDescriptor.lookupArgIntensity)
+                
+                // manually add the intensity parameter to the parameter list (so that it will be displayed)
+                let p = ParameterSettings(key: FilterDescriptor.lookupArgIntensity, title: "intensity", min: 0.0, max: 1.0, value: 0.5, type: .float)
+                self.parameterConfiguration[FilterDescriptor.lookupArgIntensity] = p
+                self.numParameters = 1
             } else {
                 log.error("Could not find lookup image for filter: \(key)")
             }
@@ -119,7 +127,7 @@ class  FilterDescriptor {
         if self.filter == nil {
             log.error("Error creating filter:\(key)")
         } else {
-            self.filter?.setDefaults()
+            //self.filter?.setDefaults()
             // (deep) copy the parameters and set up the filter
             for p in parameters {
                 self.stashedParameters[p.key] = p
@@ -217,6 +225,18 @@ class  FilterDescriptor {
         }
     }
     
+   
+    
+    // check that the argument key is valid for this filter
+    private func checkArg(_ arg:String) -> Bool {
+        if (self.filter?.inputKeys.contains(arg))!{
+            return true
+        } else {
+            log.error("Invalid parameter key:\(arg) for filter:\(self.key)")
+            return false
+        }
+    }
+
     
     // Lookup filters are funny because they are actually all the same underlying type
     // use this to 'convert' a filter to be a lookup and correct the naming etc.
@@ -227,12 +247,12 @@ class  FilterDescriptor {
         }
 
         self.key = key
-        self.setLookupImage(image)
+        self.setLookupImage(name:image)
     }
     
     
     // set the lokup image for a lookup filter (String version)
-    func setLookupImage(_ name:String) {
+    func setLookupImage(name:String) {
         
         // we need to trust that this is correct, and overwrite the current settings to reflect the lookup image
 /***
@@ -248,25 +268,36 @@ class  FilterDescriptor {
             log.error("NIL lookup image provided")
             return
         }
-        let l = name.components(separatedBy:".")
-        let title = l[0]
-        let ext = l[1]
         
-        guard let path = Bundle.main.path(forResource: title, ofType: ext) else {
-            log.error("ERR: File not found:\(name)")
-            return
+        if ((name != self.lookupImageName) || (self.lookupImage == nil)){
+            let l = name.components(separatedBy:".")
+            let title = l[0]
+            let ext = l[1]
+            
+            guard let path = Bundle.main.path(forResource: title, ofType: ext) else {
+                log.error("ERR: File not found:\(name)")
+                return
+            }
+            
+            self.title = title
+            self.lookupImageName = name
+            let image = UIImage(contentsOfFile: path)
+            self.lookupImage = CIImage(image: image!)
+            if let ciimage = self.lookupImage {
+                if self.checkArg(FilterDescriptor.lookupArgImage) {
+                    log.debug("Set lookup to: \(name) for filter:\(key)")
+                    self.filter?.setValue(ciimage, forKey: FilterDescriptor.lookupArgImage)
+                } else {
+                    log.error("Filter: \(key) does not have arg:\(FilterDescriptor.lookupArgImage)")
+                }
+            } else {
+                log.error("Could not create CIImage for: \(name)")
+            }
         }
-        
-        log.debug("Set lookup to: \(name) for filter:\(key)")
-        self.title = title
-        self.lookupImageName = name
-        let image = UIImage(contentsOfFile: path)
-        self.lookupImage = CIImage(image: image!)
-        self.filter?.setValue(self.lookupImage!, forKey: FilterDescriptor.lookupArgImage)
     }
     
     // set the lokup image for a lookup filter (CIImage version)
-    func setLookupImage(_ image:CIImage?) {
+    func setLookupImage(image:CIImage?) {
         
         guard self.filterOperationType == .lookup else {
             log.error("Filter (\(self.title)) is not a lookup filter")
@@ -278,7 +309,11 @@ class  FilterDescriptor {
         }
 
         self.lookupImage = image
-        self.filter?.setValue(image, forKey: FilterDescriptor.lookupArgImage)
+        if self.checkArg(FilterDescriptor.lookupArgImage) {
+            self.filter?.setValue(image, forKey: FilterDescriptor.lookupArgImage)
+        } else {
+            log.error("Filter: \(key) does not have arg:\(FilterDescriptor.lookupArgImage)")
+        }
     }
 
     
@@ -322,16 +357,18 @@ class  FilterDescriptor {
         
         if let filter = self.filter {
             
-            //let opType = self.filterOperationType // wierd Swift unwrapping problem, can't use currFilter?.filterOperationType directly in switch
+            log.debug("Running filter: \(String(describing: self.key)), type:\(self.filterOperationType)")
+            log.debug("Input keys: \(filter.inputKeys)")
+            
+            if checkArg(kCIInputImageKey) { filter.setValue(image, forKey: kCIInputImageKey) }
+
             switch (self.filterOperationType){
             case .lookup:
-                log.debug("Set lookup image to:\(self.lookupImageName)")
-                self.filter?.setValue(self.lookupImage, forKey: FilterDescriptor.lookupArgImage)
+                self.setLookupImage(name:self.lookupImageName)
                 fallthrough
             case .singleInput:
-                log.debug("Running filter: \(String(describing: self.key)), type:\(self.filterOperationType)")
-                log.debug("Input keys: \(filter.inputKeys)")
-                filter.setValue(image, forKey: kCIInputImageKey)
+ 
+                //filter.setValue(image, forKey: kCIInputImageKey)
                 return filter.outputImage
             case .blend:
                 log.debug("Using BLEND mode for filter: \(String(describing: self.key))")
@@ -343,8 +380,10 @@ class  FilterDescriptor {
                 } else {
                     blend = ImageManager.getCurrentBlendImage(size:(image?.extent.size)!)
                 }
-                filter.setValue(image, forKey: kCIInputImageKey)
-                filter.setValue(blend, forKey: "inputBackgroundImage")
+                if checkArg("inputBackgroundImage") { filter.setValue(blend, forKey: "inputBackgroundImage") }
+                //filter.setValue(image, forKey: kCIInputImageKey)
+                //filter.setValue(image, forKey: "inputBackgroundImage")
+                //filter.setValue(blend, forKey: kCIInputImageKey)
                 return filter.outputImage
             default:
                 log.warning("Don't know how to handle filter \(String(describing: self.key))")

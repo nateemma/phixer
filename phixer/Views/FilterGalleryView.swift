@@ -169,7 +169,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         // pre-load filters. Inefficient, but it avoids multi-thread timing issues when rendering cells
         // ignore compiler warnings, the intent is to pre-load the filters
         if (self.filterList.count > 0){
-            for key in filterList{
+            for key in self.filterList{
                 filter = filterManager.getFilterDescriptor(key: key)
                 renderview = filterManager.getRenderView(key: key)
             }
@@ -343,7 +343,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         
         
         guard (descriptor != nil)  else {
-            log.error("filter NIL for:\(String(describing: descriptor?.key))")
+            log.error("filter NIL for:index:\(index) key:\(String(describing: descriptor?.key))")
             return
         }
         //log.debug("index:\(index), key:\(key), view:\(Utilities.addressOf(MetalImageView))")
@@ -436,9 +436,9 @@ extension FilterGalleryView {
         
         //let index:Int = (indexPath as NSIndexPath).row
         let index:Int = (indexPath as NSIndexPath).item
-        //log.verbose("Index: \(index) (\(self.filterList[index]))")
         if ((index>=0) && (index<filterList.count)){
             DispatchQueue.main.async(execute: { () -> Void in
+                log.verbose("Index: \(index) key:(\(self.filterList[index]))")
                 let key = self.filterList[index]
                 let renderview = self.filterManager.getRenderView(key:key)
                 renderview?.frame = cell.frame

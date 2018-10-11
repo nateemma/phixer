@@ -128,19 +128,25 @@ class FilterGalleryViewCell: UICollectionViewCell {
         //log.debug("creating scaled sample and blend images...")
         //sampleImageFull = UIImage(named:"sample_9989.png")!
         //blendImageFull = UIImage(named:"bl_topaz_warm.png")!
-        sampleImageFull = UIImage(named:ImageManager.getCurrentSampleImageName())!
-        blendImageFull = UIImage(named:ImageManager.getCurrentBlendImageName())!
+        //sampleImageFull = UIImage(named:ImageManager.getCurrentSampleImageName())!
+        //blendImageFull = UIImage(named:ImageManager.getCurrentBlendImageName())!
         
         // create scaled down versions of the sample and blend images
         //TODO: let user choose image
-        let size = sampleImageFull.size.applying(CGAffineTransform(scaleX: 0.2, y: 0.2))
-        
-        let hasAlpha = false
-        let scale: CGFloat = 0.0 // Automatically use scale factor of main screen
+        //let size = sampleImageFull.size.applying(CGAffineTransform(scaleX: 0.2, y: 0.2))
+        let size = (renderView?.frame.size)!
         
         // downsize input images since we really only need thumbnails
-        
-        UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, scale)
+
+
+        sample = ImageManager.getCurrentSampleImage(size:size)
+        blend = ImageManager.getCurrentBlendImage(size:size)
+        /***
+
+         let hasAlpha = false
+         let scale: CGFloat = 0.0 // Automatically use scale factor of main screen
+
+         UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, scale)
         sampleImageFull.draw(in: CGRect(origin: CGPoint.zero, size: size))
         sampleImageSmall = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
@@ -150,8 +156,12 @@ class FilterGalleryViewCell: UICollectionViewCell {
         blendImageSmall = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
+ 
         sample = CIImage(image:sampleImageSmall!)
         blend  = CIImage(image:blendImageSmall!)
+         ***/
+        
+        
         /***/
     }
     

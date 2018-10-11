@@ -17,7 +17,7 @@ struct CosmosTouch {
   */
   static func touchRating(_ position: CGFloat, settings: CosmosSettings) -> Double {
     var rating = preciseRating(
-      Double(position),
+      position: Double(position),
       numberOfStars: settings.totalStars,
       starSize: settings.starSize,
       starMargin: settings.starMargin)
@@ -50,7 +50,7 @@ struct CosmosTouch {
   - returns: The precise rating.
    
   */
-  static func preciseRating(_ position: Double, numberOfStars: Int,
+  static func preciseRating(position: Double, numberOfStars: Int,
                             starSize: Double, starMargin: Double) -> Double {
     
     if position < 0 { return 0 }

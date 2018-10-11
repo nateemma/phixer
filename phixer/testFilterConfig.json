@@ -4,7 +4,8 @@
     "categories": [
         {"key": "none",               "title": "No Filters" },
         {"key": "favorites",          "title": "Favorites" },
-        {"key": "basic",              "title": "Basic Adjustments" }
+        {"key": "basic",              "title": "Basic Adjustments" },
+        {"key": "blend",              "title": "Blend Modes" }
     ],
     
     
@@ -26,8 +27,17 @@
             "parameters": [
                 {"key": "inputAmount", "title": "Amount", "min": -1.0, "max":1.0, "val": 0.0, "type": "CIAttributeTypeScalar"}
             ]
+        },
+        {"key": "CIColorBlendMode", "title": "Color Blend Mode", "ftype": "blend", "show": true, "rating": 0,
+            "parameters":  [
+                {"key": "inputBackgroundImage", "title": "Background Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"}
+            ]
+        },
+        {"key": "CIColorDodgeBlendMode", "title": "Color Dodge Blend Mode", "ftype": "blend", "show": true, "rating": 0,
+            "parameters":  [
+                {"key": "inputBackgroundImage", "title": "Background Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"}
+            ]
         }
-        
     ],
     
     
@@ -49,6 +59,12 @@
         
         {"category": "basic",
             "filters": ["CIBokehBlur", "CIVibrance" ]
+        },
+        
+        
+        {"category": "blend",
+            "filters": ["CIColorBlendMode", "CIColorDodgeBlendMode" ]
         }
+
     ]
 }

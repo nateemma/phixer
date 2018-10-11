@@ -25,7 +25,7 @@ class CosmosLayers {
 
     for _ in (0..<settings.totalStars) {
       
-      let fillLevel = CosmosRating.starFillLevel(ratingRemander,
+      let fillLevel = CosmosRating.starFillLevel(ratingRemainder: ratingRemander,
         fillMode: settings.fillMode)
       
       let starLayer = createCompositeStarLayer(fillLevel, settings: settings, isRightToLeft: isRightToLeft)
@@ -33,7 +33,7 @@ class CosmosLayers {
       ratingRemander -= 1
     }
     
-    if isRightToLeft { starLayers.reversed() }
+    if isRightToLeft { starLayers.reverse() }
     positionStarLayers(starLayers, starMargin: settings.starMargin)
     return starLayers
   }
@@ -94,13 +94,20 @@ class CosmosLayers {
       filledStar.transform = CATransform3DTranslate(rotation, -filledStar.bounds.size.width, 0, 0)
     }
     
-    // make filled layer width smaller according to the fill level.
+    // Make filled layer width smaller according to the fill level
     filledStar.bounds.size.width *= CGFloat(starFillLevel)
 
     return parentLayer
   }
 
-  fileprivate class func createStarLayer(_ isFilled: Bool, settings: CosmosSettings) -> CALayer {
+  private class func createStarLayer(_ isFilled: Bool, settings: CosmosSettings) -> CALayer {
+    if let image = isFilled ? settings.filledImage : settings.emptyImage {
+      // Create a layer that shows a star from an image
+      return StarLayer.create(image: image, size: settings.starSize)
+    }
+    
+    // Create a layer that draws a star from an array of points
+    
     let fillColor = isFilled ? settings.filledColor : settings.emptyColor
     let strokeColor = isFilled ? settings.filledBorderColor : settings.emptyBorderColor
 

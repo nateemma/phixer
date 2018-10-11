@@ -59,6 +59,9 @@
     if (!self.inputImage) {
         return nil;
     }
+    if (!self.inputColorLookupTable) {
+        return nil;
+    }
     
     return [[YUCIColorLookup filterKernel] applyWithExtent:self.inputImage.extent
                                                roiCallback:^CGRect(int index, CGRect destRect) {

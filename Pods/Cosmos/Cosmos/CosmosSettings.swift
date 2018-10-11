@@ -6,7 +6,13 @@ Settings that define the appearance of the star rating views.
 
 */
 public struct CosmosSettings {
-  init() {}
+
+  /// Returns default set of settings for CosmosView
+  public static var `default`: CosmosSettings {
+    return CosmosSettings()
+  }
+
+  public init() {}
   
   // MARK: - Star settings
   // -----------------------------
@@ -52,6 +58,22 @@ public struct CosmosSettings {
   /// The maximum number of stars to be shown.
   public var totalStars = CosmosDefaultSettings.totalStars
   
+  // MARK: - Star image settings
+  // -----------------------------
+  
+  /**
+  
+  Image used for the filled portion of the star. By default the star is drawn from the array of points unless an image is supplied.
+  
+  */
+  public var filledImage: UIImage? = nil
+  
+  /**
+   
+   Image used for the empty portion of the star. By default the star is drawn from the array of points unless an image is supplied.
+   
+   */
+  public var emptyImage: UIImage? = nil
   
   // MARK: - Text settings
   // -----------------------------

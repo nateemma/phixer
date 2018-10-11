@@ -95,8 +95,8 @@ class FilterLibrary{
     ////////////////////////////
     
     
-    //fileprivate static let configFile = "FilterConfig"
-    fileprivate static let configFile = "testFilterConfig"
+    fileprivate static let configFile = "FilterConfig"
+    //fileprivate static let configFile = "testFilterConfig"
 
     fileprivate static var parsedConfig:JSON = JSON.null
     
@@ -326,8 +326,20 @@ class FilterLibrary{
     
     
     private static func addAssignment(category:String, filters: [String]){
-        FilterLibrary.categoryFilters[category] = filters
-        print("addAssignment(\(category), \(filters))")
+        // scan through list to make sure they are valid filters
+        FilterLibrary.categoryFilters[category] = []
+        var list:[String] = []
+        let validKeys = FilterFactory.getFilterList()
+        for f in filters {
+            if (validKeys.contains(f)) {
+                list.append(f)
+            } else {
+                log.warning("Ignoring filter: \(f)")
+            }
+        }
+        FilterLibrary.categoryFilters[category] = list
+        //FilterLibrary.categoryFilters[category] = filters
+        //print("addAssignment(\(category), \(filters))")
        
         if (!FilterLibrary.categoryList.contains(category)){
             print("addAssignment() ERROR: invalid category:\(category)")

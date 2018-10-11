@@ -88,6 +88,9 @@ class CameraDisplayView: UIView {
         
         guard (initDone) else {
             log.error("ERR: not ready for pipeline setup")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                self.updateDisplay()
+            }
             return
         }
         
@@ -182,8 +185,8 @@ class CameraDisplayView: UIView {
 extension CameraDisplayView: CameraCaptureHelperDelegate {
     func newCameraImage(_ cameraCaptureHelper: CameraCaptureHelper, image: CIImage){
         //DispatchQueue.main.async(execute: { () -> Void in
-        cameraImage = image
-        updateDisplay()
+        self.cameraImage = image
+        self.updateDisplay()
         //})
     }
 }
