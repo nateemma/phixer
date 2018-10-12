@@ -66,7 +66,7 @@ class MetalImageView: MTKView
                 let scaleX = drawableSize.width / image.extent.width
                 let scaleY = drawableSize.height / image.extent.height
                 let scale = min(scaleX, scaleY)
-                
+
                 let scaledImage = image.transformed(by: CGAffineTransform(translationX: -originX, y: -originY))
                                        .transformed(by: CGAffineTransform(scaleX: scale, y: scale))
                 
@@ -75,13 +75,20 @@ class MetalImageView: MTKView
                                  commandBuffer: commandBuffer,
                                  bounds: bounds,
                                  colorSpace: colorSpace)
-                
+
+                /***
+                 ciContext.render(image,
+                                 to: targetTexture,
+                                 commandBuffer: commandBuffer,
+                                 bounds: bounds,
+                                 colorSpace: colorSpace)
+                ***/
                 commandBuffer!.present(currentDrawable!)
                 
                 commandBuffer!.commit()
                 
-                self.bounds = bounds
-                self.frame.size = drawableSize
+                //self.bounds = bounds
+                //self.frame.size = drawableSize
             } else {
                 log.error("Could not get texture")
             }

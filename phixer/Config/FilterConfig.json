@@ -174,7 +174,7 @@
             "parameters":  [
             ]
         },
-        {"key": "CISRGBToneCurveToLinear", "title": "sRGB Tone Curve to Linear", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CISRGBToneCurveToLinear", "title": "sRGB Tone Curve to Linear", "ftype": "singleInput", "show": true, "rating": 2,
             "parameters":  [
             ]
         },
@@ -1700,7 +1700,7 @@
         },
         {"category": "favorites",
             "filters": ["CITwirlDistortion", "CIColorPosterize", "CIColorInvert", "CICMYKHalftone", "CIDotScreen", "CIHatchedScreen",
-                "ps_004", "ps_009", "bw_031", "bw_037" ]
+                "ps_004", "ps_009", "bw_031", "bw_037", "CISRGBToneCurveToLinear" ]
         },
         
         

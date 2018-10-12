@@ -77,7 +77,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     
     
     deinit{
-        //suspend()
+        suspend()
     }
     
     
@@ -310,17 +310,19 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     // MARK: - Rendering stuff
     ////////////////////////////////////////////
     
+    /***
     fileprivate var sampleImageFull:UIImage!
     fileprivate var blendImageFull:UIImage!
     fileprivate var sampleImageSmall:UIImage? = nil
     fileprivate var blendImageSmall:UIImage? = nil
+    ***/
     fileprivate var sample:CIImage? = nil
     fileprivate var blend:CIImage? = nil
     
     
     
     fileprivate func loadInputs(){
-        
+        /***
         //sampleImageFull = UIImage(named:"sample_9989.png")
         sampleImageFull = UIImage(ciImage:ImageManager.getCurrentSampleImage()!)
         
@@ -329,6 +331,10 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         //blendImageSmall = UIImage(ciImage:ImageManager.getCurrentBlendImage(size:size)!)
         sample = CIImage(image:sampleImageSmall!)
         blend  = ImageManager.getCurrentBlendImage(size:size)
+        ***/
+        sample = ImageManager.getCurrentSampleImage()
+        blend  = ImageManager.getCurrentBlendImage()
+
     }
     
     
@@ -368,7 +374,8 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
 
         // run the filter
         renderview?.image = descriptor?.apply(image:sample, image2: blend)
-        
+        renderview?.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: self.height * 0.8)
+
         //renderView?.isHidden = false
  
     }
@@ -442,6 +449,9 @@ extension FilterGalleryView {
                 let key = self.filterList[index]
                 let renderview = self.filterManager.getRenderView(key:key)
                 renderview?.frame = cell.frame
+                //renderview?.contentMode = .scaleAspectFit
+                //renderview?.clipsToBounds = true
+                //renderview?.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: self.height * 0.8)
                 self.updateRenderView(index:index, key: key, renderview: renderview) // doesn't seem to work if we put this into the FilterGalleryViewCell logic (threading?!)
                 cell.delegate = self
                 cell.configureCell(frame: cell.frame, index:index, key:key)

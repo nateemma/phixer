@@ -61,6 +61,7 @@ class FilterDisplayView: UIView {
         //currFilterKey = filterManager.getSelectedFilter()
         currFilterKey = key
         currFilterDescriptor = filterManager.getFilterDescriptor(key: currFilterKey)
+        filterManager.releaseRenderView(key: key)
         renderView = filterManager.getRenderView(key: currFilterKey)
         update()
     }
@@ -103,6 +104,8 @@ class FilterDisplayView: UIView {
                 self.addSubview(renderView!)
                 renderView?.anchorToEdge(.top, padding: 0, width: (renderView?.frame.size.width)!, height: (renderView?.frame.size.height)!)
                 renderView?.isHidden = false
+                renderView?.contentMode = .scaleAspectFit
+                renderView?.clipsToBounds = true
                 self.bringSubview(toFront: renderView!)
                 //renderView?.fillSuperview()
             }
@@ -133,21 +136,22 @@ class FilterDisplayView: UIView {
         DispatchQueue.main.async(execute: { () -> Void in
             
             self.currSampleInput = ImageManager.getCurrentSampleImage()!
-
+            
             // get current filter
             self.currFilterDescriptor = self.filterManager.getFilterDescriptor(key: self.currFilterKey)
             self.renderView = self.filterManager.getRenderView(key: self.currFilterKey)
+            //self.setRenderViewSize()
 
             // run the filter
-           self.renderView?.image = self.currFilterDescriptor?.apply(image:self.currSampleInput)
-
+            self.renderView?.image = self.currFilterDescriptor?.apply(image:self.currSampleInput)
+            self.doLayout()
         })
     }
     
    
     
     func suspend(){
-
+        self.filterManager.releaseRenderView(key: self.currFilterKey)
     }
     
     

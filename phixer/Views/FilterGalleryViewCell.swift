@@ -51,10 +51,12 @@ class FilterGalleryViewCell: UICollectionViewCell {
     
     fileprivate var filterManager:FilterManager = FilterManager.sharedInstance
 
+    /***
     fileprivate var sampleImageFull:UIImage!
     fileprivate var blendImageFull:UIImage!
     fileprivate var sampleImageSmall:UIImage? = nil
     fileprivate var blendImageSmall:UIImage? = nil
+    ***/
     fileprivate var sample:CIImage? = nil
     fileprivate var blend:CIImage? = nil
     
@@ -94,7 +96,8 @@ class FilterGalleryViewCell: UICollectionViewCell {
         self.layer.borderColor = UIColor(white: 0.6, alpha: 1.0).cgColor
         self.clipsToBounds = true
         
-        renderView.contentMode = .scaleAspectFill
+        //renderView.contentMode = .scaleAspectFill
+        renderView.contentMode = .scaleAspectFit
         renderView.clipsToBounds = true
         renderView.frame.size = CGSize(width:defaultWidth, height:defaultHeight)
         self.addSubview(renderView)
@@ -134,13 +137,15 @@ class FilterGalleryViewCell: UICollectionViewCell {
         // create scaled down versions of the sample and blend images
         //TODO: let user choose image
         //let size = sampleImageFull.size.applying(CGAffineTransform(scaleX: 0.2, y: 0.2))
-        let size = (renderView?.frame.size)!
+        //let size = (renderView?.frame.size)!
         
         // downsize input images since we really only need thumbnails
 
 
-        sample = ImageManager.getCurrentSampleImage(size:size)
-        blend = ImageManager.getCurrentBlendImage(size:size)
+        //sample = ImageManager.getCurrentSampleImage(size:size)
+        //blend = ImageManager.getCurrentBlendImage(size:size)
+        sample = ImageManager.getCurrentSampleImage()
+        blend = ImageManager.getCurrentBlendImage()
         /***
 
          let hasAlpha = false
