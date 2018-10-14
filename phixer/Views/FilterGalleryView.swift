@@ -333,7 +333,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         blend  = ImageManager.getCurrentBlendImage(size:size)
         ***/
         sample = ImageManager.getCurrentSampleImage()
-        blend  = ImageManager.getCurrentBlendImage()
+        blend  = ImageManager.getCurrentBlendImage(size:(sample?.extent.size)!)
 
     }
     

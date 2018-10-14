@@ -96,8 +96,8 @@ class FilterGalleryViewCell: UICollectionViewCell {
         self.layer.borderColor = UIColor(white: 0.6, alpha: 1.0).cgColor
         self.clipsToBounds = true
         
-        //renderView.contentMode = .scaleAspectFill
-        renderView.contentMode = .scaleAspectFit
+        renderView.contentMode = .scaleAspectFill
+        //renderView.contentMode = .scaleAspectFit
         renderView.clipsToBounds = true
         renderView.frame.size = CGSize(width:defaultWidth, height:defaultHeight)
         self.addSubview(renderView)
@@ -145,7 +145,7 @@ class FilterGalleryViewCell: UICollectionViewCell {
         //sample = ImageManager.getCurrentSampleImage(size:size)
         //blend = ImageManager.getCurrentBlendImage(size:size)
         sample = ImageManager.getCurrentSampleImage()
-        blend = ImageManager.getCurrentBlendImage()
+        blend = ImageManager.getCurrentBlendImage(size:(sample?.extent.size)!)
         /***
 
          let hasAlpha = false

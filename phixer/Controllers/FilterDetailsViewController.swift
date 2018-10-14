@@ -326,7 +326,8 @@ class FilterDetailsViewController: UIViewController {
             
             filterParametersView.frame.size.width = displayWidth
             filterParametersView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 1, otherSize: filterParametersView.frame.size.height)
-            
+            view.bringSubview(toFront: filterParametersView)
+
             // Filter display takes the rest of the screen
             //filterDisplayView.frame.size.height = displayHeight - bannerHeight - filterParametersView.frame.size.height - 4
             filterDisplayView.frame.size.height = displayHeight - bannerHeight

@@ -755,6 +755,7 @@ class ImageManager {
         
         
         let contextSize: CGSize = (image?.size)!
+        var resized:UIImage?
         
         //Set to square
         var posX: CGFloat = 0.0
@@ -787,15 +788,24 @@ class ImageManager {
         let rect: CGRect = CGRect(x:posX, y:posY, width:cropWidth, height:cropHeight)
         
         // Create bitmap image from context using the rect
-        let imageRef: CGImage = (image?.cgImage)!.cropping(to: rect)!
-        
-        // Create a new image based on the imageRef and rotate back to the original orientation
-        let cropped: UIImage = UIImage(cgImage: imageRef, scale: (image?.scale)!, orientation: (image?.imageOrientation)!)
-        
-        UIGraphicsBeginImageContextWithOptions(to, true, (image?.scale)!)
-        cropped.draw(in: CGRect(x:0, y:0, width:to.width, height:to.height))
-        let resized = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
+        let inCGImage = (image?.cgImage)
+        if inCGImage != nil {
+
+            let imageRef: CGImage = inCGImage!.cropping(to: rect)!
+            
+            // Create a new image based on the imageRef and rotate back to the original orientation
+            let cropped: UIImage = UIImage(cgImage: imageRef, scale: (image?.scale)!, orientation: (image?.imageOrientation)!)
+            
+            UIGraphicsBeginImageContextWithOptions(to, true, (image?.scale)!)
+            cropped.draw(in: CGRect(x:0, y:0, width:to.width, height:to.height))
+            resized = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            // could not get CGImage from CIImage, so try to re-create
+            
+        } else {
+            resized = image // what else?
+            log.error("Could not extract CGImage from UIImage")
+        }
         
         return resized
     }

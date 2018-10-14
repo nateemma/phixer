@@ -20,7 +20,7 @@ class MetalImageView: MTKView
     let colorSpace = CGColorSpaceCreateDeviceRGB()
     
     lazy var commandQueue: MTLCommandQueue = { [unowned self] in
-        return self.device!.makeCommandQueue()!
+            return self.device!.makeCommandQueue()!
         }()
     
     lazy var ciContext: CIContext = { [unowned self] in
@@ -52,6 +52,11 @@ class MetalImageView: MTKView
     }
     
     func renderImage() {
+        guard device != nil else {
+            log.error("NIL device")
+            return
+        }
+        
         if let image = image {
 
             if let targetTexture = currentDrawable?.texture {

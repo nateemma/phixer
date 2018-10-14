@@ -127,7 +127,6 @@ class  FilterDescriptor {
         if self.filter == nil {
             log.error("Error creating filter:\(key)")
         } else {
-            //self.filter?.setDefaults()
             // (deep) copy the parameters and set up the filter
             for p in parameters {
                 self.stashedParameters[p.key] = p
@@ -360,16 +359,16 @@ class  FilterDescriptor {
             log.debug("Running filter: \(String(describing: self.key)), type:\(self.filterOperationType)")
             log.debug("Input keys: \(filter.inputKeys)")
             
-            if checkArg(kCIInputImageKey) { filter.setValue(image, forKey: kCIInputImageKey) }
 
             switch (self.filterOperationType){
             case .lookup:
                 self.setLookupImage(name:self.lookupImageName)
                 fallthrough
+                
             case .singleInput:
- 
-                //filter.setValue(image, forKey: kCIInputImageKey)
+                if checkArg(kCIInputImageKey) { filter.setValue(image, forKey: kCIInputImageKey) }
                 return filter.outputImage
+                
             case .blend:
                 log.debug("Using BLEND mode for filter: \(String(describing: self.key))")
                 //TOFIX: blend image needs to be resized to fit the render view
@@ -380,11 +379,15 @@ class  FilterDescriptor {
                 } else {
                     blend = ImageManager.getCurrentBlendImage(size:(image?.extent.size)!)
                 }
-                if checkArg("inputBackgroundImage") { filter.setValue(blend, forKey: "inputBackgroundImage") }
+                //if checkArg(kCIInputImageKey) { filter.setValue(image, forKey: kCIInputImageKey) }
+                //if checkArg("inputBackgroundImage") { filter.setValue(blend, forKey: "inputBackgroundImage") }
+                if checkArg(kCIInputImageKey) { filter.setValue(blend, forKey: kCIInputImageKey) }
+                if checkArg("inputBackgroundImage") { filter.setValue(image, forKey: "inputBackgroundImage") }
                 //filter.setValue(image, forKey: kCIInputImageKey)
                 //filter.setValue(image, forKey: "inputBackgroundImage")
                 //filter.setValue(blend, forKey: kCIInputImageKey)
                 return filter.outputImage
+                
             default:
                 log.warning("Don't know how to handle filter \(String(describing: self.key))")
             }

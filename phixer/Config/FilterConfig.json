@@ -5,19 +5,19 @@
         {"key": "none",               "title": "No Filters" },
         {"key": "favorites",          "title": "Favorites" },
         {"key": "basic",              "title": "Basic Adjustments" },
-        {"key": "blend",              "title": "Blend Effects" },
+        {"key": "blends",              "title": "Blend Effects" },
         {"key": "blur",               "title": "Blur Effects" },
-        {"key": "ColorAdjustment",    "title": "Color Adjustments" },
-        {"key": "ColorEffect",        "title": "Color Effects" },
-        {"key": "PhotoEffect",        "title": "Basic Photo Effects" },
-        {"key": "CompositeOperation", "title": "Composite Operations" },
-        {"key": "DistortionEffect",   "title": "Distortion Effects" },
-        {"key": "GeometryAdjustment", "title": "GeometryAdjustment" },
-        {"key": "HalftoneEffect",     "title": "Halftone Effects" },
-        {"key": "Reduction",          "title": "Reduction" },
-        {"key": "Sharpen",            "title": "Sharpen" },
-        {"key": "Stylize",            "title": "Stylize" },
-        {"key": "TileEffect",         "title": "Tile Effects" },
+        {"key": "colorAdjustment",    "title": "Color Adjustments" },
+        {"key": "colorEffect",        "title": "Color Effects" },
+        {"key": "photoEffect",        "title": "Basic Photo Effects" },
+        {"key": "compositeOperation", "title": "Composite Operations" },
+        {"key": "distortionEffect",   "title": "Distortion Effects" },
+        {"key": "deometryAdjustment", "title": "GeometryAdjustment" },
+        {"key": "halftoneEffect",     "title": "Halftone Effects" },
+        {"key": "reduction",          "title": "Reduction" },
+        {"key": "sharpen",            "title": "Sharpen" },
+        {"key": "stylize",            "title": "Stylize" },
+        {"key": "tileEffect",         "title": "Tile Effects" },
         {"key": "monochrome",         "title": "Monochrome"   },
         {"key": "color",              "title": "Color FX"     },
         {"key": "etikate",            "title": "Miss Etikate" },
@@ -1699,8 +1699,8 @@
             "filters": ["NoFilter" ]
         },
         {"category": "favorites",
-            "filters": ["CITwirlDistortion", "CIColorPosterize", "CIColorInvert", "CICMYKHalftone", "CIDotScreen", "CIHatchedScreen",
-                "ps_004", "ps_009", "bw_031", "bw_037", "CISRGBToneCurveToLinear" ]
+            "filters": ["CISRGBToneCurveToLinear", "CITwirlDistortion", "CIColorPosterize", "CIColorInvert", "CICMYKHalftone", "CIDotScreen", "CIHatchedScreen",
+                "ps_004", "ps_009", "bw_031", "bw_037" ]
         },
         
         
@@ -1710,7 +1710,7 @@
         },
         
 
-        {"category": "blend",
+        {"category": "blends",
                         "filters": ["CIAdditionCompositing", "CIColorBlendMode", "CIColorBurnBlendMode", "CIColorDodgeBlendMode", "CIDarkenBlendMode",
                             "CIDifferenceBlendMode", "CIDivideBlendMode", "CIExclusionBlendMode", "CIHardLightBlendMode", "CIHueBlendMode", "CILightenBlendMode",
                             "CILinearBurnBlendMode", "CILinearDodgeBlendMode", "CILuminosityBlendMode", "CIMaximumCompositing", "CIMinimumCompositing",
@@ -1718,53 +1718,53 @@
                             "CISoftLightBlendMode", "CISourceAtopCompositing", "CISourceInCompositing", "CISourceOutCompositing", "CISourceOverCompositing", "CISubtractBlendMode" ]
         },
         
-        {"category": "Blur",
+        {"category": "blur",
             "filters": ["CIBoxBlur", "CIDiscBlur", "CIGaussianBlur", "CIMaskedVariableBlur", "CIMedianFilter", "CIMotionBlur", "CINoiseReduction", "CIZoomBlur" ]
         },
-        {"category": "ColorAdjustment",
+        {"category": "colorAdjustment",
             "filters": ["CIColorClamp", "CIColorControls", "CIColorMatrix", "CIColorPolynomial", "CIExposureAdjust", "CIGammaAdjust", "CIHueAdjust", "CILinearToSRGBToneCurve",
                 "CISRGBToneCurveToLinear", "CITemperatureAndTint", "CIToneCurve", "CIVibrance", "CIWhitePointAdjust" ]
         },
-        {"category": "ColorEffect",
+        {"category": "colorEffect",
             "filters": ["CIColorCrossPolynomial", "CIColorCube", "CIColorCubeWithColorSpace", "CIColorInvert", "CIColorMap", "CIColorMonochrome", "CIColorPosterize",
                 "CIFalseColor", "CIMaskToAlpha", "CIMaximumComponent", "CIMinimumComponent" ]
         },
-        {"category": "PhotoEffect",
+        {"category": "photoEffect",
             "filters": ["CIPhotoEffectChrome", "CIPhotoEffectFade", "CIPhotoEffectInstant", "CIPhotoEffectMono", "CIPhotoEffectNoir", "CIPhotoEffectProcess", "CIPhotoEffectTonal",
                 "CIPhotoEffectTransfer", "CISepiaTone", "CIVignette", "CIVignetteEffect" ]
         },
-        {"category": "CompositeOperation",
+        {"category": "compositeOperation",
             "filters": ["CIAdditionCompositing", "CIColorBlendMode", "CIColorBurnBlendMode", "CIColorDodgeBlendMode", "CIDarkenBlendMode", "CIDifferenceBlendMode",
                 "CIDivideBlendMode", "CIExclusionBlendMode", "CIHardLightBlendMode", "CIHueBlendMode", "CILightenBlendMode", "CILinearBurnBlendMode",
                 "CILinearDodgeBlendMode", "CILuminosityBlendMode", "CIMaximumCompositing", "CIMinimumCompositing", "CIMultiplyBlendMode", "CIMultiplyCompositing",
                 "CIOverlayBlendMode", "CIPinLightBlendMode", "CISaturationBlendMode", "CIScreenBlendMode", "CISoftLightBlendMode", "CISourceAtopCompositing",
                 "CISourceInCompositing", "CISourceOutCompositing", "CISourceOverCompositing", "CISubtractBlendMode" ]
         },
-        {"category": "DistortionEffect",
+        {"category": "distortionEffect",
             "filters": ["CIBumpDistortion", "CIBumpDistortionLinear", "CICircleSplashDistortion", "CICircularWrap", "CIDroste", "CIDisplacementDistortion",
                 "CIGlassDistortion", "CIGlassLozenge", "CIHoleDistortion", "CILightTunnel", "CIPinchDistortion", "CIStretchCrop", "CITorusLensDistortion",
                 "CITwirlDistortion", "CIVortexDistortion" ]
         },
-        {"category": "GeometryAdjustment",
+        {"category": "geometryAdjustment",
             "filters": ["CIAffineTransform", "CICrop", "CILanczosScaleTransform", "CIPerspectiveCorrection", "CIPerspectiveTransform", "CIPerspectiveTransformWithExtent",
                 "CIStraightenFilter", "CICategoryGradient", "CIGaussianGradient", "CILinearGradient", "CIRadialGradient", "CISmoothLinearGradient" ]
         },
-        {"category": "HalftoneEffect",
+        {"category": "halftoneEffect",
             "filters": ["CICircularScreen", "CICMYKHalftone", "CIDotScreen", "CIHatchedScreen", "CILineScreen"  ]
         },
-        {"category": "Reduction",
+        {"category": "reduction",
             "filters": ["CIAreaAverage", "CIAreaHistogram", "CIRowAverage", "CIColumnAverage", "CIHistogramDisplayFilter", "CIAreaMaximum", "CIAreaMinimum",
                 "CIAreaMaximumAlpha", "CIAreaMinimumAlpha" ]
         },
-        {"category": "Sharpen",
+        {"category": "sharpen",
             "filters": ["CISharpenLuminance", "CIUnsharpMask" ]
         },
-        {"category": "Stylize",
+        {"category": "stylize",
             "filters": ["CIBlendWithAlphaMask", "CIBlendWithMask", "CIBloom", "CIComicEffect", "CIConvolution3X3", "CIConvolution5X5", "CIConvolution7X7", "CIConvolution9Horizontal",
                 "CIConvolution9Vertical", "CICrystallize", "CIDepthOfField", "CIEdges", "CIEdgeWork", "CIGloom", "CIHeightFieldFromMask", "CIHexagonalPixellate",
                 "CIHighlightShadowAdjust", "CILineOverlay", "CIPixellate", "CIPointillize", "CIShadedMaterial", "CISpotColor", "CISpotLight" ]
         },
-        {"category": "TileEffect",
+        {"category": "tileEffect",
             "filters": ["CIAffineClamp", "CIAffineTile", "CIEightfoldReflectedTile", "CIFourfoldReflectedTile", "CIFourfoldRotatedTile", "CIFourfoldTranslatedTile",
                 "CIGlideReflectedTile", "CIKaleidoscope", "CIOpTile", "CIParallelogramTile", "CIPerspectiveTile", "CISixfoldReflectedTile",
                 "CISixfoldRotatedTile", "CITriangleKaleidoscope", "CITriangleTile", "CITwelvefoldReflectedTile" ]

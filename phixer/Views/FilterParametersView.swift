@@ -487,28 +487,6 @@ class FilterParametersView: UIView {
         //updateFilterTargets()
     }
     
-    /***
-    func slider1ValueDidChange(_ sender:UISlider!){
-        currFilterDesc?.setParameter(sliderKey[0], value: sender.value)
-        updateFilterTargets()
-    }
-    
-    func slider2ValueDidChange(_ sender:UISlider!){ currFilterDesc?.setParameter(sliderKey[1], value: sender.value) }
-    
-    func slider3ValueDidChange(_ sender:UISlider!){ currFilterDesc?.setParameter(sliderKey[2], value: sender.value) }
-    
-    func slider4ValueDidChange(_ sender:UISlider!){ currFilterDesc?.setParameter(sliderKey[3], value: sender.value) }
-    
-    func slider5ValueDidChange(_ sender:UISlider!){ currFilterDesc?.setParameter(sliderKey[4], value: sender.value) }
-    
-    func colorSlider1ValueDidChange(_ sender:GradientSlider!){ currFilterDesc?.setColorParameter(sliderKey[0], color: CIColor(color:(gsliders[0]?.getSelectedColor())!)) }
-    
-    func colorSlider2ValueDidChange(_ sender:GradientSlider!){ currFilterDesc?.setColorParameter(sliderKey[1], color: CIColor(color:(gsliders[1]?.getSelectedColor())!)) }
-    
-    func colorSlider3ValueDidChange(_ sender:GradientSlider!){ currFilterDesc?.setColorParameter(sliderKey[2], color: CIColor(color:(gsliders[2]?.getSelectedColor())!)) }
-    
-    func colorSlider4ValueDidChange(_ sender:GradientSlider!){ currFilterDesc?.setColorParameter(sliderKey[3], color: CIColor(color:(gsliders[3]?.getSelectedColor())!)) }
-    ***/
     
     @objc func colorSliderValueDidChange(_ sender:GradientSlider!){
         let index = sender.tag
@@ -517,11 +495,14 @@ class FilterParametersView: UIView {
     
     @objc func slidersDidEndChange(_ sender:UISlider!){
         log.verbose("Settings changed for slider \(sliderKey[sender.tag])")
+        currFilterDesc?.setParameter(sliderKey[sender.tag], value: sender.value)
         delegate?.settingsChanged()
     }
     
     @objc func gslidersDidEndChange(_ sender:GradientSlider!){
-        log.verbose("Settings changed for slider \(sliderKey[sender.tag])")
+        let index = sender.tag
+        log.verbose("Settings changed for color slider \(sliderKey[index])")
+        currFilterDesc?.setColorParameter(sliderKey[index], color: CIColor(color: (gsliders[index]?.getSelectedColor())!))
         delegate?.settingsChanged()
     }
     

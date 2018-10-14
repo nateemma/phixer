@@ -616,7 +616,11 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
     
     @objc func acceptDidPress(){
         log.verbose("Accept pressed")
-        ImageManager.setCurrentBlendImageName(selectedBlendImageName)
+        if (!self.selectedBlendImageName.isEmpty) {
+            ImageManager.setCurrentBlendImageName(self.selectedBlendImageName)
+        } else {
+            log.error("NIL Blend Image Name")
+        }
         exitScreen()
     }
     

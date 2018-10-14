@@ -197,7 +197,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
             camera?.delegate = self
             
             // load the blend and sample images (assuming they cannot change while this view is displayed)
-            self.blendImageFull  = UIImage(ciImage:ImageManager.getCurrentBlendImage()!)
+            self.blendImageFull  = UIImage(ciImage:ImageManager.getCurrentBlendImage(size:(sourceInput?.extent.size)!)!)
             if (self.blendImageFull != nil){
                 self.blend = CIImage(image:self.blendImageFull!)
             }
