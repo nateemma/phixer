@@ -120,7 +120,7 @@ class FilterFactory{
             }
             var params = FilterFactory.settingsList[key]
             if (params == nil) {
-                log.warning("NIL parameters for filter: \(key)") // it might be valid, as some types of prameters are not added to the list
+                //log.warning("NIL parameters for filter: \(key)") // it might be valid, as some types of parameters are not added to the list
                 params = []
             }
             descriptor = FilterDescriptor(key: key, title: FilterFactory.filterList[key]!, ftype: ftype, parameters: params!)

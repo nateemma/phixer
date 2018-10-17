@@ -1,6 +1,83 @@
 {
     "version": 2.0,
     
+    "blends": [
+        "067_by_candymax_stock.jpg",
+        "15_by_grandeombre_stock.jpg",
+        "30_by_grandeombre_stock.jpg",
+        "8_by_grandeombre_stock.jpg",
+        "MissEtikAte_texture_1.png",
+        "MissEtikAte_texture_2.png",
+        "MissEtikAte_texture_3.png",
+        "MissEtikAte_texture_4.png",
+        "NerveEndings-Parsley.jpg",
+        "ScratchTheItch.jpg",
+        "WatermelonSplash.jpg",
+        "Whirlygig-2.jpg",
+        "_film_grain_numba_1__by_su_y.jpg",
+        "anger_by_pushelle.jpg",
+        "brick_static_by_dazzle_textures.jpg",
+        "burnt_newspaper_by_dazzle_textures.jpg",
+        "crack_and_peel_by_dazzle_textures.jpg",
+        "dear_hermine_grunge_texture_by_valerianastock-d3ai9zl.jpg",
+        "grunge_background_v2_by_bcoolbyte.jpg",
+        "grunge_texture_23_by_amptone_stock.jpg",
+        "lightning_splits_by_dazzle_textures.jpg",
+        "massacre_by_dazzle_textures.jpg",
+        "metal_rust_texture_22_by_fantasystock.jpg",
+        "monoprint_16_by_pendlestock.jpg",
+        "monoprint_17_by_pendlestock.jpg",
+        "monoprint_18_by_pendlestock.jpg",
+        "neopan_texture___2_by_jakezdaniel-d1zp0ug.jpg",
+        "nuit_lascive_by_dazzle_textures.jpg",
+        "paper_curled_by_fotojenny.jpg",
+        "rust_beam_by_logicalx.jpg",
+        "rust_texture_by_visionafar.jpg",
+        "sad_ending_by_ckdailyplanet-d30dame.jpg",
+        "seamless_water_drop_texture_by_fantasystock.jpg",
+        "shedyourskin_DirtyLights2.jpg",
+        "shedyourskin_DirtyLights4.jpg",
+        "shedyourskin_DirtyLights5.jpg",
+        "shedyourskin_DirtyLights6.jpg",
+        "shedyourskin_DirtyTextures7.jpg",
+        "shedyourskin_Tex_108.jpg",
+        "shedyourskin_Tex_119.jpg",
+        "shedyourskin_Tex_124.jpg",
+        "shedyourskin_Tex_132.jpg",
+        "shedyourskin_Tex_133.jpg",
+        "shedyourskin_Tex_26.jpg",
+        "shedyourskin_Tex_61.jpg",
+        "shedyourskin_Tex_87.jpg",
+        "shedyourskin_Tex_89.jpg",
+        "sheets_by_dazzle_textures.jpg",
+        "snow_bokeh_ii_by_lostpuppy_stock.jpg",
+        "texture_110_by_sirius_sdz.jpg",
+        "texture_125_by_sirius_sdz.jpg",
+        "texture_133_by_sirius_sdz.jpg",
+        "texture_142_by_sirius_sdz.jpg",
+        "texture_202_by_malleni_stock-d9uwyqo.jpg",
+        "texture_this_04_by_kuschelirmel_stock-d9vsffe.jpg",
+        "textures_100_by_inthename_stock.jpg",
+        "textures_92_by_inthename_stock.jpg",
+        "tile_by_dazzle_textures.jpg",
+        "wake_by_photoshop_stock.jpg",
+        "wet_cellophane_texture_by_fantasystock-d3gigxz.jpg"
+    ],
+    
+    "samples": [
+        "sample_0846.png", "sample_1149.png", "sample_1151.png", "sample_1412.png", "sample_1504.png", "sample_1533.png", "sample_1629.png",
+        "sample_1687.png", "sample_1748.png", "sample_1902.png", "sample_2143.png", "sample_2216.png", "sample_9989.png"
+    ],
+    
+    "settings": {
+        "blend": "_film_grain_numba_1__by_su_y.jpg",
+        "sample": "sample_0846.png",
+        "edit": ""
+    },
+    
+    
+    
+    
     "categories": [
         {"key": "none",               "title": "No Filters" },
         {"key": "favorites",          "title": "Favorites" },
@@ -12,7 +89,7 @@
         {"key": "photoEffect",        "title": "Basic Photo Effects" },
         {"key": "compositeOperation", "title": "Composite Operations" },
         {"key": "distortionEffect",   "title": "Distortion Effects" },
-        {"key": "deometryAdjustment", "title": "GeometryAdjustment" },
+        {"key": "geometryAdjustment", "title": "GeometryAdjustment" },
         {"key": "halftoneEffect",     "title": "Halftone Effects" },
         {"key": "reduction",          "title": "Reduction" },
         {"key": "sharpen",            "title": "Sharpen" },
@@ -33,7 +110,12 @@
     ],
     
     
+    
+    
     "filters": [
+        {"key": "NoFilter", "title": "No Filter", "ftype": "singleInput", "show": true, "rating": 0,
+            "parameters":  []
+        },
         {"key": "CIBokehBlur", "title": "Bokeh Blur", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputRadius", "title": "Radius", "min": 0.0, "max":100.0, "val": 20.0, "type": "CIAttributeTypeDistance"},
@@ -1143,6 +1225,8 @@
     ],
     
     
+    
+    
     "lookup": [
         { "key": "bw_000", "image": "bw_000_neutral.JPG", "show": true, "rating": 0 },
         { "key": "bw_001", "image": "bw_001_underexposed.JPG", "show": true, "rating": 0 },
@@ -1692,6 +1776,8 @@
         { "key": "vn_046", "image": "vn_046_red.jpg", "show": true, "rating": 0 },
         { "key": "vn_047", "image": "vn_047_red_cyan.jpg", "show": true, "rating": 0 }
     ],
+    
+    
     
     
     "assign": [

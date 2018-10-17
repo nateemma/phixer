@@ -9,6 +9,9 @@
 import Foundation
 import CoreImage
 
+import iCarousel
+
+
 // A view that implements an iCarousel scrolling list for showing categories
 
 

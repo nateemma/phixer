@@ -14,6 +14,9 @@ import CoreImage
 import AVFoundation
 import Photos
 
+import SwiftyJSON
+
+// Delegate interface
 
 protocol ImageManagerDelegate: class {
     func blendImageChanged(name: String)
@@ -23,15 +26,15 @@ protocol ImageManagerDelegate: class {
 
 class ImageManager {
     
-    
-    
-    
+
     
     //////////////////////////////////
     // MARK: - Blend Image/Layer Management
     //////////////////////////////////
     
-    private static let _blendNameList:[String] = [
+    private static var _blendNameList:[String] = []
+    /***
+    private static var _blendNameList:[String] = [
         "067_by_candymax_stock.jpg",
         "15_by_grandeombre_stock.jpg",
         "30_by_grandeombre_stock.jpg",
@@ -95,7 +98,9 @@ class ImageManager {
     ]
     
     private static var _currBlendName:String = _blendNameList[1]
-    
+   ***/
+    private static var _currBlendName:String = "_film_grain_numba_1__by_su_y.jpg"
+
     private static var _currBlendImage: UIImage? = nil
     
     private static var _currBlendImageScaled: UIImage? = nil
@@ -105,7 +110,9 @@ class ImageManager {
     
   
     
-    
+    public static func setBlendList(_ list:[String]){
+        _blendNameList = list
+    }
     
     public static func getBlendImageList()->[String]{
         return _blendNameList
@@ -120,22 +127,31 @@ class ImageManager {
     
     
     public static func setCurrentBlendImageName(_ name:String) {
+        
+        guard !(name.isEmpty) else {
+            log.error("Blend name is empty, ignoring")
+            return
+        }
+        
         if (name.contains(":")){ // URL?
             _currBlendName = name
             _currBlendImage = getBlendImageFromURL(name)
             _currBlendImageScaled = resizeImage(_currBlendImage, targetSize: _currBlendSize, mode:.scaleAspectFill)
             setBlendInput(image: _currBlendImageScaled!)
-            updateStoredSettings()
-        } else if (_blendNameList.contains(name)){
+        } else { // allow anything as long as the image is created
             log.debug("Current Blend image set to:\(name)")
             _currBlendName = name
             _currBlendImage = UIImage(named: _currBlendName)
-            _currBlendImageScaled = resizeImage(UIImage(ciImage: getCurrentBlendImage()!), targetSize: _currBlendSize, mode:.scaleAspectFill)
-            setBlendInput(image: _currBlendImageScaled!)
-            updateStoredSettings()
-        } else {
-            log.warning("Unknown Blend name:\(name)")
+            if (_currBlendImage != nil){
+                _currBlendImageScaled = resizeImage(UIImage(ciImage: getCurrentBlendImage()!), targetSize: _currBlendSize, mode:.scaleAspectFill)
+                setBlendInput(image: _currBlendImageScaled!)
+            } else {
+                log.error("Failed to create image")
+            }
+
         }
+        updateStoredSettings()
+        
     }
     
     
@@ -185,6 +201,7 @@ class ImageManager {
     private static func checkBlendImage(){
         // make sure current blend image has been loaded
         if (_currBlendImage == nil){
+            if _currBlendName.isEmpty { _currBlendName = getDefaultBlendImageName()! }
             _currBlendImage = getBlendImageFromURL(_currBlendName)
             setBlendInput(image: _currBlendImage!)
         }
@@ -216,10 +233,14 @@ class ImageManager {
     
     // returns the default name
     public static func getDefaultBlendImageName()->String?{
-        checkBlendImage()
+        //checkBlendImage()
         
         if (_currBlendName.isEmpty){
-            _currBlendName = _blendNameList[0]
+            if (_blendNameList.count>0) {
+                _currBlendName = _blendNameList[0]
+            } else {
+                _currBlendName = "_film_grain_numba_1__by_su_y.jpg" // desperation, hard-code the name
+            }
         }
         return _currBlendName
     }
@@ -228,11 +249,15 @@ class ImageManager {
     // MARK: - Sample Image Management
     //////////////////////////////////
     
-    private static let _sampleNameList:[String] = ["sample_0846.png", "sample_1149.png", "sample_1151.png", "sample_1412.png", "sample_1504.png", "sample_1533.png", "sample_1629.png",
+    /***
+    private static var _sampleNameList:[String] = ["sample_0846.png", "sample_1149.png", "sample_1151.png", "sample_1412.png", "sample_1504.png", "sample_1533.png", "sample_1629.png",
                                                    "sample_1687.png", "sample_1748.png", "sample_1902.png", "sample_2143.png", "sample_2216.png", "sample_9989.png"
                                                   ]
     private static var _currSampleName:String = _sampleNameList[1]
-    
+    ***/
+    private static var _sampleNameList:[String] = [ ]
+    private static var _currSampleName:String = "sample_9989.png"
+
     private static var _currSampleImage: UIImage? = nil
     
     private static var _currSampleImageScaled: UIImage? = nil
@@ -242,6 +267,10 @@ class ImageManager {
     
     
     
+    public static func setSampleList(_ list:[String]){
+        _sampleNameList = list
+    }
+
     public static func getSampleImageList()->[String]{
         return _sampleNameList
     }
@@ -256,23 +285,35 @@ class ImageManager {
     
     
     public static func setCurrentSampleImageName(_ name:String) {
+        guard !(name.isEmpty) else {
+            log.error("Sample name is empty, ignoring")
+            return
+        }
+        
         if (name.contains(":")){ // URL?
             log.debug("Current Sample image set to:\(name)")
             _currSampleName = name
             _currSampleImage = getSampleImageFromURL(name)
             _currSampleImageScaled = resizeImage(_currSampleImage, targetSize: _currSampleSize, mode:.scaleAspectFill)
             setSampleInput(image: _currSampleImageScaled!)
-            updateStoredSettings()
-        } else if (_sampleNameList.contains(name)){
+         } else { // allow anything as long as the image is created
             log.debug("Current Sample image set to:\(name)")
             _currSampleName = name
             _currSampleImage = UIImage(named: _currSampleName)
-            _currSampleImageScaled = resizeImage(UIImage(ciImage:getCurrentSampleImage()!), targetSize: _currSampleSize, mode:.scaleAspectFill)
-            setSampleInput(image: _currSampleImageScaled!)
-            updateStoredSettings()
-        } else {
-            log.warning("Unknown Sample name:\(name)")
+            if _currSampleImage != nil {
+                //_currSampleImageScaled = resizeImage(UIImage(ciImage:getCurrentSampleImage()!), targetSize: _currSampleSize, mode:.scaleAspectFill)
+                _currSampleImageScaled = resizeImage(_currSampleImage, targetSize: _currSampleSize, mode:.scaleAspectFill)
+                if _currSampleImageScaled != nil {
+                    setSampleInput(image: _currSampleImageScaled!)
+                } else {
+                    log.error("Could not resize image for: \(_currSampleName), size:\(_currSampleSize)")
+                }
+                
+            } else {
+                log.error("Could not create image for: \(_currSampleName)")
+            }
         }
+        updateStoredSettings()
     }
     
     
@@ -328,6 +369,7 @@ class ImageManager {
     private static func checkSampleImage(){
         // make sure current sample image has been loaded
         if (_currSampleImage == nil){
+            if _currSampleName.isEmpty { _currSampleName = getDefaultSampleImageName()! }
             _currSampleImage = getSampleImageFromURL(_currSampleName)
             setSampleInput(image: _currSampleImage!)
         }
@@ -361,10 +403,14 @@ class ImageManager {
     
     // returns the default name
     public static func getDefaultSampleImageName()->String?{
-        checkBlendImage()
+        //checkSampleImage()
         
         if (_currSampleName.isEmpty){
-            _currSampleName = _sampleNameList[0]
+            if (_sampleNameList.count>0) {
+                _currSampleName = _sampleNameList[0]
+            } else {
+                _currSampleName = "sample_1149.png" // desperation, hard-code the name
+            }
         }
         return _currSampleName
     }
@@ -386,21 +432,28 @@ class ImageManager {
 
     
     public static func getCurrentEditImageName()->String {
+        checkEditImage()
         return _currEditName
     }
     
     
     
     public static func setCurrentEditImageName(_ name:String) {
-        if (name.contains(":")){ // URL?
-            _currEditName = name
-            _currEditImage = getEditImageFromURL(name)
+        var ename:String
+        ename = name
+        if (ename.isEmpty){
+            checkEditImage()
+            ename = _currEditName
+        }
+        if (ename.contains(":")){ // URL?
+            _currEditName = ename
+            _currEditImage = getEditImageFromURL(ename)
             _currEditInput = CIImage(image:_currEditImage!)
             //_currEditImageScaled = resizeImage(_currEditImage, targetSize: _currEditSize, mode:.scaleAspectFill) // don't know size
-            log.verbose("Image set to:\(name)")
+            log.verbose("Image set to:\(ename)")
             updateStoredSettings()
         } else {
-            log.warning("Unexpected Edit name:\(name)")
+            log.warning("Unexpected Edit name:\(ename)")
         }
     }
     
@@ -494,49 +547,53 @@ class ImageManager {
     public static func setEditInput(image: UIImage){
         _currEditInput = CIImage(image: image)
     }
-   
+
     
     private static func checkEditImage(){
         
-        guard (!_currEditName.isEmpty) else {
+        if _currEditName.isEmpty  {
             _currEditSize = _currSampleSize // just to set it to something reasonable
-            log.debug("Edit image not set")
+            _currEditName = _currSampleName
+           log.debug("Edit image not set")
             getLatestPhotoName(completion: { (name: String?) in
                 //TODO: handle case where there is no photo (e.g. on simulator)
-                _currEditName = name!
+                if name == nil {
+                    _currEditName = _currSampleName
+                } else {
+                    _currEditName = name!
+                }
             })
 
-            return
+            //return
         }
         
         // make sure current sample image has been loaded
         if (_currEditImage == nil){
             _currEditImage = getEditImageFromURL(_currEditName)
-            setEditInput(image: _currEditImage!)
-        }
-        
-        // check to see if we have already resized
-        if (_currEditImageScaled == nil){
-            if (_currEditSize == CGSize.zero){
-                _currEditSize = (_currEditImage?.size)!
+            if _currEditImage != nil {
+                setEditInput(image: _currEditImage!)
+                
+                // check to see if we have already resized
+                if (_currEditImageScaled == nil){
+                    if (_currEditSize == CGSize.zero){
+                        _currEditSize = (_currEditImage?.size)!
+                    }
+                    _currEditImageScaled = resizeImage(_currEditImage, targetSize: _currEditSize, mode:.scaleAspectFit)
+                    setEditInput(image: _currEditImageScaled!)
+                }
+            } else {
+                log.error("Could not set edit image")
             }
-            _currEditImageScaled = resizeImage(_currEditImage, targetSize: _currEditSize, mode:.scaleAspectFit)
-            setEditInput(image: _currEditImageScaled!)
+        }
+        if (_currEditSize == CGSize.zero){
+            if _currEditImage != nil { _currEditSize = (_currEditImage?.size)! }
         }
     }
     
     
     // returns the default name
     public static func getDefaultEditImageName()->String?{
-        checkBlendImage()
-        
-        if (_currEditName.isEmpty){
-            
-            _currEditName = ""
-            getLatestPhotoName(completion: { (name: String?) in
-                    _currEditName = name!
-                })
-        }
+        checkEditImage()
         return _currEditName
     }
     
@@ -547,6 +604,7 @@ class ImageManager {
     //////////////////////////////////
     
     fileprivate static func updateStoredSettings(){
+        print("updateStoredSettings()")
         let settings = SettingsRecord()
         
         settings.blendImage = getCurrentBlendImageName()
@@ -613,11 +671,13 @@ class ImageManager {
         }
         
         let size = (image?.size)!
+        var tsize = targetSize
+        if (targetSize.width<0.01) && (targetSize.height<0.01) { tsize = size }
         
         // figure out if we need to rotate the image to match the target
         let srcIsLandscape:Bool = (size.width > size.height)
-        let tgtIsLandscape:Bool = (targetSize.width > targetSize.height)
-        let tgtIsSquare:Bool =  (fabs(Float(targetSize.width - targetSize.height)) < 0.001)
+        let tgtIsLandscape:Bool = (tsize.width > tsize.height)
+        let tgtIsSquare:Bool =  (fabs(Float(tsize.width - tsize.height)) < 0.001)
         
         var srcImage:UIImage? = image
         var srcSize:CGSize = CGSize.zero
@@ -640,14 +700,14 @@ class ImageManager {
         
         // crop the image to match the aspect ratio of the target size (resize doesn't seem to work)
         let bounds = CGRect(x:0, y:0, width:srcSize.width, height:srcSize.height)
-        let rect = AVMakeRect(aspectRatio: targetSize, insideRect: bounds)
+        let rect = AVMakeRect(aspectRatio: tsize, insideRect: bounds)
         //let rect = fitIntoRect(srcSize: srcSize, targetRect: bounds, withContentMode: .scaleAspectFill)
         
         let cropSize = CGSize(width:rect.width, height:rect.height)
         let croppedImage = cropImage(srcImage, to:cropSize)
         
         // resize to match the target
-        let newImage = scaleImage(croppedImage, targetSize:targetSize)
+        let newImage = scaleImage(croppedImage, targetSize:tsize)
         
         /***
          // debug

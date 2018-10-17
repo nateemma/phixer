@@ -9,6 +9,8 @@
 import Foundation
 import CoreImage
 
+import iCarousel
+
 
 // Interface required of controlling View
 protocol SampleGalleryViewDelegate: class {

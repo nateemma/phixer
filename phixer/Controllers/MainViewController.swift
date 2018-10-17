@@ -15,6 +15,7 @@ import AudioToolbox
 
 import GoogleMobileAds
 
+import iCarousel
 
 
 private var filterList: [String] = []
@@ -240,6 +241,9 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         //TODO: select filter category somehow
         //filterSelectionView.setFilterCategory(String.favorites)
+        
+        // enable camera feed
+        filterSelectionView.setInputSource(.camera)
         
         //TODO: remember state?
         hideCategorySelector()

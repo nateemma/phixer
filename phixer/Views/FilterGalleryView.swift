@@ -154,6 +154,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     
     fileprivate func doLoadData(){
         //log.verbose("activated")
+        //ignore compiler warnings
         var filter:FilterDescriptor? = nil
         var renderview:MetalImageView? = nil
         

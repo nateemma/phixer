@@ -197,6 +197,8 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         //TODO: select filter category somehow
         //filterSelectionView.setFilterCategory(String.favorites)
         
+        filterSelectionView.setInputSource(.photo)
+        
         //TODO: remember state?
         hideCategorySelector()
         hideFilterSelector()

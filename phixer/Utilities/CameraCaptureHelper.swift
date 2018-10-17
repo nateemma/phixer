@@ -18,7 +18,7 @@ import UIKit
 /// a new image in the main thread via `newCameraImage()`.
 class CameraCaptureHelper: NSObject {
     var captureSession = AVCaptureSession()
-    var cameraPosition: AVCaptureDevice.Position
+    var cameraPosition: AVCaptureDevice.Position = AVCaptureDevice.Position.back
     var isRunning:Bool = false
     
     weak var delegate: CameraCaptureHelperDelegate?
@@ -37,6 +37,7 @@ class CameraCaptureHelper: NSObject {
         if !self.isRunning {
             self.isRunning = true
             captureSession.startRunning()
+            log.verbose("Starting camera session")
         }
     }
     
@@ -45,6 +46,7 @@ class CameraCaptureHelper: NSObject {
         if self.isRunning {
             self.isRunning = false
             captureSession.stopRunning()
+            log.verbose("Stopping camera session")
         }
     }
     
@@ -62,44 +64,65 @@ class CameraCaptureHelper: NSObject {
     
     
     fileprivate func initialiseCaptureSession() {
-        let captureSession = AVCaptureSession()
-        captureSession.sessionPreset = AVCaptureSession.Preset.photo
         
-        //let camera = ( AVCaptureDevice.default(for: AVMediaType.video))
+        let captureSession = AVCaptureSession()
+        //captureSession.sessionPreset = AVCaptureSession.Preset.photo
+        captureSession.sessionPreset = AVCaptureSession.Preset.inputPriority
+        
+        AVCaptureDevice.requestAccess(for: AVMediaType.video) {
+            (granted: Bool) -> Void in
+            guard granted else {
+                log.error("access to hardware refused")
+                return
+            }
+            log.verbose("Access granted")
+        }
+        
         let camera = self.getDevice(position: self.cameraPosition)
 
         do {
             let input = try AVCaptureDeviceInput(device: camera!)
             
-            captureSession.addInput(input)
+            if captureSession.canAddInput(input) {
+                captureSession.addInput(input)
+            } else {
+                log.error("cannot add video input")
+            }
         } catch {
             log.error("Unable to access camera")
             return
         }
         
         let videoOutput = AVCaptureVideoDataOutput()
-        
-        videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "sample buffer delegate", attributes: []))
-        
+        videoOutput.alwaysDiscardsLateVideoFrames = true
+        videoOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable as! String: NSNumber(value: kCVPixelFormatType_32BGRA)]
+        //videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "phixer buffer delegate", attributes: []))
+        let queue = DispatchQueue(label: "phixer buffer delegate")
+        videoOutput.setSampleBufferDelegate(self, queue: queue)
+
         if captureSession.canAddOutput(videoOutput) {
             captureSession.addOutput(videoOutput)
+            captureSession.commitConfiguration()
+        } else {
+            log.error("cannot add video output capture")
         }
         
 
     }
     
+    
+    
     //Get the device (Front or Back)
     private func getDevice(position: AVCaptureDevice.Position) -> AVCaptureDevice? {
-        let devices = AVCaptureDevice.DiscoverySession(deviceTypes: [], mediaType: .video, position: position).devices
-        if !devices.isEmpty {
-            log.debug("devices: \(devices)")
-            for device in devices where device.position == position {
-                return device
-            }
+      
+        if let camera = AVCaptureDevice.DiscoverySession(deviceTypes: [AVCaptureDevice.DeviceType.builtInWideAngleCamera],
+                                                           mediaType: AVMediaType.video,
+                                                           position: position).devices.first{
+            log.verbose("Using device: \"\(camera.localizedName)\" for position:\(position)")
+            return camera
         } else {
-            log.error("No camera device found for position: \(position)")
+            return AVCaptureDevice.default(for: .video)
         }
-        return AVCaptureDevice.default(for: .video)
     }
 
 }
@@ -107,15 +130,18 @@ class CameraCaptureHelper: NSObject {
 
 
 extension CameraCaptureHelper: AVCaptureVideoDataOutputSampleBufferDelegate {
-    func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+
         connection.videoOrientation = AVCaptureVideoOrientation(rawValue: UIApplication.shared.statusBarOrientation.rawValue)!
         
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
+            log.error("NIL pixel buffer returned")
             return
         }
         
         DispatchQueue.main.async {
-                self.delegate?.newCameraImage(self, image: CIImage(cvPixelBuffer: pixelBuffer))
+            log.verbose("new camera image")
+            self.delegate?.newCameraImage(self, image: CIImage(cvPixelBuffer: pixelBuffer))
         }
         
     }

@@ -7,7 +7,8 @@ target 'phixer' do
 
   # Pods for phixer
 
-  platform :ios, '10.0' 
+  #platform :ios
+  platform :ios, '10.6'
   # Neon layout constraint helpers
   pod 'Neon'
   
@@ -31,6 +32,9 @@ target 'phixer' do
   # Star rating view
   #pod 'Cosmos', '~> 9.0'
   pod 'Cosmos'
+  
+  #Picture carousekl
+  pod 'iCarousel'
 
   target 'phixerTests' do
     inherit! :search_paths

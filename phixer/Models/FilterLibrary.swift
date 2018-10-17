@@ -24,6 +24,10 @@ class FilterLibrary{
     //MARK: - Category/Filter "Database"
     //////////////////////////////////////////////
     
+    // lists of blends & Samples
+    public static var blendList:[String] = []
+    public static var sampleList:[String] = []
+
     // The dictionary of Categories (key, title). key is category name
     public static var categoryDictionary:[String:String] = [:]
     public static var categoryList:[String] = []
@@ -61,8 +65,8 @@ class FilterLibrary{
     
     deinit{
         if (!FilterLibrary.saveDone){
-            FilterLibrary.saveDone = true
             FilterLibrary.save()
+            FilterLibrary.saveDone = true
         }
     }
     
@@ -78,30 +82,34 @@ class FilterLibrary{
         //if (Database.isSetup()){
         //    loadFromDatabase()
         //} else {
-            loadFromConfigFile()
-            commitChanges()
+        loadFilterConfig()
+        loadFromDatabase()
+        commitChanges()
         //}
     }
 
    
     // restore default parameters from the config file
     public static func restoreDefaults(){
-        loadFromConfigFile()
+        loadFilterConfig()
         commitChanges()
     }
+    
+  
+    
     
     ////////////////////////////
     // Config File Processing
     ////////////////////////////
     
     
-    fileprivate static let configFile = "FilterConfig"
+    fileprivate static let configFile = "defaultConfig"
     //fileprivate static let configFile = "testFilterConfig"
 
     fileprivate static var parsedConfig:JSON = JSON.null
     
     
-    fileprivate  static func loadFromConfigFile(){
+    fileprivate  static func loadFilterConfig(){
         var count:Int = 0
         var version:Float
         var key:String, title:String, ftype:String
@@ -115,13 +123,34 @@ class FilterLibrary{
         var psettings:[FilterDescriptor.ParameterSettings]
 
      
+        blendList = []
+        sampleList = []
         categoryDictionary = [:]
         categoryList = []
         filterDictionary = [:]
         lookupDictionary = [:]
         categoryFilters = [:]
         
-        print ("FilterLibrary.loadFromConfigFile() - loading configuration...")
+        // load the settings first because timing is a bit tricky and we may need those values set before
+        // parsing the config file is done
+        
+        
+        if let settings = Database.getSettings() {
+            // Double-check that there is something valid in there...
+            if (settings.blendImage!.isEmpty) { settings.blendImage = ImageManager.getDefaultBlendImageName() }
+            if (settings.sampleImage!.isEmpty) { settings.sampleImage = ImageManager.getDefaultSampleImageName() }
+            if (settings.editImage!.isEmpty) { settings.editImage = ImageManager.getDefaultEditImageName() }
+
+            print("loadFilterConfig() - Restoring Settings: key:\(settings.key) Sample:\(settings.sampleImage!) Blend:\(settings.blendImage!) Edit:\(settings.editImage!)")
+            ImageManager.setCurrentBlendImageName(settings.blendImage!)
+            ImageManager.setCurrentSampleImageName(settings.sampleImage!)
+            ImageManager.setCurrentEditImageName(settings.editImage!)
+        } else {
+            print("loadFilterConfig() - ERR: settings NOT found...")
+        }
+
+        
+        print ("FilterLibrary.loadFilterConfig() - loading configuration...")
         
         // find the configuration file, which must be part of the project
         let path = Bundle.main.path(forResource: configFile, ofType: "json")
@@ -140,20 +169,18 @@ class FilterLibrary{
                     version = parsedConfig["version"].floatValue
                     print ("version: \(version)")
                     
-                    // Category list
-                    count = 0
-                    for item in parsedConfig["categories"].arrayValue {
-                        count = count + 1
-                        key = item["key"].stringValue
-                        title = item["title"].stringValue
-                        addCategory(key:key, title:title)
+                    // blend list
+                    for blend in parsedConfig["blends"].arrayValue {
+                        blendList.append(blend.stringValue)
                     }
-                    print ("\(count) Categories found")
-                    
-                    // Build Category array from dictionary. More convenient than a dictionary
-                    categoryList = Array(categoryDictionary.keys)
-                    categoryList.sort(by: sortClosure)
-                    
+                    ImageManager.setBlendList(blendList)
+
+                    // sample list
+                    for sample in parsedConfig["samples"].arrayValue {
+                        sampleList.append(sample.stringValue)
+                    }
+                    ImageManager.setSampleList(sampleList)
+
                     // Filter list
                     count = 0
                     for item in parsedConfig["filters"].arrayValue {
@@ -192,16 +219,47 @@ class FilterLibrary{
                     print ("\(count) Lookup Images found")
                     
                     
-                    // List of Filters in each Category
-                    count = 0
-                    for item in parsedConfig["assign"].arrayValue {
-                        count = count + 1
-                        key = item["category"].stringValue
-                        var list:[String] = item["filters"].arrayValue.map { $0.string!}
-                        list.sort(by: sortClosure) // sort alphabetically
-                        addAssignment(category:key, filters:list)
+                    // only do these if the database has not already been set up
+                    // TODO: check version number
+                    
+                    if (!Database.isSetup()){
+                        // blend, sample, edit assignments
+                        let blend = parsedConfig["settings"]["blend"].stringValue
+                        let sample = parsedConfig["settings"]["sample"].stringValue
+                        let edit = parsedConfig["settings"]["edit"].stringValue
+                        if !blend.isEmpty { ImageManager.setCurrentBlendImageName(blend)}
+                        if !sample.isEmpty { ImageManager.setCurrentSampleImageName(sample)}
+                        ImageManager.setCurrentBlendImageName(edit) // set even if empty
+                        
+                        // Category list
+                        count = 0
+                        for item in parsedConfig["categories"].arrayValue {
+                            count = count + 1
+                            key = item["key"].stringValue
+                            title = item["title"].stringValue
+                            addCategory(key:key, title:title)
+                        }
+                        print ("\(count) Categories found")
+                        
+                        // Build Category array from dictionary. More convenient than a dictionary
+                        categoryList = Array(categoryDictionary.keys)
+                        categoryList.sort(by: sortClosure)
+                        
+                        
+                        // List of Filters in each Category
+                        count = 0
+                        for item in parsedConfig["assign"].arrayValue {
+                            count = count + 1
+                            key = item["category"].stringValue
+                            var list:[String] = item["filters"].arrayValue.map { $0.string!}
+                            list.sort(by: sortClosure) // sort alphabetically
+                            addAssignment(category:key, filters:list)
+                        }
+                        print ("\(count) Category<-Filter Assignments found")
+                    } else {
+                        log.debug("Skipping categories and settings, using database entries instead")
                     }
-                    print ("\(count) Category<-Filter Assignments found")
+
                 } else {
                     print("ERROR parsing JSON file")
                     print("*** categories error: \(String(describing: parsedConfig["categories"].error))")
@@ -354,7 +412,138 @@ class FilterLibrary{
         //print("Category:\(category) Filters: \(filters)")
     }
 
-    public static func commitChanges(){
-        log.warning("TODO: save updates and restore")
+    
+    
+    
+    ////////////////////////////
+    // Database Processing
+    ////////////////////////////
+    
+    fileprivate static func loadFromDatabase(){
+        
+        categoryDictionary = [:]
+        categoryList = []
+        //filterDictionary = [:]
+        //lookupDictionary = [:]
+        categoryFilters = [:]
+        
+        
+        // restore the settings
+        
+        if let settings = Database.getSettings() {
+            print("loadFromDatabase() - Restoring Settings: key:\(settings.key) Sample:\(settings.sampleImage!) Blend:\(settings.blendImage!) Edit:\(settings.editImage!)")
+            ImageManager.setCurrentBlendImageName(settings.blendImage!)
+            ImageManager.setCurrentSampleImageName(settings.sampleImage!)
+            ImageManager.setCurrentEditImageName(settings.editImage!)
+        } else {
+            print("loadFromDatabase() - ERR: settings NOT found...")
+        }
+        
+        
+        // Categories
+        for crec in Database.getCategoryRecords(){
+            addCategory(key:(crec.key)!, title:(crec.title)!)
+        }
+        
+        // Build Category array from dictionary. More convenient than a dictionary
+        categoryList = Array(categoryDictionary.keys)
+        categoryList.sort(by: sortClosure)
+        
+        // Assignments
+        for arec in Database.getAssignmentRecords(){
+            addAssignment(category:arec.category!, filters:arec.filters)
+        }
+        
+
+        // user changes
+        for urec in Database.getUserChangesRecords(){
+            FilterFactory.setHidden(key: urec.key!, hidden: urec.hide)
+            FilterFactory.setRating(key: urec.key!, rating: urec.rating)
+        }
+
     }
+    
+    
+    public static func commitChanges(){
+        
+        // Settings
+        let settings = SettingsRecord()
+        
+        settings.blendImage = ImageManager.getCurrentBlendImageName()
+        settings.sampleImage = ImageManager.getCurrentSampleImageName()
+        settings.editImage = ImageManager.getCurrentEditImageName()
+        
+        Database.saveSettings(settings)
+        
+        
+        // Categories
+        
+        let crec: CategoryRecord = CategoryRecord()
+        for key in FilterLibrary.categoryList {
+            crec.key = key
+            crec.title = FilterLibrary.categoryDictionary[key]
+            crec.hide = false
+            Database.updateCategoryRecord(crec)
+        }
+        
+        /***
+        // Standard and Lookup filters
+        let frec: FilterRecord = FilterRecord()
+        let lrec: LookupFilterRecord = LookupFilterRecord()
+        
+        for key in FilterFactory.getFilterList() {
+            // built-in or preset?
+            if (FilterLibrary.lookupDictionary[key] == nil){ // built-in filter
+                frec.key = key
+                frec.hide = FilterFactory.isHidden(key: key)
+                frec.rating = FilterFactory.getRating(key: key)
+                Database.updateFilterRecord(frec)
+            } else { // Lookup Filter
+                lrec.key = key
+                lrec.image = FilterLibrary.lookupDictionary[key]
+                lrec.hide = FilterFactory.isHidden(key: key)
+                lrec.rating = FilterFactory.getRating(key: key)
+                Database.updateLookupFilterRecord(lrec)
+            }
+        }
+         ***/
+
+        // Category->Filter Assignments
+        
+        let arec:AssignmentRecord = AssignmentRecord()
+        
+        for category in FilterLibrary.categoryList {
+            arec.category = category
+            arec.filters = []
+            if (FilterLibrary.categoryFilters[category] != nil){
+                if ((FilterLibrary.categoryFilters[category]?.count)! > 0){
+                    for f in (FilterLibrary.categoryFilters[category])!{
+                        arec.filters.append(f)
+                    }
+                    //arec.filters = (FilterLibrary.categoryFilters[category])!
+                } else {
+                    print("commitChanges()() no filters found for: \(category)")
+                }
+            } else {
+                print("commitChanges()() no filters found for: \(category)")
+            }
+            Database.updateAssignmentRecord(arec)
+        }
+        
+        // User changes
+        let urec:UserChangesRecord = UserChangesRecord()
+        for key in FilterFactory.getFilterList() {
+            // show or ratings not default?
+            if (FilterFactory.isHidden(key: key)) || (FilterFactory.getRating(key: key) != 0) {
+                urec.key = key
+                urec.hide = FilterFactory.isHidden(key: key)
+                urec.rating = FilterFactory.getRating(key: key)
+                Database.updateUserChangesRecord(urec)
+            }
+        }
+
+ 
+        Database.save()
+    }
+
 }

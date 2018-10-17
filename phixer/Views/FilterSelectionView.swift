@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreImage
+import iCarousel
 
 // A view that implements an iCarousel scrolling list for showing filters
 
@@ -63,11 +64,15 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     }
     
     
-    func setInputSource(_ source: InputSource){
+    public func setInputSource(_ source: InputSource){
         inputSource = source
         switch (inputSource){
         case .camera:
             sourceInput = ImageManager.getCurrentSampleInput() // start with sample input, switch to camera later
+            if (camera == nil) {
+                camera = CameraCaptureHelper(cameraPosition: .back)
+                camera?.delegate = self
+            }
             camera?.start()
         case .sample:
             camera?.stop()
@@ -197,16 +202,13 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
             camera?.delegate = self
             
             // load the blend and sample images (assuming they cannot change while this view is displayed)
-            self.blendImageFull  = UIImage(ciImage:ImageManager.getCurrentBlendImage(size:(sourceInput?.extent.size)!)!)
-            if (self.blendImageFull != nil){
-                self.blend = CIImage(image:self.blendImageFull!)
-            }
-            
             self.sourceInput = getInputSource()
-            
             if (self.sourceInput==nil){
                 log.error("ERR: Sample input not created")
             }
+           self.blend = ImageManager.getCurrentBlendImage(size:(sourceInput?.extent.size)!)
+            
+            
             
             //})
         }

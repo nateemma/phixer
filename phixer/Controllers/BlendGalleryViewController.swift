@@ -17,6 +17,7 @@ import GoogleMobileAds
 
 import Photos
 
+import iCarousel
 
 
 // delegate method to let the launching ViewController know that this one has finished

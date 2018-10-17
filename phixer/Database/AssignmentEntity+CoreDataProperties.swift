@@ -18,6 +18,5 @@ extension AssignmentEntity {
 
     @NSManaged public var category: String?
     @NSManaged public var filters: [NSString]
-    @NSManaged public var contains: FilterEntity?
 
 }

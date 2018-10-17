@@ -8,6 +8,8 @@
 
 import Foundation
 import CoreData
+import UIKit
+
 
 // Class that encapsulates access to persistent data
 // I use CoreData here, since SQLite was proving to be a pain in Swift3
@@ -25,7 +27,8 @@ class Database {
     fileprivate static var lookupFilterEntity: NSEntityDescription? = nil
     fileprivate static var assignmentEntity: NSEntityDescription? = nil
     fileprivate static var presetEntity: NSEntityDescription? = nil
-    
+    fileprivate static var userChangesEntity: NSEntityDescription? = nil
+
     
     // Table names
     fileprivate static let settingsName = "SettingsEntity"
@@ -34,6 +37,7 @@ class Database {
     fileprivate static let lookupFilterName = "LookupFilterEntity"
     fileprivate static let assignmentName = "AssignmentEntity"
     fileprivate static let presetName = "PresetEntity"
+    fileprivate static let userChangesName = "UserChangesEntity"
     
     
     ///////////////////////////////////
@@ -94,7 +98,18 @@ class Database {
     }
     
     
+    ///////////////////////////////////
+    // MARK: - CREATION/DELETION
+    ///////////////////////////////////
     
+
+    fileprivate static func deleteDatabase(){
+        
+    }
+    
+    fileprivate static func setupDatabase(){
+        
+    }
     
     ///////////////////////////////////
     // MARK: - CHECKS
@@ -109,13 +124,16 @@ class Database {
             context = appDelegate?.persistentContainer.viewContext
             
             if (context != nil){
+                
                 // set up table references
                 settingsEntity = NSEntityDescription.entity(forEntityName: settingsName, in: context!)!
                 categoryEntity = NSEntityDescription.entity(forEntityName: categoryName, in: context!)!
-                filterEntity = NSEntityDescription.entity(forEntityName: filterName, in: context!)!
-                lookupFilterEntity = NSEntityDescription.entity(forEntityName: lookupFilterName, in: context!)!
+                //filterEntity = NSEntityDescription.entity(forEntityName: filterName, in: context!)!
+                //lookupFilterEntity = NSEntityDescription.entity(forEntityName: lookupFilterName, in: context!)!
                 assignmentEntity = NSEntityDescription.entity(forEntityName: assignmentName, in: context!)!
+                userChangesEntity = NSEntityDescription.entity(forEntityName: userChangesName, in: context!)!
                 //presetEntity = NSEntityDescription.entity(forEntityName: presetName, in: context)!
+
             } else {
                 print("Database.checkDatabase() - ERR: NIL context returned for Database")
             }
@@ -146,6 +164,9 @@ class Database {
     // MARK: - SETTINGS
     ///////////////////////////////////
    
+    // identifier used to retrieve settings
+    private static let settingsKey = "settings" // just to make it unique rather than a list
+    
     // Creates a SettingsEntity (managed) object
     public static func createSettings () -> SettingsEntity? {
         
@@ -164,8 +185,10 @@ class Database {
         checkDatabase()
         
         settingsEntity = nil
+        settingsRecord = SettingsRecord()
         
         let fetchRequest = NSFetchRequest<SettingsEntity>(entityName: settingsName)
+        fetchRequest.predicate = NSPredicate(format: "key == %@", settingsKey)
         do {
             settings = try (context?.fetch(fetchRequest))!
             if (settings.count>0){
@@ -173,26 +196,26 @@ class Database {
                     log.error("WARNING: found multiple (\(settings.count)) settings")
                 }
                 settingsEntity = settings[0]
-            } else {
+                settingsRecord.key = settingsEntity?.key
+                settingsRecord.blendImage = settingsEntity?.blendImage
+                settingsRecord.editImage = settingsEntity?.editImage
+                settingsRecord.sampleImage = settingsEntity?.sampleImage
+                settingsRecord.configVersion = settingsEntity?.configVersion
+           } else {
                 // build default settings
-                settingsEntity = SettingsEntity()
-                settingsEntity?.blendImage = ImageManager.getDefaultBlendImageName()
-                settingsEntity?.editImage = ImageManager.getDefaultEditImageName()
-                settingsEntity?.sampleImage = ImageManager.getDefaultSampleImageName()
-                settingsEntity?.configVersion = "1.0"
-                //return nil
+                settingsRecord.key = settingsKey
+                settingsRecord.blendImage = ImageManager.getDefaultBlendImageName()
+                settingsRecord.editImage = ImageManager.getDefaultEditImageName()
+                settingsRecord.sampleImage = ImageManager.getDefaultSampleImageName()
+                settingsRecord.configVersion = "2.0"
             }
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
             return nil
         }
         
-        settingsRecord = SettingsRecord()
-        settingsRecord.blendImage = settingsEntity?.blendImage
-        settingsRecord.editImage = settingsEntity?.editImage
-        settingsRecord.sampleImage = settingsEntity?.sampleImage
-        settingsRecord.configVersion = settingsEntity?.configVersion
-        print("getSettings() - Sample:\(settingsRecord.sampleImage!) Blend:\(settingsRecord.blendImage!) Edit:\(settingsRecord.editImage!)")
+
+        print("getSettings() - key:\(settingsRecord.key) Sample:\(settingsRecord.sampleImage!) Blend:\(settingsRecord.blendImage!) Edit:\(settingsRecord.editImage!)")
         
         return settingsRecord
     }
@@ -210,15 +233,18 @@ class Database {
         settingsEntity = nil
         
         let fetchRequest = NSFetchRequest<SettingsEntity>(entityName: settingsName)
+        fetchRequest.predicate = NSPredicate(format: "key == %@", settingsKey)
         do {
             settingList = try (context?.fetch(fetchRequest))!
             if (settingList.count>0){
                 if (settingList.count>1){
                     print("saveSettings() - ERR: \(settingList.count) Settings records found")
                 }
+                print("Found exisiting record")
                 settingsEntity = settingList[0]
             } else {
-                settingsEntity = createRecord(entity: settingsName)  as? SettingsEntity
+                print("Creating new record")
+               settingsEntity = createSettings()
             }
             } catch let error as NSError {
                 print("saveSettings() - ERR: Could not fetch. \(error), \(error.userInfo)")
@@ -229,9 +255,8 @@ class Database {
         } else {
             
             // update the values based on the settings supplied as argument
-            //settingsEntity?.setValue(settings.configVersion, forKey: "configVersion")
-            //settingsEntity?.setValue(settings.blendImage, forKey: "blendImage")
-            //settingsEntity?.setValue(settings.sampleImage, forKey: "sampleImage")
+            if (settings.key == nil ) { settings.key = settingsKey }
+            if ((settings.key?.isEmpty)! ) { settings.key = settingsKey }
             settingsEntity?.update(record:settings)
             print("saveSettings() - Sample:\(settings.sampleImage!) Blend:\(settings.blendImage!) Edit:\(settings.editImage!)")
             
@@ -353,226 +378,7 @@ class Database {
     // don't need save since records are saved as they are added/updated/deleted
     
     
-    ///////////////////////////////////
-    // MARK: - FILTERS
-    ///////////////////////////////////
-    
-    public static func getFilterRecords() -> [FilterRecord]{
-        var filterList:[FilterRecord]
-        
-        filterList = []
-        
-        let fetchRequest = NSFetchRequest<FilterEntity>(entityName: filterName)
-        do {
-            let filters = try (context?.fetch(fetchRequest))!
-            if (filters.count>0){
-                for entity in filters {
-                    filterList.append(entity.toRecord())
-                }
-            } else {
-                print("getFilterRecords() NO records found")
-            }
-        } catch let error as NSError {
-            print("getFilterRecords() Could not fetch. \(error), \(error.userInfo)")
-        }
-        
-        return filterList
-    }
-    
-    
-    
-    // retrieve a specific filter record
-    public static func getFilterRecord(key: String) -> FilterRecord?{
-        var filterRecord: FilterRecord?
-        
-        filterRecord = nil
-        
-        let fetchRequest = NSFetchRequest<FilterEntity>(entityName: filterName)
-        fetchRequest.predicate = NSPredicate(format: "key == %@", key)
-        do {
-            let filters = try (context?.fetch(fetchRequest))!
-            if (filters.count>0){
-                filterRecord = filters[0].toRecord()
-            } else {
-                print("getFilterRecords() NO records found")
-            }
-        } catch let error as NSError {
-            print("getFilterRecords() Could not fetch. \(error), \(error.userInfo)")
-        }
-        
-        return filterRecord
-    }
-    
-    
-    // add a new Filter entry. Data is saved
-    public static func addFilterRecord(_ record: FilterRecord){
-        
-        var filterEntity: FilterEntity?
-        
-        filterEntity = NSEntityDescription.insertNewObject(forEntityName: filterName, into: context!) as? FilterEntity
-        
-        filterEntity?.update(record: record)
-        
-        save()
-        
-    }
-    
-    
-    // update an existing Filter record. Data is saved
-    public static func updateFilterRecord(_ record: FilterRecord){
-        
-        let fetchRequest = NSFetchRequest<FilterEntity>(entityName: filterName)
-        fetchRequest.predicate = NSPredicate(format: "key == %@", record.key!)
-        do {
-            let filters = try (context?.fetch(fetchRequest))!
-            if (filters.count>0){
-                print("updateFilterRecord() UPDATE Filter: \(String(describing: record.key))")
-                filters[0].update(record: record)
-                save()
-            } else {
-                print("updateFilterRecord() NO record found for: \(String(describing: record.key)). ADDING")
-                addFilterRecord(record)
-            }
-        } catch let error as NSError {
-            print("updateFilterRecord() Could not fetch. \(error), \(error.userInfo)")
-        }
-        
-    }
-    
-    
-    // remove an existing Filter. Data is saved, i.e. permanent removal
-    public static func removeFilterRecord(key: String){
-        
-        let fetchRequest = NSFetchRequest<FilterEntity>(entityName: filterName)
-        fetchRequest.predicate = NSPredicate(format: "key == %@", key)
-        do {
-            let filters = try (context?.fetch(fetchRequest))!
-            if (filters.count>0){
-                context?.delete(filters[0])
-                save()
-            } else {
-                print("updateFilterRecord() NO record found for: \(key)")
-            }
-        } catch let error as NSError {
-            print("updateFilterRecord() Could not fetch. \(error), \(error.userInfo)")
-        }
-        
-    }
-    
-    
-    // don't need save since records are saved as they are added/updated/deleted
-    
-    
-    ///////////////////////////////////
-    // MARK: - LOOKUP FILTERS
-    ///////////////////////////////////
-    
-    
-    public static func getLookupLookupFilterRecords() -> [LookupFilterRecord]{
-        var lookupList:[LookupFilterRecord]
-        
-        lookupList = []
-        
-        let fetchRequest = NSFetchRequest<LookupFilterEntity>(entityName: lookupFilterName)
-        do {
-            let lookups = try (context?.fetch(fetchRequest))!
-            if (lookups.count>0){
-                for entity in lookups {
-                    lookupList.append(entity.toRecord())
-                }
-            } else {
-                print("getLookupFilterRecords() NO records found")
-            }
-        } catch let error as NSError {
-            print("getLookupFilterRecords() Could not fetch. \(error), \(error.userInfo)")
-        }
-        
-        return lookupList
-    }
-    
-    
-    
-    // retrieve a specific lookup record
-    public static func getLookupFilterRecord(key: String) -> LookupFilterRecord?{
-        var lookupRecord: LookupFilterRecord?
-        
-        lookupRecord = nil
-        
-        let fetchRequest = NSFetchRequest<LookupFilterEntity>(entityName: lookupFilterName)
-        fetchRequest.predicate = NSPredicate(format: "key == %@", key)
-        do {
-            let lookups = try (context?.fetch(fetchRequest))!
-            if (lookups.count>0){
-                lookupRecord = lookups[0].toRecord()
-            } else {
-                print("getLookupFilterRecords() NO records found")
-            }
-        } catch let error as NSError {
-            print("getLookupFilterRecords() Could not fetch. \(error), \(error.userInfo)")
-        }
-        
-        return lookupRecord
-    }
-    
-    
-    // add a new LookupFilter entry. Data is saved
-    public static func addLookupFilterRecord(_ record: LookupFilterRecord){
-        
-        var lookupEntity: LookupFilterEntity?
-        
-        lookupEntity = NSEntityDescription.insertNewObject(forEntityName: lookupFilterName, into: context!) as? LookupFilterEntity
-        
-        lookupEntity?.update(record: record)
-        
-        save()
-        
-    }
-    
-    
-    // update an existing LookupFilter record. Data is saved
-    public static func updateLookupFilterRecord(_ record: LookupFilterRecord){
-        
-        let fetchRequest = NSFetchRequest<LookupFilterEntity>(entityName: lookupFilterName)
-        fetchRequest.predicate = NSPredicate(format: "key == %@", record.key!)
-        do {
-            let lookups = try (context?.fetch(fetchRequest))!
-            if (lookups.count>0){
-                print("updateLookupFilterRecord() UPDATE LookupFilter: \(String(describing: record.key))")
-                lookups[0].update(record: record)
-                save()
-            } else {
-                print("updateLookupFilterRecord() NO record found for: \(String(describing: record.key)). ADDING")
-                addLookupFilterRecord(record)
-            }
-        } catch let error as NSError {
-            print("updateLookupFilterRecord() Could not fetch. \(error), \(error.userInfo)")
-        }
-        
-    }
-    
-    
-    // remove an existing LookupFilter. Data is saved, i.e. permanent removal
-    public static func removeLookupFilterRecord(key: String){
-        
-        let fetchRequest = NSFetchRequest<LookupFilterEntity>(entityName: lookupFilterName)
-        fetchRequest.predicate = NSPredicate(format: "key == %@", key)
-        do {
-            let lookups = try (context?.fetch(fetchRequest))!
-            if (lookups.count>0){
-                context?.delete(lookups[0])
-                save()
-            } else {
-                print("updateLookupFilterRecord() NO record found for: \(key)")
-            }
-        } catch let error as NSError {
-            print("updateLookupFilterRecord() Could not fetch. \(error), \(error.userInfo)")
-        }
-        
-    }
-    
-    
-    // don't need save since records are saved as they are added/updated/deleted
-    
+
     
     ///////////////////////////////////
     // MARK: - ASSIGNMENTS
@@ -685,9 +491,117 @@ class Database {
     
     
     ///////////////////////////////////
-    // MARK: - PRESETS
+    // MARK: - USER CHANGES
     ///////////////////////////////////
     
-
-    //TODO
+    // Creates a SettingsEntity (managed) object
+    public static func createUserChanges () -> UserChangesEntity? {
+        
+        return UserChangesEntity.init(entity: NSEntityDescription.entity(forEntityName: userChangesName, in:context!)!,
+                                   insertInto: context!)
+        
+    }
+    
+    public static func getUserChangesRecords() -> [UserChangesRecord]{
+        var userChangesList:[UserChangesRecord]
+        
+        userChangesList = []
+        
+        let fetchRequest = NSFetchRequest<UserChangesEntity>(entityName: userChangesName)
+        do {
+            let userChanges = try (context?.fetch(fetchRequest))!
+            if (userChanges.count>0){
+                for entity in userChanges {
+                    userChangesList.append(entity.toRecord())
+                }
+            } else {
+                print("getUserChangesRecords() NO records found")
+            }
+        } catch let error as NSError {
+            print("getUserChangesRecords() Could not fetch. \(error), \(error.userInfo)")
+        }
+        
+        return userChangesList
+    }
+    
+    
+    
+    // retrieve a specific UserChanges record
+    public static func getUserChangesRecord(key: String) -> UserChangesRecord?{
+        var UserChangesRecord: UserChangesRecord?
+        
+        UserChangesRecord = nil
+        
+        let fetchRequest = NSFetchRequest<UserChangesEntity>(entityName: userChangesName)
+        fetchRequest.predicate = NSPredicate(format: "key == %@", key)
+        do {
+            let userChanges = try (context?.fetch(fetchRequest))!
+            if (userChanges.count>0){
+                UserChangesRecord = userChanges[0].toRecord()
+            } else {
+                print("getUserChangesRecords() NO records found")
+            }
+        } catch let error as NSError {
+            print("getUserChangesRecords() Could not fetch. \(error), \(error.userInfo)")
+        }
+        
+        return UserChangesRecord
+    }
+    
+    
+    // add a new UserChanges entry. Data is saved
+    public static func addUserChangesRecord(_ record: UserChangesRecord){
+        
+        var UserChangesEntity: UserChangesEntity?
+        
+        UserChangesEntity = NSEntityDescription.insertNewObject(forEntityName: userChangesName, into: context!) as? UserChangesEntity
+        
+        UserChangesEntity?.update(record: record)
+        
+        save()
+        
+    }
+    
+    
+    // update an existing UserChanges record. Data is saved
+    public static func updateUserChangesRecord(_ record: UserChangesRecord){
+        
+        let fetchRequest = NSFetchRequest<UserChangesEntity>(entityName: userChangesName)
+        fetchRequest.predicate = NSPredicate(format: "key == %@", record.key!)
+        do {
+            let userChanges = try (context?.fetch(fetchRequest))!
+            if (userChanges.count>0){
+                print("updateUserChangesRecord() UPDATE UserChanges: \(record.key) hide:\(record.hide) rating:\(record.rating)")
+                userChanges[0].update(record: record)
+                save()
+            } else {
+                print("updateUserChangesRecord() NO record found for: \(record.key). ADDING")
+                addUserChangesRecord(record)
+            }
+        } catch let error as NSError {
+            print("updateUserChangesRecord() Could not fetch. \(error), \(error.userInfo)")
+        }
+        
+    }
+    
+    
+    // remove an existing userChanges. Data is saved, i.e. permanent removal
+    public static func removeUserChangesRecord(category: String){
+        
+        let fetchRequest = NSFetchRequest<UserChangesEntity>(entityName: userChangesName)
+        fetchRequest.predicate = NSPredicate(format: "category == %@", category)
+        do {
+            let userChanges = try (context?.fetch(fetchRequest))!
+            if (userChanges.count>0){
+                context?.delete(userChanges[0])
+                save()
+            } else {
+                print("updateUserChangesRecord() NO record found for: \(category)")
+            }
+        } catch let error as NSError {
+            print("updateUserChangesRecord() Could not fetch. \(error), \(error.userInfo)")
+        }
+        
+    }
+    
 }

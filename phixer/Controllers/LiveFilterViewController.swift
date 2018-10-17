@@ -32,29 +32,29 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
 
     
     // Filter Info View
-    var filterInfoView: FilterInfoView! = FilterInfoView()
+    var filterInfoView: FilterInfoView!
     
     // Main Camera View
-    var cameraDisplayView: CameraDisplayView! = CameraDisplayView()
+    var cameraDisplayView: CameraDisplayView!
     
     // Views for holding the (modal) overlays. Note: must come after CameraDisplayView()
-    var filterControlsView : FilterControlsView! = FilterControlsView()
+    var filterControlsView : FilterControlsView!
     
     // The Camera controls/options
-    var cameraControlsView: CameraControlsView! = CameraControlsView()
+    var cameraControlsView: CameraControlsView!
     
     // The filter configuration subview
-    var filterSettingsView: FilterParametersView! = FilterParametersView()
+    var filterSettingsView: FilterParametersView!
     
     // Advertisements View
-    var adView: GADBannerView! = GADBannerView()
+    var adView: GADBannerView!
     var showAds:Bool = true
     
     // Filter strip
-    var filterSelectionView: FilterSelectionView! = FilterSelectionView()
+    var filterSelectionView: FilterSelectionView!
     
     // Category Selection view
-    var categorySelectionView: CategorySelectionView! = CategorySelectionView()
+    var categorySelectionView: CategorySelectionView! 
     
     let imagePicker = UIImagePickerController()
     
@@ -96,6 +96,18 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
         
         if (!LiveFilterViewController.initDone){
             log.verbose("init")
+            
+            // create the sub views
+            filterInfoView = FilterInfoView()
+            cameraDisplayView = CameraDisplayView()
+            filterControlsView = FilterControlsView()
+            cameraControlsView = CameraControlsView()
+            filterSettingsView = FilterParametersView()
+            adView = GADBannerView()
+            filterSelectionView = FilterSelectionView()
+            categorySelectionView = CategorySelectionView()
+            
+            
             //filterManager = FilterManager.sharedInstance
             filterManager?.setCurrentCategory(FilterManager.defaultCategory)
             categorySelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)
@@ -262,6 +274,7 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
         
         //TODO: select filter category somehow
         //filterSelectionView.setFilterCategory(String.favorites)
+        filterSelectionView.setInputSource(.camera)
         
         //TODO: remember state?
         hideCategorySelector()

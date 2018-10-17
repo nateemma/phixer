@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreImage
+import UIKit
 
 // Class that encapsulates an underlying filter
 // Intended to form the 'bridge' between UI functionality and Filter Operations
@@ -30,6 +31,8 @@ class  FilterDescriptor {
     private static let lookupFilterName:String = "YUCIColorLookup"
     private static let lookupArgImage:String = "inputColorLookupTable"
     private static let lookupArgIntensity:String = "inputIntensity"
+    
+    public static let nullFilter = "NoFilter"
     
     // the type of the parameter
     public enum ParameterType {
@@ -105,37 +108,44 @@ class  FilterDescriptor {
         self.lookupImage = nil
         self.lookupImageName = ""
         
-        // create the filter
-        if ftype == .lookup {
-            self.filter = CIFilter(name: FilterDescriptor.lookupFilterName)
-            //HACK: lookup image from FilterLibrary
-            if let name = FilterLibrary.lookupDictionary[key] {
-                // set the name of the lookup image and default intensity
-                self.setLookupImage(name:name)
-                self.filter?.setValue(1.0, forKey:FilterDescriptor.lookupArgIntensity)
-                
-                // manually add the intensity parameter to the parameter list (so that it will be displayed)
-                let p = ParameterSettings(key: FilterDescriptor.lookupArgIntensity, title: "intensity", min: 0.0, max: 1.0, value: 0.5, type: .float)
-                self.parameterConfiguration[FilterDescriptor.lookupArgIntensity] = p
-                self.numParameters = 1
-            } else {
-                log.error("Could not find lookup image for filter: \(key)")
-            }
+        // check for null filter (i.e. no operation is applied)
+        if self.key == FilterDescriptor.nullFilter {
+            self.filter = nil
+            
         } else {
-            self.filter = CIFilter(name: key)
-        }
-        if self.filter == nil {
-            log.error("Error creating filter:\(key)")
-        } else {
-            // (deep) copy the parameters and set up the filter
-            for p in parameters {
-                self.stashedParameters[p.key] = p
-                self.parameterConfiguration[p.key] = p
-                if p.type == .float { // any other types must be set by the app
-                    self.filter?.setValue(p.value, forKey: p.key)
+
+            // create the filter
+            if ftype == .lookup {
+                self.filter = CIFilter(name: FilterDescriptor.lookupFilterName)
+                //HACK: lookup image from FilterLibrary
+                if let name = FilterLibrary.lookupDictionary[key] {
+                    // set the name of the lookup image and default intensity
+                    self.setLookupImage(name:name)
+                    self.filter?.setValue(0.8, forKey:FilterDescriptor.lookupArgIntensity)
+                    
+                    // manually add the intensity parameter to the parameter list (so that it will be displayed)
+                    let p = ParameterSettings(key: FilterDescriptor.lookupArgIntensity, title: "intensity", min: 0.0, max: 1.0, value: 0.8, type: .float)
+                    self.parameterConfiguration[FilterDescriptor.lookupArgIntensity] = p
+                    self.numParameters = 1
+                } else {
+                    log.error("Could not find lookup image for filter: \(key)")
                 }
+            } else {
+                self.filter = CIFilter(name: key)
             }
-            self.numParameters = parameters.count
+            if self.filter == nil {
+                log.error("Error creating filter:\(key)")
+            } else {
+                // (deep) copy the parameters and set up the filter
+                for p in parameters {
+                    self.stashedParameters[p.key] = p
+                    self.parameterConfiguration[p.key] = p
+                    if p.type == .float { // any other types must be set by the app
+                        self.filter?.setValue(p.value, forKey: p.key)
+                    }
+                }
+                self.numParameters = parameters.count
+            }
         }
     }
     
@@ -352,6 +362,11 @@ class  FilterDescriptor {
         guard image != nil else {
             log.error("NIL image supplied")
             return nil
+        }
+        
+        // check for null filter (i.e. no operation is applied)
+        if self.key == FilterDescriptor.nullFilter {
+            return image
         }
         
         if let filter = self.filter {

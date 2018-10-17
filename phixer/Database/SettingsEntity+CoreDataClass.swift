@@ -17,6 +17,7 @@ public class SettingsEntity: NSManagedObject {
         var settingsRecord: SettingsRecord
         
         settingsRecord = SettingsRecord()
+        settingsRecord.key = self.key
         settingsRecord.blendImage = self.blendImage
         settingsRecord.editImage = self.editImage
         settingsRecord.sampleImage = self.sampleImage
@@ -27,14 +28,10 @@ public class SettingsEntity: NSManagedObject {
     
     // update using supplied "Record" format
     public func update(record: SettingsRecord){
-        //self.setValue(record.configVersion, forKey: "configVersion")
-        //self.setValue(record.blendImage, forKey: "blendImage")
-        //self.setValue(record.sampleImage, forKey: "sampleImage")
-        
-        self.blendImage = record.blendImage
-        self.editImage = record.editImage
-        self.sampleImage = record.sampleImage
-        self.configVersion = record.configVersion
-        
+        self.setValue(record.key, forKey: "key")
+        self.setValue(record.blendImage, forKey: "blendImage")
+        self.setValue(record.editImage, forKey: "editImage")
+        self.setValue(record.sampleImage, forKey: "sampleImage")
+        self.setValue(record.configVersion, forKey: "configVersion")
     }
 }

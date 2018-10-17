@@ -10,6 +10,7 @@
 import UIKit
 import Neon
 import Photos
+import iCarousel
 
 
 // Interface required of controlling View
