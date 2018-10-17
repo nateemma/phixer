@@ -12,6 +12,7 @@ import Neon
 import AVFoundation
 import MediaPlayer
 import AudioToolbox
+import Photos
 
 import GoogleMobileAds
 
@@ -100,13 +101,13 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
             // create the sub views
             filterInfoView = FilterInfoView()
             cameraDisplayView = CameraDisplayView()
-            filterControlsView = FilterControlsView()
             cameraControlsView = CameraControlsView()
             filterSettingsView = FilterParametersView()
             adView = GADBannerView()
             filterSelectionView = FilterSelectionView()
             categorySelectionView = CategorySelectionView()
-            
+            filterControlsView = FilterControlsView()
+
             
             //filterManager = FilterManager.sharedInstance
             filterManager?.setCurrentCategory(FilterManager.defaultCategory)
@@ -549,6 +550,7 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
     //////////////////////////////////////
     
     open func saveImage(){
+        /*** old version
         do{
             let documentsDir = try FileManager.default.url(for:.documentDirectory, in:.userDomainMask, appropriateFor:nil, create:true)
             //TOFIX: generate filename? Or, just overwrite same file since it's copied to Photos anyway?
@@ -557,7 +559,10 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
         } catch {
             log.error("Error saving image: \(error)")
         }
+ ***/
         
+        cameraDisplayView.takePhoto()
+        playCameraSound()
     }
     
     fileprivate func playCameraSound(){
@@ -844,6 +849,7 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
     //////////////////////////////////////////
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        /***
         if let imageRefURL = info[UIImagePickerControllerReferenceURL] as? NSURL {
             log.verbose("Picked URL:\(imageRefURL)")
             //TODO: save image URL to global location, launch VC to handle it
@@ -851,6 +857,20 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
             presentImageEditor()
         } else {
             log.error("Error accessing image URL")
+        }
+        picker.dismiss(animated: true)
+        ***/
+        if let asset = info[UIImagePickerControllerPHAsset] as? PHAsset {
+            let assetResources = PHAssetResource.assetResources(for: asset)
+            
+            let name = assetResources.first!.originalFilename
+            let id = assetResources.first!.assetLocalIdentifier
+            
+            log.verbose("Picked image:\(name) id:\(id)")
+            ImageManager.setCurrentEditImageName(id)
+            presentImageEditor()
+        } else {
+            log.error("Error accessing image data")
         }
         picker.dismiss(animated: true)
     }

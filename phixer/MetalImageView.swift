@@ -1,8 +1,8 @@
 //
 //  ImageView.swift
-//  CoreImageHelpers
 //
-//  Created by Simon Gladman on 09/01/2016.
+//
+//  Based on code by Simon Gladman in project CoreImageHelpers
 //  Copyright © 2016 Simon Gladman. All rights reserved.
 //
 
@@ -15,8 +15,14 @@ import QuartzCore
 /// `MetalImageView` extends an `MTKView` and exposes an `image` property of type `CIImage` to
 /// simplify Metal based rendering of Core Image filters.
 
+
 class MetalImageView: MTKView
 {
+    
+    /// The image to display. The image will be rendered when this is set
+    var image: CIImage? { didSet { renderImage() }
+    }
+    
     let colorSpace = CGColorSpaceCreateDeviceRGB()
     
     lazy var commandQueue: MTLCommandQueue = { [unowned self] in
@@ -27,6 +33,8 @@ class MetalImageView: MTKView
         //return CIContext(mtlDevice: self.device!, options: [kCIImageColorSpace: NSNull(), kCIImageProperties: NSNull(), kCIContextWorkingColorSpace: NSNull()])
         return CIContext(mtlDevice: self.device!)
         }()
+    
+    
     
     override init(frame frameRect: CGRect, device: MTLDevice?) {
         super.init(frame: frameRect,
@@ -39,17 +47,13 @@ class MetalImageView: MTKView
         framebufferOnly = false
     }
     
+    
+    
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
     
-    /// The image to display
-    var image: CIImage? {
-        didSet
-        {
-            renderImage()
-        }
-    }
     
     func renderImage() {
         guard device != nil else {
@@ -118,9 +122,6 @@ extension CGRect {
         let x = target.midX - width / 2
         let y = target.midY - height / 2
         
-        return CGRect(x: x,
-                      y: y,
-                      width: width,
-                      height: height)
+        return CGRect(x: x, y: y, width: width, height: height)
     }
 }

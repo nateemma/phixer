@@ -16,6 +16,7 @@
 		251729582175406100D5E946 /* UserChangesRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251729572175406100D5E946 /* UserChangesRecord.swift */; };
 		2517295A217540C300D5E946 /* UserChangesEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25172959217540C300D5E946 /* UserChangesEntity+CoreDataClass.swift */; };
 		2517295C2175410B00D5E946 /* UserChangesEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2517295B2175410B00D5E946 /* UserChangesEntity+CoreDataProperties.swift */; };
+		2517295E2177FC2400D5E946 /* MuliticastDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2517295D2177FC2400D5E946 /* MuliticastDelegate.swift */; };
 		252B0DAF1E30690E005A0C2D /* da_006_pink_zombie.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 252B0B951E30690D005A0C2D /* da_006_pink_zombie.jpg */; };
 		252B0DB01E30690E005A0C2D /* et_082_a35.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 252B0B961E30690D005A0C2D /* et_082_a35.jpg */; };
 		252B0DB11E30690E005A0C2D /* et_096_icon2_2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 252B0B971E30690D005A0C2D /* et_096_icon2_2.jpg */; };
@@ -768,6 +769,7 @@
 		251729572175406100D5E946 /* UserChangesRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserChangesRecord.swift; sourceTree = "<group>"; };
 		25172959217540C300D5E946 /* UserChangesEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserChangesEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		2517295B2175410B00D5E946 /* UserChangesEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserChangesEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		2517295D2177FC2400D5E946 /* MuliticastDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuliticastDelegate.swift; sourceTree = "<group>"; };
 		252B0B951E30690D005A0C2D /* da_006_pink_zombie.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = da_006_pink_zombie.jpg; sourceTree = "<group>"; };
 		252B0B961E30690D005A0C2D /* et_082_a35.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = et_082_a35.jpg; sourceTree = "<group>"; };
 		252B0B971E30690D005A0C2D /* et_096_icon2_2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = et_096_icon2_2.jpg; sourceTree = "<group>"; };
@@ -1569,6 +1571,7 @@
 			children = (
 				25A702961DC3AEEA009441E2 /* Utiltities.swift */,
 				255459B821681294008A9F55 /* CameraCaptureHelper.swift */,
+				2517295D2177FC2400D5E946 /* MuliticastDelegate.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -3365,6 +3368,7 @@
 				25CF4BD91D9490C400D779CF /* ImageContainerView.swift in Sources */,
 				2542DF531ECFB2ED00CEB968 /* FilterRecord.swift in Sources */,
 				25A702951DC2FE3C009441E2 /* FilterDisplayView.swift in Sources */,
+				2517295E2177FC2400D5E946 /* MuliticastDelegate.swift in Sources */,
 				2542DF651ED6634800CEB968 /* SettingsEntity+CoreDataProperties.swift in Sources */,
 				2556731F1DB961F700187F25 /* DisplayMode.swift in Sources */,
 				2542DF551ECFB37400CEB968 /* CategoryRecord.swift in Sources */,
@@ -3561,7 +3565,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = R27PD7337M;
 				INFOPLIST_FILE = phixer/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nateemma.phixer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3583,7 +3587,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = R27PD7337M;
 				INFOPLIST_FILE = phixer/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nateemma.phixer;
 				PRODUCT_NAME = "$(TARGET_NAME)";

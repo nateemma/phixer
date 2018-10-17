@@ -12,6 +12,7 @@ import Neon
 import AVFoundation
 import MediaPlayer
 import AudioToolbox
+import Photos
 
 import GoogleMobileAds
 
@@ -741,13 +742,17 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     //////////////////////////////////////////
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        if let imageRefURL = info[UIImagePickerControllerReferenceURL] as? NSURL {
-            log.verbose("Picked URL:\(imageRefURL)")
-            //TODO: save image URL to global location, launch VC to handle it
-            ImageManager.setCurrentEditImageName(imageRefURL.absoluteString!)
+        if let asset = info[UIImagePickerControllerPHAsset] as? PHAsset {
+            let assetResources = PHAssetResource.assetResources(for: asset)
+            
+            let name = assetResources.first!.originalFilename
+            let id = assetResources.first!.assetLocalIdentifier
+
+            log.verbose("Picked image:\(name) id:\(id)")
+            ImageManager.setCurrentEditImageName(id)
             presentImageEditor()
         } else {
-            log.error("Error accessing image URL")
+            log.error("Error accessing image data")
         }
         picker.dismiss(animated: true)
     }

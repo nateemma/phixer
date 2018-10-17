@@ -70,8 +70,9 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         case .camera:
             sourceInput = ImageManager.getCurrentSampleInput() // start with sample input, switch to camera later
             if (camera == nil) {
-                camera = CameraCaptureHelper(cameraPosition: .back)
-                camera?.delegate = self
+                camera = CameraCaptureHelper()
+                //camera?.delegate = self
+                camera?.register(self)
             }
             camera?.start()
         case .sample:
@@ -198,9 +199,10 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         if (!self.initDone){
             initDone = true
             //DispatchQueue.main.async(execute: { () -> Void in
-            self.camera = CameraCaptureHelper(cameraPosition: .back)
-            camera?.delegate = self
-            
+            self.camera = CameraCaptureHelper()
+            //camera?.delegate = self
+            camera?.register(self)
+
             // load the blend and sample images (assuming they cannot change while this view is displayed)
             self.sourceInput = getInputSource()
             if (self.sourceInput==nil){
@@ -371,6 +373,8 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     // suspend all Metal-related processing
     open func suspend(){
         camera?.stop()
+        camera?.deregister(self)
+
         //filterNameList = []
         //currIndex = -1
     }
@@ -417,6 +421,11 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
 
 
 extension FilterSelectionView: CameraCaptureHelperDelegate {
+    func photoTaken() {
+        log.debug("Photo taken")
+    }
+
+    
     func newCameraImage(_ cameraCaptureHelper: CameraCaptureHelper, image: CIImage){
         //DispatchQueue.main.async(execute: { () -> Void in
         self.sourceInput = image

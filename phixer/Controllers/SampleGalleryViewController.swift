@@ -501,6 +501,7 @@ class SampleGalleryViewController: UIViewController, UIImagePickerControllerDele
     //////////////////////////////////////////
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        /***
         if let imageRefURL = info[UIImagePickerControllerReferenceURL] as? NSURL {
             log.verbose("URL:\(imageRefURL)")
             self.selectedSampleImageName = imageRefURL.absoluteString!
@@ -510,8 +511,23 @@ class SampleGalleryViewController: UIViewController, UIImagePickerControllerDele
         }
         
         picker.dismiss(animated: true)
+        ***/
+        if let asset = info[UIImagePickerControllerPHAsset] as? PHAsset {
+            let assetResources = PHAssetResource.assetResources(for: asset)
+            
+            let name = assetResources.first!.originalFilename
+            let id = assetResources.first!.assetLocalIdentifier
+            
+            log.verbose("Picked image:\(name) id:\(id)")
+            self.selectedSampleImageName = id
+            self.updateSelectedImage()
+        } else {
+            log.error("Error accessing image data")
+        }
+        picker.dismiss(animated: true)
+
     }
-    
+
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true)

@@ -12,6 +12,7 @@ import Neon
 import AVFoundation
 import MediaPlayer
 import AudioToolbox
+import Photos
 
 import GoogleMobileAds
 
@@ -86,7 +87,10 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         if (currFilterDescriptor == nil){
             currFilterDescriptor = filterManager?.getFilterDescriptor(key: "NoFilter")
         }
-        
+        if currCategory == nil {
+            currCategory = filterManager?.getCurrentCategory()
+        }
+
         //if (!SimpleEditViewController.initDone){
             log.verbose("init")
             //filterManager = FilterManager.sharedInstance
@@ -682,6 +686,9 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     func showFilterSelector(){
         //updateCurrentFilter()
         if (currFilterDescriptor != nil){
+            if currCategory == nil {
+                currCategory = filterManager?.getCurrentCategory()
+            }
             filterSelectionView.isHidden = false
             filterSelectorShown = true
             filterControlsView.setFilterControlState(.shown)
@@ -756,6 +763,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     //////////////////////////////////////////
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+/*** old way:
         if let imageRefURL = info[UIImagePickerControllerReferenceURL] as? NSURL {
             log.verbose("Picked URL:\(imageRefURL)")
             //TODO: save image URL to folder
@@ -768,6 +776,20 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
             log.error("Error accessing image URL")
         }
         picker.dismiss(animated: true)
+ ***/
+        if let asset = info[UIImagePickerControllerPHAsset] as? PHAsset {
+            let assetResources = PHAssetResource.assetResources(for: asset)
+            let name = assetResources.first!.originalFilename
+            let id = assetResources.first!.assetLocalIdentifier
+            
+            log.verbose("Picked image:\(name) id:\(id)")
+            ImageManager.setCurrentEditImageName(id)
+            self.editImageView.updateImage()
+        } else {
+            log.error("Error accessing image data")
+        }
+        picker.dismiss(animated: true)
+
     }
     
     
@@ -806,7 +828,8 @@ extension SimpleEditViewController: EditControlsViewDelegate {
             self.imagePicker.allowsEditing = false
             self.imagePicker.sourceType = .photoLibrary
             
-            self.present(self.imagePicker, animated: true, completion: nil)
+            self.present(self.imagePicker, animated: true, completion: {
+            })
         })
     }
     

@@ -133,7 +133,7 @@ class ImageManager {
             return
         }
         
-        if (name.contains(":")){ // URL?
+        if (isAssetID(name)){ // URL?
             _currBlendName = name
             _currBlendImage = getBlendImageFromURL(name)
             _currBlendImageScaled = resizeImage(_currBlendImage, targetSize: _currBlendSize, mode:.scaleAspectFill)
@@ -220,7 +220,7 @@ class ImageManager {
     // function to get a named image. Will check to see if a URL (provided by UIImagePicker) is provided
     private static func getBlendImageFromURL(_ urlString:String)->UIImage? {
         var image:UIImage? = nil
-        if (urlString.contains(":")){ // URL?
+        if isAssetID(urlString){ // URL?
             image = getImageFromAssets(assetUrl: urlString)
         } else if (_blendNameList.contains(urlString)){
             image = UIImage(named:urlString)
@@ -290,7 +290,7 @@ class ImageManager {
             return
         }
         
-        if (name.contains(":")){ // URL?
+        if (isAssetID(name)){ // URL?
             log.debug("Current Sample image set to:\(name)")
             _currSampleName = name
             _currSampleImage = getSampleImageFromURL(name)
@@ -388,7 +388,7 @@ class ImageManager {
     // function to get a named image. Will check to see if a URL (provided by UIImagePicker) is provided
     private static func getSampleImageFromURL(_ urlString:String)->UIImage? {
         var image:UIImage? = nil
-        if (urlString.contains(":")){ // URL?
+        if isAssetID(urlString){ // URL?
             image = getImageFromAssets(assetUrl: urlString)
         } else if (_sampleNameList.contains(urlString)){
             image = UIImage(named:urlString)
@@ -445,7 +445,7 @@ class ImageManager {
             checkEditImage()
             ename = _currEditName
         }
-        if (ename.contains(":")){ // URL?
+        if (isAssetID(name)){ // URL?
             _currEditName = ename
             _currEditImage = getEditImageFromURL(ename)
             _currEditInput = CIImage(image:_currEditImage!)
@@ -512,11 +512,11 @@ class ImageManager {
     // function to get a named image. Will check to see if a URL (provided by UIImagePicker) is provided
     private static func getEditImageFromURL(_ urlString:String)->UIImage? {
         var image:UIImage? = nil
-        if (urlString.contains(":")){ // URL?
+        if isAssetID(urlString) { // URL?
             image = getImageFromAssets(assetUrl: urlString)
             log.verbose("Loading: \(urlString)")
         } else {
-            log.warning("Unexpected Edit name:\(urlString). Checking App-specific Assets..")
+            log.warning("Unexpected Edit name:\(urlString). Checking App-specific Assets...")
             image = UIImage(named:urlString)
         }
         
@@ -645,8 +645,9 @@ class ImageManager {
     
     private static func getImageFromAssets(assetUrl: String)->UIImage? {
         var image:UIImage? = nil
-        if let imageUrl = NSURL(string: assetUrl) {
-            let assets = PHAsset.fetchAssets(withALAssetURLs: [imageUrl as URL], options: nil)
+        //if let imageUrl = NSURL(string: assetUrl) {
+            //let assets = PHAsset.fetchAssets(withALAssetURLs: [imageUrl as URL], options: nil)
+            let assets = PHAsset.fetchAssets(withLocalIdentifiers: [assetUrl], options:nil)
             let asset = assets.firstObject
             let targetSize:CGSize = UIScreen.main.bounds.size // don't know what other size to use
             let options = PHImageRequestOptions()
@@ -656,9 +657,9 @@ class ImageManager {
             PHImageManager.default().requestImage(for: asset!, targetSize: targetSize, contentMode: .aspectFill, options: options, resultHandler: { img, _ in
                 image = img
             })
-        } else {
-            log.error("Invalid URL: \(assetUrl)")
-        }
+        //} else {
+        //    log.error("Invalid URL: \(assetUrl)")
+        //}
         return image
     }
     
@@ -941,5 +942,14 @@ class ImageManager {
         rect.size.height = scaledHeight
         
         return rect
+    }
+    
+    
+    private static func isAssetID(_ str:String)->Bool{
+        if (str.contains("-")) && (str.contains("/")) {
+            return true
+        } else {
+            return false
+        }
     }
 }

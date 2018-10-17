@@ -45,7 +45,8 @@ class CameraDisplayView: UIView {
 
 
             camera = CameraCaptureHelper(cameraPosition: AVCaptureDevice.Position.back)
-            camera?.delegate = self
+            //camera?.delegate = self
+            camera?.register(self)
             
         }
     }
@@ -115,6 +116,9 @@ class CameraDisplayView: UIView {
     public func suspend(){
         camera?.stop()
         currFilter = nil
+        //camera?.delegate = self
+        camera?.deregister(self)
+
     }
     
     ///////////////////////////////////
@@ -130,6 +134,12 @@ class CameraDisplayView: UIView {
         } //else {
         //    log.debug("Ignoring \(currFilter?.key)->\(descriptor?.key) change")
         //}
+    }
+    
+    
+    
+    public func takePhoto(){
+        camera?.takePhoto()
     }
     
     
@@ -183,6 +193,11 @@ class CameraDisplayView: UIView {
 
 
 extension CameraDisplayView: CameraCaptureHelperDelegate {
+    func photoTaken() {
+        log.debug("Photo taken")
+        // any need to do something...?
+    }
+    
     func newCameraImage(_ cameraCaptureHelper: CameraCaptureHelper, image: CIImage){
         //DispatchQueue.main.async(execute: { () -> Void in
         self.cameraImage = image

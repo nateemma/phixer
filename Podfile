@@ -8,7 +8,7 @@ target 'phixer' do
   # Pods for phixer
 
   #platform :ios
-  platform :ios, '10.6'
+  platform :ios, '11.0'
   # Neon layout constraint helpers
   pod 'Neon'
   

@@ -95,7 +95,12 @@ class EditImageDisplayView: UIView {
     fileprivate func setRenderViewSize(){
         // maintain aspect ratio and fit inside available space
         
-        let srcSize = ImageManager.getCurrentEditImageSize()
+        var srcSize = ImageManager.getCurrentEditImageSize()
+        
+        //HACK: if there was an issue with the edit image, then the size wil be zero
+        if (srcSize.width<0.01) || (srcSize.height<0.01) {
+            srcSize = self.frame.size
+        }
         
         var tgtRect:CGRect
         tgtRect = CGRect(origin: CGPoint.zero, size: self.frame.size)
