@@ -69,7 +69,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         switch (inputSource){
         case .camera:
             sourceInput = ImageManager.getCurrentSampleInput() // start with sample input, switch to camera later
-
+            initCamera()
         case .sample:
             sourceInput = ImageManager.getCurrentSampleInput()
         case .photo:
@@ -94,6 +94,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         if ((category != filterCategory) || (currIndex<0)){
             
             log.debug("Filter category set to: \(category)")
+            setInputSource(inputSource)
             
             filterCategory = category
             //filterNameList = (filterManager?.getFilterList(category))!
@@ -228,9 +229,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         filterCarousel?.align(.underCentered, relativeTo: filterLabel, padding: 0, width: (filterCarousel?.frame.size.width)!, height: (filterCarousel?.frame.size.height)!)
         
         //DispatchQueue.main.async(execute: { () -> Void in
-        self.camera = CameraCaptureHelper()
-        //camera?.delegate = self
-        camera?.register(self)
+        initCamera()
 
     }
     
@@ -366,13 +365,19 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     
     // suspend all Metal-related processing
     open func suspend(){
-        camera?.stop()
-        camera?.deregister(self)
+        camera?.deregister()
 
         //filterNameList = []
         //currIndex = -1
     }
     
+    func initCamera(){
+        if camera == nil {
+            self.camera = CameraCaptureHelper()
+            camera?.register(delegate:self, key:#file)
+        }
+        camera?.start()
+    }
     
     private func updateVisibleItems(){
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {

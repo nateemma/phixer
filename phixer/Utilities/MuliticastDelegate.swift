@@ -10,35 +10,33 @@ import Foundation
 
 
 class MulticastDelegate <T> {
-    private let delegates: NSHashTable<AnyObject> = NSHashTable.weakObjects()
+    //private let delegates: NSHashTable<AnyObject> = NSHashTable.weakObjects()
+    //private let delegates: NSMapTable<NSString, AnyObject> = NSMapTable<NSString, AnyObject>(keyOptions: .StrongMemory, valueOptions: .weakMemory)
+    private let delegates: NSMapTable<NSString, AnyObject> = NSMapTable<NSString, AnyObject>.strongToWeakObjects()
     
-    func add(delegate: T) {
-        delegates.add(delegate as AnyObject)
+    func add(key:String, delegate: T) {
+        delegates.setObject(delegate as AnyObject, forKey:key as NSString)
+    }
+   
+    
+    func remove(key:String) {
+        delegates.removeObject(forKey: key as NSString)
     }
     
-    func remove(delegate: T) {
-        for oneDelegate in delegates.allObjects.reversed() {
-            if oneDelegate === delegate as AnyObject {
-                delegates.remove(oneDelegate)
+    
+    func invoke(invocation: (T) -> ()) {
+        if delegates.count > 0 {
+            let enumerator = delegates.objectEnumerator()
+            
+            while let delegate = enumerator?.nextObject() {
+                invocation(delegate as! T)
             }
         }
     }
     
-    func invoke(invocation: (T) -> ()) {
-        for delegate in delegates.allObjects.reversed() {
-            invocation(delegate as! T)
-        }
-    }
     
     func count()->Int{
         return delegates.count
     }
 }
 
-func += <T: AnyObject> (left: MulticastDelegate<T>, right: T) {
-    left.add(delegate: right)
-}
-
-func -= <T: AnyObject> (left: MulticastDelegate<T>, right: T) {
-    left.remove(delegate: right)
-}

@@ -127,47 +127,17 @@ class FilterGalleryViewCell: UICollectionViewCell {
     
     
     fileprivate func loadInputs(){
-        /***/
-        //log.debug("creating scaled sample and blend images...")
-        //sampleImageFull = UIImage(named:"sample_9989.png")!
-        //blendImageFull = UIImage(named:"bl_topaz_warm.png")!
-        //sampleImageFull = UIImage(named:ImageManager.getCurrentSampleImageName())!
-        //blendImageFull = UIImage(named:ImageManager.getCurrentBlendImageName())!
-        
-        // create scaled down versions of the sample and blend images
-        //TODO: let user choose image
-        //let size = sampleImageFull.size.applying(CGAffineTransform(scaleX: 0.2, y: 0.2))
-        //let size = (renderView?.frame.size)!
+
+        let size = (renderView?.frame.size)!
         
         // downsize input images since we really only need thumbnails
 
 
-        //sample = ImageManager.getCurrentSampleImage(size:size)
-        //blend = ImageManager.getCurrentBlendImage(size:size)
-        sample = ImageManager.getCurrentSampleImage()
-        blend = ImageManager.getCurrentBlendImage(size:(sample?.extent.size)!)
-        /***
+        sample = ImageManager.getCurrentSampleImage(size:size)
+        blend = ImageManager.getCurrentBlendImage(size:size)
+        //sample = ImageManager.getCurrentSampleImage()
+        //blend = ImageManager.getCurrentBlendImage(size:(sample?.extent.size)!)
 
-         let hasAlpha = false
-         let scale: CGFloat = 0.0 // Automatically use scale factor of main screen
-
-         UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, scale)
-        sampleImageFull.draw(in: CGRect(origin: CGPoint.zero, size: size))
-        sampleImageSmall = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        
-        UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, scale)
-        blendImageFull.draw(in: CGRect(origin: CGPoint.zero, size: size))
-        blendImageSmall = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        
- 
-        sample = CIImage(image:sampleImageSmall!)
-        blend  = CIImage(image:blendImageSmall!)
-         ***/
-        
-        
-        /***/
     }
     
     

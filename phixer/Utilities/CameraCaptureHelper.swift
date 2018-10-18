@@ -40,6 +40,8 @@ class CameraCaptureHelper: NSObject {
     
     static var frameCount:Int = 0
     static var dropCount:Int = 0
+    
+    private var tag:String = ""
 
     
     required init(cameraPosition: AVCaptureDevice.Position) {
@@ -60,6 +62,9 @@ class CameraCaptureHelper: NSObject {
  
    }
     
+    deinit{
+        self.deregister()
+    }
     
     private func doInit(){
         if CameraCaptureHelper.captureSession == nil {
@@ -74,12 +79,22 @@ class CameraCaptureHelper: NSObject {
       }
     }
     
-    public func register(_ delegate:CameraCaptureHelperDelegate){
-        CameraCaptureHelper.delegates.add(delegate: delegate)
+    public func register(delegate:CameraCaptureHelperDelegate, key:String){
+        CameraCaptureHelper.delegates.add(key:key, delegate: delegate)
+        self.tag = key
     }
     
-    public func deregister(_ delegate:CameraCaptureHelperDelegate){
-        CameraCaptureHelper.delegates.remove(delegate: delegate)
+    public func deregister(key:String=""){
+        let k = (key.isEmpty) ? self.tag : key
+
+        CameraCaptureHelper.delegates.remove(key:k)
+        if CameraCaptureHelper.delegates.count() <= 0 {
+            stop()
+            CameraCaptureHelper.captureSession = nil
+            CameraCaptureHelper.isRunning = false
+            CameraCaptureHelper.videoOutput = nil
+            CameraCaptureHelper.photoOutput = nil
+        }
     }
 
     public func start(){
@@ -267,19 +282,17 @@ extension CameraCaptureHelper: AVCaptureVideoDataOutputSampleBufferDelegate {
                 $0.newCameraImage(self, image: CIImage(cvPixelBuffer: pixelBuffer))
             }
             
-            CameraCaptureHelper.frameCount = (CameraCaptureHelper.frameCount+1)%100
-            if CameraCaptureHelper.frameCount == 0 {
-                log.verbose("sent 100 images")
-            }
-            //self.delegate?.newCameraImage(self, image: CIImage(cvPixelBuffer: pixelBuffer))
+            //CameraCaptureHelper.frameCount = (CameraCaptureHelper.frameCount+1)%100
+            //if CameraCaptureHelper.frameCount == 0 {
+            //    log.verbose("sent 100 images")
+            //}
         }
-        
     }
     
     func captureOutput(_ output: AVCaptureOutput, didDrop sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         CameraCaptureHelper.dropCount = (CameraCaptureHelper.dropCount+1)%100
         if CameraCaptureHelper.dropCount == 0 {
-            log.verbose("dropped 100 images")
+            log.verbose("dropped 100 frames")
         }
     }
 }

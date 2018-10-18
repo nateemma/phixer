@@ -116,7 +116,13 @@ class FilterDisplayView: UIView {
     fileprivate func setRenderViewSize(){
         // maintain aspect ratio and fit inside available space
         
-        let srcSize = ImageManager.getCurrentSampleImageSize()
+        var srcSize = ImageManager.getCurrentSampleImageSize()
+        
+        //HACK: if there was an issue with the image, then the size will be zero
+        if (srcSize.width<0.01) || (srcSize.height<0.01) {
+            srcSize = self.frame.size
+        }
+        
         let tgtRect:CGRect = CGRect(origin: CGPoint.zero, size: self.frame.size)
         let rect = ImageManager.fitIntoRect(srcSize: srcSize, targetRect: tgtRect, withContentMode: .scaleAspectFit)
         renderView?.frame.size.width = rect.width

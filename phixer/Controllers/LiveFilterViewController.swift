@@ -33,29 +33,29 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
 
     
     // Filter Info View
-    var filterInfoView: FilterInfoView!
+    var filterInfoView: FilterInfoView! = FilterInfoView()
     
     // Main Camera View
-    var cameraDisplayView: CameraDisplayView!
+    var cameraDisplayView: CameraDisplayView! = CameraDisplayView()
     
     // Views for holding the (modal) overlays. Note: must come after CameraDisplayView()
-    var filterControlsView : FilterControlsView!
+    var filterControlsView : FilterControlsView! = FilterControlsView()
     
     // The Camera controls/options
-    var cameraControlsView: CameraControlsView!
+    var cameraControlsView: CameraControlsView! = CameraControlsView()
     
     // The filter configuration subview
-    var filterSettingsView: FilterParametersView!
+    var filterSettingsView: FilterParametersView! = FilterParametersView()
     
     // Advertisements View
-    var adView: GADBannerView!
+    var adView: GADBannerView! = GADBannerView()
     var showAds:Bool = true
     
     // Filter strip
-    var filterSelectionView: FilterSelectionView!
+    var filterSelectionView: FilterSelectionView! = FilterSelectionView()
     
     // Category Selection view
-    var categorySelectionView: CategorySelectionView! 
+    var categorySelectionView: CategorySelectionView!  = CategorySelectionView()
     
     let imagePicker = UIImagePickerController()
     
@@ -99,6 +99,7 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
             log.verbose("init")
             
             // create the sub views
+            /**
             cameraDisplayView = CameraDisplayView()
             filterInfoView = FilterInfoView()
             cameraControlsView = CameraControlsView()
@@ -107,7 +108,7 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
             categorySelectionView = CategorySelectionView()
             filterControlsView = FilterControlsView()
             filterSelectionView = FilterSelectionView()
-
+**/
             
             //filterManager = FilterManager.sharedInstance
             filterManager?.setCurrentCategory(FilterManager.defaultCategory)
@@ -142,11 +143,12 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
         
         // Note: need to add subviews before modifying constraints
         view.addSubview(bannerView)
-        view.addSubview(filterInfoView)
+
         if (showAds) { view.addSubview(adView) }
         view.addSubview(cameraDisplayView)
         view.addSubview(filterControlsView) // must come after cameraDisplayView
         view.addSubview(cameraControlsView)
+        view.addSubview(filterInfoView)
         
         // hidden views:
         view.addSubview(filterSelectionView)
@@ -805,13 +807,15 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
     }
     
     func presentImageEditor(){
-/***
-         prepareForViewController()
-        let vc = ImageEditorViewController()
-        vc = self
+
+        prepareForViewController()
+        let vc = SimpleEditViewController()
         present(vc, animated: true, completion: nil)
+
+/***
+         notImplemented()
  ***/
-        notImplemented()
+        
     }
     
     

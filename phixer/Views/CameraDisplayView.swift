@@ -55,20 +55,13 @@ class CameraDisplayView: UIView {
         //    initViews()
         //}
         
-        self.backgroundColor = UIColor.red // DEBUG
+        self.backgroundColor = UIColor.darkGray // DEBUG
         renderView?.frame = self.frame
         self.addSubview(renderView!)
         renderView?.fillSuperview()
         
-        camera = CameraCaptureHelper(cameraPosition: AVCaptureDevice.Position.back)
-        
         initDone = true
         updateDisplay()
-        
-        // register for change notifications (don't do this before the views are set up)
-        //filterManager.setFilterChangeNotification(callback: self.filterChanged())
-       //camera?.delegate = self
-        camera?.register(self)
         
     }
     
@@ -97,9 +90,14 @@ class CameraDisplayView: UIView {
         }
         
         //renderView?.fillSuperview()
+         if (camera == nil){
+            //camera = CameraCaptureHelper(cameraPosition: AVCaptureDevice.Position.back)
+            camera = CameraCaptureHelper() // just use default device, or whatever was already set up
+            camera?.register(delegate:self, key:#file)   
+            camera?.start()
+        }
         
         if (camera != nil){
-            camera?.start()
             
             if (currFilter == nil){
                 log.debug("No filter applied, using direct camera feed")
@@ -115,10 +113,11 @@ class CameraDisplayView: UIView {
     
     // Suspend all operations
     public func suspend(){
+        log.debug("suspend()")
         camera?.stop()
         currFilter = nil
         //camera?.delegate = self
-        camera?.deregister(self)
+        camera?.deregister()
 
     }
     
@@ -132,6 +131,7 @@ class CameraDisplayView: UIView {
             log.debug("\(String(describing: currFilter?.key))->\(String(describing: descriptor?.key))")
             currFilter = descriptor
             updateDisplay()
+            if (camera != nil) { camera?.start() }
         } //else {
         //    log.debug("Ignoring \(currFilter?.key)->\(descriptor?.key) change")
         //}

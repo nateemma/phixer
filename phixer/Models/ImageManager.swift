@@ -133,23 +133,10 @@ class ImageManager {
             return
         }
         
-        if (isAssetID(name)){ // URL?
-            _currBlendName = name
-            _currBlendImage = getBlendImageFromURL(name)
-            _currBlendImageScaled = resizeImage(_currBlendImage, targetSize: _currBlendSize, mode:.scaleAspectFill)
-            setBlendInput(image: _currBlendImageScaled!)
-        } else { // allow anything as long as the image is created
-            log.debug("Current Blend image set to:\(name)")
-            _currBlendName = name
-            _currBlendImage = UIImage(named: _currBlendName)
-            if (_currBlendImage != nil){
-                _currBlendImageScaled = resizeImage(UIImage(ciImage: getCurrentBlendImage()!), targetSize: _currBlendSize, mode:.scaleAspectFill)
-                setBlendInput(image: _currBlendImageScaled!)
-            } else {
-                log.error("Failed to create image")
-            }
-
-        }
+        _currBlendName = name
+        _currBlendImage = getImageFromAssets(assetID:name, size:_currBlendSize)
+        _currBlendImageScaled = _currBlendImage
+        setBlendInput(image: _currBlendImageScaled!)
         updateStoredSettings()
         
     }
@@ -177,7 +164,7 @@ class ImageManager {
     
     
     public static func getBlendImage(name: String, size:CGSize)->UIImage?{
-        return resizeImage(getBlendImageFromURL(name), targetSize:size, mode:.scaleAspectFill)
+        return getImageFromAssets(assetID:name, size: size)
     }
     
     
@@ -202,8 +189,9 @@ class ImageManager {
         // make sure current blend image has been loaded
         if (_currBlendImage == nil){
             if _currBlendName.isEmpty { _currBlendName = getDefaultBlendImageName()! }
-            _currBlendImage = getBlendImageFromURL(_currBlendName)
-            setBlendInput(image: _currBlendImage!)
+            _currBlendImage = getImageFromAssets(assetID:_currBlendName, size:_currBlendSize)
+            _currBlendImageScaled = _currBlendImage
+            setBlendInput(image: _currBlendImageScaled!)
         }
         
         // check to see if we have already resized
@@ -216,19 +204,6 @@ class ImageManager {
         }
     }
     
-    
-    // function to get a named image. Will check to see if a URL (provided by UIImagePicker) is provided
-    private static func getBlendImageFromURL(_ urlString:String)->UIImage? {
-        var image:UIImage? = nil
-        if isAssetID(urlString){ // URL?
-            image = getImageFromAssets(assetUrl: urlString)
-        } else if (_blendNameList.contains(urlString)){
-            image = UIImage(named:urlString)
-        } else {
-            log.warning("Unknown Blend name:\(urlString)")
-        }
-        return image
-    }
  
     
     // returns the default name
@@ -290,12 +265,13 @@ class ImageManager {
             return
         }
         
-        if (isAssetID(name)){ // URL?
+        if (isAssetID(name)){ // Asset?
             log.debug("Current Sample image set to:\(name)")
             _currSampleName = name
-            _currSampleImage = getSampleImageFromURL(name)
-            _currSampleImageScaled = resizeImage(_currSampleImage, targetSize: _currSampleSize, mode:.scaleAspectFill)
-            setSampleInput(image: _currSampleImageScaled!)
+            _currSampleImage = getImageFromAssets(assetID:name, size:_currSampleSize)
+            setSampleInput(image: _currSampleImage!)
+           //_currSampleImageScaled = resizeImage(_currSampleImage, targetSize: _currSampleSize, mode:.scaleAspectFill)
+            //setSampleInput(image: _currSampleImageScaled!)
          } else { // allow anything as long as the image is created
             log.debug("Current Sample image set to:\(name)")
             _currSampleName = name
@@ -358,7 +334,7 @@ class ImageManager {
     
     
     public static func getSampleImage(name: String, size:CGSize)->CIImage?{
-        return CIImage(image:resizeImage(getSampleImageFromURL(name), targetSize:size, mode:.scaleAspectFill)!)
+        return CIImage(image:getImageFromAssets(assetID:name, size:size)!)
     }
     
     public static func setSampleInput(image: UIImage){
@@ -370,7 +346,7 @@ class ImageManager {
         // make sure current sample image has been loaded
         if (_currSampleImage == nil){
             if _currSampleName.isEmpty { _currSampleName = getDefaultSampleImageName()! }
-            _currSampleImage = getSampleImageFromURL(_currSampleName)
+            _currSampleImage = getImageFromAssets(assetID:_currSampleName, size:_currSampleSize)
             setSampleInput(image: _currSampleImage!)
         }
         
@@ -384,19 +360,6 @@ class ImageManager {
         }
     }
 
-    
-    // function to get a named image. Will check to see if a URL (provided by UIImagePicker) is provided
-    private static func getSampleImageFromURL(_ urlString:String)->UIImage? {
-        var image:UIImage? = nil
-        if isAssetID(urlString){ // URL?
-            image = getImageFromAssets(assetUrl: urlString)
-        } else if (_sampleNameList.contains(urlString)){
-            image = UIImage(named:urlString)
-        } else {
-            log.warning("Unknown Sample name:\(urlString)")
-        }
-        return image
-    }
     
     
     
@@ -445,16 +408,12 @@ class ImageManager {
             checkEditImage()
             ename = _currEditName
         }
-        if (isAssetID(name)){ // URL?
-            _currEditName = ename
-            _currEditImage = getEditImageFromURL(ename)
-            _currEditInput = CIImage(image:_currEditImage!)
-            //_currEditImageScaled = resizeImage(_currEditImage, targetSize: _currEditSize, mode:.scaleAspectFill) // don't know size
-            log.verbose("Image set to:\(ename)")
-            updateStoredSettings()
-        } else {
-            log.warning("Unexpected Edit name:\(ename)")
-        }
+        
+        _currEditName = ename
+        _currEditImage = getImageFromAssets(assetID:ename, size:_currEditSize)
+        _currEditInput = CIImage(image:_currEditImage!)
+        log.verbose("Image set to:\(ename)")
+        updateStoredSettings()
     }
     
     
@@ -469,12 +428,7 @@ class ImageManager {
     
     
     public static func getCurrentEditImage()->CIImage? {
-        if (_currEditInput == nil){
-            _currEditImage = getEditImageFromURL(_currEditName)
-            _currEditInput = CIImage(image:_currEditImage!)
-        }
-        
-        return _currEditInput
+        return getCurrentEditImage(size:_currEditSize)
     }
     
     
@@ -482,7 +436,7 @@ class ImageManager {
     public static func getCurrentEditImage(size:CGSize)->CIImage? {
         // make sure current blend image has been loaded
         if (_currEditImage == nil){
-            _currEditImage = getEditImageFromURL(_currEditName)
+            _currEditImage = getImageFromAssets(assetID:_currEditName, size:size)
             _currEditInput = CIImage(image:_currEditImage!)
         }
         
@@ -508,24 +462,6 @@ class ImageManager {
         return _currEditSize
     }
 
-    
-    // function to get a named image. Will check to see if a URL (provided by UIImagePicker) is provided
-    private static func getEditImageFromURL(_ urlString:String)->UIImage? {
-        var image:UIImage? = nil
-        if isAssetID(urlString) { // URL?
-            image = getImageFromAssets(assetUrl: urlString)
-            log.verbose("Loading: \(urlString)")
-        } else {
-            log.warning("Unexpected Edit name:\(urlString). Checking App-specific Assets...")
-            image = UIImage(named:urlString)
-        }
-        
-        if (image == nil){
-            log.warning("No image found for:\(urlString)")
-        }
-        
-        return image
-    }
     
 
   
@@ -569,7 +505,7 @@ class ImageManager {
         
         // make sure current sample image has been loaded
         if (_currEditImage == nil){
-            _currEditImage = getEditImageFromURL(_currEditName)
+            _currEditImage = getImageFromAssets(assetID:_currEditName, size:_currEditSize)
             if _currEditImage != nil {
                 setEditInput(image: _currEditImage!)
                 
@@ -621,7 +557,7 @@ class ImageManager {
     // MARK: - Image Utilities
     //////////////////////////////////
     
-    // returns the name (URL) of the latest photo in the Camera Roll. Useful as a default setting
+    // returns the name (Asset) of the latest photo in the Camera Roll. Useful as a default setting
     // NOTE: returns asynchronously via the 'completion(name)' callback
 
     public static func getLatestPhotoName(completion: (_ name: String?) -> Void){
@@ -643,28 +579,50 @@ class ImageManager {
 
     }
     
-    private static func getImageFromAssets(assetUrl: String)->UIImage? {
-        var image:UIImage? = nil
-        //if let imageUrl = NSURL(string: assetUrl) {
-        //let assets = PHAsset.fetchAssets(withALAssetURLs: [imageUrl as URL], options: nil)
-        let assets = PHAsset.fetchAssets(withLocalIdentifiers: [assetUrl], options:nil)
+    private static func getImageFromAssets(assetID: String)->UIImage? {
         
-        let asset = assets.firstObject
-        if asset != nil {
-            let targetSize:CGSize = UIScreen.main.bounds.size // don't know what other size to use
-            let options = PHImageRequestOptions()
-            //        options.deliveryMode = PHImageRequestOptionsDeliveryMode.Opportunistic
-            options.resizeMode = PHImageRequestOptionsResizeMode.exact
-            options.isSynchronous = true // need to set this to get the full size image
-            PHImageManager.default().requestImage(for: asset!, targetSize: targetSize, contentMode: .aspectFill, options: options, resultHandler: { img, _ in
-                image = img
-            })
-        } else {
-            log.error("Invalid asset: \(assetUrl)")
-        }
-        return image
+        let targetSize:CGSize = UIScreen.main.bounds.size // don't know what other size to use
+        return getImageFromAssets(assetID:assetID, size:targetSize)
     }
     
+    
+    private static func getImageFromAssets(assetID: String, size:CGSize)->UIImage? {
+        var image:UIImage? = nil
+        var tsize:CGSize
+        
+        tsize = size
+        if (tsize.width < 0.01) || (tsize.height < 0.01) {
+            tsize = UIScreen.main.bounds.size // don't know what other size to use
+        }
+        
+        if isAssetID(assetID) { // Asset?
+            let assets = PHAsset.fetchAssets(withLocalIdentifiers: [assetID], options:nil)
+            
+            let asset = assets.firstObject
+            if asset != nil {
+                let options = PHImageRequestOptions()
+                //        options.deliveryMode = PHImageRequestOptionsDeliveryMode.Opportunistic
+                options.resizeMode = PHImageRequestOptionsResizeMode.exact
+                options.isSynchronous = true // need to set this to get the full size image
+                PHImageManager.default().requestImage(for: asset!, targetSize: tsize, contentMode: .aspectFill, options: options, resultHandler: { img, _ in
+                    image = img
+                })
+            } else {
+                log.error("Invalid asset: \(assetID)")
+            }
+        } else {
+            // not a managed asset, load via 'regular' method
+            let tmpimage = UIImage(named:assetID)
+            image = resizeImage(tmpimage, targetSize: tsize, mode:.scaleAspectFill)
+        }
+        
+        if (image == nil){
+            log.warning("No image found for:\(assetID)")
+        }
+
+        return image
+    }
+
 
     
     public static func resizeImage(_ image: UIImage?, targetSize: CGSize, mode:UIViewContentMode) -> UIImage? {

@@ -19,12 +19,13 @@ protocol BlendGalleryViewDelegate: class {
 
 
 // this class displays a CollectionView populated with the available Blend images
-class BlendGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
-    
+class BlendGalleryView : UIView {
+   
     fileprivate var isLandscape : Bool = false
     fileprivate var screenSize : CGRect = CGRect.zero
     fileprivate var displayWidth : CGFloat = 0.0
     fileprivate var displayHeight : CGFloat = 0.0
+    fileprivate var cellSize: CGSize = CGSize.zero
     
     fileprivate var aspectRatio : CGFloat = 1.0
         
@@ -43,7 +44,7 @@ class BlendGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDel
     
     
     fileprivate var blendList:[String] = []
-
+    fileprivate var imageArray:[UIImage?] = []
     
     fileprivate let layout = UICollectionViewFlowLayout()
     
@@ -120,6 +121,7 @@ class BlendGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDel
         blendGallery = UICollectionView(frame: self.frame, collectionViewLayout: layout)
         blendGallery?.delegate   = self
         blendGallery?.dataSource = self
+        blendGallery?.prefetchDataSource = self
         blendGallery?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseId)
         
         self.addSubview(blendGallery!)
@@ -132,10 +134,12 @@ class BlendGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDel
         
         if (self.blendList.count > 0){
             self.blendList = []
+            self.imageArray = []
         }
         
         // (Re-)build the list of filters
-        blendList = ImageManager.getBlendImageList()
+        self.blendList = ImageManager.getBlendImageList()
+        self.imageArray = [UIImage?](repeatElement(nil, count: self.blendList.count))
         log.debug ("Loading... \(self.blendList.count) images")
  
         
@@ -183,7 +187,10 @@ private extension BlendGalleryView {
 // MARK: - UICollectionViewDataSource
 ////////////////////////////////////////////
 
-extension BlendGalleryView {
+
+//TODO: custom cell class so that we can release memory on re-use?
+
+extension BlendGalleryView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return blendList.count
@@ -195,27 +202,63 @@ extension BlendGalleryView {
         
         // dequeue the cell
         let cell:UICollectionViewCell = (blendGallery?.dequeueReusableCell(withReuseIdentifier: reuseId, for: indexPath))!
+        self.cellSize = cell.frame.size
         
         // configure based on the index
         
         //let index:Int = (indexPath as NSIndexPath).row
         let index:Int = (indexPath as NSIndexPath).item
         //log.verbose("Index: \(index) (\(self.blendList[index]))")
+        var image:UIImage? = nil
         if ((index>=0) && (index<blendList.count)){
-            let name = self.blendList[index]
-            let size = cell.frame.size
+            if imageArray[index] == nil { // check if already fetched
+                let name = self.blendList[index]
+                log.verbose("Loading: \(name), size:\(self.cellSize)")
+                let size = cell.frame.size
+                image = ImageManager.getBlendImage(name: name, size:size)
+                self.imageArray[index] = image
+            }
+            image = self.imageArray[index]
+
             let imageView = UIImageView()
-            let image = ImageManager.getBlendImage(name: name, size:size)
-            imageView.image = image
+            imageView.contentMode = .scaleAspectFill
             cell.contentView.addSubview(imageView)
             imageView.fillSuperview()
-            
+            imageView.image = image
         } else {
             log.warning("Index out of range (\(index)/\(blendList.count))")
         }
         return cell
     }
     
+}
+
+////////////////////////////////////////////
+// MARK: - UICollectionViewDataSourcePrefetching
+////////////////////////////////////////////
+
+extension BlendGalleryView:  UICollectionViewDataSourcePrefetching {
+
+    // pre-fetch images
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+/*** uses too much memory, need to figure out bettwe scheme
+        DispatchQueue.global(qos: .background).async {
+            for indexPath in indexPaths {
+                let index:Int = (indexPath as NSIndexPath).item
+                var image:UIImage? = nil
+                if ((index>=0) && (index<self.blendList.count)){
+                    let name = self.blendList[index]
+                    log.verbose("Pre-loading: \(name), size:\(self.cellSize)")
+                    image = ImageManager.getBlendImage(name: name, size:self.cellSize)
+                    self.imageArray[index] = image
+                } else {
+                    log.warning("Index out of range (\(index)/\(self.blendList.count))")
+                }
+            }
+        }
+ ***/
+    }
+
 }
 
 
@@ -226,7 +269,7 @@ extension BlendGalleryView {
 // MARK: - UICollectionViewDelegate
 ////////////////////////////////////////////
 
-extension BlendGalleryView {
+extension BlendGalleryView: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
@@ -252,7 +295,7 @@ extension BlendGalleryView {
 // MARK: - UICollectionViewFlowLayout
 ////////////////////////////////////////////
 
-extension BlendGalleryView {
+extension BlendGalleryView: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
@@ -262,7 +305,9 @@ extension BlendGalleryView {
         let widthPerItem = availableWidth / itemsPerRow
         
         //log.debug("ItemSize: \(widthPerItem)")
-        return CGSize(width: widthPerItem, height: widthPerItem*1.5) // use 2:3 (4:6) ratio
+        self.cellSize = CGSize(width: widthPerItem.rounded(), height: (widthPerItem*1.5).rounded())
+
+        return  self.cellSize // use 2:3 (4:6) ratio
     }
     
     
