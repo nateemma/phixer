@@ -69,17 +69,10 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         switch (inputSource){
         case .camera:
             sourceInput = ImageManager.getCurrentSampleInput() // start with sample input, switch to camera later
-            if (camera == nil) {
-                camera = CameraCaptureHelper()
-                //camera?.delegate = self
-                camera?.register(self)
-            }
-            camera?.start()
+
         case .sample:
-            camera?.stop()
             sourceInput = ImageManager.getCurrentSampleInput()
         case .photo:
-            camera?.stop()
             sourceInput = ImageManager.getCurrentEditInput()
         }
     }
@@ -198,10 +191,6 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         
         if (!self.initDone){
             initDone = true
-            //DispatchQueue.main.async(execute: { () -> Void in
-            self.camera = CameraCaptureHelper()
-            //camera?.delegate = self
-            camera?.register(self)
 
             // load the blend and sample images (assuming they cannot change while this view is displayed)
             self.sourceInput = getInputSource()
@@ -238,6 +227,11 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         filterLabel.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: filterLabel.frame.size.height)
         filterCarousel?.align(.underCentered, relativeTo: filterLabel, padding: 0, width: (filterCarousel?.frame.size.width)!, height: (filterCarousel?.frame.size.height)!)
         
+        //DispatchQueue.main.async(execute: { () -> Void in
+        self.camera = CameraCaptureHelper()
+        //camera?.delegate = self
+        camera?.register(self)
+
     }
     
     override func layoutSubviews() {
@@ -386,8 +380,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
             var descriptor:FilterDescriptor?
             
             
-            
-            log.verbose("Updating...")
+            if self.inputSource != .camera { log.verbose("Updating...") }
             for i in (self.filterCarousel?.indexesForVisibleItems)! {
                 if (self.camera != nil){
                     index = i as! Int
@@ -427,10 +420,10 @@ extension FilterSelectionView: CameraCaptureHelperDelegate {
 
     
     func newCameraImage(_ cameraCaptureHelper: CameraCaptureHelper, image: CIImage){
-        //DispatchQueue.main.async(execute: { () -> Void in
+        DispatchQueue.main.async(execute: { () -> Void in
         self.sourceInput = image
         self.update()
-        //})
+        })
     }
 }
 

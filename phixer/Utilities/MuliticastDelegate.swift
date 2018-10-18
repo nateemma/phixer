@@ -29,6 +29,10 @@ class MulticastDelegate <T> {
             invocation(delegate as! T)
         }
     }
+    
+    func count()->Int{
+        return delegates.count
+    }
 }
 
 func += <T: AnyObject> (left: MulticastDelegate<T>, right: T) {

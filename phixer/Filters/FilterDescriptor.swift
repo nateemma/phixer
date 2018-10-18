@@ -371,8 +371,8 @@ class  FilterDescriptor {
         
         if let filter = self.filter {
             
-            log.debug("Running filter: \(String(describing: self.key)), type:\(self.filterOperationType)")
-            log.debug("Input keys: \(filter.inputKeys)")
+            //log.debug("Running filter: \(String(describing: self.key)), type:\(self.filterOperationType)")
+            //log.debug("Input keys: \(filter.inputKeys)")
             
 
             switch (self.filterOperationType){
@@ -385,7 +385,7 @@ class  FilterDescriptor {
                 return filter.outputImage
                 
             case .blend:
-                log.debug("Using BLEND mode for filter: \(String(describing: self.key))")
+                //log.debug("Using BLEND mode for filter: \(String(describing: self.key))")
                 //TOFIX: blend image needs to be resized to fit the render view
                 
                 var blend:CIImage?

@@ -35,7 +35,7 @@ class CameraDisplayView: UIView {
         self.init(frame: CGRect.zero)
     }
     
-    
+    /***
     func initViews(){
         
         if (!initDone){
@@ -43,31 +43,32 @@ class CameraDisplayView: UIView {
            //self.backgroundColor = UIColor.black
             //self.backgroundColor = UIColor.red
 
-
-            camera = CameraCaptureHelper(cameraPosition: AVCaptureDevice.Position.back)
-            //camera?.delegate = self
-            camera?.register(self)
-            
+           
         }
     }
-    
+    ***/
     
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        if (!initDone){
-            initViews()
-        }
+        //if (!initDone){
+        //    initViews()
+        //}
         
         self.backgroundColor = UIColor.red // DEBUG
         renderView?.frame = self.frame
         self.addSubview(renderView!)
         renderView?.fillSuperview()
         
+        camera = CameraCaptureHelper(cameraPosition: AVCaptureDevice.Position.back)
+        
+        initDone = true
         updateDisplay()
         
         // register for change notifications (don't do this before the views are set up)
         //filterManager.setFilterChangeNotification(callback: self.filterChanged())
+       //camera?.delegate = self
+        camera?.register(self)
         
     }
     
@@ -89,7 +90,7 @@ class CameraDisplayView: UIView {
         
         guard (initDone) else {
             log.error("ERR: not ready for pipeline setup")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 self.updateDisplay()
             }
             return

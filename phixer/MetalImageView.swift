@@ -25,9 +25,8 @@ class MetalImageView: MTKView
     
     let colorSpace = CGColorSpaceCreateDeviceRGB()
     
-    lazy var commandQueue: MTLCommandQueue = { [unowned self] in
-            return self.device!.makeCommandQueue()!
-        }()
+    // we make the command queue static so that we can share it across views
+    static var commandQueue: MTLCommandQueue? = nil
     
     lazy var ciContext: CIContext = { [unowned self] in
         //return CIContext(mtlDevice: self.device!, options: [kCIImageColorSpace: NSNull(), kCIImageProperties: NSNull(), kCIContextWorkingColorSpace: NSNull()])
@@ -37,14 +36,20 @@ class MetalImageView: MTKView
     
     
     override init(frame frameRect: CGRect, device: MTLDevice?) {
-        super.init(frame: frameRect,
-                   device: device ?? MTLCreateSystemDefaultDevice())
+        super.init(frame: frameRect, device: device ?? MTLCreateSystemDefaultDevice())
         
         if super.device == nil {
             fatalError("Device doesn't support Metal")
         }
         
+        if MetalImageView.commandQueue == nil {
+            MetalImageView.commandQueue = super.device?.makeCommandQueue()
+            if MetalImageView.commandQueue == nil {
+                log.error("Could not allocate Metal Command Queue")
+            }
+        }
         framebufferOnly = false
+        isPaused = true // updated manually (e.g. when a camera frame is available)
     }
     
     
@@ -65,36 +70,42 @@ class MetalImageView: MTKView
 
             if let targetTexture = currentDrawable?.texture {
                 
-                let commandBuffer = commandQueue.makeCommandBuffer()
-                
-                let bounds = CGRect(origin: CGPoint.zero, size: drawableSize)
-                
-                let originX = image.extent.origin.x
-                let originY = image.extent.origin.y
-                
-                let scaleX = drawableSize.width / image.extent.width
-                let scaleY = drawableSize.height / image.extent.height
-                let scale = min(scaleX, scaleY)
-
-                let scaledImage = image.transformed(by: CGAffineTransform(translationX: -originX, y: -originY))
-                                       .transformed(by: CGAffineTransform(scaleX: scale, y: scale))
-                
-                ciContext.render(scaledImage,
-                                 to: targetTexture,
-                                 commandBuffer: commandBuffer,
-                                 bounds: bounds,
-                                 colorSpace: colorSpace)
-
-                /***
-                 ciContext.render(image,
-                                 to: targetTexture,
-                                 commandBuffer: commandBuffer,
-                                 bounds: bounds,
-                                 colorSpace: colorSpace)
-                ***/
-                commandBuffer!.present(currentDrawable!)
-                
-                commandBuffer!.commit()
+                if let commandBuffer = MetalImageView.commandQueue?.makeCommandBuffer() {
+                    
+                    let bounds = CGRect(origin: CGPoint.zero, size: drawableSize)
+                    
+                    let originX = image.extent.origin.x
+                    let originY = image.extent.origin.y
+                    
+                    let scaleX = drawableSize.width / image.extent.width
+                    let scaleY = drawableSize.height / image.extent.height
+                    let scale = min(scaleX, scaleY)
+                    
+                    let scaledImage = image.transformed(by: CGAffineTransform(translationX: -originX, y: -originY))
+                        .transformed(by: CGAffineTransform(scaleX: scale, y: scale))
+                    
+                    ciContext.render(scaledImage,
+                                     to: targetTexture,
+                                     commandBuffer: commandBuffer,
+                                     bounds: bounds,
+                                     colorSpace: colorSpace)
+                    
+                    /***
+                     ciContext.render(image,
+                     to: targetTexture,
+                     commandBuffer: commandBuffer,
+                     bounds: bounds,
+                     colorSpace: colorSpace)
+                     ***/
+                    commandBuffer.present(currentDrawable!)
+                    
+                    commandBuffer.commit()
+                    
+                    self.draw()  // if isPaused is set then we must call this manually to free the drawable 
+                    
+                } else {
+                    log.error("Err getting cmd buf")
+                }
                 
                 //self.bounds = bounds
                 //self.frame.size = drawableSize

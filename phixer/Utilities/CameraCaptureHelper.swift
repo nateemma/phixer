@@ -38,7 +38,9 @@ class CameraCaptureHelper: NSObject {
     
     private static var delegates:MulticastDelegate<CameraCaptureHelperDelegate> = MulticastDelegate<CameraCaptureHelperDelegate>()
     
-    
+    static var frameCount:Int = 0
+    static var dropCount:Int = 0
+
     
     required init(cameraPosition: AVCaptureDevice.Position) {
         
@@ -56,10 +58,6 @@ class CameraCaptureHelper: NSObject {
         doInit()
         // don't overwrite any static vars
  
-        //CameraCaptureHelper.requestQueue.async(execute: {
-        DispatchQueue.main.async(execute: {
-            self.initialiseCaptureSession()
-        })
    }
     
     
@@ -69,7 +67,11 @@ class CameraCaptureHelper: NSObject {
             CameraCaptureHelper.videoOutput = nil
             CameraCaptureHelper.photoOutput = nil
             CameraCaptureHelper.bufferQueue = nil
-        }
+            //CameraCaptureHelper.requestQueue.async(execute: {
+            DispatchQueue.main.async(execute: {
+                self.initialiseCaptureSession()
+            })
+      }
     }
     
     public func register(_ delegate:CameraCaptureHelperDelegate){
@@ -129,8 +131,9 @@ class CameraCaptureHelper: NSObject {
             CameraCaptureHelper.captureSession?.beginConfiguration()
             
             //captureSession?.sessionPreset = AVCaptureSession?.Preset.photo
-            CameraCaptureHelper.captureSession?.sessionPreset = AVCaptureSession.Preset.inputPriority
-            //CameraCaptureHelper.captureSession?.sessionPreset = AVCaptureSession.Preset.photo
+            //CameraCaptureHelper.captureSession?.sessionPreset = AVCaptureSession.Preset.inputPriority
+            //CameraCaptureHelper.captureSession?.sessionPreset = AVCaptureSession.Preset.medium
+            CameraCaptureHelper.captureSession?.sessionPreset = AVCaptureSession.Preset.photo
             
             AVCaptureDevice.requestAccess(for: AVMediaType.video) {
                 (granted: Bool) -> Void in
@@ -166,7 +169,7 @@ class CameraCaptureHelper: NSObject {
             CameraCaptureHelper.videoOutput = AVCaptureVideoDataOutput()
             log.verbose("Setting up video output")
             CameraCaptureHelper.captureSession?.beginConfiguration()
-            CameraCaptureHelper.videoOutput?.alwaysDiscardsLateVideoFrames = true
+            //CameraCaptureHelper.videoOutput?.alwaysDiscardsLateVideoFrames = true
             CameraCaptureHelper.videoOutput?.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable as! String: NSNumber(value: kCVPixelFormatType_32BGRA)]
             //videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "phixer buffer delegate", attributes: []))
             if (CameraCaptureHelper.bufferQueue == nil) { CameraCaptureHelper.bufferQueue = DispatchQueue(label: "video buffer delegate") }
@@ -202,7 +205,6 @@ class CameraCaptureHelper: NSObject {
         } else {
             log.debug("Photo already set up")
        }
-
     }
     
     
@@ -251,7 +253,7 @@ class CameraCaptureHelper: NSObject {
 extension CameraCaptureHelper: AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
 
-        
+
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             log.error("NIL pixel buffer returned")
             return
@@ -259,12 +261,26 @@ extension CameraCaptureHelper: AVCaptureVideoDataOutputSampleBufferDelegate {
         DispatchQueue.main.async {
             connection.videoOrientation = AVCaptureVideoOrientation(rawValue: UIApplication.shared.statusBarOrientation.rawValue)!
             //log.verbose("new camera image")
+            //let n = CameraCaptureHelper.delegates.count()
+            //log.verbose("calling \(n) delegates..")
             CameraCaptureHelper.delegates.invoke {
                 $0.newCameraImage(self, image: CIImage(cvPixelBuffer: pixelBuffer))
+            }
+            
+            CameraCaptureHelper.frameCount = (CameraCaptureHelper.frameCount+1)%100
+            if CameraCaptureHelper.frameCount == 0 {
+                log.verbose("sent 100 images")
             }
             //self.delegate?.newCameraImage(self, image: CIImage(cvPixelBuffer: pixelBuffer))
         }
         
+    }
+    
+    func captureOutput(_ output: AVCaptureOutput, didDrop sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        CameraCaptureHelper.dropCount = (CameraCaptureHelper.dropCount+1)%100
+        if CameraCaptureHelper.dropCount == 0 {
+            log.verbose("dropped 100 images")
+        }
     }
 }
 
@@ -285,6 +301,7 @@ extension CameraCaptureHelper: AVCapturePhotoCaptureDelegate {
             return
         }
         
+        /***
         // Check if UIImage could be initialized with image data
         guard let capturedImage = UIImage.init(data: imageData , scale: 1.0) else {
             log.error("Failed to convert image data to UIImage")
@@ -304,16 +321,17 @@ extension CameraCaptureHelper: AVCapturePhotoCaptureDelegate {
             print("Failed to crop image")
             return
         }
+        ***/
         
-        // Convert cropped image ref to UIImage
-        let imageToSave = UIImage(cgImage: imageRef, scale: 1.0, orientation: .down)
-        UIImageWriteToSavedPhotosAlbum(imageToSave, nil, nil, nil)
+        let image = UIImage(data: imageData)
+        UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil)
         
         // call delegate to let it know that photo has been saved
        // delegate?.photoTaken()
         CameraCaptureHelper.delegates.invoke {
             $0.photoTaken()
         }
+
 
     }
 }

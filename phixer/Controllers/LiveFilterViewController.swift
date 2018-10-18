@@ -99,14 +99,14 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
             log.verbose("init")
             
             // create the sub views
-            filterInfoView = FilterInfoView()
             cameraDisplayView = CameraDisplayView()
+            filterInfoView = FilterInfoView()
             cameraControlsView = CameraControlsView()
             filterSettingsView = FilterParametersView()
             adView = GADBannerView()
-            filterSelectionView = FilterSelectionView()
             categorySelectionView = CategorySelectionView()
             filterControlsView = FilterControlsView()
+            filterSelectionView = FilterSelectionView()
 
             
             //filterManager = FilterManager.sharedInstance

@@ -646,9 +646,11 @@ class ImageManager {
     private static func getImageFromAssets(assetUrl: String)->UIImage? {
         var image:UIImage? = nil
         //if let imageUrl = NSURL(string: assetUrl) {
-            //let assets = PHAsset.fetchAssets(withALAssetURLs: [imageUrl as URL], options: nil)
-            let assets = PHAsset.fetchAssets(withLocalIdentifiers: [assetUrl], options:nil)
-            let asset = assets.firstObject
+        //let assets = PHAsset.fetchAssets(withALAssetURLs: [imageUrl as URL], options: nil)
+        let assets = PHAsset.fetchAssets(withLocalIdentifiers: [assetUrl], options:nil)
+        
+        let asset = assets.firstObject
+        if asset != nil {
             let targetSize:CGSize = UIScreen.main.bounds.size // don't know what other size to use
             let options = PHImageRequestOptions()
             //        options.deliveryMode = PHImageRequestOptionsDeliveryMode.Opportunistic
@@ -657,9 +659,9 @@ class ImageManager {
             PHImageManager.default().requestImage(for: asset!, targetSize: targetSize, contentMode: .aspectFill, options: options, resultHandler: { img, _ in
                 image = img
             })
-        //} else {
-        //    log.error("Invalid URL: \(assetUrl)")
-        //}
+        } else {
+            log.error("Invalid asset: \(assetUrl)")
+        }
         return image
     }
     
