@@ -79,8 +79,9 @@ class MetalImageView: MTKView
                     
                     let scaleX = drawableSize.width / image.extent.width
                     let scaleY = drawableSize.height / image.extent.height
-                    let scale = min(scaleX, scaleY)
-                    
+                    //let scale = min(scaleX, scaleY) // aspectFit
+                    let scale = max(scaleX, scaleY) // aspectFill
+
                     let scaledImage = image.transformed(by: CGAffineTransform(translationX: -originX, y: -originY))
                         .transformed(by: CGAffineTransform(scaleX: scale, y: scale))
                     

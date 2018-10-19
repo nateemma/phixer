@@ -121,9 +121,10 @@ class BlendGalleryView : UIView {
         blendGallery = UICollectionView(frame: self.frame, collectionViewLayout: layout)
         blendGallery?.delegate   = self
         blendGallery?.dataSource = self
-        blendGallery?.prefetchDataSource = self
-        blendGallery?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseId)
-        
+        //blendGallery?.prefetchDataSource = self
+        //blendGallery?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseId)
+        blendGallery?.register(GalleryViewCell.self, forCellWithReuseIdentifier: GalleryViewCell.reuseID)
+
         self.addSubview(blendGallery!)
         blendGallery?.fillSuperview()
         
@@ -201,17 +202,27 @@ extension BlendGalleryView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         // dequeue the cell
-        let cell:UICollectionViewCell = (blendGallery?.dequeueReusableCell(withReuseIdentifier: reuseId, for: indexPath))!
+        //let cell:UICollectionViewCell = (blendGallery?.dequeueReusableCell(withReuseIdentifier: reuseId, for: indexPath))!
+        let cell:GalleryViewCell = (blendGallery?.dequeueReusableCell(withReuseIdentifier: GalleryViewCell.reuseID, for: indexPath))! as! GalleryViewCell
         self.cellSize = cell.frame.size
         
+        // clean up memory if previously used
+        let idx = cell.cellIndex
+        if ((idx>=0) && (idx<blendList.count)){
+            self.imageArray[idx] = nil
+        }
+
         // configure based on the index
         
         //let index:Int = (indexPath as NSIndexPath).row
         let index:Int = (indexPath as NSIndexPath).item
+        cell.cellIndex = index // for later use
+        
         //log.verbose("Index: \(index) (\(self.blendList[index]))")
         var image:UIImage? = nil
         if ((index>=0) && (index<blendList.count)){
             if imageArray[index] == nil { // check if already fetched
+                // no, load the image for this index
                 let name = self.blendList[index]
                 log.verbose("Loading: \(name), size:\(self.cellSize)")
                 let size = cell.frame.size
@@ -236,12 +247,13 @@ extension BlendGalleryView: UICollectionViewDataSource {
 ////////////////////////////////////////////
 // MARK: - UICollectionViewDataSourcePrefetching
 ////////////////////////////////////////////
+/*** uses too much memory, need to figure out better scheme
 
 extension BlendGalleryView:  UICollectionViewDataSourcePrefetching {
 
     // pre-fetch images
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-/*** uses too much memory, need to figure out bettwe scheme
+
         DispatchQueue.global(qos: .background).async {
             for indexPath in indexPaths {
                 let index:Int = (indexPath as NSIndexPath).item
@@ -256,10 +268,10 @@ extension BlendGalleryView:  UICollectionViewDataSourcePrefetching {
                 }
             }
         }
- ***/
     }
 
 }
+ ***/
 
 
 
