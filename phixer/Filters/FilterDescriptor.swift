@@ -22,8 +22,22 @@ import UIKit
 
 
 class  FilterDescriptor {
-  
-     // constant used to indicate that a parameter has not (yet) been set, or doesn't exist
+    
+    
+    // Accessible vars (read-only). These can/should be overriden in subclasses
+    public private(set) var key: String
+    public private(set) var title: String
+    public private(set) var filterOperationType: FilterOperationType
+    public private(set) var numParameters: Int
+    public private(set) var parameterConfiguration: [String:ParameterSettings] = [:] // dictionary of parameter settings
+
+    //these are get/set because they are often changed
+    public var show: Bool = false
+    public var rating: Int = 0
+    
+    
+    
+    // constant used to indicate that a parameter has not (yet) been set, or doesn't exist
     public static let parameterNotSet:Float = -1000.00
     
     // name of CIFilter used to create Lookup filters
@@ -72,29 +86,33 @@ class  FilterDescriptor {
         case singleInput
         case blend
         case lookup
+        case custom
     }
-    
 
-    // Accessible vars (read-only)
-    public private(set) var key: String
-    public private(set) var title: String
-    public private(set) var filterOperationType: FilterOperationType
-    public private(set) var numParameters: Int
-    //these are get/set because they are often changed
-    public var show: Bool
-    public var rating: Int
     
     // private vars
-    private var parameterConfiguration: [String:ParameterSettings] // dictionary of parameter settings
-    private var stashedParameters: [String:ParameterSettings]
-    
+    private var stashedParameters: [String:ParameterSettings] = [:]
     private var filter: CIFilter? = nil
     private var lookupImageName:String = ""
     private var lookupImage:CIImage? = nil
     
     let defaultColor = CIColor(red: 0, green: 0, blue: 0)
-
-
+    
+    // constructor intended for use by subclasses:
+    init(){
+        self.key = ""
+        self.title = ""
+        self.show = false
+        self.rating = 0
+        self.filterOperationType = .custom
+        self.stashedParameters = [:]
+        self.parameterConfiguration = [:]
+        self.numParameters = 0
+        self.lookupImage = nil
+        self.lookupImageName = ""
+        self.filter = nil
+    }
+    
     // constructor
     init(key:String, title:String, ftype:FilterOperationType, parameters:[ParameterSettings]){
         self.key = key
@@ -113,7 +131,7 @@ class  FilterDescriptor {
             self.filter = nil
             
         } else {
-
+            
             // create the filter
             if ftype == .lookup {
                 self.filter = CIFilter(name: FilterDescriptor.lookupFilterName)
@@ -130,21 +148,25 @@ class  FilterDescriptor {
                 } else {
                     log.error("Could not find lookup image for filter: \(key)")
                 }
+            } else if ftype == .custom {
+                log.error("Custom filter")
             } else {
                 self.filter = CIFilter(name: key)
             }
-            if self.filter == nil {
-                log.error("Error creating filter:\(key)")
-            } else {
-                // (deep) copy the parameters and set up the filter
-                for p in parameters {
-                    self.stashedParameters[p.key] = p
-                    self.parameterConfiguration[p.key] = p
-                    if p.type == .float { // any other types must be set by the app
-                        self.filter?.setValue(p.value, forKey: p.key)
+            if (ftype != .custom) && (ftype != .lookup) { // parameters not specified in initialiser for these types
+                if self.filter == nil {
+                    log.error("Error creating filter:\(key)")
+                } else {
+                    // (deep) copy the parameters and set up the filter
+                    for p in parameters {
+                        self.stashedParameters[p.key] = p
+                        self.parameterConfiguration[p.key] = p
+                        if p.type == .float { // any other types must be set by the app
+                            self.filter?.setValue(p.value, forKey: p.key)
+                        }
                     }
+                    self.numParameters = parameters.count
                 }
-                self.numParameters = parameters.count
             }
         }
     }
@@ -176,7 +198,11 @@ class  FilterDescriptor {
         pval = FilterDescriptor.parameterNotSet
         if let p = parameterConfiguration[key] {
             if p.type == .float {
-                pval = self.filter?.value(forKey: key) as! Float
+                if self.filter != nil {
+                    pval = (self.filter?.value(forKey: key) as! NSNumber).floatValue
+                } else {
+                    pval = p.value
+                }
             } else {
                 log.error("Parameter (\(key) is not a Float")
             }
@@ -185,10 +211,11 @@ class  FilterDescriptor {
         }
         return pval
     }
-
+    
     func setParameter(_ key:String, value:Float) {
         if let p = parameterConfiguration[key] {
             if p.type == .float {
+                parameterConfiguration[key]!.value = value
                 if ((self.filter?.inputKeys.contains(p.key))!) {
                     self.filter?.setValue(value, forKey: key)
                 } else {
@@ -201,7 +228,7 @@ class  FilterDescriptor {
             log.error("Invalid key:\(key) for filter:\(self.key)")
         }
     }
-
+    
     // Parameter access for Color parameters
     func getColorParameter(_ key:String)->CIColor {
         var cval:CIColor
@@ -234,7 +261,7 @@ class  FilterDescriptor {
         }
     }
     
-   
+    
     
     // check that the argument key is valid for this filter
     private func checkArg(_ arg:String) -> Bool {
@@ -245,7 +272,7 @@ class  FilterDescriptor {
             return false
         }
     }
-
+    
     
     // Lookup filters are funny because they are actually all the same underlying type
     // use this to 'convert' a filter to be a lookup and correct the naming etc.
@@ -254,7 +281,7 @@ class  FilterDescriptor {
             log.error("NIL lookup name provided")
             return
         }
-
+        
         self.key = key
         self.setLookupImage(name:image)
     }
@@ -264,15 +291,15 @@ class  FilterDescriptor {
     func setLookupImage(name:String) {
         
         // we need to trust that this is correct, and overwrite the current settings to reflect the lookup image
-/***
-        guard self.filterOperationType == .lookup else {
-            log.error("Filter (\(self.title)) is not a lookup filter")
-            //DEBUG: check conversion
-            let chk = FilterOperationType(rawValue:"lookup")
-            log.error("CHECK - enum:\(self.filterOperationType) conversion:\(chk)")
-            return
-        }
- ***/
+        /***
+         guard self.filterOperationType == .lookup else {
+         log.error("Filter (\(self.title)) is not a lookup filter")
+         //DEBUG: check conversion
+         let chk = FilterOperationType(rawValue:"lookup")
+         log.error("CHECK - enum:\(self.filterOperationType) conversion:\(chk)")
+         return
+         }
+         ***/
         guard !name.isEmpty else {
             log.error("NIL lookup image provided")
             return
@@ -316,7 +343,7 @@ class  FilterDescriptor {
             log.error("NIL lookup image provided")
             return
         }
-
+        
         self.lookupImage = image
         if self.checkArg(FilterDescriptor.lookupArgImage) {
             self.filter?.setValue(image, forKey: FilterDescriptor.lookupArgImage)
@@ -324,7 +351,7 @@ class  FilterDescriptor {
             log.error("Filter: \(key) does not have arg:\(FilterDescriptor.lookupArgImage)")
         }
     }
-
+    
     
     // save a copy of the parameters so that they can be restoed later
     func stashParameters() {
@@ -345,16 +372,16 @@ class  FilterDescriptor {
     // various flavours of applying the filter:
     
     /***
-    // single input image
-    func apply (image: CIImage?) -> CIImage? {
-        if let filter = self.filter {
-            filter.setValue(image, forKey: kCIInputImageKey)
-            return filter.outputImage
-        } else {
-            return nil
-        }
-    }
-    ***/
+     // single input image
+     func apply (image: CIImage?) -> CIImage? {
+     if let filter = self.filter {
+     filter.setValue(image, forKey: kCIInputImageKey)
+     return filter.outputImage
+     } else {
+     return nil
+     }
+     }
+     ***/
     
     // generic function run the filter. The second image is optional, and is only used for blend/composite filters
     func apply (image: CIImage?, image2: CIImage?=nil) -> CIImage? {
@@ -374,7 +401,7 @@ class  FilterDescriptor {
             //log.debug("Running filter: \(String(describing: self.key)), type:\(self.filterOperationType)")
             //log.debug("Input keys: \(filter.inputKeys)")
             
-
+            
             switch (self.filterOperationType){
             case .lookup:
                 self.setLookupImage(name:self.lookupImageName)
@@ -406,16 +433,15 @@ class  FilterDescriptor {
             default:
                 log.warning("Don't know how to handle filter \(String(describing: self.key))")
             }
-        } else {
-            return nil
         }
+        return nil
     }
-
+    
     // reset to default parameters (usefil in UIs)
     func reset() {
         restoreParameters()
     }
     
-
+    
 }
 

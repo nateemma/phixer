@@ -118,15 +118,15 @@ class FilterParametersView: UIView {
             return
         }
         
-        titleLabel.frame.size.width = self.frame.size.width/3.0
-        titleLabel.frame.size.height = CGFloat(sliderHeight*0.75)
+        titleLabel.frame.size.width = (self.frame.size.width/3.0).rounded()
+        titleLabel.frame.size.height = (CGFloat(sliderHeight*0.75)).rounded()
         titleLabel.textColor = titleTextColor
         titleLabel.font = UIFont.systemFont(ofSize: 18)
         titleLabel.text = currFilterDesc?.title
         titleLabel.textAlignment = .center
         
-        titleView.frame.size.width = self.frame.size.width - 16.0
-        titleView.frame.size.height = CGFloat(sliderHeight*0.8)
+        titleView.frame.size.width = (self.frame.size.width - 16.0).rounded()
+        titleView.frame.size.height = CGFloat(sliderHeight*0.8).rounded()
         titleView.backgroundColor = titleBackgroundColor
         titleView.addSubview(titleLabel)
         
@@ -191,18 +191,8 @@ class FilterParametersView: UIView {
         
         log.verbose("Laying out sliders...")
         sliders = []
-        /***
-        if ((currFilterDesc?.numParameters)! > 0){
-            for i in 1 ... (currFilterDesc?.numParameters)!{
-                
-                if (currFilterDesc! is PresetDescriptor) {
-                    // Preset Descriptor use the Lightroom/Photoshop scale
-                    let preset:PresetDescriptor = currFilterDesc as! PresetDescriptor
-                    sliderConfig = (preset.inputConfiguration[i-1])
-                } else {
-                    sliderConfig = (currFilterDesc?.parameterConfiguration[i-1])!
-                }
-        ***/
+        sliderKey = []
+
         var i:Int
         i = 0
         for key in (currFilterDesc?.getParameterKeys())!{
@@ -238,13 +228,13 @@ class FilterParametersView: UIView {
                     slider?.isHidden = false
                     slider?.setNeedsUpdateConstraints()
                     slider?.frame.size.width = self.frame.size.width
-                    slider?.frame.size.height = CGFloat(sliderHeight*0.75)
+                    slider?.frame.size.height = CGFloat(sliderHeight*0.75).rounded()
                     
                     attachSliderAction(slider!)
                     sliderView.addSubview(slider!)
-                    //TODO: add bounds, current value
+                    //TODO: add labels for: min, max, current value
                     
-                    sliderView.groupAndFill(group: .vertical, views: [label, slider!], padding: 2.0)
+                    sliderView.groupAndFill(group: .vertical, views: [label, slider!], padding: 4.0)
                 } else if (sliderConfig.type == FilterDescriptor.ParameterType.color){
                     // RGB Slider, need to deal with colors
                     log.debug("Gradient Slider requested")
@@ -258,7 +248,7 @@ class FilterParametersView: UIView {
                     gsliders[i]?.isHidden = false
                     gsliders[i]?.setNeedsUpdateConstraints()
                     gsliders[i]?.frame.size.width = self.frame.size.width
-                    gsliders[i]?.frame.size.height = CGFloat(sliderHeight*0.75)
+                    gsliders[i]?.frame.size.height = CGFloat(sliderHeight*0.75).rounded()
                     
                     //TODO: figure out current saturation & brightness
                     let currSat = CGFloat(1.0)
@@ -280,7 +270,7 @@ class FilterParametersView: UIView {
                     }
                     //attachColorSliderAction(gsliders[i]!)
                     sliderView.addSubview(gsliders[i]!)
-                    sliderView.groupAndFill(group: .vertical, views: [label, gsliders[i]!], padding: 1.0)
+                    sliderView.groupAndFill(group: .vertical, views: [label, gsliders[i]!], padding: 2.0)
                 }
                 
                 sliders.append(sliderView)
@@ -318,29 +308,7 @@ class FilterParametersView: UIView {
     
     // Attaches an action handler based on the slider index
     fileprivate func attachSliderAction(_ slider:UISlider){
-        /*
-        let index = slider.tag
-        switch (index){
-        case 1:
-            slider.addTarget(self, action: #selector(self.slider1ValueDidChange), for: .valueChanged)
-            break
-        case 2:
-            slider.addTarget(self, action: #selector(self.slider2ValueDidChange), for: .valueChanged)
-            break
-        case 3:
-            slider.addTarget(self, action: #selector(self.slider3ValueDidChange), for: .valueChanged)
-           break
-        case 4:
-            slider.addTarget(self, action: #selector(self.slider4ValueDidChange), for: .valueChanged)
-            break
-        case 5:
-            slider.addTarget(self, action: #selector(self.slider5ValueDidChange), for: .valueChanged)
-            break
-        default:
-            log.error("Invalid slider index: \(index)")
-            break
-        }
- */
+
         slider.addTarget(self, action: #selector(self.sliderValueDidChange), for: .valueChanged)
         
         // shared callback for when user ends changing any slider (intended as an update trigger, don't need the value)
@@ -351,26 +319,6 @@ class FilterParametersView: UIView {
     
     // Attaches an action handler based on the slider index
     fileprivate func attachColorSliderAction(_ gslider:GradientSlider){
-        /***
-        let index = gslider.tag
-        switch (index){
-        case 1:
-            gslider.addTarget(self, action: #selector(self.colorSlider1ValueDidChange), for: .valueChanged)
-            break
-        case 2:
-            gslider.addTarget(self, action: #selector(self.colorSlider2ValueDidChange), for: .valueChanged)
-            break
-        case 3:
-            gslider.addTarget(self, action: #selector(self.colorSlider3ValueDidChange), for: .valueChanged)
-            break
-        case 4:
-            gslider.addTarget(self, action: #selector(self.colorSlider4ValueDidChange), for: .valueChanged)
-            break
-        default:
-            log.error("Invalid slider index: \(index)")
-            break
-        }
-        ***/
         
         gslider.addTarget(self, action: #selector(self.colorSliderValueDidChange), for: .valueChanged)
        
@@ -391,9 +339,9 @@ class FilterParametersView: UIView {
  ***/
         if ((currFilterDesc?.numParameters)! > 0){
             //self.groupInCenter(.vertical, views: sliders, padding: 1.0, width: sliders[0].frame.size.width, height: sliders[0].frame.size.height)
-            let n:CGFloat = CGFloat((currFilterDesc?.numParameters)!)
+            let n:CGFloat = CGFloat((currFilterDesc?.numParameters)!).rounded()
             //let h:CGFloat =  (self.frame.size.height - titleView.frame.size.height) / n
-            let h:CGFloat =  CGFloat(sliderHeight) * n
+            let h:CGFloat =  (CGFloat(sliderHeight) * n).rounded()
             //self.groupInCenter(.vertical, views: sliders, padding: 1.0, width: sliders[0].frame.size.width, height: h)
 
             //self.groupAndAlign(.vertical, andAlign: .underCentered, views: sliders, relativeTo: titleView, padding: 1.0, width: sliders[0].frame.size.width, height: h)}
@@ -403,6 +351,9 @@ class FilterParametersView: UIView {
             parameterView.groupAndFill(group: .vertical, views: sliders, padding: 1.0)
             scrollView?.contentSize = parameterView.frame.size
             scrollView?.alignAndFill(align: .underCentered, relativeTo: titleView, padding: 0, offset: 0)
+            //DEBUG
+            log.debug("\(currFilterDesc?.numParameters) params, w:\(parameterView.frame.size.width), h:\(parameterView.frame.size.height)")
+
         }
 
     }

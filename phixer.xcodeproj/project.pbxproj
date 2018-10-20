@@ -19,6 +19,7 @@
 		2517295E2177FC2400D5E946 /* MuliticastDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2517295D2177FC2400D5E946 /* MuliticastDelegate.swift */; };
 		251729602179448500D5E946 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 2517295F2179448500D5E946 /* README.md */; };
 		251729622179459F00D5E946 /* GalleryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251729612179459F00D5E946 /* GalleryViewCell.swift */; };
+		25172964217A1C6E00D5E946 /* Opacity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25172963217A1C6E00D5E946 /* Opacity.swift */; };
 		252B0DAF1E30690E005A0C2D /* da_006_pink_zombie.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 252B0B951E30690D005A0C2D /* da_006_pink_zombie.jpg */; };
 		252B0DB01E30690E005A0C2D /* et_082_a35.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 252B0B961E30690D005A0C2D /* et_082_a35.jpg */; };
 		252B0DB11E30690E005A0C2D /* et_096_icon2_2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 252B0B971E30690D005A0C2D /* et_096_icon2_2.jpg */; };
@@ -774,6 +775,7 @@
 		2517295D2177FC2400D5E946 /* MuliticastDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuliticastDelegate.swift; sourceTree = "<group>"; };
 		2517295F2179448500D5E946 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		251729612179459F00D5E946 /* GalleryViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GalleryViewCell.swift; path = Views/GalleryViewCell.swift; sourceTree = "<group>"; };
+		25172963217A1C6E00D5E946 /* Opacity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Opacity.swift; sourceTree = "<group>"; };
 		252B0B951E30690D005A0C2D /* da_006_pink_zombie.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = da_006_pink_zombie.jpg; sourceTree = "<group>"; };
 		252B0B961E30690D005A0C2D /* et_082_a35.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = et_082_a35.jpg; sourceTree = "<group>"; };
 		252B0B971E30690D005A0C2D /* et_096_icon2_2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = et_096_icon2_2.jpg; sourceTree = "<group>"; };
@@ -1654,6 +1656,7 @@
 				257E29A8216832F200F438C6 /* YUCIFilterConstructor.h */,
 				257E29A92168333C00F438C6 /* YUCIFilterConstructor.m */,
 				257E29A52168320700F438C6 /* YUCIColorLookup.h */,
+				25172963217A1C6E00D5E946 /* Opacity.swift */,
 			);
 			path = CustomFilters;
 			sourceTree = "<group>";
@@ -3373,6 +3376,7 @@
 				863ABCBA1EA6CE5B00B2AED2 /* LiveFilterViewController.swift in Sources */,
 				250716091DBEC19400CDDF42 /* FilterGalleryViewController.swift in Sources */,
 				25CF4BD91D9490C400D779CF /* ImageContainerView.swift in Sources */,
+				25172964217A1C6E00D5E946 /* Opacity.swift in Sources */,
 				2542DF531ECFB2ED00CEB968 /* FilterRecord.swift in Sources */,
 				25A702951DC2FE3C009441E2 /* FilterDisplayView.swift in Sources */,
 				2517295E2177FC2400D5E946 /* MuliticastDelegate.swift in Sources */,

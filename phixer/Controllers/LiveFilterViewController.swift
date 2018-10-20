@@ -373,11 +373,12 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
     func setVolumeListener() {
         let audioSession = AVAudioSession.sharedInstance()
         do {
-            try audioSession.setActive(true)
+            try audioSession.setCategory(AVAudioSessionCategoryAmbient, mode: AVAudioSessionModeDefault, options: [])
+            try audioSession.setActive(true, with: [])
+            audioSession.addObserver(self, forKeyPath: "outputVolume", options: NSKeyValueObservingOptions(), context: nil)
         } catch {
             log.error("\(error)")
         }
-        audioSession.addObserver(self, forKeyPath: "outputVolume", options: NSKeyValueObservingOptions(), context: nil)
         
         //TODO: hide system volume HUD
         self.view.addSubview(volumeView)

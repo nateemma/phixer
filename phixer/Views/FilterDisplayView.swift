@@ -46,7 +46,7 @@ class FilterDisplayView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        log.debug("layout")
+        //log.debug("layout")
        
         doLayout()
         
@@ -127,7 +127,7 @@ class FilterDisplayView: UIView {
         let rect = ImageManager.fitIntoRect(srcSize: srcSize, targetRect: tgtRect, withContentMode: .scaleAspectFit)
         renderView?.frame.size.width = rect.width
         renderView?.frame.size.height = rect.height
-        log.debug("View:(\(self.frame.size.width), \(self.frame.size.height)) Tgt: (\(srcSize.width),\(srcSize.height)) Rect:(\(rect.width),\(rect.height))")
+        //log.debug("View:(\(self.frame.size.width), \(self.frame.size.height)) Tgt: (\(srcSize.width),\(srcSize.height)) Rect:(\(rect.width),\(rect.height))")
     }
 
     
