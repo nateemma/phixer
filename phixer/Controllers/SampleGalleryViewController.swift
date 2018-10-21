@@ -37,9 +37,7 @@ class SampleGalleryViewController: UIViewController, UIImagePickerControllerDele
     
     
     // Banner View (title)
-    var bannerView: UIView! = UIView()
-    var backButton:UIButton! = UIButton()
-    var titleLabel:UILabel! = UILabel()
+    var bannerView: TitleView! = TitleView()
     
     
     // Advertisements View
@@ -235,31 +233,10 @@ class SampleGalleryViewController: UIViewController, UIImagePickerControllerDele
     
     // layout the banner view, with the Back button, title etc.
     func layoutBanner(){
-        bannerView.addSubview(backButton)
-        bannerView.addSubview(titleLabel)
-        
-        backButton.frame.size.height = bannerView.frame.size.height - 8
-        backButton.frame.size.width = 2.0 * backButton.frame.size.height
-        backButton.setTitle("< Back", for: .normal)
-        backButton.backgroundColor = UIColor.flatMint
-        backButton.setTitleColor(UIColor.white, for: .normal)
-        backButton.titleLabel!.font = UIFont.boldSystemFont(ofSize: 20.0)
-        backButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.center
-        
-        titleLabel.frame.size.height = backButton.frame.size.height
-        titleLabel.frame.size.width = displayWidth - backButton.frame.size.width
-        titleLabel.text = "Sample Image Gallery"
-        titleLabel.backgroundColor = UIColor.black
-        titleLabel.textColor = UIColor.white
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 18.0)
-        titleLabel.textAlignment = .center
-        
-        
-        backButton.anchorInCorner(.bottomLeft, xPad: 4, yPad: 4, width: backButton.frame.size.width, height: backButton.frame.size.height)
-        titleLabel.align(.toTheRightCentered, relativeTo: backButton, padding: 0, width: titleLabel.frame.size.width, height: titleLabel.frame.size.height)
-        
-        backButton.addTarget(self, action: #selector(self.backDidPress), for: .touchUpInside)
-        
+        bannerView.frame.size.height = bannerHeight * 0.5
+        bannerView.frame.size.width = displayWidth
+        bannerView.title = "Select Sample Image"
+        bannerView.delegate = self
     }
     
     
@@ -557,5 +534,13 @@ extension SampleGalleryViewController: SampleGalleryViewDelegate {
     }
 }
 
+
+
+
+extension SampleGalleryViewController: TitleViewDelegate {
+    func backPressed() {
+        backDidPress()
+    }
+}
 
 

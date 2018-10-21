@@ -91,15 +91,7 @@ class MetalImageView: MTKView
                                      bounds: bounds,
                                      colorSpace: colorSpace)
                     
-                    /***
-                     ciContext.render(image,
-                     to: targetTexture,
-                     commandBuffer: commandBuffer,
-                     bounds: bounds,
-                     colorSpace: colorSpace)
-                     ***/
                     commandBuffer.present(currentDrawable!)
-                    
                     commandBuffer.commit()
                     
                     self.draw()  // if isPaused is set then we must call this manually to free the drawable 

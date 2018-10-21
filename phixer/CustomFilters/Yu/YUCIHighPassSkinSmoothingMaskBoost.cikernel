@@ -1,0 +1,18 @@
+
+kernel vec4 filterKernel(__sample image) {
+    float hardLightColor = image.b;
+
+    for (int i = 0; i < 3; ++i) {
+        if (hardLightColor < 0.5) {
+            hardLightColor = hardLightColor  * hardLightColor * 2.;
+        } else {
+            hardLightColor = 1. - (1. - hardLightColor) * (1. - hardLightColor) * 2.;
+        }
+    }
+
+    const float k = 255.0 / (164.0 - 75.0);
+
+    hardLightColor = (hardLightColor - 75.0 / 255.0) * k;
+
+    return vec4(vec3(hardLightColor), image.a);
+}

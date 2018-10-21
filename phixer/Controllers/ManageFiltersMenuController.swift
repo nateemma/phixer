@@ -26,9 +26,7 @@ class ManageFiltersMenuController: UIViewController, UINavigationControllerDeleg
     
     
     // Banner/Navigation View (title)
-    fileprivate var bannerView: UIView! = UIView()
-    fileprivate var backButton:UIButton! = UIButton()
-    fileprivate var titleLabel:UILabel! = UILabel()
+    fileprivate var titleView:TitleView! = TitleView()
     fileprivate let statusBarOffset : CGFloat = 12.0
 
     // Advertisements View
@@ -87,7 +85,7 @@ class ManageFiltersMenuController: UIViewController, UINavigationControllerDeleg
         doInit()
         
         // Note: need to add subviews before modifying constraints
-        view.addSubview(bannerView)
+        view.addSubview(titleView)
         view.addSubview(adView)
         view.addSubview(viewFiltersMenuItem)
         view.addSubview(changeBlendMenuItem)
@@ -102,13 +100,13 @@ class ManageFiltersMenuController: UIViewController, UINavigationControllerDeleg
         }
         
         // Banner and filter info view are always at the top of the screen
-        bannerView.frame.size.height = bannerHeight * 0.5
-        bannerView.frame.size.width = displayWidth
-        bannerView.backgroundColor = UIColor.black
+        titleView.frame.size.height = bannerHeight * 0.5
+        titleView.frame.size.width = displayWidth
+        titleView.title = "Manage Categories/Filters"
+        titleView.delegate = self
         
         
-        layoutBanner()
-        bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
+        titleView.anchorAndFillEdge(.top, xPad: 0, yPad: statusBarOffset/2.0, otherSize: titleView.frame.size.height)
 
         // Set up Ads
         if (showAds){
@@ -116,7 +114,7 @@ class ManageFiltersMenuController: UIViewController, UINavigationControllerDeleg
             adView.frame.size.height = bannerHeight
             adView.frame.size.width = displayWidth
             
-            adView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: adView.frame.size.height)
+            adView.align(.underCentered, relativeTo: titleView, padding: 0, width: displayWidth, height: adView.frame.size.height)
         }
 
         
@@ -134,9 +132,9 @@ class ManageFiltersMenuController: UIViewController, UINavigationControllerDeleg
         let pad:CGFloat = 8.0
             
         if (showAds){
-            h = (view.frame.size.height - bannerView.frame.size.height - adView.frame.size.height) / CGFloat(numItems) - pad
+            h = (view.frame.size.height - titleView.frame.size.height - adView.frame.size.height) / CGFloat(numItems) - pad
         } else {
-            h = (view.frame.size.height - bannerView.frame.size.height) / CGFloat(numItems) - pad
+            h = (view.frame.size.height - titleView.frame.size.height) / CGFloat(numItems) - pad
         }
         let w = displayWidth - 4
         
@@ -169,36 +167,7 @@ class ManageFiltersMenuController: UIViewController, UINavigationControllerDeleg
         
     }
     
-    
-    // layout the banner view, with the Back button, title etc.
-    func layoutBanner(){
-        bannerView.addSubview(backButton)
-        bannerView.addSubview(titleLabel)
-        
-        backButton.frame.size.height = bannerView.frame.size.height * 0.5
-        backButton.frame.size.width = 2.5 * backButton.frame.size.height
-        backButton.setTitle("< Back", for: .normal)
-        backButton.backgroundColor = UIColor.flatMint
-        backButton.setTitleColor(UIColor.white, for: .normal)
-        backButton.titleLabel!.font = UIFont.boldSystemFont(ofSize: 20.0)
-        backButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.center
-        
-        titleLabel.frame.size.height = backButton.frame.size.height
-        titleLabel.frame.size.width = displayWidth - backButton.frame.size.width
-        titleLabel.text = "Manage Categories/Filters"
-        titleLabel.backgroundColor = UIColor.black
-        titleLabel.textColor = UIColor.white
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 18.0)
-        titleLabel.textAlignment = .center
-        
-        
-        backButton.anchorInCorner(.bottomLeft, xPad: 4, yPad: 4, width: backButton.frame.size.width, height: backButton.frame.size.height)
-        titleLabel.align(.toTheRightCentered, relativeTo: backButton, padding: 0, width: titleLabel.frame.size.width, height: titleLabel.frame.size.height)
-        
-        backButton.addTarget(self, action: #selector(self.backDidPress), for: .touchUpInside)
-        
-    }
-    
+   
 
     
     override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
@@ -360,5 +329,11 @@ extension ManageFiltersMenuController: BlendGalleryViewControllerDelegate {
 extension ManageFiltersMenuController: SampleGalleryViewControllerDelegate {
     internal func sampleGalleryCompleted(){
         log.debug("Returned from Sample Gallery")
+    }
+}
+
+extension ManageFiltersMenuController: TitleViewDelegate {
+    func backPressed() {
+        backDidPress()
     }
 }

@@ -38,9 +38,7 @@ class FilterDetailsViewController: UIViewController {
     open var currFilterKey: String = ""
     
     // Banner View (title)
-    fileprivate var bannerView: UIView! = UIView()
-    fileprivate var backButton:UIButton! = UIButton()
-    fileprivate var titleLabel:UILabel! = UILabel()
+    fileprivate var bannerView: TitleView! = TitleView()
     
     
     // Advertisements View
@@ -168,6 +166,7 @@ class FilterDetailsViewController: UIViewController {
         displayWidth = view.width
 
         setupBanner()
+        
         //view.addSubview(adView)
         setupDisplay()
         setupAdornments()
@@ -182,45 +181,21 @@ class FilterDetailsViewController: UIViewController {
     }
     
     
-    fileprivate func setupBanner(){
-        
-        bannerView.frame.size.height = bannerHeight
-        bannerView.frame.size.width = displayWidth
-        bannerView.backgroundColor = UIColor.flatBlack // temp debug
-        
-        
-        bannerView.addSubview(backButton)
-        bannerView.addSubview(titleLabel)
-        
-        backButton.frame.size.height = bannerView.frame.size.height - 8
-        backButton.frame.size.width = 2.0 * backButton.frame.size.height
-        backButton.setTitle("< Back", for: .normal)
-        backButton.backgroundColor = UIColor.flatMint
-        backButton.setTitleColor(UIColor.white, for: .normal)
-        backButton.titleLabel!.font = UIFont.boldSystemFont(ofSize: 20.0)
-        backButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.center
-        
-        titleLabel.frame.size.height = backButton.frame.size.height
-        titleLabel.frame.size.width = displayWidth - backButton.frame.size.width
-        titleLabel.text = "Filter Preview"
-        titleLabel.backgroundColor = UIColor.black
-        titleLabel.textColor = UIColor.white
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 18.0)
-        titleLabel.textAlignment = .center
-        
-        
-        backButton.anchorInCorner(.bottomLeft, xPad: 4, yPad: 4, width: backButton.frame.size.width, height: backButton.frame.size.height)
-        titleLabel.align(.toTheRightCentered, relativeTo: backButton, padding: 0, width: titleLabel.frame.size.width, height: titleLabel.frame.size.height)
-        
-        backButton.addTarget(self, action: #selector(self.backDidPress), for: .touchUpInside)
-        
-    }
   
     
-    fileprivate func updateBanner(key: String){
-        titleLabel.text = key
+    fileprivate func setupBanner(){
+        bannerView.frame.size.height = bannerHeight * 0.5
+        bannerView.frame.size.width = displayWidth
+        bannerView.title = "Filter Preview"
+        bannerView.delegate = self
+
     }
+
     
+    fileprivate func updateBanner(key: String){
+        bannerView.title = key
+    }
+
     
     fileprivate func setupDisplay(){
         if (filterDisplayView != nil) { filterDisplayView.removeFromSuperview() }
@@ -287,7 +262,7 @@ class FilterDetailsViewController: UIViewController {
         bannerView.frame.size.width = displayWidth
         bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: 4, otherSize: bannerView.frame.size.height)
         //bannerView.anchorInCorner(.topLeft, xPad: 0, yPad: 4, width: bannerView.frame.size.width, height: bannerView.frame.size.height)
-        log.verbose("Banner: \((titleLabel.text)!) w:\(bannerView.frame.size.width) h:\(bannerView.frame.size.height)")
+        log.verbose("Banner: \(bannerView.title) w:\(bannerView.frame.size.width) h:\(bannerView.frame.size.height)")
         
         //adView.frame.size.height = bannerHeight
         //adView.frame.size.width = displayWidth
@@ -757,4 +732,12 @@ extension UIAlertController {
     }
 }
 /***/
+
+
+extension FilterDetailsViewController: TitleViewDelegate {
+    func backPressed() {
+        backDidPress()
+    }
+}
+
 
