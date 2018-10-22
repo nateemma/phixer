@@ -28,7 +28,7 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
     
     // Banner/Navigation View (title)
     fileprivate var bannerView: TitleView! = TitleView()
-
+    
     
     // Filter Info View
     var filterInfoView: FilterInfoView! = FilterInfoView()
@@ -98,17 +98,18 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
             
             // create the sub views
             /**
-            cameraDisplayView = CameraDisplayView()
-            filterInfoView = FilterInfoView()
-            cameraControlsView = CameraControlsView()
-            filterSettingsView = FilterParametersView()
-            adView = GADBannerView()
-            categorySelectionView = CategorySelectionView()
-            filterControlsView = FilterControlsView()
-            filterSelectionView = FilterSelectionView()
-**/
+             cameraDisplayView = CameraDisplayView()
+             filterInfoView = FilterInfoView()
+             cameraControlsView = CameraControlsView()
+             filterSettingsView = FilterParametersView()
+             adView = GADBannerView()
+             categorySelectionView = CategorySelectionView()
+             filterControlsView = FilterControlsView()
+             filterSelectionView = FilterSelectionView()
+             **/
             
             //filterManager = FilterManager.sharedInstance
+            MetalImageView.reset()
             filterManager?.setCurrentCategory(FilterManager.defaultCategory)
             categorySelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)
             currFilterDescriptor = filterManager?.getCurrentFilterDescriptor()
@@ -141,7 +142,7 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
         
         // Note: need to add subviews before modifying constraints
         view.addSubview(bannerView)
-
+        
         if (showAds) { view.addSubview(adView) }
         view.addSubview(cameraDisplayView)
         view.addSubview(filterControlsView) // must come after cameraDisplayView
@@ -164,12 +165,12 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
         
         layoutBanner()
         bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
-
+        
         filterInfoView.frame.size.height = bannerHeight * 0.75
         filterInfoView.frame.size.width = displayWidth
         //filterInfoView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: filterInfoView.frame.size.height)
         filterInfoView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: filterInfoView.frame.size.height)
-
+        
         if (isLandscape){
             // left-to-right layout scheme, but filter/catgeory/parameter overlays are at the bottom
             
@@ -211,12 +212,12 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
             categorySelectionView.frame.size.height = 2.0 * bannerHeight
             categorySelectionView.frame.size.width = cameraDisplayView.frame.size.width
             categorySelectionView.anchorInCorner(.bottomLeft, xPad: 0, yPad: 0, width: categorySelectionView.frame.size.width, height: categorySelectionView.frame.size.height)
- 
+            
             
             filterSettingsView.frame.size.width = cameraDisplayView.frame.size.width
             filterSettingsView.frame.size.height = bannerHeight // will be adjusted based on selected filter
             filterSettingsView.anchorInCorner(.bottomLeft, xPad: 0, yPad: 0, width: filterSettingsView.frame.size.width, height: filterSettingsView.frame.size.height)
-
+            
         } else {
             // Portrait: top-to-bottom layout scheme
             
@@ -247,11 +248,11 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
             categorySelectionView.frame.size.height = 1.7 * bannerHeight
             categorySelectionView.frame.size.width = displayWidth
             categorySelectionView.align(.aboveCentered, relativeTo: filterControlsView, padding: 0, width: categorySelectionView.frame.size.width, height: categorySelectionView.frame.size.height)
-
+            
             filterSettingsView.frame.size.width = displayWidth
             filterSettingsView.frame.size.height = bannerHeight // will be adjusted based on selected filter
             filterSettingsView.align(.aboveCentered, relativeTo: filterControlsView, padding: 4, width: filterSettingsView.frame.size.width, height: filterSettingsView.frame.size.height)
-}
+        }
         
         //setFilterIndex(0) // no filter
         
@@ -263,7 +264,7 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
         filterSelectionView.delegate = self
         categorySelectionView.delegate = self
         imagePicker.delegate = self
-
+        
         
         // set gesture detection for the camera display view
         setGestureDetectors(view: cameraDisplayView)
@@ -281,7 +282,7 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
         hideCategorySelector()
         hideFilterSelector()
         
-
+        
         // start Ads
         if (showAds){
             Admob.startAds(view:adView, viewController:self)
@@ -340,7 +341,7 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
         bannerView.delegate = self
     }
     
- 
+    
     
     //////////////////////////////////////
     // MARK: - Volume buttons
@@ -391,14 +392,14 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
     
     fileprivate func nextFilter(){
         /***
-        var index  = (filterManager?.getCurrentFilterIndex())!
-        let category = (filterManager?.getCurrentCategory())!
-        let oldIndex = index
-        let oldKey = (filterManager?.getFilterKey(category: category, index: index))!
-            
-        index = (index + 1) % (filterManager?.getFilterCount(category))!
-        let key = (filterManager?.getFilterKey(category: category, index: index))!
-        **/
+         var index  = (filterManager?.getCurrentFilterIndex())!
+         let category = (filterManager?.getCurrentCategory())!
+         let oldIndex = index
+         let oldKey = (filterManager?.getFilterKey(category: category, index: index))!
+         
+         index = (index + 1) % (filterManager?.getFilterCount(category))!
+         let key = (filterManager?.getFilterKey(category: category, index: index))!
+         **/
         let oldIndex = currIndex
         let oldKey = filterList[currIndex]
         currIndex = (currIndex + 1) % filterList.count
@@ -411,15 +412,15 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
     
     fileprivate func previousFilter(){
         /**
-        var index  = (filterManager?.getCurrentFilterIndex())!
-        let category = (filterManager?.getCurrentCategory())!
-        let oldIndex = index
-        let oldKey = (filterManager?.getFilterKey(category: category, index: index))!
-        
-        index = index - 1
-        if (index < 0) { index = (filterManager?.getFilterCount(category))! - 1 }
-        let key = (filterManager?.getFilterKey(category: category, index: index))!
-        **/
+         var index  = (filterManager?.getCurrentFilterIndex())!
+         let category = (filterManager?.getCurrentCategory())!
+         let oldIndex = index
+         let oldKey = (filterManager?.getFilterKey(category: category, index: index))!
+         
+         index = index - 1
+         if (index < 0) { index = (filterManager?.getFilterCount(category))! - 1 }
+         let key = (filterManager?.getFilterKey(category: category, index: index))!
+         **/
         
         let oldIndex = currIndex
         let oldKey = filterList[currIndex]
@@ -515,7 +516,7 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
         log.verbose("Back pressed")
         exitScreen()
     }
-  
+    
     
     func exitScreen(){
         guard navigationController?.popViewController(animated: true) != nil else { //modal
@@ -531,15 +532,15 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
     
     open func saveImage(){
         /*** old version
-        do{
-            let documentsDir = try FileManager.default.url(for:.documentDirectory, in:.userDomainMask, appropriateFor:nil, create:true)
-            //TOFIX: generate filename? Or, just overwrite same file since it's copied to Photos anyway?
-            cameraDisplayView.saveImage(URL(string:"phixerImage.png", relativeTo:documentsDir)!)
-            
-        } catch {
-            log.error("Error saving image: \(error)")
-        }
- ***/
+         do{
+         let documentsDir = try FileManager.default.url(for:.documentDirectory, in:.userDomainMask, appropriateFor:nil, create:true)
+         //TOFIX: generate filename? Or, just overwrite same file since it's copied to Photos anyway?
+         cameraDisplayView.saveImage(URL(string:"phixerImage.png", relativeTo:documentsDir)!)
+         
+         } catch {
+         log.error("Error saving image: \(error)")
+         }
+         ***/
         
         cameraDisplayView.takePhoto()
         playCameraSound()
@@ -559,14 +560,14 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
         
         // get list of filters in the current category
         //if (filterCount==0){
-            filterList = []
-            let category = filterManager?.getCurrentCategory()
-            //filterList = (filterManager?.getFilterList(category!))!
-            filterList = (filterManager?.getShownFilterList(category!))!
-            filterList.sort(by: { (value1: String, value2: String) -> Bool in return value1 < value2 }) // sort ascending
-            filterCount = filterList.count
-            //log.debug("Filter list for \(category): \(filterList)")
-            
+        filterList = []
+        let category = filterManager?.getCurrentCategory()
+        //filterList = (filterManager?.getFilterList(category!))!
+        filterList = (filterManager?.getShownFilterList(category!))!
+        filterList.sort(by: { (value1: String, value2: String) -> Bool in return value1 < value2 }) // sort ascending
+        filterCount = filterList.count
+        //log.debug("Filter list for \(category): \(filterList)")
+        
         //}
     }
     
@@ -575,7 +576,7 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
     //////////////////////////////////////
     // MARK: - Filter/Category Management
     //////////////////////////////////////
-
+    
     func changeCategoryTo(_ category: String){
         if (category != filterManager?.getCurrentCategory()){
             log.debug("Category Selected: \(category)")
@@ -610,13 +611,13 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
         if let descriptor = filterManager?.getCurrentFilterDescriptor(){
             //log.verbose("Current filter: \(descriptor.key)")
             //if ((currFilterDescriptor == nil) || (descriptor.key != currFilterDescriptor?.key)){
-                log.debug("Filter change: \(descriptor.key)->\(String(describing: currFilterDescriptor?.key))")
-                //currFilterDescriptor = descriptor
-                cameraDisplayView.setFilter(currFilterDescriptor)
-                categorySelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)
-                filterSelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)
-                //filterSelectionView.update()
-                filterInfoView.update()
+            log.debug("Filter change: \(descriptor.key)->\(String(describing: currFilterDescriptor?.key))")
+            //currFilterDescriptor = descriptor
+            cameraDisplayView.setFilter(currFilterDescriptor)
+            categorySelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)
+            filterSelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)
+            //filterSelectionView.update()
+            filterInfoView.update()
             //} else {
             //    log.debug("Ignoring \(currFilterDescriptor?.key)->\(descriptor.key) transition")
             //}
@@ -704,9 +705,9 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
             } else {
                 filterSettingsView.align(.aboveCentered, relativeTo: filterControlsView, padding: 4, width: filterSettingsView.frame.size.width, height: filterSettingsView.frame.size.height)
             }
-
+            
             filterSettingsView.setFilter(currFilterDescriptor)
-
+            
             //filterSettingsView.align(.aboveCentered, relativeTo: filterControlsView, padding: 4, width: filterSettingsView.frame.size.width, height: filterSettingsView.frame.size.height)
             filterSettingsView.isHidden = false
             filterSettingsShown = true
@@ -742,12 +743,12 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
             showFilterSettings()
         }
     }
-   
+    
     
     //////////////////////////////////////////
     // MARK: - Presentation of modal ViewControllers
     //////////////////////////////////////////
-   
+    
     
     // routine to clean up before presenting a new View Controller
     fileprivate func suspend(){
@@ -785,14 +786,14 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
     }
     
     func presentImageEditor(){
-
+        
         prepareForViewController()
         let vc = SimpleEditViewController()
         present(vc, animated: true, completion: nil)
-
-/***
+        
+        /***
          notImplemented()
- ***/
+         ***/
         
     }
     
@@ -806,13 +807,13 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
         present(vc, animated: true, completion: nil)
     }
     
- 
+    
     func presentSampleGallery(){
-         prepareForViewController()
-         let vc = SampleGalleryViewController()
-         vc.delegate = self
-         present(vc, animated: true, completion: nil)
-
+        prepareForViewController()
+        let vc = SampleGalleryViewController()
+        vc.delegate = self
+        present(vc, animated: true, completion: nil)
+        
     }
     
     
@@ -832,16 +833,16 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         /***
-        if let imageRefURL = info[UIImagePickerControllerReferenceURL] as? NSURL {
-            log.verbose("Picked URL:\(imageRefURL)")
-            //TODO: save image URL to global location, launch VC to handle it
-            ImageManager.setCurrentEditImageName(imageRefURL.absoluteString!)
-            presentImageEditor()
-        } else {
-            log.error("Error accessing image URL")
-        }
-        picker.dismiss(animated: true)
-        ***/
+         if let imageRefURL = info[UIImagePickerControllerReferenceURL] as? NSURL {
+         log.verbose("Picked URL:\(imageRefURL)")
+         //TODO: save image URL to global location, launch VC to handle it
+         ImageManager.setCurrentEditImageName(imageRefURL.absoluteString!)
+         presentImageEditor()
+         } else {
+         log.error("Error accessing image URL")
+         }
+         picker.dismiss(animated: true)
+         ***/
         if let asset = info[UIImagePickerControllerPHAsset] as? PHAsset {
             let assetResources = PHAssetResource.assetResources(for: asset)
             
@@ -861,7 +862,7 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true)
     }
-
+    
     
     
     
@@ -872,7 +873,7 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
     fileprivate var notImplementedAlert:UIAlertController? = nil
     
     fileprivate func notImplemented(){
-
+        
         if (notImplementedAlert == nil){
             notImplementedAlert = UIAlertController(title: "Not Implemented  ☹️", message: "Sorry, this function has not (yet) been implemented", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .cancel) { (action:UIAlertAction) in
@@ -892,11 +893,11 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
     
     fileprivate var optionsController:UIAlertController? = nil
     
-     func showMenu(){
+    func showMenu(){
         if (optionsController == nil){
             let titleString  = "Options:"
             optionsController = UIAlertController(title: titleString, message: "", preferredStyle: .alert)
- 
+            
             // change the color and font of the title (why isn't this a default, Apple?!)
             let sysFont: UIFont = UIFont.boldSystemFont(ofSize: 22)
             var myMutableString = NSMutableAttributedString()
@@ -928,7 +929,7 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
             let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action:UIAlertAction) in
                 log.debug("Cancel")
             }
-
+            
             // add the actions to the menu
             optionsController?.addAction(filterGalleryAction)
             optionsController?.addAction(changeBlendAction)

@@ -53,6 +53,12 @@ class FilterLibrary{
         if (!FilterLibrary.initDone) {
             FilterLibrary.initDone = true
             
+            categoryDictionary = [:]
+            categoryList = []
+            filterDictionary = [:]
+            lookupDictionary = [:]
+            categoryFilters = [:]
+
             // 'restore' the configuration from the setup file
             FilterLibrary.restore()
         }
@@ -137,9 +143,18 @@ class FilterLibrary{
         
         if let settings = Database.getSettings() {
             // Double-check that there is something valid in there...
-            if (settings.blendImage!.isEmpty) { settings.blendImage = ImageManager.getDefaultBlendImageName() }
-            if (settings.sampleImage!.isEmpty) { settings.sampleImage = ImageManager.getDefaultSampleImageName() }
-            if (settings.editImage!.isEmpty) { settings.editImage = ImageManager.getDefaultEditImageName() }
+            if (settings.blendImage!.isEmpty) {
+                settings.blendImage = ImageManager.getDefaultBlendImageName()
+                log.warning("Blend image empty. Set to default: \(settings.blendImage)")
+            }
+            if (settings.sampleImage!.isEmpty) {
+                settings.sampleImage = ImageManager.getDefaultSampleImageName()
+                log.warning("Sample image empty. Set to default: \(settings.sampleImage)")
+            }
+            if (settings.editImage!.isEmpty) {
+                settings.editImage = ImageManager.getDefaultEditImageName()
+                log.warning("Edit image empty. Set to default: \(settings.editImage)")
+            }
 
             print("loadFilterConfig() - Restoring Settings: key:\(settings.key) Sample:\(settings.sampleImage!) Blend:\(settings.blendImage!) Edit:\(settings.editImage!)")
             ImageManager.setCurrentBlendImageName(settings.blendImage!)
@@ -174,13 +189,13 @@ class FilterLibrary{
                         blendList.append(blend.stringValue)
                     }
                     ImageManager.setBlendList(blendList)
-
+                    
                     // sample list
                     for sample in parsedConfig["samples"].arrayValue {
                         sampleList.append(sample.stringValue)
                     }
                     ImageManager.setSampleList(sampleList)
-
+                    
                     // Filter list
                     count = 0
                     for item in parsedConfig["filters"].arrayValue {
@@ -202,7 +217,7 @@ class FilterLibrary{
                             psettings.append(FilterDescriptor.ParameterSettings(key: pkey, title: ptitle, min: pmin, max: pmax, value: pval, type: ptype))
                         }
                         addFilter(key:key, title:title, ftype:ftype, hide:hide, rating:rating, settings: psettings)
-                  }
+                    }
                     print ("\(count) Filters found")
                     
                     
@@ -230,36 +245,37 @@ class FilterLibrary{
                         if !blend.isEmpty { ImageManager.setCurrentBlendImageName(blend)}
                         if !sample.isEmpty { ImageManager.setCurrentSampleImageName(sample)}
                         ImageManager.setCurrentBlendImageName(edit) // set even if empty
-                        
-                        // Category list
-                        count = 0
-                        for item in parsedConfig["categories"].arrayValue {
-                            count = count + 1
-                            key = item["key"].stringValue
-                            title = item["title"].stringValue
-                            addCategory(key:key, title:title)
-                        }
-                        print ("\(count) Categories found")
-                        
-                        // Build Category array from dictionary. More convenient than a dictionary
-                        categoryList = Array(categoryDictionary.keys)
-                        categoryList.sort(by: sortClosure)
-                        
-                        
-                        // List of Filters in each Category
-                        count = 0
-                        for item in parsedConfig["assign"].arrayValue {
-                            count = count + 1
-                            key = item["category"].stringValue
-                            var list:[String] = item["filters"].arrayValue.map { $0.string!}
-                            list.sort(by: sortClosure) // sort alphabetically
-                            addAssignment(category:key, filters:list)
-                        }
-                        print ("\(count) Category<-Filter Assignments found")
                     } else {
-                        log.debug("Skipping categories and settings, using database entries instead")
+                        log.debug("Skipping config file settings, using database entries instead")
                     }
-
+                    
+                    // Category list
+                    count = 0
+                    for item in parsedConfig["categories"].arrayValue {
+                        count = count + 1
+                        key = item["key"].stringValue
+                        title = item["title"].stringValue
+                        addCategory(key:key, title:title)
+                    }
+                    print ("\(count) Categories found")
+                    
+                    // Build Category array from dictionary. More convenient than a dictionary
+                    categoryList = Array(categoryDictionary.keys)
+                    categoryList.sort(by: sortClosure)
+                    
+                    
+                    // List of Filters in each Category
+                    count = 0
+                    for item in parsedConfig["assign"].arrayValue {
+                        count = count + 1
+                        key = item["category"].stringValue
+                        var list:[String] = item["filters"].arrayValue.map { $0.string!}
+                        list.sort(by: sortClosure) // sort alphabetically
+                        addAssignment(category:key, filters:list)
+                    }
+                    print ("\(count) Category<-Filter Assignments found")
+                    
+                    
                 } else {
                     print("ERROR parsing JSON file")
                     print("*** categories error: \(String(describing: parsedConfig["categories"].error))")
@@ -385,17 +401,23 @@ class FilterLibrary{
     
     private static func addAssignment(category:String, filters: [String]){
         // scan through list to make sure they are valid filters
-        FilterLibrary.categoryFilters[category] = []
-        var list:[String] = []
+        //FilterLibrary.categoryFilters[category] = []
+        //var list:[String] = []
         let validKeys = FilterFactory.getFilterList()
         for f in filters {
             if (validKeys.contains(f)) {
-                list.append(f)
+                if FilterLibrary.categoryFilters[category] == nil {
+                    FilterLibrary.categoryFilters[category] = []
+                }
+                if !FilterLibrary.categoryFilters[category]!.contains(f){ // don't add if already there
+                    FilterLibrary.categoryFilters[category]?.append(f)
+                }
+                //list.append(f)
             } else {
                 log.warning("Ignoring filter: \(f)")
             }
         }
-        FilterLibrary.categoryFilters[category] = list
+        //FilterLibrary.categoryFilters[category] = list
         //FilterLibrary.categoryFilters[category] = filters
         //print("addAssignment(\(category), \(filters))")
        
@@ -421,11 +443,6 @@ class FilterLibrary{
     
     fileprivate static func loadFromDatabase(){
         
-        categoryDictionary = [:]
-        categoryList = []
-        //filterDictionary = [:]
-        //lookupDictionary = [:]
-        categoryFilters = [:]
         
         
         // restore the settings

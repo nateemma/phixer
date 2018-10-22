@@ -76,7 +76,7 @@ class FilterManager{
                     log.verbose("Current filter: \(FilterManager.currFilterKey)")
                 } else {
                     log.error("No filters for category: \(defaultCategory)")
-                    FilterManager.currFilterKey = "Crosshatch"
+                    FilterManager.currFilterKey = "NoFilter"
                 }
                 if (FilterLibrary.filterDictionary[FilterManager.currFilterKey] == nil){
                     FilterLibrary.filterDictionary[FilterManager.currFilterKey] = FilterFactory.createFilter(key: FilterManager.currFilterKey)

@@ -21,9 +21,12 @@ protocol FilterParametersViewDelegate: class {
 
 class FilterParametersView: UIView {
     
+    public var numVisibleParams:Int = 0
+
     //var isLandscape : Bool = false
     
     var currFilterDesc: FilterDescriptor? = nil
+
     
     var initDone: Bool = false
     
@@ -93,9 +96,9 @@ class FilterParametersView: UIView {
             // height: title + sliders + buttons (or not)
             var f1, f2: CGFloat
             if (showButtons){
-                f1 = 1.25*CGFloat((currFilterDesc?.numParameters)!) + 1.75
+                f1 = 1.25*CGFloat((currFilterDesc?.getNumDisplayableParameters())!) + 1.75
             } else {
-                f1 = 1.25*CGFloat((currFilterDesc?.numParameters)!) + 1.25
+                f1 = 1.25*CGFloat((currFilterDesc?.getNumDisplayableParameters())!) + 1.25
             }
             f2 = CGFloat(sliderHeight)
             self.frame.size.height = f1 * f2
@@ -192,7 +195,7 @@ class FilterParametersView: UIView {
         log.verbose("Laying out sliders...")
         sliders = []
         sliderKey = []
-
+        numVisibleParams = 0
         var i:Int
         i = 0
         for key in (currFilterDesc?.getParameterKeys())!{
@@ -211,7 +214,7 @@ class FilterParametersView: UIView {
                 label.frame.size.height = CGFloat(sliderHeight/2.0)
                 label.textAlignment = .center
                 label.textColor = sliderTextColor
-                label.font = UIFont.systemFont(ofSize: 14.0)
+                label.font = UIFont.systemFont(ofSize: 12.0)
                 sliderView.addSubview(label)
                 
                 if (sliderConfig.type == FilterDescriptor.ParameterType.float){
@@ -228,11 +231,11 @@ class FilterParametersView: UIView {
                     slider?.isHidden = false
                     slider?.setNeedsUpdateConstraints()
                     slider?.frame.size.width = self.frame.size.width
-                    slider?.frame.size.height = CGFloat(sliderHeight*0.75).rounded()
+                    slider?.frame.size.height = CGFloat(sliderHeight*0.8).rounded()
                     
                     attachSliderAction(slider!)
                     sliderView.addSubview(slider!)
-                    //TODO: add labels for: min, max, current value
+                     //TODO: add labels for: min, max, current value
                     
                     sliderView.groupAndFill(group: .vertical, views: [label, slider!], padding: 4.0)
                 } else if (sliderConfig.type == FilterDescriptor.ParameterType.color){
@@ -248,7 +251,7 @@ class FilterParametersView: UIView {
                     gsliders[i]?.isHidden = false
                     gsliders[i]?.setNeedsUpdateConstraints()
                     gsliders[i]?.frame.size.width = self.frame.size.width
-                    gsliders[i]?.frame.size.height = CGFloat(sliderHeight*0.75).rounded()
+                    gsliders[i]?.frame.size.height = CGFloat(sliderHeight*0.8).rounded()
                     
                     //TODO: figure out current saturation & brightness
                     let currSat = CGFloat(1.0)
@@ -275,6 +278,7 @@ class FilterParametersView: UIView {
                 
                 sliders.append(sliderView)
                 parameterView.addSubview(sliderView)
+                numVisibleParams = numVisibleParams + 1
                 i = i + 1
             }
         }
@@ -337,9 +341,9 @@ class FilterParametersView: UIView {
             buttonContainerView.anchorAndFillEdge(.bottom, xPad: 2.0, yPad: 2.0, otherSize: buttonContainerView.frame.size.height)
         }
  ***/
-        if ((currFilterDesc?.numParameters)! > 0){
+        if ((currFilterDesc?.getNumDisplayableParameters())! > 0){
             //self.groupInCenter(.vertical, views: sliders, padding: 1.0, width: sliders[0].frame.size.width, height: sliders[0].frame.size.height)
-            let n:CGFloat = CGFloat((currFilterDesc?.numParameters)!).rounded()
+            let n:CGFloat = CGFloat(numVisibleParams)
             //let h:CGFloat =  (self.frame.size.height - titleView.frame.size.height) / n
             let h:CGFloat =  (CGFloat(sliderHeight) * n).rounded()
             //self.groupInCenter(.vertical, views: sliders, padding: 1.0, width: sliders[0].frame.size.width, height: h)
@@ -348,11 +352,11 @@ class FilterParametersView: UIView {
             parameterView.frame.size.width = titleView.frame.size.width
             parameterView.frame.size.height = h
             //parameterView.groupInCenter(.vertical, views: sliders, padding: 1.0, width: parameterView.frame.size.width, height: h)
-            parameterView.groupAndFill(group: .vertical, views: sliders, padding: 1.0)
+            parameterView.groupAndFill(group: .vertical, views: sliders, padding: 2.0)
             scrollView?.contentSize = parameterView.frame.size
             scrollView?.alignAndFill(align: .underCentered, relativeTo: titleView, padding: 0, offset: 0)
             //DEBUG
-            log.debug("\(currFilterDesc?.numParameters) params, w:\(parameterView.frame.size.width), h:\(parameterView.frame.size.height)")
+            log.debug("\(numVisibleParams) params, w:\(parameterView.frame.size.width), h:\(parameterView.frame.size.height)")
 
         }
 

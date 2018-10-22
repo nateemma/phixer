@@ -293,12 +293,14 @@ class FilterDetailsViewController: UIViewController {
             
             
             // Parameters on the bottom
+
             if (currFilterDescriptor != nil) {
-                filterParametersView.frame.size.height = fmin((CGFloat(((currFilterDescriptor?.numParameters)! + 1)) * bannerHeight * 0.75), (displayHeight*0.75))
+                //filterParametersView.frame.size.height = fmin((CGFloat(((currFilterDescriptor?.numParameters)! + 1)) * bannerHeight * 0.75), (displayHeight*0.75))
+                filterParametersView.frame.size.height = fmin((CGFloat(((currFilterDescriptor?.getNumDisplayableParameters())! + 1)) * bannerHeight * 0.75), (displayHeight*0.75))
             } else {
                 filterParametersView.frame.size.height = (displayHeight - 2.0 * bannerHeight) * 0.3
             }
-            
+
             filterParametersView.frame.size.width = displayWidth
             filterParametersView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 1, otherSize: filterParametersView.frame.size.height)
             view.bringSubview(toFront: filterParametersView)

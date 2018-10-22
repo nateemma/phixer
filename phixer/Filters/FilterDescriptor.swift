@@ -139,10 +139,10 @@ class  FilterDescriptor {
                 if let name = FilterLibrary.lookupDictionary[key] {
                     // set the name of the lookup image and default intensity
                     self.setLookupImage(name:name)
-                    self.filter?.setValue(0.8, forKey:FilterDescriptor.lookupArgIntensity)
+                    self.filter?.setValue(1.0, forKey:FilterDescriptor.lookupArgIntensity)
                     
                     // manually add the intensity parameter to the parameter list (so that it will be displayed)
-                    let p = ParameterSettings(key: FilterDescriptor.lookupArgIntensity, title: "intensity", min: 0.0, max: 1.0, value: 0.8, type: .float)
+                    let p = ParameterSettings(key: FilterDescriptor.lookupArgIntensity, title: "intensity", min: 0.0, max: 1.0, value: 1.0, type: .float)
                     self.parameterConfiguration[FilterDescriptor.lookupArgIntensity] = p
                     self.numParameters = 1
                 } else {
@@ -151,6 +151,7 @@ class  FilterDescriptor {
             } else if ftype == .custom {
                 log.error("Custom filter")
             } else {
+                log.debug("Creating CIFilter:\(key)")
                 self.filter = CIFilter(name: key)
             }
             if (ftype != .custom) && (ftype != .lookup) { // parameters not specified in initialiser for these types
@@ -176,6 +177,22 @@ class  FilterDescriptor {
         return parameterConfiguration.count
     }
     
+    // get number of 'displayable' parameters (scalars and colours)
+    func getNumDisplayableParameters() -> Int {
+        var count:Int = 0
+        
+        count = 0
+        for k in parameterConfiguration.keys {
+            if let p = parameterConfiguration[k] {
+                if (p.type == .float) || (p.type == .color) {
+                    count = count + 1
+                }
+            }
+        }
+
+        return count
+    }
+
     // get list of parameter keys
     func getParameterKeys() -> [String] {
         return Array(parameterConfiguration.keys)
@@ -265,6 +282,9 @@ class  FilterDescriptor {
     
     // check that the argument key is valid for this filter
     private func checkArg(_ arg:String) -> Bool {
+        guard self.filter != nil else {
+            return false
+        }
         if (self.filter?.inputKeys.contains(arg))!{
             return true
         } else {

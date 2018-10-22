@@ -95,6 +95,7 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             currFilterDescriptor = filterManager?.getCurrentFilterDescriptor()
             MainViewController.initDone = true
             updateCurrentFilter()
+            filterSelectionView.setInputSource(.camera)
         }
     }
     

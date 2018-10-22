@@ -68,11 +68,13 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         inputSource = source
         switch (inputSource){
         case .camera:
-            sourceInput = ImageManager.getCurrentSampleInput() // start with sample input, switch to camera later
+            //sourceInput = ImageManager.getCurrentSampleInput() // start with sample input, switch to camera later
             initCamera()
         case .sample:
+            camera?.stop()
             sourceInput = ImageManager.getCurrentSampleInput()
         case .photo:
+            camera?.stop()
             sourceInput = ImageManager.getCurrentEditInput()
         }
     }
@@ -170,7 +172,8 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         self.init(frame: CGRect.zero)
         
         initDone = false
-        
+        setInputSource(.sample) // default
+
         carouselHeight = fmax((self.frame.size.height * 0.8), 80.0) // doesn't seem to work at less than 80 (empirical)
         //carouselHeight = self.frame.size.height * 0.82
         
@@ -198,7 +201,11 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
             if (self.sourceInput==nil){
                 log.error("ERR: Sample input not created")
             }
-           self.blend = ImageManager.getCurrentBlendImage(size:(sourceInput?.extent.size)!)
+            if sourceInput != nil {
+                self.blend = ImageManager.getCurrentBlendImage(size:(sourceInput?.extent.size)!)
+            } else {
+                self.blend = ImageManager.getCurrentBlendImage()
+            }
             
             
             
@@ -308,9 +315,10 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     
     // called when user stops scrolling through list
     func carouselDidEndScrollingAnimation(_ carousel: iCarousel) {
-        let index = carousel.currentItemIndex
+        //let index = carousel.currentItemIndex
         
-        updateSelection(carousel, index: index)
+        //updateSelection(carousel, index: index)
+        updateVisibleItems()
     }
     
     // utility function to check that an index is (still) valid.
@@ -387,7 +395,8 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
             
             if self.inputSource != .camera { log.verbose("Updating...") }
             for i in (self.filterCarousel?.indexesForVisibleItems)! {
-                if (self.camera != nil){
+                //if (self.camera != nil){
+                if (self.sourceInput != nil){      
                     index = i as! Int
                     if (self.isValidIndex(index)){ // filterNameList can change asynchronously
                         descriptor = (self.filterManager?.getFilterDescriptor(key:self.filterNameList[index]))
@@ -425,10 +434,12 @@ extension FilterSelectionView: CameraCaptureHelperDelegate {
 
     
     func newCameraImage(_ cameraCaptureHelper: CameraCaptureHelper, image: CIImage){
-        DispatchQueue.main.async(execute: { () -> Void in
-        self.sourceInput = image
-        self.update()
-        })
+        if self.inputSource == .camera {
+            DispatchQueue.main.async(execute: { () -> Void in
+                self.sourceInput = image
+                self.update()
+            })
+        }
     }
 }
 

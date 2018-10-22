@@ -101,6 +101,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
             SimpleEditViewController.initDone = true
             populateFilterList()
             updateCurrentFilter()
+        filterSelectionView.setInputSource(.photo)
         //}
     }
     

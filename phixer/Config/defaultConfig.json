@@ -106,6 +106,7 @@
         {"key": "misc",               "title": "Miscellaneous"    },
         {"key": "tint",               "title": "Tint"    },
         {"key": "urban",              "title": "Urban"    },
+        {"key": "yu",                 "title": "Yu"    },
         {"key": "vintage",            "title": "Vintage" }
     ],
     
@@ -1220,8 +1221,46 @@
                 {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.0, "type": "CIAttributeTypeAngle"},
                 {"key": "inputWidth", "title": "Width", "min": 1.0, "max":200.0, "val": 100.0, "type": "CIAttributeTypeDistance"}
             ]
-        }
+        },
         
+        
+        {"key": "YUCIBilateralFilter", "title": "Bilateral Filter", "ftype": "singleInput", "show": true, "rating": 0,
+            "parameters":  [
+                {"key": "inputRadius", "title": "Radius", "min": 0.0, "max":20.0, "val": 10.0, "type": "CIAttributeTypeScalar"},
+                {"key": "inputDistanceNormalizationFactor", "title": "Factor", "min": 0.0, "max":10.0, "val": 6.0, "type": "CIAttributeTypeScalar"},
+                {"key": "inputTexelSpacingMultiplier", "title": "Spacing", "min": 0.0, "max":10.0, "val": 1.0, "type": "CIAttributeTypeScalar"}
+            ]
+        },
+        {"key": "YUCICLAHE", "title": "Contrast Limited Histogram Equalization", "ftype": "singleInput", "show": true, "rating": 0,
+            "parameters":  [
+                {"key": "inputClipLimit", "title": "Clip Limit", "min": 0.0, "max":5.0, "val": 1.0, "type": "CIAttributeTypeScalar"},
+                {"key": "inputTileGridSize", "title": "Grid Size", "min": 0.0, "max":10.0, "val": 0.0, "type": "CIAttributeTypePosition"}
+            ]
+        },
+        {"key": "YUCIFXAA", "title": "Anti-Aliasing", "ftype": "singleInput", "show": true, "rating": 0,
+            "parameters":  [ ]
+        },
+        {"key": "YUCIHighPass", "title": "High Pass", "ftype": "singleInput", "show": true, "rating": 0,
+            "parameters":  [
+                {"key": "inputRadius", "title": "Radius", "min": 0.0, "max":10.0, "val": 1.0, "type": "CIAttributeTypeScalar"}
+            ]
+        },
+        {"key": "YUCIHighPassSkinSmoothing", "title": "Skin Smoothing", "ftype": "singleInput", "show": true, "rating": 0,
+            "parameters":  [
+                {"key": "inputAmount", "title": "Amount", "min": 0.0, "max":1.0, "val": 0.75, "type": "CIAttributeTypeScalar"},
+                {"key": "inputRadius", "title": "Radius", "min": 0.0, "max":20.0, "val": 8.0, "type": "CIAttributeTypeScalar"},
+                {"key": "inputToneCurveControlPoints", "title": "control points", "min": 0.0, "max":10.0, "val": 6.0, "type": "CIAttributeTypeVector"},
+                {"key": "inputSharpnessFactor", "title": "Sharpness", "min": 0.0, "max":1.0, "val": 0.6, "type": "CIAttributeTypeScalar"}
+            ]
+        },
+        {"key": "YUCIHistogramEqualization", "title": "Bilateral Filter", "ftype": "singleInput", "show": true, "rating": 0,
+            "parameters":  [ ]
+        },
+        {"key": "YUCIReflectedTile", "title": "Reflected Tile", "ftype": "singleInput", "show": true, "rating": 0,
+            "parameters":  [
+                {"key": "inputMode", "title": "Reflections", "min": 0.0, "max":10.0, "val": 4.0, "type": "CIAttributeTypeScalar"}
+            ]
+        }
     ],
     
     
@@ -1960,6 +1999,12 @@
                 "vn_021", "vn_022", "vn_023", "vn_024", "vn_025", "vn_026", "vn_027", "vn_028", "vn_029", "vn_030",
                 "vn_031", "vn_032", "vn_033", "vn_034", "vn_035", "vn_036", "vn_037", "vn_038", "vn_039", "vn_040",
                 "vn_041", "vn_042", "vn_043", "vn_044", "vn_045", "vn_046", "vn_047"
+            ]
+        },
+        
+        {"category": "yu",
+            "filters": ["YUCIBilateralFilter",  "YUCICLAHE",  "YUCIFXAA",  "YUCIHighPass",  "YUCIHighPassSkinSmoothing",
+                "YUCIHistogramEqualization",  "YUCIReflectedTile"
             ]
         }
     ]

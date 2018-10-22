@@ -27,6 +27,7 @@ class MetalImageView: MTKView
     
     // we make the command queue static so that we can share it across views
     static var commandQueue: MTLCommandQueue? = nil
+    private static var device: MTLDevice? = nil
     
     lazy var ciContext: CIContext = { [unowned self] in
         //return CIContext(mtlDevice: self.device!, options: [kCIImageColorSpace: NSNull(), kCIImageProperties: NSNull(), kCIContextWorkingColorSpace: NSNull()])
@@ -36,11 +37,15 @@ class MetalImageView: MTKView
     
     
     override init(frame frameRect: CGRect, device: MTLDevice?) {
+        
         super.init(frame: frameRect, device: device ?? MTLCreateSystemDefaultDevice())
         
-        if super.device == nil {
-            fatalError("Device doesn't support Metal")
+        guard super.device != nil else {
+            log.error("Device doesn't support Metal")
+            return
         }
+        
+        MetalImageView.device = super.device
         
         if MetalImageView.commandQueue == nil {
             MetalImageView.commandQueue = super.device?.makeCommandQueue()
@@ -49,7 +54,7 @@ class MetalImageView: MTKView
             }
         }
         framebufferOnly = false
-        isPaused = true // updated manually (e.g. when a camera frame is available)
+        //isPaused = true // updated manually (e.g. when a camera frame is available)
     }
     
     
@@ -57,8 +62,15 @@ class MetalImageView: MTKView
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
     
+    // reset the command queue.
+    public static func reset(){
+        MetalImageView.commandQueue = nil
+        MetalImageView.commandQueue = MetalImageView.device?.makeCommandQueue()
+        if MetalImageView.commandQueue == nil {
+            log.error("Could not allocate Metal Command Queue")
+        }
+    }
     
     func renderImage() {
         guard device != nil else {
@@ -67,23 +79,39 @@ class MetalImageView: MTKView
         }
         
         if let image = image {
-
+            
             if let targetTexture = currentDrawable?.texture {
                 
                 if let commandBuffer = MetalImageView.commandQueue?.makeCommandBuffer() {
                     
                     let bounds = CGRect(origin: CGPoint.zero, size: drawableSize)
                     
-                    let originX = image.extent.origin.x
-                    let originY = image.extent.origin.y
+                    var originX = image.extent.origin.x
+                    var originY = image.extent.origin.y
                     
                     let scaleX = drawableSize.width / image.extent.width
                     let scaleY = drawableSize.height / image.extent.height
-                    //let scale = min(scaleX, scaleY) // aspectFit
-                    let scale = max(scaleX, scaleY) // aspectFill
-
+                    // if the view and the image are the same orientation then fill, otherwise fit
+                    var scale:CGFloat = 1.0
+                    if ((drawableSize.width>=drawableSize.height) && (image.extent.width>=image.extent.height)) ||
+                        ((drawableSize.width<drawableSize.height) && (image.extent.width<image.extent.height)) {
+                        scale = max(scaleX, scaleY) // aspectFill
+                    } else {
+                        scale = min(scaleX, scaleY) // aspectFit
+                    }
+                    
+                    if image.extent.width > image.extent.height {
+                        // if landscape then move the image up to the top of the drawable (note: this is before scaling, so work in image coordinates)
+                        originY = -(drawableSize.height/scale - image.extent.height)
+                    } else {
+                        // portrait, centre horizontally
+                        originX = -(drawableSize.width/scale - image.extent.width)/2.0
+                    }
+                    //DBG
+                    //log.debug("image:(\(image.extent.width),\(image.extent.height)) " +
+                    //    "drawable:(\(drawableSize.width), \(drawableSize.height)) o:(\(originX), \(originY)) scale:\(scale)")
                     let scaledImage = image.transformed(by: CGAffineTransform(translationX: -originX, y: -originY))
-                        .transformed(by: CGAffineTransform(scaleX: scale, y: scale))
+                                           .transformed(by: CGAffineTransform(scaleX: scale, y: scale))
                     
                     ciContext.render(scaledImage,
                                      to: targetTexture,
