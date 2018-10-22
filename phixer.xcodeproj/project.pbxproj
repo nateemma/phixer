@@ -1525,11 +1525,6 @@
 		257F49FF1D9448920083B1E4 /* phixerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = phixerUITests.swift; sourceTree = "<group>"; };
 		257F4A011D9448920083B1E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		257F4A131D947CF80083B1E4 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		25897802216EA98200A3F223 /* Chameleon.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Chameleon.framework.dSYM; path = Carthage/Build/iOS/Chameleon.framework.dSYM; sourceTree = "<group>"; };
-		25897804216EA98D00A3F223 /* Cosmos.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Cosmos.framework.dSYM; path = Carthage/Build/iOS/Cosmos.framework.dSYM; sourceTree = "<group>"; };
-		25897806216EA99500A3F223 /* Neon.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Neon.framework.dSYM; path = Carthage/Build/iOS/Neon.framework.dSYM; sourceTree = "<group>"; };
-		25897808216EA99F00A3F223 /* SwiftyBeaver.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SwiftyBeaver.framework.dSYM; path = Carthage/Build/iOS/SwiftyBeaver.framework.dSYM; sourceTree = "<group>"; };
-		2589780A216EA9A700A3F223 /* SwiftyJSON.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SwiftyJSON.framework.dSYM; path = Carthage/Build/iOS/SwiftyJSON.framework.dSYM; sourceTree = "<group>"; };
 		258EA08D1ED90A7000D5E20E /* ManageFiltersMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ManageFiltersMenuController.swift; path = Controllers/ManageFiltersMenuController.swift; sourceTree = "<group>"; };
 		258EA0921ED9472600D5E20E /* ResetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResetViewController.swift; path = Controllers/ResetViewController.swift; sourceTree = "<group>"; };
 		25910B141DB73833007EC926 /* phixer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "phixer-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -1784,11 +1779,6 @@
 		257F49D31D9448920083B1E4 = {
 			isa = PBXGroup;
 			children = (
-				2589780A216EA9A700A3F223 /* SwiftyJSON.framework.dSYM */,
-				25897808216EA99F00A3F223 /* SwiftyBeaver.framework.dSYM */,
-				25897806216EA99500A3F223 /* Neon.framework.dSYM */,
-				25897804216EA98D00A3F223 /* Cosmos.framework.dSYM */,
-				25897802216EA98200A3F223 /* Chameleon.framework.dSYM */,
 				253FC297216011730081A34C /* Default-568h@2x.png */,
 				2517295F2179448500D5E946 /* README.md */,
 				257F4A131D947CF80083B1E4 /* Podfile */,

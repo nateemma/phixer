@@ -32,14 +32,14 @@ UIImage *blendedImage = [UIImage imageWithCIImage:composite.outputImage];
 
 class Opacity: FilterDescriptor {
     
-    public let alphaKey:String = "alpha"
+    public static let alphaKey:String = "alpha"
     
     // override the base class properties
     override var key: String { return "Opacity" }
     override var title: String { return "Set Opacity"}
     override var filterOperationType: FilterOperationType { return .custom }
     override var numParameters: Int { return 1 }
-    override var parameterConfiguration: [String:ParameterSettings] { return customSettings }
+    //override var parameterConfiguration: [String:ParameterSettings] { return customSettings }
 
     private var customSettings:[String:ParameterSettings] = [:]
     private var colorMatrix:CIFilter? = nil
@@ -51,15 +51,14 @@ class Opacity: FilterDescriptor {
         super.init()
         customSettings = [:]
         // manually add the alpha parameter to the parameter list (so that it will be displayed)
-        let p = ParameterSettings(key: alphaKey, title: "opacity", min: 0.0, max: 1.0, value: 0.8, type: .float)
-        self.customSettings[alphaKey] = p
+        let p = ParameterSettings(key: Opacity.alphaKey, title: "opacity", min: 0.0, max: 1.0, value: 0.8, type: .float)
+        self.customSettings[Opacity.alphaKey] = p
+        copyParameters([p]) // copies to the superclass array
         stashParameters()
         
         colorMatrix = CIFilter(name: "CIColorMatrix")
         composite = CIFilter(name: "CISourceOverCompositing")
     }
-    
-    // Override the apply functions
     
     
     override func apply (image: CIImage?, image2: CIImage?=nil) -> CIImage? {
@@ -80,10 +79,11 @@ class Opacity: FilterDescriptor {
         colorMatrix?.setDefaults()
         colorMatrix?.setValue(image, forKey: kCIInputImageKey)
 
-        rgba[3] = CGFloat(self.getParameter(alphaKey))
+        rgba[3] = CGFloat(self.getParameter(Opacity.alphaKey))
         alphaVector = CIVector(values: rgba, count: 4)
         colorMatrix?.setValue(alphaVector, forKey:"inputAVector")
 
+        log.debug ("Setting alpha to:\(rgba[3])")
         img = colorMatrix?.outputImage
         if image2 == nil {
             // only 1 input so return alpha adjusted image

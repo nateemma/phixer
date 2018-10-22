@@ -46,6 +46,9 @@ class  FilterDescriptor {
     private static let lookupArgImage:String = "inputColorLookupTable"
     private static let lookupArgIntensity:String = "inputIntensity"
     
+    private static let blendArgIntensity:String = "inputIntensity"
+    private static let opacityFilter = Opacity()
+
     public static let nullFilter = "NoFilter"
     
     // the type of the parameter
@@ -98,6 +101,11 @@ class  FilterDescriptor {
     
     let defaultColor = CIColor(red: 0, green: 0, blue: 0)
     
+    
+    ///////////////////////////////////////////
+    // Constructors
+    ///////////////////////////////////////////
+
     // constructor intended for use by subclasses:
     init(){
         self.key = ""
@@ -129,48 +137,88 @@ class  FilterDescriptor {
         // check for null filter (i.e. no operation is applied)
         if self.key == FilterDescriptor.nullFilter {
             self.filter = nil
-            
         } else {
             
             // create the filter
-            if ftype == .lookup {
-                self.filter = CIFilter(name: FilterDescriptor.lookupFilterName)
-                //HACK: lookup image from FilterLibrary
-                if let name = FilterLibrary.lookupDictionary[key] {
-                    // set the name of the lookup image and default intensity
-                    self.setLookupImage(name:name)
-                    self.filter?.setValue(1.0, forKey:FilterDescriptor.lookupArgIntensity)
-                    
-                    // manually add the intensity parameter to the parameter list (so that it will be displayed)
-                    let p = ParameterSettings(key: FilterDescriptor.lookupArgIntensity, title: "intensity", min: 0.0, max: 1.0, value: 1.0, type: .float)
-                    self.parameterConfiguration[FilterDescriptor.lookupArgIntensity] = p
-                    self.numParameters = 1
-                } else {
-                    log.error("Could not find lookup image for filter: \(key)")
-                }
-            } else if ftype == .custom {
-                log.error("Custom filter")
-            } else {
-                log.debug("Creating CIFilter:\(key)")
-                self.filter = CIFilter(name: key)
-            }
-            if (ftype != .custom) && (ftype != .lookup) { // parameters not specified in initialiser for these types
-                if self.filter == nil {
-                    log.error("Error creating filter:\(key)")
-                } else {
-                    // (deep) copy the parameters and set up the filter
-                    for p in parameters {
-                        self.stashedParameters[p.key] = p
-                        self.parameterConfiguration[p.key] = p
-                        if p.type == .float { // any other types must be set by the app
-                            self.filter?.setValue(p.value, forKey: p.key)
-                        }
-                    }
-                    self.numParameters = parameters.count
-                }
+            switch (ftype){
+            case .singleInput:
+                initSingleInputFilter(key:key, title:title, parameters:parameters)
+            case .lookup:
+                initLookupFilter(key:key, title:title, parameters:parameters)
+            case .blend:
+                initBlendFilter(key:key, title:title, parameters:parameters)
+            case .custom:
+                initCustomFilter(key:key, title:title, parameters:parameters)
             }
         }
     }
+    
+    // different initializers for the different filter types
+    
+    private func initSingleInputFilter(key:String, title:String, parameters:[ParameterSettings]){
+        //log.debug("Creating CIFilter:\(key)")
+        self.filter = CIFilter(name: key)
+        if self.filter == nil {
+            log.error("Error creating filter:\(key)")
+        } else {
+            copyParameters(parameters)
+        }
+    }
+    
+    private func initLookupFilter(key:String, title:String, parameters:[ParameterSettings]){
+        self.filter = CIFilter(name: FilterDescriptor.lookupFilterName)
+        //HACK: lookup image from FilterLibrary
+        if let name = FilterLibrary.lookupDictionary[key] {
+            // set the name of the lookup image and default intensity
+            self.setLookupImage(name:name)
+            self.filter?.setValue(1.0, forKey:FilterDescriptor.lookupArgIntensity)
+            
+            // manually add the intensity parameter to the parameter list (so that it will be displayed)
+            let p = ParameterSettings(key: FilterDescriptor.lookupArgIntensity, title: "intensity", min: 0.0, max: 1.0, value: 1.0, type: .float)
+            self.parameterConfiguration[FilterDescriptor.lookupArgIntensity] = p
+            self.numParameters = 1
+        } else {
+            log.error("Could not find lookup image for filter: \(key)")
+        }
+    }
+    
+    private func initBlendFilter(key:String, title:String, parameters:[ParameterSettings]){
+        //log.debug("Creating Blend Filter:\(key)")
+        self.filter = CIFilter(name: key)
+        if self.filter == nil {
+            log.error("Error creating filter:\(key)")
+        } else {
+             copyParameters(parameters)
+            
+            // add an artificial parameter to control transparency
+            let p = ParameterSettings(key: FilterDescriptor.blendArgIntensity, title: "opacity", min: 0.0, max: 1.0, value: 0.8, type: .float)
+            self.parameterConfiguration[FilterDescriptor.blendArgIntensity] = p
+            self.numParameters = self.numParameters + 1
+        }
+    }
+    
+    private func initCustomFilter(key:String, title:String, parameters:[ParameterSettings]){
+        log.error("Custom filters not implemented yet. Ignoring")
+
+    }
+
+    func copyParameters(_ parameters:[ParameterSettings]){
+        // (deep) copy the parameters and set up the filter
+        for p in parameters {
+            self.stashedParameters[p.key] = p
+            self.parameterConfiguration[p.key] = p
+            if p.type == .float { // any other types must be set by the app
+                self.filter?.setValue(p.value, forKey: p.key)
+            }
+        }
+        self.numParameters = parameters.count
+    }
+    
+    
+    ///////////////////////////////////////////
+    // Accessors
+    ///////////////////////////////////////////
+
     
     // get number of parameters
     func getNumParameters() -> Int {
@@ -215,11 +263,7 @@ class  FilterDescriptor {
         pval = FilterDescriptor.parameterNotSet
         if let p = parameterConfiguration[key] {
             if p.type == .float {
-                if self.filter != nil {
-                    pval = (self.filter?.value(forKey: key) as! NSNumber).floatValue
-                } else {
                     pval = p.value
-                }
             } else {
                 log.error("Parameter (\(key) is not a Float")
             }
@@ -233,10 +277,10 @@ class  FilterDescriptor {
         if let p = parameterConfiguration[key] {
             if p.type == .float {
                 parameterConfiguration[key]!.value = value
-                if ((self.filter?.inputKeys.contains(p.key))!) {
-                    self.filter?.setValue(value, forKey: key)
-                } else {
-                    log.error("Invalid parameter:(\(p.key)) for filter:(\(key)")
+                if (self.filter != nil){
+                    if ((self.filter?.inputKeys.contains(p.key))!) { // OK if not true
+                        self.filter?.setValue(value, forKey: key)
+                    }
                 }
             } else {
                 log.error("Parameter (\(key) is not a Float")
@@ -280,32 +324,6 @@ class  FilterDescriptor {
     
     
     
-    // check that the argument key is valid for this filter
-    private func checkArg(_ arg:String) -> Bool {
-        guard self.filter != nil else {
-            return false
-        }
-        if (self.filter?.inputKeys.contains(arg))!{
-            return true
-        } else {
-            log.error("Invalid parameter key:\(arg) for filter:\(self.key)")
-            return false
-        }
-    }
-    
-    
-    // Lookup filters are funny because they are actually all the same underlying type
-    // use this to 'convert' a filter to be a lookup and correct the naming etc.
-    func convertToLookup(key: String, image:String){
-        guard !image.isEmpty else {
-            log.error("NIL lookup name provided")
-            return
-        }
-        
-        self.key = key
-        self.setLookupImage(name:image)
-    }
-    
     
     // set the lokup image for a lookup filter (String version)
     func setLookupImage(name:String) {
@@ -340,7 +358,7 @@ class  FilterDescriptor {
             let image = UIImage(contentsOfFile: path)
             self.lookupImage = CIImage(image: image!)
             if let ciimage = self.lookupImage {
-                if self.checkArg(FilterDescriptor.lookupArgImage) {
+                if self.validParam(FilterDescriptor.lookupArgImage) {
                     log.debug("Set lookup to: \(name) for filter:\(key)")
                     self.filter?.setValue(ciimage, forKey: FilterDescriptor.lookupArgImage)
                 } else {
@@ -365,7 +383,7 @@ class  FilterDescriptor {
         }
         
         self.lookupImage = image
-        if self.checkArg(FilterDescriptor.lookupArgImage) {
+        if self.validParam(FilterDescriptor.lookupArgImage) {
             self.filter?.setValue(image, forKey: FilterDescriptor.lookupArgImage)
         } else {
             log.error("Filter: \(key) does not have arg:\(FilterDescriptor.lookupArgImage)")
@@ -425,10 +443,11 @@ class  FilterDescriptor {
             switch (self.filterOperationType){
             case .lookup:
                 self.setLookupImage(name:self.lookupImageName)
-                fallthrough
-                
+                if validParam(kCIInputImageKey) { filter.setValue(image, forKey: kCIInputImageKey) }
+                return filter.outputImage
+
             case .singleInput:
-                if checkArg(kCIInputImageKey) { filter.setValue(image, forKey: kCIInputImageKey) }
+                if validParam(kCIInputImageKey) { filter.setValue(image, forKey: kCIInputImageKey) }
                 return filter.outputImage
                 
             case .blend:
@@ -441,13 +460,18 @@ class  FilterDescriptor {
                 } else {
                     blend = ImageManager.getCurrentBlendImage(size:(image?.extent.size)!)
                 }
-                //if checkArg(kCIInputImageKey) { filter.setValue(image, forKey: kCIInputImageKey) }
-                //if checkArg("inputBackgroundImage") { filter.setValue(blend, forKey: "inputBackgroundImage") }
-                if checkArg(kCIInputImageKey) { filter.setValue(blend, forKey: kCIInputImageKey) }
-                if checkArg("inputBackgroundImage") { filter.setValue(image, forKey: "inputBackgroundImage") }
-                //filter.setValue(image, forKey: kCIInputImageKey)
-                //filter.setValue(image, forKey: "inputBackgroundImage")
-                //filter.setValue(blend, forKey: kCIInputImageKey)
+
+                // we are blending the supplied image on top of the blend image, just seems to look better
+                var bImage:CIImage? = blend
+                if validParam(FilterDescriptor.blendArgIntensity){
+                    var alpha = self.getParameter(FilterDescriptor.blendArgIntensity)
+                    if (alpha < 0.0) { alpha = 1.0 }
+                    FilterDescriptor.opacityFilter.setParameter(Opacity.alphaKey, value: alpha)
+                    bImage = FilterDescriptor.opacityFilter.apply(image: blend)
+                }
+                if validParam(kCIInputImageKey) { filter.setValue(bImage, forKey: kCIInputImageKey) }
+                if validParam("inputBackgroundImage") { filter.setValue(image, forKey: "inputBackgroundImage") }
+
                 return filter.outputImage
                 
             default:
@@ -462,6 +486,29 @@ class  FilterDescriptor {
         restoreParameters()
     }
     
+    
+    
+    ///////////////////////////////////////////
+    // Private
+    ///////////////////////////////////////////
+    
+    
+    
+    // check that the parameter key is valid for this filter
+    private func validParam(_ key:String) -> Bool {
+        guard self.filter != nil else {
+            return false
+        }
+        if (self.filter?.inputKeys.contains(key))!{
+            return true
+        } else if self.parameterConfiguration[key] != nil {
+            return true // artificially added parameter
+        } else {
+            log.error("Invalid parameter key:\(key) for filter:\(self.key)")
+            return false
+        }
+    }
+
     
 }
 
