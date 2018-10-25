@@ -1,31 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="qZZ-Sv-99I">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="zhw-Mb-ivh">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Main Menu-->
+        <!--Main VC-->
         <scene sceneID="Vlo-RR-P34">
             <objects>
-                <viewController title="Main Menu" id="qZZ-Sv-99I" customClass="MainMenuController" customModule="FilterCam" customModuleProvider="target" sceneMemberID="viewController">
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iZd-21-e8N" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController title="Main Menu" id="qZZ-Sv-99I" userLabel="Main VC" customClass="StartupViewController" customModule="phixer" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ARt-QO-JgV"/>
                         <viewControllerLayoutGuide type="bottom" id="6cY-h1-71o"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="jWV-PT-AiA">
+                    <view key="view" contentMode="scaleToFill" id="UG7-dd-VGw">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <userGuides>
+                            <userLayoutGuide location="59" affinity="minY"/>
+                            <userLayoutGuide location="58" affinity="minY"/>
+                        </userGuides>
+                        <subviews>
+                            <imageView clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="app_icon" translatesAutoresizingMaskIntoConstraints="NO" id="etK-wa-VLb">
+                                <rect key="frame" x="62.5" y="208.5" width="250" height="250"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="250" id="4cX-Ee-Vme"/>
+                                    <constraint firstAttribute="width" secondItem="etK-wa-VLb" secondAttribute="height" multiplier="1:1" id="l7t-yQ-Tsv"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <accessibility key="accessibilityConfiguration">
+                            <accessibilityTraits key="traits" notEnabled="YES"/>
+                        </accessibility>
+                        <constraints>
+                            <constraint firstItem="etK-wa-VLb" firstAttribute="centerY" secondItem="UG7-dd-VGw" secondAttribute="centerY" id="1MV-WW-1gm"/>
+                            <constraint firstItem="etK-wa-VLb" firstAttribute="centerX" secondItem="UG7-dd-VGw" secondAttribute="centerX" id="3QW-cR-nhC"/>
+                            <constraint firstItem="etK-wa-VLb" firstAttribute="centerY" secondItem="UG7-dd-VGw" secondAttribute="centerY" id="NxF-5G-ykm"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="iconImage" destination="etK-wa-VLb" id="Son-YY-Wfr"/>
+                        <outlet property="imageView" destination="UG7-dd-VGw" id="d1B-6L-RIo"/>
+                        <outlet property="splashView" destination="etK-wa-VLb" id="pL4-6a-eGV"/>
+                        <segue destination="zhw-Mb-ivh" kind="show" identifier="MainMenu" id="kXc-Az-KGv"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="-412" y="256"/>
+        </scene>
+        <!--Main Menu Controller-->
+        <scene sceneID="ITm-Ig-xtC">
+            <objects>
+                <viewController modalTransitionStyle="partialCurl" id="zhw-Mb-ivh" customClass="MainMenuController" customModule="phixer" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="1cf-Oc-Mbx"/>
+                        <viewControllerLayoutGuide type="bottom" id="g7R-I6-ndf"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="6Yi-VN-CZG">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="iZd-21-e8N" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hxc-LU-i9Y" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-223" y="258"/>
+            <point key="canvasLocation" x="418" y="256"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="app_icon" width="286.5" height="289"/>
+    </resources>
 </document>

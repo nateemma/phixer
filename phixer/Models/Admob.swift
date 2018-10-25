@@ -13,14 +13,16 @@ import GoogleMobileAds
 // common point for getting Admob-related data
 
 class Admob {
+     // Test IDs
     static let testAppID:String = "ca-app-pub-3940256099942544~1458002511"
-    static let testID:String      = "ca-app-pub-3940256099942544/2934735716" // Test ID
+    static let testID:String      = "ca-app-pub-3940256099942544/2934735716"
     
-    static let filtercamAppID:String   = "ca-app-pub-0000000000000000~0000000000"
-    static let filtercamID:String = "ca-app-pub-0000000000000000/0000000000" // the real ID for this app
+    // the real IDs for this app
+    static let phixerAppID:String   = "ca-app-pub-7657984226071633~8251277038"
+    static let phixerID:String = "ca-app-pub-7657984226071633/3510086241"
     
-    static var appID:String {  get { return Admob.testAppID } }// change to 'real' ID when ready
-    
+    // change to 'real' IDs when ready
+    static var appID:String {  get { return Admob.testAppID } }
     static var unitID:String { get { return Admob.testID } }
     
     public static func startAds(view: GADBannerView, viewController:UIViewController){
@@ -28,7 +30,7 @@ class Admob {
         view.adUnitID = Admob.unitID
         view.rootViewController = viewController
         let request = GADRequest()
-        request.testDevices = ["223ed91126323ff1d7c3f5ed80f3515a"]
+        request.testDevices = ["7243a3655f99acff2160255b107402e5"]
         view.load(request)
     }
 }

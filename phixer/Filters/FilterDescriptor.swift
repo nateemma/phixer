@@ -161,6 +161,7 @@ class  FilterDescriptor {
         if self.filter == nil {
             log.error("Error creating filter:\(key)")
         } else {
+            self.filter?.setDefaults()
             copyParameters(parameters)
         }
     }
@@ -463,12 +464,25 @@ class  FilterDescriptor {
 
                 // we are blending the supplied image on top of the blend image, just seems to look better
                 var bImage:CIImage? = blend
+                /***
                 if validParam(FilterDescriptor.blendArgIntensity){
                     var alpha = self.getParameter(FilterDescriptor.blendArgIntensity)
                     if (alpha < 0.0) { alpha = 1.0 }
                     FilterDescriptor.opacityFilter.setParameter(Opacity.alphaKey, value: alpha)
                     bImage = FilterDescriptor.opacityFilter.apply(image: blend)
                 }
+
+                 ***/
+                if let oFilter = CIFilter(name: "OpacityFilter"){
+                    var alpha = self.getParameter(FilterDescriptor.blendArgIntensity)
+                    if (alpha < 0.0) { alpha = 1.0 }
+                    oFilter.setValue(alpha, forKey: "inputOpacity")
+                    oFilter.setValue(blend, forKey: "inputImage")
+                    bImage = oFilter.outputImage
+                } else {
+                    log.error("Could not create OpacityFilter")
+                }
+                
                 if validParam(kCIInputImageKey) { filter.setValue(bImage, forKey: kCIInputImageKey) }
                 if validParam("inputBackgroundImage") { filter.setValue(image, forKey: "inputBackgroundImage") }
 

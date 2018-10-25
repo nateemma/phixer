@@ -2,41 +2,41 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key></key>
-	<string></string>
 	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
 	<string>ca-app-pub-3940256099942544/2934735716</string>
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>755901194822-qup2rfd2v8qdf4ackk9s1je43s9fclpn.apps.googleusercontent.com</string>
+	<string>784566228794-2e9ods50k05oimbj81j7muj0djlvud8d.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.755901194822-qup2rfd2v8qdf4ackk9s1je43s9fclpn</string>
+	<string>com.googleusercontent.apps.784566228794-2e9ods50k05oimbj81j7muj0djlvud8d</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBPRF8nvwX3fIw2o7A8GZrpJvhxcejE6xs</string>
+	<string>AIzaSyCO5S7M52Ap28_WfJPOwblrp1S8HUkObjM</string>
 	<key>GCM_SENDER_ID</key>
-	<string>755901194822</string>
+	<string>784566228794</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.nateemma.filtercam</string>
+	<string>com.nateemma.phixer</string>
 	<key>PROJECT_ID</key>
-	<string>filtercam-415d6</string>
+	<string>phixer-f2506</string>
 	<key>STORAGE_BUCKET</key>
-	<string>filtercam-415d6.appspot.com</string>
+	<string>phixer-f2506.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_GCM_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:755901194822:ios:d616c20a43b30b2e</string>
+	<string>1:784566228794:ios:7ce1b8d1a91c5059</string>
 	<key>DATABASE_URL</key>
-	<string>https://filtercam-415d6.firebaseio.com</string>
+	<string>https://phixer-f2506.firebaseio.com</string>
+	<key>ADMOB_APP_ID</key>
+	<string>ca-app-pub-7657984226071633~8251277038</string>
 </dict>
 </plist>

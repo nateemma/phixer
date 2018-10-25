@@ -140,13 +140,13 @@ class ManageFiltersMenuController: UIViewController, UINavigationControllerDeleg
         
        
         setupMenuItem(label:viewFiltersMenuItem, height:h, width:w,
-                      title:"View/Rate Filters", color:UIColor.flatMint, handler: tap1)
+                      title:"Browse/Rate Filters", color:UIColor.flatMint, handler: tap1)
         
         setupMenuItem(label:changeBlendMenuItem, height:h, width:w,
-                      title:"Manage Blend Image", color:UIColor.flatMintDark, handler: tap2)
+                      title:"Set Blend Image", color:UIColor.flatMintDark, handler: tap2)
         
         setupMenuItem(label:changeSampleMenuItem, height:h, width:w,
-                      title:"Manage Sample Image", color:UIColor.flatTeal, handler: tap3)
+                      title:"Set Sample Image", color:UIColor.flatTeal, handler: tap3)
         
         setupMenuItem(label:manageCategoriesMenuItem, height:h, width:w,
                       title:"Manage Categories", color:UIColor.flatBlue, handler: tap4)

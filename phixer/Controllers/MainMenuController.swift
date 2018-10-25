@@ -44,6 +44,7 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
     
     convenience init(){
         self.init(nibName:nil, bundle:nil)
+        log.debug("=== MainMenuController() ===")
         //doInit()
     }
     

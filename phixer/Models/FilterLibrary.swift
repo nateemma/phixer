@@ -59,6 +59,9 @@ class FilterLibrary{
             lookupDictionary = [:]
             categoryFilters = [:]
 
+            // Load custom CIFilters (do this before loading config)
+            CustomFiltersRegistry.registerFilters()
+            
             // 'restore' the configuration from the setup file
             FilterLibrary.restore()
         }

@@ -107,7 +107,8 @@
         {"key": "tint",               "title": "Tint"    },
         {"key": "urban",              "title": "Urban"    },
         {"key": "yu",                 "title": "Yu"    },
-        {"key": "vintage",            "title": "Vintage" }
+        {"key": "vintage",            "title": "Vintage" },
+        {"key": "custom",            "title": "Custom" }
     ],
     
     
@@ -1260,7 +1261,18 @@
             "parameters":  [
                 {"key": "inputMode", "title": "Reflections", "min": 0.0, "max":10.0, "val": 4.0, "type": "CIAttributeTypeScalar"}
             ]
+        },
+        
+        
+        {"key": "OpacityFilter", "title": "Change Opacity", "ftype": "singleInput", "show": true, "rating": 0,
+            "parameters":  [
+                {"key": "inputOpacity", "title": "Opacity", "min": 0.0, "max":1.0, "val": 0.8, "type": "CIAttributeTypeScalar"}
+            ]
+        },
+        {"key": "EdgeGlowFilter", "title": "Glowing Edges", "ftype": "singleInput", "show": true, "rating": 0,
+            "parameters":  [ ]
         }
+
     ],
     
     
@@ -2005,6 +2017,11 @@
         {"category": "yu",
             "filters": ["YUCIBilateralFilter",  "YUCICLAHE",  "YUCIFXAA",  "YUCIHighPass",  "YUCIHighPassSkinSmoothing",
                 "YUCIHistogramEqualization",  "YUCIReflectedTile"
+            ]
+        },
+        
+        {"category": "custom",
+            "filters": ["OpacityFilter", "EdgeGlowFilter"
             ]
         }
     ]
