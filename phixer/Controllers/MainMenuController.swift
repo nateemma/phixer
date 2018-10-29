@@ -229,7 +229,12 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
          vc.delegate = self
          present(vc, animated: true, completion: nil)
          ***/
-        notImplemented()
+        //notImplemented()
+        //TEMP: show color scheme
+        let vc = ColorSchemeViewController()
+        vc.delegate = self
+        present(vc, animated: true, completion: nil)
+
     }
     
  
@@ -282,4 +287,14 @@ extension MainMenuController: SampleGalleryViewControllerDelegate {
     internal func sampleGalleryCompleted(){
         log.debug("Returned from Sample Gallery")
     }
+}
+
+// SampleGalleryViewControllerDelegate
+
+extension MainMenuController: ColorSchemeViewControllerDelegate {
+    func colorSchemeCompleted(scheme: [UIColor]) {
+        log.debug("Color SCheme finished")
+    }
+    
+
 }

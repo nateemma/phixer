@@ -81,7 +81,6 @@ static ISColorWheelPixelRGB ISColorWheel_HSBToRGB (CGFloat h, CGFloat s, CGFloat
     {
         self.backgroundColor = [UIColor clearColor];
         self.fillColor = [UIColor clearColor];
-        
     }
     return self;
 }
@@ -121,6 +120,7 @@ static ISColorWheelPixelRGB ISColorWheel_HSBToRGB (CGFloat h, CGFloat s, CGFloat
 - (CGPoint)viewToImageSpace:(CGPoint)point;
 - (void)updateKnob;
 
+- (void)setCurrentColor:(UIColor*)color;
 
 @end
 

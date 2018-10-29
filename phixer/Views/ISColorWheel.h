@@ -37,7 +37,7 @@ typedef struct
 
 - (void)updateImage;
 - (void)setTouchPoint:(CGPoint)point;
-
+- (void)setCurrentColor:(UIColor*)color;
 
 
 @end
