@@ -48,7 +48,7 @@ class ColorSchemeViewController: UIViewController {
     let buttonSize : CGFloat = 48.0
     let statusBarOffset : CGFloat = 12.0
     
-    static let defaultColor:UIColor = UIColor.flatPlum
+    static let defaultColor:UIColor = UIColor.flatMint
     static let defaultCount:Int = 6
     
     var selectedColor:UIColor = defaultColor
@@ -408,6 +408,7 @@ class ColorSchemeViewController: UIViewController {
         log.verbose("Seed Colour pressed")
         let vc = ColorPickerController()
         vc.delegate = self
+        vc.setColor(selectedColor)
         present(vc, animated: true, completion: nil)
     }
     

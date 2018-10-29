@@ -32,7 +32,8 @@ class ColorPickerController: UIViewController {
     // Main Views
     var bannerView: TitleView! = TitleView()
     var adView: GADBannerView! = GADBannerView()
-    var colorWheelView:ISColorWheel! = ISColorWheel()
+    //var colorWheelView:ISColorWheel! = ISColorWheel()
+    var colorWheelView:ColorWheelView? = nil
     var rgbView:RGBSliderView! = RGBSliderView()
     var hsbView:HSBSliderView! = HSBSliderView()
     var controlView:UIView! = UIView()
@@ -61,6 +62,11 @@ class ColorPickerController: UIViewController {
     convenience init(){
         self.init(nibName:nil, bundle:nil)
         doInit()
+    }
+    
+    public func setColor(_ color:UIColor){
+        selectedColor = color
+        updateColors()
     }
     
     
@@ -171,7 +177,7 @@ class ColorPickerController: UIViewController {
         layoutRGB()
         layoutHSB()
         layoutControls()
-        view.addSubview(colorWheelView)
+        view.addSubview(colorWheelView!)
         view.addSubview(rgbView)
         view.addSubview(hsbView)
         view.addSubview(controlView)
@@ -182,14 +188,15 @@ class ColorPickerController: UIViewController {
     
         if (showAds){
             adView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: adView.frame.size.height)
-            colorWheelView.align(.underCentered, relativeTo: adView, padding: 0, width: displayWidth, height: colorWheelView.frame.size.height)
+            colorWheelView?.align(.underCentered, relativeTo: adView, padding: 0, width: displayWidth, height: (colorWheelView?.frame.size.height)!)
         } else {
-            colorWheelView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: colorWheelView.frame.size.height)
+            colorWheelView?.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: (colorWheelView?.frame.size.height)!)
         }
         controlView.anchorAndFillEdge(.bottom, xPad: 0, yPad: statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
         hsbView.align(.aboveCentered, relativeTo: controlView, padding: 0, width: displayWidth, height: hsbView.frame.size.height)
         rgbView.align(.aboveCentered, relativeTo: hsbView, padding: 0, width: displayWidth, height: rgbView.frame.size.height)
 
+        updateColors()
     }
     
    
@@ -211,11 +218,12 @@ class ColorPickerController: UIViewController {
     func layoutColorWheel(){
         
         let w = min(displayHeight*0.4,displayWidth*0.8)
-        colorWheelView.frame.size.height = w
-        colorWheelView.frame.size.width = w
-        colorWheelView.backgroundColor = UIColor.black
-        colorWheelView.continuous = false
-        colorWheelView.delegate = self
+        colorWheelView = ColorWheelView(frame:CGRect(x: 0, y: 0, width: w, height: w))
+        colorWheelView?.frame.size.height = w
+        colorWheelView?.frame.size.width = w
+        colorWheelView?.backgroundColor = UIColor.black
+        //colorWheelView?.continuous = false
+        colorWheelView?.delegate = self
         
     }
     
@@ -268,58 +276,34 @@ class ColorPickerController: UIViewController {
     }
     
     private func updateColors(){
-        colorWheelView.setValue(selectedColor, forKey: "currentColor")
-        //colorWheelView.setCurrentColor(selectedColor)
+        //colorWheelView?.setValue(selectedColor, forKey: "currentColor")
+        //colorWheelView?.setCurrentColor(selectedColor)
+        colorWheelView?.setColor(selectedColor)
         rgbView.setColor(selectedColor)
         hsbView.setColor(selectedColor)
     }
 
-    //TODO: make thee extensions of UIColor and CGFloat???
-    
-    // checks if colours are reasonably close (they are never exactly the same)
-    fileprivate func colorMatches(_ c1:UIColor, _ c2:UIColor)->Bool {
-        var r1:CGFloat=0, g1:CGFloat=0, b1:CGFloat=0, a1:CGFloat=0
-        var r2:CGFloat=0, g2:CGFloat=0, b2:CGFloat=0, a2:CGFloat=0
-
-        c1.getRed(&r1, green: &g1, blue: &b1, alpha: &a1)
-        c2.getRed(&r2, green: &g2, blue: &b2, alpha: &a2)
-        if approxEqual(r1, r2) && approxEqual(g1, g2) && approxEqual(b1,b2) {
-            return true
-        } else {
-            return false
-        }
-    }
-    
-    fileprivate func approxEqual (_ a:CGFloat, _ b:CGFloat) -> Bool {
-        //return fabs(a - b) <= ( (fabs(a) < fabs(b) ? fabs(b) : fabs(a)) * 0.001) // Courtesy of Donald Knuth
-        return (fabs(a - b) <=  0.001) // simplified
-    }
     
     fileprivate func updateColorWheel() {
+
+        self.colorWheelView?.setColor(self.selectedColor)
+
+/* Obj-C version:
         // color wheel view seems a little funky when dealing with brightness, so set explicitly
 
         var h:CGFloat=0, s:CGFloat=0, b:CGFloat=0, a:CGFloat=0
         selectedColor.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
 
-        self.colorWheelView.setValue(self.selectedColor, forKey: "currentColor")
-        //self.colorWheelView.currentColor = selectedColor
-        //self.colorWheelView.brightness = b
+        //self.colorWheelView?.setValue(self.selectedColor, forKey: "currentColor")
+        //self.colorWheelView?.currentColor = selectedColor
+        //self.colorWheelView?.brightness = b
+ */
     }
 
     /////////////////////////////
     // MARK: - Touch/Callback  Handler(s)
     /////////////////////////////
     
-    /*
-    @objc func colorDidChange(_ color:UIColor){
-        //log.verbose("Colour changed: ")
-        if (selectedColor != color) {
-            DispatchQueue.main.async(execute: {
-                self.updateColors()
-            })
-        }
-    }
-    */
     
     @objc func backDidPress(){
         log.verbose("Back pressed")
@@ -363,8 +347,8 @@ extension ColorPickerController: TitleViewDelegate {
 
 extension ColorPickerController: RGBSliderViewDelegate {
     func rgbColorChanged(_ color: UIColor) {
-        if !colorMatches(self.selectedColor, color) {
-            log.verbose("RGB Colour changed: \(color)")
+        if !color.matches(self.selectedColor) {
+            log.verbose("RGB Colour changed: \(color) (\(color.hexValue()))")
             self.selectedColor = color
             DispatchQueue.main.async(execute: {
                 self.updateColorWheel()
@@ -376,8 +360,8 @@ extension ColorPickerController: RGBSliderViewDelegate {
 
 extension ColorPickerController: HSBSliderViewDelegate {
     func hsbColorChanged(_ color: UIColor) {
-        if !colorMatches(self.selectedColor, color) {
-            log.verbose("HSB Colour changed: \(color)")
+        if !color.matches(self.selectedColor) {
+            log.verbose("HSB Colour changed: \(color) (\(color.hexValue()))")
             self.selectedColor = color
             DispatchQueue.main.async(execute: {
                 self.updateColorWheel()
@@ -388,6 +372,7 @@ extension ColorPickerController: HSBSliderViewDelegate {
     }
 }
 
+/***
 extension ColorPickerController: ISColorWheelDelegate {
     func colorWheelDidChangeColor(_ colorWheel: ISColorWheel!) {
         if let color = colorWheel.currentColor {
@@ -401,6 +386,17 @@ extension ColorPickerController: ISColorWheelDelegate {
             }
         }
     }
-    
-    
+ ***/
+
+extension ColorPickerController: ColorWheelDelegate {
+    func colorSelected(_ color: UIColor) {
+        if !color.matches(self.selectedColor) {
+            log.verbose("Colour wheel changed: \(color) (\(color.hexValue()))")
+            self.selectedColor = color
+            DispatchQueue.main.async(execute: {
+                self.rgbView.setColor(self.selectedColor)
+                self.hsbView.setColor(self.selectedColor)
+            })
+        }
+    }
 }

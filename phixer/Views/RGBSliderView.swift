@@ -143,7 +143,7 @@ class RGBSliderView: UIView {
                 s.frame.size.height = itemHeight
                 s.minimumValue = 0.0
                 s.maximumValue = 1.0
-                s.value = 0.5
+                s.trackBorderWidth = 0.01
                 s.addTarget(self, action: #selector(self.sliderValueDidChange), for: .valueChanged)
                 s.addTarget(self, action: #selector(self.slidersDidEndChange), for: .touchUpInside) // may only need valueChanged ???
                 addSubview(s)
@@ -203,28 +203,6 @@ class RGBSliderView: UIView {
         }
     }
     
-    //TODO: make thee extensions of UIColor and CGFloat???
-    
-    // checks if colours are reasonably close (they are never exactly the same)
-    fileprivate func colorMatches(_ c1:UIColor, _ c2:UIColor)->Bool {
-        var r1:CGFloat=0, g1:CGFloat=0, b1:CGFloat=0, a1:CGFloat=0
-        var r2:CGFloat=0, g2:CGFloat=0, b2:CGFloat=0, a2:CGFloat=0
-        
-        c1.getRed(&r1, green: &g1, blue: &b1, alpha: &a1)
-        c2.getRed(&r2, green: &g2, blue: &b2, alpha: &a2)
-        if approxEqual(r1, r2) && approxEqual(g1, g2) && approxEqual(b1,b2) {
-            return true
-        } else {
-            return false
-        }
-    }
-    
-    fileprivate func approxEqual (_ a:CGFloat, _ b:CGFloat) -> Bool {
-        //return fabs(a - b) <= ( (fabs(a) < fabs(b) ? fabs(b) : fabs(a)) * 0.001) // Courtesy of Donald Knuth
-        return (fabs(a - b) <=  0.001) // simplified
-    }
-    
-    
     
     
     //MARK: - callbacks
@@ -237,7 +215,7 @@ class RGBSliderView: UIView {
     
     @objc func slidersDidEndChange(_ sender:GradientSlider!){
         updateFromSliders()
-        if !colorMatches(currColor, oldColor){
+        if !currColor.matches(oldColor){
             oldColor = currColor
             delegate?.rgbColorChanged(currColor)
         }

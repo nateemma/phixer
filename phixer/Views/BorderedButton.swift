@@ -38,7 +38,11 @@ class BorderedButton: UIButton {
     }
     
     func customInit(){
-        backgroundColor = UIColor(gradientStyle:UIGradientStyle.topToBottom, withFrame:self.frame, andColors:[UIColor.black, UIColor.darkGray])
+        if useGradient {
+            backgroundColor = UIColor(gradientStyle:UIGradientStyle.topToBottom, withFrame:self.frame, andColors:[UIColor.black, UIColor.darkGray])
+        } else {
+            backgroundColor = color
+        }
         setTitleColor(UIColor.white, for: .normal)
         titleLabel!.font = UIFont.boldSystemFont(ofSize: 16.0)
         contentHorizontalAlignment = UIControlContentHorizontalAlignment.center

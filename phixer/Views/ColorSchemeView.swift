@@ -390,10 +390,3 @@ class ColorSchemeView: UIView {
     }
 }
 
-extension CGFloat {
-    public func clamped(_ v1: CGFloat, _ v2: CGFloat) -> CGFloat {
-        let min = v1 < v2 ? v1 : v2
-        let max = v1 > v2 ? v1 : v2
-        return self < min ? min : (self > max ? max : self)
-    }
-}
