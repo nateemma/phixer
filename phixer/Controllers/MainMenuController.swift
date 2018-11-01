@@ -33,14 +33,14 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
     
     let buttonSize : CGFloat = 48.0
     
-    
     // Menu items
-    var liveFilterMenuItem: UILabel = UILabel()
-    var editPictureMenuItem: UILabel = UILabel()
+    var simpleEditMenuItem: UILabel = UILabel()
+    var fullEditMenuItem: UILabel = UILabel()
     var manageFiltersMenuItem: UILabel = UILabel()
-    var aboutMenuItem: UILabel = UILabel()
+    var liveFilterMenuItem: UILabel = UILabel()
+    var settingsMenuItem: UILabel = UILabel()
  
-    let numItems = 4
+    let numItems = 5
     
     convenience init(){
         self.init(nibName:nil, bundle:nil)
@@ -48,13 +48,13 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
         //doInit()
     }
     
-    static var initDone:Bool = false
+    var initDone:Bool = false
     
     func doInit(){
         
-        if (!MainMenuController.initDone){
+        if (!initDone){
             log.verbose("init")
-            MainMenuController.initDone = true
+            initDone = true
         }
     }
     
@@ -84,10 +84,11 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
         
         // Note: need to add subviews before modifying constraints
         view.addSubview(adView)
-        view.addSubview(liveFilterMenuItem)
-        view.addSubview(editPictureMenuItem)
+        view.addSubview(simpleEditMenuItem)
+        view.addSubview(fullEditMenuItem)
         view.addSubview(manageFiltersMenuItem)
-        view.addSubview(aboutMenuItem)
+        view.addSubview(liveFilterMenuItem)
+        view.addSubview(settingsMenuItem)
         
         
         // set default size for menu items
@@ -112,29 +113,33 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
         
         // set up touch handlers (couldn't do it in setupMenuItem for some reason - scope?!)
         
-        let tap1 = UITapGestureRecognizer(target: self, action: #selector(presentLiveFilter))
-        let tap2 = UITapGestureRecognizer(target: self, action: #selector(presentImageEditor))
-        let tap3 = UITapGestureRecognizer(target: self, action: #selector(presentManageFilters))
-        let tap4 = UITapGestureRecognizer(target: self, action: #selector(presentAbout))
+        let tap1 = UITapGestureRecognizer(target: self, action: #selector(presentSimpleImageEditor))
+        let tap2 = UITapGestureRecognizer(target: self, action: #selector(presentFullImageEditor))
+        let tap3 = UITapGestureRecognizer(target: self, action: #selector(presentFilterGallery))
+        let tap4 = UITapGestureRecognizer(target: self, action: #selector(presentLiveFilter))
+        let tap5 = UITapGestureRecognizer(target: self, action: #selector(presentSettings))
 
         // setup text, colours etc.
-        setupMenuItem(label:liveFilterMenuItem, height:h, width:w,
-                      title:"Live Filters", color:UIColor.flatWatermelonDark, handler: tap1)
+        setupMenuItem(label:simpleEditMenuItem, height:h, width:w,
+                      title:"Simple Picture Editor", color:UIColor.flatMint, handler: tap1)
         
-        setupMenuItem(label:editPictureMenuItem, height:h, width:w,
-                      title:"Edit Picture", color:UIColor.flatMint, handler: tap2)
+        setupMenuItem(label:fullEditMenuItem, height:h, width:w,
+                      title:"Full Picture Editor", color:UIColor.flatMintDark, handler: tap2)
         
         setupMenuItem(label:manageFiltersMenuItem, height:h, width:w,
-                      title:"Manage Categories/Filters", color:UIColor.flatMintDark, handler: tap3)
+                      title:"Browse Filters", color:UIColor.flatWatermelonDark, handler: tap3)
     
         
-        setupMenuItem(label:aboutMenuItem, height:h, width:w,
-                      title:"About", color:UIColor.flatPurple, handler: tap4)
+        setupMenuItem(label:liveFilterMenuItem, height:h, width:w,
+                      title:"Live Filters", color:UIColor.flatPlum, handler: tap4)
         
+        setupMenuItem(label:settingsMenuItem, height:h, width:w,
+                      title:"Settings", color:UIColor.flatPurple, handler: tap5)
+
 
         // set layout constraints
         view.groupAgainstEdge(group: .vertical,
-                              views: [liveFilterMenuItem, editPictureMenuItem, manageFiltersMenuItem, aboutMenuItem],
+                              views: [simpleEditMenuItem, fullEditMenuItem, manageFiltersMenuItem, liveFilterMenuItem, settingsMenuItem],
                               againstEdge: .bottom, padding: 8, width: w-8, height: h)
         
         // start Ads
@@ -196,6 +201,29 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
     /////////////////////////////////
     
     
+    @objc func presentSimpleImageEditor(){
+        let vc = SimpleEditViewController()
+        //vc.delegate = self
+        present(vc, animated: true, completion: nil)
+        //notImplemented()
+    }
+    
+    @objc func presentFullImageEditor(){
+        //let vc = FullEditViewController()
+        //vc.delegate = self
+        //present(vc, animated: true, completion: nil)
+        notImplemented()
+    }
+
+    
+    @objc func presentFilterGallery(){
+        let vc = FilterGalleryViewController()
+        vc.delegate = self
+        present(vc, animated: true, completion: nil)
+
+    }
+    
+    
     @objc func presentLiveFilter(){
         //launch Live Filter VC
         let vc = LiveFilterViewController()
@@ -203,41 +231,16 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
         present(vc, animated: true, completion: nil)
         //self.performSegueWithIdentifier(.categoryManager, sender: self)
     }
+    
 
-    
-    @objc func presentImageEditor(){
-         let vc = SimpleEditViewController()
-         //vc.delegate = self
-         present(vc, animated: true, completion: nil)
-        //notImplemented()
-    }
-    
-    
-    @objc func presentManageFilters(){
+    @objc func presentSettings(){
         //launch Category Manager VC
-        let vc = ManageFiltersMenuController()
+        let vc = SettingsMenuController()
         //vc.delegate = self
         present(vc, animated: true, completion: nil)
         //self.performSegueWithIdentifier(.categoryManager, sender: self)
     }
     
-   
-    
-    @objc func presentAbout(){
-        /***
-         let vc = AboutViewController()
-         vc.delegate = self
-         present(vc, animated: true, completion: nil)
-         ***/
-        //notImplemented()
-        //TEMP: show color scheme
-        let vc = ColorSchemeViewController()
-        vc.delegate = self
-        present(vc, animated: true, completion: nil)
-
-    }
-    
- 
     
     /////////////////////////////////
     // Handling for functions not yet implemented
@@ -293,7 +296,7 @@ extension MainMenuController: SampleGalleryViewControllerDelegate {
 
 extension MainMenuController: ColorSchemeViewControllerDelegate {
     func colorSchemeCompleted(scheme: [UIColor]) {
-        log.debug("Color SCheme finished")
+        log.debug("Color Scheme finished")
     }
     
 

@@ -72,7 +72,7 @@ class TitleView: UIView {
         backButton.layer.borderColor = UIColor.flatGray.cgColor
 
         titleLabel.frame.size.height = backButton.frame.size.height
-        titleLabel.text = "title"
+        titleLabel.text = "        title        "
         titleLabel.backgroundColor = UIColor.black
         titleLabel.textColor = UIColor.white
         titleLabel.font = UIFont.boldSystemFont(ofSize: 18.0)

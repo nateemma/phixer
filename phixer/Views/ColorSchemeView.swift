@@ -282,13 +282,13 @@ class ColorSchemeView: UIView {
     private func analogous(_ hsb:HSB) -> [HSB]{
         // 137.5 degrees ensures no duplicates, mostly a question of how close you want it to the original
         //let offset:CGFloat = (137.5/360.0)
-        //let offset:CGFloat = -1 / 12 // 30 degrees, from Stack Overflow
-        let offset:CGFloat = -1 / 13 // about 21 degrees, does not repeat to same colours
+        let offset:CGFloat = -1 / 12 // 30 degrees, from Stack Overflow
+        //let offset:CGFloat = -1 / 13 // about 21 degrees, does not repeat to same colours
 
         var out:[HSB]
         out = []
         out.append(HSB(h: adjustHue(hsb.h, amount:offset), s: hsb.s, b: hsb.b, a: hsb.a))
-        out.append(HSB(h: adjustHue(hsb.h, amount:-offset), s: hsb.s, b: hsb.b, a: hsb.a))
+        //out.append(HSB(h: adjustHue(hsb.h, amount:-offset), s: hsb.s, b: hsb.b, a: hsb.a))
         //log.debug("Colors: \(out)")
         return out
     }

@@ -1,5 +1,5 @@
 //
-//  ManageFiltersMenuController.swift
+//  SettingsMenuController.swift
 //  phixer
 //
 //  Created by Phil Price on 4/10/17.
@@ -12,9 +12,9 @@ import UIKit
 import Neon
 import GoogleMobileAds
 
-// This is the Main View Controller for phixer, and basically just presents a menu of available options
+// Menu display for "Settings" Items
 
-class ManageFiltersMenuController: UIViewController, UINavigationControllerDelegate {
+class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
 
 
     
@@ -38,13 +38,14 @@ class ManageFiltersMenuController: UIViewController, UINavigationControllerDeleg
     
     // Menu items
 
-    var viewFiltersMenuItem: UILabel = UILabel()
+    var aboutMenuItem: UILabel = UILabel()
     var changeBlendMenuItem: UILabel = UILabel()
     var changeSampleMenuItem: UILabel = UILabel()
     var manageCategoriesMenuItem: UILabel = UILabel()
     var resetMenuItem: UILabel = UILabel()
+    var colorsMenuItem: UILabel = UILabel()
     
-    let numItems:CGFloat = 5
+    let numItems:CGFloat = 6
  
     
     convenience init(){
@@ -56,9 +57,9 @@ class ManageFiltersMenuController: UIViewController, UINavigationControllerDeleg
     
     func doInit(){
         
-        if (!ManageFiltersMenuController.initDone){
+        if (!SettingsMenuController.initDone){
             log.verbose("init")
-            ManageFiltersMenuController.initDone = true
+            SettingsMenuController.initDone = true
         }
     }
     
@@ -80,19 +81,20 @@ class ManageFiltersMenuController: UIViewController, UINavigationControllerDeleg
         showAds = (isLandscape == true) ? false : true // don't show in landscape mode, too cluttered
         
         
-        log.verbose("h:\(displayHeight) w:\(displayWidth) Landscape:\(isLandscape) showAds:\(showAds)")
+        //log.verbose("h:\(displayHeight) w:\(displayWidth) Landscape:\(isLandscape) showAds:\(showAds)")
 
         doInit()
         
         // Note: need to add subviews before modifying constraints
         view.addSubview(titleView)
         view.addSubview(adView)
-        view.addSubview(viewFiltersMenuItem)
+        view.addSubview(aboutMenuItem)
         view.addSubview(changeBlendMenuItem)
         view.addSubview(changeSampleMenuItem)
         view.addSubview(manageCategoriesMenuItem)
         view.addSubview(resetMenuItem)
-        
+        view.addSubview(colorsMenuItem)
+
         
         // if room, increase size of ads
         if (bannerHeight < (view.frame.size.height/CGFloat(numItems+1.5))) {
@@ -102,7 +104,7 @@ class ManageFiltersMenuController: UIViewController, UINavigationControllerDeleg
         // Banner and filter info view are always at the top of the screen
         titleView.frame.size.height = bannerHeight * 0.5
         titleView.frame.size.width = displayWidth
-        titleView.title = "Manage Categories/Filters"
+        titleView.title = "Settings"
         titleView.delegate = self
         
         
@@ -120,11 +122,12 @@ class ManageFiltersMenuController: UIViewController, UINavigationControllerDeleg
         
         // set up touch handlers (couldn't do it in setupMenuItem for some reason - scope?!)
         
-        let tap1 = UITapGestureRecognizer(target: self, action: #selector(presentFilterGallery))
+        let tap1 = UITapGestureRecognizer(target: self, action: #selector(presentAbout))
         let tap2 = UITapGestureRecognizer(target: self, action: #selector(presentBlendGallery))
         let tap3 = UITapGestureRecognizer(target: self, action: #selector(presentSampleGallery))
         let tap4 = UITapGestureRecognizer(target: self, action: #selector(presentManageCategories))
         let tap5 = UITapGestureRecognizer(target: self, action: #selector(presentReset))
+        let tap6 = UITapGestureRecognizer(target: self, action: #selector(presentColors))
 
         // setup sizes, text, colours etc.
         
@@ -139,8 +142,8 @@ class ManageFiltersMenuController: UIViewController, UINavigationControllerDeleg
         let w = displayWidth - 4
         
        
-        setupMenuItem(label:viewFiltersMenuItem, height:h, width:w,
-                      title:"Browse/Rate Filters", color:UIColor.flatMint, handler: tap1)
+        setupMenuItem(label:aboutMenuItem, height:h, width:w,
+                      title:"About", color:UIColor.flatMint, handler: tap1)
         
         setupMenuItem(label:changeBlendMenuItem, height:h, width:w,
                       title:"Set Blend Image", color:UIColor.flatMintDark, handler: tap2)
@@ -154,10 +157,13 @@ class ManageFiltersMenuController: UIViewController, UINavigationControllerDeleg
         setupMenuItem(label:resetMenuItem, height:h, width:w,
                       title:"Reset Categories/Filters", color:UIColor.flatPurple, handler: tap5)
         
+        setupMenuItem(label:colorsMenuItem, height:h, width:w,
+                      title:"Choose Colours", color:UIColor.flatPurpleDark, handler: tap6)
+
 
         // set layout constraints
         view.groupAgainstEdge(group: .vertical,
-                              views: [viewFiltersMenuItem, changeBlendMenuItem, changeSampleMenuItem, manageCategoriesMenuItem, resetMenuItem],
+                              views: [aboutMenuItem, changeBlendMenuItem, changeSampleMenuItem, manageCategoriesMenuItem, resetMenuItem, colorsMenuItem],
                               againstEdge: .bottom, padding: pad, width: w-pad, height: h)
         
         // start Ads
@@ -220,12 +226,13 @@ class ManageFiltersMenuController: UIViewController, UINavigationControllerDeleg
     /////////////////////////////////
     
 
-    @objc func presentFilterGallery(){
-        //launch Category Manager VC
-        let vc = FilterGalleryViewController()
-        vc.delegate = self
+    @objc func presentAbout(){
+        //notImplemented()
+        let vc = HTMLViewController()
+        vc.setTitle("About")
+        //vc.setText("<h1>About phixer</h1><p>blah, blah, blah...</p>")
+        vc.loadFile(name: "About")
         present(vc, animated: true, completion: nil)
-        //self.performSegueWithIdentifier(.categoryManager, sender: self)
     }
     
     
@@ -255,12 +262,18 @@ class ManageFiltersMenuController: UIViewController, UINavigationControllerDeleg
     
     
     @objc func presentReset(){
-         let vc = ResetViewController()
-         //vc.delegate = self
-         present(vc, animated: true, completion: nil)
+        let vc = ResetViewController()
+        //vc.delegate = self
+        present(vc, animated: true, completion: nil)
         notImplemented()
     }
     
+    @objc func presentColors(){
+        let vc = ColorSchemeViewController()
+        //vc.delegate = self
+        present(vc, animated: true, completion: nil)
+    }
+
     
     
     //////////////////////////////////////
@@ -302,13 +315,13 @@ class ManageFiltersMenuController: UIViewController, UINavigationControllerDeleg
         })
     }
 
-} // ManageFiltersMenuController
+} // SettingsMenuController
 
 
 
 // FilterGalleryViewControllerDelegate
 
-extension ManageFiltersMenuController: FilterGalleryViewControllerDelegate {
+extension SettingsMenuController: FilterGalleryViewControllerDelegate {
     internal func filterGalleryCompleted(){
         log.debug("Returned from Filter Gallery")
     }
@@ -317,7 +330,7 @@ extension ManageFiltersMenuController: FilterGalleryViewControllerDelegate {
 
 // BlendGalleryViewControllerDelegate
 
-extension ManageFiltersMenuController: BlendGalleryViewControllerDelegate {
+extension SettingsMenuController: BlendGalleryViewControllerDelegate {
     internal func blendGalleryCompleted(){
         log.debug("Returned from Blend Gallery")
     }
@@ -326,13 +339,13 @@ extension ManageFiltersMenuController: BlendGalleryViewControllerDelegate {
 
 // SampleGalleryViewControllerDelegate
 
-extension ManageFiltersMenuController: SampleGalleryViewControllerDelegate {
+extension SettingsMenuController: SampleGalleryViewControllerDelegate {
     internal func sampleGalleryCompleted(){
         log.debug("Returned from Sample Gallery")
     }
 }
 
-extension ManageFiltersMenuController: TitleViewDelegate {
+extension SettingsMenuController: TitleViewDelegate {
     func backPressed() {
         backDidPress()
     }

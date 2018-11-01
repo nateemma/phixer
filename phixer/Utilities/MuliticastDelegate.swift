@@ -10,8 +10,6 @@ import Foundation
 
 
 class MulticastDelegate <T> {
-    //private let delegates: NSHashTable<AnyObject> = NSHashTable.weakObjects()
-    //private let delegates: NSMapTable<NSString, AnyObject> = NSMapTable<NSString, AnyObject>(keyOptions: .StrongMemory, valueOptions: .weakMemory)
     private let delegates: NSMapTable<NSString, AnyObject> = NSMapTable<NSString, AnyObject>.strongToWeakObjects()
     
     func add(key:String, delegate: T) {

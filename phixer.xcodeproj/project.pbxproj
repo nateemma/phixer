@@ -699,6 +699,7 @@
 		255459B921681294008A9F55 /* CameraCaptureHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255459B821681294008A9F55 /* CameraCaptureHelper.swift */; };
 		255459BB21681320008A9F55 /* MetalImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255459BA21681320008A9F55 /* MetalImageView.swift */; };
 		255591E52187A1A9001B4452 /* ColorWheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255591E42187A1A9001B4452 /* ColorWheelView.swift */; };
+		255591E72187CC62001B4452 /* HTMLViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255591E62187CC62001B4452 /* HTMLViewController.swift */; };
 		2556731F1DB961F700187F25 /* DisplayMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2556731E1DB961F700187F25 /* DisplayMode.swift */; };
 		255673231DB9BF0F00187F25 /* FilterControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255673221DB9BF0F00187F25 /* FilterControlsView.swift */; };
 		255844EE1E03598B009440CA /* FilterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255844ED1E03598B009440CA /* FilterFactory.swift */; };
@@ -737,8 +738,10 @@
 		257F49F51D9448920083B1E4 /* phixerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257F49F41D9448920083B1E4 /* phixerTests.swift */; };
 		257F4A001D9448920083B1E4 /* phixerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257F49FF1D9448920083B1E4 /* phixerUITests.swift */; };
 		257F4A141D947CF80083B1E4 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 257F4A131D947CF80083B1E4 /* Podfile */; };
-		258EA08E1ED90A7000D5E20E /* ManageFiltersMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258EA08D1ED90A7000D5E20E /* ManageFiltersMenuController.swift */; };
+		258EA08E1ED90A7000D5E20E /* SettingsMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258EA08D1ED90A7000D5E20E /* SettingsMenuController.swift */; };
 		258EA0931ED9472600D5E20E /* ResetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258EA0921ED9472600D5E20E /* ResetViewController.swift */; };
+		258F098F218A7F100082FE2A /* About.html in Resources */ = {isa = PBXBuildFile; fileRef = 258F098E218A7F100082FE2A /* About.html */; };
+		258F0991218B7DD90082FE2A /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258F0990218B7DD90082FE2A /* UIImage+Extensions.swift */; };
 		25910B191DB738B3007EC926 /* CategorySelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25910B181DB738B3007EC926 /* CategorySelectionView.swift */; };
 		25910B1B1DB7D61A007EC926 /* RenderContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25910B1A1DB7D61A007EC926 /* RenderContainerView.swift */; };
 		25934FB11DD4EC1100C3D665 /* BlendGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25934FB01DD4EC1100C3D665 /* BlendGalleryView.swift */; };
@@ -1502,6 +1505,7 @@
 		255459B821681294008A9F55 /* CameraCaptureHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCaptureHelper.swift; sourceTree = "<group>"; };
 		255459BA21681320008A9F55 /* MetalImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalImageView.swift; sourceTree = "<group>"; };
 		255591E42187A1A9001B4452 /* ColorWheelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorWheelView.swift; path = Views/ColorWheelView.swift; sourceTree = "<group>"; };
+		255591E62187CC62001B4452 /* HTMLViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HTMLViewController.swift; path = Controllers/HTMLViewController.swift; sourceTree = "<group>"; };
 		2556731E1DB961F700187F25 /* DisplayMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DisplayMode.swift; path = Models/DisplayMode.swift; sourceTree = "<group>"; };
 		255673221DB9BF0F00187F25 /* FilterControlsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterControlsView.swift; path = Views/FilterControlsView.swift; sourceTree = "<group>"; };
 		255844ED1E03598B009440CA /* FilterFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterFactory.swift; path = Models/FilterFactory.swift; sourceTree = "<group>"; };
@@ -1560,8 +1564,10 @@
 		257F49FF1D9448920083B1E4 /* phixerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = phixerUITests.swift; sourceTree = "<group>"; };
 		257F4A011D9448920083B1E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		257F4A131D947CF80083B1E4 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		258EA08D1ED90A7000D5E20E /* ManageFiltersMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ManageFiltersMenuController.swift; path = Controllers/ManageFiltersMenuController.swift; sourceTree = "<group>"; };
+		258EA08D1ED90A7000D5E20E /* SettingsMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsMenuController.swift; path = Controllers/SettingsMenuController.swift; sourceTree = "<group>"; };
 		258EA0921ED9472600D5E20E /* ResetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResetViewController.swift; path = Controllers/ResetViewController.swift; sourceTree = "<group>"; };
+		258F098E218A7F100082FE2A /* About.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = About.html; sourceTree = "<group>"; };
+		258F0990218B7DD90082FE2A /* UIImage+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		25910B141DB73833007EC926 /* phixer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "phixer-Bridging-Header.h"; sourceTree = "<group>"; };
 		25910B181DB738B3007EC926 /* CategorySelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CategorySelectionView.swift; path = Views/CategorySelectionView.swift; sourceTree = "<group>"; };
 		25910B1A1DB7D61A007EC926 /* RenderContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RenderContainerView.swift; path = Views/RenderContainerView.swift; sourceTree = "<group>"; };
@@ -1679,6 +1685,7 @@
 		25274600218764D500AA2DA2 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				258F0990218B7DD90082FE2A /* UIImage+Extensions.swift */,
 				25274601218764D500AA2DA2 /* CGFloat+Extensions.swift */,
 				252746032187653500AA2DA2 /* UIColor+Extensions.swift */,
 			);
@@ -1776,12 +1783,13 @@
 				863ABCB91EA6CE5B00B2AED2 /* LiveFilterViewController.swift */,
 				86DD9D941E9C5A7000A5D855 /* MainMenuController.swift */,
 				257F49E11D9448920083B1E4 /* MainViewController.swift */,
-				258EA08D1ED90A7000D5E20E /* ManageFiltersMenuController.swift */,
+				258EA08D1ED90A7000D5E20E /* SettingsMenuController.swift */,
 				258EA0921ED9472600D5E20E /* ResetViewController.swift */,
 				253A39E11DDA965E00A714D4 /* SampleGalleryViewController.swift */,
 				253B235A1DA2CFD400203ECB /* SegueHandlerType.swift */,
 				2542DF5A1ED372BF00CEB968 /* SimpleEditViewController.swift */,
 				252745E4217FE2EF00AA2DA2 /* StartupViewController.swift */,
+				255591E62187CC62001B4452 /* HTMLViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1874,6 +1882,7 @@
 		257F49DE1D9448920083B1E4 /* phixer */ = {
 			isa = PBXGroup;
 			children = (
+				258F098D218A7EFA0082FE2A /* Help */,
 				255459B7216811EE008A9F55 /* Utilities */,
 				259BE4DD1ECCFFFC00D1A5E8 /* Database */,
 				2506767B1DE108A500226740 /* Config */,
@@ -1910,6 +1919,14 @@
 				257F4A011D9448920083B1E4 /* Info.plist */,
 			);
 			path = phixerUITests;
+			sourceTree = "<group>";
+		};
+		258F098D218A7EFA0082FE2A /* Help */ = {
+			isa = PBXGroup;
+			children = (
+				258F098E218A7F100082FE2A /* About.html */,
+			);
+			path = Help;
 			sourceTree = "<group>";
 		};
 		259BE4DD1ECCFFFC00D1A5E8 /* Database */ = {
@@ -3297,6 +3314,7 @@
 				252B0EC21E30690F005A0C2D /* fx_057_solarize_3.jpg in Resources */,
 				252B10801E30692E005A0C2D /* sample_1412.png in Resources */,
 				252B0F631E30690F005A0C2D /* et_044_a22_1.jpg in Resources */,
+				258F098F218A7F100082FE2A /* About.html in Resources */,
 				252B0EC41E30690F005A0C2D /* fx_060_solarize_5.jpg in Resources */,
 				252B0DC01E30690E005A0C2D /* xp_017_lr_2.jpg in Resources */,
 				252B0E271E30690F005A0C2D /* ps_032_negative.jpg in Resources */,
@@ -3529,6 +3547,7 @@
 				2507160D1DBED62C00CDDF42 /* FilterGalleryView.swift in Sources */,
 				25B24D181DAFE255008CD38A /* FilterInfoView.swift in Sources */,
 				2573D1DE217CDCB500E78CAB /* YUCIHighPassSkinSmoothing.m in Sources */,
+				255591E72187CC62001B4452 /* HTMLViewController.swift in Sources */,
 				259BE4DB1ECCFA4200D1A5E8 /* Database.swift in Sources */,
 				251729582175406100D5E946 /* UserChangesRecord.swift in Sources */,
 				2573D1DC217CDCB500E78CAB /* YUCIFilterPreviewGenerator.m in Sources */,
@@ -3581,7 +3600,7 @@
 				2573D1DB217CDCB500E78CAB /* YUCIColorLookup.m in Sources */,
 				25F460181D99CCCE00EDA182 /* UISettings.swift in Sources */,
 				252C17951ECE64EE00039BFC /* Model.xcdatamodeld in Sources */,
-				258EA08E1ED90A7000D5E20E /* ManageFiltersMenuController.swift in Sources */,
+				258EA08E1ED90A7000D5E20E /* SettingsMenuController.swift in Sources */,
 				2542DF5F1ED377A700CEB968 /* EditControlsView.swift in Sources */,
 				255673231DB9BF0F00187F25 /* FilterControlsView.swift in Sources */,
 				252745F12182295100AA2DA2 /* EdgeGlowFilter.swift in Sources */,
@@ -3614,6 +3633,7 @@
 				2573D1E1217CDCB500E78CAB /* YUCIUtilities.m in Sources */,
 				251729622179459F00D5E946 /* GalleryViewCell.swift in Sources */,
 				253B235B1DA2CFD400203ECB /* SegueHandlerType.swift in Sources */,
+				258F0991218B7DD90082FE2A /* UIImage+Extensions.swift in Sources */,
 				25F4601A1D99CE1E00EDA182 /* GridStyle.swift in Sources */,
 				253B236C1DA44E3600203ECB /* FilterDescriptor.swift in Sources */,
 				253F54CD1DF24702007CCDEF /* FilterLibrary.swift in Sources */,
