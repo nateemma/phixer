@@ -56,6 +56,8 @@ class  FilterDescriptor {
         case float
         case color
         case image
+        case position
+        case rectangle
         case vector2
         case vector3
         case vector4
@@ -101,7 +103,11 @@ class  FilterDescriptor {
     
     let defaultColor = CIColor(red: 0, green: 0, blue: 0)
     
-    
+    private var default_image: CIImage? = nil
+    private var default_position: CIVector? = CIVector(x: 0, y: 0)
+    //private var default_rect: CGRect = CGRect.zero
+    private var default_rect: CIVector? = CIVector(cgRect: CGRect.zero)
+
     ///////////////////////////////////////////
     // Constructors
     ///////////////////////////////////////////
@@ -163,6 +169,12 @@ class  FilterDescriptor {
         } else {
             self.filter?.setDefaults()
             copyParameters(parameters)
+            // set up default params
+            if (default_image == nil) {
+                default_image = ImageManager.getCurrentSampleImage()
+                default_rect = CIVector(cgRect: UIScreen.main.bounds)
+                default_position = CIVector(cgPoint: CGPoint(x: UIScreen.main.bounds.width/2, y: UIScreen.main.bounds.height/2))
+            }
         }
     }
     
@@ -210,6 +222,19 @@ class  FilterDescriptor {
             self.parameterConfiguration[p.key] = p
             if p.type == .float { // any other types must be set by the app
                 self.filter?.setValue(p.value, forKey: p.key)
+            } else {
+                // there are some other types that we handle with default values:
+                switch (p.type){
+                case .image:
+                    self.filter?.setValue(default_image, forKey: p.key)
+                case .position:
+                    self.filter?.setValue(default_position, forKey: p.key)
+                case .rectangle:
+                    self.filter?.setValue(default_rect, forKey: p.key)
+                default:
+                    // just ignore
+                    break
+                }
             }
         }
         self.numParameters = parameters.count
@@ -328,17 +353,7 @@ class  FilterDescriptor {
     
     // set the lokup image for a lookup filter (String version)
     func setLookupImage(name:String) {
-        
-        // we need to trust that this is correct, and overwrite the current settings to reflect the lookup image
-        /***
-         guard self.filterOperationType == .lookup else {
-         log.error("Filter (\(self.title)) is not a lookup filter")
-         //DEBUG: check conversion
-         let chk = FilterOperationType(rawValue:"lookup")
-         log.error("CHECK - enum:\(self.filterOperationType) conversion:\(chk)")
-         return
-         }
-         ***/
+
         guard !name.isEmpty else {
             log.error("NIL lookup image provided")
             return

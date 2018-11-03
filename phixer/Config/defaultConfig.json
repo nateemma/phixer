@@ -1,5 +1,5 @@
 {
-    "version": 2.0,
+    "version": { "id": 2.0, "overwrite": true },
     
     "blends": [
         "067_by_candymax_stock.jpg",
@@ -87,7 +87,6 @@
         {"key": "colorAdjustment",    "title": "Color Adjustments" },
         {"key": "colorEffect",        "title": "Color Effects" },
         {"key": "photoEffect",        "title": "Basic Photo Effects" },
-        {"key": "compositeOperation", "title": "Composite Operations" },
         {"key": "distortionEffect",   "title": "Distortion Effects" },
         {"key": "geometryAdjustment", "title": "GeometryAdjustment" },
         {"key": "halftoneEffect",     "title": "Halftone Effects" },
@@ -201,7 +200,7 @@
                 {"key": "inputAmount", "title": "Amount", "min": -200.0, "max":200.0, "val": 20.0, "type": "CIAttributeTypeDistance"}
             ]
         },
-        {"key": "CIColorClamp", "title": "Color Clamp", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIColorClamp", "title": "Color Clamp", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputMinComponents", "title": "Min Components", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"},
                 {"key": "inputMaxComponents", "title": "Max Components", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"}
@@ -214,7 +213,7 @@
                 {"key": "inputContrast", "title": "Contrast", "min": 0.25, "max":4.0, "val": 1.0, "type": "CIAttributeTypeScalar"}
             ]
         },
-        {"key": "CIColorMatrix", "title": "Color Matrix", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIColorMatrix", "title": "Color Matrix", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputRVector", "title": "Red Vector", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"},
                 {"key": "inputGVector", "title": "Green Vector", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"},
@@ -223,7 +222,7 @@
                 {"key": "inputBiasVector", "title": "Bias Vector", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"}
             ]
         },
-        {"key": "CIColorPolynomial", "title": "Color Polynomial", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIColorPolynomial", "title": "Color Polynomial", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputRedCoefficients", "title": "Red Coefficients", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"},
                 {"key": "inputGreenCoefficients", "title": "Green Coefficients", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"},
@@ -262,13 +261,13 @@
             "parameters":  [
             ]
         },
-        {"key": "CITemperatureAndTint", "title": "Temperature and Tint", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CITemperatureAndTint", "title": "Temperature and Tint", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputNeutral", "title": "Neutral", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeOffset"},
                 {"key": "inputTargetNeutral", "title": "Target Neutral", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeOffset"}
             ]
         },
-        {"key": "CIToneCurve", "title": "Tone Curve", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIToneCurve", "title": "Tone Curve", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputPoint0", "title": "Point 0", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeOffset"},
                 {"key": "inputPoint1", "title": "Point 1", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeOffset"},
@@ -287,20 +286,20 @@
                 {"key": "inputColor", "title": "Color", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeColor"}
             ]
         },
-        {"key": "CIColorCrossPolynomial", "title": "Color Cross Polynomial", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIColorCrossPolynomial", "title": "Color Cross Polynomial", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputRedCoefficients", "title": "Red Coefficients", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"},
                 {"key": "inputGreenCoefficients", "title": "Green Coefficients", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"},
                 {"key": "inputBlueCoefficients", "title": "Blue Coefficients", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"}
             ]
         },
-        {"key": "CIColorCube", "title": "Color Cube", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIColorCube", "title": "Color Cube", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputCubeDimension", "title": "Cube Dimension", "min": 0.0, "max":0.0, "val": 2.0, "type": "CIAttributeTypeCount"},
                 {"key": "inputCubeData", "title": "Cube Data", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"}
             ]
         },
-        {"key": "CIColorCubesMixedWithMask", "title": "Color Cubes Mixed With Mask", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIColorCubesMixedWithMask", "title": "Color Cubes Mixed With Mask", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputMaskImage", "title": "Mask Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"},
                 {"key": "inputCubeDimension", "title": "Cube Dimension", "min": 0.0, "max":0.0, "val": 2.0, "type": "CIAttributeTypeCount"},
@@ -309,7 +308,7 @@
                 {"key": "inputColorSpace", "title": "Color Space", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"}
             ]
         },
-        {"key": "CIColorCubeWithColorSpace", "title": "Color Cube with ColorSpace", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIColorCubeWithColorSpace", "title": "Color Cube with ColorSpace", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputCubeDimension", "title": "Cube Dimension", "min": 0.0, "max":0.0, "val": 2.0, "type": "CIAttributeTypeCount"},
                 {"key": "inputCubeData", "title": "Cube Data", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"},
@@ -356,18 +355,18 @@
         },
         {"key": "CILabDeltaE", "title": "Lab ∆E", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
-                {"key": "inputImage2", "title": "Image2", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"}
+                {"key": "inputImage2", "title": "Image2", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage?"}
             ]
         },
         {"key": "CIMaskToAlpha", "title": "Mask to Alpha", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
             ]
         },
-        {"key": "CIMaximumComponent", "title": "Maximum Component", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIMaximumComponent", "title": "Maximum Component", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
             ]
         },
-        {"key": "CIMinimumComponent", "title": "Minimum Component", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIMinimumComponent", "title": "Minimum Component", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
             ]
         },
@@ -557,7 +556,7 @@
                 {"key": "inputBackgroundImage", "title": "Background Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"}
             ]
         },
-        {"key": "CISourceOutCompositing", "title": "Source Out", "ftype": "blend", "show": true, "rating": 0,
+        {"key": "CISourceOutCompositing", "title": "Source Out", "ftype": "blend", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputBackgroundImage", "title": "Background Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"}
             ]
@@ -595,7 +594,7 @@
                 {"key": "inputUseInverseLookUpTable", "title": "Use Inverse Look Up Table", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"}
             ]
         },
-        {"key": "CICircleSplashDistortion", "title": "Circle Splash Distortion", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CICircleSplashDistortion", "title": "Circle Splash Distortion", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputCenter", "title": "Center", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
                 {"key": "inputRadius", "title": "Radius", "min": 0.0, "max":1000.0, "val": 150.0, "type": "CIAttributeTypeDistance"}
@@ -610,11 +609,11 @@
         },
         {"key": "CIDisplacementDistortion", "title": "Displacement Distortion", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
-                {"key": "inputDisplacementImage", "title": "Displacement Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"},
+                {"key": "inputDisplacementImage", "title": "Displacement Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"},
                 {"key": "inputScale", "title": "Scale", "min": 0.0, "max":200.0, "val": 50.0, "type": "CIAttributeTypeDistance"}
             ]
         },
-        {"key": "CIDroste", "title": "Droste", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIDroste", "title": "Droste", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputInsetPoint0", "title": "Inset Point 0", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
                 {"key": "inputInsetPoint1", "title": "Inset Point 1", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
@@ -716,7 +715,7 @@
                 {"key": "inputC", "title": "C", "min": 0.0, "max":1.0, "val": 0.75, "type": "CIAttributeTypeScalar"}
             ]
         },
-        {"key": "CICrop", "title": "Crop", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CICrop", "title": "Crop", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputRectangle", "title": "Rectangle", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeRectangle"}
             ]
@@ -734,7 +733,7 @@
                 {"key": "inputAspectRatio", "title": "Aspect Ratio", "min": 0.5, "max":2.0, "val": 1.0, "type": "CIAttributeTypeScalar"}
             ]
         },
-        {"key": "CIPerspectiveCorrection", "title": "Perspective Correction", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIPerspectiveCorrection", "title": "Perspective Correction", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputTopLeft", "title": "Top Left", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
                 {"key": "inputTopRight", "title": "Top Right", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
@@ -743,7 +742,7 @@
                 {"key": "inputCrop", "title": "Crop", "min": 0.0, "max":0.0, "val": 1.0, "type": "CIAttributeTypeBoolean"}
             ]
         },
-        {"key": "CIPerspectiveTransform", "title": "Perspective Transform", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIPerspectiveTransform", "title": "Perspective Transform", "ftype": "singleInput", "false": true, "rating": 0,
             "parameters":  [
                 {"key": "inputTopLeft", "title": "Top Left", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
                 {"key": "inputTopRight", "title": "Top Right", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
@@ -751,7 +750,7 @@
                 {"key": "inputBottomLeft", "title": "Bottom Left", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"}
             ]
         },
-        {"key": "CIPerspectiveTransformWithExtent", "title": "Perspective Transform with Extent", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIPerspectiveTransformWithExtent", "title": "Perspective Transform with Extent", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputExtent", "title": "Extent", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeRectangle"},
                 {"key": "inputTopLeft", "title": "Top Left", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
@@ -765,7 +764,7 @@
                 {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.0, "type": "CIAttributeTypeAngle"}
             ]
         },
-        {"key": "CIGaussianGradient", "title": "Gaussian Gradient", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIGaussianGradient", "title": "Gaussian Gradient", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputCenter", "title": "Center", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
                 {"key": "inputColor0", "title": "Color 1", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeColor"},
@@ -773,7 +772,7 @@
                 {"key": "inputRadius", "title": "Radius", "min": 0.0, "max":800.0, "val": 300.0, "type": "CIAttributeTypeDistance"}
             ]
         },
-        {"key": "CIHueSaturationValueGradient", "title": "Hue/Saturation/Value Gradient", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIHueSaturationValueGradient", "title": "Hue/Saturation/Value Gradient", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputValue", "title": "Value", "min": 0.0, "max":1.0, "val": 1.0, "type": "CIAttributeTypeScalar"},
                 {"key": "inputRadius", "title": "Radius", "min": 0.0, "max":800.0, "val": 300.0, "type": "CIAttributeTypeDistance"},
@@ -782,7 +781,7 @@
                 {"key": "inputColorSpace", "title": "Color Space", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"}
             ]
         },
-        {"key": "CILinearGradient", "title": "Linear Gradient", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CILinearGradient", "title": "Linear Gradient", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputPoint0", "title": "Point 0", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
                 {"key": "inputPoint1", "title": "Point 1", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
@@ -790,7 +789,7 @@
                 {"key": "inputColor1", "title": "Color 2", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeColor"}
             ]
         },
-        {"key": "CIRadialGradient", "title": "Radial Gradient", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIRadialGradient", "title": "Radial Gradient", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputCenter", "title": "Center", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
                 {"key": "inputRadius0", "title": "Radius 1", "min": 0.0, "max":800.0, "val": 5.0, "type": "CIAttributeTypeDistance"},
@@ -848,12 +847,12 @@
                 {"key": "inputSharpness", "title": "Sharpness", "min": 0.0, "max":1.0, "val": 0.7, "type": "CIAttributeTypeScalar"}
             ]
         },
-        {"key": "CIAreaAverage", "title": "Area Average", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIAreaAverage", "title": "Area Average", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputExtent", "title": "Extent", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeRectangle"}
             ]
         },
-        {"key": "CIAreaHistogram", "title": "Area Histogram", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIAreaHistogram", "title": "Area Histogram", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputExtent", "title": "Extent", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeRectangle"},
                 {"key": "inputScale", "title": "Scale", "min": 0.0, "max":1.0, "val": 1.0, "type": "CIAttributeTypeScalar"},
@@ -919,25 +918,25 @@
                 {"key": "inputIntensity", "title": "Intensity", "min": 0.0, "max":1.0, "val": 0.5, "type": "CIAttributeTypeScalar"}
             ]
         },
-        {"key": "CIBlendWithAlphaMask", "title": "Blend With Alpha Mask", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIBlendWithAlphaMask", "title": "Blend With Alpha Mask", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputBackgroundImage", "title": "Background Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"},
                 {"key": "inputMaskImage", "title": "Mask Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"}
             ]
         },
-        {"key": "CIBlendWithBlueMask", "title": "Blend With Blue Mask", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIBlendWithBlueMask", "title": "Blend With Blue Mask", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputBackgroundImage", "title": "Background Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"},
                 {"key": "inputMaskImage", "title": "Mask Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"}
             ]
         },
-        {"key": "CIBlendWithMask", "title": "Blend With Mask", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIBlendWithMask", "title": "Blend With Mask", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputBackgroundImage", "title": "Background Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"},
                 {"key": "inputMaskImage", "title": "Mask Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"}
             ]
         },
-        {"key": "CIBlendWithRedMask", "title": "Blend With Red Mask", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIBlendWithRedMask", "title": "Blend With Red Mask", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputBackgroundImage", "title": "Background Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"},
                 {"key": "inputMaskImage", "title": "Mask Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"}
@@ -953,37 +952,37 @@
             "parameters":  [
             ]
         },
-        {"key": "CIConvolution3X3", "title": "3 by 3 convolution", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIConvolution3X3", "title": "3 by 3 convolution", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputWeights", "title": "Weights", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"},
                 {"key": "inputBias", "title": "Bias", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"}
             ]
         },
-        {"key": "CIConvolution5X5", "title": "5 by 5 convolution", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIConvolution5X5", "title": "5 by 5 convolution", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputWeights", "title": "Weights", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"},
                 {"key": "inputBias", "title": "Bias", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"}
             ]
         },
-        {"key": "CIConvolution7X7", "title": "7 by 7 convolution", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIConvolution7X7", "title": "7 by 7 convolution", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputWeights", "title": "Weights", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"},
                 {"key": "inputBias", "title": "Bias", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"}
             ]
         },
-        {"key": "CIConvolution9Horizontal", "title": "Horizontal 9 Convolution", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIConvolution9Horizontal", "title": "Horizontal 9 Convolution", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputWeights", "title": "Weights", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"},
                 {"key": "inputBias", "title": "Bias", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"}
             ]
         },
-        {"key": "CIConvolution9Vertical", "title": "Vertical 9 Convolution", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIConvolution9Vertical", "title": "Vertical 9 Convolution", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputWeights", "title": "Weights", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"},
                 {"key": "inputBias", "title": "Bias", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"}
             ]
         },
-        {"key": "CICoreMLModelFilter", "title": "CoreML Model Filter", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CICoreMLModelFilter", "title": "CoreML Model Filter", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputModel", "title": "Model", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"}
             ]
@@ -1081,21 +1080,21 @@
         },
         {"key": "CISpotColor", "title": "Spot Color", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
-                {"key": "inputCenterColor1", "title": "Center Color 1", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"},
-                {"key": "inputReplacementColor1", "title": "Replacement Color 1", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"},
+                {"key": "inputCenterColor1", "title": "Center Color 1", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeColor"},
+                {"key": "inputReplacementColor1", "title": "Replacement Color 1", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeColor"},
                 {"key": "inputCloseness1", "title": "Closeness 1", "min": 0.0, "max":0.5, "val": 0.22, "type": "CIAttributeTypeScalar"},
                 {"key": "inputContrast1", "title": "Contrast 1", "min": 0.0, "max":1.0, "val": 0.98, "type": "CIAttributeTypeScalar"},
-                {"key": "inputCenterColor2", "title": "Center Color 2", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"},
-                {"key": "inputReplacementColor2", "title": "Replacement Color 2", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"},
+                {"key": "inputCenterColor2", "title": "Center Color 2", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeColor"},
+                {"key": "inputReplacementColor2", "title": "Replacement Color 2", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeColor"},
                 {"key": "inputCloseness2", "title": "Closeness 2", "min": 0.0, "max":0.5, "val": 0.15, "type": "CIAttributeTypeScalar"},
                 {"key": "inputContrast2", "title": "Contrast 2", "min": 0.0, "max":1.0, "val": 0.98, "type": "CIAttributeTypeScalar"},
-                {"key": "inputCenterColor3", "title": "Center Color 3", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"},
-                {"key": "inputReplacementColor3", "title": "Replacement Color 3", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"},
+                {"key": "inputCenterColor3", "title": "Center Color 3", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeColor"},
+                {"key": "inputReplacementColor3", "title": "Replacement Color 3", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeColor"},
                 {"key": "inputCloseness3", "title": "Closeness 3", "min": 0.0, "max":0.5, "val": 0.5, "type": "CIAttributeTypeScalar"},
                 {"key": "inputContrast3", "title": "Contrast 3", "min": 0.0, "max":1.0, "val": 0.99, "type": "CIAttributeTypeScalar"}
             ]
         },
-        {"key": "CISpotLight", "title": "Spot Light", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CISpotLight", "title": "Spot Light", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputLightPosition", "title": "Light Position", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition3"},
                 {"key": "inputLightPointsAt", "title": "Light Points At", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition3"},
@@ -1104,17 +1103,17 @@
                 {"key": "inputColor", "title": "Color", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeOpaqueColor"}
             ]
         },
-        {"key": "CIAffineClamp", "title": "Affine Clamp", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIAffineClamp", "title": "Affine Clamp", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputTransform", "title": "Transform", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"}
             ]
         },
-        {"key": "CIAffineTile", "title": "Affine Tile", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIAffineTile", "title": "Affine Tile", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputTransform", "title": "Transform", "min": 0.0, "max":0.0, "val": 0.0, "type": "???"}
             ]
         },
-        {"key": "CIClamp", "title": "Clamp", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIClamp", "title": "Clamp", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputExtent", "title": "Extent", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeRectangle"}
             ]
@@ -1270,6 +1269,25 @@
             ]
         },
         {"key": "EdgeGlowFilter", "title": "Glowing Edges", "ftype": "singleInput", "show": true, "rating": 0,
+            "parameters":  [ ]
+        },
+        
+        {"key": "Style_Candy", "title": "Style: Candy", "ftype": "singleInput", "show": true, "rating": 0,
+            "parameters":  [ ]
+        },
+        {"key": "Style_Feathers", "title": "Style: Feathers", "ftype": "singleInput", "show": true, "rating": 0,
+            "parameters":  [ ]
+        },
+        {"key": "Style_LaMuse", "title": "Style: La Muse", "ftype": "singleInput", "show": true, "rating": 0,
+            "parameters":  [ ]
+        },
+        {"key": "Style_Udnie", "title": "Style: Udnie", "ftype": "singleInput", "show": true, "rating": 0,
+            "parameters":  [ ]
+        },
+        {"key": "Style_Scream", "title": "Style: The Scream", "ftype": "singleInput", "show": true, "rating": 0,
+            "parameters":  [ ]
+        },
+        {"key": "Style_Mosaic", "title": "Style: Mosaic", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [ ]
         }
 
@@ -1870,13 +1888,7 @@
             "filters": ["CIPhotoEffectChrome", "CIPhotoEffectFade", "CIPhotoEffectInstant", "CIPhotoEffectMono", "CIPhotoEffectNoir", "CIPhotoEffectProcess", "CIPhotoEffectTonal",
                 "CIPhotoEffectTransfer", "CISepiaTone", "CIVignette", "CIVignetteEffect" ]
         },
-        {"category": "compositeOperation",
-            "filters": ["CIAdditionCompositing", "CIColorBlendMode", "CIColorBurnBlendMode", "CIColorDodgeBlendMode", "CIDarkenBlendMode", "CIDifferenceBlendMode",
-                "CIDivideBlendMode", "CIExclusionBlendMode", "CIHardLightBlendMode", "CIHueBlendMode", "CILightenBlendMode", "CILinearBurnBlendMode",
-                "CILinearDodgeBlendMode", "CILuminosityBlendMode", "CIMaximumCompositing", "CIMinimumCompositing", "CIMultiplyBlendMode", "CIMultiplyCompositing",
-                "CIOverlayBlendMode", "CIPinLightBlendMode", "CISaturationBlendMode", "CIScreenBlendMode", "CISoftLightBlendMode", "CISourceAtopCompositing",
-                "CISourceInCompositing", "CISourceOutCompositing", "CISourceOverCompositing", "CISubtractBlendMode" ]
-        },
+
         {"category": "distortionEffect",
             "filters": ["CIBumpDistortion", "CIBumpDistortionLinear", "CICircleSplashDistortion", "CICircularWrap", "CIDroste", "CIDisplacementDistortion",
                 "CIGlassDistortion", "CIGlassLozenge", "CIHoleDistortion", "CILightTunnel", "CIPinchDistortion", "CIStretchCrop", "CITorusLensDistortion",
@@ -2021,7 +2033,8 @@
         },
         
         {"category": "custom",
-            "filters": ["OpacityFilter", "EdgeGlowFilter"
+            "filters": ["OpacityFilter", "EdgeGlowFilter",
+                        "Style_Scream", "Style_Candy",  "Style_Feathers",  "Style_LaMuse",  "Style_Udnie",  "Style_Mosaic"
             ]
         }
     ]

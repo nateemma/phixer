@@ -17,6 +17,7 @@ class FilterLibrary{
 
     fileprivate static var initDone:Bool = false
     fileprivate static var saveDone:Bool = false
+    fileprivate static var overwriteConfig:Bool = false
 
     static let sortClosure = { (value1: String, value2: String) -> Bool in return value1 < value2 }
     
@@ -92,7 +93,7 @@ class FilterLibrary{
         //    loadFromDatabase()
         //} else {
         loadFilterConfig()
-        loadFromDatabase()
+        if !FilterLibrary.overwriteConfig { loadFromDatabase() }
         commitChanges()
         //}
     }
@@ -184,8 +185,11 @@ class FilterLibrary{
                     //print ("\(parsedConfig)")
                     
                     // version
-                    version = parsedConfig["version"].floatValue
-                    print ("version: \(version)")
+                    let vParams = parsedConfig["version"].dictionaryValue
+                    print("vParams:\(vParams)")
+                    version = vParams["id"]?.floatValue ?? 0.0
+                    overwriteConfig = vParams["overwrite"]?.boolValue ?? false
+                    print ("version: \(version) overwrite: \(overwriteConfig)")
                     
                     // blend list
                     for blend in parsedConfig["blends"].arrayValue {
@@ -206,7 +210,7 @@ class FilterLibrary{
                         key = item["key"].stringValue
                         title = item["title"].stringValue
                         ftype = item["ftype"].stringValue
-                        hide = item["hide"].boolValue
+                        hide = !(item["show"].boolValue)
                         rating = item["rating"].intValue
                         // get filter parameters
                         psettings = []
@@ -240,7 +244,7 @@ class FilterLibrary{
                     // only do these if the database has not already been set up
                     // TODO: check version number
                     
-                    if (!Database.isSetup()){
+                    if (!Database.isSetup()) || overwriteConfig {
                         // blend, sample, edit assignments
                         let blend = parsedConfig["settings"]["blend"].stringValue
                         let sample = parsedConfig["settings"]["sample"].stringValue
@@ -321,6 +325,12 @@ class FilterLibrary{
             ptype = .float
         case kCIAttributeTypeColor:
             ptype = .color
+        case kCIAttributeTypeImage:
+            ptype = .image
+        case kCIAttributeTypePosition:
+            ptype = .position
+        case kCIAttributeTypeRectangle:
+            ptype = .rectangle
         default:
             // anything else is difficult to handle automatically (maybe position?)
             ptype = .unknown

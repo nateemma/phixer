@@ -86,6 +86,7 @@ class MetalImageView: MTKView
                     
                     let bounds = CGRect(origin: CGPoint.zero, size: drawableSize)
                     
+/*** method 1: (having issues with horizontal alignment)
                     var originX = image.extent.origin.x
                     var originY = image.extent.origin.y
                     
@@ -106,12 +107,55 @@ class MetalImageView: MTKView
                     } else {
                         // portrait, centre horizontally
                         originX = -(drawableSize.width/scale - image.extent.width)/2.0
+                        //DBG
+                        log.debug("image:(\(image.extent.width),\(image.extent.height)) " +
+                            "drawable:(\(drawableSize.width), \(drawableSize.height)) o:(\(originX), \(originY)) scale:\(scale)")
                     }
-                    //DBG
-                    //log.debug("image:(\(image.extent.width),\(image.extent.height)) " +
-                    //    "drawable:(\(drawableSize.width), \(drawableSize.height)) o:(\(originX), \(originY)) scale:\(scale)")
-                    let scaledImage = image.transformed(by: CGAffineTransform(translationX: -originX, y: -originY))
-                                           .transformed(by: CGAffineTransform(scaleX: scale, y: scale))
+                     let scaledImage = image.transformed(by: CGAffineTransform(translationX: -originX, y: -originY))
+                     .transformed(by: CGAffineTransform(scaleX: scale, y: scale))
+ ***/
+                    
+/** Method 2: */
+                    
+
+                    // if the view and the image are the same orientation then fill, otherwise fit
+                    var targetRect:CGRect
+                    var scale:CGFloat = 1.0
+                    var scaleX:CGFloat = 1.0
+                    var scaleY:CGFloat = 1.0
+
+                    if ((drawableSize.width>=drawableSize.height) && (image.extent.width>=image.extent.height)) ||
+                        ((drawableSize.width<drawableSize.height) && (image.extent.width<image.extent.height)) {
+                        targetRect = Geometry.aspectFillToRect(aspectRatio: image.extent.size, minimumRect: bounds)
+                        scaleX = targetRect.width / image.extent.width
+                        scaleY = targetRect.height / image.extent.height
+                        scale = max(scaleX, scaleY)
+                   } else {
+                        targetRect = Geometry.aspectFitToRect(aspectRatio: image.extent.size, boundingRect: bounds)
+                        scaleX = targetRect.width / image.extent.width
+                        scaleY = targetRect.height / image.extent.height
+                        scale = min(scaleX, scaleY)
+                    }
+
+                    
+
+                    var originX = targetRect.origin.x
+                    var originY = targetRect.origin.y
+                    
+                    if image.extent.width > image.extent.height {
+                        // if landscape then move the image up to the top of the drawable (note: this is before scaling, so work in image coordinates)
+                        originY = -fabs(drawableSize.height/scale - image.extent.height)
+                    } else {
+                        // portrait, centre horizontally
+                        originX = -fabs(drawableSize.width/scale - image.extent.width)/2.0
+                        //DBG
+                        //log.debug("image:(\(image.extent.width),\(image.extent.height)) " +
+                        //    "drawable:(\(drawableSize.width), \(drawableSize.height)) o:(\(originX), \(originY)) scale:\(scale)")
+                    }
+
+                     let scaledImage = image.transformed(by: CGAffineTransform(scaleX: scale, y: scale))
+                                           .transformed(by: CGAffineTransform(translationX: originX, y: originY))
+                    
                     
                     ciContext.render(scaledImage,
                                      to: targetTexture,

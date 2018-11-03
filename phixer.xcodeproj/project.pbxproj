@@ -742,6 +742,22 @@
 		258EA0931ED9472600D5E20E /* ResetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258EA0921ED9472600D5E20E /* ResetViewController.swift */; };
 		258F098F218A7F100082FE2A /* About.html in Resources */ = {isa = PBXBuildFile; fileRef = 258F098E218A7F100082FE2A /* About.html */; };
 		258F0991218B7DD90082FE2A /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258F0990218B7DD90082FE2A /* UIImage+Extensions.swift */; };
+		258F099C218CBFC30082FE2A /* FNS-Candy.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 258F0996218CBFC30082FE2A /* FNS-Candy.mlmodel */; };
+		258F099D218CBFC30082FE2A /* FNS-Feathers.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 258F0997218CBFC30082FE2A /* FNS-Feathers.mlmodel */; };
+		258F099E218CBFC30082FE2A /* FNS-La-Muse.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 258F0998218CBFC30082FE2A /* FNS-La-Muse.mlmodel */; };
+		258F099F218CBFC30082FE2A /* FNS-Udnie.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 258F0999218CBFC30082FE2A /* FNS-Udnie.mlmodel */; };
+		258F09A0218CBFC30082FE2A /* FNS-The-Scream.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 258F099A218CBFC30082FE2A /* FNS-The-Scream.mlmodel */; };
+		258F09A1218CBFC30082FE2A /* FNS-Mosaic.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 258F099B218CBFC30082FE2A /* FNS-Mosaic.mlmodel */; };
+		258F09A3218CC09C0082FE2A /* Style_Scream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258F09A2218CC09C0082FE2A /* Style_Scream.swift */; };
+		258F09A5218CD6770082FE2A /* MLModelHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258F09A4218CD6770082FE2A /* MLModelHelper.swift */; };
+		258F09A7218CDEFD0082FE2A /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258F09A6218CDEFD0082FE2A /* Geometry.swift */; };
+		258F09A9218E36870082FE2A /* CGImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258F09A8218E36870082FE2A /* CGImage+Extensions.swift */; };
+		258F09AB218E3CCF0082FE2A /* CIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258F09AA218E3CCF0082FE2A /* CIImage+Extensions.swift */; };
+		258F09AD218E4AC90082FE2A /* Style_Candy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258F09AC218E4AC90082FE2A /* Style_Candy.swift */; };
+		258F09AF218E4B5B0082FE2A /* Style_Feathers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258F09AE218E4B5B0082FE2A /* Style_Feathers.swift */; };
+		258F09B1218E4B810082FE2A /* Style_LaMuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258F09B0218E4B810082FE2A /* Style_LaMuse.swift */; };
+		258F09B3218E4BB30082FE2A /* Style_Udnie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258F09B2218E4BB30082FE2A /* Style_Udnie.swift */; };
+		258F09B5218E4BDC0082FE2A /* Style_Mosaic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258F09B4218E4BDC0082FE2A /* Style_Mosaic.swift */; };
 		25910B191DB738B3007EC926 /* CategorySelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25910B181DB738B3007EC926 /* CategorySelectionView.swift */; };
 		25910B1B1DB7D61A007EC926 /* RenderContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25910B1A1DB7D61A007EC926 /* RenderContainerView.swift */; };
 		25934FB11DD4EC1100C3D665 /* BlendGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25934FB01DD4EC1100C3D665 /* BlendGalleryView.swift */; };
@@ -749,7 +765,7 @@
 		259BE4DB1ECCFA4200D1A5E8 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259BE4DA1ECCFA4200D1A5E8 /* Database.swift */; };
 		25A702921DC2FCDD009441E2 /* FilterDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A702911DC2FCDD009441E2 /* FilterDetailsViewController.swift */; };
 		25A702951DC2FE3C009441E2 /* FilterDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A702941DC2FE3C009441E2 /* FilterDisplayView.swift */; };
-		25A702971DC3AEEA009441E2 /* Utiltities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A702961DC3AEEA009441E2 /* Utiltities.swift */; };
+		25A702971DC3AEEA009441E2 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A702961DC3AEEA009441E2 /* Utilities.swift */; };
 		25AEBB441DBA8AEC00AA6279 /* FilterSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AEBB431DBA8AEC00AA6279 /* FilterSelectionView.swift */; };
 		25B24D121DAEE1B5008CD38A /* GradientSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D111DAEE1B5008CD38A /* GradientSlider.swift */; };
 		25B24D181DAFE255008CD38A /* FilterInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D171DAFE255008CD38A /* FilterInfoView.swift */; };
@@ -1568,6 +1584,22 @@
 		258EA0921ED9472600D5E20E /* ResetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResetViewController.swift; path = Controllers/ResetViewController.swift; sourceTree = "<group>"; };
 		258F098E218A7F100082FE2A /* About.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = About.html; sourceTree = "<group>"; };
 		258F0990218B7DD90082FE2A /* UIImage+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
+		258F0996218CBFC30082FE2A /* FNS-Candy.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "FNS-Candy.mlmodel"; sourceTree = "<group>"; };
+		258F0997218CBFC30082FE2A /* FNS-Feathers.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "FNS-Feathers.mlmodel"; sourceTree = "<group>"; };
+		258F0998218CBFC30082FE2A /* FNS-La-Muse.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "FNS-La-Muse.mlmodel"; sourceTree = "<group>"; };
+		258F0999218CBFC30082FE2A /* FNS-Udnie.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "FNS-Udnie.mlmodel"; sourceTree = "<group>"; };
+		258F099A218CBFC30082FE2A /* FNS-The-Scream.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "FNS-The-Scream.mlmodel"; sourceTree = "<group>"; };
+		258F099B218CBFC30082FE2A /* FNS-Mosaic.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "FNS-Mosaic.mlmodel"; sourceTree = "<group>"; };
+		258F09A2218CC09C0082FE2A /* Style_Scream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style_Scream.swift; sourceTree = "<group>"; };
+		258F09A4218CD6770082FE2A /* MLModelHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLModelHelper.swift; sourceTree = "<group>"; };
+		258F09A6218CDEFD0082FE2A /* Geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
+		258F09A8218E36870082FE2A /* CGImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGImage+Extensions.swift"; sourceTree = "<group>"; };
+		258F09AA218E3CCF0082FE2A /* CIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CIImage+Extensions.swift"; sourceTree = "<group>"; };
+		258F09AC218E4AC90082FE2A /* Style_Candy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style_Candy.swift; sourceTree = "<group>"; };
+		258F09AE218E4B5B0082FE2A /* Style_Feathers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style_Feathers.swift; sourceTree = "<group>"; };
+		258F09B0218E4B810082FE2A /* Style_LaMuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style_LaMuse.swift; sourceTree = "<group>"; };
+		258F09B2218E4BB30082FE2A /* Style_Udnie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style_Udnie.swift; sourceTree = "<group>"; };
+		258F09B4218E4BDC0082FE2A /* Style_Mosaic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style_Mosaic.swift; sourceTree = "<group>"; };
 		25910B141DB73833007EC926 /* phixer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "phixer-Bridging-Header.h"; sourceTree = "<group>"; };
 		25910B181DB738B3007EC926 /* CategorySelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CategorySelectionView.swift; path = Views/CategorySelectionView.swift; sourceTree = "<group>"; };
 		25910B1A1DB7D61A007EC926 /* RenderContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RenderContainerView.swift; path = Views/RenderContainerView.swift; sourceTree = "<group>"; };
@@ -1576,7 +1608,7 @@
 		259BE4DA1ECCFA4200D1A5E8 /* Database.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
 		25A702911DC2FCDD009441E2 /* FilterDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterDetailsViewController.swift; path = Controllers/FilterDetailsViewController.swift; sourceTree = "<group>"; };
 		25A702941DC2FE3C009441E2 /* FilterDisplayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterDisplayView.swift; path = Views/FilterDisplayView.swift; sourceTree = "<group>"; };
-		25A702961DC3AEEA009441E2 /* Utiltities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utiltities.swift; sourceTree = "<group>"; };
+		25A702961DC3AEEA009441E2 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		25AEBB431DBA8AEC00AA6279 /* FilterSelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterSelectionView.swift; path = Views/FilterSelectionView.swift; sourceTree = "<group>"; };
 		25B24D111DAEE1B5008CD38A /* GradientSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GradientSlider.swift; path = Views/GradientSlider.swift; sourceTree = "<group>"; };
 		25B24D171DAFE255008CD38A /* FilterInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterInfoView.swift; path = Views/FilterInfoView.swift; sourceTree = "<group>"; };
@@ -1669,6 +1701,12 @@
 				252745E62180E8FD00AA2DA2 /* OpacityFilter.swift */,
 				252745E82180FDF600AA2DA2 /* CustomFilterRegistry.swift */,
 				252745F02182295100AA2DA2 /* EdgeGlowFilter.swift */,
+				258F09A2218CC09C0082FE2A /* Style_Scream.swift */,
+				258F09AC218E4AC90082FE2A /* Style_Candy.swift */,
+				258F09B4218E4BDC0082FE2A /* Style_Mosaic.swift */,
+				258F09B2218E4BB30082FE2A /* Style_Udnie.swift */,
+				258F09B0218E4B810082FE2A /* Style_LaMuse.swift */,
+				258F09AE218E4B5B0082FE2A /* Style_Feathers.swift */,
 			);
 			path = phil;
 			sourceTree = "<group>";
@@ -1688,6 +1726,8 @@
 				258F0990218B7DD90082FE2A /* UIImage+Extensions.swift */,
 				25274601218764D500AA2DA2 /* CGFloat+Extensions.swift */,
 				252746032187653500AA2DA2 /* UIColor+Extensions.swift */,
+				258F09A8218E36870082FE2A /* CGImage+Extensions.swift */,
+				258F09AA218E3CCF0082FE2A /* CIImage+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1711,9 +1751,10 @@
 		255459B7216811EE008A9F55 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				25A702961DC3AEEA009441E2 /* Utiltities.swift */,
+				25A702961DC3AEEA009441E2 /* Utilities.swift */,
 				255459B821681294008A9F55 /* CameraCaptureHelper.swift */,
 				2517295D2177FC2400D5E946 /* MuliticastDelegate.swift */,
+				258F09A6218CDEFD0082FE2A /* Geometry.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1882,6 +1923,7 @@
 		257F49DE1D9448920083B1E4 /* phixer */ = {
 			isa = PBXGroup;
 			children = (
+				258F0995218CBFC30082FE2A /* MLModels */,
 				258F098D218A7EFA0082FE2A /* Help */,
 				255459B7216811EE008A9F55 /* Utilities */,
 				259BE4DD1ECCFFFC00D1A5E8 /* Database */,
@@ -1927,6 +1969,20 @@
 				258F098E218A7F100082FE2A /* About.html */,
 			);
 			path = Help;
+			sourceTree = "<group>";
+		};
+		258F0995218CBFC30082FE2A /* MLModels */ = {
+			isa = PBXGroup;
+			children = (
+				258F0996218CBFC30082FE2A /* FNS-Candy.mlmodel */,
+				258F0997218CBFC30082FE2A /* FNS-Feathers.mlmodel */,
+				258F0998218CBFC30082FE2A /* FNS-La-Muse.mlmodel */,
+				258F0999218CBFC30082FE2A /* FNS-Udnie.mlmodel */,
+				258F099A218CBFC30082FE2A /* FNS-The-Scream.mlmodel */,
+				258F099B218CBFC30082FE2A /* FNS-Mosaic.mlmodel */,
+				258F09A4218CD6770082FE2A /* MLModelHelper.swift */,
+			);
+			path = MLModels;
 			sourceTree = "<group>";
 		};
 		259BE4DD1ECCFFFC00D1A5E8 /* Database */ = {
@@ -3542,14 +3598,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				258F09A5218CD6770082FE2A /* MLModelHelper.swift in Sources */,
+				258F09A0218CBFC30082FE2A /* FNS-The-Scream.mlmodel in Sources */,
 				25CF4BDC1D94D93700D779CF /* AppDelegate.swift in Sources */,
 				2542DF5B1ED372BF00CEB968 /* SimpleEditViewController.swift in Sources */,
 				2507160D1DBED62C00CDDF42 /* FilterGalleryView.swift in Sources */,
 				25B24D181DAFE255008CD38A /* FilterInfoView.swift in Sources */,
 				2573D1DE217CDCB500E78CAB /* YUCIHighPassSkinSmoothing.m in Sources */,
 				255591E72187CC62001B4452 /* HTMLViewController.swift in Sources */,
+				258F099C218CBFC30082FE2A /* FNS-Candy.mlmodel in Sources */,
 				259BE4DB1ECCFA4200D1A5E8 /* Database.swift in Sources */,
 				251729582175406100D5E946 /* UserChangesRecord.swift in Sources */,
+				258F09A9218E36870082FE2A /* CGImage+Extensions.swift in Sources */,
 				2573D1DC217CDCB500E78CAB /* YUCIFilterPreviewGenerator.m in Sources */,
 				255591E52187A1A9001B4452 /* ColorWheelView.swift in Sources */,
 				2573D1DA217CDCB500E78CAB /* YUCIHighPass.m in Sources */,
@@ -3558,11 +3618,14 @@
 				252C17A41ECE75FC00039BFC /* CategoryEntity+CoreDataClass.swift in Sources */,
 				252745E2217FD09700AA2DA2 /* YUCIFlashTransition.m in Sources */,
 				255459B921681294008A9F55 /* CameraCaptureHelper.swift in Sources */,
+				258F09A1218CBFC30082FE2A /* FNS-Mosaic.mlmodel in Sources */,
 				2517295A217540C300D5E946 /* UserChangesEntity+CoreDataClass.swift in Sources */,
 				252745FF218551AF00AA2DA2 /* HSBSliderView.swift in Sources */,
 				25B24D121DAEE1B5008CD38A /* GradientSlider.swift in Sources */,
+				258F099E218CBFC30082FE2A /* FNS-La-Muse.mlmodel in Sources */,
 				253B23771DA4BB7800203ECB /* ClosestFraction.swift in Sources */,
 				252745EF21815FB700AA2DA2 /* CarnivalMirror.swift in Sources */,
+				258F09A7218CDEFD0082FE2A /* Geometry.swift in Sources */,
 				2573D1EA217CDCB500E78CAB /* YUCIFXAA.m in Sources */,
 				252C17A01ECE75FC00039BFC /* SettingsEntity+CoreDataClass.swift in Sources */,
 				252745F72182A1D500AA2DA2 /* BorderedButton.swift in Sources */,
@@ -3570,23 +3633,28 @@
 				2517295C2175410B00D5E946 /* UserChangesEntity+CoreDataProperties.swift in Sources */,
 				2573D1DF217CDCB500E78CAB /* YUCIReflectedTileROICalculator.m in Sources */,
 				252745F521826DBC00AA2DA2 /* ColorSchemeViewController.swift in Sources */,
+				258F099F218CBFC30082FE2A /* FNS-Udnie.mlmodel in Sources */,
 				2542DF501ECFB21300CEB968 /* SettingsRecord.swift in Sources */,
 				253B237B1DA71F1900203ECB /* FilterParametersView.swift in Sources */,
 				253A39E41DDA979400A714D4 /* SampleGalleryView.swift in Sources */,
 				25F460221D99DBBA00EDA182 /* CameraSpeed.swift in Sources */,
 				25CF4BD61D9490C400D779CF /* CameraDisplayView.swift in Sources */,
 				252745F92182AAF900AA2DA2 /* ColorSchemeView.swift in Sources */,
-				25A702971DC3AEEA009441E2 /* Utiltities.swift in Sources */,
+				25A702971DC3AEEA009441E2 /* Utilities.swift in Sources */,
+				258F09AF218E4B5B0082FE2A /* Style_Feathers.swift in Sources */,
 				251729AB217BE7A300D5E946 /* TitleView.swift in Sources */,
 				25934FB11DD4EC1100C3D665 /* BlendGalleryView.swift in Sources */,
 				25CF4BDA1D9490C400D779CF /* SquareButton.swift in Sources */,
 				25F4601E1D99D65F00EDA182 /* CameraISO.swift in Sources */,
+				258F09AD218E4AC90082FE2A /* Style_Candy.swift in Sources */,
 				255459BB21681320008A9F55 /* MetalImageView.swift in Sources */,
 				252745E5217FE2EF00AA2DA2 /* StartupViewController.swift in Sources */,
 				252C17A71ECE75FC00039BFC /* AssignmentEntity+CoreDataProperties.swift in Sources */,
+				258F09B1218E4B810082FE2A /* Style_LaMuse.swift in Sources */,
 				252745FB21851AEB00AA2DA2 /* ColorPickerController.swift in Sources */,
 				25910B1B1DB7D61A007EC926 /* RenderContainerView.swift in Sources */,
 				2573D1D8217CDCB500E78CAB /* YUCIFilterConstructor.m in Sources */,
+				258F099D218CBFC30082FE2A /* FNS-Feathers.mlmodel in Sources */,
 				252746042187653500AA2DA2 /* UIColor+Extensions.swift in Sources */,
 				257F49E21D9448920083B1E4 /* MainViewController.swift in Sources */,
 				2573D1E5217CDCB500E78CAB /* YUCIReflectedTile.m in Sources */,
@@ -3615,6 +3683,7 @@
 				25A702951DC2FE3C009441E2 /* FilterDisplayView.swift in Sources */,
 				2573D1E8217CDCB500E78CAB /* YUCIFilterUtilities.m in Sources */,
 				2517295E2177FC2400D5E946 /* MuliticastDelegate.swift in Sources */,
+				258F09B5218E4BDC0082FE2A /* Style_Mosaic.swift in Sources */,
 				2542DF651ED6634800CEB968 /* SettingsEntity+CoreDataProperties.swift in Sources */,
 				2556731F1DB961F700187F25 /* DisplayMode.swift in Sources */,
 				2542DF551ECFB37400CEB968 /* CategoryRecord.swift in Sources */,
@@ -3623,6 +3692,7 @@
 				2573D1E9217CDCB500E78CAB /* YUCIHistogramEqualization.m in Sources */,
 				25A702921DC2FCDD009441E2 /* FilterDetailsViewController.swift in Sources */,
 				252C17A61ECE75FC00039BFC /* AssignmentEntity+CoreDataClass.swift in Sources */,
+				258F09B3218E4BB30082FE2A /* Style_Udnie.swift in Sources */,
 				2542DF571ECFB3F100CEB968 /* AssignmentRecord.swift in Sources */,
 				2542DF591ECFB4DA00CEB968 /* LookupFilterRecord.swift in Sources */,
 				25274602218764D500AA2DA2 /* CGFloat+Extensions.swift in Sources */,
@@ -3633,6 +3703,7 @@
 				2573D1E1217CDCB500E78CAB /* YUCIUtilities.m in Sources */,
 				251729622179459F00D5E946 /* GalleryViewCell.swift in Sources */,
 				253B235B1DA2CFD400203ECB /* SegueHandlerType.swift in Sources */,
+				258F09AB218E3CCF0082FE2A /* CIImage+Extensions.swift in Sources */,
 				258F0991218B7DD90082FE2A /* UIImage+Extensions.swift in Sources */,
 				25F4601A1D99CE1E00EDA182 /* GridStyle.swift in Sources */,
 				253B236C1DA44E3600203ECB /* FilterDescriptor.swift in Sources */,
@@ -3640,6 +3711,7 @@
 				255844EE1E03598B009440CA /* FilterFactory.swift in Sources */,
 				253B23791DA5782300203ECB /* FilterManager.swift in Sources */,
 				252745FD21851C6300AA2DA2 /* RGBSliderView.swift in Sources */,
+				258F09A3218CC09C0082FE2A /* Style_Scream.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
