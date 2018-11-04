@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # phixer
 
 An app to apply filters to the camera stream or to a stored photo.
@@ -30,3 +31,11 @@ I make fairly extensive use of the following pods:
 - SwiftyBeaver: logging utilities
 - SwiftyJSON: JSON parsing
 - Cosmos: a star rating widget
+=======
+# FilterCam
+IOS Swift app with live filters and editing capabilities
+
+Note: I suspended work on this in mid-2017 - I had to work on a real job :-(
+
+I will pick this up sometiome in 2018, but I have to move it to another project because of a naming conflict with an existing iOS app.
+>>>>>>> master
