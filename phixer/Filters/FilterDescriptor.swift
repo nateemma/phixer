@@ -163,7 +163,8 @@ class  FilterDescriptor {
     
     private func initSingleInputFilter(key:String, title:String, parameters:[ParameterSettings]){
         //log.debug("Creating CIFilter:\(key)")
-        self.filter = CIFilter(name: key)
+
+        try self.filter = CIFilter(name: key)
         if self.filter == nil {
             log.error("Error creating filter:\(key)")
         } else {
@@ -176,6 +177,7 @@ class  FilterDescriptor {
                 default_position = CIVector(cgPoint: CGPoint(x: UIScreen.main.bounds.width/2, y: UIScreen.main.bounds.height/2))
             }
         }
+
     }
     
     private func initLookupFilter(key:String, title:String, parameters:[ParameterSettings]){

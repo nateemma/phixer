@@ -18,7 +18,7 @@ extension CIImage {
     // creates a CGImage - useful for cases when the CIImage was not created from a CGImage (or UIImage)
     public func generateCGImage() -> CGImage? {
         if (CIImage.context == nil){
-            CIImage.context = CIContext(options: nil)
+            CIImage.context = CIContext(options: [kCIContextUseSoftwareRenderer : false, kCIContextHighQualityDownsample : true ])
         }
         let imgRect = CGRect(x: 0, y: 0, width: self.extent.width, height: self.extent.height)
         return CIImage.context?.createCGImage(self, from: imgRect)

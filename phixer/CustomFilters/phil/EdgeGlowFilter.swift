@@ -21,7 +21,7 @@ class EdgeGlowFilter: CIFilter {
     
     // filter display name
     func displayName() -> String {
-        return "Opacity"
+        return "Edge Glow"
     }
     
     

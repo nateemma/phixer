@@ -14,13 +14,15 @@ import UIKit
 class TimedAlertView: UIAlertController {
     
     private var timer:TimeInterval = 2.0
+    //private var title:String = "Oops"
+    //private var message:String = "Text not supplied"
     
     public func setTitle(_ title:String) {
-        self.title = title
+        super.title = title
     }
     
     public func setMessage(_ message:String) {
-        self.message = message
+        super.message = message
     }
     
     public func setTimer(_ time:Double){
@@ -28,7 +30,7 @@ class TimedAlertView: UIAlertController {
     }
 
     public func showAlert() {
-        showAlert(title:self.title!, message:self.message!, timer:self.timer)
+        showAlert(title:title!, message:message!, timer:self.timer)
     }
     
     public func showAlert(title:String, message:String, timer:Double=2.0) {

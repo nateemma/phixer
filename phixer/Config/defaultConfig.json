@@ -1263,6 +1263,12 @@
         },
         
         
+        {"key": "ClarityFilter", "title": "Clarity", "ftype": "singleInput", "show": true, "rating": 0,
+            "parameters":  [
+                {"key": "inputClarity", "title": "Clarity", "min": 0.0, "max":1.0, "val": 0.2, "type": "CIAttributeTypeScalar"}
+            ]
+        },
+
         {"key": "OpacityFilter", "title": "Change Opacity", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputOpacity", "title": "Opacity", "min": 0.0, "max":1.0, "val": 0.8, "type": "CIAttributeTypeScalar"}
@@ -1270,6 +1276,24 @@
         },
         {"key": "EdgeGlowFilter", "title": "Glowing Edges", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [ ]
+        },
+        
+        {"key": "LumaRangeFilter", "title": "Luma Range", "ftype": "singleInput", "show": true, "rating": 0,
+            "parameters":  [
+                {"key": "inputLower", "title": "Lower", "min": 0.0, "max":0.9, "val": 0.2, "type": "CIAttributeTypeScalar"},
+                {"key": "inputUpper", "title": "Upper", "min": 0.02, "max":1.0, "val": 0.75, "type": "CIAttributeTypeScalar"}
+            ]
+        },
+        
+        {"key": "SmoothThresholdFilter", "title": "Smooth Threshold", "ftype": "singleInput", "show": true, "rating": 0,
+            "parameters":  [
+                {"key": "inputThreshold", "title": "Threshold", "min": 0.0, "max":0.1, "val": 0.05, "type": "CIAttributeTypeScalar"}
+            ]
+        },
+        {"key": "AdaptiveThresholdFilter", "title": "Adaptive Threshold", "ftype": "singleInput", "show": true, "rating": 0,
+            "parameters":  [
+                {"key": "inputRadius", "title": "Radius", "min": 1.0, "max":10.0, "val": 5.0, "type": "CIAttributeTypeScalar"}
+            ]
         },
         
         {"key": "Style_Candy", "title": "Style: Candy", "ftype": "singleInput", "show": true, "rating": 0,
@@ -2033,7 +2057,7 @@
         },
         
         {"category": "custom",
-            "filters": ["OpacityFilter", "EdgeGlowFilter",
+            "filters": ["ClarityFilter", "OpacityFilter", "EdgeGlowFilter", "SmoothThresholdFilter", "AdaptiveThresholdFilter", "LumaRangeFilter",
                         "Style_Scream", "Style_Candy",  "Style_Feathers",  "Style_LaMuse",  "Style_Udnie",  "Style_Mosaic"
             ]
         }

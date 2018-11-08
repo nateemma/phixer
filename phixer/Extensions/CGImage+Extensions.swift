@@ -27,7 +27,7 @@ extension CGImage {
                                       bytesPerRow: Int(0),
                                       space: colorSpace,
                                       bitmapInfo: bitmapInfo)
-        /*
+        /* This crashes:
         let context = CGContext(data: nil, width: Int(size.width), height: Int(size.height), bitsPerComponent: self.bitsPerComponent, bytesPerRow: self.bytesPerRow,
                                 space: colorSpace, bitmapInfo: bitmapInfo)
         */
