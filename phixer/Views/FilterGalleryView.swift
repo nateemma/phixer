@@ -26,6 +26,7 @@ protocol FilterGalleryViewDelegate: class {
 //class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDelegate{
 class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, FilterGalleryViewCellDelegate {
 
+    public static var showHidden:Bool = false // controls whether hidden filters are shown or not
     
     fileprivate var isLandscape : Bool = false
     fileprivate var screenSize : CGRect = CGRect.zero
@@ -163,7 +164,17 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         }
         
         // (Re-)build the list of filters
-        self.filterList = self.filterManager.getFilterList(self.currCategory)!
+        if FilterGalleryView.showHidden {
+            self.filterList = self.filterManager.getFilterList(self.currCategory)!
+        } else {
+            // only add filters if they are not hidden
+            let list = self.filterManager.getFilterList(self.currCategory)!
+            for k in list {
+                if ((filterManager.getFilterDescriptor(key: k)?.show)!) {
+                    self.filterList.append(k)
+                }
+            }
+        }
         self.filterList.sort(by: { (value1: String, value2: String) -> Bool in return value1 < value2 }) // sort ascending
         log.debug ("Loading... \(self.filterList.count) filters for category: \(self.currCategory)")
         
@@ -216,9 +227,6 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         
         //var descriptor:FilterDescriptor? = nil
         for key in filterList {
-            //descriptor = filterManager.getFilterDescriptor(key: key)
-            //descriptor?.filter?.removeAllTargets()
-            //descriptor?.filterGroup?.removeAllTargets()
             filterManager.releaseFilterDescriptor(key: key)
             filterManager.releaseRenderView(key: key)
         }
@@ -323,19 +331,8 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     
     
     fileprivate func loadInputs(){
-        /***
-        //sampleImageFull = UIImage(named:"sample_9989.png")
-        sampleImageFull = UIImage(ciImage:ImageManager.getCurrentSampleImage()!)
-        
-        let size = (sampleImageFull?.size.applying(CGAffineTransform(scaleX: 0.2, y: 0.2)))!
-        sampleImageSmall = ImageManager.scaleImage(sampleImageFull, widthRatio: 0.2, heightRatio: 0.2)
-        //blendImageSmall = UIImage(ciImage:ImageManager.getCurrentBlendImage(size:size)!)
-        sample = CIImage(image:sampleImageSmall!)
-        blend  = ImageManager.getCurrentBlendImage(size:size)
-        ***/
         sample = ImageManager.getCurrentSampleImage()
         blend  = ImageManager.getCurrentBlendImage(size:(sample?.extent.size)!)
-
     }
     
     

@@ -176,7 +176,8 @@ class FilterDetailsViewController: UIViewController {
         filterDisplayView.setFilter(key: currFilterKey)
         filterParametersView.setFilter(currFilterDescriptor)
         updateBanner(key: self.currFilterKey)
-        
+        positionParameterView()
+
         filterParametersView.delegate = self
     }
     
@@ -340,6 +341,15 @@ class FilterDetailsViewController: UIViewController {
         layoutAdornments() // same for either rotation
     }
     
+    private func positionParameterView(){
+        // the size of the parameter view changes with each filter, so it's tricky to position. This routine positions it after it has been sized etc.
+        if (UIDevice.current.orientation.isLandscape){
+            filterParametersView.anchorInCorner(.bottomRight, xPad: 0, yPad: 0, width: filterParametersView.frame.size.width, height: filterParametersView.frame.size.height)
+        } else {
+            filterParametersView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 1, otherSize: filterParametersView.frame.size.height)
+        }
+    }
+
     
     // setup the adornments (favourites, show/hide, ratings etc.) for the current filter
     

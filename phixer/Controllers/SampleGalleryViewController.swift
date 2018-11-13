@@ -175,7 +175,7 @@ class SampleGalleryViewController: UIViewController, UIImagePickerControllerDele
             adView.frame.size.width = displayWidth
             adView.layer.cornerRadius = 0.0
             adView.layer.borderWidth = 1.0
-            adView.layer.borderColor = UIColor.gray.cgColor
+            adView.layer.borderColor = UIColor.flatBlack.cgColor
         }
         
         infoView.frame.size.height = 3.5 * bannerHeight

@@ -84,9 +84,7 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     fileprivate var initDone:Bool = false
     func doInit(){
         if (!initDone){
-            carouselHeight = fmax((self.frame.size.height * 0.8), 80.0) // doesn't seem to work at less than 80 (empirical)
-            //carouselHeight = self.frame.size.height * 0.82
-            
+
             // Pre-allocate views for the filters, makes it much easier and we can update in the background if needed
             
             //setFilterCategory((filterManager?.getCurrentCategory())!)
@@ -100,13 +98,6 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
                 
             }
             
-            categoryLabel.text = "Categories"
-            categoryLabel.textAlignment = .center
-            categoryLabel.textColor = UIColor.white
-            categoryLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
-            categoryLabel.frame.size.height = carouselHeight * 0.18
-            categoryLabel.frame.size.width = self.frame.size.width
-            self.addSubview(categoryLabel)
            
             initDone = true
         }
@@ -123,20 +114,32 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         
         doInit()
         
-        categoryCarousel.frame = self.frame
+        carouselHeight = max((self.frame.size.height * 0.8), 80.0) // doesn't seem to work at less than 80 (empirical)
+        categoryCarousel.frame.size.width = self.frame.size.width
+        categoryCarousel.frame.size.height = carouselHeight
+
         self.addSubview(categoryCarousel)
-        //categoryCarousel.fillSuperview()
         
         categoryCarousel.dataSource = self
         categoryCarousel.delegate = self
         categoryCarousel.type = .linear
         //categoryCarousel.centerItemWhenSelected = true
         
+        
+        categoryLabel.text = "Categories:"
+        categoryLabel.textAlignment = .center
+        categoryLabel.textColor = UIColor.white
+        categoryLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
+        categoryLabel.frame.size.height = self.frame.size.height - carouselHeight
+        categoryLabel.frame.size.width = self.frame.size.width
+        self.addSubview(categoryLabel)
+        
+       log.verbose("hv:\(self.frame.size.height) hl:\(categoryLabel.frame.size.height) hc:\(categoryCarousel.frame.size.height) ch:\(carouselHeight)")
         //self.groupAndFill(.vertical, views: [categoryLabel, categoryCarousel], padding: 4.0)
         categoryLabel.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: categoryLabel.frame.size.height)
         categoryCarousel.align(.underCentered, relativeTo: categoryLabel, padding: 0, width: categoryCarousel.frame.size.width, height: categoryCarousel.frame.size.height)
 
-        //update()
+        update()
        
         // don't do anything until category list has been assigned
     }

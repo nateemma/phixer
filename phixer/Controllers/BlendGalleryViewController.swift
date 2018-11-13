@@ -223,6 +223,8 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
         view.addSubview(titleView)
         if (showAds){
             adView.isHidden = false
+            adView.layer.borderColor = UIColor.flatBlack.cgColor
+            adView.layer.borderWidth = 1.0
             view.addSubview(adView)
         } else {
             log.debug("Not showing Ads in landscape mode")

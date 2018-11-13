@@ -101,7 +101,7 @@ class FilterParametersView: UIView {
                 f1 = 1.25*CGFloat((currFilterDesc?.getNumDisplayableParameters())!) + 1.25
             }
             f2 = CGFloat(sliderHeight)
-            self.frame.size.height = f1 * f2
+            self.frame.size.height = max((f1 * f2).rounded(), 3*f2)
             layoutButtons()
             
             if (scrollView == nil) {
@@ -212,7 +212,8 @@ class FilterParametersView: UIView {
                 label.text = sliderConfig.title
                 label.frame.size.width = self.frame.size.width/3.0
                 label.frame.size.height = CGFloat(sliderHeight/2.0)
-                label.textAlignment = .center
+                //label.textAlignment = .center
+                label.textAlignment = .left
                 label.textColor = sliderTextColor
                 label.font = UIFont.systemFont(ofSize: 12.0)
                 sliderView.addSubview(label)
@@ -344,8 +345,8 @@ class FilterParametersView: UIView {
         if ((currFilterDesc?.getNumDisplayableParameters())! > 0){
             //self.groupInCenter(.vertical, views: sliders, padding: 1.0, width: sliders[0].frame.size.width, height: sliders[0].frame.size.height)
             let n:CGFloat = CGFloat(numVisibleParams)
-            //let h:CGFloat =  (self.frame.size.height - titleView.frame.size.height) / n
-            let h:CGFloat =  (CGFloat(sliderHeight) * n).rounded()
+            //let h:CGFloat =  ((self.frame.size.height - titleView.frame.size.height) / n).rounded()
+            let h:CGFloat =  (CGFloat(sliderHeight) * n*1.25).rounded()
             //self.groupInCenter(.vertical, views: sliders, padding: 1.0, width: sliders[0].frame.size.width, height: h)
 
             //self.groupAndAlign(.vertical, andAlign: .underCentered, views: sliders, relativeTo: titleView, padding: 1.0, width: sliders[0].frame.size.width, height: h)}
@@ -358,6 +359,11 @@ class FilterParametersView: UIView {
             //DEBUG
             log.debug("\(numVisibleParams) params, w:\(parameterView.frame.size.width), h:\(parameterView.frame.size.height)")
 
+        } else {
+            parameterView.frame.size.width = titleView.frame.size.width
+            parameterView.frame.size.height = 0
+            scrollView?.frame.size.height = 0
+            self.frame.size.height = titleView.frame.size.height
         }
 
     }

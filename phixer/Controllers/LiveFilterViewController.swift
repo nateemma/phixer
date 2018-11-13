@@ -143,7 +143,11 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
         // Note: need to add subviews before modifying constraints
         view.addSubview(bannerView)
         
-        if (showAds) { view.addSubview(adView) }
+        if (showAds) {
+            adView.layer.borderColor = UIColor.flatBlack.cgColor
+            adView.layer.borderWidth = 1.0
+            view.addSubview(adView)
+        }
         view.addSubview(cameraDisplayView)
         view.addSubview(filterControlsView) // must come after cameraDisplayView
         view.addSubview(cameraControlsView)

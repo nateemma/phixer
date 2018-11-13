@@ -124,7 +124,7 @@ class FilterFactory{
                 params = []
             }
             descriptor = FilterDescriptor(key: key, title: FilterFactory.filterList[key]!, ftype: ftype, parameters: params!)
-            descriptor?.show = FilterFactory.hideList[key]!
+            descriptor?.show = !(FilterFactory.hideList[key]!)
             descriptor?.rating = FilterFactory.ratingList[key]!
             //if ftype == .lookup {
             //    descriptor?.setLookupImage(FilterFactory.lookupList[key]!)

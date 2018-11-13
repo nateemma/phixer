@@ -48,6 +48,10 @@ class FilterGalleryViewController: UIViewController {
     var currCategoryIndex = -1
     var currCategory:String = FilterManager.defaultCategory
     
+    // Show/Hide Filters switch
+    var showLabel:UILabel! = UILabel()
+    var showHiddenFiltersSwitch:UISwitch! = UISwitch()
+    
     // Filter Galleries (one per category).
     var filterGalleryView : [FilterGalleryView] = []
     
@@ -123,6 +127,7 @@ class FilterGalleryViewController: UIViewController {
             //ImageCache.default.clearDiskCache() // for testing
             
             loadGalleries()
+            showHiddenFiltersSwitch.setOn(false, animated: false)
         }
     }
     
@@ -165,11 +170,6 @@ class FilterGalleryViewController: UIViewController {
         
         //top-to-bottom layout scheme
         
-        bannerView.frame.size.height = bannerHeight * 0.75
-        bannerView.frame.size.width = displayWidth
-        bannerView.backgroundColor = UIColor.black
-        
-        
         layoutBanner()
         
         if (showAds){
@@ -181,9 +181,11 @@ class FilterGalleryViewController: UIViewController {
         // setup Galleries
         for filterView in filterGalleryView{
             if (showAds){
-                filterView.frame.size.height = displayHeight - 3.75 * bannerHeight
+                //filterView.frame.size.height = displayHeight - 3.75 * bannerHeight
+                filterView.frame.size.height = displayHeight - 4.25 * bannerHeight
             } else {
-                filterView.frame.size.height = displayHeight - 2.75 * bannerHeight
+                //filterView.frame.size.height = displayHeight - 2.75 * bannerHeight
+                filterView.frame.size.height = displayHeight - 3.25 * bannerHeight
             }
             filterView.frame.size.width = displayWidth
             filterView.backgroundColor = UIColor.black
@@ -198,6 +200,8 @@ class FilterGalleryViewController: UIViewController {
         if (showAds){
             adView.isHidden = false
             view.addSubview(adView)
+            adView.layer.borderColor = UIColor.flatBlack.cgColor
+            adView.layer.borderWidth = 1.0
         } else {
             log.debug("Not showing Ads in landscape mode")
             adView.isHidden = true
@@ -206,11 +210,26 @@ class FilterGalleryViewController: UIViewController {
         
         categorySelectionView = CategorySelectionView()
         
-        categorySelectionView.frame.size.height = 2.0 * bannerHeight
+        categorySelectionView.frame.size.height = 1.5 * bannerHeight
         categorySelectionView.frame.size.width = displayWidth
         categorySelectionView.backgroundColor = UIColor.black
         view.addSubview(categorySelectionView)
         
+        showLabel.frame.size.height = bannerHeight / 4
+        showLabel.frame.size.width = (displayWidth - bannerHeight) - 16
+        showLabel.text = "Reveal hidden filters: "
+        showLabel.backgroundColor = UIColor.black
+        showLabel.textColor = UIColor.white
+        showLabel.font = UIFont.systemFont(ofSize: 14)
+        showLabel.textAlignment = .right
+        view.addSubview(showLabel)
+
+        showHiddenFiltersSwitch.frame.size.height = bannerHeight / 4
+        showHiddenFiltersSwitch.frame.size.width = bannerHeight
+        showHiddenFiltersSwitch.backgroundColor = UIColor.black
+        showHiddenFiltersSwitch.addTarget(self, action: #selector(switchStateDidChange(_:)), for: .valueChanged)
+        view.addSubview(showHiddenFiltersSwitch)
+
         // layout constraints
         bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
         for filterView in filterGalleryView{
@@ -221,9 +240,13 @@ class FilterGalleryViewController: UIViewController {
             adView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: adView.frame.size.height)
             categorySelectionView.align(.underCentered, relativeTo: adView, padding: 0, width: displayWidth, height: categorySelectionView.frame.size.height)
         } else {
-            categorySelectionView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: categorySelectionView.frame.size.height)
+            categorySelectionView.align(.underMatchingLeft, relativeTo: bannerView, padding: 0, width: displayWidth, height: categorySelectionView.frame.size.height)
         }
-        
+  
+        showLabel.align(.underMatchingLeft, relativeTo: categorySelectionView, padding: 0, width: showLabel.frame.size.width, height: showLabel.frame.size.height)
+        showHiddenFiltersSwitch.align(.toTheRightCentered, relativeTo: showLabel, padding: 0,
+                                      width: showHiddenFiltersSwitch.frame.size.width, height: showHiddenFiltersSwitch.frame.size.height)
+
         
         // add delegates to sub-views (for callbacks)
         //bannerView.delegate = self
@@ -236,8 +259,9 @@ class FilterGalleryViewController: UIViewController {
     }
     
     func layoutBanner(){
-        bannerView.frame.size.height = bannerHeight * 0.5
+        bannerView.frame.size.height = bannerHeight
         bannerView.frame.size.width = displayWidth
+        bannerView.backgroundColor = UIColor.black
         bannerView.title = "Filter Gallery"
         bannerView.delegate = self
     }
@@ -343,7 +367,19 @@ class FilterGalleryViewController: UIViewController {
         }
     }
     
-    
+    @objc func switchStateDidChange(_ sender:UISwitch){
+        if (sender.isOn == true){
+            log.verbose("Showing Hidden Filters")
+            FilterGalleryView.showHidden = true
+        }
+        else{
+            log.verbose("Hiding hidden filters")
+            FilterGalleryView.showHidden = false
+        }
+        DispatchQueue.main.async(execute: {() -> Void in
+            self.updateCategoryDisplay(self.currCategory)
+        })
+    }
 }
 
 

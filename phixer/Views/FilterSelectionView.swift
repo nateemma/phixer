@@ -174,8 +174,6 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         initDone = false
         setInputSource(.sample) // default
 
-        carouselHeight = fmax((self.frame.size.height * 0.8), 80.0) // doesn't seem to work at less than 80 (empirical)
-        //carouselHeight = self.frame.size.height * 0.82
         
         
         // register for change notifications (don't do this before the views are set up)
@@ -193,6 +191,9 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     
     func layoutViews(){
         
+        carouselHeight = fmax((self.frame.size.height * 0.8), 80.0) // doesn't seem to work at less than 80 (empirical)
+        //carouselHeight = self.frame.size.height * 0.82
+
         if (!self.initDone){
             initDone = true
 
@@ -358,9 +359,6 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         let newView = filterViewList[index]
         newView.label.textColor = UIColor.flatLime
         
-        //filterManager?.setCurrentFilterKey(filterNameList[index])
-        
-        
         // call delegate function to act on selection
         if (index != currIndex) {
             delegate?.filterSelected(filterNameList[index])
@@ -371,7 +369,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         currIndex = index
     }
     
-    // suspend all Metal-related processing
+    // suspend all Camera-related processing
     open func suspend(){
         camera?.deregister()
 
