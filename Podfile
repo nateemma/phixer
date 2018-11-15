@@ -35,6 +35,9 @@ target 'phixer' do
   
   #Picture carousekl
   pod 'iCarousel'
+  
+  # AirBnBs AloeStackView
+  pod 'AloeStackView'
 
   target 'phixerTests' do
     inherit! :search_paths

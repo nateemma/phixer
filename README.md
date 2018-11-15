@@ -33,4 +33,5 @@ I make fairly extensive use of the following pods:
 - SwiftyBeaver: logging utilities
 - SwiftyJSON: JSON parsing
 - Cosmos: a star rating widget
+- AloeStackView: simplified tabular view layout (from AirBnB)
 

@@ -48,10 +48,6 @@ class FilterGalleryViewController: UIViewController {
     var currCategoryIndex = -1
     var currCategory:String = FilterManager.defaultCategory
     
-    // Show/Hide Filters switch
-    var showLabel:UILabel! = UILabel()
-    var showHiddenFiltersSwitch:UISwitch! = UISwitch()
-    
     // Filter Galleries (one per category).
     var filterGalleryView : [FilterGalleryView] = []
     
@@ -127,7 +123,6 @@ class FilterGalleryViewController: UIViewController {
             //ImageCache.default.clearDiskCache() // for testing
             
             loadGalleries()
-            showHiddenFiltersSwitch.setOn(false, animated: false)
         }
     }
     
@@ -214,21 +209,7 @@ class FilterGalleryViewController: UIViewController {
         categorySelectionView.frame.size.width = displayWidth
         categorySelectionView.backgroundColor = UIColor.black
         view.addSubview(categorySelectionView)
-        
-        showLabel.frame.size.height = bannerHeight / 4
-        showLabel.frame.size.width = (displayWidth - bannerHeight) - 16
-        showLabel.text = "Reveal hidden filters: "
-        showLabel.backgroundColor = UIColor.black
-        showLabel.textColor = UIColor.white
-        showLabel.font = UIFont.systemFont(ofSize: 14)
-        showLabel.textAlignment = .right
-        view.addSubview(showLabel)
 
-        showHiddenFiltersSwitch.frame.size.height = bannerHeight / 4
-        showHiddenFiltersSwitch.frame.size.width = bannerHeight
-        showHiddenFiltersSwitch.backgroundColor = UIColor.black
-        showHiddenFiltersSwitch.addTarget(self, action: #selector(switchStateDidChange(_:)), for: .valueChanged)
-        view.addSubview(showHiddenFiltersSwitch)
 
         // layout constraints
         bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
@@ -243,10 +224,6 @@ class FilterGalleryViewController: UIViewController {
             categorySelectionView.align(.underMatchingLeft, relativeTo: bannerView, padding: 0, width: displayWidth, height: categorySelectionView.frame.size.height)
         }
   
-        showLabel.align(.underMatchingLeft, relativeTo: categorySelectionView, padding: 0, width: showLabel.frame.size.width, height: showLabel.frame.size.height)
-        showHiddenFiltersSwitch.align(.toTheRightCentered, relativeTo: showLabel, padding: 0,
-                                      width: showHiddenFiltersSwitch.frame.size.width, height: showHiddenFiltersSwitch.frame.size.height)
-
         
         // add delegates to sub-views (for callbacks)
         //bannerView.delegate = self
@@ -367,20 +344,8 @@ class FilterGalleryViewController: UIViewController {
         }
     }
     
-    @objc func switchStateDidChange(_ sender:UISwitch){
-        if (sender.isOn == true){
-            log.verbose("Showing Hidden Filters")
-            FilterGalleryView.showHidden = true
-        }
-        else{
-            log.verbose("Hiding hidden filters")
-            FilterGalleryView.showHidden = false
-        }
-        DispatchQueue.main.async(execute: {() -> Void in
-            self.updateCategoryDisplay(self.currCategory)
-        })
-    }
-}
+
+} // FilterGalleryViewController
 
 
 //////////////////////////////////////////
