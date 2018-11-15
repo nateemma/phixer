@@ -133,12 +133,20 @@ class ImageManager {
             return
         }
         
-        _currBlendName = name
-        _currBlendImage = getImageFromAssets(assetID:name, size:_currBlendSize)
-        _currBlendImageScaled = _currBlendImage
-        setBlendInput(image: _currBlendImageScaled!)
-        updateStoredSettings()
+        //_currBlendImage = getImageFromAssets(assetID:name, size:_currBlendSize)
         
+        _currBlendImage = getImageFromAssets(assetID:name)
+        if _currBlendImage != nil {
+            _currBlendName = name
+            _currBlendInput = CIImage(image:_currBlendImage!)
+            _currBlendImageScaled = _currBlendImage
+            _currBlendSize = _currBlendImage!.size
+            log.verbose("Image set to:\(name)")
+            updateStoredSettings()
+        } else {
+            log.error("Could not find image: \(name)")
+        }
+
     }
     
     
@@ -265,6 +273,19 @@ class ImageManager {
             return
         }
         
+        _currSampleImage = getImageFromAssets(assetID:name)
+        if _currSampleImage != nil {
+            _currSampleName = name
+            _currSampleInput = CIImage(image:_currSampleImage!)
+            _currSampleImageScaled = _currSampleImage
+            _currSampleSize = _currSampleImage!.size
+            log.verbose("Image set to:\(name)")
+            updateStoredSettings()
+        } else {
+            log.error("Could not find image: \(name)")
+        }
+
+        /***
         if (isAssetID(name)){ // Asset?
             log.debug("Current Sample image set to:\(name)")
             _currSampleName = name
@@ -289,6 +310,7 @@ class ImageManager {
                 log.error("Could not create image for: \(_currSampleName)")
             }
         }
+         ***/
         updateStoredSettings()
     }
     
@@ -409,18 +431,29 @@ class ImageManager {
             ename = _currEditName
         }
         
-        _currEditName = ename
-        _currEditImage = getImageFromAssets(assetID:ename, size:_currEditSize)
-        _currEditInput = CIImage(image:_currEditImage!)
-        log.verbose("Image set to:\(ename)")
-        updateStoredSettings()
+        //_currEditImage = getImageFromAssets(assetID:ename, size:_currEditSize)
+        _currEditImage = getImageFromAssets(assetID:ename)
+        if _currEditImage != nil {
+            _currEditName = ename
+            _currEditInput = CIImage(image:_currEditImage!)
+            _currEditSize = _currEditImage!.size
+            log.verbose("Image set to:\(ename)")
+            updateStoredSettings()
+        } else {
+            log.error("Could not find image: \(ename)")
+        }
     }
     
     
     public static func setCurrentEditImage(name: String, image:UIImage?) {
+        guard image != nil else {
+            log.warning("NIL Edit Image supplied")
+            return
+        }
         _currEditName = name
         _currEditImage = image
         _currEditInput = CIImage(image:_currEditImage!)
+        _currEditSize = (image?.size)!
         //_currEditImageScaled = resizeImage(_currEditImage, targetSize: _currEditSize, mode:.scaleAspectFill) // don't know size
         log.verbose("Image set to:\(name)")
     }
@@ -482,6 +515,7 @@ class ImageManager {
     
     public static func setEditInput(image: UIImage){
         _currEditInput = CIImage(image: image)
+        _currEditSize = image.size
     }
 
     
@@ -579,13 +613,39 @@ class ImageManager {
 
     }
     
+    // return the requested asset with the original asset size
     private static func getImageFromAssets(assetID: String)->UIImage? {
+        var image:UIImage? = nil
         
-        let targetSize:CGSize = UIScreen.main.bounds.size // don't know what other size to use
-        return getImageFromAssets(assetID:assetID, size:targetSize)
+        if isAssetID(assetID) { // Asset?
+            let assets = PHAsset.fetchAssets(withLocalIdentifiers: [assetID], options:nil)
+            
+            let asset = assets.firstObject
+            if asset != nil {
+                let options = PHImageRequestOptions()
+                //        options.deliveryMode = PHImageRequestOptionsDeliveryMode.Opportunistic
+                options.resizeMode = PHImageRequestOptionsResizeMode.exact
+                options.isSynchronous = true // need to set this to get the full size image
+                PHImageManager.default().requestImageData(for: asset!, options: options, resultHandler: { data, _, _, _ in
+                    image = data.flatMap { UIImage(data: $0) }
+                })
+            } else {
+                log.error("Invalid asset: \(assetID)")
+            }
+        } else {
+            // not a managed asset, load via 'regular' method
+            image = UIImage(named:assetID)
+        }
+        
+        if (image == nil){
+            log.warning("No image found for:\(assetID)")
+        }
+        
+        return image
     }
     
     
+    // return the requested asset with the specified size
     private static func getImageFromAssets(assetID: String, size:CGSize)->UIImage? {
         var image:UIImage? = nil
         var tsize:CGSize

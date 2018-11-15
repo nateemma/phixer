@@ -237,7 +237,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         filterCarousel?.align(.underCentered, relativeTo: filterLabel, padding: 0, width: (filterCarousel?.frame.size.width)!, height: (filterCarousel?.frame.size.height)!)
         
         //DispatchQueue.main.async(execute: { () -> Void in
-        initCamera()
+        //initCamera()
 
     }
     
@@ -275,7 +275,8 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
                 currFilter = filterManager?.getFilterDescriptor(key:filterNameList[index])
                 
                 if (currFilter != nil){
-                    self.filterViewList[index].renderView?.image = currFilter!.apply(image:self.previewInput, image2:self.blend)
+                    //self.filterViewList[index].renderView?.image = currFilter!.apply(image:self.previewInput, image2:self.blend)
+                    self.filterViewList[index].renderView?.image = currFilter!.apply(image:self.sourceInput, image2:self.blend)
                     return filterViewList[index]
                 }
             } else {
@@ -382,7 +383,9 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
             self.camera = CameraCaptureHelper()
             camera?.register(delegate:self, key:#file)
         }
-        camera?.start()
+        if inputSource == .camera {
+            camera?.start()
+        }
     }
     
     private func updateVisibleItems(){

@@ -101,7 +101,6 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
             SimpleEditViewController.initDone = true
             populateFilterList()
             updateCurrentFilter()
-        filterSelectionView.setInputSource(.photo)
         //}
     }
     
@@ -143,7 +142,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         // set up layout based on orientation
         
         // Banner and filter info view are always at the top of the screen
-        bannerView.frame.size.height = bannerHeight * 0.75
+        bannerView.frame.size.height = bannerHeight
         bannerView.frame.size.width = displayWidth
         bannerView.backgroundColor = UIColor.black
         
@@ -155,7 +154,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         // Only Portrait mode supported (for now)
         
         editImageView.frame.size.width = displayWidth
-        editImageView.frame.size.height = displayHeight - 2.5 * bannerHeight
+        editImageView.frame.size.height = displayHeight - bannerView.frame.size.height - CGFloat(editControlHeight)
         editImageView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: editImageView.frame.size.height)
         
         //editControlsView.frame.size.height = bannerHeight + 8.0

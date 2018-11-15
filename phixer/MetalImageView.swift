@@ -143,17 +143,18 @@ class MetalImageView: MTKView
                     var originY = targetRect.origin.y
                     
                     if image.extent.width > image.extent.height {
-                        // if landscape then move the image up to the top of the drawable (note: this is before scaling, so work in image coordinates)
-                        //originY = -fabs(drawableSize.height/scale - image.extent.height)
-                        //originY = fabs(drawableSize.height/scale - image.extent.height)
-                        originY = fabs(drawableSize.height - image.extent.height*scale)
-                        log.debug("image:(\(image.extent.width),\(image.extent.height)) " +
-                            "drawable:(\(drawableSize.width), \(drawableSize.height)) o:(\(originX), \(originY)) scale:\(scale)")
+                        // if landscape then move the image up to the top of the drawable
+                        originY = fabs(drawableSize.height - targetRect.size.height)
+                        //log.debug("Landscape image:(\(image.extent.width),\(image.extent.height)) " +
+                        //    "rect:(\(targetRect.size.width),\(targetRect.size.height)) " +
+                        //    "drawable:(\(drawableSize.width), \(drawableSize.height)) o:(\(originX), \(originY)) scale:\(scale)")
                    } else {
                         // portrait, centre horizontally
-                        originX = -fabs(drawableSize.width/scale - image.extent.width)/2.0
+
+                        originX = (drawableSize.width - targetRect.size.width)/2.0
                         //DBG
-                        //log.debug("image:(\(image.extent.width),\(image.extent.height)) " +
+                        //log.debug("Portrait image:(\(image.extent.width),\(image.extent.height)) " +
+                        //    "rect:(\(targetRect.size.width),\(targetRect.size.height)) " +
                         //    "drawable:(\(drawableSize.width), \(drawableSize.height)) o:(\(originX), \(originY)) scale:\(scale)")
                     }
 

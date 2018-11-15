@@ -99,7 +99,7 @@ class FilterDisplayView: UIView {
                 //renderView = RenderView()
                 renderView?.frame = self.frame
                 
-                setRenderViewSize()
+                //setRenderViewSize()
                 
                 self.addSubview(renderView!)
                 renderView?.anchorToEdge(.top, padding: 0, width: (renderView?.frame.size.width)!, height: (renderView?.frame.size.height)!)
@@ -107,7 +107,7 @@ class FilterDisplayView: UIView {
                 renderView?.contentMode = .scaleAspectFit
                 renderView?.clipsToBounds = true
                 self.bringSubview(toFront: renderView!)
-                //renderView?.fillSuperview()
+                renderView?.fillSuperview()
             }
 
     }
@@ -147,6 +147,7 @@ class FilterDisplayView: UIView {
             self.currFilterDescriptor = self.filterManager.getFilterDescriptor(key: self.currFilterKey)
             self.renderView = self.filterManager.getRenderView(key: self.currFilterKey)
             //self.setRenderViewSize()
+            self.renderView?.fillSuperview()
 
             // run the filter
             self.renderView?.image = self.currFilterDescriptor?.apply(image:self.currSampleInput)

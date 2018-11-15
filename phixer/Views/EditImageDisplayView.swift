@@ -15,7 +15,7 @@ import AVFoundation
 class EditImageDisplayView: UIView {
  
 
-    fileprivate var renderView: MetalImageView? = nil
+    fileprivate var renderView: MetalImageView? = MetalImageView()
     fileprivate var imageView: UIImageView! = UIImageView()
     
     fileprivate var initDone: Bool = false
@@ -75,19 +75,18 @@ class EditImageDisplayView: UIView {
     fileprivate func doLayout(){
         
         if (renderView != nil) {
-            //renderView = RenderView()
             renderView?.frame = self.frame
-            
-            setRenderViewSize()
-            
             self.addSubview(renderView!)
+            renderView?.fillSuperview()
+
             //renderView?.fillSuperview()
-            renderView?.anchorToEdge(.top, padding: 0, width: (renderView?.frame.size.width)!, height: (renderView?.frame.size.height)!)
+            //renderView?.anchorToEdge(.top, padding: 0, width: (renderView?.frame.size.width)!, height: (renderView?.frame.size.height)!)
             //renderView?.anchorInCenter((renderView?.frame.size.width)!, height: (renderView?.frame.size.height)!)
             imageView.isHidden = true
             renderView?.isHidden = false
             self.bringSubview(toFront: renderView!)
-            //renderView?.fillSuperview()
+        } else {
+            log.error("NIL render view")
         }
     }
 
@@ -141,7 +140,7 @@ class EditImageDisplayView: UIView {
         if (!key.isEmpty){
             currFilterKey = key
             currFilterDescriptor = filterManager.getFilterDescriptor(key: currFilterKey)
-            renderView = filterManager.getRenderView(key: currFilterKey)!
+            //renderView = filterManager.getRenderView(key: currFilterKey)!
             update()
         } else {
             log.error("Empty key specified")
@@ -180,13 +179,15 @@ class EditImageDisplayView: UIView {
             // only run if the edit image has been set
             if (self.currPhotoInput != nil){
                 self.currFilterDescriptor = self.filterManager.getFilterDescriptor(key: self.currFilterKey)
-                self.renderView = self.filterManager.getRenderView(key: self.currFilterKey)
+                /***
+                //self.renderView = self.filterManager.getRenderView(key: self.currFilterKey)
                 if (self.renderView != nil) {
-                    self.setRenderViewSize()
+                    //self.setRenderViewSize()
                     self.addSubview(self.renderView!)
-                    self.renderView?.anchorToEdge(.top, padding: 0, width: (self.renderView?.frame.size.width)!, height: (self.renderView?.frame.size.height)!)
+                    self.renderView?.fillSuperview()
+                   self.renderView?.anchorToEdge(.top, padding: 0, width: (self.renderView?.frame.size.width)!, height: (self.renderView?.frame.size.height)!)
                 }
-
+                 ***/
                 self.renderView?.image = self.currFilterDescriptor?.apply(image: self.currPhotoInput)
             } else {
                 log.debug("Edit image not set, ignoring")

@@ -12,6 +12,7 @@ import SwiftyBeaver
 import Firebase
 import GoogleMobileAds
 import CoreData
+import ChameleonFramework
 
 let log = SwiftyBeaver.self
 
@@ -74,6 +75,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // set the global colour scheme
         window?.tintColor = themeColor
+        Chameleon.setGlobalThemeUsingPrimaryColor(.flatBlack, with: .contrast)
         
         // set up Google banner ad framework
         // Use Firebase library to configure APIs
