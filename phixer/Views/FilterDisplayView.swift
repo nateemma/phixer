@@ -14,6 +14,9 @@ import AVFoundation
 // Class responsible for displaying a filtered version of an image
 class FilterDisplayView: UIView {
  
+    
+    var theme = ThemeManager.currentTheme()
+    
 
 
     fileprivate var renderView: MetalImageView? = nil
@@ -82,7 +85,7 @@ class FilterDisplayView: UIView {
         
         
         if (!initDone){
-            self.backgroundColor = UIColor.black
+            self.backgroundColor = theme.backgroundColor
             
             
             initDone = true

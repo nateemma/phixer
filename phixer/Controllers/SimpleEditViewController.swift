@@ -25,6 +25,9 @@ private var filterCount: Int = 0
 
 class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+    var theme = ThemeManager.currentTheme()
+    
+    
     
     // Banner/Navigation View (title)
     fileprivate var bannerView: TitleView! = TitleView()
@@ -88,19 +91,19 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         if currCategory == nil {
             currCategory = filterManager?.getCurrentCategory()
         }
-
+        
         //if (!SimpleEditViewController.initDone){
-            log.verbose("init")
-            //filterManager = FilterManager.sharedInstance
-            //TODO: set to "No Filter"
-            filterManager?.setCurrentCategory("none")
-            categorySelectionView.setFilterCategory("none")
-            currFilterDescriptor = filterManager?.getFilterDescriptor(key: "NoFilter")
-            filterSelectionView.setInputSource(.photo)
-            editImageView.setFilter(key: "NoFilter")
-            SimpleEditViewController.initDone = true
-            populateFilterList()
-            updateCurrentFilter()
+        log.verbose("init")
+        //filterManager = FilterManager.sharedInstance
+        //TODO: set to "No Filter"
+        filterManager?.setCurrentCategory("none")
+        categorySelectionView.setFilterCategory("none")
+        currFilterDescriptor = filterManager?.getFilterDescriptor(key: "NoFilter")
+        filterSelectionView.setInputSource(.photo)
+        editImageView.setFilter(key: "NoFilter")
+        SimpleEditViewController.initDone = true
+        populateFilterList()
+        updateCurrentFilter()
         //}
     }
     
@@ -111,7 +114,11 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor.black
+        
+        // load theme here in case it changed
+        theme = ThemeManager.currentTheme()
+        
+        view.backgroundColor = theme.backgroundColor
         
         // get display dimensions
         displayHeight = view.height
@@ -138,13 +145,16 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         view.addSubview(categorySelectionView)
         view.addSubview(filterSettingsView)
         
+        hideModalViews()
+        
+        
         
         // set up layout based on orientation
         
         // Banner and filter info view are always at the top of the screen
         bannerView.frame.size.height = bannerHeight
         bannerView.frame.size.width = displayWidth
-        bannerView.backgroundColor = UIColor.black
+        bannerView.backgroundColor = theme.backgroundColor
         
         
         layoutBanner()
@@ -208,7 +218,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         
         //update filtered image
         editImageView.updateImage()
-       
+        
         
     }
     
@@ -301,7 +311,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         } catch {
             log.error("\(error)")
         }
-
+        
         //TODO: hide system volume HUD
         self.view.addSubview(volumeView)
     }
@@ -554,22 +564,22 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     // retrive current settings from FilterManager and store locally
     func updateCurrentFilter(){
         /***
-        //if let descriptor = filterManager?.getCurrentFilterDescriptor(){
-            //log.verbose("Current filter: \(descriptor.key)")
-            //if ((currFilterDescriptor == nil) || (descriptor.key != currFilterDescriptor?.key)){
-            //log.debug("Filter change: \(descriptor.key)->\(String(describing: currFilterDescriptor?.key))")
-            //currFilterDescriptor = descriptor
-            editImageView.setFilter(key:(self.currFilterDescriptor?.key)!)
-            categorySelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)
-            filterSelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)
-            //filterSelectionView.update()
-            //} else {
-            //    log.debug("Ignoring \(currFilterDescriptor?.key)->\(descriptor.key) transition")
-            //}
-        //} else {
-        //    editImageView.setFilter(key:"")
-        //}
- ***/
+         //if let descriptor = filterManager?.getCurrentFilterDescriptor(){
+         //log.verbose("Current filter: \(descriptor.key)")
+         //if ((currFilterDescriptor == nil) || (descriptor.key != currFilterDescriptor?.key)){
+         //log.debug("Filter change: \(descriptor.key)->\(String(describing: currFilterDescriptor?.key))")
+         //currFilterDescriptor = descriptor
+         editImageView.setFilter(key:(self.currFilterDescriptor?.key)!)
+         categorySelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)
+         filterSelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)
+         //filterSelectionView.update()
+         //} else {
+         //    log.debug("Ignoring \(currFilterDescriptor?.key)->\(descriptor.key) transition")
+         //}
+         //} else {
+         //    editImageView.setFilter(key:"")
+         //}
+         ***/
         
         if (currFilterDescriptor != nil){
             if ((currFilterDescriptor?.numParameters)! == 0){
@@ -585,13 +595,19 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         }
     }
     
-   
     
+    // convenience function to hide all modal views
+    func hideModalViews(){
+        filterControlsView.isHidden = true
+        filterSelectionView.isHidden = true
+        categorySelectionView.isHidden = true
+        filterSettingsView.isHidden = true
+    }
     
     // Management of the Filter Controls View
-
+    
     fileprivate var filterControlsShown: Bool = false
-
+    
     func hideFilterControls(){
         filterControlsView.isHidden = true
         filterControlsShown = false
@@ -677,7 +693,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
             log.warning("WARN: current filter not set")
         }
     }
-  
+    
     
     
     // Management of Filter Parameters view
@@ -739,22 +755,22 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     //////////////////////////////////////////
     // MARK: - ImagePicker handling
     //////////////////////////////////////////
-
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-/*** old way:
-        if let imageRefURL = info[UIImagePickerControllerReferenceURL] as? NSURL {
-            log.verbose("Picked URL:\(imageRefURL)")
-            //TODO: save image URL to folder
-            ImageManager.setCurrentEditImageName(imageRefURL.absoluteString!)
-            
-            //update filtered image
-            self.editImageView.updateImage()
-            
-        } else {
-            log.error("Error accessing image URL")
-        }
-        picker.dismiss(animated: true)
- ***/
+        /*** old way:
+         if let imageRefURL = info[UIImagePickerControllerReferenceURL] as? NSURL {
+         log.verbose("Picked URL:\(imageRefURL)")
+         //TODO: save image URL to folder
+         ImageManager.setCurrentEditImageName(imageRefURL.absoluteString!)
+         
+         //update filtered image
+         self.editImageView.updateImage()
+         
+         } else {
+         log.error("Error accessing image URL")
+         }
+         picker.dismiss(animated: true)
+         ***/
         if let asset = info[UIImagePickerControllerPHAsset] as? PHAsset {
             let assetResources = PHAssetResource.assetResources(for: asset)
             let name = assetResources.first!.originalFilename
@@ -767,7 +783,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
             log.error("Error accessing image data")
         }
         picker.dismiss(animated: true)
-
+        
     }
     
     
@@ -778,6 +794,17 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     
     
     
+    //////////////////////////////////////////
+    // MARK: - Not yet implemented notifier
+    //////////////////////////////////////////
+    
+    func notYetImplemented(){
+        DispatchQueue.main.async(execute: { () -> Void in
+            let alert = UIAlertController(title: "Oops!", message: "Not yet implemented. Sorry!", preferredStyle: .alert)
+            self.present(alert, animated: true, completion: nil)
+            Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: { _ in alert.dismiss(animated: true, completion: nil)} )
+        })
+    }
     
     
 } // SimpleEditViewController
@@ -798,8 +825,9 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
 fileprivate var callbacksEnabled = true
 
 extension SimpleEditViewController: EditControlsViewDelegate {
-
+    
     func changeImagePressed(){
+        hideModalViews()
         DispatchQueue.main.async(execute: { () -> Void in
             log.debug("imagePreview pressed - launching ImagePicker...")
             // launch an ImagePicker
@@ -812,63 +840,79 @@ extension SimpleEditViewController: EditControlsViewDelegate {
     }
     
     func changeFilterPressed(){
+        hideModalViews()
         toggleFilterControls()
     }
     
     func brightnessPressed(){
-        
+        hideModalViews()
+        notYetImplemented()
     }
     
     func exposurePressed(){
-        
+        hideModalViews()
+        notYetImplemented()
     }
     
     func warmthPressed(){
-        
+        hideModalViews()
+        notYetImplemented()
     }
     
     func whiteBalancePressed(){
-        
+        hideModalViews()
+        notYetImplemented()
     }
     
     func contrastPressed(){
-        
+        hideModalViews()
+        notYetImplemented()
     }
     
     func shadowsPressed(){
-        
+        hideModalViews()
+        notYetImplemented()
     }
     
     func highlightsPressed(){
-        
+        hideModalViews()
+        notYetImplemented()
     }
     
     func levelsPressed(){
-        
+        hideModalViews()
+        notYetImplemented()
     }
     
     func vibrancePressed(){
-        
+        hideModalViews()
+        notYetImplemented()
     }
     
+    
     func saturationPressed(){
-        
+        hideModalViews()
+        notYetImplemented()
     }
     
     func sharpnessPressed(){
-        
+        hideModalViews()
+        notYetImplemented()
     }
     
     func vignettePressed(){
-        
+        hideModalViews()
+        notYetImplemented()
     }
     
     func rotatePressed(){
-        
+        hideModalViews()
+        notYetImplemented()
     }
     
     func cropPressed(){
-        
+        hideModalViews()
+        notYetImplemented()
     }
     
 }

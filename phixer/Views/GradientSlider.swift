@@ -10,6 +10,9 @@ import UIKit
 
 @IBDesignable class GradientSlider: UIControl {
     
+    var theme = ThemeManager.currentTheme()
+    
+
     static var defaultThickness:CGFloat = 2.0
     static var defaultThumbSize:CGFloat = 28.0
     
@@ -125,7 +128,7 @@ import UIKit
             if let color = _thumbIconLayer.backgroundColor {
                 return UIColor(cgColor: color)
             }
-            return UIColor.white
+            return theme.titleTextColor
         }
         set {
             _thumbIconLayer.backgroundColor = newValue.cgColor
@@ -148,7 +151,7 @@ import UIKit
     
     func setGradientForBrightnessWithHue(_ hue:CGFloat,saturation:CGFloat){
         hasRainbow = false
-        minColor = UIColor.black
+        minColor = theme.backgroundColor
         maxColor = UIColor(hue: hue, saturation: saturation, brightness: 1.0, alpha: 1.0)
     }
     
@@ -181,40 +184,40 @@ import UIKit
     
     fileprivate var _value:CGFloat = 0.0 // default 0.0. this value will be pinned to min/max
     
-    fileprivate var _thumbLayer:CALayer = {
+    fileprivate lazy var _thumbLayer:CALayer = {
         let thumb = CALayer()
-        thumb.cornerRadius = defaultThumbSize/2.0
-        thumb.bounds = CGRect(x:0, y:0, width:defaultThumbSize, height:defaultThumbSize)
-        thumb.backgroundColor = UIColor.white.cgColor
-        thumb.shadowColor = UIColor.black.cgColor
+        thumb.cornerRadius = GradientSlider.defaultThumbSize/2.0
+        thumb.bounds = CGRect(x:0, y:0, width:GradientSlider.defaultThumbSize, height:GradientSlider.defaultThumbSize)
+        thumb.backgroundColor = theme.titleTextColor.cgColor
+        thumb.shadowColor = theme.backgroundColor.cgColor
         thumb.shadowOffset = CGSize(width:0.0, height:2.5)
         thumb.shadowRadius = 2.0
         thumb.shadowOpacity = 0.25
-        thumb.borderColor = UIColor.black.withAlphaComponent(0.15).cgColor
+        thumb.borderColor = theme.backgroundColor.withAlphaComponent(0.15).cgColor
         thumb.borderWidth = 0.5
         return thumb
     }()
     
-    fileprivate var _trackLayer:CAGradientLayer = {
+    fileprivate lazy var _trackLayer:CAGradientLayer = {
         let track = CAGradientLayer()
-        track.cornerRadius = defaultThickness / 2.0
+        track.cornerRadius = GradientSlider.defaultThickness / 2.0
         track.startPoint = CGPoint(x:0.0, y:0.5)
         track.endPoint = CGPoint(x:1.0, y:0.5)
         track.locations = [0.0,1.0]
         track.colors = [UIColor.blue.cgColor,UIColor.orange.cgColor]
-        track.borderColor = UIColor.black.cgColor
+        track.borderColor = theme.backgroundColor.cgColor
         return track
     }()
     
     fileprivate var _minTrackImageLayer:CALayer? = nil
     fileprivate var _maxTrackImageLayer:CALayer? = nil
     
-    fileprivate var _thumbIconLayer:CALayer = {
-        let size = defaultThumbSize - 4
+    fileprivate lazy var _thumbIconLayer:CALayer = {
+        let size = GradientSlider.defaultThumbSize - 4
         let iconLayer = CALayer()
         iconLayer.cornerRadius = size/2.0
         iconLayer.bounds = CGRect(x:0, y:0, width:size, height:size)
-        iconLayer.backgroundColor = UIColor.white.cgColor
+        iconLayer.backgroundColor = theme.titleTextColor.cgColor
         return iconLayer
     }()
     

@@ -22,6 +22,9 @@ protocol RGBSliderViewDelegate: class {
 class RGBSliderView: UIView {
 
     
+    var theme = ThemeManager.currentTheme()
+    
+
     var initDone: Bool = false
     
     let sliderHeight: CGFloat = 32.0
@@ -42,8 +45,8 @@ class RGBSliderView: UIView {
     var gValue:CGFloat = 0.0
     var bValue:CGFloat = 0.0
     var aValue:CGFloat = 1.0
-    var currColor:UIColor = UIColor.black
-    var oldColor:UIColor = UIColor.black
+    lazy var currColor:UIColor = theme.backgroundColor
+    lazy var oldColor:UIColor = theme.backgroundColor
 
     // delegate for notification
     weak var delegate: RGBSliderViewDelegate?
@@ -155,7 +158,7 @@ class RGBSliderView: UIView {
                 label.frame.size.width = labelWidth
                 label.frame.size.height = itemHeight
                 label.textAlignment = .left
-                label.textColor = UIColor.white
+                label.textColor = theme.titleTextColor
                 label.font = UIFont.systemFont(ofSize: 12.0)
                 addSubview(label)
             }
@@ -176,7 +179,7 @@ class RGBSliderView: UIView {
                 entry.frame.size.width = entryWidth
                 entry.frame.size.height = itemHeight
                 entry.textAlignment = .left
-                entry.textColor = UIColor.white
+                entry.textColor = theme.titleTextColor
                 entry.font = UIFont.systemFont(ofSize: 12.0)
                 entry.keyboardType = UIKeyboardType.numberPad
                 entry.inputAccessoryView = toolbar

@@ -18,6 +18,9 @@ import AloeStackView
 class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
     
     
+    var theme = ThemeManager.currentTheme()
+    
+
     
     var isLandscape : Bool = false
     var screenSize : CGRect = CGRect.zero
@@ -93,7 +96,11 @@ class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor.black
+        
+        // load theme here in case it changed
+        theme = ThemeManager.currentTheme()
+        
+        view.backgroundColor = theme.backgroundColor
         
         // get display dimensions
         displayHeight = view.height
@@ -219,7 +226,7 @@ class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
     // utility function to setup a menu item
     func setupMenuItem(_ item:UIView, height:CGFloat, width:CGFloat, title:String, image:CIImage?, color:UIColor, handler:UITapGestureRecognizer) {
         
-        let adornmentWidth:CGFloat = 64
+        let adornmentWidth:CGFloat = 48
         let side = min(adornmentWidth, height)
         let txtColor = UIColor(contrastingBlackOrWhiteColorOn:color, isFlat:true)
         let txtFont = UIFont.boldSystemFont(ofSize: 20)
@@ -249,8 +256,8 @@ class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
         indLabel.font = txtFont
         indLabel.backgroundColor = color
         indLabel.textColor = txtColor
-        indLabel.textAlignment = .left
-        indLabel.text = "  >"
+        indLabel.textAlignment = .right
+        indLabel.text = ">"
         item.addSubview(indLabel)
         indLabel.anchorToEdge(.right, padding: 0.0, width: indLabel.frame.size.width, height: indLabel.frame.size.height)
         
@@ -301,11 +308,15 @@ class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
         txtLabel.anchorToEdge(.left, padding: 4.0, width: txtLabel.frame.size.width, height: txtLabel.frame.size.height)
         
         // set up the switch
+        // have to be careful with onTint color to make sure it's visible
         switchItem.frame.size.width = side
         switchItem.frame.size.height = side
         switchItem.backgroundColor = color
+        switchItem.thumbTintColor = txtColor
+        switchItem.tintColor = txtColor
+        switchItem.onTintColor = ColorUtilities.complementary(color)[0]
         item.addSubview(switchItem)
-        switchItem.anchorToEdge(.right, padding: 8.0, width: switchItem.frame.size.width, height: switchItem.frame.size.height)
+        switchItem.anchorToEdge(.right, padding: 4.0, width: switchItem.frame.size.width, height: switchItem.frame.size.height)
         
     }
 

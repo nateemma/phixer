@@ -22,6 +22,9 @@ protocol SampleGalleryViewDelegate: class {
 // this class displays a CollectionView populated with the available Sample images
 class SampleGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     
+    var theme = ThemeManager.currentTheme()
+    
+
     fileprivate var isLandscape : Bool = false
     fileprivate var screenSize : CGRect = CGRect.zero
     fileprivate var displayWidth : CGFloat = 0.0

@@ -17,6 +17,9 @@ protocol TitleViewDelegate: class {
 }
 
 class TitleView: UIView {
+    
+    var theme = ThemeManager.currentTheme()
+    
 
     weak var delegate:TitleViewDelegate? = nil
     
@@ -51,7 +54,7 @@ class TitleView: UIView {
         self.init(frame: CGRect.zero)
         
         self.frame.size.height = bannerHeight * 0.75
-        self.backgroundColor = UIColor.black
+        self.backgroundColor = theme.backgroundColor
         
         self.addSubview(backButton)
         self.addSubview(titleLabel)
@@ -62,19 +65,19 @@ class TitleView: UIView {
         backButton.frame.size.width = backButton.frame.size.height
         backButton.setTitle("<", for: .normal)
         //backButton.backgroundColor = UIColor.flatBlack
-        backButton.backgroundColor = UIColor(gradientStyle:UIGradientStyle.topToBottom, withFrame:backButton.frame, andColors:[UIColor.black, UIColor.darkGray])
-        backButton.setTitleColor(UIColor.white, for: .normal)
+        backButton.backgroundColor = UIColor(gradientStyle:UIGradientStyle.topToBottom, withFrame:backButton.frame, andColors:[theme.backgroundColor, UIColor.darkGray])
+        backButton.setTitleColor(theme.titleTextColor, for: .normal)
         backButton.titleLabel!.font = UIFont.boldSystemFont(ofSize: 28.0)
         backButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.center
         backButton.contentVerticalAlignment = UIControlContentVerticalAlignment.center
         backButton.layer.cornerRadius = 5
         backButton.layer.borderWidth = 1
-        backButton.layer.borderColor = UIColor.flatGray.cgColor
+        backButton.layer.borderColor = theme.secondaryColor.cgColor
 
         titleLabel.frame.size.height = backButton.frame.size.height
         titleLabel.text = "        title        "
-        titleLabel.backgroundColor = UIColor.black
-        titleLabel.textColor = UIColor.white
+        titleLabel.backgroundColor = theme.backgroundColor
+        titleLabel.textColor = theme.titleTextColor
         titleLabel.font = UIFont.boldSystemFont(ofSize: 18.0)
         titleLabel.textAlignment = .center
         

@@ -32,6 +32,9 @@ protocol FilterDetailsViewControllerDelegate: class {
 
 class FilterDetailsViewController: UIViewController {
     
+    var theme = ThemeManager.currentTheme()
+    
+
     // delegate for handling events
     weak var delegate: FilterDetailsViewControllerDelegate?
     
@@ -119,6 +122,10 @@ class FilterDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        // load theme here in case it changed
+        theme = ThemeManager.currentTheme()
         
         log.verbose("currFilterKey:\(currFilterKey)")
         
@@ -217,10 +224,10 @@ class FilterDetailsViewController: UIViewController {
         nextImage.image = UIImage(named:"ic_next")
         prevImage.image = UIImage(named:"ic_prev")
         
-        nextBack.backgroundColor = UIColor.black
+        nextBack.backgroundColor = theme.backgroundColor
         nextBack.alpha = 0.2
         
-        prevBack.backgroundColor = UIColor.black
+        prevBack.backgroundColor = theme.backgroundColor
         prevBack.alpha = 0.2
         
         nextView.addSubview(nextBack)
@@ -402,7 +409,7 @@ class FilterDetailsViewController: UIViewController {
         
         
         // add a little background so that you can see the icons
-        showAdornment.backgroundColor = UIColor.flatGray.withAlphaComponent(0.5)
+        showAdornment.backgroundColor = theme.secondaryColor.withAlphaComponent(0.5)
         showAdornment.layer.cornerRadius = 2.0
         
         favAdornment.backgroundColor = showAdornment.backgroundColor
@@ -483,7 +490,7 @@ class FilterDetailsViewController: UIViewController {
      adView.adUnitID = admobID
      adView.rootViewController = self
      adView.load(GADRequest())
-     adView.backgroundColor = UIColor.black
+     adView.backgroundColor = theme.backgroundColor
      }
      */
   

@@ -12,6 +12,9 @@ import UIKit
 
 class GalleryViewCell: UICollectionViewCell {
     
+    var theme = ThemeManager.currentTheme()
+    
+
     public static let reuseID: String = "GalleryViewCell"
     
     public var cellIndex:Int = -1 // used for tracking cell reuse

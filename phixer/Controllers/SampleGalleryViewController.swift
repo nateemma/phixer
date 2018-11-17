@@ -32,6 +32,9 @@ private var filterCount: Int = 0
 
 class SampleGalleryViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+    var theme = ThemeManager.currentTheme()
+    
+
     // delegate for handling events
     weak var delegate: SampleGalleryViewControllerDelegate?
     
@@ -104,7 +107,11 @@ class SampleGalleryViewController: UIViewController, UIImagePickerControllerDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // get display dimensions
+        
+        // load theme here in case it changed
+        theme = ThemeManager.currentTheme()
+        
+      // get display dimensions
         displayHeight = view.height
         displayWidth = view.width
         
@@ -157,7 +164,7 @@ class SampleGalleryViewController: UIViewController, UIImagePickerControllerDele
         showAds = false // this screen looks bad with ads included...
         
         
-        view.backgroundColor = UIColor.black // default seems to be white
+        view.backgroundColor = theme.backgroundColor // default seems to be white
         
         
         
@@ -165,7 +172,7 @@ class SampleGalleryViewController: UIViewController, UIImagePickerControllerDele
         
         bannerView.frame.size.height = bannerHeight * 0.75
         bannerView.frame.size.width = displayWidth
-        bannerView.backgroundColor = UIColor.black
+        bannerView.backgroundColor = theme.backgroundColor
         
         
         layoutBanner()
@@ -189,7 +196,7 @@ class SampleGalleryViewController: UIViewController, UIImagePickerControllerDele
             sampleGalleryView.frame.size.height = displayHeight - bannerView.frame.size.height - infoView.frame.size.height
         }
         sampleGalleryView.frame.size.width = displayWidth
-        //sampleGalleryView.backgroundColor = UIColor.black
+        //sampleGalleryView.backgroundColor = theme.backgroundColor
         
         
         
@@ -249,7 +256,7 @@ class SampleGalleryViewController: UIViewController, UIImagePickerControllerDele
             button?.frame.size.height = bannerView.frame.size.height - 8
             button?.frame.size.width = 3.0 * (button?.frame.size.height)!
             button?.backgroundColor = UIColor.flatMint
-            button?.setTitleColor(UIColor.white, for: .normal)
+            button?.setTitleColor(theme.titleTextColor, for: .normal)
             button?.titleLabel!.font = UIFont.boldSystemFont(ofSize: 20.0)
             button?.contentHorizontalAlignment = UIControlContentHorizontalAlignment.center
         }
@@ -268,8 +275,8 @@ class SampleGalleryViewController: UIViewController, UIImagePickerControllerDele
         for label in [helpLabel, currentLabel, selectedLabel, photosLabel]{
             label?.frame.size.width = displayWidth / 3.0
             label?.frame.size.height = 32.0
-            label?.backgroundColor = UIColor.black
-            label?.textColor = UIColor.white
+            label?.backgroundColor = theme.backgroundColor
+            label?.textColor = theme.titleTextColor
             label?.font = UIFont.systemFont(ofSize: 14)
             label?.textAlignment = .center
         }
@@ -286,10 +293,10 @@ class SampleGalleryViewController: UIViewController, UIImagePickerControllerDele
         imageSize = CGSize(width:96, height:96)
         for image in [currentSampleImage, selectedSampleImage, photosLinkImage]{
             image?.frame.size = imageSize
-            image?.backgroundColor = UIColor.black
+            image?.backgroundColor = theme.backgroundColor
             image?.layer.cornerRadius = 0.0
             image?.layer.borderWidth = 1.0
-            image?.layer.borderColor = UIColor.white.cgColor
+            image?.layer.borderColor = theme.titleTextColor.cgColor
             image?.clipsToBounds = true
             image?.contentMode = .scaleAspectFill
         }

@@ -31,6 +31,8 @@ protocol ColorSchemeViewControllerDelegate: class {
 
 class ColorSchemeViewController: UIViewController {
     
+    var theme = ThemeManager.currentTheme()
+
     // delegate for handling events
     weak var delegate: ColorSchemeViewControllerDelegate?
     
@@ -53,7 +55,7 @@ class ColorSchemeViewController: UIViewController {
     
     var selectedColor:UIColor = defaultColor
     var selectedCount:Int = defaultCount
-    var selectedColorScheme:ColorSchemeType = ColorSchemeType.triadic
+    var selectedColorScheme:ColorUtilities.ColorSchemeType = .triadic
     
     var colorSchemeList:[String] = []
     
@@ -78,7 +80,11 @@ class ColorSchemeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-   
+        
+        // load theme here in case it changed
+        theme = ThemeManager.currentTheme()
+        
+
         doInit()
         doLayout()
         
@@ -156,7 +162,7 @@ class ColorSchemeViewController: UIViewController {
         //showAds = false // debug
         
         
-        view.backgroundColor = UIColor.black // default seems to be white
+        view.backgroundColor = theme.backgroundColor // default seems to be white
         
        
         //top-to-bottom layout scheme
@@ -215,7 +221,7 @@ class ColorSchemeViewController: UIViewController {
     func layoutBanner(){
         bannerView.frame.size.height = bannerHeight * 0.75
         bannerView.frame.size.width = displayWidth
-        bannerView.backgroundColor = UIColor.black
+        bannerView.backgroundColor = theme.backgroundColor
         bannerView.title = "Color Scheme Chooser"
         bannerView.delegate = self
     }
@@ -246,7 +252,7 @@ class ColorSchemeViewController: UIViewController {
             label.frame.size.width = (displayWidth / 2) - 32
             label.frame.size.height = bannerHeight
             label.textAlignment = .right
-            label.textColor = UIColor.flatWhite
+            label.textColor = theme.titleTextColor
         }
         
         // set up parameters
@@ -256,7 +262,7 @@ class ColorSchemeViewController: UIViewController {
 
         numLabel.text = "Number of colors :  "
         numEntry.textAlignment = .left
-        numEntry.textColor = UIColor.white
+        numEntry.textColor = theme.titleTextColor
         numEntry.font = UIFont.systemFont(ofSize: 14.0)
         numEntry.text = "\(selectedCount)"
         numEntry.keyboardType = UIKeyboardType.numberPad
@@ -281,7 +287,7 @@ class ColorSchemeViewController: UIViewController {
         schemeSelector.showsSelectionIndicator = true
         schemeSelector.frame.size.width = (displayWidth / 2) - 8
         schemeSelector.frame.size.height = bannerHeight * 0.8
-        schemeSelector.setValue(UIColor.white, forKeyPath: "textColor")
+        schemeSelector.setValue(theme.titleTextColor, forKeyPath: "textColor")
         
         
         // layout the items
@@ -318,13 +324,13 @@ class ColorSchemeViewController: UIViewController {
     }
     
     func buildSchemeList(){
-        colorSchemeList = [ColorSchemeType.complementary.rawValue,
-                           ColorSchemeType.analogous.rawValue,
-                           ColorSchemeType.monochromatic.rawValue,
-                           ColorSchemeType.triadic.rawValue,
-                           ColorSchemeType.tetradic.rawValue,
-                           ColorSchemeType.splitComplimentary.rawValue,
-                           ColorSchemeType.equidistant.rawValue]
+        colorSchemeList = [ColorUtilities.ColorSchemeType.complementary.rawValue,
+                           ColorUtilities.ColorSchemeType.analogous.rawValue,
+                           ColorUtilities.ColorSchemeType.monochromatic.rawValue,
+                           ColorUtilities.ColorSchemeType.triadic.rawValue,
+                           ColorUtilities.ColorSchemeType.tetradic.rawValue,
+                           ColorUtilities.ColorSchemeType.splitComplimentary.rawValue,
+                           ColorUtilities.ColorSchemeType.equidistant.rawValue]
         
     }
     
@@ -349,14 +355,14 @@ class ColorSchemeViewController: UIViewController {
         cancelButton.frame.size.height = bannerHeight - 16
         cancelButton.setTitle("Cancel", for: .normal)
         cancelButton.useGradient = true
-        cancelButton.backgroundColor = UIColor.flatMint
+        cancelButton.backgroundColor = theme.highlightColor
         controlView.addSubview(cancelButton)
         
         let doneButton:BorderedButton = BorderedButton()
         doneButton.frame.size = cancelButton.frame.size
         doneButton.setTitle("Done", for: .normal)
         doneButton.useGradient = true
-        doneButton.backgroundColor = UIColor.flatMint
+        doneButton.backgroundColor = theme.highlightColor
         controlView.addSubview(doneButton)
         
         // distribute across the control view
@@ -375,7 +381,7 @@ class ColorSchemeViewController: UIViewController {
     }
 
     
-    fileprivate func setScheme(_ scheme:ColorSchemeType){
+    fileprivate func setScheme(_ scheme:ColorUtilities.ColorSchemeType){
         if scheme != selectedColorScheme {
             selectedColorScheme = scheme
             updateColors()
@@ -476,7 +482,7 @@ extension ColorSchemeViewController: UIPickerViewDelegate {
         }
         if (row>=0) && (row<colorSchemeList.count){
             pickerLabel?.text = colorSchemeList[row]
-            pickerLabel?.textColor = UIColor.white
+            pickerLabel?.textColor = theme.titleTextColor
             pickerLabel?.textAlignment = .left
         } else {
             log.error("Invalid row index:\(row)")
@@ -493,7 +499,7 @@ extension ColorSchemeViewController: UIPickerViewDelegate {
         // The parameter named row and component represents what was selected.
         if (row>=0) && (row<colorSchemeList.count){
             log.verbose("Selected [\(row)]: \(colorSchemeList[row])")
-            let scheme = ColorSchemeType(rawValue:colorSchemeList[row])
+            let scheme = ColorUtilities.ColorSchemeType(rawValue:colorSchemeList[row])
             setScheme(scheme!)
         } else {
             log.error("Invalid row index:\(row)")

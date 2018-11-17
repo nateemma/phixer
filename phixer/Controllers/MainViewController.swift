@@ -26,6 +26,9 @@ private var filterCount: Int = 0
 
 class MainViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, SegueHandlerType {
     
+    var theme = ThemeManager.currentTheme()
+    
+
     // Filter Info View
     var filterInfoView: FilterInfoView! = FilterInfoView()
     
@@ -102,7 +105,11 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor.black
+        
+        // load theme here in case it changed
+        theme = ThemeManager.currentTheme()
+        
+       view.backgroundColor = theme.backgroundColor
         
         // get display dimensions
         displayHeight = view.height

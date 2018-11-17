@@ -13,6 +13,9 @@ import WebKit
 
 class HTMLViewController: UIViewController {
     
+    
+    var theme = ThemeManager.currentTheme()
+    
 
     private let statusBarOffset : CGFloat = 12.0
     private let bannerHeight : CGFloat = 64.0
@@ -38,6 +41,10 @@ class HTMLViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // load theme here in case it changed
+        theme = ThemeManager.currentTheme()
+        
+
         doInit()
         doLayout()
     }
@@ -162,7 +169,7 @@ class HTMLViewController: UIViewController {
         // NOTE: isLandscape = UIDevice.current.orientation.isLandscape doesn't always work properly, especially in simulator
         isLandscape = (displayWidth > displayHeight)
         
-        view.backgroundColor = UIColor.black // default seems to be white
+        view.backgroundColor = theme.backgroundColor // default seems to be white
         
         layoutBanner()
         view.addSubview(bannerView)

@@ -12,6 +12,9 @@ import Neon
 // Specialised button that is square with a centred image and no text
 
 class SquareButton: UIView {
+    
+    var theme = ThemeManager.currentTheme()
+    
     var button: UIButton! = UIButton(type: .custom)
     var highlight:Bool = false
     
@@ -38,7 +41,7 @@ class SquareButton: UIView {
             if (self.button.state == .normal) {
                 self.button.layer.borderColor = UIColor.clear.cgColor
             } else if (self.button.state == .highlighted) {
-                self.button.layer.borderColor = UIColor.white.cgColor
+                self.button.layer.borderColor = theme.titleTextColor.cgColor
             }
         }
     }

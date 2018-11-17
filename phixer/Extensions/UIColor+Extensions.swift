@@ -33,6 +33,7 @@ public extension UIColor {
         return (h, s, b, a)
     }
     
+    //-------------------------------------------------------------------
     
     // ways to create a colour using a hex string (like CSS), or get the hex string of a colour:
     
@@ -95,7 +96,12 @@ public extension UIColor {
         }
     }
     
-    var hexValue: String {
+    
+    //-------------------------------------------------------------------
+    
+
+    // Hex String Representation
+    public var hexString: String {
         var color = self
         
         if color.cgColor.numberOfComponents < 4 {
@@ -110,6 +116,31 @@ public extension UIColor {
     }
     
     
+    // RGB String Representation
+    public var rgbString: String {
+        var color = self
+        var r:CGFloat=0.75, g:CGFloat=0.75, b:CGFloat=0.75, a:CGFloat=1.0
+        color.getRed(&r, green: &g, blue: &b, alpha: &a)
+        return "RGB:(\(IntVal(r,255)),\(IntVal(g,255)),\(IntVal(b,255)))"
+    }
+    
+    
+    // HSB String Representation
+    public var hsbString: String {
+        var color = self
+        var h:CGFloat=0.0, s:CGFloat=0.75, b:CGFloat=0.75, a:CGFloat=1.0
+        color.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
+        return "HSB:(\(IntVal(h,100)),\(IntVal(s,100)),\(IntVal(b,100)))"
+    }
+
+    // returns integer (0..range) version of color (0..1)
+    private func IntVal(_ f:CGFloat, _ range:CGFloat) -> Int{
+        return Int ((f*range).rounded())
+    }
+    
+    //-------------------------------------------------------------------
+    
+
     // Generate a random colour:
     
     public static var random: UIColor {
@@ -122,6 +153,9 @@ public extension UIColor {
     }
     
     
+    //-------------------------------------------------------------------
+    
+
     // check whether a colour is approximately the same
     
     public func matches(_ color:UIColor)->Bool {

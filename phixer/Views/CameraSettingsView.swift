@@ -28,6 +28,9 @@ protocol CameraSettingsViewDelegate: class {
 // Class responsible for laying out the Camera Settings View
 class CameraSettingsView: UIView {
     
+    var theme = ThemeManager.currentTheme()
+    
+
     var isLandscape : Bool = false
     var initDone: Bool = false
     
@@ -68,7 +71,7 @@ class CameraSettingsView: UIView {
    
     func layoutFrames(){
         // setup colors etc.
-        self.backgroundColor = UIColor.black
+        self.backgroundColor = theme.backgroundColor
         
         //self.backgroundColor = GradientColor(UIGradientStyle.topToBottom, frame: self.frame, colors: [UIColor.gray, UIColor.lightGray])
         

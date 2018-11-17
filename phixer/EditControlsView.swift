@@ -39,6 +39,9 @@ protocol EditControlsViewDelegate: class {
 
 class EditControlsView: UIView, iCarouselDelegate, iCarouselDataSource{
     
+    var theme = ThemeManager.currentTheme()
+    
+
     fileprivate var initDone:Bool = false
     fileprivate var controlCarousel:iCarousel? = iCarousel()
     
@@ -101,10 +104,12 @@ class EditControlsView: UIView, iCarouselDelegate, iCarouselDataSource{
             log.warning("icon not found: \(icon)")
             image = UIImage(named:"ic_unknown")
         }
-        view.imageView.image = image
+        let tintableImage = image!.withRenderingMode(.alwaysTemplate)
+        view.imageView.image = tintableImage
+        view.imageView.tintColor =  UIColor(contrastingBlackOrWhiteColorOn:theme.backgroundColor, isFlat:true)
         
-        view.imageView.backgroundColor = UIColor.black
-        view.layer.borderColor = UIColor.flatBlack.cgColor
+        view.imageView.backgroundColor = theme.backgroundColor
+        view.layer.borderColor = theme.secondaryColor.cgColor
         
         return view
     }
@@ -137,8 +142,8 @@ class EditControlsView: UIView, iCarouselDelegate, iCarouselDataSource{
         
         controlLabel.text = ""
         controlLabel.textAlignment = .center
-        //controlLabel.textColor = UIColor.white
-        controlLabel.textColor = UIColor.lightGray
+        //controlLabel.textColor = theme.titleTextColor
+        controlLabel.textColor = theme.secondaryColor
         //controlLabel.font = UIFont.boldSystemFont(ofSize: 14.0)
         controlLabel.font = UIFont.boldSystemFont(ofSize: 12.0)
         controlLabel.frame.size.height = carouselHeight * 0.3
@@ -287,11 +292,14 @@ class EditControlsView: UIView, iCarouselDelegate, iCarouselDataSource{
         // updates label colors of selected item, reset old selection
         if ((currIndex != index) && isValidIndex(index) && isValidIndex(currIndex)){
             let oldView = controlViewList[currIndex]
-            oldView.label.textColor = UIColor.white
+            oldView.label.textColor = theme.titleTextColor
+            oldView.layer.borderColor = theme.secondaryColor.cgColor
+
         }
         
         let newView = controlViewList[index]
-        newView.label.textColor = UIColor.flatLime
+        newView.label.textColor = theme.highlightColor
+        newView.layer.borderColor = theme.highlightColor.cgColor
         
         //controlManager?.setCurrentFilterKey(controlNameList[index])
         

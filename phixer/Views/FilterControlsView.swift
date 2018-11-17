@@ -25,6 +25,9 @@ protocol FilterControlsViewDelegate: class {
 
 class FilterControlsView: UIView {
     
+    
+    var theme = ThemeManager.currentTheme()
+    
 
     public enum ControlState{
         case hidden
@@ -64,7 +67,7 @@ class FilterControlsView: UIView {
         if (!initDone){
             // set the colors etc.
 
-            self.backgroundColor = UIColor.black
+            self.backgroundColor = theme.backgroundColor
             
             //if (buttonSize>self.frame.size.height){ buttonSize = self.frame.size.height - 4 }
             buttonSize = fmin(self.frame.size.height, self.frame.size.width) - 8
@@ -144,7 +147,7 @@ class FilterControlsView: UIView {
             //categoryButton.setImageAsset("ic_category")
             categoryButton.layer.cornerRadius = 4.0
             categoryButton.layer.borderWidth = 1.0
-            categoryButton.layer.borderColor = UIColor.white.cgColor
+            categoryButton.layer.borderColor = theme.titleTextColor.cgColor
             categoryButton.alpha = 1.0
             break
         case .disabled:
@@ -166,7 +169,7 @@ class FilterControlsView: UIView {
             filterButton.setImageAsset("ic_filters_hide")
             filterButton.layer.cornerRadius = 4.0
             filterButton.layer.borderWidth = 1.0
-            filterButton.layer.borderColor = UIColor.white.cgColor
+            filterButton.layer.borderColor = theme.titleTextColor.cgColor
             filterButton.alpha = 1.0
             break
         case .disabled:
@@ -188,7 +191,7 @@ class FilterControlsView: UIView {
             parametersButton.setImageAsset("ic_sliders_hide")
             parametersButton.layer.cornerRadius = 4.0
             parametersButton.layer.borderWidth = 1.0
-            parametersButton.layer.borderColor = UIColor.white.cgColor
+            parametersButton.layer.borderColor = theme.titleTextColor.cgColor
             parametersButton.alpha = 1.0
             break
         case .disabled:

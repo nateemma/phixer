@@ -33,6 +33,9 @@ enum InfoMode {
 
 class CameraControlsView: UIView {
     
+    var theme = ThemeManager.currentTheme()
+    
+
     // delegate for handling events
     weak var delegate: CameraControlsViewDelegate?
     
@@ -75,10 +78,10 @@ class CameraControlsView: UIView {
         
         if (!initDone){
             // set the colors etc.
-            self.backgroundColor = UIColor.black //temp
+            self.backgroundColor = theme.backgroundColor //temp
             
             photoThumbnail = SquareButton(bsize: buttonSize)
-            photoThumbnail.setColor(UIColor.blue)
+            photoThumbnail.setColor(theme.highlightColor)
             
             
             activateButton.setImageAsset("ic_stroked_circle.png")

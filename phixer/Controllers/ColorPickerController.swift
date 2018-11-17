@@ -25,6 +25,9 @@ protocol ColorPickerControllerDelegate: class {
 
 class ColorPickerController: UIViewController {
     
+    var theme = ThemeManager.currentTheme()
+    
+
     // delegate for handling events
     weak var delegate: ColorPickerControllerDelegate?
     
@@ -72,7 +75,11 @@ class ColorPickerController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-   
+        
+        // load theme here in case it changed
+        theme = ThemeManager.currentTheme()
+        
+
         doInit()
         doLayout()
         
@@ -149,7 +156,7 @@ class ColorPickerController: UIViewController {
         showAds = false // debug
         
         
-        view.backgroundColor = UIColor.black // default seems to be white
+        view.backgroundColor = theme.backgroundColor // default seems to be white
         
        
         //top-to-bottom layout scheme
@@ -210,7 +217,7 @@ class ColorPickerController: UIViewController {
     func layoutBanner(){
         bannerView.frame.size.height = displayHeight * 0.1
         bannerView.frame.size.width = displayWidth
-        bannerView.backgroundColor = UIColor.black
+        bannerView.backgroundColor = theme.backgroundColor
         bannerView.title = "Color Picker"
         bannerView.delegate = self
     }
@@ -221,7 +228,7 @@ class ColorPickerController: UIViewController {
         colorWheelView = ColorWheelView(frame:CGRect(x: 0, y: 0, width: w, height: w))
         colorWheelView?.frame.size.height = w
         colorWheelView?.frame.size.width = w
-        colorWheelView?.backgroundColor = UIColor.black
+        colorWheelView?.backgroundColor = theme.backgroundColor
         //colorWheelView?.continuous = false
         colorWheelView?.delegate = self
         
@@ -230,7 +237,7 @@ class ColorPickerController: UIViewController {
     func layoutRGB(){
         rgbView.frame.size.height = displayHeight * 0.2
         rgbView.frame.size.width = displayWidth
-        rgbView.backgroundColor = UIColor.black
+        rgbView.backgroundColor = theme.backgroundColor
         rgbView.layer.borderWidth = 0.5
         rgbView.layer.borderColor = UIColor.flatGrayDark.cgColor
         rgbView.delegate = self
@@ -239,7 +246,7 @@ class ColorPickerController: UIViewController {
     func layoutHSB(){
         hsbView.frame.size.height = displayHeight * 0.2
         hsbView.frame.size.width = displayWidth
-        hsbView.backgroundColor = UIColor.black
+        hsbView.backgroundColor = theme.backgroundColor
         hsbView.layer.borderWidth = 0.5
         hsbView.layer.borderColor = UIColor.flatGrayDark.cgColor
         hsbView.delegate = self
@@ -256,14 +263,14 @@ class ColorPickerController: UIViewController {
         cancelButton.frame.size.height = controlView.frame.size.height - 16
         cancelButton.setTitle("Cancel", for: .normal)
         cancelButton.useGradient = true
-        cancelButton.backgroundColor = UIColor.flatMint
+        cancelButton.backgroundColor = theme.highlightColor
         controlView.addSubview(cancelButton)
         
         let acceptButton:BorderedButton = BorderedButton()
         acceptButton.frame.size = cancelButton.frame.size
         acceptButton.setTitle("Accept", for: .normal)
         acceptButton.useGradient = true
-        acceptButton.backgroundColor = UIColor.flatMint
+        acceptButton.backgroundColor = theme.highlightColor
         controlView.addSubview(acceptButton)
         
         // distribute across the control view

@@ -32,6 +32,9 @@ private var filterCount: Int = 0
 
 class FilterGalleryViewController: UIViewController {
     
+    var theme = ThemeManager.currentTheme()
+    
+
     // delegate for handling events
     weak var delegate: FilterGalleryViewControllerDelegate?
     
@@ -80,6 +83,10 @@ class FilterGalleryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        // load theme here in case it changed
+        theme = ThemeManager.currentTheme()
         
         // get display dimensions
         displayHeight = view.height
@@ -155,7 +162,7 @@ class FilterGalleryViewController: UIViewController {
         //showAds = false // debug
         
         
-        view.backgroundColor = UIColor.black // default seems to be white
+        view.backgroundColor = theme.backgroundColor // default seems to be white
         
         //HACK: double-check that category data is loaded
         if (filterGalleryView.count==0) {
@@ -183,7 +190,7 @@ class FilterGalleryViewController: UIViewController {
                 filterView.frame.size.height = displayHeight - 3.25 * bannerHeight
             }
             filterView.frame.size.width = displayWidth
-            filterView.backgroundColor = UIColor.black
+            filterView.backgroundColor = theme.backgroundColor
             filterView.isHidden = true
             filterView.delegate = self
             view.addSubview(filterView) // do this before categorySelectionView is assigned
@@ -207,7 +214,7 @@ class FilterGalleryViewController: UIViewController {
         
         categorySelectionView.frame.size.height = 1.5 * bannerHeight
         categorySelectionView.frame.size.width = displayWidth
-        categorySelectionView.backgroundColor = UIColor.black
+        categorySelectionView.backgroundColor = theme.backgroundColor
         view.addSubview(categorySelectionView)
 
 
@@ -238,7 +245,7 @@ class FilterGalleryViewController: UIViewController {
     func layoutBanner(){
         bannerView.frame.size.height = bannerHeight
         bannerView.frame.size.width = displayWidth
-        bannerView.backgroundColor = UIColor.black
+        bannerView.backgroundColor = theme.backgroundColor
         bannerView.title = "Filter Gallery"
         bannerView.delegate = self
     }

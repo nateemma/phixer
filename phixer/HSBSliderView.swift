@@ -20,6 +20,9 @@ protocol HSBSliderViewDelegate: class {
 
 
 class HSBSliderView: UIView {
+    
+    var theme = ThemeManager.currentTheme()
+    
 
     
     var initDone: Bool = false
@@ -42,8 +45,8 @@ class HSBSliderView: UIView {
     var sValue:CGFloat = 0.0
     var bValue:CGFloat = 0.0
     var aValue:CGFloat = 1.0
-    var currColor:UIColor = UIColor.black
-    var oldColor:UIColor = UIColor.black
+    var currColor:UIColor = .black
+    var oldColor:UIColor = .black
 
     // delegate for notification
     weak var delegate: HSBSliderViewDelegate?
@@ -157,7 +160,7 @@ class HSBSliderView: UIView {
                 label.frame.size.width = labelWidth
                 label.frame.size.height = itemHeight
                 label.textAlignment = .left
-                label.textColor = UIColor.white
+                label.textColor = theme.titleTextColor
                 label.font = UIFont.systemFont(ofSize: 12.0)
                 addSubview(label)
             }
@@ -178,7 +181,7 @@ class HSBSliderView: UIView {
                 entry.frame.size.width = entryWidth
                 entry.frame.size.height = itemHeight
                 entry.textAlignment = .left
-                entry.textColor = UIColor.white
+                entry.textColor = theme.titleTextColor
                 entry.font = UIFont.systemFont(ofSize: 12.0)
                 entry.keyboardType = UIKeyboardType.numberPad
                 entry.inputAccessoryView = toolbar

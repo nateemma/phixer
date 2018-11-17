@@ -13,6 +13,9 @@ import UIKit
 
 class TimedAlertView: UIAlertController {
     
+    var theme = ThemeManager.currentTheme()
+    
+
     private var timer:TimeInterval = 2.0
     //private var title:String = "Oops"
     //private var message:String = "Text not supplied"

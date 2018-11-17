@@ -24,6 +24,9 @@ protocol FilterInfoViewDelegate: class {
 
 class FilterInfoView: UIView {
     
+    var theme = ThemeManager.currentTheme()
+    
+
     var isLandscape : Bool = false
     
     // display items
@@ -57,7 +60,7 @@ class FilterInfoView: UIView {
         if (!initDone){
             // set the colors etc.
 
-            self.backgroundColor = UIColor.black
+            self.backgroundColor = theme.backgroundColor
             
             //if (buttonSize>self.frame.size.height){ buttonSize = self.frame.size.height - 4 }
             buttonSize = fmin(self.frame.size.height, self.frame.size.width) - 8
@@ -73,7 +76,7 @@ class FilterInfoView: UIView {
 
             categoryLabel.frame.size.height = self.frame.size.height * 0.9
             categoryLabel.frame.size.width = self.frame.size.width / 3.0
-            categoryLabel.setTitleColor(UIColor.white, for: .normal)
+            categoryLabel.setTitleColor(theme.titleTextColor, for: .normal)
             categoryLabel.titleLabel!.font = UIFont.boldSystemFont(ofSize: 14.0)
             //categoryLabel.titleLabel!.textAlignment = .left
             categoryLabel.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
@@ -83,7 +86,7 @@ class FilterInfoView: UIView {
             
             filterLabel.frame.size.height = self.frame.size.height * 0.9
             filterLabel.frame.size.width = self.frame.size.width / 3.0
-            filterLabel.setTitleColor(UIColor.white, for: .normal)
+            filterLabel.setTitleColor(theme.titleTextColor, for: .normal)
             filterLabel.titleLabel!.font = UIFont.boldSystemFont(ofSize: 14.0)
             //filterLabel.titleLabel!.textAlignment = .left
             filterLabel.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left

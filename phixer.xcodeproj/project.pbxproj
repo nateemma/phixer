@@ -14,6 +14,8 @@
 		251375511DB6AD6200A319DC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 251375501DB6AD6200A319DC /* GoogleService-Info.plist */; };
 		2515987E2193CD490067AA00 /* LumaRangeFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2515987D2193CD490067AA00 /* LumaRangeFilter.swift */; };
 		251598802194B97E0067AA00 /* ClarityFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2515987F2194B97E0067AA00 /* ClarityFilter.swift */; };
+		25159884219E2B850067AA00 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25159883219E2B850067AA00 /* ThemeManager.swift */; };
+		25159886219E2BF20067AA00 /* ColorUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25159885219E2BF20067AA00 /* ColorUtilities.swift */; };
 		251729562174F10700D5E946 /* defaultSettings.json in Resources */ = {isa = PBXBuildFile; fileRef = 251729552174F10700D5E946 /* defaultSettings.json */; };
 		251729582175406100D5E946 /* UserChangesRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251729572175406100D5E946 /* UserChangesRecord.swift */; };
 		2517295A217540C300D5E946 /* UserChangesEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25172959217540C300D5E946 /* UserChangesEntity+CoreDataClass.swift */; };
@@ -834,6 +836,8 @@
 		251375501DB6AD6200A319DC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2515987D2193CD490067AA00 /* LumaRangeFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LumaRangeFilter.swift; sourceTree = "<group>"; };
 		2515987F2194B97E0067AA00 /* ClarityFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClarityFilter.swift; sourceTree = "<group>"; };
+		25159883219E2B850067AA00 /* ThemeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ThemeManager.swift; path = Models/ThemeManager.swift; sourceTree = "<group>"; };
+		25159885219E2BF20067AA00 /* ColorUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorUtilities.swift; sourceTree = "<group>"; };
 		251729552174F10700D5E946 /* defaultSettings.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = defaultSettings.json; path = Config/defaultSettings.json; sourceTree = "<group>"; };
 		251729572175406100D5E946 /* UserChangesRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserChangesRecord.swift; sourceTree = "<group>"; };
 		25172959217540C300D5E946 /* UserChangesEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserChangesEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -1769,6 +1773,7 @@
 				255459B821681294008A9F55 /* CameraCaptureHelper.swift */,
 				2517295D2177FC2400D5E946 /* MuliticastDelegate.swift */,
 				258F09A6218CDEFD0082FE2A /* Geometry.swift */,
+				25159885219E2BF20067AA00 /* ColorUtilities.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1822,6 +1827,7 @@
 				253B23781DA5782300203ECB /* FilterManager.swift */,
 				25F460191D99CE1E00EDA182 /* GridStyle.swift */,
 				25F563FB1DD1165C00DFB125 /* ImageManager.swift */,
+				25159883219E2B850067AA00 /* ThemeManager.swift */,
 				25F460171D99CCCE00EDA182 /* UISettings.swift */,
 			);
 			name = Models;
@@ -1938,24 +1944,24 @@
 		257F49DE1D9448920083B1E4 /* phixer */ = {
 			isa = PBXGroup;
 			children = (
-				258F0995218CBFC30082FE2A /* MLModels */,
-				258F098D218A7EFA0082FE2A /* Help */,
-				255459B7216811EE008A9F55 /* Utilities */,
-				259BE4DD1ECCFFFC00D1A5E8 /* Database */,
-				2506767B1DE108A500226740 /* Config */,
-				2541499E1DDF9F03002C7BD5 /* Operations */,
-				256D0FEF1D98DADA00220D7E /* Controllers */,
-				256D0FEE1D98DAD100220D7E /* Models */,
-				256D0FEC1D98DAC600220D7E /* Views */,
 				25CF4BDB1D94D93700D779CF /* AppDelegate.swift */,
-				251375501DB6AD6200A319DC /* GoogleService-Info.plist */,
-				257F49E31D9448920083B1E4 /* Main.storyboard */,
-				257F49E81D9448920083B1E4 /* LaunchScreen.storyboard */,
 				257F49E61D9448920083B1E4 /* Assets.xcassets */,
-				25F563FD1DD146D100DFB125 /* Images */,
-				257F49EB1D9448920083B1E4 /* Info.plist */,
+				2506767B1DE108A500226740 /* Config */,
+				256D0FEF1D98DADA00220D7E /* Controllers */,
+				259BE4DD1ECCFFFC00D1A5E8 /* Database */,
 				25274600218764D500AA2DA2 /* Extensions */,
 				253B236D1DA44E4D00203ECB /* Filters */,
+				251375501DB6AD6200A319DC /* GoogleService-Info.plist */,
+				258F098D218A7EFA0082FE2A /* Help */,
+				25F563FD1DD146D100DFB125 /* Images */,
+				257F49EB1D9448920083B1E4 /* Info.plist */,
+				257F49E81D9448920083B1E4 /* LaunchScreen.storyboard */,
+				257F49E31D9448920083B1E4 /* Main.storyboard */,
+				258F0995218CBFC30082FE2A /* MLModels */,
+				256D0FEE1D98DAD100220D7E /* Models */,
+				2541499E1DDF9F03002C7BD5 /* Operations */,
+				255459B7216811EE008A9F55 /* Utilities */,
+				256D0FEC1D98DAC600220D7E /* Views */,
 			);
 			path = phixer;
 			sourceTree = "<group>";
@@ -3624,6 +3630,7 @@
 				2573D1DE217CDCB500E78CAB /* YUCIHighPassSkinSmoothing.m in Sources */,
 				255591E72187CC62001B4452 /* HTMLViewController.swift in Sources */,
 				258F099C218CBFC30082FE2A /* FNS-Candy.mlmodel in Sources */,
+				25159886219E2BF20067AA00 /* ColorUtilities.swift in Sources */,
 				259BE4DB1ECCFA4200D1A5E8 /* Database.swift in Sources */,
 				251729582175406100D5E946 /* UserChangesRecord.swift in Sources */,
 				258F09B9219264C20082FE2A /* SmoothThresholdFilter.swift in Sources */,
@@ -3722,6 +3729,7 @@
 				2515987E2193CD490067AA00 /* LumaRangeFilter.swift in Sources */,
 				25F563FC1DD1165C00DFB125 /* ImageManager.swift in Sources */,
 				2573D1E2217CDCB500E78CAB /* YUCIRGBToneCurve.m in Sources */,
+				25159884219E2B850067AA00 /* ThemeManager.swift in Sources */,
 				2573D1E1217CDCB500E78CAB /* YUCIUtilities.m in Sources */,
 				251729622179459F00D5E946 /* GalleryViewCell.swift in Sources */,
 				253B235B1DA2CFD400203ECB /* SegueHandlerType.swift in Sources */,

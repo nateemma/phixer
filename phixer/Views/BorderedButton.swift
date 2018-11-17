@@ -12,9 +12,12 @@ import ChameleonFramework
 // Button with
 
 class BorderedButton: UIButton {
+    
+    var theme = ThemeManager.currentTheme()
+    
     var highlight:Bool = true
     public var useGradient:Bool = false
-    public var color:UIColor = UIColor.flatMint {
+    public var color:UIColor = UIColor.flatGreen {
         didSet {
             if useGradient {
                 backgroundColor = UIColor(gradientStyle:UIGradientStyle.topToBottom, withFrame:self.frame,
@@ -39,11 +42,11 @@ class BorderedButton: UIButton {
     
     func customInit(){
         if useGradient {
-            backgroundColor = UIColor(gradientStyle:UIGradientStyle.topToBottom, withFrame:self.frame, andColors:[UIColor.black, UIColor.darkGray])
+            backgroundColor = UIColor(gradientStyle:UIGradientStyle.topToBottom, withFrame:self.frame, andColors:[theme.backgroundColor, UIColor.darkGray])
         } else {
             backgroundColor = color
         }
-        setTitleColor(UIColor.white, for: .normal)
+        setTitleColor(theme.titleTextColor, for: .normal)
         titleLabel!.font = UIFont.boldSystemFont(ofSize: 16.0)
         contentHorizontalAlignment = UIControlContentHorizontalAlignment.center
         contentVerticalAlignment = UIControlContentVerticalAlignment.center
@@ -60,7 +63,7 @@ class BorderedButton: UIButton {
             if (self.state == .normal) {
                 self.layer.borderColor = UIColor.clear.cgColor
             } else if (self.state == .highlighted) {
-                self.layer.borderColor = UIColor.white.cgColor
+                self.layer.borderColor = theme.titleTextColor.cgColor
             }
         }
     }

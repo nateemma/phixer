@@ -74,8 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //log.addDestination(cloud)
         
         // set the global colour scheme
-        window?.tintColor = themeColor
-        Chameleon.setGlobalThemeUsingPrimaryColor(.flatBlack, with: .contrast)
+        updateAppTheme()
         
         // set up Google banner ad framework
         // Use Firebase library to configure APIs
@@ -112,6 +111,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FilterLibrary.commitChanges()
     }
 
+    
+    func updateAppTheme() {
+        
+        ThemeManager.applyTheme(theme: .light)
+        /***
+        let themeColor = UIColor.flatBlack
+        let contrastingColor = UIColor(contrastingBlackOrWhiteColorOn:themeColor, isFlat: true)
+        
+        
+        window?.tintColor = themeColor
+        
+        Chameleon.setGlobalThemeUsingPrimaryColor(themeColor, with: .contrast)
+        
+        UINavigationBar.appearance().barTintColor = themeColor
+        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor : contrastingColor]
+ ***/
+    }
 
 }
 

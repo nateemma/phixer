@@ -101,6 +101,7 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
     fileprivate let statusBarOffset : CGFloat = 12.0
     
     
+    var theme = ThemeManager.currentTheme()
     
     
     convenience init(){
@@ -116,6 +117,10 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        // load theme here in case it changed
+        theme = ThemeManager.currentTheme()
+
         // get display dimensions
         displayHeight = view.height
         displayWidth = view.width
@@ -172,7 +177,7 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
         showAds = false // this screen looks bad with ads included...
         
         
-        view.backgroundColor = UIColor.black // default seems to be white
+        view.backgroundColor = theme.backgroundColor
         
         
         selectedBlendImageName = ImageManager.getCurrentBlendImageName()
@@ -211,7 +216,7 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
             blendGalleryView.frame.size.height = displayHeight - titleView.frame.size.height - infoView.frame.size.height
         }
         blendGalleryView.frame.size.width = displayWidth
-        //blendGalleryView.backgroundColor = UIColor.black
+        //blendGalleryView.backgroundColor = theme.backgroundColor
         
         
         
@@ -271,7 +276,7 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
             button?.frame.size.height = titleView.frame.size.height - 8
             button?.frame.size.width = 3.0 * (button?.frame.size.height)!
             button?.backgroundColor = UIColor.flatMint
-            button?.setTitleColor(UIColor.white, for: .normal)
+            button?.setTitleColor(theme.titleTextColor, for: .normal)
             button?.titleLabel!.font = UIFont.boldSystemFont(ofSize: 20.0)
             button?.contentHorizontalAlignment = UIControlContentHorizontalAlignment.center
         }
@@ -290,8 +295,8 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
         for label in [helpLabel, filterLabel, selectedLabel, photosLabel]{
             label?.frame.size.width = displayWidth / 3.0
             label?.frame.size.height = 32.0
-            label?.backgroundColor = UIColor.black
-            label?.textColor = UIColor.white
+            label?.backgroundColor = theme.backgroundColor
+            label?.textColor = theme.titleTextColor
             label?.font = UIFont.systemFont(ofSize: 14)
             label?.textAlignment = .center
         }
@@ -307,10 +312,10 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
         // photosLinkImage
         for image in [filteredImage, selectedBlendImage, photosLinkImage] as! [UIView]{
             image.frame.size = imageSize
-            image.backgroundColor = UIColor.black
+            image.backgroundColor = theme.backgroundColor
             image.layer.cornerRadius = 0.0
             image.layer.borderWidth = 1.0
-            image.layer.borderColor = UIColor.white.cgColor
+            image.layer.borderColor = theme.titleTextColor.cgColor
             image.clipsToBounds = true
             image.contentMode = .scaleAspectFill
         }

@@ -19,6 +19,9 @@ import QuartzCore
 class MetalImageView: MTKView
 {
     
+    var theme = ThemeManager.currentTheme()
+    
+
     /// The image to display. The image will be rendered when this is set
     var image: CIImage? { didSet { renderImage() }
     }

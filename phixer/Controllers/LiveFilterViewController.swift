@@ -25,6 +25,9 @@ private var filterCount: Int = 0
 
 class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, SegueHandlerType {
     
+    var theme = ThemeManager.currentTheme()
+    
+
     
     // Banner/Navigation View (title)
     fileprivate var bannerView: TitleView! = TitleView()
@@ -122,7 +125,11 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor.black
+        
+        // load theme here in case it changed
+        theme = ThemeManager.currentTheme()
+        
+       view.backgroundColor = theme.backgroundColor
         
         // get display dimensions
         displayHeight = view.height
@@ -164,7 +171,7 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
         // Bannsr and filter info view are always at the top of the screen
         bannerView.frame.size.height = bannerHeight * 0.75
         bannerView.frame.size.width = displayWidth
-        bannerView.backgroundColor = UIColor.black
+        bannerView.backgroundColor = theme.backgroundColor
         
         
         layoutBanner()

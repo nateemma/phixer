@@ -15,6 +15,9 @@ import GoogleMobileAds
 // This is the Main View Controller for phixer, and basically just presents a menu of available options
 
 class MainMenuController: UIViewController, UINavigationControllerDelegate {
+    
+    var theme = ThemeManager.currentTheme()
+    
 
     
     //var filterManager: FilterManager? = FilterManager.sharedInstance
@@ -61,12 +64,15 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // load theme here in case it changed
+        theme = ThemeManager.currentTheme()
+        
         // load filters etc. on a separate thread (not needed to display menu options)
         DispatchQueue.main.async(execute: { () -> Void in
             self.filterManager = FilterManager.sharedInstance
         })
         
-        view.backgroundColor = UIColor.black
+        view.backgroundColor = theme.backgroundColor
         
         // get display dimensions
         displayHeight = view.height

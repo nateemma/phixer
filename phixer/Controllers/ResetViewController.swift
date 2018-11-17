@@ -16,6 +16,9 @@ import GoogleMobileAds
 
 class ResetViewController: UIViewController, UINavigationControllerDelegate {
 
+    
+    var theme = ThemeManager.currentTheme()
+    
 
     
     var isLandscape : Bool = false
@@ -59,7 +62,11 @@ class ResetViewController: UIViewController, UINavigationControllerDelegate {
         super.viewDidLoad()
         
         
-        view.backgroundColor = UIColor.black
+        // load theme here in case it changed
+        theme = ThemeManager.currentTheme()
+        
+
+        view.backgroundColor = theme.backgroundColor
         
         // get display dimensions
         displayHeight = view.height
@@ -85,7 +92,7 @@ class ResetViewController: UIViewController, UINavigationControllerDelegate {
         // Banner and filter info view are always at the top of the screen
         bannerView.frame.size.height = bannerHeight * 0.5
         bannerView.frame.size.width = displayWidth
-        bannerView.backgroundColor = UIColor.black
+        bannerView.backgroundColor = theme.backgroundColor
         
         
         layoutBanner()

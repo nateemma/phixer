@@ -15,7 +15,10 @@ protocol ColorWheelDelegate: class {
 
 
 class ColorWheelView: UIView {
-    var color: UIColor!
+    
+    var theme = ThemeManager.currentTheme()
+    
+   var color: UIColor!
 
     // Layer for the Hue and Saturation wheel
     var wheelLayer: CALayer!
@@ -53,7 +56,7 @@ class ColorWheelView: UIView {
     required override init(frame: CGRect) {
         super.init(frame: frame)
     
-        self.color = UIColor.white // temp
+        self.color = theme.titleTextColor // temp
         
         // Layer for the Hue/Saturation wheel
         wheelLayer = CALayer()

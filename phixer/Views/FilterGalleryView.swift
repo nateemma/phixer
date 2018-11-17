@@ -25,6 +25,9 @@ protocol FilterGalleryViewDelegate: class {
 // this class displays a CollectionView populated with the filters for the specified category
 //class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDelegate{
 class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, FilterGalleryViewCellDelegate {
+    
+    var theme = ThemeManager.currentTheme()
+    
 
     public static var showHidden:Bool = false // controls whether hidden filters are shown or not
     

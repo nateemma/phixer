@@ -22,6 +22,9 @@ protocol FilterSelectionViewDelegate: class {
 
 class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     
+    var theme = ThemeManager.currentTheme()
+    
+
     fileprivate var initDone:Bool = false
     fileprivate var filterCarousel:iCarousel? = iCarousel()
     fileprivate var filterManager: FilterManager? = FilterManager.sharedInstance
@@ -216,8 +219,8 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         
         filterLabel.text = ""
         filterLabel.textAlignment = .center
-        //filterLabel.textColor = UIColor.white
-        filterLabel.textColor = UIColor.lightGray
+        //filterLabel.textColor = theme.titleTextColor
+        filterLabel.textColor = theme.secondaryColor
         filterLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
         filterLabel.frame.size.height = carouselHeight * 0.18
         filterLabel.frame.size.width = self.frame.size.width
@@ -354,11 +357,11 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         // updates label colors of selected item, reset old selection
         if ((currIndex != index) && isValidIndex(index) && isValidIndex(currIndex)){
             let oldView = filterViewList[currIndex]
-            oldView.label.textColor = UIColor.white
+            oldView.label.textColor = theme.titleTextColor
         }
         
         let newView = filterViewList[index]
-        newView.label.textColor = UIColor.flatLime
+        newView.label.textColor = theme.highlightColor
         
         // call delegate function to act on selection
         if (index != currIndex) {

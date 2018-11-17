@@ -12,13 +12,16 @@ import Neon
 // View that contains an image with a label underneath
 
 class ImageContainerView: UIView {
+    
+    var theme = ThemeManager.currentTheme()
+    
     var imageView : UIImageView = UIImageView()
     var label : UILabel = UILabel()
     
     convenience init() {
         self.init(frame: CGRect.zero)
         
-        self.backgroundColor = UIColor.black
+        self.backgroundColor = theme.backgroundColor
         self.layer.cornerRadius = 4.0
         self.layer.borderWidth = 1.0
         self.layer.borderColor = UIColor(white: 0.68, alpha: 1.0).cgColor
@@ -29,7 +32,7 @@ class ImageContainerView: UIView {
         self.addSubview(imageView)
         
         label.textAlignment = .center
-        label.textColor = UIColor.white
+        label.textColor = theme.titleTextColor
         //label.font = UIFont.boldSystemFont(ofSize: 12.0)
         label.font = UIFont.systemFont(ofSize: 10.0)
         self.addSubview(label)

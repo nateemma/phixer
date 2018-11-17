@@ -23,6 +23,9 @@ protocol CategorySelectionViewDelegate: class {
 
 
 class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
+    
+    var theme = ThemeManager.currentTheme()
+    
 
     var categoryCarousel:iCarousel = iCarousel()
     var filterManager: FilterManager? = FilterManager.sharedInstance
@@ -128,7 +131,7 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         
         categoryLabel.text = "Categories:"
         categoryLabel.textAlignment = .center
-        categoryLabel.textColor = UIColor.white
+        categoryLabel.textColor = theme.titleTextColor
         categoryLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
         categoryLabel.frame.size.height = self.frame.size.height - carouselHeight
         categoryLabel.frame.size.width = self.frame.size.width
@@ -167,8 +170,8 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         
         label = categoryViewList[index]
         label.textAlignment = .center
-        label.textColor = UIColor.white
-        label.backgroundColor = UIColor.black
+        label.textColor = theme.titleTextColor
+        label.backgroundColor = theme.backgroundColor
         label.font = UIFont.boldSystemFont(ofSize: 14.0)
         label.frame.size.height = carouselHeight * 0.95
         label.frame.size.width = label.frame.size.height // square
@@ -249,21 +252,21 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
             if (isValidIndex(currIndex)){
                 var oldView: UILabel? = nil
                 oldView = categoryViewList[currIndex]
-                //oldView.label.textColor = UIColor.white
+                //oldView.label.textColor = theme.titleTextColor
                 if (oldView != nil){
-                    oldView?.textColor = UIColor.white
+                    oldView?.textColor = theme.titleTextColor
                     oldView?.layer.cornerRadius = 4.0
                     oldView?.layer.borderWidth = 1.0
-                    oldView?.layer.borderColor = UIColor.black.cgColor
+                    oldView?.layer.borderColor = theme.backgroundColor.cgColor
                 }
             }
             
             let newView = categoryViewList[index]
             //newView.label.textColor = UIColor.flatLime()
-            newView.textColor = UIColor.flatLime
+            newView.textColor = theme.highlightColor
             newView.layer.cornerRadius = 4.0
             newView.layer.borderWidth = 1.0
-            newView.layer.borderColor = UIColor.flatLime.cgColor
+            newView.layer.borderColor = theme.highlightColor.cgColor
             
             // scroll to selected item
             categoryCarousel.scrollToItem(at: index, animated: false)

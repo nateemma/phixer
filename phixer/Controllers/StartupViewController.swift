@@ -16,6 +16,9 @@ import simd
 
 class StartupViewController: UIViewController, UINavigationControllerDelegate {
     
+    var theme = ThemeManager.currentTheme()
+    
+
     var filterManager: FilterManager?
     
     @IBOutlet var uiView: UIView!
@@ -30,7 +33,11 @@ class StartupViewController: UIViewController, UINavigationControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        /*** add this back when debugged
+        
+        // load theme here in case it changed
+        theme = ThemeManager.currentTheme()
+        
+       /*** add this back when debugged
         // load filters etc. on a separate thread 
         DispatchQueue.main.async(execute: { () -> Void in
             self.filterManager = FilterManager.sharedInstance
@@ -40,7 +47,7 @@ class StartupViewController: UIViewController, UINavigationControllerDelegate {
         // set up a blank view the same size as the main view
         let blankView:UIImageView = UIImageView()
         blankView.frame = uiView.frame
-        blankView.backgroundColor = UIColor.black
+        blankView.backgroundColor = theme.backgroundColor
         blankView.image = blankView.image?.maskWithColor(color: .black)
 
         // create UIImages from the UIViews

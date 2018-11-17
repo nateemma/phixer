@@ -13,7 +13,10 @@ import AVFoundation
 
 // Class responsible for displaying the edited image, with standard filters applied
 class EditImageDisplayView: UIView {
- 
+    
+    var theme = ThemeManager.currentTheme()
+    
+
 
     fileprivate var renderView: MetalImageView? = MetalImageView()
     fileprivate var imageView: UIImageView! = UIImageView()
@@ -61,7 +64,7 @@ class EditImageDisplayView: UIView {
         
         
         if (!initDone){
-            self.backgroundColor = UIColor.black
+            self.backgroundColor = theme.backgroundColor
             
             
             initDone = true

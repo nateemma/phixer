@@ -14,6 +14,9 @@ import AVFoundation
 // Class responsible for laying out the Camera Display View (i.e. what is currently viewed throughthe camera)
 class CameraDisplayView: UIView {
     
+    var theme = ThemeManager.currentTheme()
+    
+
     //var renderView: RenderView? = RenderView()
     fileprivate var renderView: MetalImageView? = MetalImageView()
     fileprivate var currFilter: FilterDescriptor? = nil
@@ -40,7 +43,7 @@ class CameraDisplayView: UIView {
         
         if (!initDone){
             initDone = true
-           //self.backgroundColor = UIColor.black
+           //self.backgroundColor = theme.backgroundColor
             //self.backgroundColor = UIColor.red
 
            
@@ -55,7 +58,7 @@ class CameraDisplayView: UIView {
         //    initViews()
         //}
         
-        self.backgroundColor = UIColor.darkGray // DEBUG
+        self.backgroundColor = theme.secondaryColor // DEBUG
         renderView?.frame = self.frame
         self.addSubview(renderView!)
         renderView?.fillSuperview()

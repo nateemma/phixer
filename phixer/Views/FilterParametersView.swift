@@ -21,6 +21,9 @@ protocol FilterParametersViewDelegate: class {
 
 class FilterParametersView: UIView {
     
+    var theme = ThemeManager.currentTheme()
+    
+
     public var numVisibleParams:Int = 0
 
     //var isLandscape : Bool = false
@@ -52,13 +55,14 @@ class FilterParametersView: UIView {
     var sliderKey:[String] = []
     
     // Colours
-    let titleBackgroundColor:UIColor = UIColor.flatMint
-    let titleTextColor:UIColor = UIColor.black
-    let buttonBackgroundColor:UIColor = UIColor.flatSkyBlueDark
-    let buttonTextColor:UIColor = UIColor.white
-    let viewBackgroundColor:UIColor = UIColor.black
-    let sliderTextColor:UIColor = UIColor.white
-    
+
+    lazy var titleBackgroundColor:UIColor = theme.subTitleColor
+    lazy var titleTextColor:UIColor = theme.backgroundColor
+    lazy var buttonBackgroundColor:UIColor = theme.highlightColor
+    lazy var buttonTextColor:UIColor = theme.titleTextColor
+    lazy var viewBackgroundColor:UIColor = theme.backgroundColor
+    lazy var sliderTextColor:UIColor = theme.titleTextColor
+
     
     // delegate for handling events
     weak var delegate: FilterParametersViewDelegate?
