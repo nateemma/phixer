@@ -56,7 +56,7 @@ class FilterParametersView: UIView {
     
     // Colours
 
-    lazy var titleBackgroundColor:UIColor = theme.subTitleColor
+    lazy var titleBackgroundColor:UIColor = theme.subtitleColor
     lazy var titleTextColor:UIColor = theme.backgroundColor
     lazy var buttonBackgroundColor:UIColor = theme.highlightColor
     lazy var buttonTextColor:UIColor = theme.titleTextColor

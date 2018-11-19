@@ -32,7 +32,7 @@ class RenderContainerView: UIView {
         self.backgroundColor = theme.backgroundColor
         self.layer.cornerRadius = 2.0
         self.layer.borderWidth = 1.0
-        self.layer.borderColor = UIColor(white: 0.68, alpha: 1.0).cgColor
+        self.layer.borderColor = theme.borderColor.cgColor
         self.clipsToBounds = true
         
         renderView?.contentMode = .scaleAspectFill
@@ -41,7 +41,7 @@ class RenderContainerView: UIView {
         self.addSubview(renderView!)
         
         label.textAlignment = .center
-        label.textColor = theme.titleTextColor
+        label.textColor = theme.textColor
         label.backgroundColor = theme.highlightColor.withAlphaComponent(0.6)
         label.font = UIFont.boldSystemFont(ofSize: 12.0)
         self.addSubview(label)

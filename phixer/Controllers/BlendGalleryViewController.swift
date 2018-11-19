@@ -202,7 +202,7 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
             adView.frame.size.width = displayWidth
             adView.layer.cornerRadius = 0.0
             adView.layer.borderWidth = 1.0
-            adView.layer.borderColor = UIColor.gray.cgColor
+            adView.layer.borderColor = theme.borderColor.cgColor
         }
         
         infoView.frame.size.height = 4.2 * bannerHeight // TODO: calculate from components
@@ -228,7 +228,7 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
         view.addSubview(titleView)
         if (showAds){
             adView.isHidden = false
-            adView.layer.borderColor = UIColor.flatBlack.cgColor
+            adView.layer.borderColor = theme.borderColor.cgColor
             adView.layer.borderWidth = 1.0
             view.addSubview(adView)
         } else {

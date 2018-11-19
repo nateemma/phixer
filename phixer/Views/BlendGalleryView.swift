@@ -227,18 +227,18 @@ extension BlendGalleryView: UICollectionViewDataSource {
             if imageArray[index] == nil { // check if already fetched
                 // no, load the image for this index
                 let name = self.blendList[index]
-                log.verbose("Loading: \(name), size:\(self.cellSize)")
                 let size = cell.frame.size
-                image = ImageManager.getBlendImage(name: name, size:size)
+                log.verbose("Loading: \(name), size:\(size)")
+               image = ImageManager.getBlendImage(name: name, size:size)
                 self.imageArray[index] = image
             }
             image = self.imageArray[index]
 
             let imageView = UIImageView()
             imageView.contentMode = .scaleAspectFill
+            imageView.image = image
             cell.contentView.addSubview(imageView)
             imageView.fillSuperview()
-            imageView.image = image
         } else {
             log.warning("Index out of range (\(index)/\(blendList.count))")
         }

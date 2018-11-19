@@ -151,7 +151,7 @@ class LiveFilterViewController: UIViewController, UIImagePickerControllerDelegat
         view.addSubview(bannerView)
         
         if (showAds) {
-            adView.layer.borderColor = UIColor.flatBlack.cgColor
+            adView.layer.borderColor = theme.borderColor.cgColor
             adView.layer.borderWidth = 1.0
             view.addSubview(adView)
         }

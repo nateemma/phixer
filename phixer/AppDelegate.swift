@@ -114,19 +114,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func updateAppTheme() {
         
-        ThemeManager.applyTheme(theme: .light)
-        /***
-        let themeColor = UIColor.flatBlack
-        let contrastingColor = UIColor(contrastingBlackOrWhiteColorOn:themeColor, isFlat: true)
-        
-        
-        window?.tintColor = themeColor
-        
-        Chameleon.setGlobalThemeUsingPrimaryColor(themeColor, with: .contrast)
-        
-        UINavigationBar.appearance().barTintColor = themeColor
-        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor : contrastingColor]
- ***/
+        ThemeManager.applyTheme(key: ThemeManager.getSavedTheme())
+
     }
 
 }

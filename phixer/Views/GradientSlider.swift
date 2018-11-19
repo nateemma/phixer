@@ -193,7 +193,7 @@ import UIKit
         thumb.shadowOffset = CGSize(width:0.0, height:2.5)
         thumb.shadowRadius = 2.0
         thumb.shadowOpacity = 0.25
-        thumb.borderColor = theme.backgroundColor.withAlphaComponent(0.15).cgColor
+        thumb.borderColor = theme.borderColor.withAlphaComponent(0.15).cgColor
         thumb.borderWidth = 0.5
         return thumb
     }()
@@ -205,7 +205,7 @@ import UIKit
         track.endPoint = CGPoint(x:1.0, y:0.5)
         track.locations = [0.0,1.0]
         track.colors = [UIColor.blue.cgColor,UIColor.orange.cgColor]
-        track.borderColor = theme.backgroundColor.cgColor
+        track.borderColor = theme.borderColor.cgColor
         return track
     }()
     
@@ -217,7 +217,7 @@ import UIKit
         let iconLayer = CALayer()
         iconLayer.cornerRadius = size/2.0
         iconLayer.bounds = CGRect(x:0, y:0, width:size, height:size)
-        iconLayer.backgroundColor = theme.titleTextColor.cgColor
+        iconLayer.backgroundColor = theme.borderColor.cgColor
         return iconLayer
     }()
     

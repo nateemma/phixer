@@ -182,7 +182,7 @@ class SampleGalleryViewController: UIViewController, UIImagePickerControllerDele
             adView.frame.size.width = displayWidth
             adView.layer.cornerRadius = 0.0
             adView.layer.borderWidth = 1.0
-            adView.layer.borderColor = UIColor.flatBlack.cgColor
+            adView.layer.borderColor = theme.borderColor.cgColor
         }
         
         infoView.frame.size.height = 3.5 * bannerHeight
@@ -276,7 +276,7 @@ class SampleGalleryViewController: UIViewController, UIImagePickerControllerDele
             label?.frame.size.width = displayWidth / 3.0
             label?.frame.size.height = 32.0
             label?.backgroundColor = theme.backgroundColor
-            label?.textColor = theme.titleTextColor
+            label?.textColor = theme.textColor
             label?.font = UIFont.systemFont(ofSize: 14)
             label?.textAlignment = .center
         }

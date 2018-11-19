@@ -136,7 +136,7 @@ class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
             adView.isHidden = false
             adView.frame.size.height = bannerHeight * 1.4
             adView.frame.size.width = displayWidth
-            adView.layer.borderColor = UIColor.flatBlack.cgColor
+            adView.layer.borderColor = theme.borderColor.cgColor
             adView.layer.borderWidth = 1.0
             
             view.addSubview(adView)

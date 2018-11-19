@@ -112,7 +112,7 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
             adView.isHidden = false
             adView.frame.size.height = bannerHeight
             adView.frame.size.width = displayWidth
-            adView.layer.borderColor = UIColor.flatBlack.cgColor
+            adView.layer.borderColor = theme.borderColor.cgColor
             adView.layer.borderWidth = 1.0
         } else {
             adView.isHidden = true

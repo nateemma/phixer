@@ -41,7 +41,7 @@ class SquareButton: UIView {
             if (self.button.state == .normal) {
                 self.button.layer.borderColor = UIColor.clear.cgColor
             } else if (self.button.state == .highlighted) {
-                self.button.layer.borderColor = theme.titleTextColor.cgColor
+                self.button.layer.borderColor = theme.borderColor.cgColor
             }
         }
     }

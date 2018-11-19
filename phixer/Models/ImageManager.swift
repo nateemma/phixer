@@ -616,7 +616,6 @@ class ImageManager {
     // return the requested asset with the original asset size
     private static func getImageFromAssets(assetID: String)->UIImage? {
         var image:UIImage? = nil
-        var tmpimg:UIImage? = nil
         
         if isAssetID(assetID) { // Asset?
             let assets = PHAsset.fetchAssets(withLocalIdentifiers: [assetID], options:nil)
@@ -628,20 +627,14 @@ class ImageManager {
                 options.resizeMode = PHImageRequestOptionsResizeMode.exact
                 options.isSynchronous = true // need to set this to get the full size image
                 PHImageManager.default().requestImageData(for: asset!, options: options, resultHandler: { data, _, _, _ in
-                    tmpimg = data.flatMap { UIImage(data: $0) }
+                    image = data.flatMap { UIImage(data: $0) }
                 })
             } else {
                 log.error("Invalid asset: \(assetID)")
             }
         } else {
             // not a managed asset, load via 'regular' method
-            tmpimg = UIImage(named:assetID)
-        }
-        
-        if (tmpimg == nil){
-            log.warning("No image found for:\(assetID)")
-        } else {
-            image = tmpimg!.withRenderingMode(.alwaysTemplate)
+            image = UIImage(named:assetID)
         }
         
         return image
@@ -651,7 +644,6 @@ class ImageManager {
     // return the requested asset with the specified size
     private static func getImageFromAssets(assetID: String, size:CGSize)->UIImage? {
         var image:UIImage? = nil
-        var tmpimg:UIImage? = nil
         var tsize:CGSize
         
         tsize = size
@@ -669,7 +661,7 @@ class ImageManager {
                 options.resizeMode = PHImageRequestOptionsResizeMode.exact
                 options.isSynchronous = true // need to set this to get the full size image
                 PHImageManager.default().requestImage(for: asset!, targetSize: tsize, contentMode: .aspectFill, options: options, resultHandler: { img, _ in
-                    tmpimg = img
+                    image = img
                 })
             } else {
                 log.error("Invalid asset: \(assetID)")
@@ -677,13 +669,7 @@ class ImageManager {
         } else {
             // not a managed asset, load via 'regular' method
             let tmpimage2 = UIImage(named:assetID)
-            tmpimg = resizeImage(tmpimage2, targetSize: tsize, mode:.scaleAspectFill)
-        }
-        
-        if (tmpimg == nil){
-            log.warning("No image found for:\(assetID)")
-        } else {
-            image = tmpimg!.withRenderingMode(.alwaysTemplate)
+            image = resizeImage(tmpimage2, targetSize: tsize, mode:.scaleAspectFill)
         }
 
         return image

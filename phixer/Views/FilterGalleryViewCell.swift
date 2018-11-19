@@ -96,7 +96,7 @@ class FilterGalleryViewCell: UICollectionViewCell {
         self.backgroundColor = theme.backgroundColor
         self.layer.cornerRadius = 2.0
         self.layer.borderWidth = 1.0
-        self.layer.borderColor = theme.secondaryColor.cgColor
+        self.layer.borderColor = theme.borderColor.cgColor
         self.clipsToBounds = true
         
         renderView.contentMode = .scaleAspectFill
@@ -106,8 +106,8 @@ class FilterGalleryViewCell: UICollectionViewCell {
         self.addSubview(renderView)
         
         label.textAlignment = .center
-        label.textColor = theme.titleTextColor
-        label.backgroundColor = theme.highlightColor.withAlphaComponent(0.6)
+        label.textColor = theme.subtitleTextColor
+        label.backgroundColor = theme.subtitleColor.withAlphaComponent(0.9)
         label.font = UIFont.boldSystemFont(ofSize: 12.0)
         self.addSubview(label)
         
@@ -182,7 +182,7 @@ class FilterGalleryViewCell: UICollectionViewCell {
                     self.renderView.alpha = 0.25
                     self.label.alpha = 0.4
                     //self.layer.borderColor = UIColor(white: 0.6, alpha: 0.4).cgColor
-                    self.layer.borderColor = self.theme.secondaryColor.cgColor
+                    self.layer.borderColor = self.theme.borderColor.cgColor
                 }
                 // create the adornment overlay (even if hidden, because you need to be able to un-hide)
                 self.setupAdornments()

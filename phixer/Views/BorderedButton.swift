@@ -52,7 +52,7 @@ class BorderedButton: UIButton {
         contentVerticalAlignment = UIControlContentVerticalAlignment.center
         layer.cornerRadius = 5
         layer.borderWidth = 1
-        layer.borderColor = UIColor.flatGray.cgColor
+        layer.borderColor = UIColor.flatBlack.cgColor
     }
     
     // override the layout function to highlight the button if selected
@@ -63,7 +63,7 @@ class BorderedButton: UIButton {
             if (self.state == .normal) {
                 self.layer.borderColor = UIColor.clear.cgColor
             } else if (self.state == .highlighted) {
-                self.layer.borderColor = theme.titleTextColor.cgColor
+                self.layer.borderColor = theme.highlightColor.cgColor
             }
         }
     }

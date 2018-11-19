@@ -239,7 +239,7 @@ class ColorPickerController: UIViewController {
         rgbView.frame.size.width = displayWidth
         rgbView.backgroundColor = theme.backgroundColor
         rgbView.layer.borderWidth = 0.5
-        rgbView.layer.borderColor = UIColor.flatGrayDark.cgColor
+        rgbView.layer.borderColor = theme.borderColor.cgColor
         rgbView.delegate = self
     }
     
@@ -248,7 +248,7 @@ class ColorPickerController: UIViewController {
         hsbView.frame.size.width = displayWidth
         hsbView.backgroundColor = theme.backgroundColor
         hsbView.layer.borderWidth = 0.5
-        hsbView.layer.borderColor = UIColor.flatGrayDark.cgColor
+        hsbView.layer.borderColor = theme.borderColor.cgColor
         hsbView.delegate = self
     }
     

@@ -97,6 +97,7 @@ class EditControlsView: UIView, iCarouselDelegate, iCarouselDataSource{
         
         view.label.font = UIFont.systemFont(ofSize: 8.0)
         view.label.text = label
+        view.label.textColor = theme.tintColor
         
         view.imageView.contentMode = .scaleAspectFit
         var image = UIImage(named: icon)
@@ -106,10 +107,11 @@ class EditControlsView: UIView, iCarouselDelegate, iCarouselDataSource{
         }
         let tintableImage = image!.withRenderingMode(.alwaysTemplate)
         view.imageView.image = tintableImage
-        view.imageView.tintColor =  UIColor(contrastingBlackOrWhiteColorOn:theme.backgroundColor, isFlat:true)
-        
+        //view.imageView.tintColor =  UIColor(contrastingBlackOrWhiteColorOn:theme.backgroundColor, isFlat:true)
+        view.imageView.tintColor =  theme.tintColor
+
         view.imageView.backgroundColor = theme.backgroundColor
-        view.layer.borderColor = theme.secondaryColor.cgColor
+        view.layer.borderColor = theme.tintColor.cgColor
         
         return view
     }
@@ -143,7 +145,7 @@ class EditControlsView: UIView, iCarouselDelegate, iCarouselDataSource{
         controlLabel.text = ""
         controlLabel.textAlignment = .center
         //controlLabel.textColor = theme.titleTextColor
-        controlLabel.textColor = theme.secondaryColor
+        controlLabel.textColor = theme.textColor
         //controlLabel.font = UIFont.boldSystemFont(ofSize: 14.0)
         controlLabel.font = UIFont.boldSystemFont(ofSize: 12.0)
         controlLabel.frame.size.height = carouselHeight * 0.3
@@ -292,7 +294,7 @@ class EditControlsView: UIView, iCarouselDelegate, iCarouselDataSource{
         // updates label colors of selected item, reset old selection
         if ((currIndex != index) && isValidIndex(index) && isValidIndex(currIndex)){
             let oldView = controlViewList[currIndex]
-            oldView.label.textColor = theme.titleTextColor
+            oldView.label.textColor = theme.textColor
             oldView.layer.borderColor = theme.secondaryColor.cgColor
 
         }

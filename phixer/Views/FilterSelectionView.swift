@@ -220,7 +220,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         filterLabel.text = ""
         filterLabel.textAlignment = .center
         //filterLabel.textColor = theme.titleTextColor
-        filterLabel.textColor = theme.secondaryColor
+        filterLabel.textColor = theme.textColor
         filterLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
         filterLabel.frame.size.height = carouselHeight * 0.18
         filterLabel.frame.size.width = self.frame.size.width
@@ -357,7 +357,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         // updates label colors of selected item, reset old selection
         if ((currIndex != index) && isValidIndex(index) && isValidIndex(currIndex)){
             let oldView = filterViewList[currIndex]
-            oldView.label.textColor = theme.titleTextColor
+            oldView.label.textColor = theme.textColor
         }
         
         let newView = filterViewList[index]

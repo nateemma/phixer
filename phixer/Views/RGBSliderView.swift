@@ -158,7 +158,7 @@ class RGBSliderView: UIView {
                 label.frame.size.width = labelWidth
                 label.frame.size.height = itemHeight
                 label.textAlignment = .left
-                label.textColor = theme.titleTextColor
+                label.textColor = theme.textColor
                 label.font = UIFont.systemFont(ofSize: 12.0)
                 addSubview(label)
             }
@@ -179,7 +179,7 @@ class RGBSliderView: UIView {
                 entry.frame.size.width = entryWidth
                 entry.frame.size.height = itemHeight
                 entry.textAlignment = .left
-                entry.textColor = theme.titleTextColor
+                entry.textColor = theme.textColor
                 entry.font = UIFont.systemFont(ofSize: 12.0)
                 entry.keyboardType = UIKeyboardType.numberPad
                 entry.inputAccessoryView = toolbar

@@ -252,7 +252,7 @@ class ColorSchemeViewController: UIViewController {
             label.frame.size.width = (displayWidth / 2) - 32
             label.frame.size.height = bannerHeight
             label.textAlignment = .right
-            label.textColor = theme.titleTextColor
+            label.textColor = theme.textColor
         }
         
         // set up parameters
@@ -262,7 +262,7 @@ class ColorSchemeViewController: UIViewController {
 
         numLabel.text = "Number of colors :  "
         numEntry.textAlignment = .left
-        numEntry.textColor = theme.titleTextColor
+        numEntry.textColor = theme.textColor
         numEntry.font = UIFont.systemFont(ofSize: 14.0)
         numEntry.text = "\(selectedCount)"
         numEntry.keyboardType = UIKeyboardType.numberPad
@@ -482,12 +482,12 @@ extension ColorSchemeViewController: UIPickerViewDelegate {
         }
         if (row>=0) && (row<colorSchemeList.count){
             pickerLabel?.text = colorSchemeList[row]
-            pickerLabel?.textColor = theme.titleTextColor
+            pickerLabel?.textColor = theme.textColor
             pickerLabel?.textAlignment = .left
         } else {
             log.error("Invalid row index:\(row)")
             pickerLabel?.text = "unknown"
-            pickerLabel?.textColor = UIColor.red
+            pickerLabel?.textColor = theme.highlightColor
         }
 
         return pickerLabel!

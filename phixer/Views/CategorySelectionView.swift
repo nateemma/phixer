@@ -131,7 +131,7 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         
         categoryLabel.text = "Categories:"
         categoryLabel.textAlignment = .center
-        categoryLabel.textColor = theme.titleTextColor
+        categoryLabel.textColor = theme.textColor
         categoryLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
         categoryLabel.frame.size.height = self.frame.size.height - carouselHeight
         categoryLabel.frame.size.width = self.frame.size.width
@@ -170,7 +170,7 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         
         label = categoryViewList[index]
         label.textAlignment = .center
-        label.textColor = theme.titleTextColor
+        label.textColor = theme.textColor
         label.backgroundColor = theme.backgroundColor
         label.font = UIFont.boldSystemFont(ofSize: 14.0)
         label.frame.size.height = carouselHeight * 0.95
@@ -252,9 +252,10 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
             if (isValidIndex(currIndex)){
                 var oldView: UILabel? = nil
                 oldView = categoryViewList[currIndex]
-                //oldView.label.textColor = theme.titleTextColor
+                //oldView.label.textColor = theme.textColor
                 if (oldView != nil){
-                    oldView?.textColor = theme.titleTextColor
+                    oldView?.backgroundColor = theme.backgroundColor
+                    oldView?.textColor = theme.textColor
                     oldView?.layer.cornerRadius = 4.0
                     oldView?.layer.borderWidth = 1.0
                     oldView?.layer.borderColor = theme.backgroundColor.cgColor
@@ -263,7 +264,8 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
             
             let newView = categoryViewList[index]
             //newView.label.textColor = UIColor.flatLime()
-            newView.textColor = theme.highlightColor
+            newView.backgroundColor = theme.titleColor
+            newView.textColor = theme.titleTextColor
             newView.layer.cornerRadius = 4.0
             newView.layer.borderWidth = 1.0
             newView.layer.borderColor = theme.highlightColor.cgColor

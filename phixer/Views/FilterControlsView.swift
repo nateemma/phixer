@@ -169,7 +169,7 @@ class FilterControlsView: UIView {
             filterButton.setImageAsset("ic_filters_hide")
             filterButton.layer.cornerRadius = 4.0
             filterButton.layer.borderWidth = 1.0
-            filterButton.layer.borderColor = theme.titleTextColor.cgColor
+            filterButton.layer.borderColor = theme.borderColor.cgColor
             filterButton.alpha = 1.0
             break
         case .disabled:
@@ -191,7 +191,7 @@ class FilterControlsView: UIView {
             parametersButton.setImageAsset("ic_sliders_hide")
             parametersButton.layer.cornerRadius = 4.0
             parametersButton.layer.borderWidth = 1.0
-            parametersButton.layer.borderColor = theme.titleTextColor.cgColor
+            parametersButton.layer.borderColor = theme.borderColor.cgColor
             parametersButton.alpha = 1.0
             break
         case .disabled:
