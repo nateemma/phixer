@@ -48,11 +48,12 @@ class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
     var manageCategoriesMenuItem: UIView = UIView()
     var resetMenuItem: UIView = UIView()
     var hideFiltersItem: UIView = UIView()
+    var themeMenuItem: UIView = UIView()
     var colorsMenuItem: UIView = UIView()
-    
+
     var hideFiltersSwitch:UISwitch = UISwitch()
     
-    let numItems:CGFloat = 7
+    let numItems:CGFloat = 8
     
     //let stackView = AloeStackView()
     var stackHeight:CGFloat = 0.0
@@ -174,9 +175,11 @@ class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
         view.addSubview(manageCategoriesMenuItem)
         view.addSubview(resetMenuItem)
         view.addSubview(hideFiltersItem)
+        view.addSubview(themeMenuItem)
         view.addSubview(colorsMenuItem)
         view.groupAgainstEdge(group: .vertical,
-                              views: [aboutMenuItem, changeBlendMenuItem, changeSampleMenuItem, manageCategoriesMenuItem, resetMenuItem, hideFiltersItem, colorsMenuItem],
+                              views: [aboutMenuItem, changeBlendMenuItem, changeSampleMenuItem, manageCategoriesMenuItem, resetMenuItem, hideFiltersItem,
+                                      themeMenuItem, colorsMenuItem],
                               againstEdge: .bottom, padding: 4.0, width: displayWidth, height: h)
 
 
@@ -191,7 +194,8 @@ class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
         let tap3 = UITapGestureRecognizer(target: self, action: #selector(presentSampleGallery))
         let tap4 = UITapGestureRecognizer(target: self, action: #selector(presentManageCategories))
         let tap5 = UITapGestureRecognizer(target: self, action: #selector(presentReset))
-        let tap6 = UITapGestureRecognizer(target: self, action: #selector(presentColors))
+        let tap6 = UITapGestureRecognizer(target: self, action: #selector(presentThemes))
+        let tap7 = UITapGestureRecognizer(target: self, action: #selector(presentColors))
 
         // setup switches
         hideFiltersSwitch.setOn(FilterGalleryView.showHidden, animated: false)
@@ -212,12 +216,14 @@ class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
         
         setupMenuItem(manageCategoriesMenuItem, height:h, width:w, title:"Manage Categories", image: nil, color:UIColor.flatBlue, handler: tap4)
         
-        setupMenuItem(resetMenuItem, height:h, width:w, title:"Reset Categories/Filters", image: nil, color:UIColor.flatPurpleDark, handler: tap5)
+        setupMenuItem(resetMenuItem, height:h, width:w, title:"Reset Categories/Filters", image: nil, color:UIColor.flatPurple, handler: tap5)
 
-        setupSwitchItem(hideFiltersItem, height:h, width:w, title:"Show Hidden Filters", switchItem:hideFiltersSwitch, color:UIColor.flatPlum)
+        setupSwitchItem(hideFiltersItem, height:h, width:w, title:"Show Hidden Filters", switchItem:hideFiltersSwitch, color:UIColor.flatPurpleDark)
 
-        setupMenuItem(colorsMenuItem, height:h, width:w, title:"Choose Colours", image: nil, color:UIColor.flatPlumDark, handler: tap6)
-        
+        setupMenuItem(themeMenuItem, height:h, width:w, title:"Change Theme", image: nil, color:UIColor.flatPlum, handler: tap6)
+
+        setupMenuItem(colorsMenuItem, height:h, width:w, title:"Choose Colours", image: nil, color:UIColor.flatPlumDark, handler: tap7)
+
 
     }
     
@@ -365,6 +371,12 @@ class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
         //vc.delegate = self
         present(vc, animated: true, completion: nil)
         notImplemented()
+    }
+    
+    @objc func presentThemes(){
+        let vc = ThemeChooserController()
+        //vc.delegate = self
+        present(vc, animated: true, completion: nil)
     }
     
     @objc func presentColors(){

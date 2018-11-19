@@ -16,6 +16,7 @@
 		251598802194B97E0067AA00 /* ClarityFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2515987F2194B97E0067AA00 /* ClarityFilter.swift */; };
 		25159884219E2B850067AA00 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25159883219E2B850067AA00 /* ThemeManager.swift */; };
 		25159886219E2BF20067AA00 /* ColorUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25159885219E2BF20067AA00 /* ColorUtilities.swift */; };
+		2515988821A3495C0067AA00 /* ThemeChooserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2515988721A3495C0067AA00 /* ThemeChooserController.swift */; };
 		251729562174F10700D5E946 /* defaultSettings.json in Resources */ = {isa = PBXBuildFile; fileRef = 251729552174F10700D5E946 /* defaultSettings.json */; };
 		251729582175406100D5E946 /* UserChangesRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251729572175406100D5E946 /* UserChangesRecord.swift */; };
 		2517295A217540C300D5E946 /* UserChangesEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25172959217540C300D5E946 /* UserChangesEntity+CoreDataClass.swift */; };
@@ -838,6 +839,7 @@
 		2515987F2194B97E0067AA00 /* ClarityFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClarityFilter.swift; sourceTree = "<group>"; };
 		25159883219E2B850067AA00 /* ThemeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ThemeManager.swift; path = Models/ThemeManager.swift; sourceTree = "<group>"; };
 		25159885219E2BF20067AA00 /* ColorUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorUtilities.swift; sourceTree = "<group>"; };
+		2515988721A3495C0067AA00 /* ThemeChooserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ThemeChooserController.swift; path = Controllers/ThemeChooserController.swift; sourceTree = "<group>"; };
 		251729552174F10700D5E946 /* defaultSettings.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = defaultSettings.json; path = Config/defaultSettings.json; sourceTree = "<group>"; };
 		251729572175406100D5E946 /* UserChangesRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserChangesRecord.swift; sourceTree = "<group>"; };
 		25172959217540C300D5E946 /* UserChangesEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserChangesEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -1837,21 +1839,22 @@
 			isa = PBXGroup;
 			children = (
 				25934FB21DD5109C00C3D665 /* BlendGalleryViewController.swift */,
-				252745F421826DBC00AA2DA2 /* ColorSchemeViewController.swift */,
 				252745FA21851AEB00AA2DA2 /* ColorPickerController.swift */,
+				252745F421826DBC00AA2DA2 /* ColorSchemeViewController.swift */,
 				2556731E1DB961F700187F25 /* DisplayMode.swift */,
 				25A702911DC2FCDD009441E2 /* FilterDetailsViewController.swift */,
 				250716081DBEC19400CDDF42 /* FilterGalleryViewController.swift */,
+				255591E62187CC62001B4452 /* HTMLViewController.swift */,
 				863ABCB91EA6CE5B00B2AED2 /* LiveFilterViewController.swift */,
 				86DD9D941E9C5A7000A5D855 /* MainMenuController.swift */,
 				257F49E11D9448920083B1E4 /* MainViewController.swift */,
-				258EA08D1ED90A7000D5E20E /* SettingsMenuController.swift */,
 				258EA0921ED9472600D5E20E /* ResetViewController.swift */,
 				253A39E11DDA965E00A714D4 /* SampleGalleryViewController.swift */,
 				253B235A1DA2CFD400203ECB /* SegueHandlerType.swift */,
+				258EA08D1ED90A7000D5E20E /* SettingsMenuController.swift */,
 				2542DF5A1ED372BF00CEB968 /* SimpleEditViewController.swift */,
 				252745E4217FE2EF00AA2DA2 /* StartupViewController.swift */,
-				255591E62187CC62001B4452 /* HTMLViewController.swift */,
+				2515988721A3495C0067AA00 /* ThemeChooserController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -3634,6 +3637,7 @@
 				259BE4DB1ECCFA4200D1A5E8 /* Database.swift in Sources */,
 				251729582175406100D5E946 /* UserChangesRecord.swift in Sources */,
 				258F09B9219264C20082FE2A /* SmoothThresholdFilter.swift in Sources */,
+				2515988821A3495C0067AA00 /* ThemeChooserController.swift in Sources */,
 				258F09A9218E36870082FE2A /* CGImage+Extensions.swift in Sources */,
 				2573D1DC217CDCB500E78CAB /* YUCIFilterPreviewGenerator.m in Sources */,
 				255591E52187A1A9001B4452 /* ColorWheelView.swift in Sources */,

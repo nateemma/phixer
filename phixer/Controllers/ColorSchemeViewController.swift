@@ -50,11 +50,11 @@ class ColorSchemeViewController: UIViewController {
     let buttonSize : CGFloat = 48.0
     let statusBarOffset : CGFloat = 12.0
     
-    static let defaultColor:UIColor = UIColor.flatMint
-    static let defaultCount:Int = 6
+    var defaultColor:UIColor = UIColor.flatMint
+    let defaultCount:Int = 6
     
-    var selectedColor:UIColor = defaultColor
-    var selectedCount:Int = defaultCount
+    lazy var selectedColor:UIColor = defaultColor
+    lazy var selectedCount:Int = defaultCount
     var selectedColorScheme:ColorUtilities.ColorSchemeType = .triadic
     
     var colorSchemeList:[String] = []
@@ -83,7 +83,7 @@ class ColorSchemeViewController: UIViewController {
         
         // load theme here in case it changed
         theme = ThemeManager.currentTheme()
-        
+        self.defaultColor = theme.buttonColor
 
         doInit()
         doLayout()
@@ -142,8 +142,8 @@ class ColorSchemeViewController: UIViewController {
         if (!ColorSchemeViewController.initDone){
             ColorSchemeViewController.initDone = true
             
-            selectedColor = ColorSchemeViewController.defaultColor
-            selectedCount = ColorSchemeViewController.defaultCount
+            selectedColor = defaultColor
+            selectedCount = defaultCount
         }
     }
     

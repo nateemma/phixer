@@ -58,6 +58,11 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
         if (!initDone){
             log.verbose("init")
             initDone = true
+            
+            // load filters etc. on a separate thread (not needed to display menu options)
+            DispatchQueue.main.async(execute: { () -> Void in
+                self.filterManager = FilterManager.sharedInstance
+            })
         }
     }
     
@@ -66,11 +71,6 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
         
         // load theme here in case it changed
         theme = ThemeManager.currentTheme()
-        
-        // load filters etc. on a separate thread (not needed to display menu options)
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.filterManager = FilterManager.sharedInstance
-        })
         
         view.backgroundColor = theme.backgroundColor
         

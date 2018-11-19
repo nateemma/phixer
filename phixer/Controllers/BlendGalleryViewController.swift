@@ -275,7 +275,7 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
         for button in [acceptButton, cancelButton] {
             button?.frame.size.height = titleView.frame.size.height - 8
             button?.frame.size.width = 3.0 * (button?.frame.size.height)!
-            button?.backgroundColor = UIColor.flatMint
+            button?.backgroundColor = theme.buttonColor
             button?.setTitleColor(theme.titleTextColor, for: .normal)
             button?.titleLabel!.font = UIFont.boldSystemFont(ofSize: 20.0)
             button?.contentHorizontalAlignment = UIControlContentHorizontalAlignment.center

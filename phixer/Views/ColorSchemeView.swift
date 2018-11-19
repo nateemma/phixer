@@ -22,7 +22,7 @@ class ColorSchemeView: UIView {
             update()
         }
     }
-    var seedColor:UIColor = UIColor.flatMint
+    lazy var seedColor:UIColor = theme.buttonColor
     var requestedCount:Int = 6
     var colorScheme:ColorUtilities.ColorSchemeType = .complementary
     var colorList:[UIColor] = []
