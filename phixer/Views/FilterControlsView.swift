@@ -73,7 +73,9 @@ class FilterControlsView: UIView {
             buttonSize = fmin(self.frame.size.height, self.frame.size.width) - 8
             
             categoryButton = SquareButton(bsize: buttonSize)
+            categoryButton.setTintable(false)
             filterButton = SquareButton(bsize: buttonSize)
+            filterButton.setTintable(false)
             parametersButton = SquareButton(bsize: buttonSize)
            
             // show the sub views

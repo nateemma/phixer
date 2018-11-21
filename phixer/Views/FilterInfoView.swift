@@ -66,7 +66,9 @@ class FilterInfoView: UIView {
             buttonSize = fmin(self.frame.size.height, self.frame.size.width) - 8
             
             categoryIcon = SquareButton(bsize: buttonSize)
+            categoryIcon.setTintable(false)
             filterIcon = SquareButton(bsize: buttonSize)
+            filterIcon.setTintable(false)
             swapIcon = SquareButton(bsize: buttonSize)
 
             // initial values

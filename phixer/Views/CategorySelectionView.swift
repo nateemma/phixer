@@ -267,7 +267,7 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
             newView.backgroundColor = theme.titleColor
             newView.textColor = theme.titleTextColor
             newView.layer.cornerRadius = 4.0
-            newView.layer.borderWidth = 1.0
+            newView.layer.borderWidth = 3.0
             newView.layer.borderColor = theme.highlightColor.cgColor
             
             // scroll to selected item

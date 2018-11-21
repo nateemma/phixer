@@ -81,7 +81,7 @@ class ThemeManager {
                                                                    backgroundColor: UIColor.black,
                                                                    secondaryColor: UIColor.flatGrayDark,
                                                                    titleColor: UIColor.white,
-                                                                   titleTextColor: UIColor.white,
+                                                                   titleTextColor: UIColor.black,
                                                                    subtitleTextColor: UIColor.white,
                                                                    subtitleColor: UIColor.flatMintDark,
                                                                    buttonColor: UIColor.flatMint,

@@ -17,6 +17,7 @@ class SquareButton: UIView {
     
     var button: UIButton! = UIButton(type: .custom)
     var highlight:Bool = false
+    var tint:Bool = true
     
     convenience init(bsize: CGFloat) {
         self.init(frame: CGRect(x:0, y:0, width:bsize, height:bsize))
@@ -51,11 +52,16 @@ class SquareButton: UIView {
         highlight = enable
     }
     
+    // set whether to tint the image or not
+    func setTintable(_ enable:Bool){
+        tint = enable
+    }
+    
     // (re-)set the image on a button using a project asset
     func setImageAsset(_ assetName: String){
         var image:UIImage?
         
-        image = UIImage(named: assetName)
+        image = UIImage(named: assetName)!
         
         if (image == nil) {
             log.warning("WARN: unable to find asset (\(assetName)")
@@ -63,12 +69,19 @@ class SquareButton: UIView {
         }
         
         self.button.imageView?.contentMode = UIViewContentMode.scaleToFill
-        self.button.setImage(image, for: UIControlState.normal)
+        if tint {
+            self.button.imageView?.tintColor =  theme.tintColor
+            self.button.setImage(image!.withRenderingMode(.alwaysTemplate), for: UIControlState.normal)
+        } else {
+            self.button.setImage(image!, for: UIControlState.normal)
+        }
     }
-    
     // set the image based on any UIImage (e.g. from Camera Roll)
     func setImage(_ image: UIImage){
-        self.button.imageView?.contentMode = UIViewContentMode.scaleToFill
+        if tint {
+            self.button.imageView?.contentMode = UIViewContentMode.scaleToFill
+            self.button.imageView?.tintColor =  theme.tintColor
+        }
         self.button.setImage(image, for: UIControlState.normal)
     }
     
