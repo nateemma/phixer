@@ -264,8 +264,8 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
             
             let newView = categoryViewList[index]
             //newView.label.textColor = UIColor.flatLime()
-            newView.backgroundColor = theme.titleColor
-            newView.textColor = theme.titleTextColor
+            newView.backgroundColor = theme.backgroundColor
+            newView.textColor = theme.highlightColor
             newView.layer.cornerRadius = 4.0
             newView.layer.borderWidth = 3.0
             newView.layer.borderColor = theme.highlightColor.cgColor

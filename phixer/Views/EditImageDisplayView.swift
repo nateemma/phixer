@@ -60,13 +60,16 @@ class EditImageDisplayView: UIView {
     }
     
     fileprivate func doInit(){
-        log.debug("init")
         
-        
+
         if (!initDone){
-            self.backgroundColor = theme.backgroundColor
+            log.debug("init")
+           self.backgroundColor = theme.backgroundColor
             
-            
+            EditManager.reset()
+            self.currPhotoInput = ImageManager.getCurrentEditInput()
+            EditManager.setInputImage(self.currPhotoInput)
+
             initDone = true
             
         }
@@ -76,6 +79,8 @@ class EditImageDisplayView: UIView {
     
     
     fileprivate func doLayout(){
+        
+        doInit()
         
         if (renderView != nil) {
             renderView?.frame = self.frame
@@ -87,6 +92,7 @@ class EditImageDisplayView: UIView {
             //renderView?.anchorInCenter((renderView?.frame.size.width)!, height: (renderView?.frame.size.height)!)
             imageView.isHidden = true
             renderView?.isHidden = false
+            
             self.bringSubview(toFront: renderView!)
         } else {
             log.error("NIL render view")
@@ -120,18 +126,20 @@ class EditImageDisplayView: UIView {
     // MARK: - Accessors
     ///////////////////////////////////
     
-    open func saveImage(_ url:URL){
+    open func saveImage(){
         //lastFilter?.saveNextFrameToURL(url, format:.png)
-        saveToPhotoAlbum(url) // saves asynchronously
+        saveToPhotoAlbum() // saves asynchronously
     }
     
     
-    // Saves the photo file at the supplied URL to the Camera Roll (asynchronously). Doesn't always work if synchronous
-    fileprivate func saveToPhotoAlbum(_ url:URL){
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            let image = UIImage(contentsOfFile: url.path)
-            if (image != nil){
-                UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil)
+    // Saves the currently displayed image to the Camera Roll (asynchronously). Doesn't always work if synchronous
+    fileprivate func saveToPhotoAlbum(){
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            let ciimage = self.renderView?.image
+            if (ciimage != nil){
+                let cgimage = ciimage?.generateCGImage()
+                let image = UIImage(cgImage: cgimage!)
+                UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
             } else {
                 log.error("Error saving photo")
             }
@@ -143,6 +151,7 @@ class EditImageDisplayView: UIView {
         if (!key.isEmpty){
             currFilterKey = key
             currFilterDescriptor = filterManager.getFilterDescriptor(key: currFilterKey)
+            EditManager.addFilter(currFilterDescriptor)
             //renderView = filterManager.getRenderView(key: currFilterKey)!
             update()
         } else {
@@ -152,10 +161,17 @@ class EditImageDisplayView: UIView {
     
     open func updateImage(){
         DispatchQueue.main.async(execute: { () -> Void in
+            /***
             self.filterManager.releaseRenderView(key: self.currFilterKey)
             self.currPhotoInput = ImageManager.getCurrentEditInput()
             if self.currPhotoInput == nil {
                 self.currPhotoInput = ImageManager.getCurrentSampleInput()
+            }
+            self.update()
+             ***/
+            self.currPhotoInput = EditManager.outputImage
+            if self.currPhotoInput == nil {
+                self.currPhotoInput = ImageManager.getCurrentSampleInput() // no edit image set, so make sure there is an image
             }
             self.update()
         })
@@ -191,7 +207,8 @@ class EditImageDisplayView: UIView {
                    self.renderView?.anchorToEdge(.top, padding: 0, width: (self.renderView?.frame.size.width)!, height: (self.renderView?.frame.size.height)!)
                 }
                  ***/
-                self.renderView?.image = self.currFilterDescriptor?.apply(image: self.currPhotoInput)
+                //self.renderView?.image = self.currFilterDescriptor?.apply(image: self.currPhotoInput)
+                self.renderView?.image = EditManager.outputImage
             } else {
                 log.debug("Edit image not set, ignoring")
             }

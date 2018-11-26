@@ -15,7 +15,7 @@ import iCarousel
 
 // Interface required of controlling View
 protocol EditControlsViewDelegate: class {
-    func changeImagePressed()
+    //func changeImagePressed()
     func changeFilterPressed()
     func brightnessPressed()
     func exposurePressed()
@@ -46,12 +46,12 @@ class EditControlsView: UIView, iCarouselDelegate, iCarouselDataSource{
     fileprivate var controlCarousel:iCarousel? = iCarousel()
     
     // the list of controls
-    fileprivate var controlNameList: [String] = [ "image", "filter", "brightness", "exposure", "warmth", "white balance",
+    fileprivate var controlNameList: [String] = [ "filter", "brightness", "exposure", "warmth", "white balance",
                                                   "contrast", "shadows", "highlights", "levels", "vibrance", "saturation",
                                                   "sharpness", "vignette", "rotate", "crop"
     ]
     // the assets for each control
-    fileprivate var controlAssetList: [String] = [ "ic_image", "ic_filters", "ic_brightness", "ic_exposure", "ic_warmth", "ic_wb",
+    fileprivate var controlAssetList: [String] = [ "ic_filters", "ic_brightness", "ic_exposure", "ic_warmth", "ic_wb",
                                                   "ic_contrast", "ic_shadow", "ic_highlights", "ic_levels", "ic_vibrance", "ic_saturation",
                                                   "ic_sharpness", "ic_vignette", "ic_rotate", "ic_crop"
     ]
@@ -333,8 +333,6 @@ class EditControlsView: UIView, iCarouselDelegate, iCarouselDataSource{
         
         switch (index){
         case 0:
-            self.delegate?.changeImagePressed()
-        case 1:
             self.delegate?.changeFilterPressed()
         case 2:
             self.delegate?.brightnessPressed()

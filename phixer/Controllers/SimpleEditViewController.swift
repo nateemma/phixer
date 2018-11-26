@@ -42,6 +42,9 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     // The Edit controls/options
     var editControlsView: EditControlsView! = EditControlsView()
     
+    // Image Selection (& save) view
+    var imageSelectionView: ImageSelectionView! = ImageSelectionView()
+    
     // The filter configuration subview
     var filterSettingsView: FilterParametersView! = FilterParametersView()
     
@@ -138,7 +141,8 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         //view.addSubview(filterInfoView)
         view.addSubview(editImageView)
         view.addSubview(editControlsView)
-        
+        view.addSubview(imageSelectionView)
+
         // hidden views:
         view.addSubview(filterControlsView) // must come after editImageView
         view.addSubview(filterSelectionView)
@@ -163,15 +167,18 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         
         // Only Portrait mode supported (for now)
         
+        imageSelectionView.frame.size.height = CGFloat(bannerHeight)
+        imageSelectionView.frame.size.width = displayWidth
+        imageSelectionView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: imageSelectionView.frame.size.height)
+
         editImageView.frame.size.width = displayWidth
         editImageView.frame.size.height = displayHeight - bannerView.frame.size.height - CGFloat(editControlHeight)
-        editImageView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: editImageView.frame.size.height)
+        editImageView.align(.underCentered, relativeTo: imageSelectionView, padding: 0, width: displayWidth, height: editImageView.frame.size.height)
         
-        //editControlsView.frame.size.height = bannerHeight + 8.0
         editControlsView.frame.size.height = CGFloat(editControlHeight)
         editControlsView.frame.size.width = displayWidth
-        editControlsView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: editControlsView.frame.size.height)
-        
+        editControlsView.anchorToEdge(.bottom, padding: 0, width: displayWidth, height: editControlsView.frame.size.height)
+
         filterControlsView.frame.size.height = bannerHeight * 0.5
         filterControlsView.frame.size.width = displayWidth
         filterControlsView.align(.aboveCentered, relativeTo: editControlsView, padding: 0, width: displayWidth, height: filterControlsView.frame.size.height)
@@ -192,6 +199,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         
         // add delegates to sub-views (for callbacks)
         editControlsView.delegate = self
+        imageSelectionView.delegate = self
         filterControlsView.delegate = self
         filterSelectionView.delegate = self
         categorySelectionView.delegate = self
@@ -289,7 +297,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     
     // layout the banner view, with the Back button, title etc.
     func layoutBanner(){
-        bannerView.frame.size.height = bannerHeight * 0.5
+        bannerView.frame.size.height = bannerHeight * 0.75
         bannerView.frame.size.width = displayWidth
         bannerView.title = "\'Simple\' Photo Editor"
         bannerView.delegate = self
@@ -410,6 +418,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     
     
     func setGestureDetectors(view: UIView){
+        /*** disable for now. Do swipe gestures make sense if applying multiple filters?
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.swiped))
         swipeDown.direction = .down
         view.addGestureRecognizer(swipeDown)
@@ -425,6 +434,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.swiped))
         swipeLeft.direction = .left
         view.addGestureRecognizer(swipeLeft)
+         ***/
     }
     
     
@@ -487,15 +497,8 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     //////////////////////////////////////
     
     open func saveImage(){
-        do{
-            let documentsDir = try FileManager.default.url(for:.documentDirectory, in:.userDomainMask, appropriateFor:nil, create:true)
-            //TOFIX: generate filename? Or, just overwrite same file since it's copied to Photos anyway?
-            editImageView.saveImage(URL(string:"phixerImage.png", relativeTo:documentsDir)!)
-            
-        } catch {
-            log.error("Error saving image: \(error)")
-        }
-        
+        editImageView.saveImage()
+        playCameraSound()
     }
     
     fileprivate func playCameraSound(){
@@ -542,6 +545,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     }
     
     func changeFilterTo(_ key:String){
+        //TODO: make user accept changes before applying? (Add buttons to parameter display)
         currFilterKey = key
         // setup the filter descriptor
         if (key != filterManager?.getCurrentFilterKey()){
@@ -563,23 +567,6 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     
     // retrive current settings from FilterManager and store locally
     func updateCurrentFilter(){
-        /***
-         //if let descriptor = filterManager?.getCurrentFilterDescriptor(){
-         //log.verbose("Current filter: \(descriptor.key)")
-         //if ((currFilterDescriptor == nil) || (descriptor.key != currFilterDescriptor?.key)){
-         //log.debug("Filter change: \(descriptor.key)->\(String(describing: currFilterDescriptor?.key))")
-         //currFilterDescriptor = descriptor
-         editImageView.setFilter(key:(self.currFilterDescriptor?.key)!)
-         categorySelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)
-         filterSelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)
-         //filterSelectionView.update()
-         //} else {
-         //    log.debug("Ignoring \(currFilterDescriptor?.key)->\(descriptor.key) transition")
-         //}
-         //} else {
-         //    editImageView.setFilter(key:"")
-         //}
-         ***/
         
         if (currFilterDescriptor != nil){
             if ((currFilterDescriptor?.numParameters)! == 0){
@@ -756,21 +743,21 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     // MARK: - ImagePicker handling
     //////////////////////////////////////////
     
+    func changeImage(){
+        DispatchQueue.main.async(execute: { () -> Void in
+            log.debug("imagePreview pressed - launching ImagePicker...")
+            // launch an ImagePicker
+            self.imagePicker.allowsEditing = false
+            self.imagePicker.sourceType = .photoLibrary
+            
+            self.present(self.imagePicker, animated: true, completion: {
+            })
+        })
+    }
+    
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        /*** old way:
-         if let imageRefURL = info[UIImagePickerControllerReferenceURL] as? NSURL {
-         log.verbose("Picked URL:\(imageRefURL)")
-         //TODO: save image URL to folder
-         ImageManager.setCurrentEditImageName(imageRefURL.absoluteString!)
-         
-         //update filtered image
-         self.editImageView.updateImage()
-         
-         } else {
-         log.error("Error accessing image URL")
-         }
-         picker.dismiss(animated: true)
-         ***/
+
         if let asset = info[UIImagePickerControllerPHAsset] as? PHAsset {
             let assetResources = PHAssetResource.assetResources(for: asset)
             let name = assetResources.first!.originalFilename
@@ -778,7 +765,9 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
             
             log.verbose("Picked image:\(name) id:\(id)")
             ImageManager.setCurrentEditImageName(id)
-            self.editImageView.updateImage()
+            DispatchQueue.main.async(execute: { () -> Void in
+                self.editImageView.updateImage()
+            })
         } else {
             log.error("Error accessing image data")
         }
@@ -826,18 +815,6 @@ fileprivate var callbacksEnabled = true
 
 extension SimpleEditViewController: EditControlsViewDelegate {
     
-    func changeImagePressed(){
-        hideModalViews()
-        DispatchQueue.main.async(execute: { () -> Void in
-            log.debug("imagePreview pressed - launching ImagePicker...")
-            // launch an ImagePicker
-            self.imagePicker.allowsEditing = false
-            self.imagePicker.sourceType = .photoLibrary
-            
-            self.present(self.imagePicker, animated: true, completion: {
-            })
-        })
-    }
     
     func changeFilterPressed(){
         hideModalViews()
@@ -981,12 +958,53 @@ extension SimpleEditViewController: FilterSelectionViewDelegate{
 }
 
 
+// TitleViewDelegate
 extension SimpleEditViewController: TitleViewDelegate {
     func backPressed() {
         backDidPress()
     }
 }
 
+// ImageSelectionViewDelegate
+extension SimpleEditViewController: ImageSelectionViewDelegate {
+    
+    func changeImagePressed(){
+        self.changeImage()
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.imageSelectionView.update()
+        })
+    }
 
+    func changeBlendPressed() {
+        let vc = BlendGalleryViewController()
+        vc.delegate = self
+        self.present(vc, animated: true, completion: {
+            DispatchQueue.main.async(execute: { () -> Void in
+                self.imageSelectionView.update()
+                log.verbose("Blend image changed")
+            })
+        })
+
+    }
+    
+    func savePressed() {
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.saveImage()
+            log.verbose("Image saved")
+            self.imageSelectionView.update()
+        })
+    }
+    
+}
+
+// BlendGalleryViewControllerDelegate
+extension SimpleEditViewController: BlendGalleryViewControllerDelegate {
+    func blendGalleryCompleted() {
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.imageSelectionView.update()
+            log.verbose("Blend image changed")
+        })
+    }
+}
 
 

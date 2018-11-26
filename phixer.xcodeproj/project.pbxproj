@@ -39,7 +39,6 @@
 		252745F92182AAF900AA2DA2 /* ColorSchemeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252745F82182AAF900AA2DA2 /* ColorSchemeView.swift */; };
 		252745FB21851AEB00AA2DA2 /* ColorPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252745FA21851AEB00AA2DA2 /* ColorPickerController.swift */; };
 		252745FD21851C6300AA2DA2 /* RGBSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252745FC21851C6300AA2DA2 /* RGBSliderView.swift */; };
-		252745FF218551AF00AA2DA2 /* HSBSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252745FE218551AF00AA2DA2 /* HSBSliderView.swift */; };
 		25274602218764D500AA2DA2 /* CGFloat+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25274601218764D500AA2DA2 /* CGFloat+Extensions.swift */; };
 		252746042187653500AA2DA2 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252746032187653500AA2DA2 /* UIColor+Extensions.swift */; };
 		252B0DAF1E30690E005A0C2D /* da_006_pink_zombie.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 252B0B951E30690D005A0C2D /* da_006_pink_zombie.jpg */; };
@@ -699,16 +698,22 @@
 		2542DF591ECFB4DA00CEB968 /* LookupFilterRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2542DF581ECFB4DA00CEB968 /* LookupFilterRecord.swift */; };
 		2542DF5B1ED372BF00CEB968 /* SimpleEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2542DF5A1ED372BF00CEB968 /* SimpleEditViewController.swift */; };
 		2542DF5D1ED373F800CEB968 /* EditImageDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2542DF5C1ED373F800CEB968 /* EditImageDisplayView.swift */; };
-		2542DF5F1ED377A700CEB968 /* EditControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2542DF5E1ED377A700CEB968 /* EditControlsView.swift */; };
 		2542DF651ED6634800CEB968 /* SettingsEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2542DF641ED6634800CEB968 /* SettingsEntity+CoreDataProperties.swift */; };
 		255459B921681294008A9F55 /* CameraCaptureHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255459B821681294008A9F55 /* CameraCaptureHelper.swift */; };
-		255459BB21681320008A9F55 /* MetalImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255459BA21681320008A9F55 /* MetalImageView.swift */; };
 		255591E52187A1A9001B4452 /* ColorWheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255591E42187A1A9001B4452 /* ColorWheelView.swift */; };
 		255591E72187CC62001B4452 /* HTMLViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255591E62187CC62001B4452 /* HTMLViewController.swift */; };
 		2556731F1DB961F700187F25 /* DisplayMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2556731E1DB961F700187F25 /* DisplayMode.swift */; };
 		255673231DB9BF0F00187F25 /* FilterControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255673221DB9BF0F00187F25 /* FilterControlsView.swift */; };
 		255844EE1E03598B009440CA /* FilterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255844ED1E03598B009440CA /* FilterFactory.swift */; };
 		2559533D1DF0D9EE002A2905 /* defaultConfig.json in Resources */ = {isa = PBXBuildFile; fileRef = 2559533C1DF0D9EE002A2905 /* defaultConfig.json */; };
+		2568BC0A21AB1BE600560287 /* ImageSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568BC0921AB1BE600560287 /* ImageSelectionView.swift */; };
+		2568BD0321AC72CB00560287 /* Manifest.lock in Resources */ = {isa = PBXBuildFile; fileRef = 2568BC1221AC72C900560287 /* Manifest.lock */; };
+		2568BD2821AC72CB00560287 /* MetalImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568BC3C21AC72C900560287 /* MetalImageView.swift */; };
+		2568BD5421AC72CB00560287 /* HSBSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568BC6D21AC72CA00560287 /* HSBSliderView.swift */; };
+		2568BDA021AC72CB00560287 /* EditControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568BCCE21AC72CA00560287 /* EditControlsView.swift */; };
+		2568BDA121AC72CB00560287 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2568BCCF21AC72CA00560287 /* iCarousel.m */; };
+		2568BDA221AC72CB00560287 /* ISColorWheel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2568BCD021AC72CA00560287 /* ISColorWheel.m */; };
+		2568BDCB21AC731100560287 /* EditManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568BDCA21AC731100560287 /* EditManager.swift */; };
 		2573D1D5217CDCB500E78CAB /* YUCIReflectedTile.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = 2573D1AF217CDCB400E78CAB /* YUCIReflectedTile.cikernel */; };
 		2573D1D6217CDCB500E78CAB /* YUCIGreenBlueChannelOverlayBlend.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = 2573D1B1217CDCB400E78CAB /* YUCIGreenBlueChannelOverlayBlend.cikernel */; };
 		2573D1D7217CDCB500E78CAB /* YUCIBilateralFilter.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = 2573D1B2217CDCB400E78CAB /* YUCIBilateralFilter.cikernel */; };
@@ -865,7 +870,6 @@
 		252745F82182AAF900AA2DA2 /* ColorSchemeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ColorSchemeView.swift; path = Views/ColorSchemeView.swift; sourceTree = "<group>"; };
 		252745FA21851AEB00AA2DA2 /* ColorPickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorPickerController.swift; path = Controllers/ColorPickerController.swift; sourceTree = "<group>"; };
 		252745FC21851C6300AA2DA2 /* RGBSliderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RGBSliderView.swift; path = Views/RGBSliderView.swift; sourceTree = "<group>"; };
-		252745FE218551AF00AA2DA2 /* HSBSliderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HSBSliderView.swift; sourceTree = "<group>"; };
 		25274601218764D500AA2DA2 /* CGFloat+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extensions.swift"; sourceTree = "<group>"; };
 		252746032187653500AA2DA2 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		252B0B951E30690D005A0C2D /* da_006_pink_zombie.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = da_006_pink_zombie.jpg; sourceTree = "<group>"; };
@@ -1529,16 +1533,24 @@
 		2542DF581ECFB4DA00CEB968 /* LookupFilterRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LookupFilterRecord.swift; sourceTree = "<group>"; };
 		2542DF5A1ED372BF00CEB968 /* SimpleEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SimpleEditViewController.swift; path = Controllers/SimpleEditViewController.swift; sourceTree = "<group>"; };
 		2542DF5C1ED373F800CEB968 /* EditImageDisplayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditImageDisplayView.swift; path = Views/EditImageDisplayView.swift; sourceTree = "<group>"; };
-		2542DF5E1ED377A700CEB968 /* EditControlsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditControlsView.swift; sourceTree = "<group>"; };
 		2542DF641ED6634800CEB968 /* SettingsEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SettingsEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		255459B821681294008A9F55 /* CameraCaptureHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCaptureHelper.swift; sourceTree = "<group>"; };
-		255459BA21681320008A9F55 /* MetalImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalImageView.swift; sourceTree = "<group>"; };
 		255591E42187A1A9001B4452 /* ColorWheelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorWheelView.swift; path = Views/ColorWheelView.swift; sourceTree = "<group>"; };
 		255591E62187CC62001B4452 /* HTMLViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HTMLViewController.swift; path = Controllers/HTMLViewController.swift; sourceTree = "<group>"; };
 		2556731E1DB961F700187F25 /* DisplayMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DisplayMode.swift; path = Models/DisplayMode.swift; sourceTree = "<group>"; };
 		255673221DB9BF0F00187F25 /* FilterControlsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterControlsView.swift; path = Views/FilterControlsView.swift; sourceTree = "<group>"; };
 		255844ED1E03598B009440CA /* FilterFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterFactory.swift; path = Models/FilterFactory.swift; sourceTree = "<group>"; };
 		2559533C1DF0D9EE002A2905 /* defaultConfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = defaultConfig.json; path = Config/defaultConfig.json; sourceTree = "<group>"; };
+		2568BC0921AB1BE600560287 /* ImageSelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageSelectionView.swift; path = Views/ImageSelectionView.swift; sourceTree = "<group>"; };
+		2568BC1221AC72C900560287 /* Manifest.lock */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Manifest.lock; sourceTree = "<group>"; };
+		2568BC3B21AC72C900560287 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iCarousel.h; path = Views/iCarousel.h; sourceTree = "<group>"; };
+		2568BC3C21AC72C900560287 /* MetalImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MetalImageView.swift; path = Views/MetalImageView.swift; sourceTree = "<group>"; };
+		2568BC6D21AC72CA00560287 /* HSBSliderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HSBSliderView.swift; path = Views/HSBSliderView.swift; sourceTree = "<group>"; };
+		2568BCCE21AC72CA00560287 /* EditControlsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditControlsView.swift; path = Views/EditControlsView.swift; sourceTree = "<group>"; };
+		2568BCCF21AC72CA00560287 /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = iCarousel.m; path = Views/iCarousel.m; sourceTree = "<group>"; };
+		2568BCD021AC72CA00560287 /* ISColorWheel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISColorWheel.m; path = Views/ISColorWheel.m; sourceTree = "<group>"; };
+		2568BCFF21AC72CB00560287 /* ISColorWheel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ISColorWheel.h; path = Views/ISColorWheel.h; sourceTree = "<group>"; };
+		2568BDCA21AC731100560287 /* EditManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditManager.swift; path = Models/EditManager.swift; sourceTree = "<group>"; };
 		2573D1AE217CDCB400E78CAB /* YUCIReflectedTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YUCIReflectedTile.h; sourceTree = "<group>"; };
 		2573D1AF217CDCB400E78CAB /* YUCIReflectedTile.cikernel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = YUCIReflectedTile.cikernel; sourceTree = "<group>"; };
 		2573D1B0217CDCB400E78CAB /* YUCICLAHE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YUCICLAHE.h; sourceTree = "<group>"; };
@@ -1783,6 +1795,14 @@
 		256D0FEC1D98DAC600220D7E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2568BCCE21AC72CA00560287 /* EditControlsView.swift */,
+				2568BC6D21AC72CA00560287 /* HSBSliderView.swift */,
+				2568BC3B21AC72C900560287 /* iCarousel.h */,
+				2568BCCF21AC72CA00560287 /* iCarousel.m */,
+				2568BCFF21AC72CB00560287 /* ISColorWheel.h */,
+				2568BCD021AC72CA00560287 /* ISColorWheel.m */,
+				2568BC1221AC72C900560287 /* Manifest.lock */,
+				2568BC3C21AC72C900560287 /* MetalImageView.swift */,
 				25934FB01DD4EC1100C3D665 /* BlendGalleryView.swift */,
 				252745F62182A1D500AA2DA2 /* BorderedButton.swift */,
 				25CF4BCF1D9490C400D779CF /* CameraControlsView.swift */,
@@ -1791,7 +1811,6 @@
 				25910B181DB738B3007EC926 /* CategorySelectionView.swift */,
 				252745F82182AAF900AA2DA2 /* ColorSchemeView.swift */,
 				255591E42187A1A9001B4452 /* ColorWheelView.swift */,
-				2542DF5E1ED377A700CEB968 /* EditControlsView.swift */,
 				2542DF5C1ED373F800CEB968 /* EditImageDisplayView.swift */,
 				255673221DB9BF0F00187F25 /* FilterControlsView.swift */,
 				25A702941DC2FE3C009441E2 /* FilterDisplayView.swift */,
@@ -1802,16 +1821,15 @@
 				25AEBB431DBA8AEC00AA6279 /* FilterSelectionView.swift */,
 				251729612179459F00D5E946 /* GalleryViewCell.swift */,
 				25B24D111DAEE1B5008CD38A /* GradientSlider.swift */,
-				252745FE218551AF00AA2DA2 /* HSBSliderView.swift */,
 				25CF4BD31D9490C400D779CF /* ImageContainerView.swift */,
-				255459BA21681320008A9F55 /* MetalImageView.swift */,
+				2568BC0921AB1BE600560287 /* ImageSelectionView.swift */,
 				25910B141DB73833007EC926 /* phixer-Bridging-Header.h */,
 				25910B1A1DB7D61A007EC926 /* RenderContainerView.swift */,
 				252745FC21851C6300AA2DA2 /* RGBSliderView.swift */,
 				253A39E31DDA979400A714D4 /* SampleGalleryView.swift */,
 				25CF4BD41D9490C400D779CF /* SquareButton.swift */,
-				251729AA217BE7A300D5E946 /* TitleView.swift */,
 				258F09B6218E67910082FE2A /* TimedAlertView.swift */,
+				251729AA217BE7A300D5E946 /* TitleView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1819,6 +1837,7 @@
 		256D0FEE1D98DAD100220D7E /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				2568BDCA21AC731100560287 /* EditManager.swift */,
 				2507160A1DBECDF200CDDF42 /* Admob.swift */,
 				25F4601F1D99D79B00EDA182 /* AspectRatio.swift */,
 				25F4601D1D99D65F00EDA182 /* CameraISO.swift */,
@@ -3184,6 +3203,7 @@
 				252B0E431E30690F005A0C2D /* ps_005_bleach_bypass.jpg in Resources */,
 				252B0F091E30690F005A0C2D /* et_115_pink_grey.jpg in Resources */,
 				252B0E021E30690F005A0C2D /* tn_004_tint_aqua.jpg in Resources */,
+				2568BD0321AC72CB00560287 /* Manifest.lock in Resources */,
 				251729562174F10700D5E946 /* defaultSettings.json in Resources */,
 				252B0EA01E30690F005A0C2D /* mo_030_smart_psycho_3.jpg in Resources */,
 				252B0E8D1E30690F005A0C2D /* mo_039_contrast_3.jpg in Resources */,
@@ -3626,6 +3646,7 @@
 			files = (
 				258F09A5218CD6770082FE2A /* MLModelHelper.swift in Sources */,
 				258F09A0218CBFC30082FE2A /* FNS-The-Scream.mlmodel in Sources */,
+				2568BDA121AC72CB00560287 /* iCarousel.m in Sources */,
 				25CF4BDC1D94D93700D779CF /* AppDelegate.swift in Sources */,
 				2542DF5B1ED372BF00CEB968 /* SimpleEditViewController.swift in Sources */,
 				2507160D1DBED62C00CDDF42 /* FilterGalleryView.swift in Sources */,
@@ -3636,7 +3657,9 @@
 				25159886219E2BF20067AA00 /* ColorUtilities.swift in Sources */,
 				259BE4DB1ECCFA4200D1A5E8 /* Database.swift in Sources */,
 				251729582175406100D5E946 /* UserChangesRecord.swift in Sources */,
+				2568BD2821AC72CB00560287 /* MetalImageView.swift in Sources */,
 				258F09B9219264C20082FE2A /* SmoothThresholdFilter.swift in Sources */,
+				2568BDA221AC72CB00560287 /* ISColorWheel.m in Sources */,
 				2515988821A3495C0067AA00 /* ThemeChooserController.swift in Sources */,
 				258F09A9218E36870082FE2A /* CGImage+Extensions.swift in Sources */,
 				2573D1DC217CDCB500E78CAB /* YUCIFilterPreviewGenerator.m in Sources */,
@@ -3649,9 +3672,9 @@
 				255459B921681294008A9F55 /* CameraCaptureHelper.swift in Sources */,
 				258F09A1218CBFC30082FE2A /* FNS-Mosaic.mlmodel in Sources */,
 				2517295A217540C300D5E946 /* UserChangesEntity+CoreDataClass.swift in Sources */,
-				252745FF218551AF00AA2DA2 /* HSBSliderView.swift in Sources */,
 				25B24D121DAEE1B5008CD38A /* GradientSlider.swift in Sources */,
 				258F099E218CBFC30082FE2A /* FNS-La-Muse.mlmodel in Sources */,
+				2568BDA021AC72CB00560287 /* EditControlsView.swift in Sources */,
 				253B23771DA4BB7800203ECB /* ClosestFraction.swift in Sources */,
 				252745EF21815FB700AA2DA2 /* CarnivalMirror.swift in Sources */,
 				258F09A7218CDEFD0082FE2A /* Geometry.swift in Sources */,
@@ -3670,13 +3693,14 @@
 				25CF4BD61D9490C400D779CF /* CameraDisplayView.swift in Sources */,
 				252745F92182AAF900AA2DA2 /* ColorSchemeView.swift in Sources */,
 				25A702971DC3AEEA009441E2 /* Utilities.swift in Sources */,
+				2568BD5421AC72CB00560287 /* HSBSliderView.swift in Sources */,
 				258F09AF218E4B5B0082FE2A /* Style_Feathers.swift in Sources */,
 				251729AB217BE7A300D5E946 /* TitleView.swift in Sources */,
 				25934FB11DD4EC1100C3D665 /* BlendGalleryView.swift in Sources */,
 				25CF4BDA1D9490C400D779CF /* SquareButton.swift in Sources */,
 				25F4601E1D99D65F00EDA182 /* CameraISO.swift in Sources */,
+				2568BC0A21AB1BE600560287 /* ImageSelectionView.swift in Sources */,
 				258F09AD218E4AC90082FE2A /* Style_Candy.swift in Sources */,
-				255459BB21681320008A9F55 /* MetalImageView.swift in Sources */,
 				252745E5217FE2EF00AA2DA2 /* StartupViewController.swift in Sources */,
 				252C17A71ECE75FC00039BFC /* AssignmentEntity+CoreDataProperties.swift in Sources */,
 				258F09B1218E4B810082FE2A /* Style_LaMuse.swift in Sources */,
@@ -3700,7 +3724,6 @@
 				25F460181D99CCCE00EDA182 /* UISettings.swift in Sources */,
 				252C17951ECE64EE00039BFC /* Model.xcdatamodeld in Sources */,
 				258EA08E1ED90A7000D5E20E /* SettingsMenuController.swift in Sources */,
-				2542DF5F1ED377A700CEB968 /* EditControlsView.swift in Sources */,
 				255673231DB9BF0F00187F25 /* FilterControlsView.swift in Sources */,
 				252745F12182295100AA2DA2 /* EdgeGlowFilter.swift in Sources */,
 				25CF4BD51D9490C400D779CF /* CameraControlsView.swift in Sources */,
@@ -3739,6 +3762,7 @@
 				253B235B1DA2CFD400203ECB /* SegueHandlerType.swift in Sources */,
 				258F09AB218E3CCF0082FE2A /* CIImage+Extensions.swift in Sources */,
 				258F0991218B7DD90082FE2A /* UIImage+Extensions.swift in Sources */,
+				2568BDCB21AC731100560287 /* EditManager.swift in Sources */,
 				25F4601A1D99CE1E00EDA182 /* GridStyle.swift in Sources */,
 				253B236C1DA44E3600203ECB /* FilterDescriptor.swift in Sources */,
 				253F54CD1DF24702007CCDEF /* FilterLibrary.swift in Sources */,
