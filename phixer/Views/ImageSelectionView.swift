@@ -79,6 +79,7 @@ class ImageSelectionView: UIView {
             for l in [imageLabel,  blendLabel, saveLabel] {
                 l!.font = UIFont.systemFont(ofSize: 10.0)
                 l!.textColor = theme.textColor
+                l!.textAlignment = .center
             }
 
             // add the subviews to the main View

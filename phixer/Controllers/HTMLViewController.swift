@@ -41,6 +41,9 @@ class HTMLViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Logging nicety, show that controller has changed:
+        print ("\n========== \(String(describing: self)) ==========")
+
         // load theme here in case it changed
         theme = ThemeManager.currentTheme()
         

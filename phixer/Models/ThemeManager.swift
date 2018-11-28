@@ -124,7 +124,7 @@ class ThemeManager {
             ThemeManager.themeDictionary["blue"] = ThemeParameters(key: "blue",
                                                                   description: "Blue Theme",
                                                                   mainColor: UIColor.white,
-                                                                  textColor: UIColor.flatSkyBlueDark,
+                                                                  textColor: UIColor.flatBlueDark,
                                                                   barStyle: .black,
                                                                   backgroundColor: UIColor.white,
                                                                   secondaryColor: UIColor.flatSkyBlueDark,
@@ -135,7 +135,7 @@ class ThemeManager {
                                                                   buttonColor: UIColor.flatSkyBlueDark,
                                                                   borderColor: UIColor.flatBlueDark,
                                                                   highlightColor: UIColor.flatYellow,
-                                                                  tintColor: UIColor.flatSkyBlue)
+                                                                  tintColor: UIColor.flatSkyBlueDark)
 
             currKey = getSavedTheme()
         }

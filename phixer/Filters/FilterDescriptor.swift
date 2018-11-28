@@ -514,9 +514,11 @@ class  FilterDescriptor {
     
     // reset to default parameters (usefil in UIs)
     func reset() {
-        restoreParameters()
+        //restoreParameters()
+        if filter != nil {
+            self.filter!.setDefaults()
+        }
     }
-    
     
     
     ///////////////////////////////////////////

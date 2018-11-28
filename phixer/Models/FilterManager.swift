@@ -284,7 +284,7 @@ class FilterManager{
                 FilterManager.currFilterKey = ""
             }
             
-            log.debug("Filter changed to: \(String(describing: descriptor?.key))")
+            //log.debug("Filter changed to: \(String(describing: descriptor?.key))")
             
             // Notify clients
             issueFilterChangeNotification()

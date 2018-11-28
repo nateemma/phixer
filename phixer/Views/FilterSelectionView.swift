@@ -98,7 +98,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         
         if ((category != filterCategory) || (currIndex<0)){
             
-            log.debug("Filter category set to: \(category)")
+            //log.debug("Filter category set to: \(category)")
             setInputSource(inputSource)
             
             filterCategory = category
@@ -167,6 +167,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         
         return view
     }
+
     
     ///////////////////////////////////
     //MARK: - UIView required functions
@@ -263,7 +264,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     
     // number of items in list
     func numberOfItems(in carousel: iCarousel) -> Int {
-        log.verbose("\(filterNameList.count) items")
+        //log.verbose("\(filterNameList.count) items")
         return filterNameList.count
     }
     
@@ -397,7 +398,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
             var descriptor:FilterDescriptor?
             
             
-            if self.inputSource != .camera { log.verbose("Updating...") }
+            //if self.inputSource != .camera { log.verbose("Updating...") }
             for i in (self.filterCarousel?.indexesForVisibleItems)! {
                 //if (self.camera != nil){
                 if (self.sourceInput != nil){      

@@ -46,11 +46,8 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
             currCategory = category
             log.debug("Filter category set to: \(category)")
             update()
-        } else {
-            log.debug("Ignoring category \(category) change")
         }
     }
-    
     
     
     func update(){
@@ -59,12 +56,12 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         
         // if valid index, just scroll there. It could be the first time displaying, but index did not change
         if ((newIndex>=0) && (newIndex<categoryList.count)){
-            log.debug("Scroll to: \(newIndex)")
+            //log.debug("Scroll to: \(newIndex)")
             categoryCarousel.scrollToItem(at: newIndex, animated: false)
         }
 
         if (currIndex != newIndex){
-            log.verbose("Scroll \(currIndex)->\(newIndex)")
+            //log.verbose("Scroll \(currIndex)->\(newIndex)")
             //categoryCarousel.scrollToItem(at: newIndex, animated: true)  // for some reason, animation causes a 'false' trigger at the end of the list
             categoryCarousel.scrollToItem(at: newIndex, animated: false)
             highlightSelection(categoryCarousel, index: newIndex)
@@ -117,7 +114,7 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         
         doInit()
         
-        carouselHeight = max((self.frame.size.height * 0.8), 80.0) // doesn't seem to work at less than 80 (empirical)
+        carouselHeight = max((self.frame.size.height * 0.8), 80.0).rounded() // doesn't seem to work at less than 80 (empirical)
         categoryCarousel.frame.size.width = self.frame.size.width
         categoryCarousel.frame.size.height = carouselHeight
 

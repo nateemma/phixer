@@ -42,11 +42,14 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     // The Edit controls/options
     var editControlsView: EditControlsView! = EditControlsView()
     
+    // Accept/Undo controls
+    var applyView:UIView! = UIView()
+    
     // Image Selection (& save) view
     var imageSelectionView: ImageSelectionView! = ImageSelectionView()
     
     // The filter configuration subview
-    var filterSettingsView: FilterParametersView! = FilterParametersView()
+    var filterParametersView: FilterParametersView! = FilterParametersView()
     
     // Filter strip
     var filterSelectionView: FilterSelectionView! = FilterSelectionView()
@@ -95,29 +98,36 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
             currCategory = filterManager?.getCurrentCategory()
         }
         
-        //if (!SimpleEditViewController.initDone){
-        log.verbose("init")
-        //filterManager = FilterManager.sharedInstance
-        //TODO: set to "No Filter"
-        filterManager?.setCurrentCategory("none")
-        categorySelectionView.setFilterCategory("none")
-        currFilterDescriptor = filterManager?.getFilterDescriptor(key: "NoFilter")
-        filterSelectionView.setInputSource(.photo)
-        editImageView.setFilter(key: "NoFilter")
-        SimpleEditViewController.initDone = true
-        populateFilterList()
-        updateCurrentFilter()
-        //}
+        if (!SimpleEditViewController.initDone){
+            SimpleEditViewController.initDone = true
+            log.verbose("init")
+            
+            filterManager?.setCurrentCategory("none")
+            currFilterDescriptor = filterManager?.getFilterDescriptor(key: "NoFilter")
+            filterSelectionView.setInputSource(.photo)
+            //filterParametersView.setConfirmMode(true)
+            filterParametersView.setConfirmMode(false)
+            categorySelectionView.setFilterCategory("none")
+            editImageView.setFilter(key: "NoFilter")
+            SimpleEditViewController.initDone = true
+            populateFilterList()
+            updateCurrentFilter()
+        }
     }
+    
     
     open func suspend(){
         editImageView.suspend()
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         
+        // Logging nicety, show that controller has changed:
+        print ("\n========== \(String(describing: self)) ==========")
+
         // load theme here in case it changed
         theme = ThemeManager.currentTheme()
         
@@ -136,65 +146,77 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         //filterManager?.reset()
         doInit()
         
+        
+        
+        // set up layout based on orientation
+        
+        layoutBanner()
+        
+        
+        // Only Portrait mode supported (for now)
+        // TODO: add landscape mode
+        
+        layoutAcceptView()
+        
+        imageSelectionView.frame.size.height = CGFloat(bannerHeight)
+        imageSelectionView.frame.size.width = displayWidth
+
+        editImageView.frame.size.width = displayWidth
+        editImageView.frame.size.height = displayHeight - bannerView.frame.size.height - CGFloat(editControlHeight)
+        
+        editControlsView.frame.size.height = CGFloat(editControlHeight)
+        editControlsView.frame.size.width = displayWidth
+
+        filterControlsView.frame.size.height = bannerHeight * 0.5
+        filterControlsView.frame.size.width = displayWidth
+        
+        filterSelectionView.frame.size.height = 1.7 * bannerHeight
+        filterSelectionView.frame.size.width = displayWidth
+        
+        categorySelectionView.frame.size.height = 1.7 * bannerHeight
+        categorySelectionView.frame.size.width = displayWidth
+        
+        filterParametersView.frame.size.width = displayWidth
+        filterParametersView.frame.size.height = bannerHeight // will be adjusted based on selected filter
+        
+        
         // Note: need to add subviews before modifying constraints
         view.addSubview(bannerView)
         //view.addSubview(filterInfoView)
         view.addSubview(editImageView)
         view.addSubview(editControlsView)
+        view.addSubview(applyView)
         view.addSubview(imageSelectionView)
-
+        
         // hidden views:
         view.addSubview(filterControlsView) // must come after editImageView
         view.addSubview(filterSelectionView)
         view.addSubview(categorySelectionView)
-        view.addSubview(filterSettingsView)
+        view.addSubview(filterParametersView)
         
         hideModalViews()
-        
-        
-        
-        // set up layout based on orientation
-        
-        // Banner and filter info view are always at the top of the screen
-        bannerView.frame.size.height = bannerHeight
-        bannerView.frame.size.width = displayWidth
-        bannerView.backgroundColor = theme.backgroundColor
-        
-        
-        layoutBanner()
+
+        // set layout constraints
         bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
         
-        
-        // Only Portrait mode supported (for now)
-        
-        imageSelectionView.frame.size.height = CGFloat(bannerHeight)
-        imageSelectionView.frame.size.width = displayWidth
         imageSelectionView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: imageSelectionView.frame.size.height)
-
-        editImageView.frame.size.width = displayWidth
-        editImageView.frame.size.height = displayHeight - bannerView.frame.size.height - CGFloat(editControlHeight)
+        
+        applyView.align(.underCentered, relativeTo: imageSelectionView, padding: 0, width: applyView.frame.size.width, height: applyView.frame.size.height)
+        
         editImageView.align(.underCentered, relativeTo: imageSelectionView, padding: 0, width: displayWidth, height: editImageView.frame.size.height)
         
-        editControlsView.frame.size.height = CGFloat(editControlHeight)
-        editControlsView.frame.size.width = displayWidth
         editControlsView.anchorToEdge(.bottom, padding: 0, width: displayWidth, height: editControlsView.frame.size.height)
-
-        filterControlsView.frame.size.height = bannerHeight * 0.5
-        filterControlsView.frame.size.width = displayWidth
+        
         filterControlsView.align(.aboveCentered, relativeTo: editControlsView, padding: 0, width: displayWidth, height: filterControlsView.frame.size.height)
         
-        filterSelectionView.frame.size.height = 1.7 * bannerHeight
-        filterSelectionView.frame.size.width = displayWidth
         filterSelectionView.align(.aboveCentered, relativeTo: filterControlsView, padding: 0, width: filterSelectionView.frame.size.width, height: filterSelectionView.frame.size.height)
         
-        categorySelectionView.frame.size.height = 1.7 * bannerHeight
-        categorySelectionView.frame.size.width = displayWidth
-        categorySelectionView.align(.aboveCentered, relativeTo: filterControlsView, padding: 0, width: categorySelectionView.frame.size.width, height: categorySelectionView.frame.size.height)
+        categorySelectionView.align(.aboveCentered, relativeTo: filterControlsView, padding: 0,
+                                    width: categorySelectionView.frame.size.width, height: categorySelectionView.frame.size.height)
         
-        filterSettingsView.frame.size.width = displayWidth
-        filterSettingsView.frame.size.height = bannerHeight // will be adjusted based on selected filter
-        filterSettingsView.align(.aboveCentered, relativeTo: filterControlsView, padding: 4, width: filterSettingsView.frame.size.width, height: filterSettingsView.frame.size.height)
-        
+        filterParametersView.align(.aboveCentered, relativeTo: filterControlsView, padding: 4,
+                                   width: filterParametersView.frame.size.width, height: filterParametersView.frame.size.height)
+
         //setFilterIndex(0) // no filter
         
         // add delegates to sub-views (for callbacks)
@@ -206,7 +228,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         imagePicker.delegate = self
         
         
-        // set gesture detection for the camera display view
+        // set gesture detection for the edit display view
         setGestureDetectors(view: editImageView)
         
         
@@ -218,11 +240,6 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         //filterSelectionView.setFilterCategory(String.favorites)
         
         filterSelectionView.setInputSource(.photo)
-        
-        //TODO: remember state?
-        hideCategorySelector()
-        hideFilterSelector()
-        hideFilterControls()
         
         //update filtered image
         editImageView.updateImage()
@@ -263,23 +280,6 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     
     // Autorotate configuration
     
-    /*** pre-iOS 10
-     override func shouldAutorotate() -> Bool {
-     if (UIDevice.current.orientation == UIDeviceOrientation.portrait ||
-     UIDevice.current.orientation == UIDeviceOrientation.portraitUpsideDown ||
-     UIDevice.current.orientation == UIDeviceOrientation.unknown) {
-     return true
-     }
-     else {
-     return false
-     }
-     }
-     
-     override func supportedInterfaceOrientations() -> Int {
-     return Int(UIInterfaceOrientationMask.portrait.rawValue) | Int(UIInterfaceOrientationMask.portraitUpsideDown.rawValue)
-     }
-     ***/
-    
     //NOTE: only works for iOS 10 and later
     
     override open var shouldAutorotate: Bool {
@@ -295,6 +295,11 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     }
     
     
+    //////////////////////////////////////
+    // MARK: - Sub-View layout
+    //////////////////////////////////////
+
+    
     // layout the banner view, with the Back button, title etc.
     func layoutBanner(){
         bannerView.frame.size.height = bannerHeight * 0.75
@@ -303,6 +308,64 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         bannerView.delegate = self
     }
     
+    func layoutAcceptView() {
+        
+        let acceptButton: UIButton! = UIButton()
+        let undoButton: UIButton! = UIButton()
+
+        let aHeight = CGFloat(bannerHeight)
+        
+        //applyView.backgroundColor = theme.backgroundColor
+        applyView.backgroundColor = UIColor.clear
+
+        applyView.frame.size.width = (displayWidth - 16.0).rounded()
+        applyView.frame.size.height = aHeight
+        
+        for b in [acceptButton, undoButton] {
+            b?.backgroundColor = theme.buttonColor.withAlphaComponent(0.75)
+            b?.titleLabel?.textColor = theme.textColor
+            b?.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+            b?.titleLabel?.textAlignment = .center
+            b?.frame.size.width = (aHeight*2).rounded()
+            b?.frame.size.height = (aHeight*0.75).rounded()
+        }
+        
+        acceptButton.setTitle("Apply", for: .normal)
+        undoButton.setTitle("Undo", for: .normal)
+        
+        
+        applyView.addSubview(acceptButton)
+        applyView.addSubview(undoButton)
+        
+        let pad = (applyView.frame.size.height - acceptButton.frame.size.height) / 2
+        //applyView.groupAndFill(group: .horizontal, views: [acceptButton, defaultButton, undoButton], padding: pad)
+        //applyView.groupAgainstEdge(group: .horizontal, views: [acceptButton, undoButton], againstEdge: .bottom, padding: 0,
+        //                            width: acceptButton.frame.size.width, height: acceptButton.frame.size.height)
+        applyView.groupInCenter(group: .horizontal, views: [acceptButton, undoButton], padding: pad,
+                                width: acceptButton.frame.size.width, height: acceptButton.frame.size.height)
+
+                
+        // register handlers for the buttons
+        acceptButton.addTarget(self, action: #selector(self.acceptDidPress), for: .touchUpInside)
+        undoButton.addTarget(self, action: #selector(self.undoDidPress), for: .touchUpInside)
+    }
+
+    
+    @objc func acceptDidPress() {
+        
+        // make the change permanent
+        EditManager.savePreviewFilter()
+    }
+    
+    @objc func defaultDidPress(){
+        currFilterDescriptor?.reset()
+    }
+    
+    @objc func undoDidPress(){
+        // restore saved parameters
+        currFilterDescriptor?.restoreParameters()
+        EditManager.popFilter()
+    }
     
     
     //////////////////////////////////////
@@ -353,15 +416,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     // TODO: use local list (filterList), since that takes into account whether a filter is shown or not
     
     fileprivate func nextFilter(){
-        /***
-         var index  = (filterManager?.getCurrentFilterIndex())!
-         let category = (filterManager?.getCurrentCategory())!
-         let oldIndex = index
-         let oldKey = (filterManager?.getFilterKey(category: category, index: index))!
-         
-         index = (index + 1) % (filterManager?.getFilterCount(category))!
-         let key = (filterManager?.getFilterKey(category: category, index: index))!
-         **/
+
         let oldIndex = currIndex
         let oldKey = filterList[currIndex]
         currIndex = (currIndex + 1) % filterList.count
@@ -373,16 +428,6 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     
     
     fileprivate func previousFilter(){
-        /**
-         var index  = (filterManager?.getCurrentFilterIndex())!
-         let category = (filterManager?.getCurrentCategory())!
-         let oldIndex = index
-         let oldKey = (filterManager?.getFilterKey(category: category, index: index))!
-         
-         index = index - 1
-         if (index < 0) { index = (filterManager?.getFilterCount(category))! - 1 }
-         let key = (filterManager?.getFilterKey(category: category, index: index))!
-         **/
         
         let oldIndex = currIndex
         let oldKey = filterList[currIndex]
@@ -418,7 +463,6 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     
     
     func setGestureDetectors(view: UIView){
-        /*** disable for now. Do swipe gestures make sense if applying multiple filters?
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.swiped))
         swipeDown.direction = .down
         view.addGestureRecognizer(swipeDown)
@@ -434,7 +478,6 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.swiped))
         swipeLeft.direction = .left
         view.addGestureRecognizer(swipeLeft)
-         ***/
     }
     
     
@@ -588,7 +631,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         filterControlsView.isHidden = true
         filterSelectionView.isHidden = true
         categorySelectionView.isHidden = true
-        filterSettingsView.isHidden = true
+        filterParametersView.isHidden = true
     }
     
     // Management of the Filter Controls View
@@ -690,21 +733,21 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         //updateCurrentFilter()
         if ((currFilterDescriptor != nil) && ((currFilterDescriptor?.numParameters)! > 0)){
             // re-layout based on selecetd filter
-            filterSettingsView.frame.size.height = CGFloat(((currFilterDescriptor?.numParameters)! + 1)) * bannerHeight * 0.75
+            filterParametersView.frame.size.height = CGFloat(((currFilterDescriptor?.numParameters)! + 1)) * bannerHeight * 0.75
             if (isLandscape){
-                filterSettingsView.anchorInCorner(.bottomLeft, xPad: 0, yPad: 0, width: filterSettingsView.frame.size.width, height: filterSettingsView.frame.size.height)
+                filterParametersView.anchorInCorner(.bottomLeft, xPad: 0, yPad: 0, width: filterParametersView.frame.size.width, height: filterParametersView.frame.size.height)
             } else {
-                filterSettingsView.align(.aboveCentered, relativeTo: filterControlsView, padding: 4, width: filterSettingsView.frame.size.width, height: filterSettingsView.frame.size.height)
+                filterParametersView.align(.aboveCentered, relativeTo: filterControlsView, padding: 4, width: filterParametersView.frame.size.width, height: filterParametersView.frame.size.height)
             }
             
-            filterSettingsView.setFilter(currFilterDescriptor)
+            filterParametersView.setFilter(currFilterDescriptor)
             
-            //filterSettingsView.align(.aboveCentered, relativeTo: filterControlsView, padding: 4, width: filterSettingsView.frame.size.width, height: filterSettingsView.frame.size.height)
-            filterSettingsView.isHidden = false
+            //filterParametersView.align(.aboveCentered, relativeTo: filterControlsView, padding: 4, width: filterParametersView.frame.size.width, height: filterParametersView.frame.size.height)
+            filterParametersView.isHidden = false
             filterSettingsShown = true
-            view.bringSubview(toFront: filterSettingsView)
+            view.bringSubview(toFront: filterParametersView)
             filterControlsView.setParametersControlState(.shown)
-            //filterSettingsView.show()
+            //filterParametersView.show()
         } else {
             log.debug("No parameters to display")
             filterControlsView.setParametersControlState(.disabled)
@@ -713,8 +756,8 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     }
     
     fileprivate func hideFilterSettings(){
-        filterSettingsView.dismiss()
-        filterSettingsView.isHidden = true
+        filterParametersView.dismiss()
+        filterParametersView.isHidden = true
         filterSettingsShown = false
         filterControlsView.setParametersControlState(.hidden)
     }

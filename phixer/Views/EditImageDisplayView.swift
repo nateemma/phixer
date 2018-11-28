@@ -49,7 +49,7 @@ class EditImageDisplayView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        log.debug("layout")
+        //log.debug("layout")
        
         doLayout()
         
@@ -63,8 +63,8 @@ class EditImageDisplayView: UIView {
         
 
         if (!initDone){
-            log.debug("init")
-           self.backgroundColor = theme.backgroundColor
+            //log.debug("init")
+            self.backgroundColor = theme.backgroundColor
             
             EditManager.reset()
             self.currPhotoInput = ImageManager.getCurrentEditInput()
@@ -151,7 +151,8 @@ class EditImageDisplayView: UIView {
         if (!key.isEmpty){
             currFilterKey = key
             currFilterDescriptor = filterManager.getFilterDescriptor(key: currFilterKey)
-            EditManager.addFilter(currFilterDescriptor)
+            //EditManager.addFilter(currFilterDescriptor)
+            EditManager.addPreviewFilter(currFilterDescriptor)
             //renderView = filterManager.getRenderView(key: currFilterKey)!
             update()
         } else {
@@ -178,7 +179,7 @@ class EditImageDisplayView: UIView {
     }
     
     open func update(){
-        log.verbose("update requested")
+        //log.verbose("update requested")
         DispatchQueue.main.async(execute: { () -> Void in
             self.doLayout()
             self.runFilter()

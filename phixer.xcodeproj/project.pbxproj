@@ -1837,12 +1837,12 @@
 		256D0FEE1D98DAD100220D7E /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				2568BDCA21AC731100560287 /* EditManager.swift */,
 				2507160A1DBECDF200CDDF42 /* Admob.swift */,
 				25F4601F1D99D79B00EDA182 /* AspectRatio.swift */,
 				25F4601D1D99D65F00EDA182 /* CameraISO.swift */,
 				25F460211D99DBBA00EDA182 /* CameraSpeed.swift */,
 				253B23761DA4BB7800203ECB /* ClosestFraction.swift */,
+				2568BDCA21AC731100560287 /* EditManager.swift */,
 				255844ED1E03598B009440CA /* FilterFactory.swift */,
 				253F54CC1DF24702007CCDEF /* FilterLibrary.swift */,
 				253B23781DA5782300203ECB /* FilterManager.swift */,

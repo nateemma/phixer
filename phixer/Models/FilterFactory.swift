@@ -106,7 +106,7 @@ class FilterFactory{
         descriptor = nil
         
          if (FilterFactory.filterList[key] != nil){
-            log.verbose("Creating descriptor for: \(key)")
+            //log.verbose("Creating descriptor for: \(key)")
             let stype = FilterFactory.typeList[key]
             let ftype: FilterDescriptor.FilterOperationType
             if stype != nil {

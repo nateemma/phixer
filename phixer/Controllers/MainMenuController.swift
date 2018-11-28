@@ -38,7 +38,7 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
     
     // Menu items
     var simpleEditMenuItem: UILabel = UILabel()
-    var fullEditMenuItem: UILabel = UILabel()
+    var styleTransferMenuItem: UILabel = UILabel()
     var manageFiltersMenuItem: UILabel = UILabel()
     var liveFilterMenuItem: UILabel = UILabel()
     var settingsMenuItem: UILabel = UILabel()
@@ -69,6 +69,9 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Logging nicety, show that controller has changed:
+        print ("\n========== \(String(describing: self)) ==========")
+
         // load theme here in case it changed
         theme = ThemeManager.currentTheme()
         
@@ -91,7 +94,7 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
         // Note: need to add subviews before modifying constraints
         view.addSubview(adView)
         view.addSubview(simpleEditMenuItem)
-        view.addSubview(fullEditMenuItem)
+        view.addSubview(styleTransferMenuItem)
         view.addSubview(manageFiltersMenuItem)
         view.addSubview(liveFilterMenuItem)
         view.addSubview(settingsMenuItem)
@@ -122,7 +125,7 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
         // set up touch handlers (couldn't do it in setupMenuItem for some reason - scope?!)
         
         let tap1 = UITapGestureRecognizer(target: self, action: #selector(presentSimpleImageEditor))
-        let tap2 = UITapGestureRecognizer(target: self, action: #selector(presentFullImageEditor))
+        let tap2 = UITapGestureRecognizer(target: self, action: #selector(presentStyleTransfer))
         let tap3 = UITapGestureRecognizer(target: self, action: #selector(presentFilterGallery))
         let tap4 = UITapGestureRecognizer(target: self, action: #selector(presentLiveFilter))
         let tap5 = UITapGestureRecognizer(target: self, action: #selector(presentSettings))
@@ -131,8 +134,8 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
         setupMenuItem(label:simpleEditMenuItem, height:h, width:w,
                       title:"Simple Picture Editor", color:UIColor.flatMint, handler: tap1)
         
-        setupMenuItem(label:fullEditMenuItem, height:h, width:w,
-                      title:"Full Picture Editor", color:UIColor.flatMintDark, handler: tap2)
+        setupMenuItem(label:styleTransferMenuItem, height:h, width:w,
+                      title:"Style Transfer", color:UIColor.flatMintDark, handler: tap2)
         
         setupMenuItem(label:manageFiltersMenuItem, height:h, width:w,
                       title:"Browse Filters", color:UIColor.flatWatermelonDark, handler: tap3)
@@ -147,7 +150,7 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
 
         // set layout constraints
         view.groupAgainstEdge(group: .vertical,
-                              views: [simpleEditMenuItem, fullEditMenuItem, manageFiltersMenuItem, liveFilterMenuItem, settingsMenuItem],
+                              views: [simpleEditMenuItem, styleTransferMenuItem, manageFiltersMenuItem, liveFilterMenuItem, settingsMenuItem],
                               againstEdge: .bottom, padding: 8, width: w-8, height: h)
         
         // start Ads
@@ -216,8 +219,8 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
         //notImplemented()
     }
     
-    @objc func presentFullImageEditor(){
-        //let vc = FullEditViewController()
+    @objc func presentStyleTransfer(){
+        //let vc = StyleTransferController()
         //vc.delegate = self
         //present(vc, animated: true, completion: nil)
         notImplemented()

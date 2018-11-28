@@ -18,6 +18,7 @@ class EditManager {
     private static var _input:CIImage? = nil
 
     private static var filterList:[FilterDescriptor?] = []
+    private static var previewFilter:FilterDescriptor? = nil
 
     // make initialiser private to prevent instantiation
     private init(){}
@@ -44,7 +45,32 @@ class EditManager {
             return
         }
         EditManager.filterList.append(filter)
+        log.debug("Added filter:\(String(describing: filter?.title))")
     }
+    
+    // removes the last filter in the list
+    public static func popFilter() {
+        if filterList.count > 0 {
+            let filter = filterList[filterList.count-1]
+            filterList.remove(at: filterList.count-1)
+            log.debug("Removed filter:\(String(describing: filter?.title))")
+        }
+    }
+    
+    // add a Preview Filter, which is displayed in the output, but not saved to the filter list
+    // NIL is OK, it just removes the preview filter
+    public static func addPreviewFilter(_ filter:FilterDescriptor?){
+        EditManager.previewFilter = filter
+        log.debug("Added Preview filter:\(String(describing: filter?.title))")
+    }
+
+    // add the previewed filter to the list (i.e. make it permanent)
+    public static func savePreviewFilter(){
+        EditManager.addFilter(previewFilter)
+        log.debug("Saved Preview filter:\(String(describing: previewFilter?.title))")
+       previewFilter = nil
+    }
+
     
     // apply all filters to the supplied image
     // Done this way so that you can call using any image, not just the static (shared) input image
@@ -55,19 +81,22 @@ class EditManager {
             return nil
         }
         
-        var outImage:CIImage? = nil
-        var tmpImage:CIImage? = nil
+        var outImage:CIImage? = image
+        var tmpImage:CIImage? = image
         
+        // apply the list of filters
         if filterList.count > 0 {
-            tmpImage = image
             for f in filterList {
                 outImage = f?.apply(image: tmpImage)
                 tmpImage = outImage
             }
-        } else {
-            log.warning("No filters in list. returning original image")
-            outImage = EditManager._input
         }
+        
+        // apply the preview filter, if specified
+        if previewFilter != nil {
+            outImage = previewFilter?.apply(image: tmpImage)
+        }
+
         return outImage
     }
 }
