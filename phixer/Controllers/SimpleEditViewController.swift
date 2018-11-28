@@ -197,14 +197,18 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         hideModalViews()
 
         // set layout constraints
+        
+        // top
         bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
         
         imageSelectionView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: imageSelectionView.frame.size.height)
         
         applyView.align(.underCentered, relativeTo: imageSelectionView, padding: 0, width: applyView.frame.size.width, height: applyView.frame.size.height)
         
+        // main window
         editImageView.align(.underCentered, relativeTo: imageSelectionView, padding: 0, width: displayWidth, height: editImageView.frame.size.height)
         
+        // bottom
         editControlsView.anchorToEdge(.bottom, padding: 0, width: displayWidth, height: editControlsView.frame.size.height)
         
         filterControlsView.align(.aboveCentered, relativeTo: editControlsView, padding: 0, width: displayWidth, height: filterControlsView.frame.size.height)
@@ -217,7 +221,6 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         filterParametersView.align(.aboveCentered, relativeTo: filterControlsView, padding: 4,
                                    width: filterParametersView.frame.size.width, height: filterParametersView.frame.size.height)
 
-        //setFilterIndex(0) // no filter
         
         // add delegates to sub-views (for callbacks)
         editControlsView.delegate = self

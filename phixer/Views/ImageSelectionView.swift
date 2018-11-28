@@ -70,7 +70,7 @@ class ImageSelectionView: UIView {
             blendButton = SquareButton(bsize: buttonSize)
             saveButton = SquareButton(bsize: buttonSize)
             
-            saveButton.setImageAsset("ic_unknown")  // TEMP: replace when icon available
+            saveButton.setImageAsset("ic_save")
             saveButton.setTintable(true)
  
             imageLabel.text = "photo"
