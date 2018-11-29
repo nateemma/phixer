@@ -59,7 +59,9 @@ class ThemeChooserController: UIViewController {
         // load theme here in case it changed
         theme = ThemeManager.currentTheme()
         
-        
+        displayHeight = view.height
+        displayWidth = view.width
+
         doInit()
         doLayout()
         
@@ -160,7 +162,7 @@ class ThemeChooserController: UIViewController {
         selectionView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: selectionView.frame.size.height)
         controlView.align(.underCentered, relativeTo: selectionView, padding: 0, width: displayWidth, height: controlView.frame.size.height)
         //sampleView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: sampleView.frame.size.height)
-        sampleView.alignAndFillHeight(align: .underCentered, relativeTo: controlView, padding: 16, width: displayWidth-16)
+        sampleView.alignAndFillHeight(align: .underCentered, relativeTo: controlView, padding: 0, width: displayWidth-8)
 
     }
     
@@ -222,13 +224,136 @@ class ThemeChooserController: UIViewController {
     
     
     func layoutSampleView(){
-        sampleView.frame.size.width = displayWidth - 16
-        sampleView.frame.size.height = 4*bannerHeight
-        //TMP:
+        
+        // set up the background and border
+        sampleView.frame.size.width = displayWidth - 8
+        sampleView.frame.size.height = displayHeight - bannerView.frame.size.height - selectionView.frame.size.height - controlView.frame.size.height - 8
+        
         selectedTheme = ThemeManager.getTheme(selectedThemeKey)
         sampleView.backgroundColor = selectedTheme!.backgroundColor
         sampleView.layer.borderColor = selectedTheme!.borderColor.cgColor
-        sampleView.layer.borderWidth = 2
+        sampleView.layer.borderWidth = 4
+        
+        // clear any existing views
+        for view in sampleView.subviews {
+            view.removeFromSuperview()
+        }
+        
+        // add items that show modified components. Can't set theme, bacuase that changes the 'real' UI
+        
+        let numComponents:CGFloat = 5
+        let h = min (bannerHeight, (sampleView.frame.size.height-4)/numComponents).rounded()
+        let w = sampleView.frame.size.width - 4
+        let rowSize = CGSize(width: w, height: h)
+        let itemSize = CGSize(width: w/2, height: h)
+        let pad:CGFloat = 4
+
+        // create container views
+        let titleView:UIView! = UIView()
+        let subtitleView:UIView! = UIView()
+        let buttonView:UIView! = UIView()
+        let switchView:UIView! = UIView()
+        let sliderView:UIView! = UIView()
+
+        for v in [titleView, subtitleView, buttonView, switchView, sliderView] {
+            v?.frame.size = itemSize
+            v?.backgroundColor = selectedTheme?.backgroundColor
+            sampleView.addSubview(v!)
+        }
+
+        // Title
+        titleView.frame.size = rowSize
+        let title = UILabel()
+        title.frame.size = rowSize
+        title.backgroundColor = selectedTheme?.titleColor
+        title.text = "Title"
+        title.textAlignment = .center
+        title.textColor = selectedTheme?.titleTextColor
+        title.font = UIFont.boldSystemFont(ofSize: 24.0)
+        titleView.addSubview(title)
+        title.fillSuperview(left: pad, right: pad, top: pad, bottom: pad)
+        
+        // Subtitle
+        subtitleView.frame.size = rowSize
+        let subtitle = UILabel()
+        subtitle.frame.size = rowSize
+        subtitle.backgroundColor = selectedTheme?.subtitleColor
+        subtitle.text = "Subtitle"
+        subtitle.textAlignment = .center
+        subtitle.textColor = selectedTheme?.subtitleTextColor
+        subtitle.font = UIFont.systemFont(ofSize: 20.0)
+        subtitleView.addSubview(subtitle)
+        subtitle.fillSuperview(left: pad, right: pad, top: pad, bottom: pad)
+        
+        // Button
+        let buttonLabel = UILabel()
+        buttonLabel.frame.size = itemSize
+        buttonLabel.backgroundColor = selectedTheme?.backgroundColor
+        buttonLabel.text = "Button:    "
+        buttonLabel.textAlignment = .right
+        buttonLabel.textColor = selectedTheme?.textColor
+        buttonLabel.font = UIFont.systemFont(ofSize: 18.0)
+        buttonView.addSubview(buttonLabel)
+        
+        let button = UIButton()
+        button.setTitle("Text", for: .normal)
+        button.backgroundColor = selectedTheme?.buttonColor
+        button.titleLabel?.textColor = selectedTheme?.textColor
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 18)
+        button.titleLabel?.textAlignment = .center
+        button.frame.size.width = (itemSize.width*0.8).rounded()
+        button.frame.size.height = (itemSize.height*0.8).rounded()
+        buttonView.addSubview(button)
+      
+        buttonLabel.anchorToEdge(.left, padding: pad, width: buttonLabel.frame.size.width, height: buttonLabel.frame.size.height)
+        button.align(.toTheRightCentered, relativeTo: buttonLabel, padding: pad, width: button.frame.size.width, height: button.frame.size.height)
+
+        // switch
+        let switchLabel = UILabel()
+        switchLabel.frame.size = itemSize
+        switchLabel.backgroundColor = selectedTheme?.backgroundColor
+        switchLabel.text = "Switch:    "
+        switchLabel.textAlignment = .right
+        switchLabel.textColor = selectedTheme?.textColor
+        switchLabel.font = UIFont.systemFont(ofSize: 18.0)
+        switchView.addSubview(switchLabel)
+
+        let uiswitch = UISwitch()
+        uiswitch.backgroundColor = selectedTheme?.backgroundColor
+        uiswitch.onTintColor = selectedTheme?.highlightColor.withAlphaComponent(0.6)
+        uiswitch.thumbTintColor = selectedTheme?.borderColor
+        uiswitch.tintColor = selectedTheme?.highlightColor
+        uiswitch.frame.size.width = (itemSize.height*0.8).rounded()
+        uiswitch.frame.size.height = (itemSize.height*0.8).rounded()
+        switchView.addSubview(uiswitch)
+        
+        switchLabel.anchorToEdge(.left, padding: pad, width: switchLabel.frame.size.width, height: switchLabel.frame.size.height)
+        uiswitch.align(.toTheRightCentered, relativeTo: switchLabel, padding: pad, width: uiswitch.frame.size.width, height: uiswitch.frame.size.height)
+
+        // slider
+        let sliderLabel = UILabel()
+        sliderLabel.frame.size = itemSize
+        sliderLabel.backgroundColor = selectedTheme?.backgroundColor
+        sliderLabel.text = "Slider:    "
+        sliderLabel.textAlignment = .right
+        sliderLabel.textColor = selectedTheme?.textColor
+        sliderLabel.font = UIFont.systemFont(ofSize: 18.0)
+        sliderView.addSubview(sliderLabel)
+
+        let slider = UISlider()
+        slider.backgroundColor = selectedTheme?.backgroundColor
+        slider.tintColor = selectedTheme?.highlightColor
+        slider.minimumValue = 0.0
+        slider.maximumValue = 1.0
+        slider.value = 0.5
+
+        sliderView.addSubview(slider)
+
+        sliderLabel.anchorToEdge(.left, padding: pad, width: sliderLabel.frame.size.width, height: sliderLabel.frame.size.height)
+        slider.align(.toTheRightCentered, relativeTo: sliderLabel, padding: pad, width: slider.frame.size.width, height: slider.frame.size.height)
+        
+        sampleView.groupAndFill(group: .vertical, views: [titleView, subtitleView, buttonView, switchView, sliderView], padding: 2.0)
+
     }
 
     
@@ -247,7 +372,7 @@ class ThemeChooserController: UIViewController {
         
         let doneButton:BorderedButton = BorderedButton()
         doneButton.frame.size = cancelButton.frame.size
-        doneButton.setTitle("Done", for: .normal)
+        doneButton.setTitle("Apply", for: .normal)
         doneButton.useGradient = true
         doneButton.backgroundColor = theme.buttonColor
         controlView.addSubview(doneButton)

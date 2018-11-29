@@ -222,17 +222,19 @@ class ThemeManager {
             
             //Note: do not set UIView.appearance(), as this can cause problems with built-in components (Alerts, PhotoPicker etc.)
             
-            UILabel.appearance().textColor = currTheme?.titleTextColor
-            
+            UILabel.appearance().backgroundColor = currTheme?.backgroundColor
+            UILabel.appearance().textColor = currTheme?.textColor
+
             UICollectionView.appearance().backgroundColor = currTheme?.backgroundColor
             
             UISwitch.appearance().backgroundColor = currTheme?.backgroundColor
             UISwitch.appearance().onTintColor = currTheme?.highlightColor.withAlphaComponent(0.6)
             UISwitch.appearance().thumbTintColor = currTheme?.titleTextColor
-            UISwitch.appearance().tintColor = currTheme?.titleTextColor
+            UISwitch.appearance().tintColor = currTheme?.borderColor
             
+            UISlider.appearance().backgroundColor = currTheme?.backgroundColor
             UISlider.appearance().tintColor = currTheme?.highlightColor
-            
+
 
         } else {
             log.error ("Unknown Theme: \(key). Available themes: \(getThemeList())")
