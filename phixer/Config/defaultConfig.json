@@ -107,7 +107,8 @@
         {"key": "urban",              "title": "Urban"    },
         {"key": "yu",                 "title": "Yu"    },
         {"key": "vintage",            "title": "Vintage" },
-        {"key": "custom",            "title": "Custom" }
+        {"key": "custom",            "title": "Custom" },
+        {"key": "style",            "title": "Style Transfer" }
     ],
     
     
@@ -2057,8 +2058,12 @@
         },
         
         {"category": "custom",
-            "filters": ["ClarityFilter", "OpacityFilter", "EdgeGlowFilter", "SmoothThresholdFilter", "AdaptiveThresholdFilter", "LumaRangeFilter",
-                        "Style_Scream", "Style_Candy",  "Style_Feathers",  "Style_LaMuse",  "Style_Udnie",  "Style_Mosaic"
+            "filters": ["ClarityFilter", "OpacityFilter", "EdgeGlowFilter", "SmoothThresholdFilter", "AdaptiveThresholdFilter", "LumaRangeFilter"
+            ]
+        },
+        
+        {"category": "style",
+            "filters": ["Style_Scream", "Style_Candy",  "Style_Feathers",  "Style_LaMuse",  "Style_Udnie",  "Style_Mosaic"
             ]
         }
     ]

@@ -10,6 +10,7 @@ import GLKit
 import UIKit
 import MetalKit
 import QuartzCore
+import CoreImage
 
 
 /// `MetalImageView` extends an `MTKView` and exposes an `image` property of type `CIImage` to
@@ -33,10 +34,9 @@ class MetalImageView: MTKView
     private static var device: MTLDevice? = nil
     
     lazy var ciContext: CIContext = { [unowned self] in
-        //return CIContext(mtlDevice: self.device!, options: [kCIImageColorSpace: NSNull(), kCIImageProperties: NSNull(), kCIContextWorkingColorSpace: NSNull()])
         return CIContext(mtlDevice: self.device!)
+        //return CIContext(mtlDevice: self.device!, options: [ kCIContextUseSoftwareRenderer: false, kCIContextHighQualityDownsample: false ])
         }()
-    
     
     
     override init(frame frameRect: CGRect, device: MTLDevice?) {

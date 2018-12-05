@@ -170,12 +170,12 @@ class ImageManager {
     private static var _sampleNameList:[String] = [ ]
     private static var _currSampleName:String = "sample_9989.png"
 
-    private static var _currSampleImage: UIImage? = nil
+    private static var _currSampleImage: CIImage? = nil
     
-    private static var _currSampleImageScaled: UIImage? = nil
+    private static var _currSampleImageScaled: CIImage? = nil
     private static var _currSampleSize: CGSize = CGSize(width: 0.0, height: 0.0)
     
-    private static var _currSampleInput: CIImage? = nil
+    //private static var _currSampleInput: CIImage? = nil
     
     
     
@@ -202,12 +202,13 @@ class ImageManager {
             return
         }
         
-        _currSampleImage = getImageFromAssets(assetID:name)
-        if _currSampleImage != nil {
+        let image = getImageFromAssets(assetID:name)
+        if image != nil {
+            _currSampleImage = CIImage(image: image!)
             _currSampleName = name
-            _currSampleInput = CIImage(image:_currSampleImage!)
+            //_currSampleInput = CIImage(image:_currSampleImage!)
             _currSampleImageScaled = _currSampleImage
-            _currSampleSize = _currSampleImage!.size
+            _currSampleSize = (image?.size)!
             log.verbose("Image set to:\(name)")
             updateStoredSettings()
         } else {
@@ -246,14 +247,21 @@ class ImageManager {
     
     public static func getCurrentSampleImage()->CIImage? {
         checkSampleImage()
-        return _currSampleInput
+        return _currSampleImage
     }
     
     public static func getCurrentSampleImage(size:CGSize)->CIImage? {
         checkSampleImage()
-        var scaledImage:UIImage? = nil
-        scaledImage = resizeImage(_currSampleImage, targetSize: size, mode:.scaleAspectFill)
-        return CIImage(image:scaledImage!)
+        
+        // if requested size is close to currently stored size, just return the stored image and save memory
+        // the same sized image is often requested multiple times
+        
+        if (abs(size.width - _currSampleSize.width)>1.0) || (abs(size.height - _currSampleSize.height)>1.0) {
+            let scaledImage = resizeImage(UIImage(ciImage: _currSampleImage!), targetSize: size, mode:.scaleAspectFill)
+            _currSampleImageScaled = CIImage(image:scaledImage!)
+            _currSampleSize = size
+        }
+        return _currSampleImageScaled
     }
 
     
@@ -265,7 +273,7 @@ class ImageManager {
     
     public static func getCurrentSampleInput()->CIImage? {
         checkSampleImage()
-        return _currSampleInput
+        return _currSampleImage
     }
     
     
@@ -276,8 +284,8 @@ class ImageManager {
         checkSampleImage()
         
         // calculate the aspect ratio as a 1:N (w:h) floating point number
-        if ((_currSampleImage?.size.height)!>CGFloat(0.0)){
-            ratio = (_currSampleImage?.size.width)! / (_currSampleImage?.size.height)!
+        if ((_currSampleImage?.extent.size.height)!>CGFloat(0.0)){
+            ratio = (_currSampleImage?.extent.size.width)! / (_currSampleImage?.extent.size.height)!
         }
         return ratio
     }
@@ -288,26 +296,29 @@ class ImageManager {
         return CIImage(image:getImageFromAssets(assetID:name, size:size)!)
     }
     
+    /***
     public static func setSampleInput(image: UIImage){
         _currSampleImage = image
         _currSampleInput = CIImage(image: image)
     }
+    ***/
     
     private static func checkSampleImage(){
         // make sure current sample image has been loaded
         if (_currSampleImage == nil){
             if _currSampleName.isEmpty { _currSampleName = getDefaultSampleImageName()! }
-            _currSampleImage = getImageFromAssets(assetID:_currSampleName, size:_currSampleSize)
-            setSampleInput(image: _currSampleImage!)
+            _currSampleImage = CIImage(image: getImageFromAssets(assetID:_currSampleName, size:_currSampleSize)!)
+            //setSampleInput(image: _currSampleImage!)
         }
         
         // check to see if we have already resized
         if (_currSampleImageScaled == nil){
             if (_currSampleSize == CGSize.zero){
-                _currSampleSize = (_currSampleImage?.size)!
+                _currSampleSize = (_currSampleImage?.extent.size)!
             }
-            _currSampleImageScaled = resizeImage(_currSampleImage, targetSize: _currSampleSize, mode:.scaleAspectFill)
-            setSampleInput(image: _currSampleImageScaled!)
+            let scaledImage = resizeImage(UIImage(ciImage: _currSampleImage!), targetSize: _currSampleSize, mode:.scaleAspectFill)
+            _currSampleImageScaled = CIImage(image:scaledImage!)
+            //setSampleInput(image: _currSampleImageScaled!)
         }
     }
 

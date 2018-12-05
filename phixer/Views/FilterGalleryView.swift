@@ -333,9 +333,10 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     
     
     
-    fileprivate func loadInputs(){
-        sample = ImageManager.getCurrentSampleImage()
-        blend  = ImageManager.getCurrentBlendImage(size:(sample?.extent.size)!)
+    fileprivate func loadInputs(size:CGSize){
+        //sample = ImageManager.getCurrentSampleImage()
+        sample = ImageManager.getCurrentSampleImage(size:size)
+        blend  = ImageManager.getCurrentBlendImage(size:size)
     }
     
     
@@ -357,7 +358,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         
         
         //if (sample == nil){
-            loadInputs()
+        loadInputs(size:(renderview?.frame.size)!)
         //}
         
         

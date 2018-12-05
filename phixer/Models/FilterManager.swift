@@ -514,10 +514,7 @@ class FilterManager{
         
         FilterManager.checkSetup()
         
-        if (FilterManager._renderViewDictionary[key] != nil){
-            log.debug("reuse key:\(key)")
-            //renderView = (FilterManager._renderViewDictionary[key])!
-        } else {
+        if (FilterManager._renderViewDictionary[key] == nil){
             // not an error, just lazy allocation. Create the RenderView and add it to the dictionary
             log.debug("create key:\(key)")
             FilterManager._renderViewDictionary[key] = MetalImageView()
