@@ -36,12 +36,12 @@ class ImageManager {
 
     private static var _currBlendName:String = "_film_grain_numba_1__by_su_y.jpg"
 
-    private static var _currBlendImage: UIImage? = nil
+    private static var _currBlendImage: CIImage? = nil
     
-    private static var _currBlendImageScaled: UIImage? = nil
+    private static var _currBlendImageScaled: CIImage? = nil
     private static var _currBlendSize: CGSize = CGSize(width: 0.0, height: 0.0)
     
-    private static var _currBlendInput: CIImage? = nil
+    //private static var _currBlendInput: CIImage? = nil
     
   
     
@@ -70,12 +70,12 @@ class ImageManager {
         
         //_currBlendImage = getImageFromAssets(assetID:name, size:_currBlendSize)
         
-        _currBlendImage = getImageFromAssets(assetID:name)
+        _currBlendImage = CIImage(image: getImageFromAssets(assetID:name)!)
         if _currBlendImage != nil {
             _currBlendName = name
-            _currBlendInput = CIImage(image:_currBlendImage!)
+            //_currBlendInput = CIImage(image:_currBlendImage!)
             _currBlendImageScaled = _currBlendImage
-            _currBlendSize = _currBlendImage!.size
+            _currBlendSize = _currBlendImage!.extent.size
             log.verbose("Image set to:\(name)")
             updateStoredSettings()
         } else {
@@ -89,31 +89,39 @@ class ImageManager {
     
     public static func getCurrentBlendImage()->CIImage? {
         checkBlendImage()
-        return _currBlendInput
+        return _currBlendImage
     }
 
     public static func getCurrentBlendImage(size:CGSize)->CIImage? {
         checkBlendImage()
-        var scaledImage:UIImage? = nil
-        scaledImage = resizeImage(_currBlendImage, targetSize: size, mode:.scaleAspectFill)
-        return CIImage(image:scaledImage!)
+        
+        // if requested size is close to currently stored size, just return the stored image and save memory
+        // the same sized image is often requested multiple times
+        
+        if (abs(size.width - _currBlendSize.width)>1.0) || (abs(size.height - _currBlendSize.height)>1.0) {
+            let scaledImage = resizeImage(UIImage(ciImage: _currBlendImage!), targetSize: size, mode:.scaleAspectFill)
+            _currBlendImageScaled = CIImage(image:scaledImage!)
+            _currBlendSize = size
+        }
+        return _currBlendImageScaled
     }
     
-    
+    /***
     public static func getCurrentBlendInput()->CIImage? {
         checkBlendImage()
         return _currBlendInput
     }
-    
+    ***/
     
     public static func getBlendImage(name: String, size:CGSize)->UIImage?{
         return getImageFromAssets(assetID:name, size: size)
     }
     
-    
+    /***
     public static func setBlendInput(image: UIImage){
         _currBlendInput = CIImage(image: image)
     }
+    ***/
     
     // returns the w:h aspect ratio
     public static func getBlendImageAspectRatio() -> CGFloat{
@@ -122,28 +130,30 @@ class ImageManager {
         checkBlendImage()
         
         // calculate the aspect ratio as a 1:N (w:h) floating point number
-        if ((_currBlendImage?.size.height)!>CGFloat(0.0)){
-            ratio = (_currBlendImage?.size.width)! / (_currBlendImage?.size.height)!
+        if ((_currBlendImage?.extent.size.height)!>CGFloat(0.0)){
+            ratio = (_currBlendImage?.extent.size.width)! / (_currBlendImage?.extent.size.height)!
         }
         return ratio
     }
     
     private static func checkBlendImage(){
+        
         // make sure current blend image has been loaded
         if (_currBlendImage == nil){
             if _currBlendName.isEmpty { _currBlendName = getDefaultBlendImageName()! }
-            _currBlendImage = getImageFromAssets(assetID:_currBlendName, size:_currBlendSize)
+            _currBlendImage = CIImage(image: getImageFromAssets(assetID:_currBlendName, size:_currBlendSize)!)
             _currBlendImageScaled = _currBlendImage
-            setBlendInput(image: _currBlendImageScaled!)
+            //setBlendInput(image: _currBlendImageScaled!)
         }
         
         // check to see if we have already resized
         if (_currBlendImageScaled == nil){
             if (_currBlendSize == CGSize.zero){
-                _currBlendSize = (_currBlendImage?.size)!
+                _currBlendSize = (_currBlendImage?.extent.size)!
             }
-            _currBlendImageScaled = resizeImage(_currBlendImage, targetSize: _currBlendSize, mode:.scaleAspectFill)
-            setBlendInput(image: _currBlendImageScaled!)
+            let scaledImage = resizeImage(UIImage(ciImage: _currBlendImage!), targetSize: _currBlendSize, mode:.scaleAspectFill)
+            _currSampleImageScaled = CIImage(image:scaledImage!)
+            //setBlendInput(image: _currBlendImageScaled!)
         }
     }
     
