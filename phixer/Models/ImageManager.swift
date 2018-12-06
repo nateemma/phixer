@@ -9,7 +9,7 @@
 //
 
 import Foundation
-import UIKit
+//import UIKit
 import CoreImage
 import AVFoundation
 import Photos
@@ -99,8 +99,9 @@ class ImageManager {
         // the same sized image is often requested multiple times
         
         if (abs(size.width - _currBlendSize.width)>1.0) || (abs(size.height - _currBlendSize.height)>1.0) {
-            let scaledImage = resizeImage(UIImage(ciImage: _currBlendImage!), targetSize: size, mode:.scaleAspectFill)
-            _currBlendImageScaled = CIImage(image:scaledImage!)
+            //let scaledImage = resizeImage(UIImage(ciImage: _currBlendImage!), targetSize: size, mode:.scaleAspectFill)
+            //_currBlendImageScaled = CIImage(image:scaledImage!)
+            _currBlendImageScaled = _currBlendImage?.resize(size: size)
             _currBlendSize = size
         }
         return _currBlendImageScaled
@@ -151,8 +152,9 @@ class ImageManager {
             if (_currBlendSize == CGSize.zero){
                 _currBlendSize = (_currBlendImage?.extent.size)!
             }
-            let scaledImage = resizeImage(UIImage(ciImage: _currBlendImage!), targetSize: _currBlendSize, mode:.scaleAspectFill)
-            _currSampleImageScaled = CIImage(image:scaledImage!)
+            //let scaledImage = resizeImage(UIImage(ciImage: _currBlendImage!), targetSize: _currBlendSize, mode:.scaleAspectFill)
+            //_currBlendImageScaled = CIImage(image:scaledImage!)
+            _currBlendImageScaled = _currBlendImage?.resize(size: _currBlendSize)
             //setBlendInput(image: _currBlendImageScaled!)
         }
     }
@@ -267,8 +269,9 @@ class ImageManager {
         // the same sized image is often requested multiple times
         
         if (abs(size.width - _currSampleSize.width)>1.0) || (abs(size.height - _currSampleSize.height)>1.0) {
-            let scaledImage = resizeImage(UIImage(ciImage: _currSampleImage!), targetSize: size, mode:.scaleAspectFill)
-            _currSampleImageScaled = CIImage(image:scaledImage!)
+            //let scaledImage = resizeImage(UIImage(ciImage: _currSampleImage!), targetSize: size, mode:.scaleAspectFill)
+            //_currSampleImageScaled = CIImage(image:scaledImage!)
+            _currSampleImageScaled = _currSampleImage?.resize(size: size)
             _currSampleSize = size
         }
         return _currSampleImageScaled
@@ -326,8 +329,9 @@ class ImageManager {
             if (_currSampleSize == CGSize.zero){
                 _currSampleSize = (_currSampleImage?.extent.size)!
             }
-            let scaledImage = resizeImage(UIImage(ciImage: _currSampleImage!), targetSize: _currSampleSize, mode:.scaleAspectFill)
-            _currSampleImageScaled = CIImage(image:scaledImage!)
+            //let scaledImage = resizeImage(UIImage(ciImage: _currSampleImage!), targetSize: _currSampleSize, mode:.scaleAspectFill)
+            //_currSampleImageScaled = CIImage(image:scaledImage!)
+            _currSampleImageScaled = _currSampleImage?.resize(size: _currSampleSize)
             //setSampleInput(image: _currSampleImageScaled!)
         }
     }
@@ -359,10 +363,10 @@ class ImageManager {
     
     private static var _currEditName:String = ""
     
-    private static var _currEditImage: UIImage? = nil
-    private static var _currEditInput: CIImage? = nil
+    private static var _currEditImage: CIImage? = nil
+    //private static var _currEditInput: CIImage? = nil
     
-    private static var _currEditImageScaled: UIImage? = nil
+    private static var _currEditImageScaled: CIImage? = nil
     private static var _currEditSize: CGSize = CGSize(width: 0.0, height: 0.0)
 
     
@@ -382,11 +386,11 @@ class ImageManager {
         }
         
         //_currEditImage = getImageFromAssets(assetID:ename, size:_currEditSize)
-        _currEditImage = getImageFromAssets(assetID:ename)
+        _currEditImage = CIImage(image: getImageFromAssets(assetID:ename)!)
         if _currEditImage != nil {
             _currEditName = ename
-            _currEditInput = CIImage(image:_currEditImage!)
-            _currEditSize = _currEditImage!.size
+            //_currEditInput = CIImage(image:_currEditImage!)
+            _currEditSize = _currEditImage!.extent.size
             log.verbose("Image set to:\(ename)")
             updateStoredSettings()
         } else {
@@ -395,15 +399,15 @@ class ImageManager {
     }
     
     
-    public static func setCurrentEditImage(name: String, image:UIImage?) {
+    public static func setCurrentEditImage(name: String, image:CIImage?) {
         guard image != nil else {
             log.warning("NIL Edit Image supplied")
             return
         }
         _currEditName = name
         _currEditImage = image
-        _currEditInput = CIImage(image:_currEditImage!)
-        _currEditSize = (image?.size)!
+        _currEditImageScaled = image
+        _currEditSize = (image?.extent.size)!
         //_currEditImageScaled = resizeImage(_currEditImage, targetSize: _currEditSize, mode:.scaleAspectFill) // don't know size
         log.verbose("Image set to:\(name)")
     }
@@ -417,27 +421,24 @@ class ImageManager {
     
     
     public static func getCurrentEditImage(size:CGSize)->CIImage? {
-        // make sure current blend image has been loaded
-        if (_currEditImage == nil){
-            _currEditImage = getImageFromAssets(assetID:_currEditName, size:size)
-            _currEditInput = CIImage(image:_currEditImage!)
-        }
         
-        // check to see if we have already resized
-        if (_currEditSize != size){
+        // if requested size is close to currently stored size, just return the stored image and save memory
+        // the same sized image is often requested multiple times
+        
+        if (abs(size.width - _currEditSize.width)>1.0) || (abs(size.height - _currEditSize.height)>1.0) {
+            _currEditImageScaled = _currEditImage?.resize(size: size)
             _currEditSize = size
-            _currEditImageScaled = resizeImage(UIImage(ciImage:getCurrentEditImage()!), targetSize: size, mode:.scaleAspectFill)
         }
         
-        return CIImage(image:_currEditImageScaled!)
+        return _currEditImageScaled
     }
     
-    
+    /***
     public static func getCurrentEditInput()->CIImage? {
         checkEditImage()
-        return _currEditInput
+        return _currEditImage
     }
-    
+    ***/
     
     
     public static func getCurrentEditImageSize()->CGSize{
@@ -456,65 +457,61 @@ class ImageManager {
         checkEditImage()
         
         // calculate the aspect ratio as a 1:N (w:h) floating point number
-        if ((_currEditImage?.size.height)!>CGFloat(0.0)){
-            ratio = (_currEditImage?.size.width)! / (_currEditImage?.size.height)!
+        if ((_currEditImage?.extent.size.height)!>CGFloat(0.0)){
+            ratio = (_currEditImage?.extent.size.width)! / (_currEditImage?.extent.size.height)!
         }
         return ratio
     }
     
-    
+    /***
     public static func setEditInput(image: UIImage){
         _currEditInput = CIImage(image: image)
         _currEditSize = image.size
     }
-
+     ***/
     
     private static func checkEditImage(){
         
-        if _currEditName.isEmpty  {
+        // make sure current sample image has been loaded
+        if (_currEditImage == nil){
+            if _currEditName.isEmpty { _currEditName = getDefaultEditImageName()! }
+            _currEditImage = CIImage(image: getImageFromAssets(assetID:_currEditName, size:_currEditSize)!)
+        }
+        
+        // check to see if we have already resized
+        if (_currEditImageScaled == nil){
+            if (_currEditSize == CGSize.zero){
+                _currEditSize = (_currEditImage?.extent.size)!
+            }
+            //let scaledImage = resizeImage(UIImage(ciImage: _currEditImage!), targetSize: _currEditSize, mode:.scaleAspectFill)
+            //_currEditImageScaled = CIImage(image:scaledImage!)
+            _currEditImageScaled = _currEditImage?.resize(size: _currEditSize)
+            //setEditInput(image: _currEditImageScaled!)
+        }
+        
+    }
+
+    
+    
+    // returns the default name
+    public static func getDefaultEditImageName()->String?{
+        
+        if (_currEditName.isEmpty){
             _currEditSize = _currSampleSize // just to set it to something reasonable
             _currEditName = _currSampleName
-           log.debug("Edit image not set")
+            log.debug("Edit image not set")
+            // look up name of latest photo in camera roll
             getLatestPhotoName(completion: { (name: String?) in
-                //TODO: handle case where there is no photo (e.g. on simulator)
-                if name == nil {
+                if name == nil { // case where there is no photo (e.g. on simulator)
                     _currEditName = _currSampleName
                 } else {
                     _currEditName = name!
                 }
             })
-
-            //return
+            
         }
-        
-        // make sure current sample image has been loaded
-        if (_currEditImage == nil){
-            _currEditImage = getImageFromAssets(assetID:_currEditName, size:_currEditSize)
-            if _currEditImage != nil {
-                setEditInput(image: _currEditImage!)
-                
-                // check to see if we have already resized
-                if (_currEditImageScaled == nil){
-                    if (_currEditSize == CGSize.zero){
-                        _currEditSize = (_currEditImage?.size)!
-                    }
-                    _currEditImageScaled = resizeImage(_currEditImage, targetSize: _currEditSize, mode:.scaleAspectFit)
-                    setEditInput(image: _currEditImageScaled!)
-                }
-            } else {
-                log.error("Could not set edit image")
-            }
-        }
-        if (_currEditSize == CGSize.zero){
-            if _currEditImage != nil { _currEditSize = (_currEditImage?.size)! }
-        }
-    }
-    
-    
-    // returns the default name
-    public static func getDefaultEditImageName()->String?{
-        checkEditImage()
         return _currEditName
+        
     }
     
     

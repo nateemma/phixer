@@ -23,4 +23,29 @@ extension CIImage {
         let imgRect = CGRect(x: 0, y: 0, width: self.extent.width, height: self.extent.height)
         return CIImage.context?.createCGImage(self, from: imgRect)
     }
+    
+    // resize a CIImage
+    public func resize(size:CGSize) -> CIImage? {
+        
+        // get the CGImage for this CIImage
+        var cgimage = self.cgImage
+        if cgimage == nil {
+            cgimage = self.generateCGImage()
+        }
+        
+        // double-check that CGImage was created
+        guard cgimage != nil else {
+            log.error("Could not generate CGImage")
+            return nil
+        }
+        
+        // resize the CGImage and check result
+        let cgimage2 = cgimage?.resize(size)
+        guard cgimage2 != nil else {
+            log.error("Could not resize CGImage")
+            return nil
+        }
+        
+        return CIImage(cgImage: cgimage2!)
+    }
 }

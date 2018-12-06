@@ -78,7 +78,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
             sourceInput = ImageManager.getCurrentSampleInput()
         case .photo:
             camera?.stop()
-            sourceInput = ImageManager.getCurrentEditInput()
+            sourceInput = ImageManager.getCurrentEditImage()
         }
     }
     
@@ -89,7 +89,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         case .sample:
             sourceInput = ImageManager.getCurrentSampleInput()
         case .photo:
-            sourceInput = ImageManager.getCurrentEditInput()
+            sourceInput = ImageManager.getCurrentEditImage()
         }
         return sourceInput
     }
