@@ -131,11 +131,6 @@ class FilterGalleryViewController: UIViewController {
         
         if (!FilterGalleryViewController.initDone){
             FilterGalleryViewController.initDone = true
-            
-            //ImageCache.default.clearMemoryCache() // for testing
-            //ImageCache.default.clearDiskCache() // for testing
-            
-            //loadGalleries()
         }
     }
     
@@ -143,26 +138,10 @@ class FilterGalleryViewController: UIViewController {
     
     func suspend(){
         DispatchQueue.main.async(execute: { () -> Void in
-            /***
-            for filterView in self.filterGalleryView{
-                filterView.suspend()
-            }
-             ***/
             self.filterGalleryView.suspend()
         })
     }
     
-    /***
-    // Approach 1: Load all galleries/categories at once. Responsive, but a memory hog
-    func loadGalleries(){
-        // create an array of FilterGalleryViews and assign a category to each one
-        filterGalleryView = []
-        let count = filterManager.getCategoryCount()
-        for _ in 0...count {
-            filterGalleryView.append(FilterGalleryView())
-        }
-    }
-    ***/
     
     
     func doLayout(){
@@ -177,12 +156,6 @@ class FilterGalleryViewController: UIViewController {
         
         view.backgroundColor = theme.backgroundColor // default seems to be white
         
-        /***
-        //HACK: double-check that category data is loaded
-        if (filterGalleryView.count==0) {
-            loadGalleries()
-        }
-         ***/
         
         //top-to-bottom layout scheme
         
@@ -194,23 +167,18 @@ class FilterGalleryViewController: UIViewController {
         }
         
         
-        /***
-        // setup Galleries
-        for filterView in filterGalleryView{
-         ***/
-            if (showAds){
-                //filterView.frame.size.height = displayHeight - 3.75 * bannerHeight
-                filterGalleryView.frame.size.height = displayHeight - 4.25 * bannerHeight
-            } else {
-                //filterView.frame.size.height = displayHeight - 2.75 * bannerHeight
-                filterGalleryView.frame.size.height = displayHeight - 3.25 * bannerHeight
-            }
-            filterGalleryView.frame.size.width = displayWidth
-            filterGalleryView.backgroundColor = theme.backgroundColor
-            filterGalleryView.isHidden = true
-            filterGalleryView.delegate = self
-            view.addSubview(filterGalleryView) // do this before categorySelectionView is assigned
-        /** } **/
+        if (showAds){
+            //filterView.frame.size.height = displayHeight - 3.75 * bannerHeight
+            filterGalleryView.frame.size.height = displayHeight - 4.25 * bannerHeight
+        } else {
+            //filterView.frame.size.height = displayHeight - 2.75 * bannerHeight
+            filterGalleryView.frame.size.height = displayHeight - 3.25 * bannerHeight
+        }
+        filterGalleryView.frame.size.width = displayWidth
+        filterGalleryView.backgroundColor = theme.backgroundColor
+        filterGalleryView.isHidden = true
+        filterGalleryView.delegate = self
+        view.addSubview(filterGalleryView) // do this before categorySelectionView is assigned
         
         
         // Note: need to add subviews before modifying constraints
@@ -236,11 +204,7 @@ class FilterGalleryViewController: UIViewController {
 
         // layout constraints
         bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
-        /***
-        for filterView in filterGalleryView{
-            filterView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: filterView.frame.size.height)
-        }
-         ***/
+
         filterGalleryView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: filterGalleryView.frame.size.height)
         
         if (showAds){
@@ -250,14 +214,10 @@ class FilterGalleryViewController: UIViewController {
             categorySelectionView.align(.underMatchingLeft, relativeTo: bannerView, padding: 0, width: displayWidth, height: categorySelectionView.frame.size.height)
         }
   
-        
         categorySelectionView.delegate = self
-       /***
-        for gallery in filterGalleryView{
-            gallery.delegate = self
-        }
-         ***/
+
     }
+ 
     
     func layoutBanner(){
         bannerView.frame.size.height = bannerHeight
@@ -280,29 +240,9 @@ class FilterGalleryViewController: UIViewController {
             let index = self.filterManager.getCategoryIndex(category: category)
             
             log.debug("Category Selected: \(category) (\(self.currCategoryIndex)->\(index))")
-           /***
-            guard (self.filterGalleryView.count > 0) else {
-                log.error("Galleries not initialised!")
-                return
-            }
-            ***/
             
             if (self.isValidIndex(index)){
                 if (index != self.currCategoryIndex){
-                    /***
-                    if (self.isValidIndex(self.currCategoryIndex)) {
-                        self.filterGalleryView[self.currCategoryIndex].isHidden = true
-                        self.filterGalleryView[self.currCategoryIndex].suspend()
-                    }
-                    self.filterGalleryView[index].setCategory(self.filterManager.getCategory(index: index))
-                    self.filterGalleryView[index].isHidden = false
-                    self.currCategory = category
-                    self.currCategoryIndex = index
-                } else {
-                    if (self.isValidIndex(self.currCategoryIndex)) { self.filterGalleryView[self.currCategoryIndex].isHidden = false } // re-display just in case (e.g. could be a rotation)
-                    log.debug("Ignoring category change \(self.currCategoryIndex)->\(index)")
-                }
-                     ***/
 
                     self.currCategory = category
                     self.currCategoryIndex = index
@@ -325,7 +265,6 @@ class FilterGalleryViewController: UIViewController {
     fileprivate func updateCategoryDisplay(_ category:String){
         let index = filterManager.getCategoryIndex(category: category)
         if (isValidIndex(index)){
-            //filterGalleryView[index].update()
             filterGalleryView.update()
         }
     }

@@ -40,37 +40,20 @@ class FilterGalleryViewCell: UICollectionViewCell {
     
     let defaultWidth:CGFloat = 64.0
     let defaultHeight:CGFloat = 64.0
+    
+    // static vars (shared across all instances)
+    fileprivate static var filterManager:FilterManager = FilterManager.sharedInstance
+    fileprivate static var sample:CIImage? = nil
+    fileprivate static var blend:CIImage? = nil
 
-    
-    //fileprivate var renderContainer:RenderContainerView = RenderContainerView()
-    //fileprivate var imageContainer:ImageContainerView = ImageContainerView()
-    
-    //fileprivate var cachedImage: UIImage? = nil
-    
-    //var selectedImageView = UIImageView()
-    
-    
     fileprivate var initDone:Bool = false
     
-    fileprivate var filterManager:FilterManager = FilterManager.sharedInstance
-
-    /***
-    fileprivate var sampleImageFull:UIImage!
-    fileprivate var blendImageFull:UIImage!
-    fileprivate var sampleImageSmall:UIImage? = nil
-    fileprivate var blendImageSmall:UIImage? = nil
-    ***/
-    fileprivate var sample:CIImage? = nil
-    fileprivate var blend:CIImage? = nil
-    
-    /**/
     fileprivate var filteredImage:UIImage? = nil
     
     fileprivate var filter:FilterDescriptor? = nil
     
     fileprivate var filterDescriptor:FilterDescriptor?
-    //fileprivate var testFilter:FilterDescriptor? = CGAColorspaceDescriptor()
-/**/
+
     
     
     override init(frame: CGRect) {
@@ -134,13 +117,11 @@ class FilterGalleryViewCell: UICollectionViewCell {
         let size = (renderView?.frame.size)!
         
         // downsize input images since we really only need thumbnails
-
-
-        sample = ImageManager.getCurrentSampleImage(size:size)
-        blend = ImageManager.getCurrentBlendImage(size:size)
-        //sample = ImageManager.getCurrentSampleImage()
-        //blend = ImageManager.getCurrentBlendImage(size:(sample?.extent.size)!)
-
+        //sample = ImageManager.getCurrentSampleImage(size:size)
+        if FilterGalleryViewCell.sample == nil {
+            FilterGalleryViewCell.sample = InputSource.getCurrentImage()?.resize(size: size)
+            FilterGalleryViewCell.blend = ImageManager.getCurrentBlendImage(size:size)
+        }
     }
     
     
@@ -164,7 +145,7 @@ class FilterGalleryViewCell: UICollectionViewCell {
             self.cellIndex = index
             
             // allocate the RenderView
-            self.renderView = self.filterManager.getRenderView(key: key)
+            self.renderView = FilterGalleryViewCell.filterManager.getRenderView(key: key)
             //self.renderView = renderView
             
             // re-size the contents to match the cell
@@ -174,11 +155,11 @@ class FilterGalleryViewCell: UICollectionViewCell {
             self.label.text = key
             
             // get the descriptor and setup adornments etc. accordingly
-            self.descriptor = self.filterManager.getFilterDescriptor(key: key)
+            self.descriptor = FilterGalleryViewCell.filterManager.getFilterDescriptor(key: key)
             
             // If filter is disabled, show at half intensity
             if (self.descriptor != nil){
-                if (self.filterManager.isHidden(key: key)){
+                if (FilterGalleryViewCell.filterManager.isHidden(key: key)){
                     self.renderView.alpha = 0.25
                     self.label.alpha = 0.4
                     //self.layer.borderColor = UIColor(white: 0.6, alpha: 0.4).cgColor
@@ -223,20 +204,20 @@ class FilterGalleryViewCell: UICollectionViewCell {
         let key = (self.descriptor?.key)!
 
         // show/hide
-        let showAsset: String =  (self.filterManager.isHidden(key: key) == true) ? "ic_reject" : "ic_accept"
+        let showAsset: String =  (FilterGalleryViewCell.filterManager.isHidden(key: key) == true) ? "ic_reject" : "ic_accept"
         showAdornment.image = UIImage(named: showAsset)?.imageScaled(to: adornmentSize)
         
         // favourite
         var favAsset: String =  "ic_heart_outline"
         // TODO" figure out how to identify something in the favourite (quick select) list
-        if (self.filterManager.isFavourite(key: key)){
+        if (FilterGalleryViewCell.filterManager.isFavourite(key: key)){
             favAsset = "ic_heart_filled"
         }
         favAdornment.image = UIImage(named: favAsset)?.imageScaled(to: adornmentSize)
         
         // rating
         var ratingAsset: String =  "ic_star"
-        switch (self.filterManager.getRating(key: key)){
+        switch (FilterGalleryViewCell.filterManager.getRating(key: key)){
         case 1:
             ratingAsset = "ic_star_filled_1"
         case 2:
@@ -289,9 +270,9 @@ class FilterGalleryViewCell: UICollectionViewCell {
         
         //var descriptor: FilterDescriptor?
         
-        self.descriptor = self.filterManager.getFilterDescriptor(key: key)
+        self.descriptor = FilterGalleryViewCell.filterManager.getFilterDescriptor(key: key)
  
-        if (sample == nil){
+        if (FilterGalleryViewCell.sample == nil){
             loadInputs()
         }
         
@@ -299,12 +280,12 @@ class FilterGalleryViewCell: UICollectionViewCell {
         //TODO: start rendering in an asynch queue
         //TODO: render to UIImage, no need for RenderView since image is static
         
-        guard (sample != nil) else {
+        guard (FilterGalleryViewCell.sample != nil) else {
             log.error("Could not load sample image")
             return
         }
 
-        renderView?.image = self.descriptor?.apply(image: sample, image2: blend)
+        renderView?.image = self.descriptor?.apply(image: FilterGalleryViewCell.sample, image2: FilterGalleryViewCell.blend)
 
         //renderView.isHidden = false
 

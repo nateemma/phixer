@@ -714,6 +714,7 @@
 		2568BDA121AC72CB00560287 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2568BCCF21AC72CA00560287 /* iCarousel.m */; };
 		2568BDA221AC72CB00560287 /* ISColorWheel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2568BCD021AC72CA00560287 /* ISColorWheel.m */; };
 		2568BDCB21AC731100560287 /* EditManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568BDCA21AC731100560287 /* EditManager.swift */; };
+		2568BDCD21B9DE3600560287 /* InputSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568BDCC21B9DE3600560287 /* InputSource.swift */; };
 		2573D1D5217CDCB500E78CAB /* YUCIReflectedTile.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = 2573D1AF217CDCB400E78CAB /* YUCIReflectedTile.cikernel */; };
 		2573D1D6217CDCB500E78CAB /* YUCIGreenBlueChannelOverlayBlend.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = 2573D1B1217CDCB400E78CAB /* YUCIGreenBlueChannelOverlayBlend.cikernel */; };
 		2573D1D7217CDCB500E78CAB /* YUCIBilateralFilter.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = 2573D1B2217CDCB400E78CAB /* YUCIBilateralFilter.cikernel */; };
@@ -1551,6 +1552,7 @@
 		2568BCD021AC72CA00560287 /* ISColorWheel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISColorWheel.m; path = Views/ISColorWheel.m; sourceTree = "<group>"; };
 		2568BCFF21AC72CB00560287 /* ISColorWheel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ISColorWheel.h; path = Views/ISColorWheel.h; sourceTree = "<group>"; };
 		2568BDCA21AC731100560287 /* EditManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditManager.swift; path = Models/EditManager.swift; sourceTree = "<group>"; };
+		2568BDCC21B9DE3600560287 /* InputSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = InputSource.swift; path = Models/InputSource.swift; sourceTree = "<group>"; };
 		2573D1AE217CDCB400E78CAB /* YUCIReflectedTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YUCIReflectedTile.h; sourceTree = "<group>"; };
 		2573D1AF217CDCB400E78CAB /* YUCIReflectedTile.cikernel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = YUCIReflectedTile.cikernel; sourceTree = "<group>"; };
 		2573D1B0217CDCB400E78CAB /* YUCICLAHE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YUCICLAHE.h; sourceTree = "<group>"; };
@@ -1850,6 +1852,7 @@
 				25F563FB1DD1165C00DFB125 /* ImageManager.swift */,
 				25159883219E2B850067AA00 /* ThemeManager.swift */,
 				25F460171D99CCCE00EDA182 /* UISettings.swift */,
+				2568BDCC21B9DE3600560287 /* InputSource.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -3678,6 +3681,7 @@
 				253B23771DA4BB7800203ECB /* ClosestFraction.swift in Sources */,
 				252745EF21815FB700AA2DA2 /* CarnivalMirror.swift in Sources */,
 				258F09A7218CDEFD0082FE2A /* Geometry.swift in Sources */,
+				2568BDCD21B9DE3600560287 /* InputSource.swift in Sources */,
 				2573D1EA217CDCB500E78CAB /* YUCIFXAA.m in Sources */,
 				252C17A01ECE75FC00039BFC /* SettingsEntity+CoreDataClass.swift in Sources */,
 				252745F72182A1D500AA2DA2 /* BorderedButton.swift in Sources */,

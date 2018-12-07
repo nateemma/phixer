@@ -213,6 +213,7 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
     
     
     @objc func presentSimpleImageEditor(){
+        InputSource.setCurrent(source: .edit)
         let vc = SimpleEditViewController()
         //vc.delegate = self
         present(vc, animated: true, completion: nil)
@@ -220,6 +221,7 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
     }
     
     @objc func presentStyleTransfer(){
+        InputSource.setCurrent(source: .sample)
         //let vc = StyleTransferController()
         //vc.delegate = self
         //present(vc, animated: true, completion: nil)
@@ -228,6 +230,7 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
 
     
     @objc func presentFilterGallery(){
+        InputSource.setCurrent(source: .sample)
         let vc = FilterGalleryViewController()
         vc.delegate = self
         present(vc, animated: true, completion: nil)
@@ -236,6 +239,7 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
     
     
     @objc func presentLiveFilter(){
+        InputSource.setCurrent(source: .camera)
         //launch Live Filter VC
         let vc = LiveFilterViewController()
         //vc.delegate = self

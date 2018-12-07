@@ -415,7 +415,8 @@ class ImageManager {
     
     
     public static func getCurrentEditImage()->CIImage? {
-        return getCurrentEditImage(size:_currEditSize)
+        //return getCurrentEditImage(size:_currEditSize)
+        return _currEditImage
     }
     
     

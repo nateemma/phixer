@@ -25,7 +25,7 @@ class FilterDisplayView: UIView {
     fileprivate var filterManager = FilterManager.sharedInstance
     
     
-    fileprivate var currSampleInput:CIImage? = nil
+    fileprivate var currImageInput:CIImage? = nil
     fileprivate var currBlendInput:CIImage? = nil
     
     fileprivate var currFilterKey:String = ""
@@ -144,8 +144,9 @@ class FilterDisplayView: UIView {
 
         DispatchQueue.main.async(execute: { () -> Void in
             
-            self.currSampleInput = ImageManager.getCurrentSampleImage()!
-            
+            //self.currImageInput = ImageManager.getCurrentSampleImage()!
+            self.currImageInput = InputSource.getCurrentImage()
+
             // get current filter
             self.currFilterDescriptor = self.filterManager.getFilterDescriptor(key: self.currFilterKey)
             self.renderView = self.filterManager.getRenderView(key: self.currFilterKey)
@@ -153,7 +154,7 @@ class FilterDisplayView: UIView {
             self.renderView?.fillSuperview()
 
             // run the filter
-            self.renderView?.image = self.currFilterDescriptor?.apply(image:self.currSampleInput)
+            self.renderView?.image = self.currFilterDescriptor?.apply(image:self.currImageInput)
             self.doLayout()
         })
     }

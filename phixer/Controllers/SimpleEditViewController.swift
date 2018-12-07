@@ -146,7 +146,8 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         //filterManager?.reset()
         doInit()
         
-        
+        checkPhotoAuth()
+
         
         // set up layout based on orientation
         
@@ -297,6 +298,18 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         return .portrait
     }
     
+    private func checkPhotoAuth() {
+        if PHPhotoLibrary.authorizationStatus() != .authorized {
+            PHPhotoLibrary.requestAuthorization({ (status) in
+                if status == .authorized {
+                    log.debug("Photo access granted")
+                } else {
+                    log.warning("Photo access NOT granted")
+                }
+            })
+            
+        }
+    }
     
     //////////////////////////////////////
     // MARK: - Sub-View layout
@@ -362,13 +375,19 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     
     @objc func defaultDidPress(){
         currFilterDescriptor?.reset()
-    }
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.editImageView.updateImage()
+        })
+   }
     
     @objc func undoDidPress(){
         // restore saved parameters
         currFilterDescriptor?.restoreParameters()
         EditManager.popFilter()
-    }
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.editImageView.updateImage()
+        })
+   }
     
     
     //////////////////////////////////////
@@ -949,17 +968,20 @@ extension SimpleEditViewController: FilterControlsViewDelegate {
     func categoryPressed(){
         log.debug("Show/Hide Categories pressed")
         callbacksEnabled = true
+        hideModalViews()
         toggleCategoryState()
     }
     func filterPressed(){
         callbacksEnabled = true
         log.debug("Show/Hide Filters pressed")
+        hideModalViews()
         toggleFilterState()
     }
     
     func filterParametersPressed(){
         callbacksEnabled = true
         log.debug("Show/Hide Filter Settings pressed")
+        hideModalViews()
         toggleFilterSettings()
     }
 }

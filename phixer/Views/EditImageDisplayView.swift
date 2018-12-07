@@ -170,6 +170,8 @@ class EditImageDisplayView: UIView {
             }
             self.update()
              ***/
+            log.verbose("Updating edit image")
+            EditManager.setInputImage(InputSource.getCurrentImage())
             self.currPhotoInput = EditManager.outputImage
             if self.currPhotoInput == nil {
                 self.currPhotoInput = ImageManager.getCurrentSampleInput() // no edit image set, so make sure there is an image
@@ -195,24 +197,17 @@ class EditImageDisplayView: UIView {
     open func runFilter(){
 
         DispatchQueue.main.async(execute: { () -> Void in
-            
+            self.renderView?.image = EditManager.outputImage
+
+            /***
             // only run if the edit image has been set
             if (self.currPhotoInput != nil){
                 self.currFilterDescriptor = self.filterManager.getFilterDescriptor(key: self.currFilterKey)
-                /***
-                //self.renderView = self.filterManager.getRenderView(key: self.currFilterKey)
-                if (self.renderView != nil) {
-                    //self.setRenderViewSize()
-                    self.addSubview(self.renderView!)
-                    self.renderView?.fillSuperview()
-                   self.renderView?.anchorToEdge(.top, padding: 0, width: (self.renderView?.frame.size.width)!, height: (self.renderView?.frame.size.height)!)
-                }
-                 ***/
-                //self.renderView?.image = self.currFilterDescriptor?.apply(image: self.currPhotoInput)
                 self.renderView?.image = EditManager.outputImage
             } else {
                 log.debug("Edit image not set, ignoring")
             }
+             ***/
         })
     }
     
