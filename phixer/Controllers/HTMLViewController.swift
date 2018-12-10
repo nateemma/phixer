@@ -17,7 +17,7 @@ class HTMLViewController: UIViewController {
     var theme = ThemeManager.currentTheme()
     
 
-    private let statusBarOffset : CGFloat = 12.0
+    private let statusBarOffset : CGFloat = 2.0
     private let bannerHeight : CGFloat = 64.0
 
     private var bannerView: TitleView! = TitleView()

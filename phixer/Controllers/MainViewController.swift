@@ -299,6 +299,7 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+        log.warning("Low Memory Warning")
         // Dispose of any resources that can be recreated.
     }
     

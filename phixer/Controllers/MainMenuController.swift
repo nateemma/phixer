@@ -222,10 +222,10 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
     
     @objc func presentStyleTransfer(){
         InputSource.setCurrent(source: .sample)
-        //let vc = StyleTransferController()
+        let vc = StyleTransferGalleryViewController()
         //vc.delegate = self
-        //present(vc, animated: true, completion: nil)
-        notImplemented()
+        present(vc, animated: true, completion: nil)
+        //notImplemented()
     }
 
     

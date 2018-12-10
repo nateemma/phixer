@@ -48,7 +48,7 @@ class TitleView: UIView {
 
     fileprivate let bannerHeight : CGFloat = 64.0
     fileprivate let buttonSize : CGFloat = 48.0
-    fileprivate let statusBarOffset : CGFloat = 12.0
+    fileprivate let statusBarOffset : CGFloat = 2.0
 
     
     

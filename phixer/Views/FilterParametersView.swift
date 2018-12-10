@@ -205,7 +205,7 @@ class FilterParametersView: UIView {
     }
     
 
-    fileprivate var gsliders: [GradientSlider?] = [nil, nil, nil, nil]
+    fileprivate var gsliders: [GradientSlider?] = []
 
     fileprivate func layoutSliders(){
         
@@ -221,6 +221,7 @@ class FilterParametersView: UIView {
         
         log.verbose("Laying out sliders...")
         sliders = []
+        gsliders = []
         sliderKey = []
         numVisibleParams = 0
         var i:Int
@@ -269,24 +270,24 @@ class FilterParametersView: UIView {
                 } else if (sliderConfig.type == FilterDescriptor.ParameterType.color){
                     // RGB Slider, need to deal with colors
                     log.debug("Gradient Slider requested")
-                    gsliders[i] = GradientSlider()
-                    gsliders[i]?.hasRainbow = true
-                    //gsliders[i]?.setValue(value: 0.5) // middle colour
-                    gsliders[i]?.setValue(hueFromColor(self.currFilterDesc?.getColorParameter(key))) // default for class
-                    gsliders[i]?.tag = i // let slider know the parameter order
+                    let gslider = GradientSlider()
+                    gslider.hasRainbow = true
+                    //gslider.setValue(value: 0.5) // middle colour
+                    gslider.setValue(hueFromColor(self.currFilterDesc?.getColorParameter(key))) // default for class
+                    gslider.tag = i // let slider know the parameter order
                     //sliderKey[i] = key
                     sliderKey.append(key)
-                    gsliders[i]?.isHidden = false
-                    gsliders[i]?.setNeedsUpdateConstraints()
-                    gsliders[i]?.frame.size.width = self.frame.size.width
-                    gsliders[i]?.frame.size.height = CGFloat(sliderHeight*0.8).rounded()
+                    gslider.isHidden = false
+                    gslider.setNeedsUpdateConstraints()
+                    gslider.frame.size.width = self.frame.size.width
+                    gslider.frame.size.height = CGFloat(sliderHeight*0.8).rounded()
                     
                     //TODO: figure out current saturation & brightness
                     let currSat = CGFloat(1.0)
                     let currBright = CGFloat(1.0)
                     
-                    gsliders[i]?.setGradientForHueWithSaturation(currSat,brightness:currBright)
-                    gsliders[i]?.actionBlock = { slider, value in
+                    gslider.setGradientForHueWithSaturation(currSat,brightness:currBright)
+                    gslider.actionBlock = { slider, value in
                         
                         //First disable animations so we get instantaneous updates
                         CATransaction.begin()
@@ -294,14 +295,15 @@ class FilterParametersView: UIView {
                         
                         //Update the thumb color to match the new value
                         currColor = UIColor(hue: value, saturation: currSat, brightness: currBright, alpha: 1.0)
-                        self.gsliders[i]?.thumbColor = currColor
+                        slider.thumbColor = currColor
                         
                         CATransaction.commit()
                         self.currFilterDesc?.setColorParameter(key, color: CIColor(color: currColor))
                     }
                     //attachColorSliderAction(gsliders[i]!)
-                    sliderView.addSubview(gsliders[i]!)
-                    sliderView.groupAndFill(group: .vertical, views: [label, gsliders[i]!], padding: 2.0)
+                    gsliders.append(gslider)
+                    sliderView.addSubview(gslider)
+                    sliderView.groupAndFill(group: .vertical, views: [label, gslider], padding: 2.0)
                 }
                 
                 sliders.append(sliderView)

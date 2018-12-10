@@ -1,5 +1,5 @@
 {
-    "version": { "id": 2.0, "overwrite": false },
+    "version": { "id": 2.1, "overwrite": false },
     
     "blends": [
         "067_by_candymax_stock.jpg",
@@ -76,40 +76,6 @@
     },
     
     
-    
-    
-    "categories": [
-        {"key": "none",               "title": "No Filters" },
-        {"key": "favorites",          "title": "Favorites" },
-        {"key": "basic",              "title": "Basic Adjustments" },
-        {"key": "blends",              "title": "Blend Effects" },
-        {"key": "blur",               "title": "Blur Effects" },
-        {"key": "colorAdjustment",    "title": "Color Adjustments" },
-        {"key": "colorEffect",        "title": "Color Effects" },
-        {"key": "photoEffect",        "title": "Basic Photo Effects" },
-        {"key": "distortionEffect",   "title": "Distortion Effects" },
-        {"key": "geometryAdjustment", "title": "GeometryAdjustment" },
-        {"key": "halftoneEffect",     "title": "Halftone Effects" },
-        {"key": "reduction",          "title": "Reduction" },
-        {"key": "sharpen",            "title": "Sharpen" },
-        {"key": "stylize",            "title": "Stylize" },
-        {"key": "tileEffect",         "title": "Tile Effects" },
-        {"key": "monochrome",         "title": "Monochrome"   },
-        {"key": "color",              "title": "Color FX"     },
-        {"key": "etikate",            "title": "Miss Etikate" },
-        {"key": "manicho",            "title": "Mauricio Estrella" },
-        {"key": "ps",                 "title": "Photoshop"    },
-        {"key": "cross",              "title": "Cross Process"    },
-        {"key": "deviantart",         "title": "DeviantArt"    },
-        {"key": "fade",               "title": "Fade/Wash"    },
-        {"key": "misc",               "title": "Miscellaneous"    },
-        {"key": "tint",               "title": "Tint"    },
-        {"key": "urban",              "title": "Urban"    },
-        {"key": "yu",                 "title": "Yu"    },
-        {"key": "vintage",            "title": "Vintage" },
-        {"key": "custom",            "title": "Custom" },
-        {"key": "style",            "title": "Style Transfer" }
-    ],
     
     
     
@@ -1225,7 +1191,7 @@
         },
         
         
-        {"key": "YUCIBilateralFilter", "title": "Bilateral Filter", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "YUCIBilateralFilter", "title": "Bilateral Filter", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputRadius", "title": "Radius", "min": 0.0, "max":20.0, "val": 10.0, "type": "CIAttributeTypeScalar"},
                 {"key": "inputDistanceNormalizationFactor", "title": "Factor", "min": 0.0, "max":10.0, "val": 6.0, "type": "CIAttributeTypeScalar"},
@@ -1254,7 +1220,7 @@
                 {"key": "inputSharpnessFactor", "title": "Sharpness", "min": 0.0, "max":1.0, "val": 0.6, "type": "CIAttributeTypeScalar"}
             ]
         },
-        {"key": "YUCIHistogramEqualization", "title": "Bilateral Filter", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "YUCIHistogramEqualization", "title": "Histogram Equalization", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [ ]
         },
         {"key": "YUCIReflectedTile", "title": "Reflected Tile", "ftype": "singleInput", "show": true, "rating": 0,
@@ -1874,77 +1840,101 @@
     
     
     
-    "assign": [
-        {"category": "none",
-            "filters": ["NoFilter" ]
+    "categories": [
+        {"key": "none",
+            "title": "No Filters",
+            "filters": [ "NoFilter" ]
         },
-        {"category": "favorites",
+        
+        {"key": "favorites",
+            "title": "Favorites",
             "filters": ["CISRGBToneCurveToLinear", "CITwirlDistortion", "CIColorPosterize", "CIColorInvert", "CICMYKHalftone", "CIDotScreen", "CIHatchedScreen",
                 "ps_004", "ps_009", "bw_031", "bw_037" ]
         },
         
-        
-        {"category": "basic",
+        {"key": "basic",
+            "title": "Basic Adjustments",
             "filters": ["CIExposureAdjust", "CINoiseReduction", "CIVibrance", "CIWhitePointAdjust", "CIVignette",
                 "CITemperatureAndTint", "CIToneCurve", "CIAreaAverage", "CIAreaHistogram", "CISharpenLuminance", "CIUnsharpMask" ]
         },
         
-
-        {"category": "blends",
-                        "filters": ["CIAdditionCompositing", "CIColorBlendMode", "CIColorBurnBlendMode", "CIColorDodgeBlendMode", "CIDarkenBlendMode",
-                            "CIDifferenceBlendMode", "CIDivideBlendMode", "CIExclusionBlendMode", "CIHardLightBlendMode", "CIHueBlendMode", "CILightenBlendMode",
-                            "CILinearBurnBlendMode", "CILinearDodgeBlendMode", "CILuminosityBlendMode", "CIMaximumCompositing", "CIMinimumCompositing",
-                            "CIMultiplyBlendMode", "CIMultiplyCompositing", "CIOverlayBlendMode", "CIPinLightBlendMode", "CISaturationBlendMode", "CIScreenBlendMode",
-                            "CISoftLightBlendMode", "CISourceAtopCompositing", "CISourceInCompositing", "CISourceOutCompositing", "CISourceOverCompositing", "CISubtractBlendMode" ]
+        {"key": "blends",
+            "title": "Blend Effects",
+            "filters": ["CIAdditionCompositing", "CIColorBlendMode", "CIColorBurnBlendMode", "CIColorDodgeBlendMode", "CIDarkenBlendMode",
+                "CIDifferenceBlendMode", "CIDivideBlendMode", "CIExclusionBlendMode", "CIHardLightBlendMode", "CIHueBlendMode", "CILightenBlendMode",
+                "CILinearBurnBlendMode", "CILinearDodgeBlendMode", "CILuminosityBlendMode", "CIMaximumCompositing", "CIMinimumCompositing",
+                "CIMultiplyBlendMode", "CIMultiplyCompositing", "CIOverlayBlendMode", "CIPinLightBlendMode", "CISaturationBlendMode", "CIScreenBlendMode",
+                "CISoftLightBlendMode", "CISourceAtopCompositing", "CISourceInCompositing", "CISourceOutCompositing", "CISourceOverCompositing", "CISubtractBlendMode" ]
         },
         
-        {"category": "blur",
+        {"key": "blur",
+            "title": "Blur Effects",
             "filters": ["CIBoxBlur", "CIDiscBlur", "CIGaussianBlur", "CIMaskedVariableBlur", "CIMedianFilter", "CIMotionBlur", "CINoiseReduction", "CIZoomBlur" ]
         },
-        {"category": "colorAdjustment",
+        
+        {"key": "colorAdjustment",
+            "title": "Color Adjustments",
             "filters": ["CIColorClamp", "CIColorControls", "CIColorMatrix", "CIColorPolynomial", "CIExposureAdjust", "CIGammaAdjust", "CIHueAdjust", "CILinearToSRGBToneCurve",
                 "CISRGBToneCurveToLinear", "CITemperatureAndTint", "CIToneCurve", "CIVibrance", "CIWhitePointAdjust" ]
         },
-        {"category": "colorEffect",
+        
+        {"key": "colorEffect",
+            "title": "Color Effects",
             "filters": ["CIColorCrossPolynomial", "CIColorCube", "CIColorCubeWithColorSpace", "CIColorInvert", "CIColorMap", "CIColorMonochrome", "CIColorPosterize",
                 "CIFalseColor", "CIMaskToAlpha", "CIMaximumComponent", "CIMinimumComponent" ]
         },
-        {"category": "photoEffect",
+        
+        {"key": "photoEffect",
+            "title": "Basic Photo Effects",
             "filters": ["CIPhotoEffectChrome", "CIPhotoEffectFade", "CIPhotoEffectInstant", "CIPhotoEffectMono", "CIPhotoEffectNoir", "CIPhotoEffectProcess", "CIPhotoEffectTonal",
                 "CIPhotoEffectTransfer", "CISepiaTone", "CIVignette", "CIVignetteEffect" ]
         },
-
-        {"category": "distortionEffect",
+        
+        {"key": "distortionEffect",
+            "title": "Distortion Effects",
             "filters": ["CIBumpDistortion", "CIBumpDistortionLinear", "CICircleSplashDistortion", "CICircularWrap", "CIDroste", "CIDisplacementDistortion",
                 "CIGlassDistortion", "CIGlassLozenge", "CIHoleDistortion", "CILightTunnel", "CIPinchDistortion", "CIStretchCrop", "CITorusLensDistortion",
                 "CITwirlDistortion", "CIVortexDistortion" ]
         },
-        {"category": "geometryAdjustment",
+        
+        {"key": "geometryAdjustment",
+            "title": "GeometryAdjustment",
             "filters": ["CIAffineTransform", "CICrop", "CILanczosScaleTransform", "CIPerspectiveCorrection", "CIPerspectiveTransform", "CIPerspectiveTransformWithExtent",
                 "CIStraightenFilter", "CICategoryGradient", "CIGaussianGradient", "CILinearGradient", "CIRadialGradient", "CISmoothLinearGradient" ]
         },
-        {"category": "halftoneEffect",
+        
+        {"key": "halftoneEffect",
+            "title": "Halftone Effects",
             "filters": ["CICircularScreen", "CICMYKHalftone", "CIDotScreen", "CIHatchedScreen", "CILineScreen"  ]
         },
-        {"category": "reduction",
+        
+        {"key": "reduction",
+            "title": "Reduction",
             "filters": ["CIAreaAverage", "CIAreaHistogram", "CIRowAverage", "CIColumnAverage", "CIHistogramDisplayFilter", "CIAreaMaximum", "CIAreaMinimum",
                 "CIAreaMaximumAlpha", "CIAreaMinimumAlpha" ]
         },
-        {"category": "sharpen",
+        
+        {"key": "sharpen",
+            "title": "Sharpen",
             "filters": ["CISharpenLuminance", "CIUnsharpMask" ]
         },
-        {"category": "stylize",
+        
+        {"key": "stylize",
+            "title": "Stylize",
             "filters": ["CIBlendWithAlphaMask", "CIBlendWithMask", "CIBloom", "CIComicEffect", "CIConvolution3X3", "CIConvolution5X5", "CIConvolution7X7", "CIConvolution9Horizontal",
                 "CIConvolution9Vertical", "CICrystallize", "CIDepthOfField", "CIEdges", "CIEdgeWork", "CIGloom", "CIHeightFieldFromMask", "CIHexagonalPixellate",
                 "CIHighlightShadowAdjust", "CILineOverlay", "CIPixellate", "CIPointillize", "CIShadedMaterial", "CISpotColor", "CISpotLight" ]
         },
-        {"category": "tileEffect",
+        
+        {"key": "tileEffect",
+            "title": "Tile Effects",
             "filters": ["CIAffineClamp", "CIAffineTile", "CIEightfoldReflectedTile", "CIFourfoldReflectedTile", "CIFourfoldRotatedTile", "CIFourfoldTranslatedTile",
                 "CIGlideReflectedTile", "CIKaleidoscope", "CIOpTile", "CIParallelogramTile", "CIPerspectiveTile", "CISixfoldReflectedTile",
                 "CISixfoldRotatedTile", "CITriangleKaleidoscope", "CITriangleTile", "CITwelvefoldReflectedTile" ]
         },
         
-        {"category": "monochrome",
+        {"key": "monochrome",
+            "title": "Monochrome",
             "filters": ["bw_000", "bw_001", "bw_002", "bw_003", "bw_004", "bw_005", "bw_006", "bw_007", "bw_008", "bw_009",
                 "bw_010", "bw_011", "bw_012", "bw_013", "bw_014", "bw_015", "bw_016", "bw_017", "bw_018", "bw_019",
                 "bw_020", "bw_021", "bw_022", "bw_023", "bw_024", "bw_025", "bw_026", "bw_027", "bw_028", "bw_029",
@@ -1953,7 +1943,9 @@
                 "fx_009", "fx_010", "fx_011", "fx_012",
                 "fx_062", "fx_063", "fx_064", "fx_065", "fx_066", "fx_067" ]
         },
-        {"category": "color",
+        
+        {"key": "color",
+            "title": "Color FX",
             "filters": ["fx_001", "fx_002", "fx_003", "fx_004", "fx_005", "fx_006", "fx_007", "fx_008",
                 "fx_013", "fx_014", "fx_015", "fx_016", "fx_017", "fx_018", "fx_019",
                 "fx_020", "fx_021", "fx_022", "fx_023", "fx_024", "fx_025", "fx_026", "fx_027", "fx_028", "fx_029",
@@ -1963,7 +1955,8 @@
                 "fx_060", "fx_061" ]
         },
         
-        {"category": "etikate",
+        {"key": "etikate",
+            "title": "Miss Etikate",
             "filters": ["et_001", "et_002", "et_003", "et_004", "et_005", "et_006", "et_007", "et_008", "et_009", "et_010",
                 "et_011", "et_012", "et_013", "et_014", "et_015", "et_016", "et_017", "et_018", "et_019", "et_020",
                 "et_021", "et_022", "et_023", "et_024", "et_025", "et_026", "et_027", "et_028", "et_029", "et_030",
@@ -1980,7 +1973,8 @@
             ]
         },
         
-        {"category": "manicho",
+        {"key": "manicho",
+            "title": "Mauricio Estrella",
             "filters": ["mo_001", "mo_002", "mo_003", "mo_004", "mo_005", "mo_006", "mo_007", "mo_008", "mo_009", "mo_010",
                 "mo_011", "mo_012", "mo_013", "mo_014", "mo_015", "mo_016", "mo_017", "mo_018", "mo_019", "mo_020",
                 "mo_021", "mo_022", "mo_023", "mo_024", "mo_025", "mo_026", "mo_027", "mo_028", "mo_029", "mo_030",
@@ -1989,7 +1983,8 @@
             ]
         },
         
-        {"category": "ps",
+        {"key": "ps",
+            "title": "Photoshop",
             "filters": ["ps_001", "ps_002", "ps_003", "ps_004", "ps_005", "ps_006", "ps_007", "ps_008", "ps_009", "ps_010",
                 "ps_011", "ps_012", "ps_013", "ps_014", "ps_015", "ps_016", "ps_017", "ps_018", "ps_019", "ps_020",
                 "ps_021", "ps_022", "ps_023", "ps_024", "ps_025", "ps_026", "ps_027", "ps_028", "ps_029", "ps_030",
@@ -1998,27 +1993,31 @@
             ]
         },
         
-        {"category": "cross",
+        {"key": "cross",
+            "title": "Cross Process",
             "filters": ["xp_001", "xp_002", "xp_003", "xp_004", "xp_005", "xp_006", "xp_007", "xp_008", "xp_009", "xp_010",
                 "xp_011", "xp_012", "xp_013", "xp_014", "xp_015", "xp_016", "xp_017", "xp_018", "xp_019", "xp_020",
                 "xp_021", "xp_022", "xp_023", "xp_024"
             ]
         },
         
-        {"category": "deviantart",
+        {"key": "deviantart",
+            "title": "DeviantArt",
             "filters": ["da_001", "da_02a", "da_02b", "da_003", "da_004", "da_005", "da_006", "da_007", "da_008", "da_010",
                 "da_011", "da_012", "da_013", "da_014", "da_015", "da_016", "da_017", "da_018", "da_019", "da_020",
                 "da_021", "da_022", "da_023", "da_024", "da_025", "da_026", "da_027"
             ]
         },
         
-        {"category": "fade",
+        {"key": "fade",
+            "title": "Fade/Wash",
             "filters": ["fd_04a", "fd_04b", "fd_04c", "fd_04d", "fd_04e", "fd_04f", "fd_04g", "fd_04h", "fd_04i", "fd_04j",
                 "fd_04k", "fd_04l", "fd_09a", "fd_09b", "fd_09c", "fd_09d", "fd_09e", "fd_09f", "fd_09g", "fd_09h"
             ]
         },
         
-        {"category": "misc",
+        {"key": "misc",
+            "title": "Miscellaneous",
             "filters": ["ms_001", "ms_002", "ms_003", "ms_004", "ms_005", "ms_006", "ms_007", "ms_008", "ms_009", "ms_010",
                 "ms_011", "ms_012", "ms_013", "ms_014", "ms_015", "ms_016", "ms_017", "ms_018", "ms_019", "ms_020",
                 "ms_021", "ms_022", "ms_023", "ms_024", "ms_025", "ms_026", "ms_027", "ms_028", "ms_029", "ms_030",
@@ -2030,19 +2029,29 @@
             ]
         },
         
-        {"category": "tint",
+        {"key": "tint",
+            "title": "Tint",
             "filters": ["tn_001", "tn_002", "tn_003", "tn_004", "tn_04b", "tn_005", "tn_006", "tn_007", "tn_008", "tn_009",
                 "tn_010", "tn_011"
             ]
         },
         
-        {"category": "urban",
+        {"key": "urban",
+            "title": "Urban",
             "filters": ["ur_001", "ur_002", "ur_003", "ur_004", "ur_005", "ur_006", "ur_007", "ur_008", "ur_009", "ur_010",
                 "ur_011", "ur_012", "ur_013", "ur_014", "ur_015"
             ]
         },
         
-        {"category": "vintage",
+        {"key": "yu",
+            "title": "Yu",
+            "filters": ["YUCIBilateralFilter",  "YUCICLAHE",  "YUCIFXAA",  "YUCIHighPass",  "YUCIHighPassSkinSmoothing",
+                "YUCIHistogramEqualization",  "YUCIReflectedTile"
+            ]
+        },
+        
+        {"key": "vintage",
+            "title": "Vintage",
             "filters": ["vn_001", "vn_002", "vn_003", "vn_004", "vn_005", "vn_006", "vn_007", "vn_008", "vn_009", "vn_010",
                 "vn_011", "vn_012", "vn_013", "vn_014", "vn_015", "vn_016", "vn_017", "vn_018", "vn_019", "vn_020",
                 "vn_021", "vn_022", "vn_023", "vn_024", "vn_025", "vn_026", "vn_027", "vn_028", "vn_029", "vn_030",
@@ -2051,18 +2060,14 @@
             ]
         },
         
-        {"category": "yu",
-            "filters": ["YUCIBilateralFilter",  "YUCICLAHE",  "YUCIFXAA",  "YUCIHighPass",  "YUCIHighPassSkinSmoothing",
-                "YUCIHistogramEqualization",  "YUCIReflectedTile"
-            ]
-        },
-        
-        {"category": "custom",
+        {"key": "custom",
+            "title": "Custom",
             "filters": ["ClarityFilter", "OpacityFilter", "EdgeGlowFilter", "SmoothThresholdFilter", "AdaptiveThresholdFilter", "LumaRangeFilter"
             ]
         },
         
-        {"category": "style",
+        {"key": "style",
+            "title": "Style Transfer",
             "filters": ["Style_Scream", "Style_Candy",  "Style_Feathers",  "Style_LaMuse",  "Style_Udnie",  "Style_Mosaic"
             ]
         }

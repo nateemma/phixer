@@ -9,73 +9,32 @@
 import Foundation
 import CoreImage
 import CoreML
+import UIKit
 
-class Style_Feathers: CIFilter {
-    var inputImage: CIImage? = nil
-    var coreMLFilter: CIFilter? = nil
+class Style_Feathers: StyleTransferFilter {
     
-    private var inputModel: MLModel? = nil
-    private var modelSize:CGSize = CGSize.zero
-    
-    // default settings
-    override func setDefaults() {
-        inputImage = nil
+    // returns the source image used to create the model. This is just to support UIs, not needed for the filter
+    override func getSourceImage() -> UIImage? {
+        let name = "style_feathers.jpg"
+        let image = UIImage(named:name)
+        if image == nil {
+            log.error("Could not load source image: \(name)")
+        }
+        return image
     }
     
-    
     // filter display name
-    func displayName() -> String {
+    override func displayName() -> String {
         return "Style: Feathers"
     }
     
-    
-    // filter attributes
-    override var attributes: [String : Any] {
-        return [
-            kCIAttributeFilterDisplayName: displayName(),
-            
-            kCIInputImageKey: [kCIAttributeIdentity: 0,
-                               kCIAttributeClass: "CIImage",
-                               kCIAttributeDisplayName: "Image",
-                               kCIAttributeType: kCIAttributeTypeImage]
-        ]
+    // get the actual model
+    override func getInputModel() -> MLModel? {
+        return FNS_Feathers_1().model
     }
     
-    
-    override func setValue(_ value: Any?, forKey key: String) {
-        switch key {
-        case "inputImage":
-            inputImage = value as? CIImage
-        default:
-            log.error("Invalid key: \(key)")
-        }
-    }
-
-    
-    override var outputImage: CIImage? {
-        guard let inputImage = inputImage else {
-            return nil
-        }
-        
-        if (inputModel == nil) || (coreMLFilter == nil){
-            coreMLFilter = CIFilter(name: "CICoreMLModelFilter")
-            inputModel = FNS_Feathers_1().model
-            modelSize = CGSize(width: 720, height: 720) // just have to know this (annoying)
-            if inputModel == nil {
-                log.error("NIL model returned")
-            }
-            coreMLFilter?.setValue(inputModel, forKey: "inputModel")
-        }
-        
-        // resize input image to match model input size (image gets stretched otherwise)
-        let resizedImage = MLModelHelper.prepareInputImage(image: inputImage, imageSize: inputImage.extent.size, modelSize: modelSize)
-
-        // provide the resized image to the filter
-        coreMLFilter?.setValue(resizedImage, forKey: kCIInputImageKey)
-        
-        // run filter and restore output to original size
-        let outimage = MLModelHelper.processOutputImage(image: coreMLFilter?.outputImage, modelSize: modelSize, targetSize: inputImage.extent.size)
-        
-        return outimage
+    // get the model size
+    override func getModelSize() -> CGSize {
+        return CGSize(width: 720, height: 720) // just have to know this (annoying)
     }
 }

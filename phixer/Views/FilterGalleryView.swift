@@ -171,10 +171,15 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
             self.filterList = self.filterManager.getFilterList(self.currCategory)!
         } else {
             // only add filters if they are not hidden
-            let list = self.filterManager.getFilterList(self.currCategory)!
-            for k in list {
-                if ((filterManager.getFilterDescriptor(key: k)?.show)!) {
-                    self.filterList.append(k)
+
+            //if let list = self.filterManager.getShownFilterList(self.currCategory) {
+            if let list = (FilterGalleryView.showHidden==true) ? self.filterManager.getFilterList(self.currCategory) : self.filterManager.getShownFilterList(self.currCategory) {
+                if list.count > 0 {
+                    for k in list {
+                        if ((filterManager.getFilterDescriptor(key: k)?.show)!) || FilterGalleryView.showHidden {
+                            self.filterList.append(k)
+                        }
+                    }
                 }
             }
         }

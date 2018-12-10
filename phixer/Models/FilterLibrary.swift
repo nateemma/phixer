@@ -263,14 +263,16 @@ class FilterLibrary{
                         key = item["key"].stringValue
                         title = item["title"].stringValue
                         addCategory(key:key, title:title)
-                    }
+                        var list:[String] = item["filters"].arrayValue.map { $0.string!}
+                        list.sort(by: sortClosure) // sort alphabetically
+                        addAssignment(category:key, filters:list)                   }
                     print ("\(count) Categories found")
                     
                     // Build Category array from dictionary. More convenient than a dictionary
                     categoryList = Array(categoryDictionary.keys)
                     categoryList.sort(by: sortClosure)
                     
-                    
+                    /***
                     // List of Filters in each Category
                     count = 0
                     for item in parsedConfig["assign"].arrayValue {
@@ -281,7 +283,7 @@ class FilterLibrary{
                         addAssignment(category:key, filters:list)
                     }
                     print ("\(count) Category<-Filter Assignments found")
-                    
+                    ***/
                     
                 } else {
                     print("ERROR parsing JSON file")

@@ -408,6 +408,15 @@ class  FilterDescriptor {
         }
     }
     
+    // get the source image (for StyleTransfer filters)
+    func getSourceImage()->UIImage? {
+
+        if let styleFilter = self.filter as? StyleTransferFilter {
+            return styleFilter.getSourceImage()
+        } else {
+            return nil
+        }
+    }
     
     // save a copy of the parameters so that they can be restoed later
     func stashParameters() {
@@ -425,19 +434,6 @@ class  FilterDescriptor {
         }
     }
     
-    // various flavours of applying the filter:
-    
-    /***
-     // single input image
-     func apply (image: CIImage?) -> CIImage? {
-     if let filter = self.filter {
-     filter.setValue(image, forKey: kCIInputImageKey)
-     return filter.outputImage
-     } else {
-     return nil
-     }
-     }
-     ***/
     
     // generic function run the filter. The second image is optional, and is only used for blend/composite filters
     func apply (image: CIImage?, image2: CIImage?=nil) -> CIImage? {
@@ -481,15 +477,7 @@ class  FilterDescriptor {
 
                 // we are blending the supplied image on top of the blend image, just seems to look better
                 var bImage:CIImage? = blend
-                /***
-                if validParam(FilterDescriptor.blendArgIntensity){
-                    var alpha = self.getParameter(FilterDescriptor.blendArgIntensity)
-                    if (alpha < 0.0) { alpha = 1.0 }
-                    FilterDescriptor.opacityFilter.setParameter(Opacity.alphaKey, value: alpha)
-                    bImage = FilterDescriptor.opacityFilter.apply(image: blend)
-                }
 
-                 ***/
                 if let oFilter = CIFilter(name: "OpacityFilter"){
                     var alpha = self.getParameter(FilterDescriptor.blendArgIntensity)
                     if (alpha < 0.0) { alpha = 1.0 }

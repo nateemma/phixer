@@ -89,7 +89,7 @@ class SampleGalleryViewController: UIViewController, UIImagePickerControllerDele
     
     let bannerHeight : CGFloat = 64.0
     let buttonSize : CGFloat = 48.0
-    let statusBarOffset : CGFloat = 12.0
+    let statusBarOffset : CGFloat = 2.0
     
     
     
@@ -402,6 +402,7 @@ class SampleGalleryViewController: UIViewController, UIImagePickerControllerDele
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+        log.warning("Low Memory Warning")
         // Dispose of any resources that can be recreated.
     }
     

@@ -48,7 +48,7 @@ class ColorSchemeViewController: UIViewController {
     
     let bannerHeight : CGFloat = 64.0
     let buttonSize : CGFloat = 48.0
-    let statusBarOffset : CGFloat = 12.0
+    let statusBarOffset : CGFloat = 2.0
     
     var defaultColor:UIColor = UIColor.flatMint
     let defaultCount:Int = 6

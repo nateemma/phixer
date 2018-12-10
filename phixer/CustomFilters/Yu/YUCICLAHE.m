@@ -115,6 +115,13 @@ static NSData * YUCICLAHETransformLUTForContrastLimitedHistogram(vImagePixelCoun
     NSInteger tileGridSizeX = self.inputTileGridSize.X;
     NSInteger tileGridSizeY = self.inputTileGridSize.Y;
     
+    if (tileGridSizeX==0){
+        tileGridSizeX = 1;
+    }
+    if (tileGridSizeY==0){
+        tileGridSizeY = 1;
+    }
+    
     CIImage *inputImageForLUT;
     
     if ((NSInteger)inputImage.extent.size.width % tileGridSizeX == 0 &&

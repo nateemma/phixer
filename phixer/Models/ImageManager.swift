@@ -538,6 +538,7 @@ class ImageManager {
     //////////////////////////////////
     // MARK: - Image Utilities
     //////////////////////////////////
+ 
     
     // returns the name (Asset) of the latest photo in the Camera Roll. Useful as a default setting
     // NOTE: returns asynchronously via the 'completion(name)' callback

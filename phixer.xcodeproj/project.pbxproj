@@ -715,6 +715,16 @@
 		2568BDA221AC72CB00560287 /* ISColorWheel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2568BCD021AC72CA00560287 /* ISColorWheel.m */; };
 		2568BDCB21AC731100560287 /* EditManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568BDCA21AC731100560287 /* EditManager.swift */; };
 		2568BDCD21B9DE3600560287 /* InputSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568BDCC21B9DE3600560287 /* InputSource.swift */; };
+		2568BDCF21BB371D00560287 /* StyleTransferGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568BDCE21BB371D00560287 /* StyleTransferGalleryViewController.swift */; };
+		2568BDD121BB3ECD00560287 /* StyleTransferGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568BDD021BB3ECD00560287 /* StyleTransferGalleryView.swift */; };
+		2568BDD321BB3F2800560287 /* StyleTransferGalleryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568BDD221BB3F2800560287 /* StyleTransferGalleryViewCell.swift */; };
+		2568BDD721BEC72600560287 /* StyleTransferFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568BDD621BEC72600560287 /* StyleTransferFilter.swift */; };
+		2568BDDF21BEEB0700560287 /* style_feathers.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2568BDDB21BEDC3500560287 /* style_feathers.jpg */; };
+		2568BDE021BEEB1100560287 /* style_candy.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2568BDDE21BEDC3600560287 /* style_candy.jpg */; };
+		2568BDE121BEEB1500560287 /* style_la_muse.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2568BDDD21BEDC3600560287 /* style_la_muse.jpg */; };
+		2568BDE221BEEB1800560287 /* style_mosaic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2568BDD921BEDC3500560287 /* style_mosaic.jpg */; };
+		2568BDE321BEEB1C00560287 /* style_the_scream.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2568BDDC21BEDC3600560287 /* style_the_scream.jpg */; };
+		2568BDE421BEEB2000560287 /* style_udnie.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2568BDDA21BEDC3500560287 /* style_udnie.jpg */; };
 		2573D1D5217CDCB500E78CAB /* YUCIReflectedTile.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = 2573D1AF217CDCB400E78CAB /* YUCIReflectedTile.cikernel */; };
 		2573D1D6217CDCB500E78CAB /* YUCIGreenBlueChannelOverlayBlend.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = 2573D1B1217CDCB400E78CAB /* YUCIGreenBlueChannelOverlayBlend.cikernel */; };
 		2573D1D7217CDCB500E78CAB /* YUCIBilateralFilter.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = 2573D1B2217CDCB400E78CAB /* YUCIBilateralFilter.cikernel */; };
@@ -1553,6 +1563,16 @@
 		2568BCFF21AC72CB00560287 /* ISColorWheel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ISColorWheel.h; path = Views/ISColorWheel.h; sourceTree = "<group>"; };
 		2568BDCA21AC731100560287 /* EditManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditManager.swift; path = Models/EditManager.swift; sourceTree = "<group>"; };
 		2568BDCC21B9DE3600560287 /* InputSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = InputSource.swift; path = Models/InputSource.swift; sourceTree = "<group>"; };
+		2568BDCE21BB371D00560287 /* StyleTransferGalleryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StyleTransferGalleryViewController.swift; path = Controllers/StyleTransferGalleryViewController.swift; sourceTree = "<group>"; };
+		2568BDD021BB3ECD00560287 /* StyleTransferGalleryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StyleTransferGalleryView.swift; path = Views/StyleTransferGalleryView.swift; sourceTree = "<group>"; };
+		2568BDD221BB3F2800560287 /* StyleTransferGalleryViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StyleTransferGalleryViewCell.swift; path = Views/StyleTransferGalleryViewCell.swift; sourceTree = "<group>"; };
+		2568BDD621BEC72600560287 /* StyleTransferFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleTransferFilter.swift; sourceTree = "<group>"; };
+		2568BDD921BEDC3500560287 /* style_mosaic.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = style_mosaic.jpg; sourceTree = "<group>"; };
+		2568BDDA21BEDC3500560287 /* style_udnie.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = style_udnie.jpg; sourceTree = "<group>"; };
+		2568BDDB21BEDC3500560287 /* style_feathers.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = style_feathers.jpg; sourceTree = "<group>"; };
+		2568BDDC21BEDC3600560287 /* style_the_scream.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = style_the_scream.jpg; sourceTree = "<group>"; };
+		2568BDDD21BEDC3600560287 /* style_la_muse.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = style_la_muse.jpg; sourceTree = "<group>"; };
+		2568BDDE21BEDC3600560287 /* style_candy.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = style_candy.jpg; sourceTree = "<group>"; };
 		2573D1AE217CDCB400E78CAB /* YUCIReflectedTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YUCIReflectedTile.h; sourceTree = "<group>"; };
 		2573D1AF217CDCB400E78CAB /* YUCIReflectedTile.cikernel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = YUCIReflectedTile.cikernel; sourceTree = "<group>"; };
 		2573D1B0217CDCB400E78CAB /* YUCICLAHE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YUCICLAHE.h; sourceTree = "<group>"; };
@@ -1727,20 +1747,21 @@
 		25172972217B821C00D5E946 /* phil */ = {
 			isa = PBXGroup;
 			children = (
-				25172963217A1C6E00D5E946 /* Opacity.swift */,
-				252745E62180E8FD00AA2DA2 /* OpacityFilter.swift */,
+				258F09BA2192847F0082FE2A /* AdaptiveThresholdFilter.swift */,
+				2515987F2194B97E0067AA00 /* ClarityFilter.swift */,
 				252745E82180FDF600AA2DA2 /* CustomFilterRegistry.swift */,
 				252745F02182295100AA2DA2 /* EdgeGlowFilter.swift */,
-				2515987F2194B97E0067AA00 /* ClarityFilter.swift */,
-				258F09B8219264C20082FE2A /* SmoothThresholdFilter.swift */,
 				2515987D2193CD490067AA00 /* LumaRangeFilter.swift */,
-				258F09BA2192847F0082FE2A /* AdaptiveThresholdFilter.swift */,
-				258F09A2218CC09C0082FE2A /* Style_Scream.swift */,
+				25172963217A1C6E00D5E946 /* Opacity.swift */,
+				252745E62180E8FD00AA2DA2 /* OpacityFilter.swift */,
+				258F09B8219264C20082FE2A /* SmoothThresholdFilter.swift */,
 				258F09AC218E4AC90082FE2A /* Style_Candy.swift */,
-				258F09B4218E4BDC0082FE2A /* Style_Mosaic.swift */,
-				258F09B2218E4BB30082FE2A /* Style_Udnie.swift */,
-				258F09B0218E4B810082FE2A /* Style_LaMuse.swift */,
 				258F09AE218E4B5B0082FE2A /* Style_Feathers.swift */,
+				258F09B0218E4B810082FE2A /* Style_LaMuse.swift */,
+				258F09B4218E4BDC0082FE2A /* Style_Mosaic.swift */,
+				258F09A2218CC09C0082FE2A /* Style_Scream.swift */,
+				258F09B2218E4BB30082FE2A /* Style_Udnie.swift */,
+				2568BDD621BEC72600560287 /* StyleTransferFilter.swift */,
 			);
 			path = phil;
 			sourceTree = "<group>";
@@ -1794,6 +1815,19 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
+		2568BDD821BEDC0D00560287 /* Style */ = {
+			isa = PBXGroup;
+			children = (
+				2568BDDE21BEDC3600560287 /* style_candy.jpg */,
+				2568BDDB21BEDC3500560287 /* style_feathers.jpg */,
+				2568BDDD21BEDC3600560287 /* style_la_muse.jpg */,
+				2568BDD921BEDC3500560287 /* style_mosaic.jpg */,
+				2568BDDC21BEDC3600560287 /* style_the_scream.jpg */,
+				2568BDDA21BEDC3500560287 /* style_udnie.jpg */,
+			);
+			path = Style;
+			sourceTree = "<group>";
+		};
 		256D0FEC1D98DAC600220D7E /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -1830,6 +1864,8 @@
 				252745FC21851C6300AA2DA2 /* RGBSliderView.swift */,
 				253A39E31DDA979400A714D4 /* SampleGalleryView.swift */,
 				25CF4BD41D9490C400D779CF /* SquareButton.swift */,
+				2568BDD021BB3ECD00560287 /* StyleTransferGalleryView.swift */,
+				2568BDD221BB3F2800560287 /* StyleTransferGalleryViewCell.swift */,
 				258F09B6218E67910082FE2A /* TimedAlertView.swift */,
 				251729AA217BE7A300D5E946 /* TitleView.swift */,
 			);
@@ -1876,6 +1912,7 @@
 				258EA08D1ED90A7000D5E20E /* SettingsMenuController.swift */,
 				2542DF5A1ED372BF00CEB968 /* SimpleEditViewController.swift */,
 				252745E4217FE2EF00AA2DA2 /* StartupViewController.swift */,
+				2568BDCE21BB371D00560287 /* StyleTransferGalleryViewController.swift */,
 				2515988721A3495C0067AA00 /* ThemeChooserController.swift */,
 			);
 			name = Controllers;
@@ -2061,6 +2098,7 @@
 		25F563FD1DD146D100DFB125 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				2568BDD821BEDC0D00560287 /* Style */,
 				25F564001DD1471B00DFB125 /* Lookup */,
 				25F563FF1DD1470200DFB125 /* Blends */,
 				25F563FE1DD146EC00DFB125 /* Samples */,
@@ -2901,6 +2939,7 @@
 				252B0DFC1E30690F005A0C2D /* vn_001_punch.jpg in Resources */,
 				252B0DB21E30690E005A0C2D /* xp_019_direct_pos.jpg in Resources */,
 				252B0F231E30690F005A0C2D /* et_110_new_3.jpg in Resources */,
+				2568BDE421BEEB2000560287 /* style_udnie.jpg in Resources */,
 				252B0E8C1E30690F005A0C2D /* mo_038_contrast_2.jpg in Resources */,
 				252B0F1A1E30690F005A0C2D /* et_101_made_5.jpg in Resources */,
 				252B10101E306920005A0C2D /* grunge_background_v2_by_bcoolbyte.jpg in Resources */,
@@ -3099,6 +3138,7 @@
 				252B0F6C1E30690F005A0C2D /* et_029_a11.jpg in Resources */,
 				252B0E621E30690F005A0C2D /* ms_031_punch_it_up.jpg in Resources */,
 				252B0F531E30690F005A0C2D /* et_052_a22_9.jpg in Resources */,
+				2568BDE021BEEB1100560287 /* style_candy.jpg in Resources */,
 				252B0E031E30690F005A0C2D /* tn_005_tint_blue.jpg in Resources */,
 				252B100C1E306920005A0C2D /* massacre_by_dazzle_textures.jpg in Resources */,
 				252B0F321E30690F005A0C2D /* et_089_green.jpg in Resources */,
@@ -3205,6 +3245,7 @@
 				252B106A1E30692E005A0C2D /* sample_2160.png in Resources */,
 				252B0E431E30690F005A0C2D /* ps_005_bleach_bypass.jpg in Resources */,
 				252B0F091E30690F005A0C2D /* et_115_pink_grey.jpg in Resources */,
+				2568BDE321BEEB1C00560287 /* style_the_scream.jpg in Resources */,
 				252B0E021E30690F005A0C2D /* tn_004_tint_aqua.jpg in Resources */,
 				2568BD0321AC72CB00560287 /* Manifest.lock in Resources */,
 				251729562174F10700D5E946 /* defaultSettings.json in Resources */,
@@ -3270,6 +3311,7 @@
 				252B0F451E30690F005A0C2D /* et_063_a25_3.jpg in Resources */,
 				252B0E991E30690F005A0C2D /* mo_023_fashion_2.jpg in Resources */,
 				252B0ED51E30690F005A0C2D /* fx_043_old_photo_4.jpg in Resources */,
+				2568BDE121BEEB1500560287 /* style_la_muse.jpg in Resources */,
 				252B0E961E30690F005A0C2D /* mo_020_colorful_glow.jpg in Resources */,
 				252B107E1E30692E005A0C2D /* sample_1504.png in Resources */,
 				252B0F161E30690F005A0C2D /* fd_04d_blue_yellow.jpg in Resources */,
@@ -3386,6 +3428,7 @@
 				252B0EE01E30690F005A0C2D /* fx_019_ink_2.jpg in Resources */,
 				252B0F621E30690F005A0C2D /* et_043_a21_3.jpg in Resources */,
 				252B10871E30692E005A0C2D /* sample_0846.png in Resources */,
+				2568BDDF21BEEB0700560287 /* style_feathers.jpg in Resources */,
 				252B0E4E1E30690F005A0C2D /* ms_062_nice_greens.jpg in Resources */,
 				252B0DE31E30690E005A0C2D /* vn_033_xpro.jpg in Resources */,
 				252B0E6B1E30690F005A0C2D /* ms_041_nate_1.jpg in Resources */,
@@ -3398,6 +3441,7 @@
 				252B0EA31E30690F005A0C2D /* mo_033_argenta_3.jpg in Resources */,
 				252B0F1D1E30690F005A0C2D /* et_104_mmm_3.jpg in Resources */,
 				252B0F211E30690F005A0C2D /* et_108_new_1.jpg in Resources */,
+				2568BDE221BEEB1800560287 /* style_mosaic.jpg in Resources */,
 				252B0DEE1E30690F005A0C2D /* vn_016_steampunk_afternoon.jpg in Resources */,
 				252B0E1A1E30690F005A0C2D /* tn_002_isolate_green.jpg in Resources */,
 				252B0FA21E30690F005A0C2D /* da_003_retro_blue.jpg in Resources */,
@@ -3715,12 +3759,14 @@
 				252746042187653500AA2DA2 /* UIColor+Extensions.swift in Sources */,
 				257F49E21D9448920083B1E4 /* MainViewController.swift in Sources */,
 				2573D1E5217CDCB500E78CAB /* YUCIReflectedTile.m in Sources */,
+				2568BDD721BEC72600560287 /* StyleTransferFilter.swift in Sources */,
 				25AEBB441DBA8AEC00AA6279 /* FilterSelectionView.swift in Sources */,
 				252745E92180FDF600AA2DA2 /* CustomFilterRegistry.swift in Sources */,
 				2542DF5D1ED373F800CEB968 /* EditImageDisplayView.swift in Sources */,
 				258F09BB2192847F0082FE2A /* AdaptiveThresholdFilter.swift in Sources */,
 				25934FB31DD5109C00C3D665 /* BlendGalleryViewController.swift in Sources */,
 				2507160B1DBECDF200CDDF42 /* Admob.swift in Sources */,
+				2568BDD121BB3ECD00560287 /* StyleTransferGalleryView.swift in Sources */,
 				252C17A51ECE75FC00039BFC /* CategoryEntity+CoreDataProperties.swift in Sources */,
 				251598802194B97E0067AA00 /* ClarityFilter.swift in Sources */,
 				25D24AB71DC7DCDB001F65B9 /* FilterGalleryViewCell.swift in Sources */,
@@ -3728,6 +3774,7 @@
 				25F460181D99CCCE00EDA182 /* UISettings.swift in Sources */,
 				252C17951ECE64EE00039BFC /* Model.xcdatamodeld in Sources */,
 				258EA08E1ED90A7000D5E20E /* SettingsMenuController.swift in Sources */,
+				2568BDD321BB3F2800560287 /* StyleTransferGalleryViewCell.swift in Sources */,
 				255673231DB9BF0F00187F25 /* FilterControlsView.swift in Sources */,
 				252745F12182295100AA2DA2 /* EdgeGlowFilter.swift in Sources */,
 				25CF4BD51D9490C400D779CF /* CameraControlsView.swift in Sources */,
@@ -3751,6 +3798,7 @@
 				2573D1E9217CDCB500E78CAB /* YUCIHistogramEqualization.m in Sources */,
 				25A702921DC2FCDD009441E2 /* FilterDetailsViewController.swift in Sources */,
 				252C17A61ECE75FC00039BFC /* AssignmentEntity+CoreDataClass.swift in Sources */,
+				2568BDCF21BB371D00560287 /* StyleTransferGalleryViewController.swift in Sources */,
 				258F09B3218E4BB30082FE2A /* Style_Udnie.swift in Sources */,
 				2542DF571ECFB3F100CEB968 /* AssignmentRecord.swift in Sources */,
 				2542DF591ECFB4DA00CEB968 /* LookupFilterRecord.swift in Sources */,

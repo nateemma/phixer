@@ -31,7 +31,7 @@ class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
     
     // Banner/Navigation View (title)
     fileprivate var titleView:TitleView! = TitleView()
-    fileprivate let statusBarOffset : CGFloat = 12.0
+    fileprivate let statusBarOffset : CGFloat = 2.0
     
     // Advertisements View
     var adView: GADBannerView! = GADBannerView()

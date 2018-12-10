@@ -74,7 +74,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     
     let bannerHeight : CGFloat = 64.0
     let buttonSize : CGFloat = 48.0
-    fileprivate let statusBarOffset : CGFloat = 12.0
+    fileprivate let statusBarOffset : CGFloat = 2.0
     
     let editControlHeight = 64.0
     
@@ -278,6 +278,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+        log.warning("Low Memory Warning")
         // Dispose of any resources that can be recreated.
     }
     

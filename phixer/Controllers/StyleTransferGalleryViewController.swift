@@ -1,5 +1,5 @@
 //
-//  FilterGalleryViewController.swift
+//  StyleTransferGalleryViewController.swift
 //  phixer
 //
 //  Created by Philip Price on 10/24/16.
@@ -20,23 +20,19 @@ import GoogleMobileAds
 
 
 // delegate method to let the launching ViewController know that this one has finished
-protocol FilterGalleryViewControllerDelegate: class {
-    func filterGalleryCompleted()
+protocol StyleTransferGalleryViewControllerDelegate: class {
+    func styleGalleryCompleted()
 }
 
 
 private var filterList: [String] = []
 private var filterCount: Int = 0
 
-// This is the View Controller for displaying and organising filters into categories
+// This is the View Controller for displaying Style Transfer models
 
-class FilterGalleryViewController: UIViewController {
+class StyleTransferGalleryViewController: UIViewController {
     
     var theme = ThemeManager.currentTheme()
-    
-
-    // delegate for handling events
-    weak var delegate: FilterGalleryViewControllerDelegate?
     
     
     // Banner View (title)
@@ -46,16 +42,7 @@ class FilterGalleryViewController: UIViewController {
     // Advertisements View
     var adView: GADBannerView! = GADBannerView()
     
-    // Category Selection View
-    var categorySelectionView: CategorySelectionView!
-    var currCategoryIndex = -1
-    var currCategory:String = FilterManager.defaultCategory
-    
-    /***
-    // Filter Galleries (one per category).
-    var filterGalleryView : [FilterGalleryView] = []
-    ***/
-    var filterGalleryView : FilterGalleryView! = FilterGalleryView()
+    var styleGalleryView : StyleTransferGalleryView! = StyleTransferGalleryView()
     
     var filterManager:FilterManager = FilterManager.sharedInstance
     
@@ -97,7 +84,7 @@ class FilterGalleryViewController: UIViewController {
         displayHeight = view.height
         displayWidth = view.width
         
-        filterGalleryView.delegate = self
+        styleGalleryView.delegate = self
 
         // get orientation
         //isLandscape = UIDevice.current.orientation.isLandscape // doesn't always work properly, especially in simulator
@@ -113,12 +100,6 @@ class FilterGalleryViewController: UIViewController {
         }
         
         
-        // set up initial Category
-        currCategory = filterManager.getCurrentCategory()
-        selectCategory(currCategory)
-        categorySelectionView.setFilterCategory(currCategory)
-        
-        
     }
     
     
@@ -129,8 +110,8 @@ class FilterGalleryViewController: UIViewController {
     
     func doInit(){
         
-        if (!FilterGalleryViewController.initDone){
-            FilterGalleryViewController.initDone = true
+        if (!StyleTransferGalleryViewController.initDone){
+            StyleTransferGalleryViewController.initDone = true
         }
     }
     
@@ -138,7 +119,7 @@ class FilterGalleryViewController: UIViewController {
     
     func suspend(){
         DispatchQueue.main.async(execute: { () -> Void in
-            self.filterGalleryView.suspend()
+            self.styleGalleryView.suspend()
         })
     }
     
@@ -168,17 +149,15 @@ class FilterGalleryViewController: UIViewController {
         
         
         if (showAds){
-            //filterView.frame.size.height = displayHeight - 3.75 * bannerHeight
-            filterGalleryView.frame.size.height = displayHeight - 4.25 * bannerHeight
+            styleGalleryView.frame.size.height = displayHeight - bannerView.frame.size.height - adView.frame.size.height
         } else {
-            //filterView.frame.size.height = displayHeight - 2.75 * bannerHeight
-            filterGalleryView.frame.size.height = displayHeight - 3.25 * bannerHeight
+            styleGalleryView.frame.size.height = displayHeight - bannerView.frame.size.height
         }
-        filterGalleryView.frame.size.width = displayWidth
-        filterGalleryView.backgroundColor = theme.backgroundColor
-        filterGalleryView.isHidden = true
-        filterGalleryView.delegate = self
-        view.addSubview(filterGalleryView) // do this before categorySelectionView is assigned
+        styleGalleryView.frame.size.width = displayWidth
+        styleGalleryView.backgroundColor = theme.backgroundColor
+        styleGalleryView.isHidden = false
+        styleGalleryView.delegate = self
+        view.addSubview(styleGalleryView) // do this before categorySelectionView is assigned
         
         
         // Note: need to add subviews before modifying constraints
@@ -192,30 +171,17 @@ class FilterGalleryViewController: UIViewController {
             log.debug("Not showing Ads in landscape mode")
             adView.isHidden = true
         }
-        
-        
-        categorySelectionView = CategorySelectionView()
-        
-        categorySelectionView.frame.size.height = 1.5 * bannerHeight
-        categorySelectionView.frame.size.width = displayWidth
-        categorySelectionView.backgroundColor = theme.backgroundColor
-        view.addSubview(categorySelectionView)
 
 
         // layout constraints
         bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
 
-        filterGalleryView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: filterGalleryView.frame.size.height)
-        
         if (showAds){
             adView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: adView.frame.size.height)
-            categorySelectionView.align(.underCentered, relativeTo: adView, padding: 0, width: displayWidth, height: categorySelectionView.frame.size.height)
-        } else {
-            categorySelectionView.align(.underMatchingLeft, relativeTo: bannerView, padding: 0, width: displayWidth, height: categorySelectionView.frame.size.height)
         }
-  
-        categorySelectionView.delegate = self
 
+        styleGalleryView.anchorAndFillEdge(.bottom, xPad: 1, yPad: 1, otherSize: styleGalleryView.frame.size.height)
+  
     }
  
     
@@ -223,51 +189,16 @@ class FilterGalleryViewController: UIViewController {
         bannerView.frame.size.height = bannerHeight
         bannerView.frame.size.width = displayWidth
         bannerView.backgroundColor = theme.backgroundColor
-        bannerView.title = "Filter Gallery"
+        bannerView.title = "Style Transfer Gallery"
         bannerView.delegate = self
     }
     
     
     fileprivate func isValidIndex(_ index:Int)->Bool{
-        //return ((index>=0) && (index<filterGalleryView.count)) ? true : false
+        //return ((index>=0) && (index<styleGalleryView.count)) ? true : false
         return ((index>=0) && (index<filterManager.getCategoryCount())) ? true : false
     }
     
-    fileprivate func selectCategory(_ category:String){
-        DispatchQueue.main.async(execute: { () -> Void in
-            
-            
-            let index = self.filterManager.getCategoryIndex(category: category)
-            
-            log.debug("Category Selected: \(category) (\(self.currCategoryIndex)->\(index))")
-            
-            if (self.isValidIndex(index)){
-                if (index != self.currCategoryIndex){
-
-                    self.currCategory = category
-                    self.currCategoryIndex = index
-                    self.filterGalleryView.suspend()
-                    self.filterGalleryView.setCategory(self.filterManager.getCategory(index: index))
-                    self.filterGalleryView.isHidden = false
-                } else {
-                    if (self.isValidIndex(self.currCategoryIndex)) { self.filterGalleryView.isHidden = false } // re-display just in case (e.g. could be a rotation)
-                    log.debug("Ignoring category change \(self.currCategoryIndex)->\(index)")
-                }
-
-                self.categorySelectionView.setFilterCategory(self.currCategory)
-            } else {
-                log.warning("Invalid index: \(index)")
-            }
-        })
-    }
-    
-    
-    fileprivate func updateCategoryDisplay(_ category:String){
-        let index = filterManager.getCategoryIndex(category: category)
-        if (isValidIndex(index)){
-            filterGalleryView.update()
-        }
-    }
     
     
     /*
@@ -320,34 +251,25 @@ class FilterGalleryViewController: UIViewController {
         guard navigationController?.popViewController(animated: true) != nil else { //modal
             //log.debug("Not a navigation Controller")
             suspend()
-            dismiss(animated: true, completion:  { self.delegate?.filterGalleryCompleted() })
+            dismiss(animated: true, completion:  {  })
             return
         }
     }
     
 
-} // FilterGalleryViewController
+} // StyleTransferGalleryViewController
 
 
 //////////////////////////////////////////
 // MARK: - Delegate methods for sub-views
 //////////////////////////////////////////
 
-extension FilterGalleryViewController: CategorySelectionViewDelegate {
-    func categorySelected(_ category:String){
-        selectCategory(category)
-    }
+
+
+extension StyleTransferGalleryViewController: StyleTransferGalleryViewDelegate {
+
     
-}
-
-
-
-
-
-extension FilterGalleryViewController: FilterGalleryViewDelegate {
     func filterSelected(_ descriptor:FilterDescriptor?){
-        //suspend()
-        filterManager.setSelectedCategory(currCategory)
         filterManager.setSelectedFilter(key: (descriptor?.key)!)
         let filterDetailsViewController = FilterDetailsViewController()
         filterDetailsViewController.delegate = self
@@ -355,48 +277,13 @@ extension FilterGalleryViewController: FilterGalleryViewDelegate {
         self.present(filterDetailsViewController, animated: false, completion: nil)
     }
     
-    func requestUpdate(category:String){
-        DispatchQueue.main.async(execute: {() -> Void in
-            log.debug("Update requested for category: \(category)")
-            self.updateCategoryDisplay(category)
-        })
-    }
-    
-    func setHidden(key:String, hidden:Bool){
-        self.filterManager.setHidden(key:key, hidden:hidden)
-        DispatchQueue.main.async(execute: {() -> Void in
-            self.updateCategoryDisplay(self.currCategory)
-        })
-    }
-    
-    func setFavourite(key:String, fav:Bool){
-        if (fav){
-            self.filterManager.addToFavourites(key:key)
-        } else {
-            self.filterManager.removeFromFavourites(key:key)
-        }
-        DispatchQueue.main.async(execute: {() -> Void in
-            self.updateCategoryDisplay(self.currCategory)
-        })
-    }
-    
-    func setRating(key:String, rating:Int){
-        self.filterManager.setRating(key:key, rating:rating)
-        DispatchQueue.main.async(execute: {() -> Void in
-            self.updateCategoryDisplay(self.currCategory)
-        })
-    }
 }
 
 
 
-extension FilterGalleryViewController: FilterDetailsViewControllerDelegate {
+extension StyleTransferGalleryViewController: FilterDetailsViewControllerDelegate {
     func onCompletion(key:String){
-        //DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {() -> Void in
-        DispatchQueue.main.async(execute: {() -> Void in
-            log.verbose("FilterDetailsView completed")
-            self.updateCategoryDisplay(self.currCategory)
-        })
+        log.verbose("FilterDetailsView completed")
     }
     
     func prevFilter(){
@@ -410,7 +297,7 @@ extension FilterGalleryViewController: FilterDetailsViewControllerDelegate {
 
 
 
-extension FilterGalleryViewController: TitleViewDelegate {
+extension StyleTransferGalleryViewController: TitleViewDelegate {
     func backPressed() {
         backDidPress()
     }
