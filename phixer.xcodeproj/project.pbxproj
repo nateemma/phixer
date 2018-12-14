@@ -1886,9 +1886,9 @@
 				253B23781DA5782300203ECB /* FilterManager.swift */,
 				25F460191D99CE1E00EDA182 /* GridStyle.swift */,
 				25F563FB1DD1165C00DFB125 /* ImageManager.swift */,
+				2568BDCC21B9DE3600560287 /* InputSource.swift */,
 				25159883219E2B850067AA00 /* ThemeManager.swift */,
 				25F460171D99CCCE00EDA182 /* UISettings.swift */,
-				2568BDCC21B9DE3600560287 /* InputSource.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
