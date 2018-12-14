@@ -97,16 +97,20 @@ class StyleTransferFilter: CIFilter {
             return nil
         }
         
-        if (inputModel == nil) || (coreMLFilter == nil){
-            coreMLFilter = CIFilter(name: "CICoreMLModelFilter")
+        if (inputModel == nil) {
             inputModel = getInputModel()
             if inputModel == nil {
                 log.error("NIL model returned")
                 return nil
             }
-            modelSize = getModelSize()
-            coreMLFilter?.setValue(inputModel, forKey: "inputModel")
         }
+        
+        if (coreMLFilter == nil){
+            coreMLFilter = CIFilter(name: "CICoreMLModelFilter")
+        }
+        modelSize = getModelSize()
+        coreMLFilter?.setValue(inputModel, forKey: "inputModel")
+
         
         // resize input image to match model input size (image gets stretched otherwise)
         let resizedImage = MLModelHelper.prepareInputImage(image: inputImage, imageSize: inputImage.extent.size, modelSize: modelSize)
@@ -116,6 +120,10 @@ class StyleTransferFilter: CIFilter {
         
         // run filter and restore output to original size
         let outimage = MLModelHelper.processOutputImage(image: coreMLFilter?.outputImage, modelSize: modelSize, targetSize: inputImage.extent.size)
+        
+        // reset model and filter because it's a big chunk of memory
+        inputModel = nil
+        coreMLFilter = nil
         
         return outimage
     }

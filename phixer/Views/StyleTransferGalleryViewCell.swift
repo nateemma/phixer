@@ -33,7 +33,6 @@ class StyleTransferGalleryViewCell: UICollectionViewCell {
     // static vars (shared across all instances)
     fileprivate static var filterManager:FilterManager = FilterManager.sharedInstance
     fileprivate static var input:CIImage? = nil
-    fileprivate static var arrow:UIImageView? = nil
     
     fileprivate static var rowSize:CGSize = CGSize.zero
     fileprivate static var imgSize:CGSize = CGSize.zero
@@ -109,20 +108,20 @@ class StyleTransferGalleryViewCell: UICollectionViewCell {
         // load static data
         if StyleTransferGalleryViewCell.input == nil {
             StyleTransferGalleryViewCell.rowSize = self.frame.size
-            StyleTransferGalleryViewCell.imgSize = CGSize(width: (self.frame.size.width / 4.0).rounded(), height: (self.frame.size.height * 0.9).rounded())
+            StyleTransferGalleryViewCell.imgSize = CGSize(width: (self.frame.size.width / 3.8).rounded(), height: (self.frame.size.height * 0.9).rounded())
 
-            log.verbose("Loading source and icon")
-            StyleTransferGalleryViewCell.input = InputSource.getCurrentImage()?.resize(size: StyleTransferGalleryViewCell.imgSize)
-            if StyleTransferGalleryViewCell.input == nil {
-                log.error("NIL Input")
-            }
+            // arrow view
+            self.arrowView?.image = UIImage(named:"ic_right_arrow")?.withRenderingMode(.alwaysTemplate)
+            self.arrowView?.tintColor =  self.theme.tintColor
+            self.arrowView?.alpha = 0.8
+
+
+            //log.verbose("Loading source and icon")
+            //StyleTransferGalleryViewCell.input = InputSource.getCurrentImage()?.resize(size: StyleTransferGalleryViewCell.imgSize)
+            //if StyleTransferGalleryViewCell.input == nil {
+            //    log.error("NIL Input")
+            //}
             
-            StyleTransferGalleryViewCell.arrow?.frame.size = StyleTransferGalleryViewCell.imgSize
-            StyleTransferGalleryViewCell.arrow = UIImageView()
-            StyleTransferGalleryViewCell.arrow?.image = UIImage(named:"ic_right_arrow")?.withRenderingMode(.alwaysTemplate)
-            if StyleTransferGalleryViewCell.arrow?.image == nil {
-                log.error("Failed to load arrow icon")
-            }
         }
     }
     
@@ -138,13 +137,18 @@ class StyleTransferGalleryViewCell: UICollectionViewCell {
         super.prepareForReuse()
     }
 ***/
+    
+    public static func reset(){
+        StyleTransferGalleryViewCell.input = nil
+    }
+    
     public func setStyledImage(index:Int, key:String, image:CIImage?){
         DispatchQueue.main.async(execute: { () -> Void in
             log.debug("index:\(index), key:\(key)")
-
+            
             self.cellIndex = index // allows tracking of cells for re-use or pre-loading
             self.styledView = StyleTransferGalleryViewCell.filterManager.getRenderView(key: key)
-
+            
             self.loadInputs()
             self.doLayout()
             
@@ -154,85 +158,37 @@ class StyleTransferGalleryViewCell: UICollectionViewCell {
             if self.sourceView.image == nil {
                 log.warning("NIL source image")
             }
-
+            
             // display the arrow icon
             self.arrowView.image = UIImage(named:"ic_right_arrow")?.withRenderingMode(.alwaysTemplate)
             self.arrowView.tintColor =  self.theme.tintColor
             self.arrowView.alpha = 0.8
             
             // update the styled view
-           self.styledView.image = image
+            self.styledView.image = image
             
             //self.doLayout()
-
+            
         })
     }
     
-    public func configureCell(frame: CGRect, index:Int, key:String) {
-        
+    public func configure(index:Int, srcImage:UIImage?, styledImage:MetalImageView?){
         DispatchQueue.main.async(execute: { () -> Void in
-            log.debug("index:\(index), key:\(key)")
+            log.debug("index:\(index)")
+            
             self.cellIndex = index // allows tracking of cells for re-use or pre-loading
             
-            // get the renderable view for this filter
-            self.styledView = StyleTransferGalleryViewCell.filterManager.getRenderView(key: key)
-            
-            // get the descriptor and setup adornments etc. accordingly
-            self.descriptor = StyleTransferGalleryViewCell.filterManager.getFilterDescriptor(key: key)
-            
-            // If filter is disabled, show at half intensity
-            if (self.descriptor != nil){
-                if (StyleTransferGalleryViewCell.filterManager.isHidden(key: key)){
-                    self.styledView.alpha = 0.25
-                    self.layer.borderColor = self.theme.borderColor.cgColor
-                }
-                
-            } else {
-                log.error("NIL descriptor for key: \(key)")
+            // update the images
+            if (srcImage != nil) { self.sourceView.image = srcImage }
+            if (styledImage != nil) {
+                styledImage?.frame.size = StyleTransferGalleryViewCell.imgSize // can change
+                self.styledView = styledImage
             }
             
-            // get the source image
-            self.sourceView.image = self.descriptor?.getSourceImage()
-            if self.sourceView.image == nil {
-                log.warning("NIL source image")
-            }
-
             self.doLayout()
-            self.updateRenderView(key: key, styledView: self.styledView)
+            
         })
-        
-    }
-    
-    
-    // update the supplied RenderView with the supplied filter
-    public func updateRenderView(key: String, styledView:MetalImageView?){
-        
-        //var descriptor: FilterDescriptor?
-        
-        self.descriptor = StyleTransferGalleryViewCell.filterManager.getFilterDescriptor(key: key)
- 
-        if (StyleTransferGalleryViewCell.input == nil){
-            loadInputs()
-        }
-        
-        guard (StyleTransferGalleryViewCell.input != nil) else {
-            log.error("Could not load input image")
-            return
-        }
-
-        // apply the filter
-        log.verbose("Running style filter: \(key)")
-        styledView?.image = self.descriptor?.apply(image: StyleTransferGalleryViewCell.input)
- 
     }
 
-    open func suspend(){
-        //log.debug("Suspending cell: \((filterDescriptor?.key)!)")
-        //input?.removeAllTargets()
-        //blend?.removeAllTargets()
-        //filter?.removeAllTargets()
-        //filterGroup?.removeAllTargets()
-    }
-    
 
 }

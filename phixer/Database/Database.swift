@@ -244,11 +244,11 @@ class Database {
                 settingsEntity = settingList[0]
             } else {
                 print("Creating new record")
-               settingsEntity = createSettings()
+                settingsEntity = createSettings()
             }
-            } catch let error as NSError {
-                print("saveSettings() - ERR: Could not fetch. \(error), \(error.userInfo)")
-            }
+        } catch let error as NSError {
+            print("saveSettings() - ERR: Could not fetch. \(error), \(error.userInfo)")
+        }
         
         if (settingsEntity == nil){
             print("saveSettings() - ERR: no settings table entry found")
@@ -262,7 +262,51 @@ class Database {
             
             save()
         }
+        
+    }
+    
+    
+    // clears all entries in Settings recoed
+    public static func clearSettings(){
+        
+        print("Database.clearSettings()")
+        checkDatabase()
+        
+        var settingList: [SettingsEntity] = []
+        var settingsEntity: SettingsEntity? = nil
+        let settings: SettingsRecord = SettingsRecord()
+        
+        // get the settings record, creating if necessary
+        settingsEntity = nil
+        
+        let fetchRequest = NSFetchRequest<SettingsEntity>(entityName: settingsName)
+        fetchRequest.predicate = NSPredicate(format: "key == %@", settingsKey)
+        do {
+            settingList = try (context?.fetch(fetchRequest))!
+            if (settingList.count>0){
+                settingsEntity = settingList[0]
+                if (settingsEntity == nil){
+                    print("saveSettings() - ERR: no settings table entry found")
+                } else {
+                    
+                    // clear all of the values and save
+                    settings.key = settingsKey
+                    settings.configVersion = "0.0"
+                    settings.sampleImage = ""
+                    settings.blendImage = ""
+                    settings.editImage = ""
 
+                    settingsEntity?.update(record:settings)
+                    print("clearSettings() - Sample:\(settings.sampleImage!) Blend:\(settings.blendImage!) Edit:\(settings.editImage!)")
+                    
+                    save()
+                }
+            }
+        } catch let error as NSError {
+            print("clearSettings() - ERR: Could not fetch. \(error), \(error.userInfo)")
+        }
+        
+        
     }
     
     
@@ -272,6 +316,7 @@ class Database {
     // MARK: - CATEGORIES
     ///////////////////////////////////
     
+    // get the list of category records
     public static func getCategoryRecords() -> [CategoryRecord]{
         var categoryList:[CategoryRecord]
         
@@ -375,8 +420,27 @@ class Database {
     }
     
     
-    // don't need save since records are saved as they are added/updated/deleted
-    
+    // clear (delete) all category records
+    public static func clearCategoryRecords() {
+
+        print("Database.clearCategoryRecords()")
+        
+        let fetchRequest = NSFetchRequest<CategoryEntity>(entityName: categoryName)
+        do {
+            let records = try (context?.fetch(fetchRequest))!
+            if (records.count>0){
+                for rec in records {
+                    context?.delete(rec)
+                }
+            } else {
+                print("clearCategoryRecords() NO records found")
+            }
+        } catch let error as NSError {
+            print("clearCategoryRecords() Could not fetch. \(error), \(error.userInfo)")
+        }
+
+    }
+
     
 
     
@@ -489,6 +553,27 @@ class Database {
     }
     
     
+    // clear (delete) all assignment records
+    public static func clearAssignmentRecords() {
+        
+        print("Database.clearAssignmentRecords()")
+        
+        let fetchRequest = NSFetchRequest<AssignmentEntity>(entityName: assignmentName)
+        do {
+            let records = try (context?.fetch(fetchRequest))!
+            if (records.count>0){
+                for rec in records {
+                    context?.delete(rec)
+                }
+            } else {
+                print("clearAssignmentRecords() NO records found")
+            }
+        } catch let error as NSError {
+            print("clearAssignmentRecords() Could not fetch. \(error), \(error.userInfo)")
+        }
+        
+    }
+
     
     ///////////////////////////////////
     // MARK: - USER CHANGES
@@ -604,4 +689,27 @@ class Database {
         
     }
     
+    
+    
+    // clear (delete) all user change records
+    public static func clearUserChangesRecords() {
+        
+        print("Database.clearUserChangesRecords()")
+        
+        let fetchRequest = NSFetchRequest<UserChangesEntity>(entityName: userChangesName)
+        do {
+            let records = try (context?.fetch(fetchRequest))!
+            if (records.count>0){
+                for rec in records {
+                    context?.delete(rec)
+                }
+            } else {
+                print("clearUserChangesRecords() NO records found")
+            }
+        } catch let error as NSError {
+            print("clearUserChangesRecords() Could not fetch. \(error), \(error.userInfo)")
+        }
+        
+    }
+
 }

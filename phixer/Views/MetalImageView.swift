@@ -24,8 +24,10 @@ class MetalImageView: MTKView
     
 
     /// The image to display. The image will be rendered when this is set
-    var image: CIImage? { didSet { renderImage() }
+    public var image: CIImage? {
+        didSet { renderImage() }
     }
+
     
     let colorSpace = CGColorSpaceCreateDeviceRGB()
     
@@ -75,6 +77,8 @@ class MetalImageView: MTKView
         }
     }
     
+
+    
     func renderImage() {
         guard device != nil else {
             log.error("NIL device")
@@ -88,82 +92,84 @@ class MetalImageView: MTKView
                 if let commandBuffer = MetalImageView.commandQueue?.makeCommandBuffer() {
                     
                     let bounds = CGRect(origin: CGPoint.zero, size: drawableSize)
-                    
-/*** method 1: (having issues with horizontal alignment)
-                    var originX = image.extent.origin.x
-                    var originY = image.extent.origin.y
-                    
-                    let scaleX = drawableSize.width / image.extent.width
-                    let scaleY = drawableSize.height / image.extent.height
-                    // if the view and the image are the same orientation then fill, otherwise fit
+      
+                    // vars that control how the input image is transformed to match the view in which it is displayed
+                    var angle:CGFloat = 0.0
                     var scale:CGFloat = 1.0
-                    if ((drawableSize.width>=drawableSize.height) && (image.extent.width>=image.extent.height)) ||
-                        ((drawableSize.width<drawableSize.height) && (image.extent.width<image.extent.height)) {
-                        scale = max(scaleX, scaleY) // aspectFill
-                    } else {
-                        scale = min(scaleX, scaleY) // aspectFit
-                    }
+                    var originX:CGFloat = 0.0
+                    var originY:CGFloat = 0.0
                     
-                    if image.extent.width > image.extent.height {
-                        // if landscape then move the image up to the top of the drawable (note: this is before scaling, so work in image coordinates)
-                        originY = -(drawableSize.height/scale - image.extent.height)
-                    } else {
-                        // portrait, centre horizontally
-                        originX = -(drawableSize.width/scale - image.extent.width)/2.0
-                        //DBG
-                        log.debug("image:(\(image.extent.width),\(image.extent.height)) " +
-                            "drawable:(\(drawableSize.width), \(drawableSize.height)) o:(\(originX), \(originY)) scale:\(scale)")
-                    }
-                     let scaledImage = image.transformed(by: CGAffineTransform(translationX: -originX, y: -originY))
-                     .transformed(by: CGAffineTransform(scaleX: scale, y: scale))
- ***/
+                    // test: orient image to match view
                     
-/** Method 2: */
-                    
+                    //let orientation = UIDeviceOrientation.portrait
+                    var isize:CGSize = image.extent.size
+                    let dsize:CGSize = drawableSize
 
-                    // if the view and the image are the same orientation then fill, otherwise fit
+                    let iAR = isize.height / isize.width
+                    let dAR = dsize.height / dsize.width
+                    
+                    if (dAR<1.0) && (iAR>1.0) { // drawable is landscape, image is portrait
+                        //log.debug("portrait->landscape")
+                        angle = .pi / 2.0
+                        isize.height = image.extent.size.width
+                        isize.width = image.extent.size.height
+                    } else if (dAR>1.0) && (iAR<1.0) { // drawable is portrait, image is landscape
+                        //log.debug("landscape->portrait")
+                        angle = -(.pi / 2.0)
+                        isize.height = image.extent.size.width
+                        isize.width = image.extent.size.height
+                    }
+                    //log.debug("(\(image.extent.width),\(image.extent.height))->(\(isize.width),\(isize.height))")
+                    
+                    
                     var targetRect:CGRect
-                    var scale:CGFloat = 1.0
                     var scaleX:CGFloat = 1.0
                     var scaleY:CGFloat = 1.0
 
-                    if ((drawableSize.width>=drawableSize.height) && (image.extent.width>=image.extent.height)) ||
-                        ((drawableSize.width<drawableSize.height) && (image.extent.width<image.extent.height)) {
-                        targetRect = Geometry.aspectFillToRect(aspectRatio: image.extent.size, minimumRect: bounds)
-                        scaleX = targetRect.width / image.extent.width
-                        scaleY = targetRect.height / image.extent.height
+                    // if the view and the image are the same orientation then fill, otherwise fit
+                   if ((dsize.width>=dsize.height) && (isize.width>=isize.height)) ||
+                        ((dsize.width<dsize.height) && (isize.width<isize.height)) {
+                        targetRect = Geometry.aspectFillToRect(aspectRatio: isize, minimumRect: bounds)
+                        scaleX = targetRect.width / isize.width
+                        scaleY = targetRect.height / isize.height
                         scale = max(scaleX, scaleY)
                    } else {
-                        targetRect = Geometry.aspectFitToRect(aspectRatio: image.extent.size, boundingRect: bounds)
-                        scaleX = targetRect.width / image.extent.width
-                        scaleY = targetRect.height / image.extent.height
+                        targetRect = Geometry.aspectFitToRect(aspectRatio: isize, boundingRect: bounds)
+                        scaleX = targetRect.width / isize.width
+                        scaleY = targetRect.height / isize.height
                         scale = min(scaleX, scaleY)
                     }
 
                     
 
-                    var originX = targetRect.origin.x
-                    var originY = targetRect.origin.y
+                    originX = targetRect.origin.x
+                    originY = targetRect.origin.y
                     
-                    if image.extent.width > image.extent.height {
+                    if isize.width > isize.height {
                         // if landscape then move the image up to the top of the drawable
-                        originY = fabs(drawableSize.height - targetRect.size.height)
-                        //log.debug("Landscape image:(\(image.extent.width),\(image.extent.height)) " +
+                        originY = fabs(dsize.height - targetRect.size.height)
+                        //log.debug("Landscape image:(\(isize.width),\(isize.height)) " +
                         //    "rect:(\(targetRect.size.width),\(targetRect.size.height)) " +
-                        //    "drawable:(\(drawableSize.width), \(drawableSize.height)) o:(\(originX), \(originY)) scale:\(scale)")
+                        //    "drawable:(\(dsize.width), \(dsize.height)) o:(\(originX), \(originY)) scale:\(scale) angle:\(angle)")
                    } else {
                         // portrait, centre horizontally
 
-                        originX = (drawableSize.width - targetRect.size.width)/2.0
-                        //DBG
-                        //log.debug("Portrait image:(\(image.extent.width),\(image.extent.height)) " +
+                        originX = (dsize.width - targetRect.size.width)/2.0
+                        if abs(angle) > 0.01 { // if image was rotated, coordinate system id different
+                            originY = dsize.height
+                        }
+                       //DBG
+                        //log.debug("Portrait image:(\(isize.width),\(isize.height)) " +
                         //    "rect:(\(targetRect.size.width),\(targetRect.size.height)) " +
-                        //    "drawable:(\(drawableSize.width), \(drawableSize.height)) o:(\(originX), \(originY)) scale:\(scale)")
+                        //    "drawable:(\(dsize.width), \(dsize.height)) o:(\(originX), \(originY)) scale:\(scale) angle:\(angle)")
                     }
 
-                     let scaledImage = image.transformed(by: CGAffineTransform(scaleX: scale, y: scale))
+                    //let scaledImage = image.transformed(by: CGAffineTransform(scaleX: scale, y: scale))
+                     //   .transformed(by: CGAffineTransform(translationX: originX, y: originY))
+                    let scaledImage = image.transformed(by:CGAffineTransform(rotationAngle: angle))
+                                           .transformed(by: CGAffineTransform(scaleX: scale, y: scale))
                                            .transformed(by: CGAffineTransform(translationX: originX, y: originY))
-                    
+
                     
                     ciContext.render(scaledImage,
                                      to: targetTexture,
@@ -181,7 +187,7 @@ class MetalImageView: MTKView
                 }
                 
                 //self.bounds = bounds
-                //self.frame.size = drawableSize
+                //self.frame.size = dsize
             } else {
                 log.error("Could not get texture")
             }

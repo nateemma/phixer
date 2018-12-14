@@ -14,6 +14,7 @@ import Neon
 import AVFoundation
 import MediaPlayer
 import AudioToolbox
+import Photos
 
 import GoogleMobileAds
 import Cosmos
@@ -30,7 +31,7 @@ protocol FilterDetailsViewControllerDelegate: class {
 
 // This is the View Controller for displaying a filter with a sample image and exposing the controls (if any)
 
-class FilterDetailsViewController: UIViewController {
+class FilterDetailsViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var theme = ThemeManager.currentTheme()
     
@@ -60,7 +61,13 @@ class FilterDetailsViewController: UIViewController {
     fileprivate var prevView: UIView! = UIView()
     fileprivate var nextView: UIView! = UIView()
     
+    // Image Selection (& save) view
+    var imageSelectionView: ImageSelectionView! = ImageSelectionView()
+
     
+    // image picker for changing edit image
+    let imagePicker = UIImagePickerController()
+
     fileprivate var filterManager: FilterManager? = FilterManager.sharedInstance
     fileprivate var currCategory: String = ""
     fileprivate var currFilterDescriptor:FilterDescriptor? = nil
@@ -99,13 +106,14 @@ class FilterDetailsViewController: UIViewController {
         }
     }
     
-    func suspend(){
+    public func suspend(){
         self.filterDisplayView.suspend()
     }
     
-    func update(){
+    public func update(){
         DispatchQueue.main.async(execute: { () -> Void in
             self.doLayout()
+            self.filterDisplayView.update()
             self.overlayView.setNeedsLayout()
         })
     }
@@ -119,6 +127,9 @@ class FilterDetailsViewController: UIViewController {
         currFilterCount = (filterManager?.getFilterCount(category))!
     }
 
+    public func saveImage(){
+        filterDisplayView.saveImage()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -179,7 +190,8 @@ class FilterDetailsViewController: UIViewController {
         
         //view.addSubview(adView)
         setupDisplay()
-        setupAdornments()
+        //setupAdornments()
+        setupAdditionalPanel()
         setupNavigationControls()
         
         setupConstraints()
@@ -209,9 +221,16 @@ class FilterDetailsViewController: UIViewController {
 
     
     fileprivate func setupDisplay(){
-        if (filterDisplayView != nil) { filterDisplayView.removeFromSuperview() }
-        filterDisplayView = FilterDisplayView() // create new one each time, doesn't seem to update properly
+        //if (filterDisplayView != nil) {
+        //    filterDisplayView.removeFromSuperview()
+        //}
+        if (filterDisplayView == nil) {
+            filterDisplayView = FilterDisplayView()
+        }
+        filterDisplayView.setFilter(key: currFilterKey)
     }
+   
+    
     
     fileprivate func setupNavigationControls(){
         // add the left and right arrows for filter navigation
@@ -266,7 +285,7 @@ class FilterDetailsViewController: UIViewController {
         view.addSubview(bannerView)
         view.addSubview(filterDisplayView)
         view.addSubview(overlayView)
-        view.addSubview(overlayView)
+        view.addSubview(imageSelectionView)
         view.addSubview(filterParametersView)
         
         bannerView.frame.size.height = bannerHeight
@@ -328,6 +347,9 @@ class FilterDetailsViewController: UIViewController {
             // Adornment view is same size and location as filterDisplayView
             overlayView.frame.size = filterDisplayView.frame.size
             overlayView.align(.underCentered, relativeTo: bannerView, padding: 0, width: overlayView.frame.size.width, height: overlayView.frame.size.height)
+            
+            imageSelectionView.frame.size = bannerView.frame.size
+            imageSelectionView.align(.underCentered, relativeTo: bannerView, padding: 0, width: imageSelectionView.frame.size.width, height: imageSelectionView.frame.size.height)
         }
         
         // prev/next navigation (same for both layouts)
@@ -360,6 +382,31 @@ class FilterDetailsViewController: UIViewController {
         }
     }
 
+    
+    // modal setup for overlay panels
+    private func setupAdditionalPanel(){
+        // if this is showing samples, then display ratings, else display change photo/save etc.
+        if InputSource.getCurrent() == .sample {
+            overlayView.isHidden = false
+            imageSelectionView.isHidden = true
+            setupAdornments()
+        } else {
+            overlayView.isHidden = true
+            imageSelectionView.isHidden = false
+            setupImageSelectionView()
+        }
+    }
+    
+    
+    private func setupImageSelectionView(){
+        
+        imageSelectionView.frame.size.height = CGFloat(bannerHeight)
+        imageSelectionView.frame.size.width = displayWidth
+        imageSelectionView.enableBlend(false)
+        imageSelectionView.enableSave(true)
+        imageSelectionView.delegate = self
+
+    }
     
     // setup the adornments (favourites, show/hide, ratings etc.) for the current filter
     
@@ -725,6 +772,50 @@ class FilterDetailsViewController: UIViewController {
     }
     
     
+    //////////////////////////////////////////
+    // MARK: - ImagePicker handling
+    //////////////////////////////////////////
+    
+    func changeImage(){
+        DispatchQueue.main.async(execute: { () -> Void in
+            log.debug("imagePreview pressed - launching ImagePicker...")
+            // launch an ImagePicker
+            self.imagePicker.allowsEditing = false
+            self.imagePicker.sourceType = .photoLibrary
+            self.imagePicker.delegate = self
+            
+            self.present(self.imagePicker, animated: true, completion: {
+            })
+        })
+    }
+    
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        if let asset = info[UIImagePickerControllerPHAsset] as? PHAsset {
+            let assetResources = PHAssetResource.assetResources(for: asset)
+            let name = assetResources.first!.originalFilename
+            let id = assetResources.first!.assetLocalIdentifier
+            
+            log.verbose("Picked image:\(name) id:\(id)")
+            ImageManager.setCurrentEditImageName(id)
+            DispatchQueue.main.async(execute: { () -> Void in
+                self.update()
+            })
+        } else {
+            log.error("Error accessing image data")
+        }
+        picker.dismiss(animated: true)
+        
+    }
+    
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true)
+    }
+    
+
+    
 } // FilterDetailsViewController class
 
 //////////////////////////////////////////
@@ -740,6 +831,32 @@ extension FilterDetailsViewController: FilterParametersViewDelegate {
         self.update()
     }
 }
+
+
+// ImageSelectionViewDelegate
+extension FilterDetailsViewController: ImageSelectionViewDelegate {
+    
+    func changeImagePressed(){
+        self.changeImage()
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.imageSelectionView.update()
+        })
+    }
+    
+    func changeBlendPressed() {
+        // no blend image for style transfer, ignore
+    }
+    
+    func savePressed() {
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.saveImage()
+            log.verbose("Image saved")
+            self.imageSelectionView.update()
+        })
+    }
+    
+}
+
 
 ////////////////////////////////////////////
 // MARK: - UIAlertController

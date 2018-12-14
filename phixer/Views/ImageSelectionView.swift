@@ -50,8 +50,19 @@ class ImageSelectionView: UIView {
 
     var initDone: Bool = false
     
+    var showBlend:Bool = true
+    var showSave:Bool = true
+
+    //MARK: Accessors
     
+    public func enableBlend(_ enable:Bool){
+        showBlend = enable
+    }
     
+    public func enableSave(_ enable:Bool){
+        showSave = enable
+    }
+
     //MARK: - Initialisation:
     convenience init(){
         self.init(frame: CGRect.zero)
@@ -84,11 +95,17 @@ class ImageSelectionView: UIView {
 
             // add the subviews to the main View
             self.addSubview(imageButton)
-            self.addSubview(blendButton)
-            self.addSubview(saveButton)
             self.addSubview(imageLabel)
-            self.addSubview(blendLabel)
-            self.addSubview(saveLabel)
+ 
+            if showBlend {
+                self.addSubview(blendButton)
+                self.addSubview(blendLabel)
+            }
+            
+            if showSave {
+                self.addSubview(saveButton)
+                self.addSubview(saveLabel)
+            }
 
             // populate values
             update()
@@ -164,28 +181,36 @@ class ImageSelectionView: UIView {
     // set photo image to the last photo in the camera roll
     func loadPhotoThumbnail(){
      
-        let fetchOptions = PHFetchOptions()
-        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+        let tgtSize = imageButton.bounds.size
         
-        let fetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
-        
-        let last = fetchResult.lastObject
-        
-        if let lastAsset = last {
-            let options = PHImageRequestOptions()
-            options.version = .current
+        // set the photo thumbnail to the current input image
+        if let currImage = InputSource.getCurrentImage() {
+            self.imageButton.setImage(UIImage(ciImage: currImage.resize(size: tgtSize)!))
+        } else {
+            // no image, set to most recent photo
+            let fetchOptions = PHFetchOptions()
+            fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
             
-            PHImageManager.default().requestImage(
-                for: lastAsset,
-                targetSize: imageButton.bounds.size,
-                contentMode: .aspectFit,
-                options: options,
-                resultHandler: { image, _ in
-                    DispatchQueue.main.async {
-                        self.imageButton.setImage(image!)
-                    }
+            let fetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
+            
+            let last = fetchResult.lastObject
+            
+            if let lastAsset = last {
+                let options = PHImageRequestOptions()
+                options.version = .current
+                
+                PHImageManager.default().requestImage(
+                    for: lastAsset,
+                    targetSize: tgtSize,
+                    contentMode: .aspectFit,
+                    options: options,
+                    resultHandler: { image, _ in
+                        DispatchQueue.main.async {
+                            self.imageButton.setImage(image!)
+                        }
                 }
-            )
+                )
+            }
         }
     }
     

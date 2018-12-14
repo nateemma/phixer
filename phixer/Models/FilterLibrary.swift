@@ -93,7 +93,11 @@ class FilterLibrary{
         //    loadFromDatabase()
         //} else {
         loadFilterConfig()
-        if !FilterLibrary.overwriteConfig { loadFromDatabase() }
+        if !FilterLibrary.overwriteConfig {
+            loadFromDatabase()
+        } else {
+            clearDatabase()
+        }
         commitChanges()
         //}
     }
@@ -101,6 +105,7 @@ class FilterLibrary{
    
     // restore default parameters from the config file
     public static func restoreDefaults(){
+        clearDatabase()
         loadFilterConfig()
         commitChanges()
     }
@@ -243,6 +248,8 @@ class FilterLibrary{
                     
                     // only do these if the database has not already been set up
                     // TODO: check version number
+                    
+                    //TODO: if overwrite flag is set, clear stored values before processing config file
                     
                     if (!Database.isSetup()) || overwriteConfig {
                         // blend, sample, edit assignments
@@ -428,25 +435,15 @@ class FilterLibrary{
                     FilterLibrary.categoryFilters[category]?.append(f)
                 }
                 //list.append(f)
+                
+                // double check
+                if !FilterLibrary.categoryFilters[category]!.contains(f){
+                    print("addAssignment() ERROR: did not add to category:\(category)")
+                }
             } else {
                 log.warning("Ignoring filter: \(f)")
             }
         }
-        //FilterLibrary.categoryFilters[category] = list
-        //FilterLibrary.categoryFilters[category] = filters
-        //print("addAssignment(\(category), \(filters))")
-       
-        if (!FilterLibrary.categoryList.contains(category)){
-            print("addAssignment() ERROR: invalid category:\(category)")
-        }
-        
-        // double-check that filters exist
-        //for key in filters {
-        //    if (FilterLibrary.filterDictionary[key] == nil){
-        //        print("addAssignment() ERROR: Filter not defined: \(key)")
-        //    }
-        //}
-        //print("Category:\(category) Filters: \(filters)")
     }
 
     
@@ -495,6 +492,13 @@ class FilterLibrary{
 
     }
     
+    public static func clearDatabase(){
+        Database.clearSettings()
+        Database.clearCategoryRecords()
+        Database.clearAssignmentRecords()
+        Database.clearUserChangesRecords()
+    }
+
     
     public static func commitChanges(){
         

@@ -12,6 +12,7 @@ import Neon
 import AVFoundation
 import MediaPlayer
 import AudioToolbox
+import Photos
 
 import GoogleMobileAds
 //import Kingfisher
@@ -30,7 +31,7 @@ private var filterCount: Int = 0
 
 // This is the View Controller for displaying Style Transfer models
 
-class StyleTransferGalleryViewController: UIViewController {
+class StyleTransferGalleryViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var theme = ThemeManager.currentTheme()
     
@@ -42,7 +43,18 @@ class StyleTransferGalleryViewController: UIViewController {
     // Advertisements View
     var adView: GADBannerView! = GADBannerView()
     
+    // Image Selection (& save) view
+    var imageSelectionView: ImageSelectionView! = ImageSelectionView()
+
+    // Gallery of styled images
     var styleGalleryView : StyleTransferGalleryView! = StyleTransferGalleryView()
+    
+    
+    // image picker for changing edit image
+    let imagePicker = UIImagePickerController()
+
+    // controller for displaying full screen version of filtered image
+    fileprivate var filterDetailsViewController:FilterDetailsViewController? = nil
     
     var filterManager:FilterManager = FilterManager.sharedInstance
     
@@ -57,7 +69,7 @@ class StyleTransferGalleryViewController: UIViewController {
     let buttonSize : CGFloat = 48.0
     let statusBarOffset : CGFloat = 2.0
     
-    
+    var currInputName:String = ""
     
     
     convenience init(){
@@ -92,6 +104,8 @@ class StyleTransferGalleryViewController: UIViewController {
         
         doInit()
         
+        currInputName = InputSource.getCurrentName()
+        
         doLayout()
         
         // start Ads
@@ -123,7 +137,16 @@ class StyleTransferGalleryViewController: UIViewController {
         })
     }
     
-    
+    func update(){
+        // redrawing is very expensive, so only do it if the input image changed
+        if currInputName != InputSource.getCurrentName() {
+            currInputName = InputSource.getCurrentName()
+            DispatchQueue.main.async(execute: { () -> Void in
+                self.styleGalleryView.reset()
+                self.imageSelectionView.update()
+            })
+        }
+    }
     
     func doLayout(){
         
@@ -147,17 +170,24 @@ class StyleTransferGalleryViewController: UIViewController {
             adView.frame.size.width = displayWidth
         }
         
+        imageSelectionView.frame.size.height = CGFloat(bannerHeight)
+        imageSelectionView.frame.size.width = displayWidth
+        imageSelectionView.enableBlend(false)
+        imageSelectionView.enableSave(false)
+        imageSelectionView.delegate = self
+        view.addSubview(imageSelectionView)
+
         
         if (showAds){
-            styleGalleryView.frame.size.height = displayHeight - bannerView.frame.size.height - adView.frame.size.height
+            styleGalleryView.frame.size.height = displayHeight - bannerView.frame.size.height - adView.frame.size.height - imageSelectionView.frame.size.height
         } else {
-            styleGalleryView.frame.size.height = displayHeight - bannerView.frame.size.height
+            styleGalleryView.frame.size.height = displayHeight - bannerView.frame.size.height - imageSelectionView.frame.size.height
         }
         styleGalleryView.frame.size.width = displayWidth
         styleGalleryView.backgroundColor = theme.backgroundColor
         styleGalleryView.isHidden = false
         styleGalleryView.delegate = self
-        view.addSubview(styleGalleryView) // do this before categorySelectionView is assigned
+        view.addSubview(styleGalleryView)
         
         
         // Note: need to add subviews before modifying constraints
@@ -168,7 +198,7 @@ class StyleTransferGalleryViewController: UIViewController {
             adView.layer.borderColor = theme.borderColor.cgColor
             adView.layer.borderWidth = 1.0
         } else {
-            log.debug("Not showing Ads in landscape mode")
+            log.debug("Not showing Ads")
             adView.isHidden = true
         }
 
@@ -178,6 +208,9 @@ class StyleTransferGalleryViewController: UIViewController {
 
         if (showAds){
             adView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: adView.frame.size.height)
+            imageSelectionView.align(.underCentered, relativeTo: adView, padding: 0, width: displayWidth, height: imageSelectionView.frame.size.height)
+        } else {
+            imageSelectionView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: imageSelectionView.frame.size.height)
         }
 
         styleGalleryView.anchorAndFillEdge(.bottom, xPad: 1, yPad: 1, otherSize: styleGalleryView.frame.size.height)
@@ -240,6 +273,13 @@ class StyleTransferGalleryViewController: UIViewController {
     
     
     
+    open func saveImage(){
+        if filterDetailsViewController != nil {
+            filterDetailsViewController?.saveImage()
+            AudioServicesPlaySystemSound(1108) // undocumented iOS feature!
+        }
+    }
+    
     
     /////////////////////////////
     // MARK: - Touch Handler(s)
@@ -256,7 +296,51 @@ class StyleTransferGalleryViewController: UIViewController {
         }
     }
     
-
+    
+    //////////////////////////////////////////
+    // MARK: - ImagePicker handling
+    //////////////////////////////////////////
+    
+    func changeImage(){
+        DispatchQueue.main.async(execute: { () -> Void in
+            log.debug("imagePreview pressed - launching ImagePicker...")
+            // launch an ImagePicker
+            self.imagePicker.allowsEditing = false
+            self.imagePicker.sourceType = .photoLibrary
+            self.imagePicker.delegate = self
+            
+            self.present(self.imagePicker, animated: true, completion: {
+            })
+        })
+    }
+    
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        if let asset = info[UIImagePickerControllerPHAsset] as? PHAsset {
+            let assetResources = PHAssetResource.assetResources(for: asset)
+            let name = assetResources.first!.originalFilename
+            let id = assetResources.first!.assetLocalIdentifier
+            
+            log.verbose("Picked image:\(name) id:\(id)")
+            ImageManager.setCurrentEditImageName(id)
+            DispatchQueue.main.async(execute: { () -> Void in
+                self.styleGalleryView.reset()
+                self.imageSelectionView.update()
+            })
+        } else {
+            log.error("Error accessing image data")
+        }
+        picker.dismiss(animated: true)
+        
+    }
+    
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true)
+    }
+    
+    
 } // StyleTransferGalleryViewController
 
 
@@ -270,11 +354,15 @@ extension StyleTransferGalleryViewController: StyleTransferGalleryViewDelegate {
 
     
     func filterSelected(_ descriptor:FilterDescriptor?){
+        let styleCategory = "style"
+        
+        filterManager.setSelectedCategory(styleCategory)
         filterManager.setSelectedFilter(key: (descriptor?.key)!)
-        let filterDetailsViewController = FilterDetailsViewController()
-        filterDetailsViewController.delegate = self
-        filterDetailsViewController.currFilterKey = (descriptor?.key)!
-        self.present(filterDetailsViewController, animated: false, completion: nil)
+        self.filterDetailsViewController = FilterDetailsViewController()
+        self.filterDetailsViewController?.delegate = self
+        self.filterDetailsViewController?.currFilterKey = (descriptor?.key)!
+        self.present(self.filterDetailsViewController!, animated: false, completion: nil)
+        
     }
     
 }
@@ -284,6 +372,7 @@ extension StyleTransferGalleryViewController: StyleTransferGalleryViewDelegate {
 extension StyleTransferGalleryViewController: FilterDetailsViewControllerDelegate {
     func onCompletion(key:String){
         log.verbose("FilterDetailsView completed")
+        self.update()
     }
     
     func prevFilter(){
@@ -303,3 +392,24 @@ extension StyleTransferGalleryViewController: TitleViewDelegate {
     }
 }
 
+
+// ImageSelectionViewDelegate
+extension StyleTransferGalleryViewController: ImageSelectionViewDelegate {
+    
+    func changeImagePressed(){
+        self.changeImage()
+    }
+    
+    func changeBlendPressed() {
+        // no blend image for style transfer, ignore
+    }
+    
+    func savePressed() {
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.saveImage()
+            log.verbose("Image saved")
+            self.imageSelectionView.update()
+        })
+    }
+    
+}

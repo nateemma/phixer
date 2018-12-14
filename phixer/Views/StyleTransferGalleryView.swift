@@ -53,6 +53,10 @@ class StyleTransferGalleryView : UIView {
 
     
     fileprivate var filterList:[String] = []
+    fileprivate var arrowView:UIImageView? = nil
+    fileprivate var sourceImageList:[String:UIImage?] = [:]
+    fileprivate var styledImageList:[String:MetalImageView] = [:]
+
     fileprivate var currCategory: String = FilterManager.defaultCategory
     fileprivate var filterManager:FilterManager = FilterManager.sharedInstance
     
@@ -89,6 +93,7 @@ class StyleTransferGalleryView : UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
+        StyleTransferGalleryViewCell.reset()
         doLayout()
         doLoadData()
     }
@@ -104,7 +109,18 @@ class StyleTransferGalleryView : UIView {
         if (!StyleTransferGalleryView.initDone){
             StyleTransferGalleryView.initDone = true
             isLandscape = UIDevice.current.orientation.isLandscape
-            
+            filterList = []
+            sourceImageList = [:]
+            styledImageList = [:]
+
+            // arrow view
+            if self.arrowView == nil {
+                self.arrowView = UIImageView()
+                self.arrowView?.image = UIImage(named:"ic_right_arrow")?.withRenderingMode(.alwaysTemplate)
+                self.arrowView?.tintColor =  self.theme.tintColor
+                self.arrowView?.alpha = 0.8
+            }
+
         }
     }
     
@@ -141,14 +157,11 @@ class StyleTransferGalleryView : UIView {
         
         loadInputs(size: imgSize)
         
-        //log.verbose("activated")
-        //ignore compiler warnings
-        var filter:FilterDescriptor? = nil
-        var renderview:MetalImageView? = nil
-        
         if (self.filterList.count > 0){
             self.filterList = []
-        }
+            self.sourceImageList = [:]
+            styledImageList = [:]
+       }
         
         // (Re-)build the list of filters
 
@@ -169,28 +182,30 @@ class StyleTransferGalleryView : UIView {
         self.filterList.sort(by: { (value1: String, value2: String) -> Bool in return value1 < value2 }) // sort ascending
         log.debug ("Loading... \(self.filterList.count) filters for category: \(self.currCategory)")
         
-        // pre-load filters. Inefficient, but it avoids multi-thread timing issues when rendering cells
-        // ignore compiler warnings, the intent is to pre-load the filters
-        if (self.filterList.count > 0){
-            for key in self.filterList{
-                filter = filterManager.getFilterDescriptor(key: key)
-                renderview = filterManager.getRenderView(key: key)
-            }
-        }
- 
-        
-        self.styleTransfer?.reloadData()
-        //self.styleTransfer?.setNeedsDisplay()
+        loadFilteredData()
     }
     
+    open func reset(){
+        DispatchQueue.main.async(execute: { () -> Void in
+            log.verbose("Resetting...")
+            self.sample = InputSource.getCurrentImage()?.resize(size: self.imgSize)
+            self.renderStyledImages()
+            StyleTransferGalleryViewCell.reset()
+            self.styleTransfer?.reloadData()
+            //doLoadData()
+        })
+   }
     open func update(){
         //self.styleTransfer?.setNeedsDisplay()
+        log.verbose("update requested")
+        self.sample = InputSource.getCurrentImage()?.resize(size: self.imgSize)
+        self.renderStyledImages()
         self.styleTransfer?.reloadData()
         //doLoadData()
     }
     
     
-    // Suspend all MetalPetal-related operations
+    // Suspend all Metal-related operations
     open func suspend(){
         
         //var descriptor:FilterDescriptor? = nil
@@ -214,7 +229,40 @@ class StyleTransferGalleryView : UIView {
         return nil
         
     }
+ 
     
+    // load arrays with the data needed to populate displays. The intent is to avoid loading data every time the UI is updated
+    fileprivate func  loadFilteredData() {
+        
+        //log.verbose("activated")
+        //ignore compiler warnings
+        
+        loadInputs(size: imgSize)
+        
+        //DispatchQueue.main.async(execute: { () -> Void in
+            var filter:FilterDescriptor? = nil
+            var renderview:MetalImageView? = nil
+ 
+            // loop through the list of filters and load the source image and init the styled image to the current input
+            if (self.filterList.count > 0){
+                log.debug("Pre-loading cell data...")
+                for key in self.filterList{
+                    // source image
+                    filter = self.filterManager.getFilterDescriptor(key: key)
+                    self.sourceImageList[key] = filter?.getSourceImage()
+                    
+                    // styled image
+                    //renderview = self.filterManager.getRenderView(key: key)
+                    renderview = MetalImageView()
+                    renderview?.frame.size = self.imgSize
+                    renderview?.image = self.sample
+                    self.styledImageList[key] = renderview
+                }
+            }
+        //})
+        self.renderStyledImages()
+    }
+
     ////////////////////////////////////////////
     // MARK: - Rendering stuff
     ////////////////////////////////////////////
@@ -226,11 +274,13 @@ class StyleTransferGalleryView : UIView {
     fileprivate func loadInputs(size:CGSize){
         //sample = ImageManager.getCurrentSampleImage()
         if sample == nil {
-            sample = ImageManager.getCurrentSampleImage(size:size)
-        }
+            //sample = ImageManager.getCurrentSampleImage(size:size)
+            sample = InputSource.getCurrentImage()?.resize(size: size)
+       }
     }
     
     
+    // apply the style associated with 'key'
     func getStyledImage(key:String) -> CIImage? {
         var descriptor: FilterDescriptor?
         
@@ -253,50 +303,32 @@ class StyleTransferGalleryView : UIView {
         return descriptor?.apply(image:sample)
 
     }
- /***
     
-    // update the supplied MetalImageView with the supplied filter
-    func updateRenderView(index:Int, key: String, renderview:MetalImageView?){
-        
-        var descriptor: FilterDescriptor?
-        
-        descriptor = self.filterManager.getFilterDescriptor(key: key)
-        
-        
-        guard (descriptor != nil)  else {
-            log.error("filter NIL for:index:\(index) key:\(String(describing: descriptor?.key))")
-            return
+    // apply styles for all filters in the list
+    func renderStyledImages(){
+        //DispatchQueue.main.async(execute: { () -> Void in
+        DispatchQueue.global(qos: .background).async {
+            
+            // loop through the list of filters again and load the styled images
+            var renderview:MetalImageView? = nil
+            if (self.filterList.count > 0){
+                log.debug("Loading styled data...")
+                for key in self.filterList{
+                    
+                    // styled image
+                    renderview =  self.styledImageList[key]!
+                    renderview?.image = self.getStyledImage(key:key)
+                }
+            }
+            
+            // schedule an update of the collection view
+            DispatchQueue.main.async(execute: { () -> Void in
+                self.styleTransfer?.reloadData()
+            })
+            //self.styleTransfer?.setNeedsDisplay()
         }
-        //log.debug("index:\(index), key:\(key), view:\(Utilities.addressOf(MetalImageView))")
-        
-        
-        //if (sample == nil){
-        loadInputs(size:(renderview?.frame.size)!)
-        //}
-        
-        
-        //TODO: start rendering in an asynch queue
-        
-        guard (sample != nil) else {
-            log.error("Could not load sample image")
-            return
-        }
-        
-        if (blend == nil) && (descriptor?.filterOperationType == FilterDescriptor.FilterOperationType.blend) {
-            log.error("Could not load blend image")
-            return
-        }
-
-        // run the filter
-        renderview?.image = descriptor?.apply(image:sample, image2: blend)
-        renderview?.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: self.height * 0.8)
-
-        //renderView?.isHidden = false
- 
+        //})
     }
- ***/
-    
-    
 }
 
 
@@ -353,7 +385,13 @@ extension StyleTransferGalleryView: UICollectionViewDataSource {
                 //renderview?.frame.size.width = cell.frame.size.width / 4.0
                 //renderview?.frame.size.height = cell.frame.size.height * 0.9
                 //self.updateRenderView(index:index, key: key, renderview: renderview) // doesn't seem to work if we put this into the StyleTransferGalleryViewCell logic (threading?!)
-                cell.setStyledImage(index:index, key: key, image:self.getStyledImage(key:key))
+                
+                //cell.setStyledImage(index:index, key: key, image:self.getStyledImage(key:key))
+                //cell.configure(index: index, srcImage: (self.sourceImageList[key])!,  styledImage: self.filterManager.getRenderView(key: key))
+                let renderview =  self.styledImageList[key]
+                renderview?.frame.size = self.imgSize // can change
+
+                cell.configure(index: index, srcImage: (self.sourceImageList[key])!,  styledImage:renderview!)
             })
             
         } else {
@@ -414,9 +452,9 @@ extension StyleTransferGalleryView: UICollectionViewDelegateFlowLayout {
         let availableWidth = self.frame.width - paddingSpace
         let widthPerItem = availableWidth / itemsPerRow
         
-        log.debug("view:\(availableWidth) cell: w:\(widthPerItem) h:\(rowHeight) insets:\(sectionInsets)")
+        //log.debug("view:\(availableWidth) cell: w:\(widthPerItem) h:\(rowHeight) insets:\(sectionInsets)")
         //return CGSize(width: widthPerItem, height: widthPerItem*1.5) // use 2:3 (4:6) ratio
-        return CGSize(width: widthPerItem, height: rowHeight) // use same aspect ratio as sample image
+        return CGSize(width: widthPerItem, height: rowHeight)
     }
     
     

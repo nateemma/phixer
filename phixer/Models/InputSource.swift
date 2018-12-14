@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreImage
+import UIKit
 
 
 // Class that manages the various input sources (sample file, photo being edited, camera)
@@ -38,6 +39,7 @@ fileprivate var delegates:MulticastDelegate<InputSourceDelegate> = MulticastDele
 fileprivate class CameraDelegate:CameraCaptureHelperDelegate {
     func newCameraImage(_ cameraCaptureHelper: CameraCaptureHelper, image: CIImage) {
         if currSource == .camera {
+            currInput = image
             DispatchQueue.main.async(execute: { () -> Void in
                 delegates.invoke {
                     $0.inputChanged(image: image)
@@ -66,7 +68,11 @@ class InputSource {
     // Accessors
     //////////////////////////////////
     
+    public static func getCurrent() -> InputSourceType {
+        return currSource
+    }
 
+    
     // set the current input type
     public static func setCurrent(source: InputSourceType){
         currSource = source
@@ -82,6 +88,17 @@ class InputSource {
         }
     }
     
+    // get the name associated with the current input
+    public static func getCurrentName() -> String {
+        switch (currSource){
+        case .camera:
+            return "camera"
+        case .sample:
+            return ImageManager.getCurrentSampleImageName()
+        case .edit:
+            return ImageManager.getCurrentEditImageName()
+        }
+    }
     
     // get the current input image
     public static func getCurrentImage()->CIImage?{
@@ -94,6 +111,19 @@ class InputSource {
             currInput = ImageManager.getCurrentEditImage()
         }
         return currInput
+    }
+    
+    
+    // get the size of the current image
+    public static func getSize() -> CGSize {
+        var size:CGSize = CGSize.zero
+        size = UIScreen.main.bounds.size // default to screen size (what else?)
+        if currInput != nil {
+            if currInput?.extent.size != nil {
+                size = (currInput?.extent.size)!
+             }
+        }
+        return size
     }
     
     

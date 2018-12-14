@@ -50,7 +50,7 @@ class FilterDisplayView: UIView {
         super.layoutSubviews()
         
         //log.debug("layout")
-       
+        self.currImageInput = InputSource.getCurrentImage() // this can change
         doLayout()
         
         // don't do anything else until filter has been set
@@ -62,18 +62,34 @@ class FilterDisplayView: UIView {
     
     open func setFilter(key:String){
         //currFilterKey = filterManager.getSelectedFilter()
-        currFilterKey = key
-        currFilterDescriptor = filterManager.getFilterDescriptor(key: currFilterKey)
-        filterManager.releaseRenderView(key: key)
-        renderView = filterManager.getRenderView(key: currFilterKey)
-        update()
+        if (currFilterKey.isEmpty) || (key != currFilterKey) {
+            //if !currFilterKey.isEmpty { filterManager.releaseRenderView(key: currFilterKey) }
+            currFilterKey = key
+            currFilterDescriptor = filterManager.getFilterDescriptor(key: currFilterKey)
+            renderView = filterManager.getRenderView(key: currFilterKey)
+            renderView?.frame.size = self.frame.size
+            update()
+        }
     }
     
-    
+    // saves the filtered image to the camera roll
+    public func saveImage(){
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            let ciimage = self.renderView?.image
+            if (ciimage != nil){
+                let cgimage = ciimage?.generateCGImage()
+                let image = UIImage(cgImage: cgimage!)
+                UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+            } else {
+                log.error("Error saving photo")
+            }
+        }
+    }
     
     open func update(){
         log.verbose("update requested")
         DispatchQueue.main.async(execute: { () -> Void in
+            self.currImageInput = InputSource.getCurrentImage()
             self.doLayout()
             self.runFilter()
         })
@@ -101,6 +117,8 @@ class FilterDisplayView: UIView {
             if (renderView != nil) {
                 //renderView = RenderView()
                 renderView?.frame = self.frame
+                renderView?.backgroundColor = theme.backgroundColor
+                //renderView?.fill(color: CIColor(cgColor: theme.backgroundColor.cgColor))
                 
                 //setRenderViewSize()
                 
@@ -143,6 +161,8 @@ class FilterDisplayView: UIView {
         
 
         DispatchQueue.main.async(execute: { () -> Void in
+            
+            log.debug("Running filter: \(self.currFilterKey)")
             
             //self.currImageInput = ImageManager.getCurrentSampleImage()!
             self.currImageInput = InputSource.getCurrentImage()

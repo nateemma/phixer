@@ -57,6 +57,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     // Category Selection view
     var categorySelectionView: CategorySelectionView! = CategorySelectionView()
     
+    // image picker for changing edit image
     let imagePicker = UIImagePickerController()
     
     var filterManager: FilterManager? = FilterManager.sharedInstance

@@ -221,7 +221,7 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
     }
     
     @objc func presentStyleTransfer(){
-        InputSource.setCurrent(source: .sample)
+        InputSource.setCurrent(source: .edit)
         let vc = StyleTransferGalleryViewController()
         //vc.delegate = self
         present(vc, animated: true, completion: nil)

@@ -172,7 +172,8 @@ class  FilterDescriptor {
             copyParameters(parameters)
             // set up default params
             if (default_image == nil) {
-                default_image = ImageManager.getCurrentSampleImage()
+                //default_image = ImageManager.getCurrentSampleImage()
+                default_image = InputSource.getCurrentImage()
                 default_rect = CIVector(cgRect: UIScreen.main.bounds)
                 default_position = CIVector(cgPoint: CGPoint(x: UIScreen.main.bounds.width/2, y: UIScreen.main.bounds.height/2))
             }
