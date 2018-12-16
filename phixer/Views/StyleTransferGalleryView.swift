@@ -317,6 +317,8 @@ class StyleTransferGalleryView : UIView {
                     
                     // styled image
                     renderview =  self.styledImageList[key]!
+                    renderview?.setImageSize(InputSource.getSize())
+
                     renderview?.image = self.getStyledImage(key:key)
                 }
             }

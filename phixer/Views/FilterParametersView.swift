@@ -16,6 +16,7 @@ import Neon
 // Interface required of controlling View
 protocol FilterParametersViewDelegate: class {
     func settingsChanged()
+    func positionRequested(key:String)
 }
 
 
@@ -53,7 +54,7 @@ class FilterParametersView: UIView {
     
     var viewList:[UIView] = []
     
-    var sliderKey:[String] = []
+    var pKey:[String] = []
     
     // Colours
 
@@ -207,84 +208,97 @@ class FilterParametersView: UIView {
 
     fileprivate var gsliders: [GradientSlider?] = []
 
-    fileprivate func layoutSliders(){
+    fileprivate func layoutParameters(){
         
         guard (currFilterDesc != nil) else{
             return
         }
         
-        var sliderConfig: FilterDescriptor.ParameterSettings
+        var pConfig: FilterDescriptor.ParameterSettings
         var slider: UISlider?
         var label: UILabel
-        var sliderView: UIView
+        var pView: UIView
         var currColor: UIColor = UIColor.blue
         
-        log.verbose("Laying out sliders...")
+        log.verbose("Laying out parameters...")
         sliders = []
         gsliders = []
-        sliderKey = []
+        pKey = []
         numVisibleParams = 0
         var i:Int
         i = 0
         for key in (currFilterDesc?.getParameterKeys())!{
-            sliderConfig = (currFilterDesc?.getParameterSettings(key))!
-            if (sliderConfig.type == FilterDescriptor.ParameterType.float) || (sliderConfig.type == FilterDescriptor.ParameterType.color) {
+            pConfig = (currFilterDesc?.getParameterSettings(key))!
+            if (pConfig.type == FilterDescriptor.ParameterType.float) ||
+                (pConfig.type == FilterDescriptor.ParameterType.color) ||
+                (pConfig.type == FilterDescriptor.ParameterType.position) {
+
                 
-                
-                sliderView = UIView()
-                sliderView.frame.size.width = self.frame.size.width
-                sliderView.frame.size.height = CGFloat(sliderHeight*1.25)
+                pView = UIView()
+                pView.frame.size.width = self.frame.size.width
+                pView.frame.size.height = CGFloat(sliderHeight*1.25)
                 
                 label = UILabel()
-                label.text = sliderConfig.title
+                label.text = pConfig.title
                 label.frame.size.width = self.frame.size.width/3.0
                 label.frame.size.height = CGFloat(sliderHeight/2.0)
                 //label.textAlignment = .center
                 label.textAlignment = .left
                 label.textColor = sliderTextColor
                 label.font = UIFont.systemFont(ofSize: 12.0)
-                sliderView.addSubview(label)
+                pView.addSubview(label)
                 
-                if (sliderConfig.type == FilterDescriptor.ParameterType.float){
+                switch pConfig.type {
+                case  FilterDescriptor.ParameterType.float:
                     slider = UISlider()
-                    slider?.minimumValue = sliderConfig.min
-                    slider?.maximumValue = sliderConfig.max
+                    slider?.minimumValue = pConfig.min
+                    slider?.maximumValue = pConfig.max
                     var value = currFilterDesc?.getParameter(key)
-                    if (value == FilterDescriptor.parameterNotSet){ value = sliderConfig.value }
+                    if (value == FilterDescriptor.parameterNotSet){ value = pConfig.value }
                     slider?.value = value!
-                    log.verbose("value: \(value!)")
-                    log.verbose("...(\(sliderConfig.title), \(sliderConfig.min)..\(sliderConfig.max), def:\(sliderConfig.value)) val: \(value!)")
+                    //log.verbose("value: \(value!)")
+                    log.verbose("...(\(pConfig.title), \(pConfig.min)..\(pConfig.max), def:\(pConfig.value)) val: \(value!)")
                    slider?.tag = i // let slider know the parameter order
-                    //sliderKey[i] = key
-                    sliderKey.append(key)
+                    //pKey[i] = key
+                    pKey.append(key)
                     slider?.isHidden = false
                     slider?.setNeedsUpdateConstraints()
                     slider?.frame.size.width = self.frame.size.width
                     slider?.frame.size.height = CGFloat(sliderHeight*0.8).rounded()
                     
                     attachSliderAction(slider!)
-                    sliderView.addSubview(slider!)
-                     //TODO: add labels for: min, max, current value
+                    pView.addSubview(slider!)
+                     //TODO: add labels for: min, max, current value (?)
                     
-                    sliderView.groupAndFill(group: .vertical, views: [label, slider!], padding: 4.0)
-                } else if (sliderConfig.type == FilterDescriptor.ParameterType.color){
+                    pView.groupAndFill(group: .vertical, views: [label, slider!], padding: 4.0)
+                    
+                case FilterDescriptor.ParameterType.color:
                     // RGB Slider, need to deal with colors
-                    log.debug("Gradient Slider requested")
+                    //log.debug("Gradient Slider requested")
+                    log.verbose("...(\(pConfig.title) (colour)")
+                    
                     let gslider = GradientSlider()
                     gslider.hasRainbow = true
                     //gslider.setValue(value: 0.5) // middle colour
-                    gslider.setValue(hueFromColor(self.currFilterDesc?.getColorParameter(key))) // default for class
+                    let c = self.currFilterDesc?.getColorParameter(key)
+                    gslider.setValue(hueFromColor(c)) // default for class
                     gslider.tag = i // let slider know the parameter order
-                    //sliderKey[i] = key
-                    sliderKey.append(key)
+                    //pKey[i] = key
+                    pKey.append(key)
                     gslider.isHidden = false
                     gslider.setNeedsUpdateConstraints()
                     gslider.frame.size.width = self.frame.size.width
                     gslider.frame.size.height = CGFloat(sliderHeight*0.8).rounded()
                     
-                    //TODO: figure out current saturation & brightness
-                    let currSat = CGFloat(1.0)
-                    let currBright = CGFloat(1.0)
+                    // figure out current saturation & brightness
+                    var currHue = CGFloat(1.0)
+                    var currSat = CGFloat(1.0)
+                    var currBright = CGFloat(1.0)
+                    var currAlpha = CGFloat(1.0)
+                    if c != nil {
+                        UIColor(ciColor: c!).getHue(&currHue, saturation: &currSat, brightness: &currBright, alpha: &currAlpha)
+                    }
+
                     
                     gslider.setGradientForHueWithSaturation(currSat,brightness:currBright)
                     gslider.actionBlock = { slider, value in
@@ -302,12 +316,28 @@ class FilterParametersView: UIView {
                     }
                     //attachColorSliderAction(gsliders[i]!)
                     gsliders.append(gslider)
-                    sliderView.addSubview(gslider)
-                    sliderView.groupAndFill(group: .vertical, views: [label, gslider], padding: 2.0)
-                }
+                    pView.addSubview(gslider)
+                    pView.groupAndFill(group: .vertical, views: [label, gslider], padding: 2.0)
+                    
+                case FilterDescriptor.ParameterType.position:
+                    log.verbose("...(\(pConfig.title) (position)")
+                    let touchButton = SquareButton(bsize: CGFloat(sliderHeight)*0.8)
+                    
+                    touchButton.setImageAsset("ic_touch")
+                    touchButton.setTintable(true)
+                    touchButton.highlightOnSelection(true)
+                    touchButton.addTarget(self, action: #selector(self.touchDidPress), for: .touchUpInside)
+                    touchButton.setTag(i) // let button know the parameter order
+                    pKey.append(key)
+                    pView.addSubview(touchButton)
+                    pView.groupAndFill(group: .horizontal, views: [label, touchButton], padding: 8.0)
+
+                default:
+                    log.error("Invalid parameter type: \(pConfig.type)")
+               }
                 
-                sliders.append(sliderView)
-                parameterView.addSubview(sliderView)
+                sliders.append(pView)
+                parameterView.addSubview(pView)
                 numVisibleParams = numVisibleParams + 1
                 i = i + 1
             }
@@ -355,7 +385,7 @@ class FilterParametersView: UIView {
         }
         if ((currFilterDesc?.getNumDisplayableParameters())! > 0){
             let n:CGFloat = CGFloat(numVisibleParams)
-            let h:CGFloat =  (CGFloat(sliderHeight) * n*1.25).rounded()
+            let h:CGFloat =  (CGFloat(sliderHeight) * n*1.3).rounded() // empirical
             parameterView.frame.size.width = titleView.frame.size.width
             parameterView.frame.size.height = h
             scrollView?.contentSize = parameterView.frame.size
@@ -421,7 +451,7 @@ class FilterParametersView: UIView {
         self.isHidden = false
         initViews()
         layoutTitle()
-        layoutSliders()
+        layoutParameters()
         layoutButtons()
         finishLayout()
     }
@@ -505,28 +535,36 @@ class FilterParametersView: UIView {
     }
     
     @objc func sliderValueDidChange(_ sender:UISlider!){
-        currFilterDesc?.setParameter(sliderKey[sender.tag], value: sender.value)
+        currFilterDesc?.setParameter(pKey[sender.tag], value: sender.value)
         //updateFilterTargets()
     }
     
     
     @objc func colorSliderValueDidChange(_ sender:GradientSlider!){
         let index = sender.tag
-        currFilterDesc?.setColorParameter(sliderKey[index], color: CIColor(color: (gsliders[index]?.getSelectedColor())!))
+        currFilterDesc?.setColorParameter(pKey[index], color: CIColor(color: (gsliders[index]?.getSelectedColor())!))
     }
     
     @objc func slidersDidEndChange(_ sender:UISlider!){
-        log.verbose("Settings changed for slider \(sliderKey[sender.tag])")
-        currFilterDesc?.setParameter(sliderKey[sender.tag], value: sender.value)
+        log.verbose("Settings changed for slider \(pKey[sender.tag])")
+        currFilterDesc?.setParameter(pKey[sender.tag], value: sender.value)
         delegate?.settingsChanged()
     }
     
     @objc func gslidersDidEndChange(_ sender:GradientSlider!){
         let index = sender.tag
-        log.verbose("Settings changed for color slider \(sliderKey[index])")
-        currFilterDesc?.setColorParameter(sliderKey[index], color: CIColor(color: (gsliders[index]?.getSelectedColor())!))
+        log.verbose("Settings changed for color slider \(pKey[index])")
+        currFilterDesc?.setColorParameter(pKey[index], color: CIColor(color: (gsliders[index]?.getSelectedColor())!))
         delegate?.settingsChanged()
     }
     
+
+    
+    @objc func touchDidPress(sender: UIButton!) {
+        let index = sender.tag
+
+        log.verbose("Touch pressed for: \(pKey[index])")
+        delegate?.positionRequested(key:pKey[index])
+    }
 
 }

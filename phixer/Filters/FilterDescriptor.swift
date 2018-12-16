@@ -163,22 +163,28 @@ class  FilterDescriptor {
     
     private func initSingleInputFilter(key:String, title:String, parameters:[ParameterSettings]){
         //log.debug("Creating CIFilter:\(key)")
-
+        
         try self.filter = CIFilter(name: key)
         if self.filter == nil {
             log.error("Error creating filter:\(key)")
         } else {
-            self.filter?.setDefaults()
-            copyParameters(parameters)
             // set up default params
             if (default_image == nil) {
                 //default_image = ImageManager.getCurrentSampleImage()
                 default_image = InputSource.getCurrentImage()
-                default_rect = CIVector(cgRect: UIScreen.main.bounds)
-                default_position = CIVector(cgPoint: CGPoint(x: UIScreen.main.bounds.width/2, y: UIScreen.main.bounds.height/2))
+                if UIScreen.main.bounds.width > 1.0 {
+                    default_rect = CIVector(cgRect: UIScreen.main.bounds)
+                    default_position = CIVector(cgPoint: CGPoint(x: UIScreen.main.bounds.width/2, y: UIScreen.main.bounds.height/2))
+                } else {
+                    default_rect = CIVector(cgRect: CGRect(x: 0, y: 0, width: 256, height: 256))
+                    default_position = CIVector(cgPoint: CGPoint(x: 256, y: 256))
+                }
+                //log.verbose("default pos:\(default_position)")
             }
+            self.filter?.setDefaults()
+            copyParameters(parameters)
         }
-
+        
     }
     
     private func initLookupFilter(key:String, title:String, parameters:[ParameterSettings]){
@@ -231,6 +237,7 @@ class  FilterDescriptor {
                 case .image:
                     self.filter?.setValue(default_image, forKey: p.key)
                 case .position:
+                    log.verbose("\(p.key) Using default pos:\(default_position)")
                     self.filter?.setValue(default_position, forKey: p.key)
                 case .rectangle:
                     self.filter?.setValue(default_rect, forKey: p.key)
@@ -351,6 +358,38 @@ class  FilterDescriptor {
         }
     }
     
+    // Parameter access for Position parameters
+    func getPositionParameter(_ key:String)->CIVector? {
+        var vec:CIVector? = nil
+        vec = default_position
+        if let p = parameterConfiguration[key] {
+            if p.type == .position {
+                vec = self.filter?.value(forKey: key) as? CIVector
+            } else {
+                log.error("Parameter (\(key) is not a Position")
+            }
+        } else {
+            log.error("Invalid key:\(key) for filter:\(self.key)")
+        }
+        return vec
+    }
+    
+    func setPositionParameter(_ key:String, position:CIVector) {
+        if let p = parameterConfiguration[key] {
+            if p.type == .position {
+                if ((self.filter?.inputKeys.contains(p.key))!) {
+                    self.filter?.setValue(position, forKey: key)
+                } else {
+                    log.error("Invalid parameter:(\(p.key)) for filter:(\(key)")
+                }
+            } else {
+                log.error("Parameter (\(key) is not a Position")
+            }
+        } else {
+            log.error("Invalid key:\(key) for filter:\(self.key)")
+        }
+    }
+
     
     
     

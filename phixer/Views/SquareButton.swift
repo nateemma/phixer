@@ -19,6 +19,7 @@ class SquareButton: UIView {
     var highlight:Bool = false
     var tint:Bool = true
     
+
     convenience init(bsize: CGFloat) {
         self.init(frame: CGRect(x:0, y:0, width:bsize, height:bsize))
         self.button.frame = CGRect(x:0, y:0, width:bsize, height:bsize)
@@ -93,5 +94,9 @@ class SquareButton: UIView {
     
     func setColor(_ color: UIColor){
         self.button.backgroundColor = color
+    }
+    
+    func setTag(_ tag:Int){
+        self.button.tag = tag
     }
 }

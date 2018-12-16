@@ -174,6 +174,9 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
         
         assignTouchHandlers()
         
+        filterDisplayView.setFilter(key: currFilterKey)
+
+        
         // that's it, rendering is handled by the FilterDisplayView and FilterControlsView classes
         
     }
@@ -221,13 +224,7 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
 
     
     fileprivate func setupDisplay(){
-        //if (filterDisplayView != nil) {
-        //    filterDisplayView.removeFromSuperview()
-        //}
-        if (filterDisplayView == nil) {
             filterDisplayView = FilterDisplayView()
-        }
-        filterDisplayView.setFilter(key: currFilterKey)
     }
    
     
@@ -592,17 +589,21 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
     }
     
     @objc func prevDidPress(){
-        log.verbose("Previous Filter pressed")
-        suspend()
-        previousFilter()
-        update()
+        if gesturesEnabled {
+            log.verbose("Previous Filter pressed")
+            suspend()
+            previousFilter()
+            update()
+        }
     }
     
     @objc func nextDidPress(){
-        log.verbose("Next Filter pressed")
-        suspend()
-        nextFilter()
-        update()
+        if gesturesEnabled {
+            log.verbose("Next Filter pressed")
+            suspend()
+            nextFilter()
+            update()
+        }
     }
     
     func showParameters(){
@@ -716,7 +717,24 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
     // MARK: - Gesture Detection
     //////////////////////////////////////
     
+    var gesturesEnabled:Bool = true
     
+    func enableGestureDetection(){
+        gesturesEnabled = true
+        overlayView.isHidden = false
+        overlayView.isUserInteractionEnabled = true
+        prevView.isUserInteractionEnabled = true
+        nextView.isUserInteractionEnabled = true
+   }
+    
+    func disableGestureDetection(){
+        gesturesEnabled = false
+        overlayView.isHidden = true
+        overlayView.isUserInteractionEnabled = false
+        prevView.isUserInteractionEnabled = false
+        nextView.isUserInteractionEnabled = false
+    }
+
     func setGestureDetectors(_ view: UIView){
         
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.swiped))
@@ -737,45 +755,108 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
     }
     
     
-    @objc func swiped(_ gesture: UIGestureRecognizer)
-    {
-        if let swipeGesture = gesture as? UISwipeGestureRecognizer
-        {
-            switch swipeGesture.direction
+    @objc func swiped(_ gesture: UIGestureRecognizer) {
+        
+        if gesturesEnabled {
+            if let swipeGesture = gesture as? UISwipeGestureRecognizer
             {
-                
-            case UISwipeGestureRecognizerDirection.right:
-                //log.verbose("Swiped Right")
-                prevDidPress()
-                break
-                
-            case UISwipeGestureRecognizerDirection.left:
-                //log.verbose("Swiped Left")
-                nextDidPress()
-                break
-                
-            case UISwipeGestureRecognizerDirection.up:
-                log.verbose("Swiped Up")
-                showParameters()
-                break
-                
-            case UISwipeGestureRecognizerDirection.down:
-                log.verbose("Swiped Down")
-                hideParameters()
-                break
-                
-            default:
-                log.debug("Unhandled gesture direction: \(swipeGesture.direction)")
-                break
+                switch swipeGesture.direction
+                {
+                    
+                case UISwipeGestureRecognizerDirection.right:
+                    //log.verbose("Swiped Right")
+                    prevDidPress()
+                    break
+                    
+                case UISwipeGestureRecognizerDirection.left:
+                    //log.verbose("Swiped Left")
+                    nextDidPress()
+                    break
+                    
+                case UISwipeGestureRecognizerDirection.up:
+                    log.verbose("Swiped Up")
+                    showParameters()
+                    break
+                    
+                case UISwipeGestureRecognizerDirection.down:
+                    log.verbose("Swiped Down")
+                    hideParameters()
+                    break
+                    
+                default:
+                    log.debug("Unhandled gesture direction: \(swipeGesture.direction)")
+                    break
+                }
             }
         }
     }
     
     
     //////////////////////////////////////////
-    // MARK: - ImagePicker handling
+    // MARK: - Position Parameter handling
     //////////////////////////////////////////
     
+    var touchKey:String = ""
+    
+    func handlePositionRequest(key:String){
+        if !key.isEmpty{
+            log.verbose("Position Request for parameter: \(key)")
+            disableGestureDetection()
+            touchKey = key
+        }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if !touchKey.isEmpty{
+            if let touch = touches.first {
+                let position = touch.location(in: filterDisplayView)
+                let imgPos = filterDisplayView.getImagePosition(viewPos:position)
+                currFilterDescriptor?.setPositionParameter(touchKey, position:imgPos!)
+                filterDisplayView.runFilter()
+            }
+        }
+    }
+
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if !touchKey.isEmpty{
+            if let touch = touches.first {
+                let position = touch.location(in: filterDisplayView)
+                let imgPos = filterDisplayView.getImagePosition(viewPos:position)
+                currFilterDescriptor?.setPositionParameter(touchKey, position:imgPos!)
+                filterDisplayView.runFilter()
+           }
+        }
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if !touchKey.isEmpty{
+            if let touch = touches.first {
+                let position = touch.location(in: filterDisplayView)
+                let imgPos = filterDisplayView.getImagePosition(viewPos:position)
+                currFilterDescriptor?.setPositionParameter(touchKey, position:imgPos!)
+                log.verbose("Touches ended. Final pos:\(position) vec:\(imgPos)")
+                filterDisplayView.runFilter()
+            }
+        }
+        
+        enableGestureDetection()
+    }
+
+    // function to convert position in UIView coordinates to CIVector coordinates
+    func PositionToVector(_ position:CGPoint) -> CIVector {
+        var cipos:CGPoint = CGPoint.zero
+        let imgSize = InputSource.getSize()
+        //TODO: scale according to view size?
+        cipos.x = imgSize.width - position.x
+        cipos.y = imgSize.height - position.y
+        return CIVector(cgPoint: cipos)
+    }
+    
+    //////////////////////////////////////////
+    // MARK: - ImagePicker handling
+    //////////////////////////////////////////
+
     func changeImage(){
         DispatchQueue.main.async(execute: { () -> Void in
             log.debug("imagePreview pressed - launching ImagePicker...")
@@ -830,6 +911,14 @@ extension FilterDetailsViewController: FilterParametersViewDelegate {
         log.debug("Filter settings changed")
         self.update()
     }
+    
+    func positionRequested(key: String) {
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.handlePositionRequest(key:key)
+        })
+    }
+    
+
 }
 
 

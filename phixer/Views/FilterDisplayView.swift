@@ -19,9 +19,10 @@ class FilterDisplayView: UIView {
     
 
 
-    fileprivate var renderView: MetalImageView? = nil
+    fileprivate var renderView: MetalImageView! = MetalImageView()
     
     fileprivate var initDone: Bool = false
+    fileprivate var layoutDone: Bool = false
     fileprivate var filterManager = FilterManager.sharedInstance
     
     
@@ -38,6 +39,9 @@ class FilterDisplayView: UIView {
     ///////////////////////////////////
     convenience init(){
         self.init(frame: CGRect.zero)
+        self.currFilterKey = ""
+        self.currFilterDescriptor = nil
+        self.layoutDone = false
     }
     
     
@@ -49,13 +53,25 @@ class FilterDisplayView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        //log.debug("layout")
+        log.debug("layout")
         self.currImageInput = InputSource.getCurrentImage() // this can change
-        doLayout()
+        renderView?.frame = self.frame
+        renderView?.image = self.currImageInput
+        renderView?.setImageSize(InputSource.getSize())
+        renderView?.frame = self.frame
+        renderView?.backgroundColor = theme.backgroundColor
         
-        // don't do anything else until filter has been set
-        //update()
+        self.addSubview(renderView!)
+        renderView?.fillSuperview()
+       // self.bringSubview(toFront: renderView!)
         
+        layoutDone = true
+        
+        // check to see if filter has already been set. If so update
+        
+       if !(currFilterKey.isEmpty) {
+            update()
+        }
 
     }
     
@@ -63,13 +79,11 @@ class FilterDisplayView: UIView {
     open func setFilter(key:String){
         //currFilterKey = filterManager.getSelectedFilter()
         if (currFilterKey.isEmpty) || (key != currFilterKey) {
-            //if !currFilterKey.isEmpty { filterManager.releaseRenderView(key: currFilterKey) }
             currFilterKey = key
             currFilterDescriptor = filterManager.getFilterDescriptor(key: currFilterKey)
-            renderView = filterManager.getRenderView(key: currFilterKey)
-            renderView?.frame.size = self.frame.size
-            update()
         }
+        update()
+
     }
     
     // saves the filtered image to the camera roll
@@ -87,14 +101,21 @@ class FilterDisplayView: UIView {
     }
     
     open func update(){
-        log.verbose("update requested")
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.currImageInput = InputSource.getCurrentImage()
-            self.doLayout()
-            self.runFilter()
-        })
+        if (layoutDone) {
+            log.verbose("update requested")
+            DispatchQueue.main.async(execute: { () -> Void in
+                self.runFilter()
+            })
+        }
     }
     
+    public func getImagePosition(viewPos:CGPoint) -> CIVector?{
+        if renderView != nil {
+            return renderView?.getImagePosition(viewPos: viewPos)
+        } else {
+            return CIVector(cgPoint: CGPoint.zero)
+        }
+    }
     
     fileprivate func doInit(){
         log.debug("init")
@@ -110,46 +131,6 @@ class FilterDisplayView: UIView {
     }
     
     
-    
-    
-    fileprivate func doLayout(){
-
-            if (renderView != nil) {
-                //renderView = RenderView()
-                renderView?.frame = self.frame
-                renderView?.backgroundColor = theme.backgroundColor
-                //renderView?.fill(color: CIColor(cgColor: theme.backgroundColor.cgColor))
-                
-                //setRenderViewSize()
-                
-                self.addSubview(renderView!)
-                renderView?.anchorToEdge(.top, padding: 0, width: (renderView?.frame.size.width)!, height: (renderView?.frame.size.height)!)
-                renderView?.isHidden = false
-                renderView?.contentMode = .scaleAspectFit
-                renderView?.clipsToBounds = true
-                self.bringSubview(toFront: renderView!)
-                renderView?.fillSuperview()
-            }
-
-    }
-
-    
-    fileprivate func setRenderViewSize(){
-        // maintain aspect ratio and fit inside available space
-        
-        var srcSize = ImageManager.getCurrentSampleImageSize()
-        
-        //HACK: if there was an issue with the image, then the size will be zero
-        if (srcSize.width<0.01) || (srcSize.height<0.01) {
-            srcSize = self.frame.size
-        }
-        
-        let tgtRect:CGRect = CGRect(origin: CGPoint.zero, size: self.frame.size)
-        let rect = ImageManager.fitIntoRect(srcSize: srcSize, targetRect: tgtRect, withContentMode: .scaleAspectFit)
-        renderView?.frame.size.width = rect.width
-        renderView?.frame.size.height = rect.height
-        //log.debug("View:(\(self.frame.size.width), \(self.frame.size.height)) Tgt: (\(srcSize.width),\(srcSize.height)) Rect:(\(rect.width),\(rect.height))")
-    }
 
     
     ///////////////////////////////////
@@ -159,30 +140,29 @@ class FilterDisplayView: UIView {
     // Sets up the filter pipeline. Call when filter, orientation or camera changes
     open func runFilter(){
         
-
-        DispatchQueue.main.async(execute: { () -> Void in
+        if !self.currFilterKey.isEmpty && layoutDone {
             
-            log.debug("Running filter: \(self.currFilterKey)")
-            
-            //self.currImageInput = ImageManager.getCurrentSampleImage()!
-            self.currImageInput = InputSource.getCurrentImage()
-
-            // get current filter
-            self.currFilterDescriptor = self.filterManager.getFilterDescriptor(key: self.currFilterKey)
-            self.renderView = self.filterManager.getRenderView(key: self.currFilterKey)
-            //self.setRenderViewSize()
-            self.renderView?.fillSuperview()
-
-            // run the filter
-            self.renderView?.image = self.currFilterDescriptor?.apply(image:self.currImageInput)
-            self.doLayout()
-        })
+            DispatchQueue.main.async(execute: { () -> Void in
+                
+                log.debug("Running filter: \(self.currFilterKey)")
+                
+                //self.currImageInput = ImageManager.getCurrentSampleImage()!
+                self.currImageInput = InputSource.getCurrentImage()
+                self.renderView?.setImageSize(InputSource.getSize())
+                
+                // get current filter
+                //self.currFilterDescriptor = self.filterManager.getFilterDescriptor(key: self.currFilterKey)
+                
+                // run the filter and update the rendered image
+                self.renderView?.image = self.currFilterDescriptor?.apply(image:self.currImageInput)
+            })
+        }
     }
     
    
     
     func suspend(){
-        self.filterManager.releaseRenderView(key: self.currFilterKey)
+        //self.filterManager.releaseRenderView(key: self.currFilterKey)
     }
     
     

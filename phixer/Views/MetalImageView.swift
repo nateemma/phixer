@@ -21,7 +21,9 @@ class MetalImageView: MTKView
 {
     
     var theme = ThemeManager.currentTheme()
-    
+    var angle:CGFloat = 0.0 // rotation of used displayed image relative to original image
+    var imageSize:CGSize = CGSize.zero // size of original image (some filters use infinite or zero extent)
+
 
     /// The image to display. The image will be rendered when this is set
     public var image: CIImage? {
@@ -60,6 +62,7 @@ class MetalImageView: MTKView
         }
         framebufferOnly = false
         //isPaused = true // updated manually (e.g. when a camera frame is available)
+        imageSize = CGSize.zero
     }
     
     
@@ -78,6 +81,62 @@ class MetalImageView: MTKView
     }
     
 
+    // returns a point in (CI) image coordinates based on a position in UI coordinates relative to the displayed view
+    public func getImagePosition(viewPos:CGPoint) -> CIVector{
+        //Notes:
+        // - UIView coordinate origin is upper left corner, CIImage is lower left
+        // - UIView coordinates are pixel offsets to a point in the view, CI coordinates are offsets relative to the original image
+        
+        var imgPos:CGPoint = CGPoint.zero
+        if let image = image {
+            if (imageSize.width < 1.0) || (imageSize.height < 1.0) {
+                // image size not set. Try setting to image.extent.size if not too big
+                if (image.extent.size.width > 1.0) && (image.extent.size.width < 10000.0) {
+                    imageSize = image.extent.size
+                } else {
+                    // invalid extent, try setting to size of current input (bad coupling, I know)
+                    imageSize = InputSource.getSize()
+                }
+            }
+            var isize = imageSize
+            if (abs(angle) > 0.01){
+                isize.height = imageSize.width
+                isize.width = imageSize.height
+            }
+            
+            var x: CGFloat
+            var y: CGFloat
+            //let x = ((isize.width / drawableSize.width) * (viewPos.x)).clamped(0.0, isize.width)
+            //let y = ((isize.height / drawableSize.height) * (isize.height - viewPos.y)).clamped(0.0, isize.height)
+            
+            let scaleX = isize.width / drawableSize.width
+            let scaleY = isize.height / drawableSize.height
+            
+            // have to convert view-based position to device-based position
+            let vx = viewPos.x * UIScreen.main.scale
+            let vy = viewPos.y * UIScreen.main.scale
+            
+            if (angle > 0.01){ // drawable is landscape, image is portrait
+                x = scaleY * (drawableSize.width - vy)
+                y = scaleX * (drawableSize.height - vx)
+                
+            } else if (angle < -0.01){ // drawable is portrait , image is landscape
+                x = scaleY * (vy)
+                y = scaleX * (vx)
+                
+            } else { // no rotation
+                x = scaleX * (vx)
+                y = scaleY * (drawableSize.height - vy)
+            }
+            imgPos = CGPoint(x: x.rounded(), y: y.rounded())
+            //log.verbose("isize:\(isize) dsize:\(drawableSize) viewPos:\(viewPos) imgPos: \(imgPos)")
+        }
+        return CIVector(cgPoint: imgPos)
+    }
+    
+    func setImageSize(_ size:CGSize){
+        self.imageSize = size
+    }
     
     func renderImage() {
         guard device != nil else {
@@ -94,8 +153,7 @@ class MetalImageView: MTKView
                     let bounds = CGRect(origin: CGPoint.zero, size: drawableSize)
       
                     // vars that control how the input image is transformed to match the view in which it is displayed
-                    var angle:CGFloat = 0.0
-                    var scale:CGFloat = 1.0
+                     var scale:CGFloat = 1.0
                     var originX:CGFloat = 0.0
                     var originY:CGFloat = 0.0
                     

@@ -285,6 +285,7 @@ class FilterGalleryViewCell: UICollectionViewCell {
             return
         }
 
+        renderView?.setImageSize(InputSource.getSize())
         renderView?.image = self.descriptor?.apply(image: FilterGalleryViewCell.sample, image2: FilterGalleryViewCell.blend)
 
         //renderView.isHidden = false
