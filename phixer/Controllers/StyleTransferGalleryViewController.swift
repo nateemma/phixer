@@ -354,9 +354,7 @@ extension StyleTransferGalleryViewController: StyleTransferGalleryViewDelegate {
 
     
     func filterSelected(_ descriptor:FilterDescriptor?){
-        let styleCategory = "style"
         
-        filterManager.setSelectedCategory(styleCategory)
         filterManager.setSelectedFilter(key: (descriptor?.key)!)
         self.filterDetailsViewController = FilterDetailsViewController()
         self.filterDetailsViewController?.delegate = self

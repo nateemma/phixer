@@ -1,5 +1,5 @@
 {
-    "version": { "id": 2.3, "overwrite": false },
+    "version": { "id": 2.4, "overwrite": true },
     
     "blends": [
         "067_by_candymax_stock.jpg",
@@ -131,7 +131,7 @@
         {"key": "CIMotionBlur", "title": "Motion Blur", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputRadius", "title": "Radius", "min": 0.0, "max":100.0, "val": 20.0, "type": "CIAttributeTypeDistance"},
-                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.0, "type": "CIAttributeTypeAngle"}
+                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.707, "type": "CIAttributeTypeAngle"}
             ]
         },
         {"key": "CINoiseReduction", "title": "Noise Reduction", "ftype": "singleInput", "show": true, "rating": 0,
@@ -179,7 +179,7 @@
         },
         {"key": "CIHueAdjust", "title": "Hue Adjust", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
-                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.0, "type": "CIAttributeTypeAngle"}
+                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.707, "type": "CIAttributeTypeAngle"}
             ]
         },
         {"key": "CILinearToSRGBToneCurve", "title": "Linear to sRGB Tone Curve", "ftype": "singleInput", "show": true, "rating": 0,
@@ -476,7 +476,7 @@
             "parameters":  [
                 {"key": "inputCenter", "title": "Center", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
                 {"key": "inputRadius", "title": "Radius", "min": 0.0, "max":600.0, "val": 300.0, "type": "CIAttributeTypeDistance"},
-                {"key": "inputAngle", "title": "Angle", "min": 0.0, "max":6.2831855, "val": 0.0, "type": "CIAttributeTypeAngle"},
+                {"key": "inputAngle", "title": "Angle", "min": 0.0, "max":6.2831855, "val": 0.707, "type": "CIAttributeTypeAngle"},
                 {"key": "inputScale", "title": "Scale", "min": 0.0, "max":1.0, "val": 0.5, "type": "CIAttributeTypeScalar"}
             ]
         },
@@ -492,7 +492,7 @@
             "parameters":  [
                 {"key": "inputCenter", "title": "Center", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
                 {"key": "inputRadius", "title": "Radius", "min": 0.0, "max":600.0, "val": 150.0, "type": "CIAttributeTypeDistance"},
-                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.0, "type": "CIAttributeTypeAngle"}
+                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.707, "type": "CIAttributeTypeAngle"}
             ]
         },
         {"key": "CIDisplacementDistortion", "title": "Displacement Distortion", "ftype": "singleInput", "show": true, "rating": 0,
@@ -507,7 +507,7 @@
                 {"key": "inputInsetPoint1", "title": "Inset Point 1", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
                 {"key": "inputStrands", "title": "Strands", "min": -2.0, "max":2.0, "val": 1.0, "type": "CIAttributeTypeScalar"},
                 {"key": "inputPeriodicity", "title": "Periodicity", "min": 1.0, "max":5.0, "val": 1.0, "type": "CIAttributeTypeScalar"},
-                {"key": "inputRotation", "title": "Rotation", "min": 0.0, "max":6.2831855, "val": 0.0, "type": "CIAttributeTypeAngle"},
+                {"key": "inputRotation", "title": "Rotation", "min": 0.0, "max":6.2831855, "val": 0.707, "type": "CIAttributeTypeAngle"},
                 {"key": "inputZoom", "title": "Zoom", "min": 0.01, "max":5.0, "val": 1.0, "type": "CIAttributeTypeScalar"}
             ]
         },
@@ -535,7 +535,7 @@
         {"key": "CILightTunnel", "title": "Light Tunnel Distortion", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputCenter", "title": "Center", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
-                {"key": "inputRotation", "title": "Rotation", "min": 0.0, "max":1.5707964, "val": 0.0, "type": "CIAttributeTypeAngle"},
+                {"key": "inputRotation", "title": "Rotation", "min": 0.0, "max":1.5707964, "val": 0.707, "type": "CIAttributeTypeAngle"},
                 {"key": "inputRadius", "title": "Radius", "min": 1.0, "max":500.0, "val": 100.0, "type": "CIAttributeTypeDistance"}
             ]
         },
@@ -643,7 +643,7 @@
         },
         {"key": "CIStraightenFilter", "title": "Straighten", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
-                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.0, "type": "CIAttributeTypeAngle"}
+                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.707, "type": "CIAttributeTypeAngle"}
             ]
         },
         {"key": "CIGaussianGradient", "title": "Gaussian Gradient", "ftype": "singleInput", "show": false, "rating": 0,
@@ -692,7 +692,7 @@
             "parameters":  [
                 {"key": "inputCenter", "title": "Center", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
                 {"key": "inputWidth", "title": "Width", "min": 2.0, "max":100.0, "val": 6.0, "type": "CIAttributeTypeDistance"},
-                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.0, "type": "CIAttributeTypeAngle"},
+                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.707, "type": "CIAttributeTypeAngle"},
                 {"key": "inputSharpness", "title": "Sharpness", "min": 0.0, "max":1.0, "val": 0.7, "type": "CIAttributeTypeDistance"},
                 {"key": "inputGCR", "title": "Gray Component Replacement", "min": 0.0, "max":1.0, "val": 1.0, "type": "CIAttributeTypeScalar"},
                 {"key": "inputUCR", "title": "Under Color Removal", "min": 0.0, "max":1.0, "val": 0.5, "type": "CIAttributeTypeScalar"}
@@ -701,7 +701,7 @@
         {"key": "CIDotScreen", "title": "Dot Screen", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputCenter", "title": "Center", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
-                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.0, "type": "CIAttributeTypeAngle"},
+                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.707, "type": "CIAttributeTypeAngle"},
                 {"key": "inputWidth", "title": "Width", "min": 2.0, "max":50.0, "val": 6.0, "type": "CIAttributeTypeDistance"},
                 {"key": "inputSharpness", "title": "Sharpness", "min": 0.0, "max":1.0, "val": 0.7, "type": "CIAttributeTypeScalar"}
             ]
@@ -709,7 +709,7 @@
         {"key": "CIHatchedScreen", "title": "Hatched Screen", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputCenter", "title": "Center", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
-                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.0, "type": "CIAttributeTypeAngle"},
+                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.707, "type": "CIAttributeTypeAngle"},
                 {"key": "inputWidth", "title": "Width", "min": 2.0, "max":50.0, "val": 6.0, "type": "CIAttributeTypeDistance"},
                 {"key": "inputSharpness", "title": "Sharpness", "min": 0.0, "max":1.0, "val": 0.7, "type": "CIAttributeTypeScalar"}
             ]
@@ -717,7 +717,7 @@
         {"key": "CILineScreen", "title": "Line Screen", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputCenter", "title": "Center", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
-                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.0, "type": "CIAttributeTypeAngle"},
+                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.707, "type": "CIAttributeTypeAngle"},
                 {"key": "inputWidth", "title": "Width", "min": 2.0, "max":50.0, "val": 6.0, "type": "CIAttributeTypeDistance"},
                 {"key": "inputSharpness", "title": "Sharpness", "min": 0.0, "max":1.0, "val": 0.7, "type": "CIAttributeTypeScalar"}
             ]
@@ -943,14 +943,14 @@
         {"key": "CIEightfoldReflectedTile", "title": "Eightfold Reflected Tile", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputCenter", "title": "Center", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
-                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.0, "type": "CIAttributeTypeAngle"},
+                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.707, "type": "CIAttributeTypeAngle"},
                 {"key": "inputWidth", "title": "Width", "min": 1.0, "max":200.0, "val": 100.0, "type": "CIAttributeTypeDistance"}
             ]
         },
         {"key": "CIFourfoldReflectedTile", "title": "Fourfold Reflected Tile", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputCenter", "title": "Center", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
-                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.0, "type": "CIAttributeTypeAngle"},
+                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.707, "type": "CIAttributeTypeAngle"},
                 {"key": "inputWidth", "title": "Width", "min": 1.0, "max":200.0, "val": 100.0, "type": "CIAttributeTypeDistance"},
                 {"key": "inputAcuteAngle", "title": "Acute Angle", "min": -3.1415927, "max":3.1415927, "val": 1.5707964, "type": "CIAttributeTypeAngle"}
             ]
@@ -958,14 +958,14 @@
         {"key": "CIFourfoldRotatedTile", "title": "Fourfold Rotated Tile", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputCenter", "title": "Center", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
-                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.0, "type": "CIAttributeTypeAngle"},
+                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.707, "type": "CIAttributeTypeAngle"},
                 {"key": "inputWidth", "title": "Width", "min": 1.0, "max":200.0, "val": 100.0, "type": "CIAttributeTypeDistance"}
             ]
         },
         {"key": "CIFourfoldTranslatedTile", "title": "Fourfold Translated Tile", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputCenter", "title": "Center", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
-                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.0, "type": "CIAttributeTypeAngle"},
+                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.707, "type": "CIAttributeTypeAngle"},
                 {"key": "inputWidth", "title": "Width", "min": 1.0, "max":200.0, "val": 100.0, "type": "CIAttributeTypeDistance"},
                 {"key": "inputAcuteAngle", "title": "Acute Angle", "min": -3.1415927, "max":3.1415927, "val": 1.5707964, "type": "CIAttributeTypeAngle"}
             ]
@@ -973,7 +973,7 @@
         {"key": "CIGlideReflectedTile", "title": "Glide Reflected Tile", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputCenter", "title": "Center", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
-                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.0, "type": "CIAttributeTypeAngle"},
+                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.707, "type": "CIAttributeTypeAngle"},
                 {"key": "inputWidth", "title": "Width", "min": 1.0, "max":200.0, "val": 100.0, "type": "CIAttributeTypeDistance"}
             ]
         },
@@ -981,21 +981,21 @@
             "parameters":  [
                 {"key": "inputCount", "title": "Count", "min": 1.0, "max":64.0, "val": 6.0, "type": "CIAttributeTypeScalar"},
                 {"key": "inputCenter", "title": "Center", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
-                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.0, "type": "CIAttributeTypeAngle"}
+                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.707, "type": "CIAttributeTypeAngle"}
             ]
         },
         {"key": "CIOpTile", "title": "Op Tile", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputCenter", "title": "Center", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
                 {"key": "inputScale", "title": "Scale", "min": 0.1, "max":10.0, "val": 2.8, "type": "CIAttributeTypeScalar"},
-                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.0, "type": "CIAttributeTypeAngle"},
+                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.707, "type": "CIAttributeTypeAngle"},
                 {"key": "inputWidth", "title": "Width", "min": 1.0, "max":1000.0, "val": 65.0, "type": "CIAttributeTypeDistance"}
             ]
         },
         {"key": "CIParallelogramTile", "title": "Parallelogram Tile", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputCenter", "title": "Center", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
-                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.0, "type": "CIAttributeTypeAngle"},
+                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.707, "type": "CIAttributeTypeAngle"},
                 {"key": "inputAcuteAngle", "title": "Acute Angle", "min": -3.1415927, "max":3.1415927, "val": 1.5707964, "type": "CIAttributeTypeAngle"},
                 {"key": "inputWidth", "title": "Width", "min": 1.0, "max":200.0, "val": 100.0, "type": "CIAttributeTypeDistance"}
             ]
@@ -1011,14 +1011,14 @@
         {"key": "CISixfoldReflectedTile", "title": "Sixfold Reflected Tile", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputCenter", "title": "Center", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
-                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.0, "type": "CIAttributeTypeAngle"},
+                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.707, "type": "CIAttributeTypeAngle"},
                 {"key": "inputWidth", "title": "Width", "min": 1.0, "max":200.0, "val": 100.0, "type": "CIAttributeTypeDistance"}
             ]
         },
         {"key": "CISixfoldRotatedTile", "title": "Sixfold Rotated Tile", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputCenter", "title": "Center", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
-                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.0, "type": "CIAttributeTypeAngle"},
+                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.707, "type": "CIAttributeTypeAngle"},
                 {"key": "inputWidth", "title": "Width", "min": 1.0, "max":200.0, "val": 100.0, "type": "CIAttributeTypeDistance"}
             ]
         },
@@ -1033,14 +1033,14 @@
         {"key": "CITriangleTile", "title": "Triangle Tile", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputCenter", "title": "Center", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
-                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.0, "type": "CIAttributeTypeAngle"},
+                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.707, "type": "CIAttributeTypeAngle"},
                 {"key": "inputWidth", "title": "Width", "min": 1.0, "max":200.0, "val": 100.0, "type": "CIAttributeTypeDistance"}
             ]
         },
         {"key": "CITwelvefoldReflectedTile", "title": "Twelvefold Reflected Tile", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputCenter", "title": "Center", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
-                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.0, "type": "CIAttributeTypeAngle"},
+                {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.707, "type": "CIAttributeTypeAngle"},
                 {"key": "inputWidth", "title": "Width", "min": 1.0, "max":200.0, "val": 100.0, "type": "CIAttributeTypeDistance"}
             ]
         },
@@ -1692,7 +1692,13 @@
         { "key": "vn_047", "image": "vn_047_red_cyan.jpg", "show": true, "rating": 0 }
     ],
     
-    
+    "styletransfer": [
+        {"key": "style",
+            "title": "Style Transfer",
+            "filters": ["Style_Scream", "Style_Candy",  "Style_Feathers",  "Style_LaMuse",  "Style_Udnie",  "Style_Mosaic"
+            ]
+        }
+    ],
     
     
     "categories": [
@@ -1908,12 +1914,7 @@
             "title": "Custom",
             "filters": ["ClarityFilter", "OpacityFilter", "EdgeGlowFilter", "SmoothThresholdFilter", "AdaptiveThresholdFilter", "LumaRangeFilter"
             ]
-        },
-        
-        {"key": "style",
-            "title": "Style Transfer",
-            "filters": ["Style_Scream", "Style_Candy",  "Style_Feathers",  "Style_LaMuse",  "Style_Udnie",  "Style_Mosaic"
-            ]
         }
+        
     ]
 }

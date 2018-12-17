@@ -27,8 +27,6 @@ class StyleTransferGalleryView : UIView {
 
     public static var showHidden:Bool = false // controls whether hidden filters are shown or not
     
-    private static let styleCategory = "style"
-    
     fileprivate var isLandscape : Bool = false
     fileprivate var screenSize : CGRect = CGRect.zero
     fileprivate var displayWidth : CGFloat = 0.0
@@ -57,7 +55,7 @@ class StyleTransferGalleryView : UIView {
     fileprivate var sourceImageList:[String:UIImage?] = [:]
     fileprivate var styledImageList:[String:MetalImageView] = [:]
 
-    fileprivate var currCategory: String = FilterManager.defaultCategory
+    //fileprivate var currCategory: String = FilterManager.defaultCategory
     fileprivate var filterManager:FilterManager = FilterManager.sharedInstance
     
     fileprivate let layout = UICollectionViewFlowLayout()
@@ -168,8 +166,8 @@ class StyleTransferGalleryView : UIView {
         // only add filters if they are not hidden
         
         //if let list = self.filterManager.getShownFilterList(self.currCategory) {
-        if let list = (FilterGalleryView.showHidden==true) ? self.filterManager.getFilterList(StyleTransferGalleryView.styleCategory)
-                                                                  : self.filterManager.getShownFilterList(StyleTransferGalleryView.styleCategory) {
+        if let list = (FilterGalleryView.showHidden==true) ? self.filterManager.getStyleTransferList()
+                                                                  : self.filterManager.getShownStyleTransferList() {
             if list.count > 0 {
                 for k in list {
                     if ((filterManager.getFilterDescriptor(key: k)?.show)!) || StyleTransferGalleryView.showHidden {
@@ -180,7 +178,7 @@ class StyleTransferGalleryView : UIView {
         }
 
         self.filterList.sort(by: { (value1: String, value2: String) -> Bool in return value1 < value2 }) // sort ascending
-        log.debug ("Loading... \(self.filterList.count) filters for category: \(self.currCategory)")
+        log.debug ("Loading... \(self.filterList.count) Style Transfer filters")
         
         loadFilteredData()
     }
@@ -427,7 +425,6 @@ extension StyleTransferGalleryView: UICollectionViewDelegate {
         log.verbose("Selected filter: \((descr?.key)!)")
         
         // suspend all active rendering and launch viewer for this filter
-        filterManager.setSelectedCategory(StyleTransferGalleryView.styleCategory)
         filterManager.setSelectedFilter(key: (descr?.key)!)
         //suspend()
         //self.present(FilterDetailsViewController(), animated: true, completion: nil)

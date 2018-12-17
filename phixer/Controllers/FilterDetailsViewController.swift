@@ -725,6 +725,7 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
         overlayView.isUserInteractionEnabled = true
         prevView.isUserInteractionEnabled = true
         nextView.isUserInteractionEnabled = true
+        showParameters()
    }
     
     func disableGestureDetection(){
@@ -733,6 +734,7 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
         overlayView.isUserInteractionEnabled = false
         prevView.isUserInteractionEnabled = false
         nextView.isUserInteractionEnabled = false
+        hideParameters()
     }
 
     func setGestureDetectors(_ view: UIView){
@@ -796,6 +798,8 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
     // MARK: - Position Parameter handling
     //////////////////////////////////////////
     
+    // Note: general gestures are disabled while position tracking is active. Too confusing if we don't do this
+    
     var touchKey:String = ""
     
     func handlePositionRequest(key:String){
@@ -835,23 +839,16 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
                 let position = touch.location(in: filterDisplayView)
                 let imgPos = filterDisplayView.getImagePosition(viewPos:position)
                 currFilterDescriptor?.setPositionParameter(touchKey, position:imgPos!)
-                log.verbose("Touches ended. Final pos:\(position) vec:\(imgPos)")
+                //log.verbose("Touches ended. Final pos:\(position) vec:\(imgPos)")
                 filterDisplayView.runFilter()
             }
-        }
+            touchKey = ""
+       }
         
         enableGestureDetection()
     }
 
-    // function to convert position in UIView coordinates to CIVector coordinates
-    func PositionToVector(_ position:CGPoint) -> CIVector {
-        var cipos:CGPoint = CGPoint.zero
-        let imgSize = InputSource.getSize()
-        //TODO: scale according to view size?
-        cipos.x = imgSize.width - position.x
-        cipos.y = imgSize.height - position.y
-        return CIVector(cgPoint: cipos)
-    }
+ 
     
     //////////////////////////////////////////
     // MARK: - ImagePicker handling

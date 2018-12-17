@@ -38,11 +38,11 @@ class FilterLibrary{
     
     // Dictionary of Lookup images (key, image name). key is filter name
     public static var lookupDictionary:[String:String] = [:]
-    
+ 
+    // The dictionary of Style Transfer Filters (key, title). key is style name
+    public static var styleTransferList:[String] = []
+
     // Dictionary of Category Dictionaries. Use category as key to get list of filters in that category
-    //typealias FilterList = Array<String>
-    //typealias FilterList = [String]
-    //public static var categoryFilters:[String:FilterList] = [:]
     public static var categoryFilters:[String:[String]] = [:]
 
     
@@ -54,12 +54,8 @@ class FilterLibrary{
         if (!FilterLibrary.initDone) {
             FilterLibrary.initDone = true
             
-            categoryDictionary = [:]
-            categoryList = []
-            filterDictionary = [:]
-            lookupDictionary = [:]
-            categoryFilters = [:]
-
+            initLists()
+            
             // Load custom CIFilters (do this before loading config)
             CustomFiltersRegistry.registerFilters()
             
@@ -80,6 +76,15 @@ class FilterLibrary{
         }
     }
     
+    
+    fileprivate static func initLists(){
+        categoryDictionary = [:]
+        categoryList = []
+        filterDictionary = [:]
+        lookupDictionary = [:]
+        categoryFilters = [:]
+        styleTransferList = []
+    }
     
     ////////////////////////////
     // Restore from persistent storage
@@ -138,14 +143,8 @@ class FilterLibrary{
         var psettings:[FilterDescriptor.ParameterSettings]
 
      
-        blendList = []
-        sampleList = []
-        categoryDictionary = [:]
-        categoryList = []
-        filterDictionary = [:]
-        lookupDictionary = [:]
-        categoryFilters = [:]
-        
+        initLists()
+
         // load the settings first because timing is a bit tricky and we may need those values set before
         // parsing the config file is done
         
@@ -263,6 +262,19 @@ class FilterLibrary{
                         log.debug("Skipping config file settings, using database entries instead")
                     }
                     
+                    // Style Transfer list
+                    // These are 'normal' filters, so they are already registered. Just need to maintain a list of them
+                    count = 0
+                    for item in parsedConfig["styletransfer"].arrayValue {
+                        count = count + 1
+                        key = item["key"].stringValue
+                        title = item["title"].stringValue
+                        styleTransferList = item["filters"].arrayValue.map { $0.string!}
+                        styleTransferList.sort(by: sortClosure) // sort alphabetically
+                    }
+                    print ("\(count) Style Transfer filters found")
+                    
+                    
                     // Category list
                     count = 0
                     for item in parsedConfig["categories"].arrayValue {
@@ -272,25 +284,15 @@ class FilterLibrary{
                         addCategory(key:key, title:title)
                         var list:[String] = item["filters"].arrayValue.map { $0.string!}
                         list.sort(by: sortClosure) // sort alphabetically
-                        addAssignment(category:key, filters:list)                   }
+                        addAssignment(category:key, filters:list)
+                    }
                     print ("\(count) Categories found")
                     
                     // Build Category array from dictionary. More convenient than a dictionary
                     categoryList = Array(categoryDictionary.keys)
                     categoryList.sort(by: sortClosure)
-                    
-                    /***
-                    // List of Filters in each Category
-                    count = 0
-                    for item in parsedConfig["assign"].arrayValue {
-                        count = count + 1
-                        key = item["category"].stringValue
-                        var list:[String] = item["filters"].arrayValue.map { $0.string!}
-                        list.sort(by: sortClosure) // sort alphabetically
-                        addAssignment(category:key, filters:list)
-                    }
-                    print ("\(count) Category<-Filter Assignments found")
-                    ***/
+
+
                     
                 } else {
                     print("ERROR parsing JSON file")

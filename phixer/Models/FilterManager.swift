@@ -585,6 +585,39 @@ class FilterManager{
         FilterLibrary.commitChanges() // HACK: should update single record
     }
     
+    
+    //////////////////////////////////////////////
+    // MARK: - Style Transfer-related Accessors
+    //////////////////////////////////////////////
+    
+   
+    
+    open func getStyleTransferList()->[String]?{
+        FilterManager.checkSetup()
+        return FilterLibrary.styleTransferList
+    }
+    
+    
+    public static var shownStyleTransferList:[String] = []
+    
+    open func getShownStyleTransferList()->[String]?{
+        
+        FilterManager.checkSetup()
+        FilterManager.shownStyleTransferList = []
+        let count:Int = (FilterLibrary.styleTransferList.count)
+        if (count > 0){
+            for key in FilterLibrary.styleTransferList {
+                if (!FilterFactory.isHidden(key: key)){
+                    FilterManager.shownStyleTransferList.append(key)
+                }
+            }
+            
+            FilterManager.shownStyleTransferList.sort(by: { (value1: String, value2: String) -> Bool in return value1 < value2 }) // sort ascending
+        }
+        return FilterManager.shownStyleTransferList
+    }
+    
+    
     //////////////////////////////////////////////
     // MARK: - Callback/Notification methods
     //////////////////////////////////////////////
