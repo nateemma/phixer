@@ -903,6 +903,14 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
 
 
 extension FilterDetailsViewController: FilterParametersViewDelegate {
+    func commitChanges(key: String) {
+        // ignore
+    }
+    
+    func cancelChanges(key: String) {
+        // ignore
+    }
+    
     
     func settingsChanged(){
         log.debug("Filter settings changed")
@@ -914,8 +922,6 @@ extension FilterDetailsViewController: FilterParametersViewDelegate {
             self.handlePositionRequest(key:key)
         })
     }
-    
-
 }
 
 

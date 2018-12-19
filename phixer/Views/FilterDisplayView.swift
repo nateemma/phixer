@@ -12,6 +12,7 @@ import AVFoundation
 
 
 // Class responsible for displaying a filtered version of an image
+// Note that only one filter is applied to the image, so this can be used to preview efects
 class FilterDisplayView: UIView {
  
     
@@ -81,7 +82,9 @@ class FilterDisplayView: UIView {
         if (currFilterKey.isEmpty) || (key != currFilterKey) {
             currFilterKey = key
             currFilterDescriptor = filterManager.getFilterDescriptor(key: currFilterKey)
-        }
+            EditManager.addPreviewFilter(currFilterDescriptor)
+            log.verbose("key: \(key)")
+       }
         update()
 
     }

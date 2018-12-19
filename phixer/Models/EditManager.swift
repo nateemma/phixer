@@ -45,23 +45,38 @@ class EditManager {
             return
         }
         EditManager.filterList.append(filter)
+        FilterManager.lockFilter(key:(filter?.key)!)
         log.debug("Added filter:\(String(describing: filter?.title))")
     }
     
     // removes the last filter in the list
     public static func popFilter() {
-        if filterList.count > 0 {
-            let filter = filterList[filterList.count-1]
-            filterList.remove(at: filterList.count-1)
-            log.debug("Removed filter:\(String(describing: filter?.title))")
+        // if preview set then remove that, otherwise remove last filter
+        
+        if EditManager.previewFilter != nil {
+            addPreviewFilter(nil)
+        } else {
+            
+            if filterList.count > 0 {
+                let filter = filterList[filterList.count-1]
+                filterList.remove(at: filterList.count-1)
+                FilterManager.unlockFilter(key:(filter?.key)!)
+                log.debug("Removed filter:\(String(describing: filter?.title))")
+            }
         }
     }
     
     // add a Preview Filter, which is displayed in the output, but not saved to the filter list
     // NIL is OK, it just removes the preview filter
     public static func addPreviewFilter(_ filter:FilterDescriptor?){
+        if EditManager.previewFilter != nil {
+            FilterManager.unlockFilter(key:(EditManager.previewFilter?.key)!)
+        }
         EditManager.previewFilter = filter
-        log.debug("Added Preview filter:\(String(describing: filter?.title))")
+        if filter != nil {
+            FilterManager.lockFilter(key:(filter?.key)!)
+        }
+       log.debug("Added Preview filter:\(String(describing: filter?.title))")
     }
 
     // add the previewed filter to the list (i.e. make it permanent)

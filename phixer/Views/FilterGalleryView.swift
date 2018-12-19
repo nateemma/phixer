@@ -123,9 +123,10 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         //isLandscape = (displayWidth > displayHeight)
         isLandscape = UIDevice.current.orientation.isLandscape
         
-        // get aspect ratio of sample (used for layout sizing)
+        // get aspect ratio of input (used for layout sizing)
         
-        aspectRatio = ImageManager.getSampleImageAspectRatio()
+        //aspectRatio = ImageManager.getSampleImageAspectRatio()
+        aspectRatio = InputSource.getAspectRatio()
         
         // set items per row. Add 1 if landscape, subtract one if sample is in landscape orientation
         
@@ -340,7 +341,8 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     
     fileprivate func loadInputs(size:CGSize){
         //sample = ImageManager.getCurrentSampleImage()
-        sample = ImageManager.getCurrentSampleImage(size:size)
+        //sample = ImageManager.getCurrentSampleImage(size:size)
+        sample = InputSource.getCurrentImage(size: size)
         blend  = ImageManager.getCurrentBlendImage(size:size)
     }
     

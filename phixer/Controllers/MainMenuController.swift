@@ -223,7 +223,8 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
     @objc func presentStyleTransfer(){
         InputSource.setCurrent(source: .edit)
         let vc = StyleTransferGalleryViewController()
-        //vc.delegate = self
+        vc.mode = .displaySelection
+        vc.delegate = self
         present(vc, animated: true, completion: nil)
         //notImplemented()
     }
@@ -232,6 +233,7 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
     @objc func presentFilterGallery(){
         InputSource.setCurrent(source: .sample)
         let vc = FilterGalleryViewController()
+        vc.mode = .displaySelection
         vc.delegate = self
         present(vc, animated: true, completion: nil)
 
@@ -280,32 +282,23 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
 } // MainMenuController
 
 
+/////////////////////////////////
+// Extensions
+/////////////////////////////////
 
-// FilterGalleryViewControllerDelegate
 
-extension MainMenuController: FilterGalleryViewControllerDelegate {
-    internal func filterGalleryCompleted(){
+// GalleryViewControllerDelegate(s)
+
+extension MainMenuController: GalleryViewControllerDelegate {
+    func galleryCompleted() {
         log.debug("Returned from Filter Gallery")
     }
-}
-
-
-// BlendGalleryViewControllerDelegate
-
-extension MainMenuController: BlendGalleryViewControllerDelegate {
-    internal func blendGalleryCompleted(){
-        log.debug("Returned from Blend Gallery")
+    
+    func gallerySelection(key: String) {
+        log.warning("Unexpected selection: \(key)")
     }
 }
 
-
-// SampleGalleryViewControllerDelegate
-
-extension MainMenuController: SampleGalleryViewControllerDelegate {
-    internal func sampleGalleryCompleted(){
-        log.debug("Returned from Sample Gallery")
-    }
-}
 
 // SampleGalleryViewControllerDelegate
 

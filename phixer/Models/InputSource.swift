@@ -106,13 +106,26 @@ class InputSource {
         case .camera:
             return currInput // updated in callback
         case .sample:
-            currInput = ImageManager.getCurrentSampleInput()
+            currInput = ImageManager.getCurrentSampleImage()
         case .edit:
             currInput = ImageManager.getCurrentEditImage()
         }
         return currInput
     }
     
+    // get the current input image of specified size
+    public static func getCurrentImage(size:CGSize)->CIImage?{
+        switch (currSource){
+        case .camera:
+            return currInput // updated in callback
+        case .sample:
+            currInput = ImageManager.getCurrentSampleImage(size:size)
+        case .edit:
+            currInput = ImageManager.getCurrentEditImage(size: size)
+        }
+        return currInput
+    }
+
     
     // get the size of the current image
     public static func getSize() -> CGSize {
@@ -127,6 +140,17 @@ class InputSource {
     }
     
     
+    // returns the w:h aspect ratio
+    public static func getAspectRatio() -> CGFloat{
+        var ratio: CGFloat = 1.0
+        
+        // calculate the aspect ratio as a 1:N (w:h) floating point number
+        if ((currInput?.extent.size.height)!>CGFloat(0.0)){
+            ratio = (currInput?.extent.size.width)! / (currInput?.extent.size.height)!
+        }
+        return ratio
+    }
+
     // register for callbacks
     public func register(delegate:InputSourceDelegate, key:String){
         delegates.add(key:key, delegate: delegate)

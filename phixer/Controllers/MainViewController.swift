@@ -981,33 +981,19 @@ extension MainViewController: FilterSelectionViewDelegate{
 }
 
 
-// FilterGalleryViewControllerDelegate
+// GalleryViewControllerDelegate(s)
 
-extension MainViewController: FilterGalleryViewControllerDelegate {
-    internal func filterGalleryCompleted(){
+extension MainViewController: GalleryViewControllerDelegate {
+    func galleryCompleted() {
         log.debug("Returned from Filter Gallery")
         self.returnFromController()
     }
-}
-
-
-// BlendGalleryViewControllerDelegate
-
-extension MainViewController: BlendGalleryViewControllerDelegate {
-    internal func blendGalleryCompleted(){
-        log.debug("Returned from Blend Gallery")
+    
+    func gallerySelection(key: String) {
+        log.warning("Unexpected selection: \(key)")
         self.returnFromController()
     }
 }
 
-
-// SampleGalleryViewControllerDelegate
-
-extension MainViewController: SampleGalleryViewControllerDelegate {
-    internal func sampleGalleryCompleted(){
-        log.debug("Returned from Sample Gallery")
-        self.returnFromController()
-    }
-}
 
 

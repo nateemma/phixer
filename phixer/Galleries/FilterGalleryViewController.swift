@@ -19,11 +19,6 @@ import GoogleMobileAds
 
 
 
-// delegate method to let the launching ViewController know that this one has finished
-protocol FilterGalleryViewControllerDelegate: class {
-    func filterGalleryCompleted()
-}
-
 
 private var filterList: [String] = []
 private var filterCount: Int = 0
@@ -36,8 +31,10 @@ class FilterGalleryViewController: UIViewController {
     
 
     // delegate for handling events
-    weak var delegate: FilterGalleryViewControllerDelegate?
+    weak var delegate: GalleryViewControllerDelegate?
     
+    // operating mode, OK to set externally
+    public var mode:GalleryControllerMode = .displaySelection
     
     // Banner View (title)
     var bannerView: TitleView! = TitleView()
@@ -320,7 +317,7 @@ class FilterGalleryViewController: UIViewController {
         guard navigationController?.popViewController(animated: true) != nil else { //modal
             //log.debug("Not a navigation Controller")
             suspend()
-            dismiss(animated: true, completion:  { self.delegate?.filterGalleryCompleted() })
+            dismiss(animated: true, completion:  { self.delegate?.galleryCompleted() })
             return
         }
     }
@@ -349,10 +346,19 @@ extension FilterGalleryViewController: FilterGalleryViewDelegate {
         //suspend()
         filterManager.setSelectedCategory(currCategory)
         filterManager.setSelectedFilter(key: (descriptor?.key)!)
-        let filterDetailsViewController = FilterDetailsViewController()
-        filterDetailsViewController.delegate = self
-        filterDetailsViewController.currFilterKey = (descriptor?.key)!
-        self.present(filterDetailsViewController, animated: false, completion: nil)
+        if self.mode == .displaySelection {
+            let filterDetailsViewController = FilterDetailsViewController()
+            filterDetailsViewController.delegate = self
+            filterDetailsViewController.currFilterKey = (descriptor?.key)!
+            self.present(filterDetailsViewController, animated: false, completion: nil)
+        } else {
+            suspend()
+            if (descriptor != nil) && (!(descriptor?.key.isEmpty)!){
+                dismiss(animated: true, completion:  { self.delegate?.gallerySelection(key: (descriptor?.key)!) })
+            } else {
+                dismiss(animated: true, completion:  { self.delegate?.galleryCompleted() })
+            }
+        }
     }
     
     func requestUpdate(category:String){

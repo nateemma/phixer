@@ -19,13 +19,6 @@ import GoogleMobileAds
 
 
 
-
-// delegate method to let the launching ViewController know that this one has finished
-protocol StyleTransferGalleryViewControllerDelegate: class {
-    func styleGalleryCompleted()
-}
-
-
 private var filterList: [String] = []
 private var filterCount: Int = 0
 
@@ -35,6 +28,12 @@ class StyleTransferGalleryViewController: UIViewController, UIImagePickerControl
     
     var theme = ThemeManager.currentTheme()
     
+    // delegate for handling events
+    weak var delegate: GalleryViewControllerDelegate?
+    
+    // operating mode, OK to set externally
+    public var mode:GalleryControllerMode = .displaySelection
+
     
     // Banner View (title)
     var bannerView: TitleView! = TitleView()
@@ -291,7 +290,7 @@ class StyleTransferGalleryViewController: UIViewController, UIImagePickerControl
         guard navigationController?.popViewController(animated: true) != nil else { //modal
             //log.debug("Not a navigation Controller")
             suspend()
-            dismiss(animated: true, completion:  {  })
+            dismiss(animated: true, completion:  {  self.delegate?.galleryCompleted() })
             return
         }
     }
@@ -356,11 +355,19 @@ extension StyleTransferGalleryViewController: StyleTransferGalleryViewDelegate {
     func filterSelected(_ descriptor:FilterDescriptor?){
         
         filterManager.setSelectedFilter(key: (descriptor?.key)!)
-        self.filterDetailsViewController = FilterDetailsViewController()
-        self.filterDetailsViewController?.delegate = self
-        self.filterDetailsViewController?.currFilterKey = (descriptor?.key)!
-        self.present(self.filterDetailsViewController!, animated: false, completion: nil)
-        
+        if self.mode == .displaySelection {
+            let filterDetailsViewController = FilterDetailsViewController()
+            filterDetailsViewController.delegate = self
+            filterDetailsViewController.currFilterKey = (descriptor?.key)!
+            self.present(filterDetailsViewController, animated: false, completion: nil)
+        } else {
+            suspend()
+            if (descriptor != nil) && (!(descriptor?.key.isEmpty)!){
+                dismiss(animated: true, completion:  { self.delegate?.gallerySelection(key: (descriptor?.key)!) })
+            } else {
+                dismiss(animated: true, completion:  { self.delegate?.galleryCompleted() })
+            }
+        }        
     }
     
 }

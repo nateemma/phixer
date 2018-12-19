@@ -134,7 +134,7 @@ class ThemeManager {
                                                                   subtitleColor: UIColor.flatSkyBlue,
                                                                   buttonColor: UIColor.flatSkyBlueDark,
                                                                   borderColor: UIColor.flatBlueDark,
-                                                                  highlightColor: UIColor.flatYellow,
+                                                                  highlightColor: UIColor.flatOrange,
                                                                   tintColor: UIColor.flatSkyBlueDark)
 
             currKey = getSavedTheme()

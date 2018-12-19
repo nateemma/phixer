@@ -11,7 +11,8 @@ import CoreImage
 import AVFoundation
 
 
-// Class responsible for displaying the edited image, with standard filters applied
+// Class responsible for displaying the edited image, with the full stack of filters applied
+// Note that filters are not saved to the edit stack, that is the responsibility of the ViewController
 class EditImageDisplayView: UIView {
     
     var theme = ThemeManager.currentTheme()
@@ -22,14 +23,15 @@ class EditImageDisplayView: UIView {
     fileprivate var imageView: UIImageView! = UIImageView()
     
     fileprivate var initDone: Bool = false
+    fileprivate var layoutDone: Bool = false
     fileprivate var filterManager = FilterManager.sharedInstance
     
     
-    fileprivate var currPhotoInput:CIImage? = nil
+    fileprivate var currInput:CIImage? = nil
     fileprivate var currBlendInput:CIImage? = nil
     
     fileprivate var currFilterKey:String = ""
-    fileprivate var currFilterDescriptor: FilterDescriptor? = nil
+    //fileprivate var currFilterDescriptor: FilterDescriptor? = nil
 
     
     
@@ -38,11 +40,12 @@ class EditImageDisplayView: UIView {
     ///////////////////////////////////
     convenience init(){
         self.init(frame: CGRect.zero)
+        doInit()
     }
     
     
     deinit {
-        suspend()
+        //suspend()
     }
 
    
@@ -50,11 +53,28 @@ class EditImageDisplayView: UIView {
         super.layoutSubviews()
         
         //log.debug("layout")
-       
-        doLayout()
+       doInit()
+
+        log.debug("layout")
+        self.currInput = InputSource.getCurrentImage() // this can change
+        renderView?.frame = self.frame
+        renderView?.image = self.currInput
+        renderView?.setImageSize(InputSource.getSize())
+        renderView?.frame = self.frame
+        renderView?.backgroundColor = theme.backgroundColor
         
-        // don't do anything else until filter has been set
-        //update()
+        self.addSubview(renderView!)
+        renderView?.fillSuperview()
+        // self.bringSubview(toFront: renderView!)
+        
+        layoutDone = true
+        
+        // check to see if filter has already been set. If so update
+        
+        if !(currFilterKey.isEmpty) {
+            update()
+        }
+
         
 
     }
@@ -66,58 +86,17 @@ class EditImageDisplayView: UIView {
             //log.debug("init")
             self.backgroundColor = theme.backgroundColor
             
-            EditManager.reset()
-            self.currPhotoInput = ImageManager.getCurrentEditImage()
-            EditManager.setInputImage(self.currPhotoInput)
+            //EditManager.reset()
+            self.currInput = ImageManager.getCurrentEditImage()
+            EditManager.setInputImage(self.currInput)
 
+            self.layoutDone = false
             initDone = true
             
         }
     }
     
-    
-    
-    
-    fileprivate func doLayout(){
-        
-        doInit()
-        
-        if (renderView != nil) {
-            renderView?.frame = self.frame
-            self.addSubview(renderView!)
-            renderView?.fillSuperview()
 
-            //renderView?.fillSuperview()
-            //renderView?.anchorToEdge(.top, padding: 0, width: (renderView?.frame.size.width)!, height: (renderView?.frame.size.height)!)
-            //renderView?.anchorInCenter((renderView?.frame.size.width)!, height: (renderView?.frame.size.height)!)
-            imageView.isHidden = true
-            renderView?.isHidden = false
-            
-            self.bringSubview(toFront: renderView!)
-        } else {
-            log.error("NIL render view")
-        }
-    }
-
-    
-    fileprivate func setRenderViewSize(){
-        // maintain aspect ratio and fit inside available space
-        
-        var srcSize = ImageManager.getCurrentEditImageSize()
-        
-        //HACK: if there was an issue with the edit image, then the size wil be zero
-        if (srcSize.width<0.01) || (srcSize.height<0.01) {
-            srcSize = self.frame.size
-        }
-        
-        var tgtRect:CGRect
-        tgtRect = CGRect(origin: CGPoint.zero, size: self.frame.size)
-        
-        let rect = ImageManager.fitIntoRect(srcSize: srcSize, targetRect: tgtRect, withContentMode: .scaleAspectFit)
-        renderView?.frame.size.width = rect.width
-        renderView?.frame.size.height = rect.height
-        log.debug("View:(\(self.frame.size.width), \(self.frame.size.height)) Tgt: (\(srcSize.width),\(srcSize.height)) Rect:(\(rect.width),\(rect.height))")
-    }
 
     
     
@@ -126,14 +105,21 @@ class EditImageDisplayView: UIView {
     // MARK: - Accessors
     ///////////////////////////////////
     
-    open func saveImage(){
-        //lastFilter?.saveNextFrameToURL(url, format:.png)
-        saveToPhotoAlbum() // saves asynchronously
+   
+    open func setFilter(key:String){
+        //currFilterKey = filterManager.getSelectedFilter()
+        if (!key.isEmpty){
+            currFilterKey = key
+
+            EditManager.addPreviewFilter(filterManager.getFilterDescriptor(key: key))
+            update()
+        } else {
+            log.error("Empty key specified")
+        }
     }
     
-    
-    // Saves the currently displayed image to the Camera Roll (asynchronously). Doesn't always work if synchronous
-    fileprivate func saveToPhotoAlbum(){
+    // saves the filtered image to the camera roll
+    public func saveImage(){
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             let ciimage = self.renderView?.image
             if (ciimage != nil){
@@ -145,48 +131,37 @@ class EditImageDisplayView: UIView {
             }
         }
     }
-   
-    open func setFilter(key:String){
-        //currFilterKey = filterManager.getSelectedFilter()
-        if (!key.isEmpty){
-            currFilterKey = key
-            currFilterDescriptor = filterManager.getFilterDescriptor(key: currFilterKey)
-            //EditManager.addFilter(currFilterDescriptor)
-            EditManager.addPreviewFilter(currFilterDescriptor)
-            //renderView = filterManager.getRenderView(key: currFilterKey)!
-            update()
+    
+    open func update(){
+        if (layoutDone) {
+            log.verbose("update requested")
+            DispatchQueue.main.async(execute: { () -> Void in
+                self.runFilter()
+            })
+        }
+    }
+    
+    public func getImagePosition(viewPos:CGPoint) -> CIVector?{
+        if renderView != nil {
+            return renderView?.getImagePosition(viewPos: viewPos)
         } else {
-            log.error("Empty key specified")
+            return CIVector(cgPoint: CGPoint.zero)
         }
     }
     
     open func updateImage(){
         DispatchQueue.main.async(execute: { () -> Void in
-            /***
-            self.filterManager.releaseRenderView(key: self.currFilterKey)
-            self.currPhotoInput = ImageManager.getCurrentEditInput()
-            if self.currPhotoInput == nil {
-                self.currPhotoInput = ImageManager.getCurrentSampleInput()
-            }
-            self.update()
-             ***/
             log.verbose("Updating edit image")
             EditManager.setInputImage(InputSource.getCurrentImage())
-            self.currPhotoInput = EditManager.outputImage
-            if self.currPhotoInput == nil {
-                self.currPhotoInput = ImageManager.getCurrentSampleInput() // no edit image set, so make sure there is an image
+            self.currInput = EditManager.outputImage
+            if self.currInput == nil {
+                log.warning("Edit image not set, using Sample")
+                self.currInput = ImageManager.getCurrentSampleInput() // no edit image set, so make sure there is something
             }
             self.update()
         })
     }
     
-    open func update(){
-        //log.verbose("update requested")
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.doLayout()
-            self.runFilter()
-        })
-    }
     
    
     ///////////////////////////////////
@@ -195,20 +170,12 @@ class EditImageDisplayView: UIView {
     
     // Sets up the filter pipeline. Call when filter, orientation or camera changes
     open func runFilter(){
-
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.renderView?.image = EditManager.outputImage
-
-            /***
-            // only run if the edit image has been set
-            if (self.currPhotoInput != nil){
-                self.currFilterDescriptor = self.filterManager.getFilterDescriptor(key: self.currFilterKey)
+        
+        if !self.currFilterKey.isEmpty && layoutDone {
+            DispatchQueue.main.async(execute: { () -> Void in
                 self.renderView?.image = EditManager.outputImage
-            } else {
-                log.debug("Edit image not set, ignoring")
-            }
-             ***/
-        })
+            })
+        }
     }
     
     

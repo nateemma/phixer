@@ -19,12 +19,6 @@ import Photos
 
 
 
-// delegate method to let the launching ViewController know that this one has finished
-protocol SampleGalleryViewControllerDelegate: class {
-    func sampleGalleryCompleted()
-}
-
-
 private var filterList: [String] = []
 private var filterCount: Int = 0
 
@@ -36,7 +30,11 @@ class SampleGalleryViewController: UIViewController, UIImagePickerControllerDele
     
 
     // delegate for handling events
-    weak var delegate: SampleGalleryViewControllerDelegate?
+    weak var delegate: GalleryViewControllerDelegate?
+    
+    // operating mode, OK to set externally
+    public var mode:GalleryControllerMode = .displaySelection
+    
     
     
     // Banner View (title)
@@ -411,7 +409,7 @@ class SampleGalleryViewController: UIViewController, UIImagePickerControllerDele
         guard navigationController?.popViewController(animated: true) != nil else { //modal
             //log.debug("Not a navigation Controller")
             suspend()
-            dismiss(animated: true, completion:  { self.delegate?.sampleGalleryCompleted() })
+            dismiss(animated: true, completion:  { self.delegate?.galleryCompleted() })
             return
         }
     }

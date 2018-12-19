@@ -96,7 +96,7 @@ class StyleTransferGalleryViewCell: UICollectionViewCell {
         arrowView.anchorInCenter(width: arrowView.frame.size.width, height: arrowView.frame.size.height)
         styledView.anchorToEdge(.right, padding: 0, width: styledView.frame.size.width, height: styledView.frame.size.height)
          ***/
-        self.groupInCenter(group: .horizontal, views: [sourceView, arrowView, styledView], padding: 12,
+        self.groupInCenter(group: .horizontal, views: [sourceView, arrowView, styledView], padding: 8,
                            width: StyleTransferGalleryViewCell.imgSize.width, height: StyleTransferGalleryViewCell.imgSize.height)
 
     }
@@ -108,7 +108,7 @@ class StyleTransferGalleryViewCell: UICollectionViewCell {
         // load static data
         if StyleTransferGalleryViewCell.input == nil {
             StyleTransferGalleryViewCell.rowSize = self.frame.size
-            StyleTransferGalleryViewCell.imgSize = CGSize(width: (self.frame.size.width / 3.8).rounded(), height: (self.frame.size.height * 0.9).rounded())
+            StyleTransferGalleryViewCell.imgSize = CGSize(width: (self.frame.size.width / 3.5).rounded(), height: (self.frame.size.height * 0.9).rounded())
 
             // arrow view
             self.arrowView?.image = UIImage(named:"ic_right_arrow")?.withRenderingMode(.alwaysTemplate)
@@ -174,7 +174,7 @@ class StyleTransferGalleryViewCell: UICollectionViewCell {
     
     public func configure(index:Int, srcImage:UIImage?, styledImage:MetalImageView?){
         DispatchQueue.main.async(execute: { () -> Void in
-            log.debug("index:\(index)")
+            //log.debug("index:\(index)")
             
             self.cellIndex = index // allows tracking of cells for re-use or pre-loading
             

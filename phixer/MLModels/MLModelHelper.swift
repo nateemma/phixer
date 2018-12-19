@@ -34,7 +34,10 @@ class MLModelHelper {
         
        //log.debug("image:\(imageSize) model:\(modelSize) rect:\(rect)")
         
-        let inputCGImage = image?.cgImage
+        var inputCGImage = image?.cgImage
+        if inputCGImage == nil { // can be nil if CIImage was generated, e.g. from a filter
+            inputCGImage = image?.generateCGImage()
+        }
 
 
         // create a new CGImage with the desired size

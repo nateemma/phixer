@@ -17,6 +17,8 @@ import Neon
 protocol FilterParametersViewDelegate: class {
     func settingsChanged()
     func positionRequested(key:String)
+    func commitChanges(key:String)
+    func cancelChanges(key:String)
 }
 
 
@@ -36,7 +38,7 @@ class FilterParametersView: UIView {
     
     let sliderHeight: Float = 32.0
     
-    var showButtons:Bool = false
+    var showControls:Bool = false
 
     // display items
     
@@ -45,10 +47,9 @@ class FilterParametersView: UIView {
     var parameterView: UIView! = UIView()
     var scrollView: UIScrollView? = nil
     
-    var acceptButton: UIButton! = UIButton()
-    var defaultButton: UIButton! = UIButton()
-    var cancelButton: UIButton! = UIButton()
-    var buttonContainerView: UIView! = UIView()
+    var acceptButton: SquareButton? = nil
+    var cancelButton: SquareButton? = nil
+
     
     var sliders: [UIView] = []
     
@@ -78,17 +79,7 @@ class FilterParametersView: UIView {
     
     // enables/disabled 'confirm' mode, where user has to explicitly Accept changes
     public func setConfirmMode(_ confirm:Bool){
-        self.showButtons = confirm
-    }
-    
-    
-    fileprivate func initButton(_ button: UIButton){
-        button.backgroundColor = buttonBackgroundColor
-        button.titleLabel?.textColor = buttonTextColor
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        button.titleLabel?.textAlignment = .center
-        button.frame.size.width = CGFloat(sliderHeight*3).rounded()
-        button.frame.size.height = CGFloat(sliderHeight*0.75).rounded()
+        self.showControls = confirm
     }
    
 
@@ -108,22 +99,14 @@ class FilterParametersView: UIView {
             //self.frame.size.width = self.frame.size.width - 16.0
             // height: title + sliders + buttons (or not)
             var f1, f2: CGFloat
-            if (showButtons){
-                f1 = 1.25*CGFloat((currFilterDesc?.getNumDisplayableParameters())!) + 1.75
-            } else {
-                f1 = 1.25*CGFloat((currFilterDesc?.getNumDisplayableParameters())!) + 1.25
-            }
+
+            f1 = 1.25*CGFloat((currFilterDesc?.getNumDisplayableParameters())!) + 1.25
             f2 = CGFloat(sliderHeight)
             self.frame.size.height = max((f1 * f2).rounded(), 3*f2)
-            layoutButtons()
             
             if (scrollView == nil) {
                 var frame = self.frame
-                if (showButtons) {
-                    frame.size.height = frame.size.height - titleView.frame.size.height - CGFloat(sliderHeight)
-                } else {
-                    frame.size.height = frame.size.height - titleView.frame.size.height
-                }
+                frame.size.height = frame.size.height - titleView.frame.size.height
                 scrollView = UIScrollView(frame: frame)
             }
             
@@ -138,73 +121,58 @@ class FilterParametersView: UIView {
             return
         }
         
+        // if controls requested then add to title bar
+        
+        if self.showControls {
+            acceptButton = SquareButton(bsize: CGFloat(sliderHeight)*0.8)
+            acceptButton?.setImageAsset("ic_yes")
+            acceptButton?.backgroundColor = theme.subtitleTextColor
+            acceptButton?.setTintable(true)
+            acceptButton?.highlightOnSelection(true)
+            acceptButton?.addTarget(self, action: #selector(self.acceptDidPress), for: .touchUpInside)
+            
+            cancelButton = SquareButton(bsize: CGFloat(sliderHeight)*0.8)
+            cancelButton?.setImageAsset("ic_no")
+            cancelButton?.backgroundColor = theme.subtitleTextColor
+            cancelButton?.setTintable(true)
+            cancelButton?.highlightOnSelection(true)
+            cancelButton?.addTarget(self, action: #selector(self.cancelDidPress), for: .touchUpInside)
+
+            titleView.addSubview(acceptButton!)
+            titleView.addSubview(cancelButton!)
+
+        }
+
+        
         titleLabel.frame.size.width = (self.frame.size.width/3.0).rounded()
-        titleLabel.frame.size.height = (CGFloat(sliderHeight*0.75)).rounded()
+        titleLabel.frame.size.height = (CGFloat(sliderHeight*0.8)).rounded()
         titleLabel.textColor = titleTextColor
         titleLabel.font = UIFont.systemFont(ofSize: 18)
         titleLabel.text = currFilterDesc?.title
         titleLabel.textAlignment = .center
         
         titleView.frame.size.width = (self.frame.size.width - 16.0).rounded()
-        titleView.frame.size.height = CGFloat(sliderHeight*0.8).rounded()
+        titleView.frame.size.height = CGFloat(sliderHeight*0.9).rounded()
         titleView.backgroundColor = titleBackgroundColor
+        
         titleView.addSubview(titleLabel)
         
         //TODO: add left/right buttons to move between filters (and the interface to tell the view controller
         
         self.addSubview(titleView)
 
-        //titleLabel.anchorInCenter(CGFloat(self.frame.size.width-8.0), height: CGFloat(sliderHeight))
-        titleLabel.fillSuperview()
+        if self.showControls {
+            acceptButton?.anchorToEdge(.left, padding: 2, width: (acceptButton?.frame.size.width)!, height: (acceptButton?.frame.size.height)!)
+            cancelButton?.anchorToEdge(.right, padding: 2, width: (cancelButton?.frame.size.width)!, height: (cancelButton?.frame.size.height)!)
+            titleLabel.alignBetweenHorizontal(align: .toTheRightCentered, primaryView: acceptButton!, secondaryView: cancelButton!, padding: 2, height: AutoHeight)
+        } else {
+            titleLabel.fillSuperview()
+        }
         
         log.verbose("Filter Title: \(String(describing: currFilterDesc?.title)) h:\(titleLabel.frame.size.height) w:\(titleLabel.frame.size.width)")
     }
   
-    
-    fileprivate func layoutButtons(){
-        
-        guard (currFilterDesc != nil) else{
-            return
-        }
-        
-        // TODO: "Reset" button
-        if (showButtons) {
-            
-            buttonContainerView.backgroundColor = theme.backgroundColor
-            
-            buttonContainerView.frame.size.width = (self.frame.size.width - 16.0).rounded()
-            buttonContainerView.frame.size.height = (CGFloat(sliderHeight) * 0.8).rounded()
-
-            initButton(acceptButton)
-            acceptButton.setTitle("Accept", for: .normal)
-            
-            initButton(defaultButton)
-            defaultButton.setTitle("Defaults", for: .normal)
-            
-            initButton(cancelButton)
-            cancelButton.setTitle("Cancel", for: .normal)
-
-            
-            buttonContainerView.addSubview(acceptButton)
-            buttonContainerView.addSubview(defaultButton)
-            buttonContainerView.addSubview(cancelButton)
-            
-            let pad = self.frame.size.width / 8
-            //buttonContainerView.groupAndFill(group: .horizontal, views: [acceptButton, defaultButton, cancelButton], padding: pad)
-            buttonContainerView.groupAgainstEdge(group: .horizontal, views: [acceptButton, defaultButton, cancelButton],
-                                                 againstEdge: .bottom, padding: pad,
-                                                 width: acceptButton.frame.size.width, height: acceptButton.frame.size.height)
-
-            
-            self.addSubview(buttonContainerView)
-            
-            // register handlers for the buttons
-            acceptButton.addTarget(self, action: #selector(self.acceptDidPress), for: .touchUpInside)
-            defaultButton.addTarget(self, action: #selector(self.defaultDidPress), for: .touchUpInside)
-            cancelButton.addTarget(self, action: #selector(self.cancelDidPress), for: .touchUpInside)
-        }
-    }
-    
+   
 
     fileprivate var gsliders: [GradientSlider?] = []
 
@@ -380,9 +348,6 @@ class FilterParametersView: UIView {
         
         // calculate sizes (need to this before setting constraints)
         height = titleView.frame.size.height
-        if (showButtons){
-            height = height + buttonContainerView.frame.size.height
-        }
         if ((currFilterDesc?.getNumDisplayableParameters())! > 0){
             let n:CGFloat = CGFloat(numVisibleParams)
             let h:CGFloat =  (CGFloat(sliderHeight) * n*1.3).rounded() // empirical
@@ -394,15 +359,16 @@ class FilterParametersView: UIView {
             parameterView.frame.size.width = titleView.frame.size.width
             parameterView.frame.size.height = 0
             scrollView?.frame.size.height = 0
+            scrollView?.contentSize = CGSize.zero
         }
 
         self.frame.size.height = height
+        self.anchorToEdge(.bottom, padding: 1, width: self.frame.size.width, height: self.frame.size.height)
 
         //DEBUG
         /***
         log.debug("\(numVisibleParams) params\n" +
                   "T:[w:\(titleView.frame.size.width), h:\(titleView.frame.size.height)]\n" +
-                  "B:[w:\(buttonContainerView.frame.size.width), h:\(buttonContainerView.frame.size.height)]\n" +
                   "P:[w:\(parameterView.frame.size.width), h:\(parameterView.frame.size.height)]\n" +
                   "S:[w:\(scrollView?.contentSize.width), h:\(scrollView?.contentSize.height)]\n" +
                   "A:[w:\(self.frame.size.width), h:\(self.frame.size.height)]" )
@@ -413,19 +379,9 @@ class FilterParametersView: UIView {
         // Place the tile at the top, buttons at the bottom and sliders distributed in between
         titleView.anchorAndFillEdge(.top, xPad: 2.0, yPad: 2.0, otherSize: titleView.frame.size.height)
 
-        
-        if (showButtons){
-            buttonContainerView.anchorAndFillEdge(.bottom, xPad: 2.0, yPad: 2.0, otherSize: buttonContainerView.frame.size.height)
-        }
-
         if ((currFilterDesc?.getNumDisplayableParameters())! > 0){
-             parameterView.groupAndFill(group: .vertical, views: sliders, padding: 2.0)
-            if showButtons {
-                scrollView?.alignBetweenVertical(align: .underCentered, primaryView: titleView, secondaryView: buttonContainerView, padding: 0, width: parameterView.frame.size.width)
-            } else {
-                scrollView?.alignAndFill(align: .underCentered, relativeTo: titleView, padding: 0, offset: 0)
-            }
-            
+            parameterView.groupAndFill(group: .vertical, views: sliders, padding: 2.0)
+            scrollView?.alignAndFill(align: .underCentered, relativeTo: titleView, padding: 0, offset: 0)
         }
     }
     
@@ -452,7 +408,6 @@ class FilterParametersView: UIView {
         initViews()
         layoutTitle()
         layoutParameters()
-        layoutButtons()
         finishLayout()
     }
     
@@ -520,6 +475,7 @@ class FilterParametersView: UIView {
     @objc func acceptDidPress() {
         
         // value is set as sliders are moved, so no need to do anything except clean up and return
+        delegate?.commitChanges(key: (currFilterDesc?.key)!)
         dismiss()
     }
     
@@ -531,12 +487,13 @@ class FilterParametersView: UIView {
     @objc func cancelDidPress(){
         // restore saved parameters
         currFilterDesc?.restoreParameters()
+        delegate?.cancelChanges(key:  (currFilterDesc?.key)!)
         dismiss()
     }
     
     @objc func sliderValueDidChange(_ sender:UISlider!){
         currFilterDesc?.setParameter(pKey[sender.tag], value: sender.value)
-        //updateFilterTargets()
+        delegate?.settingsChanged()
     }
     
     

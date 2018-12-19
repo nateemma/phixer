@@ -41,7 +41,8 @@ class FilterManager{
     // typealias for dictionaries of FilterDescriptors
     
     fileprivate static var _renderViewDictionary:[String:MetalImageView?] = [:]
-    
+    fileprivate static var _lockList:[String:Int] = [:]
+
     // list of callbacks for change notification
     fileprivate static var _categoryChangeCallbackList:[()] = []
     fileprivate static var _filterChangeCallbackList:[()] = []
@@ -53,6 +54,11 @@ class FilterManager{
     fileprivate static func checkSetup(){
         if (!FilterManager.initDone) {
             FilterManager.initDone = true
+            
+            _renderViewDictionary = [:]
+            _lockList = [:]
+            _categoryChangeCallbackList = []
+            _filterChangeCallbackList = []
             
             FilterLibrary.checkSetup()
             
@@ -410,19 +416,20 @@ class FilterManager{
     // 'Release' a filter descriptor. Should allow expensive OpenGL resources to be re-used
     open func releaseFilterDescriptor(key:String){
         
-        // release the filter descriptor
-        if (FilterLibrary.filterDictionary[key] != nil){
-            //let descr = (FilterLibrary.filterDictionary[key])!
-            FilterLibrary.filterDictionary[key] = nil
-            log.debug("key:\(key)")
+        if (!isLocked(key)){
+            
+            // release the filter descriptor
+            if (FilterLibrary.filterDictionary[key] != nil){
+                //let descr = (FilterLibrary.filterDictionary[key])!
+                FilterLibrary.filterDictionary[key] = nil
+                log.debug("key:\(key)")
+            }
+            
+            // make sure RenderView has been released
+            if (FilterManager._renderViewDictionary[key] != nil){
+                releaseRenderView(key: key)
+            }
         }
-        
-        
-        // make sure RenderView has been released
-        if (FilterManager._renderViewDictionary[key] != nil){
-            releaseRenderView(key: key)
-        }
-
     }
     
     
@@ -524,6 +531,34 @@ class FilterManager{
     }
     
     
+    // 'locks' a filter/renderview so that it cannot be released
+    public static func lockFilter(key:String){
+        FilterManager.checkSetup()
+        
+        log.debug("key:\(key)")
+        if (FilterManager._lockList[key] == nil){
+            FilterManager._lockList[key] = 0
+        }
+        FilterManager._lockList[key] = FilterManager._lockList[key]! + 1
+    }
+    
+    // 'locks' a filter/renderview so that it cannot be released
+    public static func unlockFilter(key:String){
+        FilterManager.checkSetup()
+        
+        log.debug("key:\(key)")
+        if (FilterManager._lockList[key] != nil){
+            FilterManager._lockList[key] = FilterManager._lockList[key]! - 1
+            if (FilterManager._lockList[key]! <= 0) {
+                FilterManager._lockList[key] = nil
+            }
+        }
+    }
+
+    // check to see if a filter is locked
+    public func isLocked(_ key:String) -> Bool {
+        return (FilterManager._lockList[key] != nil)
+    }
     
     // releases the RenderView associated with the supplied filter key
     func releaseRenderView(key:String){
@@ -531,8 +566,10 @@ class FilterManager{
         FilterManager.checkSetup()
         
         if (FilterManager._renderViewDictionary[key] != nil){
-            FilterManager._renderViewDictionary[key] = nil
-            log.debug("key:\(key)")
+            if (!isLocked(key)){
+                FilterManager._renderViewDictionary[key] = nil
+                log.debug("key:\(key)")
+            }
         }
     }
     

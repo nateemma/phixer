@@ -20,11 +20,6 @@ import Photos
 import iCarousel
 
 
-// delegate method to let the launching ViewController know that this one has finished
-protocol BlendGalleryViewControllerDelegate: class {
-    func blendGalleryCompleted()
-}
-
 
 private var filterList: [String] = []
 private var filterCount: Int = 0
@@ -33,9 +28,12 @@ private var filterCount: Int = 0
 
 class BlendGalleryViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+ 
     // delegate for handling events
-    weak var delegate: BlendGalleryViewControllerDelegate?
+    weak var delegate: GalleryViewControllerDelegate?
     
+    // operating mode, OK to set externally
+    public var mode:GalleryControllerMode = .displaySelection
     
     // Title View
     fileprivate var titleView:TitleView! = TitleView()
@@ -431,7 +429,7 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
         guard navigationController?.popViewController(animated: true) != nil else { //modal
             //log.debug("Not a navigation Controller")
             suspend()
-            dismiss(animated: true, completion:  { self.delegate?.blendGalleryCompleted() })
+            dismiss(animated: true, completion:  { self.delegate?.galleryCompleted() })
             return
         }
     }

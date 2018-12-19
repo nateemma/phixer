@@ -1087,34 +1087,19 @@ extension LiveFilterViewController: FilterSelectionViewDelegate{
 }
 
 
-// FilterGalleryViewControllerDelegate
+// GalleryViewControllerDelegate (any of them)
 
-extension LiveFilterViewController: FilterGalleryViewControllerDelegate {
-    internal func filterGalleryCompleted(){
-        log.debug("Returned from Filter Gallery")
+extension LiveFilterViewController: GalleryViewControllerDelegate {
+    func gallerySelection(key: String) {
+        log.warning("Unexpected selection: \(key)")
+    }
+    
+    func galleryCompleted() {
+        log.debug("Returned from Gallery")
         self.returnFromController()
     }
 }
 
-
-// BlendGalleryViewControllerDelegate
-
-extension LiveFilterViewController: BlendGalleryViewControllerDelegate {
-    internal func blendGalleryCompleted(){
-        log.debug("Returned from Blend Gallery")
-        self.returnFromController()
-    }
-}
-
-
-// SampleGalleryViewControllerDelegate
-
-extension LiveFilterViewController: SampleGalleryViewControllerDelegate {
-    internal func sampleGalleryCompleted(){
-        log.debug("Returned from Sample Gallery")
-        self.returnFromController()
-    }
-}
 
 
 extension LiveFilterViewController: TitleViewDelegate {

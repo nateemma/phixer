@@ -347,6 +347,7 @@ class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
     @objc func presentBlendGallery(){
         let vc = BlendGalleryViewController()
         vc.delegate = self
+        vc.mode = .displaySelection
         present(vc, animated: true, completion: nil)
     }
     
@@ -354,7 +355,8 @@ class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
     @objc func presentSampleGallery(){
         let vc = SampleGalleryViewController()
         vc.delegate = self
-        present(vc, animated: true, completion: nil)
+        vc.mode = .displaySelection
+       present(vc, animated: true, completion: nil)
         
     }
     
@@ -443,31 +445,20 @@ class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
 
 
 
-// FilterGalleryViewControllerDelegate
+// GalleryViewControllerDelegate (any of them)
 
-extension SettingsMenuController: FilterGalleryViewControllerDelegate {
-    internal func filterGalleryCompleted(){
+extension SettingsMenuController: GalleryViewControllerDelegate {
+    func galleryCompleted() {
         log.debug("Returned from Filter Gallery")
     }
-}
-
-
-// BlendGalleryViewControllerDelegate
-
-extension SettingsMenuController: BlendGalleryViewControllerDelegate {
-    internal func blendGalleryCompleted(){
-        log.debug("Returned from Blend Gallery")
+    
+    func gallerySelection(key: String) {
+        log.warning("Unexpected selection: \(key)")
     }
 }
 
 
-// SampleGalleryViewControllerDelegate
 
-extension SettingsMenuController: SampleGalleryViewControllerDelegate {
-    internal func sampleGalleryCompleted(){
-        log.debug("Returned from Sample Gallery")
-    }
-}
 
 extension SettingsMenuController: TitleViewDelegate {
     func backPressed() {
