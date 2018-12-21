@@ -39,7 +39,7 @@ class SimpleCarousel: UIView {
     fileprivate var itemViewList: [UIView] = []
     
 
-    fileprivate var carouselHeight:CGFloat = 80.0
+    fileprivate var carouselHeight:CGFloat = 64.0
     
     fileprivate var currIndex:Int = -1
     
@@ -68,12 +68,16 @@ class SimpleCarousel: UIView {
         // get display dimensions (convenience)
         displayHeight = self.frame.size.height
         displayWidth = self.frame.size.width
+        
+        carouselHeight = displayHeight
 
         checkSetup()
         buildItemViews()
         setupCarousel()
         addSubview(carousel!)
-        carousel?.fillSuperview()
+        //carousel?.fillSuperview()
+        
+        log.verbose("w:\(self.frame.size.width) h:\(self.frame.size.height)")
     }
 
     
@@ -114,52 +118,56 @@ class SimpleCarousel: UIView {
         view.frame.size.width = self.carouselHeight
         view.frame.size.height = self.carouselHeight
  
+        let label:UILabel = UILabel()
+        label.text = text
+        label.textAlignment = .center
+        label.textColor = self.theme.textColor
+        label.backgroundColor = self.theme.backgroundColor
+        label.frame.size.width = label.frame.size.height
+        label.lineBreakMode = NSLineBreakMode.byWordWrapping
+        label.numberOfLines = 0
+
         // configure the rest based on whether the icon is specified or not
         if icon.isEmpty {
             // no icon, so just provide a view with a centred label
-            let label:UILabel = UILabel()
-            label.text = text
-            label.textAlignment = .center
-            label.textColor = self.theme.textColor
-            label.backgroundColor = self.theme.backgroundColor
-            label.frame.size.width = label.frame.size.height
-            label.lineBreakMode = NSLineBreakMode.byWordWrapping
-            label.numberOfLines = 0
             label.font = UIFont.boldSystemFont(ofSize: 12.0)
             label.frame.size.height = self.carouselHeight * 0.95
             view.addSubview(label)
             label.fillSuperview()
         } else {
-            // icon specified so create an ImageView using the supplied icon and text
+            // icon specified so create a compound view using the supplied icon and text
 
-            let imgView:ImageContainerView = ImageContainerView()
+            let imgView:UIView = UIView()
             imgView.frame.size = CGSize(width:carouselHeight, height:carouselHeight)
             
-            imgView.imageView.frame.size = CGSize(width:carouselHeight*0.6, height:carouselHeight*0.6)
+            let image: UIImageView = UIImageView()
+            image.frame.size = CGSize(width:carouselHeight*0.6, height:carouselHeight*0.6)
 
-            imgView.label.frame.size = CGSize(width:carouselHeight, height:carouselHeight*0.4)
-            
-            imgView.label.font = UIFont.systemFont(ofSize: 11.0)
-            imgView.label.text = text
-            imgView.label.textAlignment = .center
-            imgView.label.textColor = theme.textColor
-            imgView.label.lineBreakMode = NSLineBreakMode.byWordWrapping
-            imgView.label.numberOfLines = 0
+            // make label smaller
+            label.frame.size = CGSize(width:carouselHeight, height:carouselHeight*0.4)
+            label.font = UIFont.systemFont(ofSize: 10.0)
+            //label.fitTextToBounds()
 
-            imgView.imageView.contentMode = .scaleAspectFit
-            var image = UIImage(named: icon)
-            if (image == nil){
+            // get the icon
+            image.contentMode = .scaleAspectFit
+            var icview = UIImage(named: icon)
+            if (icview == nil){
                 log.warning("icon not found: \(icon)")
-                image = UIImage(named:"ic_unknown")
+                icview = UIImage(named:"ic_unknown")
             }
-            let tintableImage = image!.withRenderingMode(.alwaysTemplate)
-            imgView.imageView.image = tintableImage
+            let tintableImage = icview!.withRenderingMode(.alwaysTemplate)
+            image.image = tintableImage
             //view.imageView.tintColor =  UIColor(contrastingBlackOrWhiteColorOn:theme.backgroundColor, isFlat:true)
-            imgView.imageView.tintColor =  theme.tintColor
+            image.tintColor =  theme.tintColor
             
-            imgView.imageView.backgroundColor = theme.backgroundColor
+            image.backgroundColor = theme.backgroundColor
             imgView.layer.borderColor = theme.tintColor.cgColor
 
+            imgView.addSubview(image)
+            imgView.addSubview(label)
+
+            image.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: image.frame.size.height)
+            label.alignAndFill(align: .underCentered, relativeTo: image, padding: 0)
             view.addSubview(imgView)
         }
 
@@ -169,7 +177,8 @@ class SimpleCarousel: UIView {
     func setupCarousel(){
         
         // configure carousel
-        carouselHeight = max((self.displayHeight * 0.8), 80.0).rounded() // doesn't seem to work at less than 80 (empirical)
+        //carouselHeight = max((self.displayHeight * 0.8), 80.0).rounded() // doesn't seem to work at less than 80 (empirical)
+        carouselHeight = max((self.displayHeight * 0.8), 32.0).rounded() // don't go below 32 pixels
         carousel?.frame.size.width = self.displayWidth
         carousel?.frame.size.height = carouselHeight
         
@@ -208,7 +217,7 @@ class SimpleCarousel: UIView {
                    oldView?.tintColor = theme.textColor
                     oldView?.layer.cornerRadius = 4.0
                     oldView?.layer.borderWidth = 1.0
-                    oldView?.layer.borderColor = theme.backgroundColor.cgColor
+                    oldView?.layer.borderColor = theme.backgroundColor.withAlphaComponent(0.5).cgColor
                 }
             }
             
@@ -218,7 +227,7 @@ class SimpleCarousel: UIView {
             newView.tintColor = theme.highlightColor
             newView.layer.cornerRadius = 4.0
             newView.layer.borderWidth = 3.0
-            newView.layer.borderColor = theme.highlightColor.cgColor
+            newView.layer.borderColor = theme.highlightColor.withAlphaComponent(0.5).cgColor
             
             // scroll to selected item
             carousel.scrollToItem(at: index, animated: false)
@@ -279,7 +288,7 @@ extension SimpleCarousel: iCarouselDataSource{
         
         // spacing between items
         if (item == iCarouselOption.spacing){
-            return value * 1.05
+            return value * 1.0
             //return value
         } else if (item == iCarouselOption.wrap){
             //return value

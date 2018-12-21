@@ -68,7 +68,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     let buttonSize : CGFloat = 48.0
     fileprivate let statusBarOffset : CGFloat = 2.0
     
-    let editControlHeight = 64.0
+    let editControlHeight = 96.0
     
     // child view controller
     var optionsController: EditMainOptionsController? = nil
@@ -550,6 +550,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
             
             //filterParametersView.align(.aboveCentered, relativeTo: filterControlsView, padding: 4, width: filterParametersView.frame.size.width, height: filterParametersView.frame.size.height)
             filterParametersView.isHidden = false
+            filterParametersView.delegate = self // can be reset if bouncing between screens
             filterSettingsShown = true
             view.bringSubview(toFront: filterParametersView)
             //filterParametersView.show()

@@ -813,6 +813,9 @@
 		25F85CE621C9650F005498C4 /* SimpleCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F85CE521C9650F005498C4 /* SimpleCarousel.swift */; };
 		25F85CE821C97593005498C4 /* EditBasicAdjustmentsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F85CE721C97593005498C4 /* EditBasicAdjustmentsController.swift */; };
 		25F85CEA21C9C3C3005498C4 /* GalleryViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F85CE921C9C3C3005498C4 /* GalleryViewControllerDelegate.swift */; };
+		25F85CED21CC2631005498C4 /* EditBaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F85CEC21CC2631005498C4 /* EditBaseController.swift */; };
+		25F85CEF21CC50E5005498C4 /* UIFont+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F85CEE21CC50E5005498C4 /* UIFont+Extensions.swift */; };
+		25F85CF121CC5125005498C4 /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F85CF021CC5125005498C4 /* UILabel+Extensions.swift */; };
 		560E5668039EDD21652B216D /* Pods_phixerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDBA6C647E0CE1D78E741974 /* Pods_phixerUITests.framework */; };
 		6D62A8FFBDF1408E43BE59D8 /* Pods_phixerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA7977390F9DC393764E04A9 /* Pods_phixerTests.framework */; };
 		863ABCBA1EA6CE5B00B2AED2 /* LiveFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863ABCB91EA6CE5B00B2AED2 /* LiveFilterViewController.swift */; };
@@ -1695,6 +1698,9 @@
 		25F85CE521C9650F005498C4 /* SimpleCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SimpleCarousel.swift; path = Views/SimpleCarousel.swift; sourceTree = "<group>"; };
 		25F85CE721C97593005498C4 /* EditBasicAdjustmentsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditBasicAdjustmentsController.swift; sourceTree = "<group>"; };
 		25F85CE921C9C3C3005498C4 /* GalleryViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewControllerDelegate.swift; sourceTree = "<group>"; };
+		25F85CEC21CC2631005498C4 /* EditBaseController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditBaseController.swift; sourceTree = "<group>"; };
+		25F85CEE21CC50E5005498C4 /* UIFont+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extensions.swift"; sourceTree = "<group>"; };
+		25F85CF021CC5125005498C4 /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
 		737C29DA80DD0E6829273461 /* Pods-phixer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-phixer.release.xcconfig"; path = "Pods/Target Support Files/Pods-phixer/Pods-phixer.release.xcconfig"; sourceTree = "<group>"; };
 		863ABCB91EA6CE5B00B2AED2 /* LiveFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LiveFilterViewController.swift; path = Controllers/LiveFilterViewController.swift; sourceTree = "<group>"; };
 		86DD9D941E9C5A7000A5D855 /* MainMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainMenuController.swift; path = Controllers/MainMenuController.swift; sourceTree = "<group>"; };
@@ -1798,6 +1804,8 @@
 				258F09A8218E36870082FE2A /* CGImage+Extensions.swift */,
 				258F09AA218E3CCF0082FE2A /* CIImage+Extensions.swift */,
 				2568BDE721C86BDC00560287 /* UIViewController+Extensions.swift */,
+				25F85CEE21CC50E5005498C4 /* UIFont+Extensions.swift */,
+				25F85CF021CC5125005498C4 /* UILabel+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1848,6 +1856,7 @@
 			children = (
 				2568BDEE21C870F800560287 /* EditMainOptionsController.swift */,
 				25F85CE721C97593005498C4 /* EditBasicAdjustmentsController.swift */,
+				25F85CEC21CC2631005498C4 /* EditBaseController.swift */,
 				2568BDEC21C870D300560287 /* README.md */,
 				2568BDF021C8721700560287 /* EditChildControllerDelegate.swift */,
 			);
@@ -3762,6 +3771,7 @@
 				25B24D121DAEE1B5008CD38A /* GradientSlider.swift in Sources */,
 				258F099E218CBFC30082FE2A /* FNS-La-Muse.mlmodel in Sources */,
 				2568BDA021AC72CB00560287 /* EditControlsView.swift in Sources */,
+				25F85CED21CC2631005498C4 /* EditBaseController.swift in Sources */,
 				253B23771DA4BB7800203ECB /* ClosestFraction.swift in Sources */,
 				252745EF21815FB700AA2DA2 /* CarnivalMirror.swift in Sources */,
 				258F09A7218CDEFD0082FE2A /* Geometry.swift in Sources */,
@@ -3824,6 +3834,7 @@
 				2573D1E4217CDCB500E78CAB /* YUCICLAHE.m in Sources */,
 				250716091DBEC19400CDDF42 /* FilterGalleryViewController.swift in Sources */,
 				25CF4BD91D9490C400D779CF /* ImageContainerView.swift in Sources */,
+				25F85CF121CC5125005498C4 /* UILabel+Extensions.swift in Sources */,
 				25172964217A1C6E00D5E946 /* Opacity.swift in Sources */,
 				2542DF531ECFB2ED00CEB968 /* FilterRecord.swift in Sources */,
 				25A702951DC2FE3C009441E2 /* FilterDisplayView.swift in Sources */,
@@ -3846,6 +3857,7 @@
 				2542DF571ECFB3F100CEB968 /* AssignmentRecord.swift in Sources */,
 				2542DF591ECFB4DA00CEB968 /* LookupFilterRecord.swift in Sources */,
 				25274602218764D500AA2DA2 /* CGFloat+Extensions.swift in Sources */,
+				25F85CEF21CC50E5005498C4 /* UIFont+Extensions.swift in Sources */,
 				258EA0931ED9472600D5E20E /* ResetViewController.swift in Sources */,
 				25F85CE821C97593005498C4 /* EditBasicAdjustmentsController.swift in Sources */,
 				253A39E21DDA965E00A714D4 /* SampleGalleryViewController.swift in Sources */,

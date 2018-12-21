@@ -38,7 +38,7 @@ class FilterParametersView: UIView {
     
     let sliderHeight: Float = 32.0
     
-    var showControls:Bool = false
+    var showControls:Bool = true
 
     // display items
     
@@ -100,7 +100,7 @@ class FilterParametersView: UIView {
             // height: title + sliders + buttons (or not)
             var f1, f2: CGFloat
 
-            f1 = 1.25*CGFloat((currFilterDesc?.getNumDisplayableParameters())!) + 1.25
+            f1 = 1.6*CGFloat((currFilterDesc?.getNumDisplayableParameters())!) + 1.6
             f2 = CGFloat(sliderHeight)
             self.frame.size.height = max((f1 * f2).rounded(), 3*f2)
             
@@ -126,14 +126,14 @@ class FilterParametersView: UIView {
         if self.showControls {
             acceptButton = SquareButton(bsize: CGFloat(sliderHeight)*0.8)
             acceptButton?.setImageAsset("ic_yes")
-            acceptButton?.backgroundColor = theme.subtitleTextColor
+            acceptButton?.backgroundColor = theme.subtitleColor.withAlphaComponent(0.8)
             acceptButton?.setTintable(true)
             acceptButton?.highlightOnSelection(true)
             acceptButton?.addTarget(self, action: #selector(self.acceptDidPress), for: .touchUpInside)
             
             cancelButton = SquareButton(bsize: CGFloat(sliderHeight)*0.8)
             cancelButton?.setImageAsset("ic_no")
-            cancelButton?.backgroundColor = theme.subtitleTextColor
+            cancelButton?.backgroundColor = theme.subtitleColor.withAlphaComponent(0.8)
             cancelButton?.setTintable(true)
             cancelButton?.highlightOnSelection(true)
             cancelButton?.addTarget(self, action: #selector(self.cancelDidPress), for: .touchUpInside)
@@ -151,7 +151,7 @@ class FilterParametersView: UIView {
         titleLabel.text = currFilterDesc?.title
         titleLabel.textAlignment = .center
         
-        titleView.frame.size.width = (self.frame.size.width - 16.0).rounded()
+        titleView.frame.size.width = (self.frame.size.width - 6.0).rounded()
         titleView.frame.size.height = CGFloat(sliderHeight*0.9).rounded()
         titleView.backgroundColor = titleBackgroundColor
         
@@ -163,7 +163,7 @@ class FilterParametersView: UIView {
 
         if self.showControls {
             acceptButton?.anchorToEdge(.left, padding: 2, width: (acceptButton?.frame.size.width)!, height: (acceptButton?.frame.size.height)!)
-            cancelButton?.anchorToEdge(.right, padding: 2, width: (cancelButton?.frame.size.width)!, height: (cancelButton?.frame.size.height)!)
+            cancelButton?.anchorToEdge(.right, padding: 0, width: (cancelButton?.frame.size.width)!, height: (cancelButton?.frame.size.height)!)
             titleLabel.alignBetweenHorizontal(align: .toTheRightCentered, primaryView: acceptButton!, secondaryView: cancelButton!, padding: 2, height: AutoHeight)
         } else {
             titleLabel.fillSuperview()
@@ -521,7 +521,11 @@ class FilterParametersView: UIView {
         let index = sender.tag
 
         log.verbose("Touch pressed for: \(pKey[index])")
-        delegate?.positionRequested(key:pKey[index])
+        if delegate != nil {
+            delegate?.positionRequested(key:pKey[index])
+        } else {
+            log.warning("No delegate")
+        }
     }
 
 }

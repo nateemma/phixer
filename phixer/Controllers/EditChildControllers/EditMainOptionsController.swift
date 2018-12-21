@@ -36,8 +36,8 @@ class EditMainOptionsController: UIViewController, EditChildControllerDelegate {
     var displayWidth : CGFloat = 0.0
     var displayHeight : CGFloat = 0.0
     
-    let buttonSize : CGFloat = 48.0
-    let editControlHeight: CGFloat = 64.0
+    let buttonSize : CGFloat = 32.0
+    let editControlHeight: CGFloat = 96.0
     
     var childController:UIViewController? = nil
     
