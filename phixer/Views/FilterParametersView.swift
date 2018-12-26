@@ -350,10 +350,11 @@ class FilterParametersView: UIView {
         height = titleView.frame.size.height
         if ((currFilterDesc?.getNumDisplayableParameters())! > 0){
             let n:CGFloat = CGFloat(numVisibleParams)
-            let h:CGFloat =  (CGFloat(sliderHeight) * n*1.3).rounded() // empirical
+            let h:CGFloat =  (CGFloat(sliderHeight) * n*1.3).rounded() + 16 // empirical
             parameterView.frame.size.width = titleView.frame.size.width
             parameterView.frame.size.height = h
             scrollView?.contentSize = parameterView.frame.size
+            scrollView?.frame.size.height = min(h, CGFloat(4*sliderHeight))
             height = height + parameterView.frame.size.height
         } else {
             parameterView.frame.size.width = titleView.frame.size.width
@@ -500,6 +501,7 @@ class FilterParametersView: UIView {
     @objc func colorSliderValueDidChange(_ sender:GradientSlider!){
         let index = sender.tag
         currFilterDesc?.setColorParameter(pKey[index], color: CIColor(color: (gsliders[index]?.getSelectedColor())!))
+        delegate?.settingsChanged()
     }
     
     @objc func slidersDidEndChange(_ sender:UISlider!){

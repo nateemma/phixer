@@ -19,7 +19,8 @@ class CustomFiltersRegistry: NSObject, CIFilterConstructor {
         super.init()
     }
 
-    private static let filterList:[String] = ["OpacityFilter", "EdgeGlowFilter", "ClarityFilter",
+    private static let filterList:[String] = ["OpacityFilter", "EdgeGlowFilter", "ClarityFilter", "SaturationFilter", "BrightnessFilter", "ContrastFilter",
+                                              "WhiteBalanceFilter",
                                               "Style_Scream", "Style_Candy", "Style_Mosaic", "Style_Udnie", "Style_LaMuse", "Style_Feathers" ]
     
     private static let colorFilters:[String] = ["SmoothThresholdFilter", "AdaptiveThresholdFilter", "LumaRangeFilter"]
@@ -46,7 +47,11 @@ class CustomFiltersRegistry: NSObject, CIFilterConstructor {
     func filter(withName name: String) -> CIFilter? {
         //TODO: create class dynamicaly based on the name?
         log.verbose("Creating custom filter:\(name)")
+/*** Manual way:
         switch name {
+        case "SaturationFilter":           return ContrastFilter()
+        case "BrightnessFilter":           return ContrastFilter()
+        case "ContrastFilter":           return ContrastFilter()
         case "ClarityFilter":           return ClarityFilter()
         case "OpacityFilter":           return OpacityFilter()
         case "EdgeGlowFilter":          return EdgeGlowFilter()
@@ -64,5 +69,19 @@ class CustomFiltersRegistry: NSObject, CIFilterConstructor {
             log.warning("Filter not registered: \(name)")
             return nil
         }
+         ***/
+        
+        // create an instance from the classname
+        let ns = Bundle.main.infoDictionary!["CFBundleExecutable"] as! String
+        let className = ns + "." + name
+        let theClass = NSClassFromString(className) as? CIFilter.Type
+        let filterInstance = theClass?.init() // NOTE: this only works because we know that the protocol requires the init() func
+        
+        if (filterInstance == nil){
+            log.error ("ERR: Could not create class: \(name)")
+        }
+        
+        return filterInstance
     }
+    
 }

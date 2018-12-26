@@ -46,6 +46,7 @@ class AdaptiveThresholdFilter: CIFilter {
     // default settings
     override func setDefaults() {
         inputImage = nil
+        inputRadius = 5.0
     }
     
     

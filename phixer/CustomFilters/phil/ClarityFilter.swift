@@ -18,6 +18,7 @@ class ClarityFilter: CIFilter {
     // default settings
     override func setDefaults() {
         inputImage = nil
+        inputClarity = 0.2
     }
     
     
@@ -68,13 +69,20 @@ class ClarityFilter: CIFilter {
         // input -> LumaRangeFilter -> Vibrance -> LuminosityBlend -> output
         // input -> UnsharpMask -> Opacity      -^
         
-        let vibrantImage = inputImage.applyingFilter("CIVibrance", parameters: ["inputAmount": 0.2])
-
+        let factor:CGFloat = (1.0+inputClarity)
+        
+       let vibrantImage = inputImage.applyingFilter("CIVibrance", parameters: ["inputAmount": 0.2*factor])
+        
         let contrastyImage = inputImage.applyingFilter("LumaRangeFilter", parameters: ["inputLower":0.25, "inputUpper":0.75])
-            .applyingFilter("CIUnsharpMask", parameters: ["inputRadius":50, "inputIntensity":0.2])
+            .applyingFilter("CIUnsharpMask", parameters: ["inputRadius":50, "inputIntensity":0.25])
+            .applyingFilter("CISharpenLuminance", parameters: ["inputSharpness":0.4*factor])
             .applyingFilter("OpacityFilter", parameters: ["inputOpacity":inputClarity])
         
-        let finalComposite = contrastyImage.applyingFilter("CILuminosityBlendMode", parameters: [kCIInputBackgroundImageKey:vibrantImage])
+        log.debug("c:\(inputClarity) f:\(factor) v:\(0.2*factor) s:\(0.4*factor)")
+        //let finalComposite = vibrantImage
+        //let finalComposite = contrastyImage.applyingFilter("CILuminosityBlendMode", parameters: [kCIInputBackgroundImageKey:vibrantImage])
+        let finalComposite = contrastyImage.applyingFilter("CIOverlayBlendMode", parameters: [kCIInputBackgroundImageKey:vibrantImage])
+        //let finalComposite = vibrantImage.applyingFilter("CILuminosityBlendMode", parameters: [kCIInputBackgroundImageKey:contrastyImage])
         return finalComposite
     }
 }

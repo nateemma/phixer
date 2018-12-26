@@ -37,17 +37,17 @@ class EditBasicAdjustmentsController: EditBaseController {
 
     // returns the list of titles for each item
     override func getTitleList() -> [String] {
-        return [ "White Balance", "Exposure", "Contrast", "Highlights & Shadows", "Clarity", "Dehaze", "Vibrance", "Saturation" ]
+        return [ "White Balance", "Exposure", "Brightness", "Contrast", "Highlights & Shadows", "Clarity", "Dehaze", "Vibrance", "Saturation" ]
     }
     
     // returns the list of handlers for each item
     override func getHandlerList() -> [()->()] {
-        return [wbHandler, exposureHandler, contrastHandler, highlightHandler, clarityHandler, dehazeHandler, vibranceHandler, saturationHandler]
+        return [wbHandler, exposureHandler, brightnessHandler, contrastHandler, highlightHandler, clarityHandler, dehazeHandler, vibranceHandler, saturationHandler]
     }
     
     // returns the list of icons for each item - can be empty or contan empty ("") items
     override func getIconList() -> [String] {
-        return[ "ic_wb", "ic_exposure", "ic_contrast", "ic_highlights", "ic_clarity", "ic_dehaze", "ic_vibrance", "ic_saturation" ]
+        return[ "ic_wb", "ic_exposure", "ic_brightness", "ic_contrast", "ic_highlights", "ic_clarity", "ic_dehaze", "ic_vibrance", "ic_saturation" ]
     }
     
     
@@ -56,17 +56,21 @@ class EditBasicAdjustmentsController: EditBaseController {
     //////////////////////////////////////////
 
     func wbHandler(){
-        self.delegate?.editFilterSelected(key: "CITemperatureAndTint")
+        self.delegate?.editFilterSelected(key: "WhiteBalanceFilter")
     }
     
     func exposureHandler(){
         self.delegate?.editFilterSelected(key: "CIExposureAdjust")
     }
     
-    func contrastHandler(){
-        self.delegate?.editFilterSelected(key: "CIColorControls")
+    func brightnessHandler(){
+        self.delegate?.editFilterSelected(key: "BrightnessFilter")
     }
     
+    func contrastHandler(){
+        self.delegate?.editFilterSelected(key: "ContrastFilter")
+    }
+
     func highlightHandler(){
         self.delegate?.editFilterSelected(key: "CIHighlightShadowAdjust")
     }
@@ -84,7 +88,7 @@ class EditBasicAdjustmentsController: EditBaseController {
     }
     
     func saturationHandler(){
-        self.delegate?.editFilterSelected(key: "CIColorControls")
+        self.delegate?.editFilterSelected(key: "SaturationFilter")
     }
 
 } // EditBasicAdjustmentsController

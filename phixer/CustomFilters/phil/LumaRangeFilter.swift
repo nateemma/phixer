@@ -25,6 +25,8 @@ class LumaRangeFilter: CIFilter {
     // default settings
     override func setDefaults() {
         inputImage = nil
+        inputLower = 0.02
+        inputUpper = 0.05
     }
     
     

@@ -27,6 +27,7 @@ class SmoothThresholdFilter: CIFilter {
     // default settings
     override func setDefaults() {
         inputImage = nil
+        inputThreshold = 0.05
     }
     
     

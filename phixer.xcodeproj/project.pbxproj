@@ -681,6 +681,10 @@
 		252C17A51ECE75FC00039BFC /* CategoryEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252C179B1ECE75FC00039BFC /* CategoryEntity+CoreDataProperties.swift */; };
 		252C17A61ECE75FC00039BFC /* AssignmentEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252C179C1ECE75FC00039BFC /* AssignmentEntity+CoreDataClass.swift */; };
 		252C17A71ECE75FC00039BFC /* AssignmentEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252C179D1ECE75FC00039BFC /* AssignmentEntity+CoreDataProperties.swift */; };
+		2537A1BB21D1873400060DBE /* ContrastFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A1BA21D1873400060DBE /* ContrastFilter.swift */; };
+		2537A1BD21D28E5600060DBE /* SaturationFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A1BC21D28E5600060DBE /* SaturationFilter.swift */; };
+		2537A1BF21D28F6E00060DBE /* BrightnessFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A1BE21D28F6E00060DBE /* BrightnessFilter.swift */; };
+		2537A1C121D31F4B00060DBE /* WhiteBalanceFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A1C021D31F4B00060DBE /* WhiteBalanceFilter.swift */; };
 		253A39E21DDA965E00A714D4 /* SampleGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253A39E11DDA965E00A714D4 /* SampleGalleryViewController.swift */; };
 		253A39E41DDA979400A714D4 /* SampleGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253A39E31DDA979400A714D4 /* SampleGalleryView.swift */; };
 		253B235B1DA2CFD400203ECB /* SegueHandlerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253B235A1DA2CFD400203ECB /* SegueHandlerType.swift */; };
@@ -1537,6 +1541,10 @@
 		252C179D1ECE75FC00039BFC /* AssignmentEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AssignmentEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		252C179E1ECE75FC00039BFC /* LookupFilterEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LookupFilterEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		252C179F1ECE75FC00039BFC /* LookupFilterEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LookupFilterEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		2537A1BA21D1873400060DBE /* ContrastFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContrastFilter.swift; sourceTree = "<group>"; };
+		2537A1BC21D28E5600060DBE /* SaturationFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaturationFilter.swift; sourceTree = "<group>"; };
+		2537A1BE21D28F6E00060DBE /* BrightnessFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrightnessFilter.swift; sourceTree = "<group>"; };
+		2537A1C021D31F4B00060DBE /* WhiteBalanceFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhiteBalanceFilter.swift; sourceTree = "<group>"; };
 		253A39E11DDA965E00A714D4 /* SampleGalleryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleGalleryViewController.swift; sourceTree = "<group>"; };
 		253A39E31DDA979400A714D4 /* SampleGalleryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SampleGalleryView.swift; path = Views/SampleGalleryView.swift; sourceTree = "<group>"; };
 		253B235A1DA2CFD400203ECB /* SegueHandlerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SegueHandlerType.swift; path = Controllers/SegueHandlerType.swift; sourceTree = "<group>"; };
@@ -1768,12 +1776,15 @@
 			isa = PBXGroup;
 			children = (
 				258F09BA2192847F0082FE2A /* AdaptiveThresholdFilter.swift */,
+				2537A1BE21D28F6E00060DBE /* BrightnessFilter.swift */,
 				2515987F2194B97E0067AA00 /* ClarityFilter.swift */,
+				2537A1BA21D1873400060DBE /* ContrastFilter.swift */,
 				252745E82180FDF600AA2DA2 /* CustomFilterRegistry.swift */,
 				252745F02182295100AA2DA2 /* EdgeGlowFilter.swift */,
 				2515987D2193CD490067AA00 /* LumaRangeFilter.swift */,
 				25172963217A1C6E00D5E946 /* Opacity.swift */,
 				252745E62180E8FD00AA2DA2 /* OpacityFilter.swift */,
+				2537A1BC21D28E5600060DBE /* SaturationFilter.swift */,
 				258F09B8219264C20082FE2A /* SmoothThresholdFilter.swift */,
 				258F09AC218E4AC90082FE2A /* Style_Candy.swift */,
 				258F09AE218E4B5B0082FE2A /* Style_Feathers.swift */,
@@ -1782,6 +1793,7 @@
 				258F09A2218CC09C0082FE2A /* Style_Scream.swift */,
 				258F09B2218E4BB30082FE2A /* Style_Udnie.swift */,
 				2568BDD621BEC72600560287 /* StyleTransferFilter.swift */,
+				2537A1C021D31F4B00060DBE /* WhiteBalanceFilter.swift */,
 			);
 			path = phil;
 			sourceTree = "<group>";
@@ -3773,6 +3785,7 @@
 				2568BDA021AC72CB00560287 /* EditControlsView.swift in Sources */,
 				25F85CED21CC2631005498C4 /* EditBaseController.swift in Sources */,
 				253B23771DA4BB7800203ECB /* ClosestFraction.swift in Sources */,
+				2537A1BB21D1873400060DBE /* ContrastFilter.swift in Sources */,
 				252745EF21815FB700AA2DA2 /* CarnivalMirror.swift in Sources */,
 				258F09A7218CDEFD0082FE2A /* Geometry.swift in Sources */,
 				2568BDCD21B9DE3600560287 /* InputSource.swift in Sources */,
@@ -3808,6 +3821,7 @@
 				258F099D218CBFC30082FE2A /* FNS-Feathers.mlmodel in Sources */,
 				252746042187653500AA2DA2 /* UIColor+Extensions.swift in Sources */,
 				257F49E21D9448920083B1E4 /* MainViewController.swift in Sources */,
+				2537A1C121D31F4B00060DBE /* WhiteBalanceFilter.swift in Sources */,
 				2573D1E5217CDCB500E78CAB /* YUCIReflectedTile.m in Sources */,
 				2568BDD721BEC72600560287 /* StyleTransferFilter.swift in Sources */,
 				25AEBB441DBA8AEC00AA6279 /* FilterSelectionView.swift in Sources */,
@@ -3850,6 +3864,7 @@
 				2573D1EC217CDCB500E78CAB /* YUCIBilateralFilter.m in Sources */,
 				2573D1E9217CDCB500E78CAB /* YUCIHistogramEqualization.m in Sources */,
 				25A702921DC2FCDD009441E2 /* FilterDetailsViewController.swift in Sources */,
+				2537A1BD21D28E5600060DBE /* SaturationFilter.swift in Sources */,
 				2568BDE621C861A200560287 /* BasicAdjustmentsPanel.swift in Sources */,
 				252C17A61ECE75FC00039BFC /* AssignmentEntity+CoreDataClass.swift in Sources */,
 				2568BDCF21BB371D00560287 /* StyleTransferGalleryViewController.swift in Sources */,
@@ -3864,6 +3879,7 @@
 				2515987E2193CD490067AA00 /* LumaRangeFilter.swift in Sources */,
 				25F563FC1DD1165C00DFB125 /* ImageManager.swift in Sources */,
 				2573D1E2217CDCB500E78CAB /* YUCIRGBToneCurve.m in Sources */,
+				2537A1BF21D28F6E00060DBE /* BrightnessFilter.swift in Sources */,
 				25159884219E2B850067AA00 /* ThemeManager.swift in Sources */,
 				2573D1E1217CDCB500E78CAB /* YUCIUtilities.m in Sources */,
 				251729622179459F00D5E946 /* GalleryViewCell.swift in Sources */,

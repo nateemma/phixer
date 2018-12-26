@@ -192,8 +192,8 @@
         },
         {"key": "CITemperatureAndTint", "title": "Temperature and Tint", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
-                {"key": "inputNeutral", "title": "Neutral", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeOffset"},
-                {"key": "inputTargetNeutral", "title": "Target Neutral", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeOffset"}
+                {"key": "inputNeutral", "title": "Neutral", "min": 0.0, "max":1.0, "val": 0.0, "type": "CIAttributeTypeOffset"},
+                {"key": "inputTargetNeutral", "title": "Target Neutral", "min": 0.0, "max":1.0, "val": 0.0, "type": "CIAttributeTypeOffset"}
             ]
         },
         {"key": "CIToneCurve", "title": "Tone Curve", "ftype": "singleInput", "show": false, "rating": 0,
@@ -247,7 +247,7 @@
         },
         {"key": "CILabDeltaE", "title": "Lab ∆E", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
-                {"key": "inputImage2", "title": "Image2", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage?"}
+                {"key": "inputImage2", "title": "Image2", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"}
             ]
         },
         {"key": "CIMaskToAlpha", "title": "Mask to Alpha", "ftype": "singleInput", "show": true, "rating": 0,
@@ -539,14 +539,14 @@
                 {"key": "inputRadius", "title": "Radius", "min": 1.0, "max":500.0, "val": 100.0, "type": "CIAttributeTypeDistance"}
             ]
         },
-        {"key": "CINinePartStretched", "title": "Nine Part Stretched", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CINinePartStretched", "title": "Nine Part Stretched", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputBreakpoint0", "title": "Breakpoint0", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
                 {"key": "inputBreakpoint1", "title": "Breakpoint1", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
                 {"key": "inputGrowAmount", "title": "Grow Amount", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeOffset"}
             ]
         },
-        {"key": "CINinePartTiled", "title": "Nine Part Tiled", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CINinePartTiled", "title": "Nine Part Tiled", "ftype": "singleInput", "show": false, "rating": 0,
             "parameters":  [
                 {"key": "inputBreakpoint0", "title": "Breakpoint0", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
                 {"key": "inputBreakpoint1", "title": "Breakpoint1", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
@@ -1090,6 +1090,24 @@
                 {"key": "inputClarity", "title": "Clarity", "min": 0.0, "max":1.0, "val": 0.2, "type": "CIAttributeTypeScalar"}
             ]
         },
+        
+        {"key": "SaturationFilter", "title": "Saturation", "ftype": "singleInput", "show": true, "rating": 0,
+            "parameters":  [
+                {"key": "inputSaturation", "title": "Saturation", "min": 0.0, "max":2.0, "val": 1.0, "type": "CIAttributeTypeScalar"},
+            ]
+        },
+        
+        {"key": "BrightnessFilter", "title": "Brightness", "ftype": "singleInput", "show": true, "rating": 0,
+            "parameters":  [
+                {"key": "inputBrightness", "title": "Brightness", "min": -1.0, "max":1.0, "val": 0.0, "type": "CIAttributeTypeScalar"},
+            ]
+        },
+        
+        {"key": "ContrastFilter", "title": "Contrast", "ftype": "singleInput", "show": true, "rating": 0,
+            "parameters":  [
+                {"key": "inputContrast", "title": "Contrast", "min": 0.25, "max":4.0, "val": 1.0, "type": "CIAttributeTypeScalar"}
+            ]
+        },
 
         {"key": "OpacityFilter", "title": "Change Opacity", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
@@ -1118,6 +1136,13 @@
             ]
         },
         
+        {"key": "WhiteBalanceFilter", "title": "White Balance", "ftype": "singleInput", "show": true, "rating": 0,
+            "parameters":  [
+                {"key": "inputTemperature", "title": "Temperature", "min": 2000.0, "max":10000.0, "val": 6500.0, "type": "CIAttributeTypeScalar"},
+                {"key": "inputTint", "title": "Tint", "min": -100.0, "max":100.0, "val": 0.0, "type": "CIAttributeTypeScalar"}
+            ]
+        },
+
         {"key": "Style_Candy", "title": "Style: Candy", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [ ]
         },
@@ -1709,7 +1734,7 @@
         
         {"key": "favorites",
             "title": "Favorites",
-            "filters": ["CISRGBToneCurveToLinear", "CITwirlDistortion", "CIColorPosterize", "CIColorInvert", "CICMYKHalftone", "CIDotScreen", "CIHatchedScreen",
+            "filters": ["CISRGBToneCurveToLinear",  "YUCIHighPassSkinSmoothing", "CITwirlDistortion", "CIColorPosterize", "CIColorInvert",
                 "ps_004", "ps_009", "bw_031", "bw_037" ]
         },
         
@@ -1895,7 +1920,7 @@
         
         {"key": "yu",
             "title": "Yu",
-            "filters": ["YUCIBilateralFilter",  "YUCICLAHE",  "YUCIFXAA",  "YUCIHighPass",  "YUCIHighPassSkinSmoothing",
+            "filters": ["YUCICLAHE",  "YUCIFXAA",  "YUCIHighPass",  "YUCIHighPassSkinSmoothing",
                 "YUCIHistogramEqualization",  "YUCIReflectedTile"
             ]
         },
