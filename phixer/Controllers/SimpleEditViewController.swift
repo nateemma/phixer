@@ -378,7 +378,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         gesturesEnabled = true
         editImageView.isUserInteractionEnabled = true
         filterParametersView.isHidden = false
-        currTouchMode = .gestures
+        setTouchMode(.gestures)
     }
     
     func disableGestureDetection(){

@@ -49,8 +49,9 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
     //var adView: GADBannerView! = GADBannerView()
     
     // Main Filtered Output View
-    fileprivate var filterDisplayView: FilterDisplayView! = FilterDisplayView()
-    
+    //fileprivate var editImageView: FilterDisplayView! = FilterDisplayView()
+    fileprivate var editImageView: EditImageDisplayView! = EditImageDisplayView()
+
     
     
     // The filter configuration subview
@@ -85,6 +86,17 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
     fileprivate var initDone:Bool = false
     
     
+    // vars related to gestures/touches
+    enum touchMode {
+        case none
+        case gestures
+        case filter
+        case preview
+    }
+    
+    var currTouchMode:touchMode = .gestures
+    
+
     
     
     convenience init(){
@@ -107,13 +119,13 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
     }
     
     public func suspend(){
-        self.filterDisplayView.suspend()
+        self.editImageView.suspend()
     }
     
     public func update(){
         DispatchQueue.main.async(execute: { () -> Void in
             self.doLayout()
-            self.filterDisplayView.update()
+            self.editImageView.update()
             self.overlayView.setNeedsLayout()
         })
     }
@@ -128,7 +140,7 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
     }
 
     public func saveImage(){
-        filterDisplayView.saveImage()
+        editImageView.saveImage()
     }
     
     override func viewDidLoad() {
@@ -174,7 +186,7 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
         
         assignTouchHandlers()
         
-        filterDisplayView.setFilter(key: currFilterKey)
+        editImageView.setFilter(key: currFilterKey)
 
         
         // that's it, rendering is handled by the FilterDisplayView and FilterControlsView classes
@@ -198,7 +210,7 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
         setupNavigationControls()
         
         setupConstraints()
-        filterDisplayView.setFilter(key: currFilterKey)
+        editImageView.setFilter(key: currFilterKey)
         filterParametersView.setFilter(currFilterDescriptor)
         updateBanner(key: self.currFilterKey)
         positionParameterView()
@@ -224,7 +236,8 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
 
     
     fileprivate func setupDisplay(){
-            filterDisplayView = FilterDisplayView()
+        //editImageView = FilterDisplayView()
+        editImageView = EditImageDisplayView()
     }
    
     
@@ -280,7 +293,7 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
         
         
         view.addSubview(bannerView)
-        view.addSubview(filterDisplayView)
+        view.addSubview(editImageView)
         view.addSubview(overlayView)
         view.addSubview(imageSelectionView)
         view.addSubview(filterParametersView)
@@ -299,12 +312,12 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
         if (UIDevice.current.orientation.isLandscape){
             // left-to-right layout scheme
             
-            filterDisplayView.frame.size.height = displayHeight - bannerHeight
-            filterDisplayView.frame.size.width = displayWidth / 2
-            filterDisplayView.anchorInCorner(.bottomLeft, xPad: 0, yPad: 0, width: filterDisplayView.frame.size.width, height: filterDisplayView.frame.size.height)
+            editImageView.frame.size.height = displayHeight - bannerHeight
+            editImageView.frame.size.width = displayWidth / 2
+            editImageView.anchorInCorner(.bottomLeft, xPad: 0, yPad: 0, width: editImageView.frame.size.width, height: editImageView.frame.size.height)
             
-            // Adornment view is same size and location as filterDisplayView
-            overlayView.frame.size = filterDisplayView.frame.size
+            // Adornment view is same size and location as editImageView
+            overlayView.frame.size = editImageView.frame.size
             overlayView.anchorInCorner(.bottomLeft, xPad: 0, yPad: 0, width: overlayView.frame.size.width, height: overlayView.frame.size.height)
             
             
@@ -333,16 +346,16 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
             view.bringSubview(toFront: filterParametersView)
 
             // Filter display takes the rest of the screen
-            //filterDisplayView.frame.size.height = displayHeight - bannerHeight - filterParametersView.frame.size.height - 4
-            filterDisplayView.frame.size.height = displayHeight - bannerHeight
-            filterDisplayView.frame.size.width = displayWidth
-            log.verbose("FilterDisplay: (w:\(filterDisplayView.frame.size.width), h:\(filterDisplayView.frame.size.height))")
+            //editImageView.frame.size.height = displayHeight - bannerHeight - filterParametersView.frame.size.height - 4
+            editImageView.frame.size.height = displayHeight - bannerHeight
+            editImageView.frame.size.width = displayWidth
+            log.verbose("FilterDisplay: (w:\(editImageView.frame.size.width), h:\(editImageView.frame.size.height))")
             
-            filterDisplayView.align(.underCentered, relativeTo: bannerView, padding: 0, width: filterDisplayView.frame.size.width, height: filterDisplayView.frame.size.height)
+            editImageView.align(.underCentered, relativeTo: bannerView, padding: 0, width: editImageView.frame.size.width, height: editImageView.frame.size.height)
         
             
-            // Adornment view is same size and location as filterDisplayView
-            overlayView.frame.size = filterDisplayView.frame.size
+            // Adornment view is same size and location as editImageView
+            overlayView.frame.size = editImageView.frame.size
             overlayView.align(.underCentered, relativeTo: bannerView, padding: 0, width: overlayView.frame.size.width, height: overlayView.frame.size.height)
             
             imageSelectionView.frame.size = bannerView.frame.size
@@ -356,9 +369,9 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
         //TODO: fix landscape layout
         
         // resize overlayView to match the display view (minus the parameters view)
-        overlayView.frame.size.width  = filterDisplayView.frame.size.width
-        //overlayView.frame.size.height  = filterDisplayView.frame.size.height
-        overlayView.frame.size.height  = filterDisplayView.frame.size.height - filterParametersView.frame.size.height
+        overlayView.frame.size.width  = editImageView.frame.size.width
+        //overlayView.frame.size.height  = editImageView.frame.size.height
+        overlayView.frame.size.height  = editImageView.frame.size.height - filterParametersView.frame.size.height
         overlayView.align(.underCentered, relativeTo: bannerView, padding: 0, width: overlayView.frame.size.width, height: overlayView.frame.size.height)
         
         prevView.anchorToEdge(.left, padding: 0, width: prevView.frame.size.width, height: prevView.frame.size.height)
@@ -419,7 +432,7 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
             return
         }
         
-        overlayView.frame = self.filterDisplayView.frame
+        overlayView.frame = self.editImageView.frame
         
         // set size of adornments
         //let dim: CGFloat = overlayView.frame.size.height / 8.0
@@ -720,21 +733,26 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
     var gesturesEnabled:Bool = true
     
     func enableGestureDetection(){
-        gesturesEnabled = true
-        overlayView.isHidden = false
-        overlayView.isUserInteractionEnabled = true
-        prevView.isUserInteractionEnabled = true
-        nextView.isUserInteractionEnabled = true
-        showParameters()
+        if !gesturesEnabled {
+            gesturesEnabled = true
+            setTouchMode(.gestures)
+            overlayView.isHidden = false
+            overlayView.isUserInteractionEnabled = true
+            prevView.isUserInteractionEnabled = true
+            nextView.isUserInteractionEnabled = true
+            showParameters()
+        }
    }
     
     func disableGestureDetection(){
-        gesturesEnabled = false
-        overlayView.isHidden = true
-        overlayView.isUserInteractionEnabled = false
-        prevView.isUserInteractionEnabled = false
-        nextView.isUserInteractionEnabled = false
-        hideParameters()
+        if gesturesEnabled {
+            gesturesEnabled = false
+            overlayView.isHidden = true
+            overlayView.isUserInteractionEnabled = false
+            prevView.isUserInteractionEnabled = false
+            nextView.isUserInteractionEnabled = false
+            hideParameters()
+        }
     }
 
     func setGestureDetectors(_ view: UIView){
@@ -759,11 +777,10 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
     
     @objc func swiped(_ gesture: UIGestureRecognizer) {
         
-        if gesturesEnabled {
-            if let swipeGesture = gesture as? UISwipeGestureRecognizer
-            {
-                switch swipeGesture.direction
-                {
+        // if gesturesEnabled {
+        if currTouchMode == .gestures {
+            if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+                switch swipeGesture.direction {
                     
                 case UISwipeGestureRecognizerDirection.right:
                     //log.verbose("Swiped Right")
@@ -776,79 +793,108 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
                     break
                     
                 case UISwipeGestureRecognizerDirection.up:
-                    log.verbose("Swiped Up")
+                    //log.verbose("Swiped Up")
                     showParameters()
                     break
                     
                 case UISwipeGestureRecognizerDirection.down:
-                    log.verbose("Swiped Down")
                     hideParameters()
+                    //log.verbose("Swiped Down")
                     break
                     
                 default:
                     log.debug("Unhandled gesture direction: \(swipeGesture.direction)")
                     break
                 }
+            } else {
+                // still allow up/down
+                if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+                    if swipeGesture.direction == UISwipeGestureRecognizerDirection.up {
+                        showParameters()
+                    } else if swipeGesture.direction == UISwipeGestureRecognizerDirection.down {
+                        hideParameters()
+                    }
+                }
             }
         }
     }
     
     
+    
     //////////////////////////////////////////
-    // MARK: - Position Parameter handling
+    // MARK: - Position handling
     //////////////////////////////////////////
+    
     
     // Note: general gestures are disabled while position tracking is active. Too confusing if we don't do this
     
     var touchKey:String = ""
+    
+    func setTouchMode(_ mode:touchMode){
+        self.currTouchMode = mode
+        if self.currTouchMode == .gestures {
+            enableGestureDetection()
+        } else {
+            disableGestureDetection()
+        }
+    }
+    
     
     func handlePositionRequest(key:String){
         if !key.isEmpty{
             log.verbose("Position Request for parameter: \(key)")
             disableGestureDetection()
             touchKey = key
+            setTouchMode(.filter)
         }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if !touchKey.isEmpty{
-            if let touch = touches.first {
-                let position = touch.location(in: filterDisplayView)
-                let imgPos = filterDisplayView.getImagePosition(viewPos:position)
+        if let touch = touches.first {
+            let position = touch.location(in: editImageView)
+            let imgPos = editImageView.getImagePosition(viewPos:position)
+            if currTouchMode == .filter {
                 currFilterDescriptor?.setPositionParameter(touchKey, position:imgPos!)
-                filterDisplayView.runFilter()
+            } else if currTouchMode == .preview {
+                editImageView.setSplitPosition(position)
             }
+            editImageView.runFilter()
         }
     }
-
+    
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if !touchKey.isEmpty{
-            if let touch = touches.first {
-                let position = touch.location(in: filterDisplayView)
-                let imgPos = filterDisplayView.getImagePosition(viewPos:position)
+        if let touch = touches.first {
+            let position = touch.location(in: editImageView)
+            let imgPos = editImageView.getImagePosition(viewPos:position)
+            if currTouchMode == .filter {
                 currFilterDescriptor?.setPositionParameter(touchKey, position:imgPos!)
-                filterDisplayView.runFilter()
-           }
+            } else if currTouchMode == .preview {
+                editImageView.setSplitPosition(position)
+            }
+            editImageView.runFilter()
         }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if !touchKey.isEmpty{
-            if let touch = touches.first {
-                let position = touch.location(in: filterDisplayView)
-                let imgPos = filterDisplayView.getImagePosition(viewPos:position)
+        if let touch = touches.first {
+            let position = touch.location(in: editImageView)
+            let imgPos = editImageView.getImagePosition(viewPos:position)
+            if currTouchMode == .filter {
                 currFilterDescriptor?.setPositionParameter(touchKey, position:imgPos!)
-                //log.verbose("Touches ended. Final pos:\(position) vec:\(imgPos)")
-                filterDisplayView.runFilter()
+            } else if currTouchMode == .preview {
+                editImageView.setSplitPosition(position)
             }
+            //log.verbose("Touches ended. Final pos:\(position) vec:\(imgPos)")
+            editImageView.runFilter()
+            
             touchKey = ""
-       }
+        }
         
         enableGestureDetection()
     }
 
- 
+  
     
     //////////////////////////////////////////
     // MARK: - ImagePicker handling
@@ -903,21 +949,38 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
 
 
 extension FilterDetailsViewController: FilterParametersViewDelegate {
+    
     func fullScreenRequested() {
-        // ignore, for now
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.editImageView.setDisplayMode(.full)
+            self.editImageView.updateImage()
+            self.setTouchMode(.gestures)
+        })
     }
     
     func splitScreenrequested() {
-        // ignore, for now
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.editImageView.setDisplayMode(.split)
+            self.editImageView.updateImage()
+            self.setTouchMode(.preview)
+        })
     }
     
     func showFiltersRequested() {
-        // ignore, for now
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.editImageView.setFilterMode(.preview)
+            self.editImageView.updateImage()
+        })
     }
     
     func showOriginalRequested() {
-        // ignore, for now
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.editImageView.setFilterMode(.original)
+            self.editImageView.updateImage()
+            self.setTouchMode(.gestures)
+        })
     }
+    
     
     func commitChanges(key: String) {
         // ignore

@@ -109,7 +109,8 @@ class EditImageDisplayView: UIView {
             self.backgroundColor = theme.backgroundColor
             
             //EditManager.reset()
-            self.currInput = ImageManager.getCurrentEditImage()
+            //self.currInput = ImageManager.getCurrentEditImage()
+            self.currInput = InputSource.getCurrentImage()
             EditManager.setInputImage(self.currInput)
 
             self.layoutDone = false
