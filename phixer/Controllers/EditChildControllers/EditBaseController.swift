@@ -28,7 +28,8 @@ class EditBaseController: UIViewController, EditChildControllerDelegate {
     
     // The Edit controls/options
     var mainView: UIView! = UIView()
-    
+    let menu:SimpleCarousel! = SimpleCarousel()
+
     
     var isLandscape : Bool = false
     var screenSize : CGRect = CGRect.zero
@@ -71,6 +72,17 @@ class EditBaseController: UIViewController, EditChildControllerDelegate {
         return []
     }
 
+    // go to the next filter, whatever that means for this controller. Note that this is a valid default implementation
+    func nextFilter(){
+        menu.nextItem()
+    }
+
+    // go to the previous filter, whatever that means for this controller. Note that this is a valid default implementation
+    func previousFilter(){
+        menu.previousItem()
+    }
+
+    
     ////////////////////
     // Everything below here is generic so subclasses can just inherit this functionality
     ////////////////////
@@ -175,7 +187,6 @@ class EditBaseController: UIViewController, EditChildControllerDelegate {
     
     func setupMenu(){
         // set up the menu of option
-        let menu = SimpleCarousel()
         menu.frame.size.height = mainView.frame.size.height * 0.7
         menu.frame.size.width = mainView.frame.size.width
         menu.setTitles(getTitleList())

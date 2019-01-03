@@ -1,5 +1,5 @@
 {
-    "version": { "id": 2.4, "overwrite": true },
+    "version": { "id": 2.4, "overwrite": false },
     
     "blends": [
         "067_by_candymax_stock.jpg",
@@ -312,8 +312,8 @@
         {"key": "CIVignetteEffect", "title": "Vignette Effect", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputCenter", "title": "Center", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypePosition"},
-                {"key": "inputRadius", "title": "Radius", "min": 0.0, "max":2000.0, "val": 150.0, "type": "CIAttributeTypeDistance"},
-                {"key": "inputIntensity", "title": "Intensity", "min": -1.0, "max":1.0, "val": 1.0, "type": "CIAttributeTypeScalar"},
+                {"key": "inputRadius", "title": "Radius", "min": 0.0, "max":6000.0, "val": 512.0, "type": "CIAttributeTypeDistance"},
+                {"key": "inputIntensity", "title": "Intensity", "min": -1.0, "max":1.0, "val": 0.5, "type": "CIAttributeTypeScalar"},
                 {"key": "inputFalloff", "title": "Falloff", "min": 0.0, "max":1.0, "val": 0.5, "type": "CIAttributeTypeScalar"}
             ]
         },
@@ -1140,6 +1140,14 @@
             "parameters":  [
                 {"key": "inputTemperature", "title": "Temperature", "min": 2000.0, "max":10000.0, "val": 6500.0, "type": "CIAttributeTypeScalar"},
                 {"key": "inputTint", "title": "Tint", "min": -100.0, "max":100.0, "val": 0.0, "type": "CIAttributeTypeScalar"}
+            ]
+        },
+        
+        {"key": "DehazeFilter", "title": "Dehaze", "ftype": "singleInput", "show": true, "rating": 0,
+            "parameters":  [
+                {"key": "inputColor", "title": "Color", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeColor"},
+                {"key": "inputDistance", "title": "Distance", "min": 0.0, "max":0.7, "val": 0.2, "type": "CIAttributeTypeScalar"},
+                {"key": "inputSlope", "title": "Slope", "min": -0.01, "max":0.01, "val": 0.0, "type": "CIAttributeTypeScalar"}
             ]
         },
 

@@ -388,7 +388,7 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
             imageSelectionView.isHidden = true
             setupAdornments()
         } else {
-            overlayView.isHidden = true
+            //overlayView.isHidden = true
             imageSelectionView.isHidden = false
             setupImageSelectionView()
         }
@@ -903,6 +903,22 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
 
 
 extension FilterDetailsViewController: FilterParametersViewDelegate {
+    func fullScreenRequested() {
+        // ignore, for now
+    }
+    
+    func splitScreenrequested() {
+        // ignore, for now
+    }
+    
+    func showFiltersRequested() {
+        // ignore, for now
+    }
+    
+    func showOriginalRequested() {
+        // ignore, for now
+    }
+    
     func commitChanges(key: String) {
         // ignore
     }

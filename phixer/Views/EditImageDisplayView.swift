@@ -18,6 +18,24 @@ class EditImageDisplayView: UIView {
     var theme = ThemeManager.currentTheme()
     
 
+    // enum that controls the display mode
+    public enum displayMode {
+        case full
+        case split
+    }
+    
+    // enum that controls the filtered mode
+    public enum filterMode {
+        case preview
+        case saved
+        case original
+    }
+    
+    fileprivate var currDisplayMode: displayMode = .full
+    fileprivate var currFilterMode: filterMode = .preview
+    
+    fileprivate var currSplitOffset:CGFloat = 0.0
+    fileprivate var currSplitPoint:CGPoint = CGPoint.zero
 
     fileprivate var renderView: MetalImageView? = MetalImageView()
     fileprivate var imageView: UIImageView! = UIImageView()
@@ -59,9 +77,13 @@ class EditImageDisplayView: UIView {
         self.currInput = InputSource.getCurrentImage() // this can change
         renderView?.frame = self.frame
         renderView?.image = self.currInput
-        renderView?.setImageSize(InputSource.getSize())
+        let imgSize = InputSource.getSize()
+        renderView?.setImageSize(imgSize)
         renderView?.frame = self.frame
         renderView?.backgroundColor = theme.backgroundColor
+        
+        self.currSplitPoint = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2) // middle of view
+        self.setSplitPosition(self.currSplitPoint)
         
         self.addSubview(renderView!)
         renderView?.fillSuperview()
@@ -105,8 +127,23 @@ class EditImageDisplayView: UIView {
     // MARK: - Accessors
     ///////////////////////////////////
     
-   
-    open func setFilter(key:String){
+    public func setDisplayMode(_ mode:displayMode){
+        self.currDisplayMode = mode
+        log.verbose("Display Mode: \(mode)")
+    }
+    
+    public func setFilterMode(_ mode:filterMode){
+        self.currFilterMode = mode
+        log.verbose("Filter Mode: \(mode)")
+    }
+
+    
+    public func setSplitPosition(_ position:CGPoint){
+        self.currSplitOffset = self.offsetFromPosition(position)
+        log.verbose("position: \(position) offset:\(self.currSplitOffset)")
+    }
+
+    public func setFilter(key:String){
         //currFilterKey = filterManager.getSelectedFilter()
         if (!key.isEmpty){
             currFilterKey = key
@@ -134,7 +171,7 @@ class EditImageDisplayView: UIView {
     
     open func update(){
         if (layoutDone) {
-            log.verbose("update requested")
+            //log.verbose("update requested")
             DispatchQueue.main.async(execute: { () -> Void in
                 self.runFilter()
             })
@@ -151,9 +188,9 @@ class EditImageDisplayView: UIView {
     
     open func updateImage(){
         DispatchQueue.main.async(execute: { () -> Void in
-            log.verbose("Updating edit image")
+            //log.verbose("Updating edit image")
             EditManager.setInputImage(InputSource.getCurrentImage())
-            self.currInput = EditManager.outputImage
+            self.currInput = EditManager.previewImage
             if self.currInput == nil {
                 log.warning("Edit image not set, using Sample")
                 self.currInput = ImageManager.getCurrentSampleInput() // no edit image set, so make sure there is something
@@ -165,7 +202,7 @@ class EditImageDisplayView: UIView {
     
    
     ///////////////////////////////////
-    // MARK: pipeline setup
+    // MARK: filter execution
     ///////////////////////////////////
     
     // Sets up the filter pipeline. Call when filter, orientation or camera changes
@@ -173,7 +210,20 @@ class EditImageDisplayView: UIView {
         
         if !self.currFilterKey.isEmpty && layoutDone {
             DispatchQueue.main.async(execute: { () -> Void in
-                self.renderView?.image = EditManager.outputImage
+                if self.currDisplayMode == .full {
+                    switch self.currFilterMode {
+                    case .preview:
+                        self.renderView?.image = EditManager.getPreviewImage()
+                    case .saved:
+                        self.renderView?.image = EditManager.getFilteredImage()
+                    case .original:
+                        self.renderView?.image = EditManager.getOriginalImage()
+                    default:
+                        log.error("Uknown mode")
+                    }
+                } else {
+                    self.renderView?.image = EditManager.getSplitPreviewImage(offset: self.currSplitOffset)
+                }
             })
         }
     }
@@ -188,6 +238,28 @@ class EditImageDisplayView: UIView {
     // MARK: - Utilities
     ///////////////////////////////////
     
-    
+    // convert the view-based position into an offset in image space, adjusted for rotation
+    public func offsetFromPosition(_ position:CGPoint) -> CGFloat {
+        var offset:CGFloat
+        
+        // get the position in image coordinates
+        let imgOffset = renderView?.getImagePosition(viewPos: position).cgPointValue
+        
+        // adjust based on the image orientation. This assumes landscape images are rotated
+        let imgSize = InputSource.getSize()
+        
+        if imgOffset != nil {
+            if imgSize.height > imgSize.width { // portrait
+                offset = (imgOffset?.x)!
+            } else { // landscape
+                offset = (imgOffset?.y)!
+            }
+        } else {
+            // error, put offset in the middle of the image
+            offset = min (imgSize.width, imgSize.height) / 2
+        }
+
+        return offset
+    }
     
 }

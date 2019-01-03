@@ -1,5 +1,5 @@
 //
-//  SmoothThresholdFilter.swift
+//  LumaRangeFilter.swift
 //  phixer
 //
 //  Created by Philip Price on 10/25/18.
@@ -73,7 +73,7 @@ class LumaRangeFilter: CIFilter {
         case "inputImage":
             inputImage = value as? CIImage
         case "inputLower":
-            inputUpper = value as! CGFloat
+            inputLower = value as! CGFloat
         case "inputUpper":
             inputUpper = value as! CGFloat
         default:

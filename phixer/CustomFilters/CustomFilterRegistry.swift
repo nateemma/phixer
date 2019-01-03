@@ -23,7 +23,7 @@ class CustomFiltersRegistry: NSObject, CIFilterConstructor {
                                               "WhiteBalanceFilter",
                                               "Style_Scream", "Style_Candy", "Style_Mosaic", "Style_Udnie", "Style_LaMuse", "Style_Feathers" ]
     
-    private static let colorFilters:[String] = ["SmoothThresholdFilter", "AdaptiveThresholdFilter", "LumaRangeFilter"]
+    private static let colorFilters:[String] = ["SmoothThresholdFilter", "AdaptiveThresholdFilter", "LumaRangeFilter", "DehazeFilter"]
     
     // this function registers all of the custom filters with the CIFilter framework
     static func registerFilters()  {

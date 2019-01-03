@@ -47,6 +47,10 @@ class SimpleCarousel: UIView {
     fileprivate var displayHeight : CGFloat = 0.0
 
     
+    ////////////////////////////////////////////
+    //MARK: Accessors
+    ////////////////////////////////////////////
+
     public func setTitles(_ titles:[String]) {
         itemTitleList = titles
         log.verbose("titles:\(titles)")
@@ -60,7 +64,39 @@ class SimpleCarousel: UIView {
         itemIconList = icons
     }
 
+    public func nextItem(){
+        var index:Int = 0
+        
+        if itemTitleList.count > 0 {
+            if isValidIndex(currIndex) {
+                index = (currIndex < (itemTitleList.count-1)) ? (currIndex + 1) : 0
+            } else {
+                index = 0
+            }
+            self.selectItem(index)
+       } else {
+            log.error("No items in list")
+        }
+    }
     
+    public func previousItem(){
+        var index:Int = 0
+        
+        if itemTitleList.count > 0 {
+            if isValidIndex(currIndex) {
+                index = (currIndex > 0) ? (currIndex - 1) : (itemTitleList.count - 1)
+            } else {
+                index = 0
+            }
+            self.selectItem(index)
+        } else {
+            log.error("No items in list")
+        }
+    }
+    
+    ////////////////////////////////////////////
+    //MARK: Layout
+    ////////////////////////////////////////////
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -188,7 +224,12 @@ class SimpleCarousel: UIView {
         //carousel?.centerItemWhenSelected = true
     }
     
-   
+    
+    ////////////////////////////////////////////
+    //MARK: Utilities
+    ////////////////////////////////////////////
+    
+
     
     // convenience function to check the index
     func isValidIndex(_ index:Int)->Bool{
@@ -235,7 +276,7 @@ class SimpleCarousel: UIView {
         }
     }
     
-    
+    // call the handler associtaed with the item
     func handleOption(_ index:Int){
         guard (self.isValidIndex(index)) else {
             log.error("Invalid index: \(index)")
@@ -249,6 +290,21 @@ class SimpleCarousel: UIView {
         } else {
             log.error("Handler not set up for: \(itemTitleList[index])")
         }
+    }
+    
+    // select an item in the carousel. Can be called manually or by touching the screen
+    func selectItem(_ index:Int){
+        guard (self.isValidIndex(index)) else {
+            log.error("Invalid index: \(index)")
+            return
+        }
+        
+        self.highlightSelection(carousel!, index: index)
+        
+        //log.debug("Selected index:\(index)")
+        self.currIndex = index
+        self.handleOption(index)
+
     }
     
 }
@@ -310,11 +366,7 @@ extension SimpleCarousel: iCarouselDataSource{
     
     // called when an item is selected manually (i.e. touched).
     func carousel(_ carousel: iCarousel, didSelectItemAt index: Int) {
-        self.highlightSelection(carousel, index: index)
-        
-        //log.debug("Selected index:\(index)")
-        self.currIndex = index
-        self.handleOption(index)
+        self.selectItem(index)
     }
     
     /*** only uncomment if you want to auto choose an item when scrolling ends

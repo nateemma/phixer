@@ -73,6 +73,17 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     // child view controller
     var optionsController: EditMainOptionsController? = nil
     
+    // vars related to gestures/touches
+    enum touchMode {
+        case none
+        case gestures
+        case filter
+        case preview
+    }
+    
+    var currTouchMode:touchMode = .gestures
+    
+    
     
     
     convenience init(){
@@ -105,6 +116,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
             editImageView.setFilter(key: "NoFilter")
             SimpleEditViewController.initDone = true
             updateCurrentFilter()
+            currTouchMode = .gestures
         }
     }
     
@@ -155,39 +167,16 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
 
         editImageView.frame.size.width = displayWidth
         editImageView.frame.size.height = displayHeight - bannerView.frame.size.height - CGFloat(editControlHeight)
-        
-        /***
-        editControlsView.frame.size.height = CGFloat(editControlHeight)
-        editControlsView.frame.size.width = displayWidth
-
-        filterControlsView.frame.size.height = bannerHeight * 0.5
-        filterControlsView.frame.size.width = displayWidth
-        
-        filterSelectionView.frame.size.height = 1.7 * bannerHeight
-        filterSelectionView.frame.size.width = displayWidth
-        
-        categorySelectionView.frame.size.height = 1.7 * bannerHeight
-        categorySelectionView.frame.size.width = displayWidth
-         ***/
 
         filterParametersView.frame.size.width = displayWidth
         filterParametersView.frame.size.height = bannerHeight // will be adjusted based on selected filter
  
         // Note: need to add subviews before modifying constraints
         view.addSubview(bannerView)
-        //view.addSubview(filterInfoView)
         view.addSubview(editImageView)
         view.addSubview(imageSelectionView)
         view.addSubview(filterParametersView)
 
-        /***
-       view.addSubview(editControlsView)
- 
-       // hidden views:
-         view.addSubview(filterSelectionView)
-        view.addSubview(filterControlsView) // must come after editImageView
-        view.addSubview(categorySelectionView)
-         ***/
 
         hideModalViews()
 
@@ -228,22 +217,13 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         // add delegates to sub-views (for callbacks)
         imageSelectionView.delegate = self
         imagePicker.delegate = self
-/***
-        editControlsView.delegate = self
-        filterControlsView.delegate = self
-        filterSelectionView.delegate = self
-        categorySelectionView.delegate = self
-***/
-        
         
         // set gesture detection for the edit display view
         setGestureDetectors(view: editImageView)
+        currTouchMode = .gestures
         
         // listen to key press events
         setVolumeListener()
-        
-        //update filtered image
-        editImageView.updateImage()
         
     }
     
@@ -317,7 +297,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     func layoutBanner(){
         bannerView.frame.size.height = bannerHeight * 0.75
         bannerView.frame.size.width = displayWidth
-        bannerView.title = "\'Simple\' Photo Editor"
+        bannerView.title = "Edit Photo"
         bannerView.delegate = self
     }
     
@@ -398,6 +378,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         gesturesEnabled = true
         editImageView.isUserInteractionEnabled = true
         filterParametersView.isHidden = false
+        currTouchMode = .gestures
     }
     
     func disableGestureDetection(){
@@ -415,7 +396,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         swipeUp.direction = .up
         view.addGestureRecognizer(swipeUp)
         
-        /***
+
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.swiped))
         swipeRight.direction = .right
         view.addGestureRecognizer(swipeRight)
@@ -423,24 +404,26 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.swiped))
         swipeLeft.direction = .left
         view.addGestureRecognizer(swipeLeft)
-         ***/
+        
+        // TODO: zoom/pan gestures
+
     }
     
     
-    @objc func swiped(_ gesture: UIGestureRecognizer)
-    {
-        if gesturesEnabled {
+    @objc func swiped(_ gesture: UIGestureRecognizer) {
+        // if gesturesEnabled {
+        if currTouchMode == .gestures {
             if let swipeGesture = gesture as? UISwipeGestureRecognizer {
                 switch swipeGesture.direction {
                     
                 case UISwipeGestureRecognizerDirection.right:
-                    //log.verbose("Swiped Right")
-                    //previousFilter()
+                    log.verbose("Swiped Right")
+                    previousFilter()
                     break
                     
                 case UISwipeGestureRecognizerDirection.left:
-                    //log.verbose("Swiped Left")
-                    //nextFilter()
+                    log.verbose("Swiped Left")
+                    nextFilter()
                     break
                     
                 case UISwipeGestureRecognizerDirection.up:
@@ -457,9 +440,19 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
                     log.debug("Unhandled gesture direction: \(swipeGesture.direction)")
                     break
                 }
+            } else {
+                // still allow up/down
+                if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+                    if swipeGesture.direction == UISwipeGestureRecognizerDirection.up {
+                        showFilterSettings()
+                    } else if swipeGesture.direction == UISwipeGestureRecognizerDirection.down {
+                        hideFilterSettings()
+                    }
+                }
             }
         }
     }
+
     
     
     //////////////////////////////////////
@@ -499,6 +492,14 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     //////////////////////////////////////
     // MARK: - Filter Management
     //////////////////////////////////////
+    
+    func previousFilter(){
+        optionsController?.previousFilter()
+    }
+    
+    func nextFilter(){
+        optionsController?.nextFilter()
+    }
     
     
     func changeFilterTo(_ key:String){
@@ -636,46 +637,64 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     
     var touchKey:String = ""
     
+    func setTouchMode(_ mode:touchMode){
+        self.currTouchMode = mode
+        if self.currTouchMode == .gestures {
+            enableGestureDetection()
+        } else {
+            disableGestureDetection()
+        }
+    }
+    
+    
     func handlePositionRequest(key:String){
         if !key.isEmpty{
             log.verbose("Position Request for parameter: \(key)")
             disableGestureDetection()
             touchKey = key
+            setTouchMode(.filter)
         }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if !touchKey.isEmpty{
-            if let touch = touches.first {
-                let position = touch.location(in: editImageView)
-                let imgPos = editImageView.getImagePosition(viewPos:position)
+        if let touch = touches.first {
+            let position = touch.location(in: editImageView)
+            let imgPos = editImageView.getImagePosition(viewPos:position)
+            if currTouchMode == .filter {
                 currFilterDescriptor?.setPositionParameter(touchKey, position:imgPos!)
-                editImageView.runFilter()
+            } else if currTouchMode == .preview {
+                editImageView.setSplitPosition(position)
             }
+            editImageView.runFilter()
         }
     }
     
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if !touchKey.isEmpty{
-            if let touch = touches.first {
-                let position = touch.location(in: editImageView)
-                let imgPos = editImageView.getImagePosition(viewPos:position)
+        if let touch = touches.first {
+            let position = touch.location(in: editImageView)
+            let imgPos = editImageView.getImagePosition(viewPos:position)
+            if currTouchMode == .filter {
                 currFilterDescriptor?.setPositionParameter(touchKey, position:imgPos!)
-                editImageView.runFilter()
+            } else if currTouchMode == .preview {
+                editImageView.setSplitPosition(position)
             }
+            editImageView.runFilter()
         }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if !touchKey.isEmpty{
-            if let touch = touches.first {
-                let position = touch.location(in: editImageView)
-                let imgPos = editImageView.getImagePosition(viewPos:position)
+        if let touch = touches.first {
+            let position = touch.location(in: editImageView)
+            let imgPos = editImageView.getImagePosition(viewPos:position)
+            if currTouchMode == .filter {
                 currFilterDescriptor?.setPositionParameter(touchKey, position:imgPos!)
-                //log.verbose("Touches ended. Final pos:\(position) vec:\(imgPos)")
-                editImageView.runFilter()
+            } else if currTouchMode == .preview {
+                editImageView.setSplitPosition(position)
             }
+            //log.verbose("Touches ended. Final pos:\(position) vec:\(imgPos)")
+            editImageView.runFilter()
+            
             touchKey = ""
         }
         
@@ -749,12 +768,11 @@ extension SimpleEditViewController: ImageSelectionViewDelegate {
 
 extension SimpleEditViewController: GalleryViewControllerDelegate {
     func galleryCompleted() {
+        log.verbose("Returned from gallery")
         DispatchQueue.main.async(execute: { () -> Void in
             self.imageSelectionView.update()
-            self.imageSelectionView.update()
-            log.verbose("Returned from gallery")
+            self.editImageView.updateImage()
         })
-
     }
     
     func gallerySelection(key: String) {
@@ -763,6 +781,7 @@ extension SimpleEditViewController: GalleryViewControllerDelegate {
         self.showFilterSettings()
     }
 }
+
 
 extension SimpleEditViewController: EditChildControllerDelegate {
     func editFilterSelected(key: String) {
@@ -789,11 +808,12 @@ extension SimpleEditViewController: EditChildControllerDelegate {
 
 
 extension SimpleEditViewController: FilterParametersViewDelegate {
+
     func commitChanges(key: String) {
         // make the change permanent
         DispatchQueue.main.async(execute: { () -> Void in
-        EditManager.savePreviewFilter()
-        self.optionsController!.view.isHidden = false
+            EditManager.savePreviewFilter()
+            self.optionsController!.view.isHidden = false
         })
     }
     
@@ -809,14 +829,47 @@ extension SimpleEditViewController: FilterParametersViewDelegate {
     
     
     func settingsChanged(){
-        log.debug("Filter settings changed")
-            self.editImageView.updateImage()
+        //log.debug("Filter settings changed")
+        self.editImageView.updateImage()
     }
     
     func positionRequested(key: String) {
         DispatchQueue.main.async(execute: { () -> Void in
+            self.setTouchMode(.filter)
             self.handlePositionRequest(key:key)
         })
     }
+    
+    func fullScreenRequested() {
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.editImageView.setDisplayMode(.full)
+            self.editImageView.updateImage()
+            self.setTouchMode(.gestures)
+        })
+    }
+    
+    func splitScreenrequested() {
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.editImageView.setDisplayMode(.split)
+            self.editImageView.updateImage()
+            self.setTouchMode(.preview)
+        })
+    }
+    
+    func showFiltersRequested() {
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.editImageView.setFilterMode(.preview)
+            self.editImageView.updateImage()
+        })
+    }
+    
+    func showOriginalRequested() {
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.editImageView.setFilterMode(.original)
+            self.editImageView.updateImage()
+            self.setTouchMode(.gestures)
+        })
+    }
+    
 }
 

@@ -685,6 +685,9 @@
 		2537A1BD21D28E5600060DBE /* SaturationFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A1BC21D28E5600060DBE /* SaturationFilter.swift */; };
 		2537A1BF21D28F6E00060DBE /* BrightnessFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A1BE21D28F6E00060DBE /* BrightnessFilter.swift */; };
 		2537A1C121D31F4B00060DBE /* WhiteBalanceFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A1C021D31F4B00060DBE /* WhiteBalanceFilter.swift */; };
+		2537A1C321D4622900060DBE /* DehazeFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A1C221D4622900060DBE /* DehazeFilter.swift */; };
+		2537A1C521DC26D400060DBE /* AdornmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A1C421DC26D400060DBE /* AdornmentView.swift */; };
+		2537A1C721DC27BC00060DBE /* Adornment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A1C621DC27BC00060DBE /* Adornment.swift */; };
 		253A39E21DDA965E00A714D4 /* SampleGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253A39E11DDA965E00A714D4 /* SampleGalleryViewController.swift */; };
 		253A39E41DDA979400A714D4 /* SampleGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253A39E31DDA979400A714D4 /* SampleGalleryView.swift */; };
 		253B235B1DA2CFD400203ECB /* SegueHandlerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253B235A1DA2CFD400203ECB /* SegueHandlerType.swift */; };
@@ -1545,6 +1548,9 @@
 		2537A1BC21D28E5600060DBE /* SaturationFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaturationFilter.swift; sourceTree = "<group>"; };
 		2537A1BE21D28F6E00060DBE /* BrightnessFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrightnessFilter.swift; sourceTree = "<group>"; };
 		2537A1C021D31F4B00060DBE /* WhiteBalanceFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhiteBalanceFilter.swift; sourceTree = "<group>"; };
+		2537A1C221D4622900060DBE /* DehazeFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DehazeFilter.swift; sourceTree = "<group>"; };
+		2537A1C421DC26D400060DBE /* AdornmentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AdornmentView.swift; path = Views/AdornmentView.swift; sourceTree = "<group>"; };
+		2537A1C621DC27BC00060DBE /* Adornment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Adornment.swift; path = Views/Adornment.swift; sourceTree = "<group>"; };
 		253A39E11DDA965E00A714D4 /* SampleGalleryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleGalleryViewController.swift; sourceTree = "<group>"; };
 		253A39E31DDA979400A714D4 /* SampleGalleryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SampleGalleryView.swift; path = Views/SampleGalleryView.swift; sourceTree = "<group>"; };
 		253B235A1DA2CFD400203ECB /* SegueHandlerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SegueHandlerType.swift; path = Controllers/SegueHandlerType.swift; sourceTree = "<group>"; };
@@ -1782,6 +1788,7 @@
 				252745E82180FDF600AA2DA2 /* CustomFilterRegistry.swift */,
 				252745F02182295100AA2DA2 /* EdgeGlowFilter.swift */,
 				2515987D2193CD490067AA00 /* LumaRangeFilter.swift */,
+				2537A1C221D4622900060DBE /* DehazeFilter.swift */,
 				25172963217A1C6E00D5E946 /* Opacity.swift */,
 				252745E62180E8FD00AA2DA2 /* OpacityFilter.swift */,
 				2537A1BC21D28E5600060DBE /* SaturationFilter.swift */,
@@ -1879,6 +1886,9 @@
 		256D0FEC1D98DAC600220D7E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2537A1C621DC27BC00060DBE /* Adornment.swift */,
+				2537A1C421DC26D400060DBE /* AdornmentView.swift */,
+				2568BDE521C861A200560287 /* BasicAdjustmentsPanel.swift */,
 				25934FB01DD4EC1100C3D665 /* BlendGalleryView.swift */,
 				252745F62182A1D500AA2DA2 /* BorderedButton.swift */,
 				25CF4BCF1D9490C400D779CF /* CameraControlsView.swift */,
@@ -1888,7 +1898,6 @@
 				252745F82182AAF900AA2DA2 /* ColorSchemeView.swift */,
 				255591E42187A1A9001B4452 /* ColorWheelView.swift */,
 				2568BCCE21AC72CA00560287 /* EditControlsView.swift */,
-				2568BDE521C861A200560287 /* BasicAdjustmentsPanel.swift */,
 				2542DF5C1ED373F800CEB968 /* EditImageDisplayView.swift */,
 				255673221DB9BF0F00187F25 /* FilterControlsView.swift */,
 				25A702941DC2FE3C009441E2 /* FilterDisplayView.swift */,
@@ -1912,12 +1921,12 @@
 				25910B1A1DB7D61A007EC926 /* RenderContainerView.swift */,
 				252745FC21851C6300AA2DA2 /* RGBSliderView.swift */,
 				253A39E31DDA979400A714D4 /* SampleGalleryView.swift */,
+				25F85CE521C9650F005498C4 /* SimpleCarousel.swift */,
 				25CF4BD41D9490C400D779CF /* SquareButton.swift */,
 				2568BDD021BB3ECD00560287 /* StyleTransferGalleryView.swift */,
 				2568BDD221BB3F2800560287 /* StyleTransferGalleryViewCell.swift */,
 				258F09B6218E67910082FE2A /* TimedAlertView.swift */,
 				251729AA217BE7A300D5E946 /* TitleView.swift */,
-				25F85CE521C9650F005498C4 /* SimpleCarousel.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -3820,6 +3829,7 @@
 				2573D1D8217CDCB500E78CAB /* YUCIFilterConstructor.m in Sources */,
 				258F099D218CBFC30082FE2A /* FNS-Feathers.mlmodel in Sources */,
 				252746042187653500AA2DA2 /* UIColor+Extensions.swift in Sources */,
+				2537A1C721DC27BC00060DBE /* Adornment.swift in Sources */,
 				257F49E21D9448920083B1E4 /* MainViewController.swift in Sources */,
 				2537A1C121D31F4B00060DBE /* WhiteBalanceFilter.swift in Sources */,
 				2573D1E5217CDCB500E78CAB /* YUCIReflectedTile.m in Sources */,
@@ -3854,6 +3864,7 @@
 				25A702951DC2FE3C009441E2 /* FilterDisplayView.swift in Sources */,
 				2573D1E8217CDCB500E78CAB /* YUCIFilterUtilities.m in Sources */,
 				2517295E2177FC2400D5E946 /* MuliticastDelegate.swift in Sources */,
+				2537A1C321D4622900060DBE /* DehazeFilter.swift in Sources */,
 				258F09B5218E4BDC0082FE2A /* Style_Mosaic.swift in Sources */,
 				2542DF651ED6634800CEB968 /* SettingsEntity+CoreDataProperties.swift in Sources */,
 				258F09B7218E67910082FE2A /* TimedAlertView.swift in Sources */,
@@ -3891,6 +3902,7 @@
 				25F4601A1D99CE1E00EDA182 /* GridStyle.swift in Sources */,
 				253B236C1DA44E3600203ECB /* FilterDescriptor.swift in Sources */,
 				253F54CD1DF24702007CCDEF /* FilterLibrary.swift in Sources */,
+				2537A1C521DC26D400060DBE /* AdornmentView.swift in Sources */,
 				255844EE1E03598B009440CA /* FilterFactory.swift in Sources */,
 				253B23791DA5782300203ECB /* FilterManager.swift in Sources */,
 				252745FD21851C6300AA2DA2 /* RGBSliderView.swift in Sources */,

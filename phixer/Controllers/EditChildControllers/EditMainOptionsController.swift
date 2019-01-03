@@ -39,7 +39,7 @@ class EditMainOptionsController: UIViewController, EditChildControllerDelegate {
     let buttonSize : CGFloat = 32.0
     let editControlHeight: CGFloat = 96.0
     
-    var childController:UIViewController? = nil
+    var childController:EditBaseController? = nil
     
     
     // the list of controls (not sorted, so put in the order you want displayed)
@@ -109,6 +109,18 @@ class EditMainOptionsController: UIViewController, EditChildControllerDelegate {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    //////////////////////////////////////
+    // MARK: - Accessors
+    //////////////////////////////////////
+    
+    public func nextFilter(){
+        self.childController?.nextFilter()
+    }
+    
+    public func previousFilter(){
+        self.childController?.previousFilter()
+    }
     
     //////////////////////////////////////
     // MARK: - Sub-View layout

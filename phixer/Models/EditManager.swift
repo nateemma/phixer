@@ -13,8 +13,9 @@ import CoreImage
 class EditManager {
     
     public static var inputImage:CIImage? { return EditManager._input }
-    public static var outputImage:CIImage? { return applyAllFilters(EditManager._input) }
-    
+    public static var previewImage:CIImage? { return applyAllFilters(EditManager._input) }
+    public static var filteredImage:CIImage? { return applySavedFilters(EditManager._input) }
+
     private static var _input:CIImage? = nil
 
     private static var filterList:[FilterDescriptor?] = []
@@ -33,11 +34,39 @@ class EditManager {
         EditManager._input = image
     }
     
-    // get the filtered version of the input image
-    public static func getOutputImage() -> CIImage? {
-        return EditManager.outputImage
+    // get the filtered version of the input image, including the preview filter
+    public static func getPreviewImage() -> CIImage? {
+        return EditManager.previewImage
     }
     
+    // get the filtered version of the input image, without the preview image
+    public static func getFilteredImage() -> CIImage? {
+        return EditManager.filteredImage
+    }
+    
+    
+    // get a 'split preview' image, with the preview filtered image on the left and the filtered image (sans preview) on the right
+    // Note that x is specifed in image coordinates, not screen/view coordinates
+    public static func getSplitPreviewImage(offset:CGFloat) -> CIImage? {
+        let leftImage:CIImage? = getPreviewImage()
+        let rightImage:CIImage? = getFilteredImage()
+        let maskImage:CIImage? = createPreviewMask(size: EditManager._input!.extent.size, offset: offset)
+        
+        if (leftImage != nil) && (rightImage != nil) && (maskImage != nil) {
+            return leftImage?.applyingFilter("CIBlendWithMask", parameters: [kCIInputBackgroundImageKey:rightImage!, "inputMaskImage":maskImage!])
+        } else {
+            log.error("Nil image")
+            return nil
+        }
+    }
+
+    
+    // get the original (input) image
+    public static func getOriginalImage() -> CIImage? {
+        return EditManager._input
+    }
+    
+
     // add a filter to the list
     public static func addFilter(_ filter:FilterDescriptor?){
         guard filter != nil else {
@@ -48,6 +77,7 @@ class EditManager {
         FilterManager.lockFilter(key:(filter?.key)!)
         log.debug("Added filter:\(String(describing: filter?.title))")
     }
+    
     
     // removes the last filter in the list
     public static func popFilter() {
@@ -66,6 +96,7 @@ class EditManager {
         }
     }
     
+    
     // add a Preview Filter, which is displayed in the output, but not saved to the filter list
     // NIL is OK, it just removes the preview filter
     public static func addPreviewFilter(_ filter:FilterDescriptor?){
@@ -79,6 +110,7 @@ class EditManager {
        log.debug("Added Preview filter:\(String(describing: filter?.title))")
     }
 
+    
     // add the previewed filter to the list (i.e. make it permanent)
     public static func savePreviewFilter(){
         EditManager.addFilter(previewFilter)
@@ -87,9 +119,9 @@ class EditManager {
     }
 
     
-    // apply all filters to the supplied image
+    // apply all filters in the list to the supplied image, excluding the preview image
     // Done this way so that you can call using any image, not just the static (shared) input image
-    public static func applyAllFilters(_ image:CIImage?) -> CIImage?{
+    public static func applySavedFilters(_ image:CIImage?) -> CIImage?{
         
         guard image != nil else {
             log.warning("NIL image supplied")
@@ -102,16 +134,111 @@ class EditManager {
         // apply the list of filters
         if filterList.count > 0 {
             for f in filterList {
-                outImage = f?.apply(image: tmpImage)
-                tmpImage = outImage
+                tmpImage = f?.apply(image: outImage)
+                outImage = tmpImage
             }
         }
         
+        return outImage
+    }
+
+    
+    // apply all filters to the supplied image, including the preview image
+    // Done this way so that you can call using any image, not just the static (shared) input image
+    public static func applyAllFilters(_ image:CIImage?) -> CIImage?{
+        
+        guard image != nil else {
+            log.warning("NIL image supplied")
+            return nil
+        }
+        
+        var outImage:CIImage? = applySavedFilters(image)
+        
+        
         // apply the preview filter, if specified
         if previewFilter != nil {
+            let tmpImage:CIImage? = outImage
             outImage = previewFilter?.apply(image: tmpImage)
         }
-
+        
         return outImage
+    }
+    
+
+    // creates a preview mask based on the supplied size usingthe supplied offset
+    private static func createPreviewMask(size: CGSize, offset: CGFloat) -> CIImage? {
+        var img:CIImage? = nil
+        
+        // OK, so we want the split to oriented along the longest side
+        // This is a bit of a hack since we are assuming that landscape photos are rotated
+        
+        var leftRect:CGRect
+        var rightRect:CGRect
+        
+        if size.height > size.width { // portrait
+            leftRect = CGRect(x: 0, y: 0, width: offset, height: size.height)
+            rightRect = CGRect(x: offset+1, y: 0, width: (size.width - offset), height: size.height)
+        } else { // landscape or square
+            leftRect = CGRect(x: 0, y: 0, width: size.width, height: offset)
+            rightRect = CGRect(x: 0, y: offset+1, width: size.width, height: (size.height-offset))
+        }
+        
+        let colorspace = CGColorSpaceCreateDeviceRGB()
+        let bitmapinfo =  CGImageAlphaInfo.premultipliedLast.rawValue
+        
+        //let bitmapInfo = CGImageAlphaInfo.last.rawValue
+        //let bitmapInfo = CGImageAlphaInfo.premultipliedLast.rawValue
+        
+        let context = CGContext(data: nil,
+                                width: Int(size.width),
+                                height: Int(size.height),
+                                bitsPerComponent: Int(8),
+                                bytesPerRow: Int(0),
+                                space: colorspace,
+                                bitmapInfo:  bitmapinfo)
+
+        guard context != nil else {
+            log.error("Could not create CG context")
+            return nil
+        }
+        
+        // draw the left rectangle in black and the right in white
+        context?.interpolationQuality = .low
+        
+        // left
+        let black = CGColor(colorSpace: colorspace, components: [0, 0, 0, 1])
+        guard (black != nil) else {
+            log.error("Could not create black")
+            return nil
+        }
+        context?.setFillColor(black!)
+        //context?.addRect(leftRect)
+        //context?.drawPath(using: CGPathDrawingMode.fill)
+        context?.fill(leftRect)
+        
+        // right
+        let white = CGColor(colorSpace: colorspace, components: [1, 1, 1, 1])
+        guard (black != nil) else {
+            log.error("Could not create white")
+            return nil
+        }
+        context?.setFillColor(white!)
+        //context?.addRect(rightRect)
+        //context?.drawPath(using: CGPathDrawingMode.fill)
+        context?.fill(rightRect)
+
+        // create the CGImage
+        let cgImage = context!.makeImage()
+        
+        guard cgImage != nil else {
+            log.error("Could not create CGImage")
+            return nil
+        }
+        
+        //log.debug("left:\(leftRect) right:\(rightRect)")
+        
+        // create the CIImage
+        img = CIImage(cgImage: cgImage!)
+        return img
     }
 }

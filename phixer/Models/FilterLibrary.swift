@@ -227,6 +227,7 @@ class FilterLibrary{
                             ptype = attributeToParameterType(p["type"].stringValue)
                             psettings.append(FilterDescriptor.ParameterSettings(key: pkey, title: ptitle, min: pmin, max: pmax, value: pval, type: ptype))
                         }
+
                         addFilter(key:key, title:title, ftype:ftype, hide:hide, rating:rating, settings: psettings)
                     }
                     print ("\(count) Filters found")

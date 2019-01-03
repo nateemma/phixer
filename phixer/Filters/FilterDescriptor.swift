@@ -174,10 +174,12 @@ class  FilterDescriptor {
                 default_image = InputSource.getCurrentImage()
                 if UIScreen.main.bounds.width > 1.0 {
                     default_rect = CIVector(cgRect: UIScreen.main.bounds)
-                    default_position = CIVector(cgPoint: CGPoint(x: UIScreen.main.bounds.width/2, y: UIScreen.main.bounds.height/2))
+                    //default_position = CIVector(cgPoint: CGPoint(x: UIScreen.main.bounds.width/2, y: UIScreen.main.bounds.height/2))
+                    default_position = CIVector(cgPoint: CGPoint(x: 0, y: 0))
                 } else {
                     default_rect = CIVector(cgRect: CGRect(x: 0, y: 0, width: 256, height: 256))
-                    default_position = CIVector(cgPoint: CGPoint(x: 256, y: 256))
+                    //default_position = CIVector(cgPoint: CGPoint(x: 256, y: 256))
+                    default_position = CIVector(cgPoint: CGPoint(x: 0, y: 0))
                 }
                 //log.verbose("default pos:\(default_position)")
             }
@@ -348,7 +350,7 @@ class  FilterDescriptor {
                 if ((self.filter?.inputKeys.contains(p.key))!) {
                     self.filter?.setValue(color, forKey: key)
                 } else {
-                    log.error("Invalid parameter:(\(p.key)) for filter:(\(key)")
+                    log.error("Invalid parameter:(\(p.key)) for filter:(\(self.key))")
                 }
             } else {
                 log.error("Parameter (\(key) is not a Color")

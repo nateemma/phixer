@@ -37,20 +37,21 @@ class EditBasicAdjustmentsController: EditBaseController {
 
     // returns the list of titles for each item
     override func getTitleList() -> [String] {
-        return [ "White Balance", "Exposure", "Brightness", "Contrast", "Highlights & Shadows", "Clarity", "Dehaze", "Vibrance", "Saturation" ]
+        return [ "Exposure", "Brightness", "Contrast", "Highlights & Shadows", "White Balance", "Dehaze", "Vibrance", "Saturation", "Vignette" ]
     }
     
     // returns the list of handlers for each item
     override func getHandlerList() -> [()->()] {
-        return [wbHandler, exposureHandler, brightnessHandler, contrastHandler, highlightHandler, clarityHandler, dehazeHandler, vibranceHandler, saturationHandler]
+        return [exposureHandler, brightnessHandler, contrastHandler, highlightHandler, wbHandler, dehazeHandler, vibranceHandler, saturationHandler, vignetteHandler]
     }
     
     // returns the list of icons for each item - can be empty or contan empty ("") items
     override func getIconList() -> [String] {
-        return[ "ic_wb", "ic_exposure", "ic_brightness", "ic_contrast", "ic_highlights", "ic_clarity", "ic_dehaze", "ic_vibrance", "ic_saturation" ]
+        return[ "ic_exposure", "ic_brightness", "ic_contrast", "ic_highlights", "ic_wb", "ic_dehaze", "ic_vibrance", "ic_saturation", "ic_vignette" ]
     }
     
     
+
     //////////////////////////////////////////
     // MARK: - Handlers for the menu items
     //////////////////////////////////////////
@@ -75,12 +76,12 @@ class EditBasicAdjustmentsController: EditBaseController {
         self.delegate?.editFilterSelected(key: "CIHighlightShadowAdjust")
     }
     
-    func clarityHandler(){
-        self.delegate?.editFilterSelected(key: "ClarityFilter")
+    func vignetteHandler(){
+        self.delegate?.editFilterSelected(key: "CIVignetteEffect")
     }
     
     func dehazeHandler(){
-        notYetImplemented()
+        self.delegate?.editFilterSelected(key: "DehazeFilter")
     }
     
     func vibranceHandler(){
