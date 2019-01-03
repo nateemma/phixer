@@ -375,16 +375,20 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     var gesturesEnabled:Bool = true
     
     func enableGestureDetection(){
-        gesturesEnabled = true
-        editImageView.isUserInteractionEnabled = true
-        filterParametersView.isHidden = false
-        setTouchMode(.gestures)
+        if !gesturesEnabled {
+            gesturesEnabled = true
+            editImageView.isUserInteractionEnabled = true
+            filterParametersView.isHidden = false
+            setTouchMode(.gestures)
+        }
     }
     
     func disableGestureDetection(){
-        gesturesEnabled = false
-        editImageView.isUserInteractionEnabled = false
-        filterParametersView.isHidden = true
+        if gesturesEnabled {
+            gesturesEnabled = false
+            editImageView.isUserInteractionEnabled = false
+            filterParametersView.isHidden = true
+        }
     }
 
     func setGestureDetectors(view: UIView){

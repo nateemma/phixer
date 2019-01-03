@@ -106,6 +106,9 @@ class SimpleCarousel: UIView {
         displayWidth = self.frame.size.width
         
         carouselHeight = displayHeight
+        
+        theme = ThemeManager.currentTheme()
+        self.backgroundColor = theme.backgroundColor
 
         checkSetup()
         buildItemViews()

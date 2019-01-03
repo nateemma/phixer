@@ -110,8 +110,7 @@ class EditBaseController: UIViewController, EditChildControllerDelegate {
         // load theme here in case it changed
         theme = ThemeManager.currentTheme()
         
-        //view.backgroundColor = theme.backgroundColor
-        view.backgroundColor = UIColor.clear
+        view.backgroundColor = theme.backgroundColor
 
         // get display dimensions
         //displayHeight = view.height
@@ -142,7 +141,6 @@ class EditBaseController: UIViewController, EditChildControllerDelegate {
 
         
         self.view.isHidden = false
-        self.view.backgroundColor = theme.subtitleColor // DBG
 
     }
     

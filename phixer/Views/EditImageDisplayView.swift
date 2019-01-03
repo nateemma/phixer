@@ -141,7 +141,7 @@ class EditImageDisplayView: UIView {
     
     public func setSplitPosition(_ position:CGPoint){
         self.currSplitOffset = self.offsetFromPosition(position)
-        log.verbose("position: \(position) offset:\(self.currSplitOffset)")
+        //log.verbose("position: \(position) offset:\(self.currSplitOffset)")
     }
 
     public func setFilter(key:String){
