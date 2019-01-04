@@ -447,6 +447,16 @@ extension ThemeChooserController: TitleViewDelegate {
     func backPressed() {
         backDidPress()
     }
+    
+    func helpPressed() {
+        let vc = HTMLViewController()
+        vc.setTitle("Theme Chooser")
+        vc.loadFile(name: "ThemeChooser")
+        present(vc, animated: true, completion: nil)    }
+    
+    func menuPressed() {
+        // placeholder
+    }
 }
 
 // UIPicker stuff

@@ -167,26 +167,26 @@
             "parameters":  [
             ]
         },
-        {"key": "CIExposureAdjust", "title": "Exposure Adjust", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIExposureAdjust", "title": "Exposure", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputEV", "title": "EV", "min": -10.0, "max":10.0, "val": 0.0, "type": "CIAttributeTypeScalar"}
             ]
         },
-        {"key": "CIGammaAdjust", "title": "Gamma Adjust", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIGammaAdjust", "title": "Gamma", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputPower", "title": "Power", "min": 0.25, "max":4.0, "val": 1.0, "type": "CIAttributeTypeScalar"}
             ]
         },
-        {"key": "CIHueAdjust", "title": "Hue Adjust", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIHueAdjust", "title": "Hue", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputAngle", "title": "Angle", "min": -3.1415927, "max":3.1415927, "val": 0.707, "type": "CIAttributeTypeAngle"}
             ]
         },
-        {"key": "CILinearToSRGBToneCurve", "title": "Linear to sRGB Tone Curve", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CILinearToSRGBToneCurve", "title": "Linear to sRGB Curve", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
             ]
         },
-        {"key": "CISRGBToneCurveToLinear", "title": "sRGB Tone Curve to Linear", "ftype": "singleInput", "show": true, "rating": 2,
+        {"key": "CISRGBToneCurveToLinear", "title": "sRGB to Linear Curve", "ftype": "singleInput", "show": true, "rating": 2,
             "parameters":  [
             ]
         },
@@ -210,7 +210,7 @@
                 {"key": "inputAmount", "title": "Amount", "min": -1.0, "max":1.0, "val": 0.0, "type": "CIAttributeTypeScalar"}
             ]
         },
-        {"key": "CIWhitePointAdjust", "title": "White Point Adjust", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIWhitePointAdjust", "title": "White Point", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputColor", "title": "Color", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeColor"}
             ]
@@ -328,67 +328,67 @@
                 {"key": "inputBackgroundImage", "title": "Background Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"}
             ]
         },
-        {"key": "CIColorBlendMode", "title": "Color Blend Mode", "ftype": "blend", "show": true, "rating": 0,
+        {"key": "CIColorBlendMode", "title": "Color Blend", "ftype": "blend", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputBackgroundImage", "title": "Background Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"}
             ]
         },
-        {"key": "CIColorBurnBlendMode", "title": "Color Burn Blend Mode", "ftype": "blend", "show": true, "rating": 0,
+        {"key": "CIColorBurnBlendMode", "title": "Color Burn Blend", "ftype": "blend", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputBackgroundImage", "title": "Background Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"}
             ]
         },
-        {"key": "CIColorDodgeBlendMode", "title": "Color Dodge Blend Mode", "ftype": "blend", "show": true, "rating": 0,
+        {"key": "CIColorDodgeBlendMode", "title": "Color Dodge Blend", "ftype": "blend", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputBackgroundImage", "title": "Background Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"}
             ]
         },
-        {"key": "CIDarkenBlendMode", "title": "Darken Blend Mode", "ftype": "blend", "show": true, "rating": 0,
+        {"key": "CIDarkenBlendMode", "title": "Darken Blend", "ftype": "blend", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputBackgroundImage", "title": "Background Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"}
             ]
         },
-        {"key": "CIDifferenceBlendMode", "title": "Difference Blend Mode", "ftype": "blend", "show": true, "rating": 0,
+        {"key": "CIDifferenceBlendMode", "title": "Difference Blend", "ftype": "blend", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputBackgroundImage", "title": "Background Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"}
             ]
         },
-        {"key": "CIDivideBlendMode", "title": "Divide Blend Mode", "ftype": "blend", "show": true, "rating": 0,
+        {"key": "CIDivideBlendMode", "title": "Divide Blend", "ftype": "blend", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputBackgroundImage", "title": "Background Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"}
             ]
         },
-        {"key": "CIExclusionBlendMode", "title": "Exclusion Blend Mode", "ftype": "blend", "show": true, "rating": 0,
+        {"key": "CIExclusionBlendMode", "title": "Exclusion Blend", "ftype": "blend", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputBackgroundImage", "title": "Background Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"}
             ]
         },
-        {"key": "CIHardLightBlendMode", "title": "Hard Light Blend Mode", "ftype": "blend", "show": true, "rating": 0,
+        {"key": "CIHardLightBlendMode", "title": "Hard Light Blend", "ftype": "blend", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputBackgroundImage", "title": "Background Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"}
             ]
         },
-        {"key": "CIHueBlendMode", "title": "Hue Blend Mode", "ftype": "blend", "show": true, "rating": 0,
+        {"key": "CIHueBlendMode", "title": "Hue Blend", "ftype": "blend", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputBackgroundImage", "title": "Background Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"}
             ]
         },
-        {"key": "CILightenBlendMode", "title": "Lighten Blend Mode", "ftype": "blend", "show": true, "rating": 0,
+        {"key": "CILightenBlendMode", "title": "Lighten Blend", "ftype": "blend", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputBackgroundImage", "title": "Background Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"}
             ]
         },
-        {"key": "CILinearBurnBlendMode", "title": "Linear Burn Blend Mode", "ftype": "blend", "show": true, "rating": 0,
+        {"key": "CILinearBurnBlendMode", "title": "Linear Burn Blend", "ftype": "blend", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputBackgroundImage", "title": "Background Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"}
             ]
         },
-        {"key": "CILinearDodgeBlendMode", "title": "Linear Dodge Blend Mode", "ftype": "blend", "show": true, "rating": 0,
+        {"key": "CILinearDodgeBlendMode", "title": "Linear Dodge Blend", "ftype": "blend", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputBackgroundImage", "title": "Background Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"}
             ]
         },
-        {"key": "CILuminosityBlendMode", "title": "Luminosity Blend Mode", "ftype": "blend", "show": true, "rating": 0,
+        {"key": "CILuminosityBlendMode", "title": "Luminosity Blend", "ftype": "blend", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputBackgroundImage", "title": "Background Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"}
             ]
@@ -403,7 +403,7 @@
                 {"key": "inputBackgroundImage", "title": "Background Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"}
             ]
         },
-        {"key": "CIMultiplyBlendMode", "title": "Multiply Blend Mode", "ftype": "blend", "show": true, "rating": 0,
+        {"key": "CIMultiplyBlendMode", "title": "Multiply Blend", "ftype": "blend", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputBackgroundImage", "title": "Background Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"}
             ]
@@ -413,27 +413,27 @@
                 {"key": "inputBackgroundImage", "title": "Background Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"}
             ]
         },
-        {"key": "CIOverlayBlendMode", "title": "Overlay Blend Mode", "ftype": "blend", "show": true, "rating": 0,
+        {"key": "CIOverlayBlendMode", "title": "Overlay Blend ", "ftype": "blend", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputBackgroundImage", "title": "Background Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"}
             ]
         },
-        {"key": "CIPinLightBlendMode", "title": "Pin Light Blend Mode", "ftype": "blend", "show": true, "rating": 0,
+        {"key": "CIPinLightBlendMode", "title": "Pin Light Blend", "ftype": "blend", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputBackgroundImage", "title": "Background Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"}
             ]
         },
-        {"key": "CISaturationBlendMode", "title": "Saturation Blend Mode", "ftype": "blend", "show": true, "rating": 0,
+        {"key": "CISaturationBlendMode", "title": "Saturation Blend", "ftype": "blend", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputBackgroundImage", "title": "Background Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"}
             ]
         },
-        {"key": "CIScreenBlendMode", "title": "Screen Blend Mode", "ftype": "blend", "show": true, "rating": 0,
+        {"key": "CIScreenBlendMode", "title": "Screen Blend", "ftype": "blend", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputBackgroundImage", "title": "Background Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"}
             ]
         },
-        {"key": "CISoftLightBlendMode", "title": "Soft Light Blend Mode", "ftype": "blend", "show": true, "rating": 0,
+        {"key": "CISoftLightBlendMode", "title": "Soft Light Blend", "ftype": "blend", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputBackgroundImage", "title": "Background Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"}
             ]
@@ -458,7 +458,7 @@
                 {"key": "inputBackgroundImage", "title": "Background Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"}
             ]
         },
-        {"key": "CISubtractBlendMode", "title": "Subtract Blend Mode", "ftype": "blend", "show": true, "rating": 0,
+        {"key": "CISubtractBlendMode", "title": "Subtract Blend", "ftype": "blend", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputBackgroundImage", "title": "Background Image", "min": 0.0, "max":0.0, "val": 0.0, "type": "CIAttributeTypeImage"}
             ]
@@ -872,7 +872,7 @@
                 {"key": "inputScale", "title": "Scale", "min": 1.0, "max":100.0, "val": 8.0, "type": "CIAttributeTypeDistance"}
             ]
         },
-        {"key": "CIHighlightShadowAdjust", "title": "Highlight and Shadow Adjust", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "CIHighlightShadowAdjust", "title": "Highlights and Shadows", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputRadius", "title": "Radius", "min": 0.0, "max":10.0, "val": 0.0, "type": "CIAttributeTypeScalar"},
                 {"key": "inputShadowAmount", "title": "Shadow Amount", "min": -1.0, "max":1.0, "val": 0.0, "type": "CIAttributeTypeScalar"},
@@ -1109,7 +1109,7 @@
             ]
         },
 
-        {"key": "OpacityFilter", "title": "Change Opacity", "ftype": "singleInput", "show": true, "rating": 0,
+        {"key": "OpacityFilter", "title": "Opacity", "ftype": "singleInput", "show": true, "rating": 0,
             "parameters":  [
                 {"key": "inputOpacity", "title": "Opacity", "min": 0.0, "max":1.0, "val": 0.8, "type": "CIAttributeTypeScalar"}
             ]

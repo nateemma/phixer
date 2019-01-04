@@ -1048,6 +1048,16 @@ extension FilterDetailsViewController: TitleViewDelegate {
     func backPressed() {
         backDidPress()
     }
+    
+    func helpPressed() {
+        let vc = HTMLViewController()
+        vc.setTitle("Filter Preview")
+        vc.loadFile(name: "FilterPreview")
+        present(vc, animated: true, completion: nil)    }
+    
+    func menuPressed() {
+        // placeholder
+    }
 }
 
 

@@ -11,7 +11,6 @@ import UIKit
 
 import Neon
 import GoogleMobileAds
-import AloeStackView
 
 // Menu display for "Settings" Items
 
@@ -335,10 +334,8 @@ class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
     
     
     @objc func presentAbout(){
-        //notImplemented()
         let vc = HTMLViewController()
         vc.setTitle("About")
-        //vc.setText("<h1>About phixer</h1><p>blah, blah, blah...</p>")
         vc.loadFile(name: "About")
         present(vc, animated: true, completion: nil)
     }
@@ -463,5 +460,16 @@ extension SettingsMenuController: GalleryViewControllerDelegate {
 extension SettingsMenuController: TitleViewDelegate {
     func backPressed() {
         backDidPress()
+    }
+    
+    func helpPressed() {
+        let vc = HTMLViewController()
+        vc.setTitle("Settings")
+        vc.loadFile(name: "Settings")
+        present(vc, animated: true, completion: nil)
+    }
+    
+    func menuPressed() {
+        // placeholder
     }
 }

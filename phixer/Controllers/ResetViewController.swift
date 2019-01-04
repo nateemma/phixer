@@ -216,6 +216,16 @@ extension ResetViewController: TitleViewDelegate {
     func backPressed() {
         backDidPress()
     }
+    
+    func helpPressed() {
+        let vc = HTMLViewController()
+        vc.setTitle("Reset")
+        vc.loadFile(name: "Reset")
+        present(vc, animated: true, completion: nil)    }
+    
+    func menuPressed() {
+        // placeholder
+    }
 }
 
 

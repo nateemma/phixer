@@ -395,6 +395,16 @@ extension StyleTransferGalleryViewController: TitleViewDelegate {
     func backPressed() {
         backDidPress()
     }
+    
+    func helpPressed() {
+        let vc = HTMLViewController()
+        vc.setTitle("Style Transfer")
+        vc.loadFile(name: "StyleTransferGallery")
+        present(vc, animated: true, completion: nil)    }
+    
+    func menuPressed() {
+        // placeholder
+    }
 }
 
 

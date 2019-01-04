@@ -27,6 +27,8 @@ class HTMLViewController: UIViewController {
     private var screenSize : CGRect = CGRect.zero
     private var displayWidth : CGFloat = 0.0
     private var displayHeight : CGFloat = 0.0
+    
+    private static let defaultHelpFile:String = "default"
 
     
     /////////////////////////////
@@ -98,7 +100,7 @@ class HTMLViewController: UIViewController {
         <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
-        body { font: 100%/150% Arial,calibri,helvetica,sans-serif; font-size: 150%; }
+        body { font: 100%/150% Arial,calibri,helvetica,sans-serif; font-size: 100%; \(buildColourString())}
         </style>
         </head>
         <body>
@@ -107,6 +109,7 @@ class HTMLViewController: UIViewController {
         </html>
         """
         
+        log.verbose("HTML:\n \(html)")
         htmlView.loadHTMLString(html, baseURL: nil)
     }
 
@@ -126,9 +129,16 @@ class HTMLViewController: UIViewController {
             base = name
         }
         
-        if let filepath = Bundle.main.path(forResource: base, ofType: ext) {
+        var filepath:String? = ""
+        filepath = Bundle.main.path(forResource: base, ofType: ext)
+        if filepath == nil {
+            log.error("File not found: \(name). Using default (\(HTMLViewController.defaultHelpFile))")
+            filepath = Bundle.main.path(forResource: HTMLViewController.defaultHelpFile, ofType: ext)
+        }
+        
+        if filepath != nil {
             do {
-                let contents = try String(contentsOfFile: filepath)
+                let contents = try String(contentsOfFile: filepath!)
                 // check to see if <html> tag is present. If so, load whole file, otherwise insert in body
                 if contents.lowercased().range(of:"<html>") != nil {
                     htmlView.loadHTMLString(contents, baseURL: nil)
@@ -140,7 +150,7 @@ class HTMLViewController: UIViewController {
                 log.error("Error loading file (\(name)): \(error)")
             }
         } else {
-            log.error("File not found: \(name)")
+            log.error("Could not find file (\(base).\(ext)) or default (\(HTMLViewController.defaultHelpFile).\(ext))")
         }
     }
 
@@ -198,7 +208,15 @@ class HTMLViewController: UIViewController {
         htmlView.frame.size.width = displayWidth
     }
     
+    // build HTML/CSS Colour commands based upon the current theme
     
+    private func buildColourString() -> String {
+        var str:String = ""
+        
+        str = "background-color: \(theme.backgroundColor.hexString) ; color:\(theme.textColor.hexString);"
+        
+        return str
+    }
     
     //////////////////////////////////////
     //MARK: - Navigation
@@ -211,8 +229,6 @@ class HTMLViewController: UIViewController {
     
     func exitScreen(){
         guard navigationController?.popViewController(animated: true) != nil else { //modal
-            //log.debug("Not a navigation Controller")
-            //suspend()
             dismiss(animated: true, completion:  { })
             return
         }
@@ -225,6 +241,14 @@ class HTMLViewController: UIViewController {
 extension HTMLViewController: TitleViewDelegate {
     func backPressed() {
         backDidPress()
+    }
+    
+    func helpPressed() {
+        // placeholder
+    }
+    
+    func menuPressed() {
+        // placeholder
     }
 }
 

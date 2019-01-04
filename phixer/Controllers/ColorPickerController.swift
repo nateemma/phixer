@@ -353,6 +353,14 @@ extension ColorPickerController: TitleViewDelegate {
     func backPressed() {
         backDidPress()
     }
+    
+    func helpPressed() {
+        // placeholder
+    }
+    
+    func menuPressed() {
+        // placeholder
+    }
 }
 
 extension ColorPickerController: RGBSliderViewDelegate {

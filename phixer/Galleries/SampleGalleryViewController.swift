@@ -550,6 +550,16 @@ extension SampleGalleryViewController: TitleViewDelegate {
     func backPressed() {
         backDidPress()
     }
+    
+    func helpPressed() {
+        let vc = HTMLViewController()
+        vc.setTitle("Sample Gallery")
+        vc.loadFile(name: "SampleGallery")
+        present(vc, animated: true, completion: nil)    }
+    
+    func menuPressed() {
+        // placeholder
+    }
 }
 
 

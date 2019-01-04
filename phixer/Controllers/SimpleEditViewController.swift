@@ -738,6 +738,16 @@ extension SimpleEditViewController: TitleViewDelegate {
     func backPressed() {
         backDidPress()
     }
+    
+    func helpPressed() {
+        let vc = HTMLViewController()
+        vc.setTitle("'Simple' Editor")
+        vc.loadFile(name: "SimpleEditor")
+        present(vc, animated: true, completion: nil)    }
+    
+    func menuPressed() {
+        // placeholder
+    }
 }
 
 // ImageSelectionViewDelegate

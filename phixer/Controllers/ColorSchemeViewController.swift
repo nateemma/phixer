@@ -459,6 +459,14 @@ extension ColorSchemeViewController: TitleViewDelegate {
     func backPressed() {
         backDidPress()
     }
+    
+    func helpPressed() {
+        // placeholder
+    }
+    
+    func menuPressed() {
+        // placeholder
+    }
 }
 
 

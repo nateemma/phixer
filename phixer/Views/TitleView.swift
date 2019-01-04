@@ -9,11 +9,13 @@
 import Foundation
 import UIKit
 import ChameleonFramework
-
+import Neon
 
 // Interface required of controlling View
 protocol TitleViewDelegate: class {
     func backPressed()
+    func helpPressed()
+    func menuPressed()
 }
 
 class TitleView: UIView {
@@ -33,9 +35,9 @@ class TitleView: UIView {
     public var backButtonEnabled:Bool = true {
         didSet {
             if backButtonEnabled {
-                backButton.isHidden = false
+                backButton?.isHidden = false
             } else {
-                backButton.isHidden = true
+                backButton?.isHidden = true
             }
         }
     }
@@ -43,7 +45,9 @@ class TitleView: UIView {
     
     
     // the title view components
-    fileprivate var backButton:UIButton! = UIButton()
+    fileprivate var backButton:SquareButton? = nil
+    fileprivate var helpButton:SquareButton? = nil
+    fileprivate var menuButton:SquareButton? = nil
     fileprivate var titleLabel:UILabel! = UILabel()
 
     fileprivate let bannerHeight : CGFloat = 64.0
@@ -70,9 +74,8 @@ class TitleView: UIView {
         self.frame.size.height = bannerHeight * 0.75
         self.backgroundColor = theme.titleColor
         
-        self.addSubview(backButton)
-        self.addSubview(titleLabel)
         
+        /***
         //backButton.frame.size.height = self.frame.size.height - 8
         //backButton.frame.size.width = 2.0 * backButton.frame.size.height
         backButton.frame.size.height = self.frame.size.height - 8
@@ -87,19 +90,49 @@ class TitleView: UIView {
         backButton.layer.cornerRadius = 5
         backButton.layer.borderWidth = 1
         backButton.layer.borderColor = theme.borderColor.cgColor
+         ***/
         
-        titleLabel.frame.size.height = backButton.frame.size.height
-        //titleLabel.text = "        title        "
+        let side = self.frame.size.height - 8
+
+        // set up the title label
+        titleLabel.frame.size.height = self.frame.size.height
+        titleLabel.frame.size.width = self.frame.size.width - (4.0 * side) - 16 // this can change, which is why it's here. 4 not 3 because we want to centre
+
         titleLabel.backgroundColor = theme.titleColor
         titleLabel.textColor = theme.titleTextColor
         titleLabel.font = UIFont.boldSystemFont(ofSize: 18.0)
         titleLabel.textAlignment = .center
         
-        backButton.addTarget(self, action: #selector(self.backDidPress), for: .touchUpInside)
+        self.addSubview(titleLabel)
+
         
-        titleLabel.frame.size.width = self.frame.size.width - backButton.frame.size.width // this can change, which is why it's here
-        backButton.anchorInCorner(.bottomLeft, xPad: 4, yPad: 4, width: backButton.frame.size.width, height: backButton.frame.size.height)
-        titleLabel.align(.toTheRightCentered, relativeTo: backButton, padding: 0, width: titleLabel.frame.size.width, height: titleLabel.frame.size.height)
+        // set up the buttons
+        backButton = SquareButton(bsize: side)
+        helpButton = SquareButton(bsize: side*0.65) // icon fills frame more than others, so reduce
+        menuButton = SquareButton(bsize: side)
+        
+        backButton?.setImageAsset("ic_back")
+        helpButton?.setImageAsset("ic_help")
+        menuButton?.setImageAsset("ic_menu")
+        
+        for b in [backButton, helpButton, menuButton] {
+            b?.backgroundColor = theme.titleColor.withAlphaComponent(0.8)
+            b?.setTintable(true)
+            b?.highlightOnSelection(true)
+            self.addSubview(b!)
+        }
+
+        backButton?.addTarget(self, action: #selector(self.backDidPress), for: .touchUpInside)
+        helpButton?.addTarget(self, action: #selector(self.helpDidPress), for: .touchUpInside)
+        menuButton?.addTarget(self, action: #selector(self.menuDidPress), for: .touchUpInside)
+
+        
+        backButton?.anchorToEdge(.left, padding: 2, width: (backButton?.frame.size.width)!, height: (backButton?.frame.size.height)!)
+        menuButton?.anchorToEdge(.right, padding: 0, width: (menuButton?.frame.size.width)!, height: (menuButton?.frame.size.height)!)
+        titleLabel.alignBetweenHorizontal(align: .toTheRightCentered, primaryView: backButton!, secondaryView: menuButton!, padding: 2, height: AutoHeight)
+        helpButton?.align(.toTheLeftCentered, relativeTo: menuButton!, padding: 12, width: (helpButton?.frame.size.width)!, height: (helpButton?.frame.size.height)!)
+        helpButton?.bringSubview(toFront: self)
+
     }
     
     /////////////////////////////
@@ -111,4 +144,14 @@ class TitleView: UIView {
         delegate?.backPressed()
     }
     
+    @objc func helpDidPress(){
+        log.verbose("Help pressed")
+        delegate?.helpPressed()
+    }
+    
+    @objc func menuDidPress(){
+        log.verbose("Menu pressed")
+        delegate?.menuPressed()
+    }
+
 }

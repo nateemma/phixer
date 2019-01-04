@@ -688,6 +688,17 @@
 		2537A1C321D4622900060DBE /* DehazeFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A1C221D4622900060DBE /* DehazeFilter.swift */; };
 		2537A1C521DC26D400060DBE /* AdornmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A1C421DC26D400060DBE /* AdornmentView.swift */; };
 		2537A1C721DC27BC00060DBE /* Adornment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A1C621DC27BC00060DBE /* Adornment.swift */; };
+		2537A1C921DE7B4A00060DBE /* default.html in Resources */ = {isa = PBXBuildFile; fileRef = 2537A1C821DE7B4A00060DBE /* default.html */; };
+		2537A1CB21DEBA1400060DBE /* Settings.html in Resources */ = {isa = PBXBuildFile; fileRef = 2537A1CA21DEBA1400060DBE /* Settings.html */; };
+		2537A1CD21DEBA2400060DBE /* FilterPreview.html in Resources */ = {isa = PBXBuildFile; fileRef = 2537A1CC21DEBA2400060DBE /* FilterPreview.html */; };
+		2537A1CF21DEBA3300060DBE /* SimpleEditor.html in Resources */ = {isa = PBXBuildFile; fileRef = 2537A1CE21DEBA3300060DBE /* SimpleEditor.html */; };
+		2537A1D121DEBA4000060DBE /* ThemeChooser.html in Resources */ = {isa = PBXBuildFile; fileRef = 2537A1D021DEBA4000060DBE /* ThemeChooser.html */; };
+		2537A1D321DEBA4C00060DBE /* LiveFilters.html in Resources */ = {isa = PBXBuildFile; fileRef = 2537A1D221DEBA4C00060DBE /* LiveFilters.html */; };
+		2537A1D521DEBA5C00060DBE /* Reset.html in Resources */ = {isa = PBXBuildFile; fileRef = 2537A1D421DEBA5B00060DBE /* Reset.html */; };
+		2537A1D721DEBA6A00060DBE /* SampleGallery.html in Resources */ = {isa = PBXBuildFile; fileRef = 2537A1D621DEBA6A00060DBE /* SampleGallery.html */; };
+		2537A1D921DEBA7B00060DBE /* StyleTransferGallery.html in Resources */ = {isa = PBXBuildFile; fileRef = 2537A1D821DEBA7B00060DBE /* StyleTransferGallery.html */; };
+		2537A1DB21DEBA8A00060DBE /* BlendGallery.html in Resources */ = {isa = PBXBuildFile; fileRef = 2537A1DA21DEBA8A00060DBE /* BlendGallery.html */; };
+		2537A1DD21DEBA9B00060DBE /* FilterGallery.html in Resources */ = {isa = PBXBuildFile; fileRef = 2537A1DC21DEBA9B00060DBE /* FilterGallery.html */; };
 		253A39E21DDA965E00A714D4 /* SampleGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253A39E11DDA965E00A714D4 /* SampleGalleryViewController.swift */; };
 		253A39E41DDA979400A714D4 /* SampleGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253A39E31DDA979400A714D4 /* SampleGalleryView.swift */; };
 		253B235B1DA2CFD400203ECB /* SegueHandlerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253B235A1DA2CFD400203ECB /* SegueHandlerType.swift */; };
@@ -1551,6 +1562,17 @@
 		2537A1C221D4622900060DBE /* DehazeFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DehazeFilter.swift; sourceTree = "<group>"; };
 		2537A1C421DC26D400060DBE /* AdornmentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AdornmentView.swift; path = Views/AdornmentView.swift; sourceTree = "<group>"; };
 		2537A1C621DC27BC00060DBE /* Adornment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Adornment.swift; path = Views/Adornment.swift; sourceTree = "<group>"; };
+		2537A1C821DE7B4A00060DBE /* default.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = default.html; sourceTree = "<group>"; };
+		2537A1CA21DEBA1400060DBE /* Settings.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Settings.html; sourceTree = "<group>"; };
+		2537A1CC21DEBA2400060DBE /* FilterPreview.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = FilterPreview.html; sourceTree = "<group>"; };
+		2537A1CE21DEBA3300060DBE /* SimpleEditor.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = SimpleEditor.html; sourceTree = "<group>"; };
+		2537A1D021DEBA4000060DBE /* ThemeChooser.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = ThemeChooser.html; sourceTree = "<group>"; };
+		2537A1D221DEBA4C00060DBE /* LiveFilters.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = LiveFilters.html; sourceTree = "<group>"; };
+		2537A1D421DEBA5B00060DBE /* Reset.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Reset.html; sourceTree = "<group>"; };
+		2537A1D621DEBA6A00060DBE /* SampleGallery.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = SampleGallery.html; sourceTree = "<group>"; };
+		2537A1D821DEBA7B00060DBE /* StyleTransferGallery.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = StyleTransferGallery.html; sourceTree = "<group>"; };
+		2537A1DA21DEBA8A00060DBE /* BlendGallery.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = BlendGallery.html; sourceTree = "<group>"; };
+		2537A1DC21DEBA9B00060DBE /* FilterGallery.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = FilterGallery.html; sourceTree = "<group>"; };
 		253A39E11DDA965E00A714D4 /* SampleGalleryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleGalleryViewController.swift; sourceTree = "<group>"; };
 		253A39E31DDA979400A714D4 /* SampleGalleryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SampleGalleryView.swift; path = Views/SampleGalleryView.swift; sourceTree = "<group>"; };
 		253B235A1DA2CFD400203ECB /* SegueHandlerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SegueHandlerType.swift; path = Controllers/SegueHandlerType.swift; sourceTree = "<group>"; };
@@ -2107,6 +2129,17 @@
 			isa = PBXGroup;
 			children = (
 				258F098E218A7F100082FE2A /* About.html */,
+				2537A1C821DE7B4A00060DBE /* default.html */,
+				2537A1CE21DEBA3300060DBE /* SimpleEditor.html */,
+				2537A1D021DEBA4000060DBE /* ThemeChooser.html */,
+				2537A1D221DEBA4C00060DBE /* LiveFilters.html */,
+				2537A1D421DEBA5B00060DBE /* Reset.html */,
+				2537A1D621DEBA6A00060DBE /* SampleGallery.html */,
+				2537A1D821DEBA7B00060DBE /* StyleTransferGallery.html */,
+				2537A1CC21DEBA2400060DBE /* FilterPreview.html */,
+				2537A1DA21DEBA8A00060DBE /* BlendGallery.html */,
+				2537A1DC21DEBA9B00060DBE /* FilterGallery.html */,
+				2537A1CA21DEBA1400060DBE /* Settings.html */,
 			);
 			path = Help;
 			sourceTree = "<group>";
@@ -2978,6 +3011,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2573D1D9217CDCB500E78CAB /* YUCIRGBToHSL.cikernel in Resources */,
+				2537A1D721DEBA6A00060DBE /* SampleGallery.html in Resources */,
 				252B10071E306920005A0C2D /* sheets_by_dazzle_textures.jpg in Resources */,
 				252B0E291E30690F005A0C2D /* ps_034_pastel8.jpg in Resources */,
 				252B0F9A1E30690F005A0C2D /* da_018_sepia.jpg in Resources */,
@@ -3021,6 +3055,7 @@
 				252B0E351E30690F005A0C2D /* ps_018_filmstock_50.jpg in Resources */,
 				252B0E711E30690F005A0C2D /* ms_020_delightful.jpg in Resources */,
 				252B0DD31E30690E005A0C2D /* vn_045_cool.jpg in Resources */,
+				2537A1DD21DEBA9B00060DBE /* FilterGallery.html in Resources */,
 				252B0EAF1E30690F005A0C2D /* mo_016_smart_cold.jpg in Resources */,
 				252B0EE41E30690F005A0C2D /* fx_023_ink_6.jpg in Resources */,
 				252B106B1E30692E005A0C2D /* sample_2143.png in Resources */,
@@ -3036,6 +3071,7 @@
 				252B0F071E30690F005A0C2D /* fd_09g_wash_warm_dark_cross.jpg in Resources */,
 				252B0E0E1E30690F005A0C2D /* ur_005_grunge_muted.jpg in Resources */,
 				252B0E261E30690F005A0C2D /* ps_031_moonlight.jpg in Resources */,
+				2537A1CF21DEBA3300060DBE /* SimpleEditor.html in Resources */,
 				252B0F311E30690F005A0C2D /* et_088_gold_3.jpg in Resources */,
 				252B0E911E30690F005A0C2D /* mo_044_aurea.jpg in Resources */,
 				2573D1EB217CDCB500E78CAB /* YUCIColorLookup.cikernel in Resources */,
@@ -3326,6 +3362,7 @@
 				252B0EB01E30690F005A0C2D /* mo_017_smart_bw1.jpg in Resources */,
 				252B10851E30692E005A0C2D /* sample_1151.png in Resources */,
 				252B0E221E30690F005A0C2D /* ps_027_lighter.jpg in Resources */,
+				2537A1CD21DEBA2400060DBE /* FilterPreview.html in Resources */,
 				252B0E0F1E30690F005A0C2D /* ps_035_red_blue_yellow.jpg in Resources */,
 				252B0EAA1E30690F005A0C2D /* mo_011_nature_sky.jpg in Resources */,
 				252B0DB31E30690E005A0C2D /* xp_020_oo_blue.jpg in Resources */,
@@ -3344,6 +3381,7 @@
 				252B0F9F1E30690F005A0C2D /* da_002_peach_kiss.jpg in Resources */,
 				252B0F791E30690F005A0C2D /* et_014_a04_2.jpg in Resources */,
 				252B0E2B1E30690F005A0C2D /* ps_008_cobalt_carmine.jpg in Resources */,
+				2537A1D321DEBA4C00060DBE /* LiveFilters.html in Resources */,
 				252B0FBD1E30690F005A0C2D /* bw_015_full_dynamic_harsh.JPG in Resources */,
 				252B103B1E306920005A0C2D /* shedyourskin_Tex_124.jpg in Resources */,
 				252B0F101E30690F005A0C2D /* et_122_se_4.jpg in Resources */,
@@ -3370,6 +3408,7 @@
 				252B10711E30692E005A0C2D /* sample_1902.png in Resources */,
 				252B0F141E30690F005A0C2D /* fd_04b_desat.jpg in Resources */,
 				252B10691E30692E005A0C2D /* sample_2216.png in Resources */,
+				2537A1D521DEBA5C00060DBE /* Reset.html in Resources */,
 				252B0E8A1E30690F005A0C2D /* mo_036_old_school_3.jpg in Resources */,
 				252B0EBA1E30690F005A0C2D /* mo_002_retro_greenish.jpg in Resources */,
 				252B0DAF1E30690E005A0C2D /* da_006_pink_zombie.jpg in Resources */,
@@ -3381,6 +3420,7 @@
 				252B0ED51E30690F005A0C2D /* fx_043_old_photo_4.jpg in Resources */,
 				2568BDE121BEEB1500560287 /* style_la_muse.jpg in Resources */,
 				252B0E961E30690F005A0C2D /* mo_020_colorful_glow.jpg in Resources */,
+				2537A1CB21DEBA1400060DBE /* Settings.html in Resources */,
 				252B107E1E30692E005A0C2D /* sample_1504.png in Resources */,
 				252B0F161E30690F005A0C2D /* fd_04d_blue_yellow.jpg in Resources */,
 				252B0DC81E30690E005A0C2D /* xp_007_mutato_c41_e6.jpg in Resources */,
@@ -3445,6 +3485,7 @@
 				252B10251E306920005A0C2D /* seamless_water_drop_texture_by_fantasystock.jpg in Resources */,
 				252B0E0D1E30690F005A0C2D /* ur_004_grunge_green.jpg in Resources */,
 				252B0E5E1E30690F005A0C2D /* ms_027_crunchy.jpg in Resources */,
+				2537A1D921DEBA7B00060DBE /* StyleTransferGallery.html in Resources */,
 				252B0F121E30690F005A0C2D /* et_124_vector.jpg in Resources */,
 				252B0DD51E30690E005A0C2D /* vn_047_red_cyan.jpg in Resources */,
 				252B0F781E30690F005A0C2D /* et_013_a04_1.jpg in Resources */,
@@ -3475,6 +3516,7 @@
 				252B0FB91E30690F005A0C2D /* bw_011_push_1.JPG in Resources */,
 				252B0E1E1E30690F005A0C2D /* ps_023_green_red.jpg in Resources */,
 				252B10121E306920005A0C2D /* wake_by_photoshop_stock.jpg in Resources */,
+				2537A1DB21DEBA8A00060DBE /* BlendGallery.html in Resources */,
 				252B0F8C1E30690F005A0C2D /* et_003_4321_2.jpg in Resources */,
 				252B0EC81E30690F005A0C2D /* fx_047_old_photo_color_2.jpg in Resources */,
 				252B0E481E30690F005A0C2D /* ms_056_fresh_lime.jpg in Resources */,
@@ -3501,6 +3543,7 @@
 				252B0DE31E30690E005A0C2D /* vn_033_xpro.jpg in Resources */,
 				252B0E6B1E30690F005A0C2D /* ms_041_nate_1.jpg in Resources */,
 				252B0F6D1E30690F005A0C2D /* et_030_a13.jpg in Resources */,
+				2537A1C921DE7B4A00060DBE /* default.html in Resources */,
 				252B10771E30692E005A0C2D /* sample_1748.png in Resources */,
 				252B0F7B1E30690F005A0C2D /* et_016_a05.jpg in Resources */,
 				252B103A1E306920005A0C2D /* shedyourskin_Tex_132.jpg in Resources */,
@@ -3575,6 +3618,7 @@
 				252B0F4C1E30690F005A0C2D /* et_070_a31_1.jpg in Resources */,
 				252B0FC21E30690F005A0C2D /* bw_003_hi_contrast_harsh.JPG in Resources */,
 				252B0F0E1E30690F005A0C2D /* et_120_se_2.jpg in Resources */,
+				2537A1D121DEBA4000060DBE /* ThemeChooser.html in Resources */,
 				251375511DB6AD6200A319DC /* GoogleService-Info.plist in Resources */,
 				252B0E3E1E30690F005A0C2D /* ms_072_glow_vibrant_desat.jpg in Resources */,
 				252B10221E306920005A0C2D /* _film_grain_numba_1__by_su_y.jpg in Resources */,
@@ -3689,7 +3733,6 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-phixer/Pods-phixer-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/AloeStackView/AloeStackView.framework",
 				"${BUILT_PRODUCTS_DIR}/ChameleonFramework/ChameleonFramework.framework",
 				"${BUILT_PRODUCTS_DIR}/Cosmos/Cosmos.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
@@ -3701,7 +3744,6 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AloeStackView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChameleonFramework.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cosmos.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",

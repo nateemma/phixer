@@ -417,8 +417,19 @@ extension FilterGalleryViewController: FilterDetailsViewControllerDelegate {
 
 
 extension FilterGalleryViewController: TitleViewDelegate {
+    
     func backPressed() {
         backDidPress()
+    }
+    
+    func helpPressed() {
+        let vc = HTMLViewController()
+        vc.setTitle("Filter Gallery")
+        vc.loadFile(name: "FilterGallery")
+        present(vc, animated: true, completion: nil)    }
+    
+    func menuPressed() {
+        // placeholder
     }
 }
 

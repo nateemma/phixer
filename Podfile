@@ -37,7 +37,7 @@ target 'phixer' do
   pod 'iCarousel'
   
   # AirBnBs AloeStackView
-  pod 'AloeStackView'
+  #pod 'AloeStackView'
 
   target 'phixerTests' do
     inherit! :search_paths

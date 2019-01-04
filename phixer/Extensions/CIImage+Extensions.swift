@@ -48,4 +48,32 @@ extension CIImage {
         
         return CIImage(cgImage: cgimage2!)
     }
+    
+    // get a portrait Matte Image, if it exists (iOS12 and later)
+    func portraitEffectsMatteImage() -> CIImage? {
+
+        // get the CGImage for this CIImage
+        var cgimage = self.cgImage
+        if cgimage == nil {
+            cgimage = self.generateCGImage()
+        }
+        
+        // double-check that CGImage was created
+        guard cgimage != nil else {
+            log.error("Could not generate CGImage")
+            return nil
+        }
+        
+        if #available(iOS 12.0, *) {
+            let matteData = self.portraitEffectsMatte
+            if matteData != nil {
+                return CIImage(portaitEffectsMatte: matteData!)
+            } else {
+                return nil
+            }
+        } else {
+            // Fallback on earlier versions
+            return nil
+        }
+    }
 }

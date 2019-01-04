@@ -689,5 +689,16 @@ extension BlendGalleryViewController: TitleViewDelegate {
     func backPressed() {
         backDidPress()
     }
+    
+    func helpPressed() {
+        let vc = HTMLViewController()
+        vc.setTitle("Blend Gallery")
+        vc.loadFile(name: "BlendGallery")
+        present(vc, animated: true, completion: nil)
+    }
+    
+    func menuPressed() {
+        // placeholder
+    }
 }
 
