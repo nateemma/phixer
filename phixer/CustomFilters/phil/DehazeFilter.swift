@@ -18,12 +18,12 @@ class DehazeFilter: CIFilter {
 
     let kernel = CIColorKernel(source:
         "kernel vec4 dehazeKernel(sampler src, __color color, float distance, float slope) {" +
-        "vec4   t;" +
-        "float  d;" +
-        "d = destCoord().y * slope  +  distance;" +
-        "t = unpremultiply(sample(src, samplerCoord(src)));" +
-        "t = (t - d*color) / (1.0-d);" +
-        "return premultiply(t);" +
+        "  vec4   t;" +
+        "  float  d;" +
+        "  d = destCoord().y * slope  +  distance;" +
+        "  t = unpremultiply(sample(src, samplerCoord(src)));" +
+        "  t = (t - d*color) / (1.0-d);" +
+        "  return premultiply(t);" +
         "}"
     )
     

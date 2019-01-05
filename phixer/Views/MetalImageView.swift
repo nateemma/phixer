@@ -134,9 +134,11 @@ class MetalImageView: MTKView
         return CIVector(cgPoint: imgPos)
     }
     
+    
     func setImageSize(_ size:CGSize){
         self.imageSize = size
     }
+    
     
     func renderImage() {
         guard device != nil else {

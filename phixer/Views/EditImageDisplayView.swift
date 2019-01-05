@@ -73,7 +73,7 @@ class EditImageDisplayView: UIView {
         //log.debug("layout")
        doInit()
 
-        log.debug("layout")
+        //log.debug("layout")
         self.currInput = InputSource.getCurrentImage() // this can change
         renderView?.frame = self.frame
         renderView?.image = self.currInput

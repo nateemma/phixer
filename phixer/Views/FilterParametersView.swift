@@ -365,6 +365,8 @@ class FilterParametersView: UIView {
         
         // shared callback for when user ends changing any slider (intended as an update trigger, don't need the value)
         slider.addTarget(self, action: #selector(self.slidersDidEndChange), for: .touchUpInside)
+        
+        slider.isContinuous = true
     }
     
     
@@ -558,6 +560,7 @@ class FilterParametersView: UIView {
     }
     
     @objc func sliderValueDidChange(_ sender:UISlider!){
+        log.verbose("change: \(pKey[sender.tag]) = \(sender.value)")
         currFilterDesc?.setParameter(pKey[sender.tag], value: sender.value)
         delegate?.settingsChanged()
     }
@@ -570,7 +573,7 @@ class FilterParametersView: UIView {
     }
     
     @objc func slidersDidEndChange(_ sender:UISlider!){
-        log.verbose("Settings changed for slider \(pKey[sender.tag])")
+        log.verbose("end: \(pKey[sender.tag]) = \(sender.value)")
         currFilterDesc?.setParameter(pKey[sender.tag], value: sender.value)
         delegate?.settingsChanged()
     }

@@ -184,6 +184,7 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
         //startAds()
         
         
+        setTouchMode(.gestures)
         assignTouchHandlers()
         
         editImageView.setFilter(key: currFilterKey)
@@ -987,13 +988,13 @@ extension FilterDetailsViewController: FilterParametersViewDelegate {
     }
     
     func cancelChanges(key: String) {
-        // ignore
+        backDidPress()
     }
     
     
     func settingsChanged(){
         log.debug("Filter settings changed")
-        self.update()
+        self.editImageView.updateImage()
     }
     
     func positionRequested(key: String) {

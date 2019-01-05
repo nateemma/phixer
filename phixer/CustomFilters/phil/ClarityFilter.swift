@@ -79,10 +79,13 @@ class ClarityFilter: CIFilter {
             .applyingFilter("OpacityFilter", parameters: ["inputOpacity":inputClarity])
         
         log.debug("c:\(inputClarity) f:\(factor) v:\(0.2*factor) s:\(0.4*factor)")
-        let finalComposite = contrastyImage.applyingFilter("CIOverlayBlendMode", parameters: [kCIInputBackgroundImageKey:vibrantImage])
-        //let finalComposite = contrastyImage.applyingFilter("CISourceOverCompositing", parameters: [kCIInputBackgroundImageKey:vibrantImage])
         
+        let finalComposite = contrastyImage.applyingFilter("CIAdditionCompositing", parameters: [kCIInputBackgroundImageKey:vibrantImage])
+        //let finalComposite = vibrantImage.applyingFilter("CIAdditionCompositing", parameters: [kCIInputBackgroundImageKey:contrastyImage])
+        //let finalComposite = contrastyImage.applyingFilter("CIOverlayBlendMode", parameters: [kCIInputBackgroundImageKey:vibrantImage])
+        //let finalComposite = contrastyImage.applyingFilter("CISourceOverCompositing", parameters: [kCIInputBackgroundImageKey:vibrantImage])
         //let finalComposite = vibrantImage.applyingFilter("CILuminosityBlendMode", parameters: [kCIInputBackgroundImageKey:contrastyImage])
+
         return finalComposite
     }
 }

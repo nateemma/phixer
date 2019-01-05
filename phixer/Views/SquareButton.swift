@@ -61,11 +61,18 @@ class SquareButton: UIView {
     // (re-)set the image on a button using a project asset
     func setImageAsset(_ assetName: String){
         var image:UIImage?
+        var name:String = ""
         
-        image = UIImage(named: assetName)!
+        if assetName.isEmpty{
+            name = "ic_unknown"
+        } else {
+            name = assetName
+        }
+        
+        image = UIImage(named: name)
         
         if (image == nil) {
-            log.warning("WARN: unable to find asset (\(assetName)")
+            log.warning("WARN: unable to find asset (\(assetName))")
             image = UIImage(named: "ic_unknown")
         }
         
@@ -77,6 +84,7 @@ class SquareButton: UIView {
             self.button.setImage(image!, for: UIControlState.normal)
         }
     }
+    
     // set the image based on any UIImage (e.g. from Camera Roll)
     func setImage(_ image: UIImage){
         if tint {

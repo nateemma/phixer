@@ -105,8 +105,14 @@ class AdornmentView: UIView {
                 }
             }
             
+            if adornmentViewList.count > 0 {
+                for v in adornmentViewList {
+                    self.addSubview(v)
+                }
+            }
+            
             // distribute the adornments evenly
-            let pad = self.frame.size.width / CGFloat (adornmentList.count + 1)
+            let pad = (self.frame.size.width - (CGFloat (adornmentList.count) * buttonSize)) / CGFloat (adornmentList.count + 1)
             self.groupInCenter(group: .horizontal, views: adornmentViewList, padding: pad, width: buttonSize, height: bannerHeight)
         }
 
@@ -135,7 +141,7 @@ class AdornmentView: UIView {
             btn.setImage(adornment.view!)
         }
         btn.setTintable(true)
-        btn.tag = index
+        btn.setTag(index)
         btn.addTarget(self, action: #selector(self.btnDidPress), for: .touchUpInside)
         
         let label = UILabel()
@@ -175,8 +181,9 @@ class AdornmentView: UIView {
     //MARK: - touch handlers
     /////////////////////////////////
 
-    @objc func btnDidPress() {
-        let index = self.tag
+    @objc func btnDidPress(sender:UIButton) {
+        let index = sender.tag
+        log.debug("index:\(index)")
         highlightItem(index: index)
         let f = adornmentList[index].callback
         if f != nil {

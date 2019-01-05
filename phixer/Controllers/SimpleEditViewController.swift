@@ -42,8 +42,8 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     // The Edit controls/options
     var editControlsView: EditControlsView! = EditControlsView()
     
-    // Image Selection (& save) view
-    var imageSelectionView: ImageSelectionView! = ImageSelectionView()
+    // Menu view
+    var menuView: AdornmentView! = AdornmentView()
     
     // The filter configuration subview
     var filterParametersView: FilterParametersView! = FilterParametersView()
@@ -162,11 +162,12 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         // Only Portrait mode supported (for now)
         // TODO: add landscape mode
         
-        imageSelectionView.frame.size.height = CGFloat(bannerHeight)
-        imageSelectionView.frame.size.width = displayWidth
+        menuView.frame.size.height = CGFloat(bannerHeight)
+        menuView.frame.size.width = displayWidth
+        layoutMenu()
 
         editImageView.frame.size.width = displayWidth
-        editImageView.frame.size.height = displayHeight - bannerView.frame.size.height - CGFloat(editControlHeight)
+        editImageView.frame.size.height = displayHeight - bannerView.frame.size.height
 
         filterParametersView.frame.size.width = displayWidth
         filterParametersView.frame.size.height = bannerHeight // will be adjusted based on selected filter
@@ -174,7 +175,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         // Note: need to add subviews before modifying constraints
         view.addSubview(bannerView)
         view.addSubview(editImageView)
-        view.addSubview(imageSelectionView)
+        view.addSubview(menuView)
         view.addSubview(filterParametersView)
 
 
@@ -185,10 +186,10 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         // top
         bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
         
-        imageSelectionView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: imageSelectionView.frame.size.height)
+        menuView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: menuView.frame.size.height)
         
         // main window
-        editImageView.align(.underCentered, relativeTo: imageSelectionView, padding: 0, width: displayWidth, height: editImageView.frame.size.height)
+        editImageView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: editImageView.frame.size.height)
         
         filterParametersView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: filterParametersView.frame.size.height)
 
@@ -215,7 +216,6 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         add(optionsController!)
 
         // add delegates to sub-views (for callbacks)
-        imageSelectionView.delegate = self
         imagePicker.delegate = self
         
         // set gesture detection for the edit display view
@@ -291,7 +291,6 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     //////////////////////////////////////
     // MARK: - Sub-View layout
     //////////////////////////////////////
-
     
     // layout the banner view, with the Back button, title etc.
     func layoutBanner(){
@@ -302,34 +301,126 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     }
     
 
-    
-    @objc func acceptDidPress() {
+ 
+    // these vars are global scope because they are updated asynchronously
+    private var photoThumbnail:UIImage? = nil
+    private var blendThumbnail:UIImage? = nil
+
+    // layout the menu panel
+    private func layoutMenu() {
         
-        // make the change permanent
-        EditManager.savePreviewFilter()
+        // update the photo and blend icons (they can change)
+        loadPhotoThumbnail()
+        loadBlendThumbnail()
+        
+        // build the list of adornments
+        // TODO: hide blend icon if not relevant??
+        
+        let itemList:[Adornment] = [ Adornment(text: "photo", icon: "", view: photoThumbnail, isHidden: false, callback: imageDidPress),
+                                     Adornment(text: "blend", icon: "", view: blendThumbnail, isHidden: false, callback: blendDidPress),
+                                     Adornment(text: "reset", icon: "ic_reset", view: nil, isHidden: false, callback: resetDidPress),
+                                     Adornment(text: "undo", icon: "ic_undo", view: nil, isHidden: false, callback: undoDidPress),
+                                     Adornment(text: "save", icon: "ic_save", view: nil, isHidden: false, callback: saveDidPress)
+                                     ]
+        
+        menuView.addAdornments(itemList)
+        //menuView.update()
+    }
+
+    
+    
+    // set photo image to the last photo in the camera roll
+    func loadPhotoThumbnail(){
+        
+        let tgtSize = CGSize(width: buttonSize, height: buttonSize)
+        
+        
+        // get most recent photo
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+        
+        let fetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
+        
+        let last = fetchResult.lastObject
+        
+        if let lastAsset = last {
+            let options = PHImageRequestOptions()
+            options.version = .current
+            
+            PHImageManager.default().requestImage(
+                for: lastAsset,
+                targetSize: tgtSize,
+                contentMode: .aspectFit,
+                options: options,
+                resultHandler: { image, _ in
+                    DispatchQueue.main.async {
+                        self.photoThumbnail = image
+                    }
+            })
+        }
+    }
+    
+    private func loadBlendThumbnail(){
+        self.blendThumbnail = UIImage(ciImage: ImageManager.getCurrentBlendImage(size:CGSize(width: self.buttonSize, height: self.buttonSize))!)
+    }
+    
+    //////////////////////////////////////
+    // MARK: - Menu item handlers
+    //////////////////////////////////////
+    
+    @objc func imageDidPress(){
+        self.menuView.isHidden = true
+        self.changeImage()
+     }
+    
+    @objc func blendDidPress(){
+        self.menuView.isHidden = true
+        let vc = BlendGalleryViewController()
+        vc.delegate = self
+        self.present(vc, animated: true, completion: { })
+    }
+    
+    @objc func saveDidPress(){
+        self.menuView.isHidden = true
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.saveImage()
+            log.verbose("Image saved")
+            self.showMessage("Image saved to Photos")
+        })
+    }
+    
+    @objc func resetDidPress(){
+        self.menuView.isHidden = true
+        currFilterDescriptor?.reset()
+        EditManager.reset()
+        EditManager.addPreviewFilter(currFilterDescriptor)
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.editImageView.updateImage()
+      })
     }
     
     @objc func defaultDidPress(){
+        self.menuView.isHidden = true
         currFilterDescriptor?.reset()
         DispatchQueue.main.async(execute: { () -> Void in
             self.editImageView.updateImage()
-        })
-   }
-    
+       })
+    }
+
     @objc func undoDidPress(){
         // restore saved parameters
         currFilterDescriptor?.restoreParameters()
         EditManager.popFilter()
         DispatchQueue.main.async(execute: { () -> Void in
             self.editImageView.updateImage()
+            //self.menuView.isHidden = true
         })
-   }
-    
-    
+    }
+
     //////////////////////////////////////
     // MARK: - Volume buttons
     //////////////////////////////////////
-    
+
     
     func setVolumeListener() {
         let audioSession = AVAudioSession.sharedInstance()
@@ -437,6 +528,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
                     
                 case UISwipeGestureRecognizerDirection.down:
                     hideFilterSettings()
+                    hideModalViews()
                     //log.verbose("Swiped Down")
                     break
                     
@@ -491,7 +583,16 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         AudioServicesPlaySystemSound(1108) // undocumented iOS feature!
     }
     
-    
+    func showMessage(_ msg:String){
+        if !msg.isEmpty {
+            DispatchQueue.main.async(execute: { () -> Void in
+                let alert = UIAlertController(title: "", message: msg, preferredStyle: .alert)
+                self.present(alert, animated: true, completion: nil)
+                Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: { _ in alert.dismiss(animated: true, completion: nil)} )
+            })
+        }
+    }
+
     
     //////////////////////////////////////
     // MARK: - Filter Management
@@ -534,6 +635,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     // convenience function to hide all modal views
     func hideModalViews(){
         filterParametersView.isHidden = true
+        menuView.isHidden = true
     }
     
     
@@ -746,36 +848,19 @@ extension SimpleEditViewController: TitleViewDelegate {
         present(vc, animated: true, completion: nil)    }
     
     func menuPressed() {
-        // placeholder
+        // if menu is hidden then re-layout and show it, otherwise hide it
+        if self.menuView.isHidden == true {
+            DispatchQueue.main.async(execute: { () -> Void in
+                self.layoutMenu()
+                self.menuView.isHidden = false
+            })
+        } else {
+            self.menuView.isHidden = true
+        }
     }
 }
 
-// ImageSelectionViewDelegate
-extension SimpleEditViewController: ImageSelectionViewDelegate {
-    
-    func changeImagePressed(){
-        self.changeImage()
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.imageSelectionView.update()
-        })
-    }
 
-    func changeBlendPressed() {
-        let vc = BlendGalleryViewController()
-        vc.delegate = self
-        self.present(vc, animated: true, completion: { })
-
-    }
-    
-    func savePressed() {
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.saveImage()
-            log.verbose("Image saved")
-            self.imageSelectionView.update()
-        })
-    }
-    
-}
 
 
 // GalleryViewControllerDelegate(s)
@@ -784,7 +869,6 @@ extension SimpleEditViewController: GalleryViewControllerDelegate {
     func galleryCompleted() {
         log.verbose("Returned from gallery")
         DispatchQueue.main.async(execute: { () -> Void in
-            self.imageSelectionView.update()
             self.editImageView.updateImage()
         })
     }
@@ -810,7 +894,6 @@ extension SimpleEditViewController: EditChildControllerDelegate {
         log.verbose("Child requested update")
         DispatchQueue.main.async(execute: { () -> Void in
             self.editImageView.updateImage()
-            self.imageSelectionView.update()
         })
     }
     

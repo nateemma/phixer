@@ -28,4 +28,12 @@ struct Adornment {
         isHidden = false
         callback = nil
     }
+    
+    init(text: String, icon: String, view: UIImage?, isHidden: Bool, callback: (()->())? = nil){
+        self.text = text
+        self.icon = icon
+        self.view = view
+        self.isHidden = isHidden
+        self.callback = callback
+    }
 }

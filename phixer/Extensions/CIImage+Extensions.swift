@@ -15,23 +15,35 @@ extension CIImage {
     // use the same context across all instances, as it is expensive to create
     private static var context:CIContext? = nil
     
-    // creates a CGImage - useful for cases when the CIImage was not created from a CGImage (or UIImage)
-    public func generateCGImage() -> CGImage? {
+    // get the current CIContext, creating it if necessary
+    private static func getContext() -> CIContext? {
         if (CIImage.context == nil){
             CIImage.context = CIContext(options: [kCIContextUseSoftwareRenderer : false, kCIContextHighQualityDownsample : true ])
         }
-        let imgRect = CGRect(x: 0, y: 0, width: self.extent.width, height: self.extent.height)
-        return CIImage.context?.createCGImage(self, from: imgRect)
+        return CIImage.context
     }
+    
+    // creates a CGImage - useful for cases when the CIImage was not created from a CGImage (or UIImage)
+    public func generateCGImage() -> CGImage? {
+        let imgRect = CGRect(x: 0, y: 0, width: self.extent.width, height: self.extent.height)
+        return CIImage.getContext()?.createCGImage(self, from: imgRect)
+    }
+    
+    // get the associated CGImage, creating it if necessary
+    public func getCGImage() -> CGImage? {
+        if self.cgImage == nil {
+            return self.generateCGImage()
+        } else {
+            return self.cgImage
+        }
+    }
+
     
     // resize a CIImage
     public func resize(size:CGSize) -> CIImage? {
         
         // get the CGImage for this CIImage
-        var cgimage = self.cgImage
-        if cgimage == nil {
-            cgimage = self.generateCGImage()
-        }
+        let cgimage = self.getCGImage()
         
         // double-check that CGImage was created
         guard cgimage != nil else {
