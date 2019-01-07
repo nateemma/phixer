@@ -17,7 +17,7 @@ class LumaRangeFilter: CIFilter {
     let kernel = CIColorKernel(source:
         "kernel vec4 lumaRangeFilter(__sample image, float lower, float upper) {" +
         "float luma = dot(image.rgb, vec3(0.2126, 0.7152, 0.0722));" +
-        "vec4 result = ((luma>=lower) && (luma<=upper)) ? image : vec4(0.0);" +
+        "vec4 result = ((luma>=lower) && (luma<=upper)) ? image : vec4(1.0);" +
         "return result;" +
         "}"
     )

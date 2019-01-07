@@ -21,7 +21,8 @@ class CustomFiltersRegistry: NSObject, CIFilterConstructor {
 
     private static let filterList:[String] = ["OpacityFilter", "EdgeGlowFilter", "ClarityFilter", "SaturationFilter", "BrightnessFilter", "ContrastFilter",
                                               "WhiteBalanceFilter",
-                                              "ColorSobelFilter", "SobelFilter", "Sobel3x3Filter", "LaplacianGaussianFilter", "SketchFilter", "ColorSketchFilter",
+                                              "ColorSobelFilter", "SobelFilter", "Sobel3x3Filter", "Sobel5x5Filter", "LaplacianGaussianFilter",
+                                              "SketchFilter", "ColorSketchFilter",
                                               "Style_Scream", "Style_Candy", "Style_Mosaic", "Style_Udnie", "Style_LaMuse", "Style_Feathers" ]
     
     private static let colorFilters:[String] = ["SmoothThresholdFilter", "AdaptiveThresholdFilter", "LumaRangeFilter", "DehazeFilter"]

@@ -1,5 +1,5 @@
 //
-//  Sobel3x3Filter.swift
+//  Sobel5x5Filter.swift
 //  phixer
 //
 //  Created by Philip Price on 01/04/19.
@@ -9,7 +9,7 @@
 import Foundation
 import CoreImage
 
-class Sobel3x3Filter: CIFilter {
+class Sobel5x5Filter: CIFilter {
     var inputImage: CIImage?
     var inputThreshold: CGFloat = 0.0
     
@@ -17,7 +17,7 @@ class Sobel3x3Filter: CIFilter {
 
     // filter display name
     func displayName() -> String {
-        return "Sobel 3x3"
+        return "Sobel 5x5"
     }
 
     // init
@@ -37,7 +37,7 @@ class Sobel3x3Filter: CIFilter {
                 "   float v = length(image2.rgb);\n" +
                 //"   float d = length(vec2(h,v)) * threshold;\n" +
                 "   float d = length(vec2(luma1,luma2));\n" +
-                "   if (d > (threshold*threshold)) {\n" +
+                "   if (d > threshold) {\n" +
                 "       return vec4(vec3(d), 1);\n" +
                 "   } else {\n" +
                 "       return vec4(vec3(0.0), 1);\n" +
@@ -133,16 +133,22 @@ class Sobel3x3Filter: CIFilter {
         
         // Two-pass (x and y) matrices
 
-        let m3_1_x:[Int16] = [ 1,  0, -1,
-                               2,  0, -2,
-                               1,  0,  -1]
+        let m5_1_x:[Int16] = [-5,  -4,  0,  4,  5,
+                              -8, -10,  0,  8, 10,
+                             -10, -20,  0, 20, 10,
+                              -8, -10,  0,  8, 10,
+                              -5,  -4,  0,  4,  5
+                             ]
         
-        let m3_1_y:[Int16] = [-1, -2, -1,
-                               0,  0,  0,
-                               1,  2,  1]
+        let m5_1_y:[Int16] = [ 5,   8,  10,  8,   5,
+                               4,  10,  20,  10,  4,
+                               0,   0,   0,   0,  0,
+                              -4, -10, -20, -10, -4,
+                              -5,  -8, -10,  -8, -5
+                               ]
         
-        let ciimage_x = CIImage(cgImage: (cgimage?.applyConvolution(matrix: m3_1_x, divisor: 1))!)
-        let ciimage_y = CIImage(cgImage: (cgimage?.applyConvolution(matrix: m3_1_y, divisor: 1))!)
+        let ciimage_x = CIImage(cgImage: (cgimage?.applyConvolution(matrix: m5_1_x, divisor: 1))!)
+        let ciimage_y = CIImage(cgImage: (cgimage?.applyConvolution(matrix: m5_1_y, divisor: 1))!)
 
         let extent = inputImage.extent
         let arguments = [ciimage_x, ciimage_y, inputThreshold] as [Any]

@@ -504,7 +504,7 @@ class  FilterDescriptor {
 
             case .singleInput:
                 if validParam(kCIInputImageKey) { filter.setValue(image, forKey: kCIInputImageKey) }
-                return filter.outputImage
+                return filter.outputImage?.cropped(to: (image?.extent)!)
                 
             case .blend:
                 //log.debug("Using BLEND mode for filter: \(String(describing: self.key))")
@@ -533,7 +533,7 @@ class  FilterDescriptor {
                 if validParam(kCIInputImageKey) { filter.setValue(bImage, forKey: kCIInputImageKey) }
                 if validParam("inputBackgroundImage") { filter.setValue(image, forKey: "inputBackgroundImage") }
 
-                return filter.outputImage
+                return filter.outputImage?.cropped(to: (image?.extent)!)
                 
             default:
                 log.warning("Don't know how to handle filter \(String(describing: self.key))")

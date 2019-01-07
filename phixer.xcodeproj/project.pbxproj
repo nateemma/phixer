@@ -705,6 +705,11 @@
 		2537A1E521E02D7800060DBE /* SketchFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A1E421E02D7800060DBE /* SketchFilter.swift */; };
 		2537A1E721E0305700060DBE /* ColorSobelFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A1E621E0305700060DBE /* ColorSobelFilter.swift */; };
 		2537A1E921E030A700060DBE /* ColorSketchFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A1E821E030A700060DBE /* ColorSketchFilter.swift */; };
+		2537A1EB21E271E400060DBE /* Sobel5x5Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A1EA21E271E400060DBE /* Sobel5x5Filter.swift */; };
+		2537A1EF21E2E3AC00060DBE /* tx_pencil.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2537A1EE21E2E3AC00060DBE /* tx_pencil.jpg */; };
+		2537A1F121E2EDBF00060DBE /* tx_pencil_2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2537A1F021E2EDBF00060DBE /* tx_pencil_2.jpg */; };
+		2537A1F321E310B500060DBE /* tx_pencil_crosshatch_2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2537A1F221E310B500060DBE /* tx_pencil_crosshatch_2.jpg */; };
+		2537A1F521E3C82500060DBE /* tx_crayon_dark.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2537A1F421E3C82500060DBE /* tx_crayon_dark.jpg */; };
 		253A39E21DDA965E00A714D4 /* SampleGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253A39E11DDA965E00A714D4 /* SampleGalleryViewController.swift */; };
 		253A39E41DDA979400A714D4 /* SampleGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253A39E31DDA979400A714D4 /* SampleGalleryView.swift */; };
 		253B235B1DA2CFD400203ECB /* SegueHandlerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253B235A1DA2CFD400203ECB /* SegueHandlerType.swift */; };
@@ -1585,6 +1590,11 @@
 		2537A1E421E02D7800060DBE /* SketchFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SketchFilter.swift; sourceTree = "<group>"; };
 		2537A1E621E0305700060DBE /* ColorSobelFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorSobelFilter.swift; sourceTree = "<group>"; };
 		2537A1E821E030A700060DBE /* ColorSketchFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorSketchFilter.swift; sourceTree = "<group>"; };
+		2537A1EA21E271E400060DBE /* Sobel5x5Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sobel5x5Filter.swift; sourceTree = "<group>"; };
+		2537A1EE21E2E3AC00060DBE /* tx_pencil.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tx_pencil.jpg; sourceTree = "<group>"; };
+		2537A1F021E2EDBF00060DBE /* tx_pencil_2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tx_pencil_2.jpg; sourceTree = "<group>"; };
+		2537A1F221E310B500060DBE /* tx_pencil_crosshatch_2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tx_pencil_crosshatch_2.jpg; sourceTree = "<group>"; };
+		2537A1F421E3C82500060DBE /* tx_crayon_dark.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tx_crayon_dark.jpg; sourceTree = "<group>"; };
 		253A39E11DDA965E00A714D4 /* SampleGalleryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleGalleryViewController.swift; sourceTree = "<group>"; };
 		253A39E31DDA979400A714D4 /* SampleGalleryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SampleGalleryView.swift; path = Views/SampleGalleryView.swift; sourceTree = "<group>"; };
 		253B235A1DA2CFD400203ECB /* SegueHandlerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SegueHandlerType.swift; path = Controllers/SegueHandlerType.swift; sourceTree = "<group>"; };
@@ -1816,23 +1826,24 @@
 			isa = PBXGroup;
 			children = (
 				258F09BA2192847F0082FE2A /* AdaptiveThresholdFilter.swift */,
-				2537A1DE21E012B900060DBE /* SobelFilter.swift */,
-				2537A1E621E0305700060DBE /* ColorSobelFilter.swift */,
-				2537A1E821E030A700060DBE /* ColorSketchFilter.swift */,
-				2537A1E421E02D7800060DBE /* SketchFilter.swift */,
-				2537A1E021E01EA900060DBE /* Sobel3x3Filter.swift */,
-				2537A1E221E0220F00060DBE /* LaplacianGaussianFilter.swift */,
 				2537A1BE21D28F6E00060DBE /* BrightnessFilter.swift */,
 				2515987F2194B97E0067AA00 /* ClarityFilter.swift */,
+				2537A1E821E030A700060DBE /* ColorSketchFilter.swift */,
+				2537A1E621E0305700060DBE /* ColorSobelFilter.swift */,
 				2537A1BA21D1873400060DBE /* ContrastFilter.swift */,
 				252745E82180FDF600AA2DA2 /* CustomFilterRegistry.swift */,
-				252745F02182295100AA2DA2 /* EdgeGlowFilter.swift */,
-				2515987D2193CD490067AA00 /* LumaRangeFilter.swift */,
 				2537A1C221D4622900060DBE /* DehazeFilter.swift */,
+				252745F02182295100AA2DA2 /* EdgeGlowFilter.swift */,
+				2537A1E221E0220F00060DBE /* LaplacianGaussianFilter.swift */,
+				2515987D2193CD490067AA00 /* LumaRangeFilter.swift */,
 				25172963217A1C6E00D5E946 /* Opacity.swift */,
 				252745E62180E8FD00AA2DA2 /* OpacityFilter.swift */,
 				2537A1BC21D28E5600060DBE /* SaturationFilter.swift */,
+				2537A1E421E02D7800060DBE /* SketchFilter.swift */,
 				258F09B8219264C20082FE2A /* SmoothThresholdFilter.swift */,
+				2537A1E021E01EA900060DBE /* Sobel3x3Filter.swift */,
+				2537A1EA21E271E400060DBE /* Sobel5x5Filter.swift */,
+				2537A1DE21E012B900060DBE /* SobelFilter.swift */,
 				258F09AC218E4AC90082FE2A /* Style_Candy.swift */,
 				258F09AE218E4B5B0082FE2A /* Style_Feathers.swift */,
 				258F09B0218E4B810082FE2A /* Style_LaMuse.swift */,
@@ -1867,6 +1878,17 @@
 				25F85CF021CC5125005498C4 /* UILabel+Extensions.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		2537A1ED21E2E3AC00060DBE /* Textures */ = {
+			isa = PBXGroup;
+			children = (
+				2537A1F421E3C82500060DBE /* tx_crayon_dark.jpg */,
+				2537A1F221E310B500060DBE /* tx_pencil_crosshatch_2.jpg */,
+				2537A1F021E2EDBF00060DBE /* tx_pencil_2.jpg */,
+				2537A1EE21E2E3AC00060DBE /* tx_pencil.jpg */,
+			);
+			path = Textures;
 			sourceTree = "<group>";
 		};
 		253B236D1DA44E4D00203ECB /* Filters */ = {
@@ -2206,6 +2228,7 @@
 		25F563FD1DD146D100DFB125 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				2537A1ED21E2E3AC00060DBE /* Textures */,
 				2568BDD821BEDC0D00560287 /* Style */,
 				25F564001DD1471B00DFB125 /* Lookup */,
 				25F563FF1DD1470200DFB125 /* Blends */,
@@ -3107,6 +3130,7 @@
 				252B0EDF1E30690F005A0C2D /* fx_018_ink_1.jpg in Resources */,
 				252B0E901E30690F005A0C2D /* mo_042_contrast_desat_3.jpg in Resources */,
 				252B0EF01E30690F005A0C2D /* fd_09h_wash_warm_faded.jpg in Resources */,
+				2537A1F121E2EDBF00060DBE /* tx_pencil_2.jpg in Resources */,
 				252B0DBD1E30690E005A0C2D /* xp_014_another.jpg in Resources */,
 				2573D1E3217CDCB500E78CAB /* YUCIFXAA.cikernel in Resources */,
 				252B0F3F1E30690F005A0C2D /* et_080_a33_4.jpg in Resources */,
@@ -3254,6 +3278,7 @@
 				252B0F871E30690F005A0C2D /* da_025_crispy.jpg in Resources */,
 				252B0E701E30690F005A0C2D /* ms_019_cool_breeze.jpg in Resources */,
 				252B10051E306920005A0C2D /* crack_and_peel_by_dazzle_textures.jpg in Resources */,
+				2537A1F521E3C82500060DBE /* tx_crayon_dark.jpg in Resources */,
 				252B0E861E30690F005A0C2D /* ms_013_matte.jpg in Resources */,
 				252B0F2E1E30690F005A0C2D /* et_085_cool.jpg in Resources */,
 				252B0FBA1E30690F005A0C2D /* bw_012_push_2.JPG in Resources */,
@@ -3427,6 +3452,7 @@
 				252B0F141E30690F005A0C2D /* fd_04b_desat.jpg in Resources */,
 				252B10691E30692E005A0C2D /* sample_2216.png in Resources */,
 				2537A1D521DEBA5C00060DBE /* Reset.html in Resources */,
+				2537A1EF21E2E3AC00060DBE /* tx_pencil.jpg in Resources */,
 				252B0E8A1E30690F005A0C2D /* mo_036_old_school_3.jpg in Resources */,
 				252B0EBA1E30690F005A0C2D /* mo_002_retro_greenish.jpg in Resources */,
 				252B0DAF1E30690E005A0C2D /* da_006_pink_zombie.jpg in Resources */,
@@ -3627,6 +3653,7 @@
 				252B0E9E1E30690F005A0C2D /* mo_028_smart_psycho_1.jpg in Resources */,
 				252B10161E306920005A0C2D /* monoprint_18_by_pendlestock.jpg in Resources */,
 				252B0F551E30690F005A0C2D /* et_054_a23_1.jpg in Resources */,
+				2537A1F321E310B500060DBE /* tx_pencil_crosshatch_2.jpg in Resources */,
 				252B0F031E30690F005A0C2D /* fd_09c_wash_amber_dark.jpg in Resources */,
 				252B0F241E30690F005A0C2D /* et_111_old.jpg in Resources */,
 				252B0EF41E30690F005A0C2D /* fx_004_foliage_1.jpg in Resources */,
@@ -3937,6 +3964,7 @@
 				2556731F1DB961F700187F25 /* DisplayMode.swift in Sources */,
 				2568BDE821C86BDC00560287 /* UIViewController+Extensions.swift in Sources */,
 				2542DF551ECFB37400CEB968 /* CategoryRecord.swift in Sources */,
+				2537A1EB21E271E400060DBE /* Sobel5x5Filter.swift in Sources */,
 				86DD9D951E9C5A7000A5D855 /* MainMenuController.swift in Sources */,
 				2573D1EC217CDCB500E78CAB /* YUCIBilateralFilter.m in Sources */,
 				2573D1E9217CDCB500E78CAB /* YUCIHistogramEqualization.m in Sources */,

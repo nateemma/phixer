@@ -386,7 +386,15 @@ class ImageManager {
         }
         
         //_currEditImage = getImageFromAssets(assetID:ename, size:_currEditSize)
-        _currEditImage = CIImage(image: getImageFromAssets(assetID:ename)!)
+        let image = getImageFromAssets(assetID:ename)
+        //log.debug("\(ename) orientation: \(image?.imageOrientation.rawValue)")
+        if image?.imageOrientation == UIImageOrientation.down {
+            log.debug("\(ename) upside down")
+            _currEditImage = CIImage(image: image!)?.oriented(CGImagePropertyOrientation.up)
+        } else {
+            _currEditImage = CIImage(image: image!)
+        }
+
         if _currEditImage != nil {
             _currEditName = ename
             //_currEditInput = CIImage(image:_currEditImage!)

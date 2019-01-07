@@ -112,7 +112,7 @@ class OpacityFilter: CIFilter {
         let alphaVector = CIVector(values: rgba, count: 4)
         colorMatrix?.setValue(alphaVector, forKey:"inputAVector")
         
-        log.debug ("Setting opacity to:\(rgba[3])")
+        //log.debug ("Setting opacity to:\(rgba[3])")
         img = colorMatrix?.outputImage
         if inputBackgroundImage == nil {
             // only 1 input so return alpha adjusted image

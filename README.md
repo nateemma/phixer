@@ -19,9 +19,14 @@ One day, I'll get around to adding screenshots, but the basic set of functionali
     - current categories are based on the source of the transform (e.g. Photoshop preset) or the Apple filter types. Expect these to be re-organsied drastically
 - choose a sample image (used for browsing the filters). There are some built-in samples or you can use any photo
 - choose a blend image, for those filters that combine multple images. There are some built-in blend images, or you can use any photo
-- show the live camera feed and apply any filter. You can also save a photo with the filter applied
+- show the live camera feed and apply any filter. You can also save a photo with the filter applied (currently broken, will get to it eventually)
 - there is a limited set of Style Transfer filters available - the usual group that is freely available (The Scream etc). I will be working on generating new ones, but that takes a lot of time and the tools are a bit lacking right now
-- edit an image from your photo albums. This is currently restricted to just applying a filter and saving the result, but eventually there will be a more fully featured editor
+- edit an image from your photo albums. 
+  - I have added the basic ability to apply multiple filters and save the results. 
+  - Right now it supports basic editing (exposure etc.), Style Transfer and application of any 'generic' filter (i.e. with no guiding from the UI). 
+  - I also added help screens everywhere (very basic though) 
+  - added features to preview effects and toggle between the original and the filtered image. You can also undo filters and reset the editing stack completely
+- there is a simple and limited theme manager that lets you choose between a few themes (light, dark, red, blue). I plan on making this configurable eventually
 
 
 ## Pods Used

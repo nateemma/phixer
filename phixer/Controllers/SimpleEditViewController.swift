@@ -628,6 +628,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     func updateCurrentFilter(){
         if (currFilterKey != nil) {
             editImageView.setFilter(key:currFilterKey!)
+            filterParametersView.setFilter(currFilterDescriptor)
         }
     }
     
@@ -649,6 +650,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         optionsController!.view.isHidden = true
         //updateCurrentFilter()
         if (currFilterDescriptor != nil) {
+            /***
             // re-layout based on selecetd filter
             filterParametersView.frame.size.height = CGFloat(((currFilterDescriptor?.numParameters)! + 1)) * bannerHeight * 0.75
             filterParametersView.anchorInCorner(.bottomLeft, xPad: 0, yPad: 0, width: filterParametersView.frame.size.width, height: filterParametersView.frame.size.height)
@@ -661,12 +663,14 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
             filterSettingsShown = true
             view.bringSubview(toFront: filterParametersView)
             //filterParametersView.show()
+             ***/
+            filterParametersView.isHidden = false
         }
     }
     
     fileprivate func hideFilterSettings(){
         optionsController!.view.isHidden = false
-        filterParametersView.dismiss()
+        //filterParametersView.dismiss()
         filterParametersView.isHidden = true
         filterSettingsShown = false
     }
@@ -716,6 +720,7 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
             
             log.verbose("Picked image:\(name) id:\(id)")
             ImageManager.setCurrentEditImageName(id)
+            //InputSource.setCurrent(source: .edit)
             DispatchQueue.main.async(execute: { () -> Void in
                 self.editImageView.updateImage()
             })
