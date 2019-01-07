@@ -616,6 +616,10 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
             filterManager?.setCurrentFilterKey(key)
             currFilterDescriptor = filterManager?.getFilterDescriptor(key:key)
             updateCurrentFilter()
+        } else {
+            // something other than the filter changed
+            self.editImageView.updateImage()
+            self.showFilterSettings()
         }
     }
     

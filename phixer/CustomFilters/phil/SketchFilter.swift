@@ -253,8 +253,8 @@ class SketchFilter: CIFilter {
         if url != nil {
             let texture = CIImage(contentsOf: url!)?
                 .resize(size: basicSketchImg.extent.size)?
-                .applyingFilter("CIColorControls", parameters: ["inputBrightness": -0.6])
-              .applyingFilter("OpacityFilter", parameters:  ["inputOpacity": inputTexture*4])
+                .applyingFilter("CIColorControls", parameters: ["inputBrightness": -1.0])
+                .applyingFilter("OpacityFilter", parameters:  ["inputOpacity": inputTexture*4])
             if texture != nil {
                 shadowImg = img1.applyingFilter("LumaRangeFilter", parameters: ["inputLower": 0.0, "inputUpper": 0.1])
                     .applyingFilter("CISoftLightBlendMode", parameters: [kCIInputBackgroundImageKey: texture!])
