@@ -993,7 +993,7 @@ extension FilterDetailsViewController: FilterParametersViewDelegate {
     
     
     func settingsChanged(){
-        log.debug("Filter settings changed")
+        //log.debug("Filter settings changed")
         self.editImageView.updateImage()
     }
     

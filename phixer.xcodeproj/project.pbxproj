@@ -1831,7 +1831,6 @@
 				2537A1E821E030A700060DBE /* ColorSketchFilter.swift */,
 				2537A1E621E0305700060DBE /* ColorSobelFilter.swift */,
 				2537A1BA21D1873400060DBE /* ContrastFilter.swift */,
-				252745E82180FDF600AA2DA2 /* CustomFilterRegistry.swift */,
 				2537A1C221D4622900060DBE /* DehazeFilter.swift */,
 				252745F02182295100AA2DA2 /* EdgeGlowFilter.swift */,
 				2537A1E221E0220F00060DBE /* LaplacianGaussianFilter.swift */,
@@ -2089,6 +2088,7 @@
 		257E29A22168317D00F438C6 /* CustomFilters */ = {
 			isa = PBXGroup;
 			children = (
+				252745E82180FDF600AA2DA2 /* CustomFilterRegistry.swift */,
 				252745ED21815F8D00AA2DA2 /* Filterpedia */,
 				2573D1AD217CDCB400E78CAB /* Yu */,
 				25172972217B821C00D5E946 /* phil */,

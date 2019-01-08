@@ -125,7 +125,7 @@ class SobelFilter: CIFilter {
             return nil
         }
         
-        log.debug("threshold: \(inputThreshold)")
+        //log.debug("threshold: \(inputThreshold)")
         let extent = inputImage.extent
         let arguments = [inputImage, inputThreshold] as [Any]
         

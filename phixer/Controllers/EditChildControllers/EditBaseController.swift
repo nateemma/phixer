@@ -53,6 +53,13 @@ class EditBaseController: UIViewController, EditChildControllerDelegate {
         return ""
     }
     
+    // returns the list of Adornments (text, icon/image, handler)
+    func getItemList() -> [Adornment] {
+        log.error("Base class called, should have been overridden by subclass")
+        return []
+    }
+
+    
     // returns the list of titles for each item
     func getTitleList() -> [String] {
         log.error("Base class called, should have been overridden by subclass")
@@ -84,7 +91,7 @@ class EditBaseController: UIViewController, EditChildControllerDelegate {
 
     
     ////////////////////
-    // Everything below here is generic so subclasses can just inherit this functionality
+    // Everything below here is generic so subclasses can just inherit this functionality as-is
     ////////////////////
 
 

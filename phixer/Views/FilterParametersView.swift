@@ -216,7 +216,7 @@ class FilterParametersView: UIView {
         numVisibleParams = 0
         var i:Int
         i = 0
-        var plist = currFilterDesc?.getParameterKeys()
+        let plist = currFilterDesc?.getParameterKeys()
         
         if var plist = plist {
             if plist.count > 0 {
@@ -560,42 +560,52 @@ class FilterParametersView: UIView {
     }
     
     @objc func sliderValueDidChange(_ sender:UISlider!){
-        log.verbose("change: \(pKey[sender.tag]) = \(sender.value)")
+        //log.verbose("change: \(pKey[sender.tag]) = \(sender.value)")
         currFilterDesc?.setParameter(pKey[sender.tag], value: sender.value)
-        delegate?.settingsChanged()
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.delegate?.settingsChanged()
+        })
     }
     
     
     @objc func colorSliderValueDidChange(_ sender:GradientSlider!){
         let index = sender.tag
         currFilterDesc?.setColorParameter(pKey[index], color: CIColor(color: (gsliders[index]?.getSelectedColor())!))
-        delegate?.settingsChanged()
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.delegate?.settingsChanged()
+        })
     }
     
     @objc func slidersDidEndChange(_ sender:UISlider!){
-        log.verbose("end: \(pKey[sender.tag]) = \(sender.value)")
+        //log.verbose("end: \(pKey[sender.tag]) = \(sender.value)")
         currFilterDesc?.setParameter(pKey[sender.tag], value: sender.value)
-        delegate?.settingsChanged()
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.delegate?.settingsChanged()
+        })
     }
     
     @objc func gslidersDidEndChange(_ sender:GradientSlider!){
         let index = sender.tag
-        log.verbose("Settings changed for color slider \(pKey[index])")
+        //log.verbose("Settings changed for color slider \(pKey[index])")
         currFilterDesc?.setColorParameter(pKey[index], color: CIColor(color: (gsliders[index]?.getSelectedColor())!))
-        delegate?.settingsChanged()
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.delegate?.settingsChanged()
+        })
     }
     
-
+    
     
     @objc func touchDidPress(sender: UIButton!) {
         let index = sender.tag
-
+        
         log.verbose("Touch pressed for: \(pKey[index])")
         if delegate != nil {
-            delegate?.positionRequested(key:pKey[index])
+            DispatchQueue.main.async(execute: { () -> Void in
+                self.delegate?.positionRequested(key:self.pKey[index])
+            })
         } else {
             log.warning("No delegate")
         }
     }
-
+    
 }
