@@ -376,7 +376,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
             return
         }
         
-        if (blend == nil) && (descriptor?.filterOperationType == FilterDescriptor.FilterOperationType.blend) {
+        if (blend == nil) && (descriptor?.filterOperationType == FilterOperationType.blend) {
             log.error("Could not load blend image")
             return
         }

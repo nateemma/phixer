@@ -17,7 +17,7 @@ private var filterCount: Int = 0
 
 // This View Controller handles the menu and options for Basic Adjustments
 
-class EditBasicAdjustmentsController: EditBaseController {
+class EditBasicAdjustmentsController: EditBaseMenuController {
     
     
     convenience init(){
@@ -36,21 +36,38 @@ class EditBasicAdjustmentsController: EditBaseController {
     }
 
     // returns the list of titles for each item
-    override func getTitleList() -> [String] {
-        return [ "Exposure", "Brightness", "Contrast", "Highlights & Shadows", "White Balance", "Dehaze", "Vibrance", "Saturation", "Vignette" ]
+    override func getItemList() -> [Adornment] {
+        return itemList
     }
+
     
-    // returns the list of handlers for each item
-    override func getHandlerList() -> [()->()] {
-        return [exposureHandler, brightnessHandler, contrastHandler, highlightHandler, wbHandler, dehazeHandler, vibranceHandler, saturationHandler, vignetteHandler]
+    // Adornment list
+    fileprivate var itemList: [Adornment] = [ Adornment(key: "exposure",   text: "Exposure",             icon: "ic_exposure", view: nil, isHidden: false),
+                                              Adornment(key: "brightness", text: "Brightness",           icon: "ic_brightness", view: nil, isHidden: false),
+                                              Adornment(key: "contrast",   text: "Contrast",             icon: "ic_contrast", view: nil, isHidden: false),
+                                              Adornment(key: "highlights", text: "Highlights & Shadows", icon: "ic_highlights", view: nil, isHidden: false),
+                                              Adornment(key: "wb",         text: "White Balance",        icon: "ic_wb", view: nil, isHidden: false),
+                                              Adornment(key: "dehaze",     text: "Dehaze",               icon: "ic_dehaze", view: nil, isHidden: false),
+                                              Adornment(key: "vibrance",   text: "Vibrance",             icon: "ic_vibrance", view: nil, isHidden: false),
+                                              Adornment(key: "saturation", text: "Saturation",           icon: "ic_saturation", view: nil, isHidden: false),
+                                              Adornment(key: "vignette",   text: "Vignette",             icon: "ic_vignette", view: nil, isHidden: false) ]
+
+    // handler for selected adornments:
+    override func handleSelection(key:String){
+        switch (key){
+        case "exposure": exposureHandler()
+        case "brightness": brightnessHandler()
+        case "contrast": contrastHandler()
+        case "highlights": highlightHandler()
+        case "wb": wbHandler()
+        case "dehaze": dehazeHandler()
+        case "vibrance": vibranceHandler()
+        case "saturation": saturationHandler()
+        case "vignette": vignetteHandler()
+        default:
+            log.error("Unknown key: \(key)")
+        }
     }
-    
-    // returns the list of icons for each item - can be empty or contan empty ("") items
-    override func getIconList() -> [String] {
-        return[ "ic_exposure", "ic_brightness", "ic_contrast", "ic_highlights", "ic_wb", "ic_dehaze", "ic_vibrance", "ic_saturation", "ic_vignette" ]
-    }
-    
-    
 
     //////////////////////////////////////////
     // MARK: - Handlers for the menu items

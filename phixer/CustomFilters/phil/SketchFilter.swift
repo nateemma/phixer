@@ -211,6 +211,7 @@ class SketchFilter: CIFilter {
         
         let img2 = img1.applyingFilter("CIColorInvert")
             .applyingFilter("CIGaussianBlur", parameters: ["inputRadius": 20.0 * inputMix])
+            .clampedToExtent()
             .cropped(to: img1.extent)
         
         let img3 =  img2.applyingFilter("CILinearDodgeBlendMode", parameters: [kCIInputBackgroundImageKey:img1])
@@ -227,13 +228,13 @@ class SketchFilter: CIFilter {
             .applyingFilter("SobelFilter", parameters: ["inputThreshold": inputThreshold])
             .applyingFilter("CIColorInvert")
             //.applyingFilter("LumaRangeFilter", parameters: ["inputLower": 0.0, "inputUpper": 0.5])
-            .applyingFilter("CIGaussianBlur", parameters: ["inputRadius": 1.0])
-            .applyingFilter("OpacityFilter", parameters:  ["inputOpacity": 0.8])
+            .applyingFilter("CIGaussianBlur", parameters: ["inputRadius": 1.0]).clampedToExtent()
             .cropped(to: srcImg.extent)
+            .applyingFilter("OpacityFilter", parameters:  ["inputOpacity": 0.8])
 
         //return edgeImg // tmp debug
         
-        // crate an overlay from the edges
+        // create an overlay from the edges
         var texturedImg = basicSketchImg
         var url = Bundle.main.url(forResource: "tx_pencil_crosshatch_2", withExtension: "jpg")
         if url != nil {

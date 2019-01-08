@@ -13,6 +13,8 @@ import UIKit
 import Neon
 import iCarousel
 
+
+
 class SimpleCarousel: UIView {
     
     
@@ -23,17 +25,15 @@ class SimpleCarousel: UIView {
     
     var theme = ThemeManager.currentTheme()
 
-    
+    // delegate for handling events
+    weak var delegate: AdornmentDelegate? = nil
+
+    // the underlying carousel display
     fileprivate var carousel:iCarousel? = iCarousel()
     
-    // the list of controls (not sorted, so put in the order you want displayed)
-    fileprivate var itemTitleList: [String] = []
+    // list of adornments
+    fileprivate var itemList: [Adornment] = []
     
-    // array of handlers (no args, no return). Order must match the names
-    fileprivate var itemHandlerList:[()->()] = []
-    
-    // array of icon names. An empty string (or array) results in a text-only item. Order must match the names
-    fileprivate var itemIconList:[String] = []
     
     // the display views for each items
     fileprivate var itemViewList: [UIView] = []
@@ -51,25 +51,17 @@ class SimpleCarousel: UIView {
     //MARK: Accessors
     ////////////////////////////////////////////
 
-    public func setTitles(_ titles:[String]) {
-        itemTitleList = titles
-        log.verbose("titles:\(titles)")
-    }
-    
-    public func setHandlers(_ handlers:Array< () -> Void>){
-        itemHandlerList = handlers
-    }
-    
-    public func setIcons(_ icons:[String]){
-        itemIconList = icons
+    public func setItems(_ items:[Adornment]) {
+        itemList = items
+        log.verbose("items:\(items)")
     }
 
     public func nextItem(){
         var index:Int = 0
         
-        if itemTitleList.count > 0 {
+        if itemList.count > 0 {
             if isValidIndex(currIndex) {
-                index = (currIndex < (itemTitleList.count-1)) ? (currIndex + 1) : 0
+                index = (currIndex < (itemList.count-1)) ? (currIndex + 1) : 0
             } else {
                 index = 0
             }
@@ -82,9 +74,9 @@ class SimpleCarousel: UIView {
     public func previousItem(){
         var index:Int = 0
         
-        if itemTitleList.count > 0 {
+        if itemList.count > 0 {
             if isValidIndex(currIndex) {
-                index = (currIndex > 0) ? (currIndex - 1) : (itemTitleList.count - 1)
+                index = (currIndex > 0) ? (currIndex - 1) : (itemList.count - 1)
             } else {
                 index = 0
             }
@@ -122,14 +114,8 @@ class SimpleCarousel: UIView {
     
     func checkSetup(){
         // since we have multiple APIs to set things up, just double-check
-        if itemTitleList.count <= 0 {
-            log.error("Titles not set up")
-        }
-        if itemHandlerList.count <= 0 {
-            log.error("Handlers not set up")
-        }
-        if itemTitleList.count != itemHandlerList.count {
-            log.error("Titles (\(itemTitleList.count)) and Handlers (\(itemHandlerList.count)) do not match")
+        if itemList.count <= 0 {
+            log.warning("Items not set up")
         }
     }
     
@@ -140,13 +126,13 @@ class SimpleCarousel: UIView {
         var icon:String = ""
         
         // we assume the title list is the 'main' list that drives others
-        if (itemTitleList.count > 0){
-            for i in (0...itemTitleList.count-1) {
+        if (itemList.count > 0){
+            for i in (0...itemList.count-1) {
                 icon = ""
-                if (itemIconList.count>0) && (i<itemIconList.count) {
-                    icon = itemIconList[i]
+                if (itemList.count>0) && (i<itemList.count) {
+                    icon = itemList[i].icon
                 }
-                itemViewList.append(makeItemView(icon:icon, text:itemTitleList[i]))
+                itemViewList.append(makeItemView(icon:icon, text:itemList[i].text))
             }
         }
     }
@@ -236,7 +222,7 @@ class SimpleCarousel: UIView {
     
     // convenience function to check the index
     func isValidIndex(_ index:Int)->Bool{
-        return ((index>=0) && (index < itemTitleList.count) && (itemTitleList.count>0))
+        return ((index>=0) && (index < itemList.count) && (itemList.count>0))
     }
     
     
@@ -249,7 +235,7 @@ class SimpleCarousel: UIView {
         
         if (index != currIndex){
             
-            log.debug("Highlight: \(itemTitleList[index]) (\(currIndex)->\(index))")
+            log.debug("Highlight: \(itemList[index].text) (\(currIndex)->\(index))")
             
             // updates label colors of selected item, reset old selection
             if (isValidIndex(currIndex)){
@@ -279,19 +265,18 @@ class SimpleCarousel: UIView {
         }
     }
     
-    // call the handler associtaed with the item
+    // call the handler associated with the item
     func handleOption(_ index:Int){
         guard (self.isValidIndex(index)) else {
             log.error("Invalid index: \(index)")
             return
         }
         
-        if ((index < itemHandlerList.count) && (itemHandlerList.count>0)){
-            log.verbose("Calling handler for: \(itemTitleList[index])")
-            let f = itemHandlerList[index]
-            f()
+        if ((index < itemList.count) && (itemList.count>0)){
+            log.verbose("Calling handler for: \(itemList[index].text)")
+            delegate?.adornmentItemSelected(key: itemList[index].key)
         } else {
-            log.error("Handler not set up for: \(itemTitleList[index])")
+            log.error("Invalid index for: \(itemList[index].text)")
         }
     }
     
@@ -326,17 +311,17 @@ extension SimpleCarousel: iCarouselDataSource{
     
     // number of items in list
     func numberOfItems(in carousel: iCarousel) -> Int {
-        log.verbose("\(itemTitleList.count) items")
-        return itemTitleList.count
+        log.verbose("\(itemList.count) items")
+        return itemList.count
     }
     
     func carousel(_ carousel: iCarousel, viewForItemAt index: Int, reusing view: UIView?) -> UIView {
         guard (self.isValidIndex(index)) else {
-            log.error("Invalid index: \(index) (count:\(itemTitleList.count))")
+            log.error("Invalid index: \(index) (count:\(itemList.count))")
             return UIView()
         }
         
-        //log.verbose("index:\(index) = \(itemTitleList[index])")
+        //log.verbose("index:\(index) = \(itemList[index].text)")
         
         return self.itemViewList[index]
     }

@@ -203,7 +203,7 @@ class FilterParametersView: UIView {
             return
         }
         
-        var pConfig: FilterDescriptor.ParameterSettings
+        var pConfig: ParameterSettings
         var slider: UISlider?
         var label: UILabel
         var pView: UIView
@@ -224,9 +224,9 @@ class FilterParametersView: UIView {
 
                 for key in plist {
                     pConfig = (currFilterDesc?.getParameterSettings(key))!
-                    if (pConfig.type == FilterDescriptor.ParameterType.float) ||
-                        (pConfig.type == FilterDescriptor.ParameterType.color) ||
-                        (pConfig.type == FilterDescriptor.ParameterType.position) {
+                    if (pConfig.type == ParameterType.float) ||
+                        (pConfig.type == ParameterType.color) ||
+                        (pConfig.type == ParameterType.position) {
                         
                         
                         pView = UIView()
@@ -244,7 +244,7 @@ class FilterParametersView: UIView {
                         pView.addSubview(label)
                         
                         switch pConfig.type {
-                        case  FilterDescriptor.ParameterType.float:
+                        case  ParameterType.float:
                             slider = UISlider()
                             slider?.minimumValue = pConfig.min
                             slider?.maximumValue = pConfig.max
@@ -267,7 +267,7 @@ class FilterParametersView: UIView {
                             
                             pView.groupAndFill(group: .vertical, views: [label, slider!], padding: 4.0)
                             
-                        case FilterDescriptor.ParameterType.color:
+                        case ParameterType.color:
                             // RGB Slider, need to deal with colors
                             //log.debug("Gradient Slider requested")
                             log.verbose("...\(pConfig.title) (colour)")
@@ -314,7 +314,7 @@ class FilterParametersView: UIView {
                             pView.addSubview(gslider)
                             pView.groupAndFill(group: .vertical, views: [label, gslider], padding: 2.0)
                             
-                        case FilterDescriptor.ParameterType.position:
+                        case ParameterType.position:
                             let touchButton = SquareButton(bsize: CGFloat(sliderHeight)*0.8)
                             
                             touchButton.setImageAsset("ic_touch")

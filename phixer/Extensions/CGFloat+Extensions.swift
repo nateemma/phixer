@@ -85,6 +85,20 @@ public extension CGFloat {
     public static func randomSign() -> CGFloat {
         return (arc4random_uniform(2) == 0) ? 1.0 : -1.0
     }
+    
+    
+    /*
+     * an 'approximate' equality check
+     */
+    public func approxEqual (_ num:CGFloat) -> Bool {
+        //return fabs(self - num) <= ( (fabs(self) < fabs(num) ? fabs(num) : fabs(self)) * 0.001) // Courtesy of Donald Knuth
+        return (fabs(self - num) <=  0.001) // simplified
+    }
+
+    // used in some 3rd party code
+    func toFloat() -> Float {
+        return Float(self)
+    }
 }
 
 
@@ -107,12 +121,4 @@ public func shortestAngleBetween(_ angle1: CGFloat, angle2: CGFloat) -> CGFloat 
 
 
 public extension CGFloat {
-    
-    /*
-     * an 'approximate' equality check
-     */
-    public func approxEqual (_ num:CGFloat) -> Bool {
-        //return fabs(self - num) <= ( (fabs(self) < fabs(num) ? fabs(num) : fabs(self)) * 0.001) // Courtesy of Donald Knuth
-        return (fabs(self - num) <=  0.001) // simplified
-    }
 }

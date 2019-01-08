@@ -19,7 +19,7 @@ class AdornmentView: UIView {
     
     var theme = ThemeManager.currentTheme()
     
-
+    weak var delegate: AdornmentDelegate? = nil
     
    //MARK: - Class variables:
     
@@ -183,15 +183,12 @@ class AdornmentView: UIView {
 
     @objc func btnDidPress(sender:UIButton) {
         let index = sender.tag
-        log.debug("index:\(index)")
+        log.debug("index:\(index) (\(self.adornmentList[index].key))")
         highlightItem(index: index)
-        let f = adornmentList[index].callback
-        if f != nil {
+        if delegate != nil {
             DispatchQueue.main.async(execute: { () -> Void in
-                f!()
+                self.delegate?.adornmentItemSelected(key: self.adornmentList[index].key)
             })
-        } else {
-            log.warning("No handler supplied for item \(adornmentList[index].text)")
         }
     }
 

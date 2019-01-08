@@ -35,6 +35,19 @@ public extension UIColor {
     
     //-------------------------------------------------------------------
     
+    func hue()-> CGFloat {
+        var hue: CGFloat = 0
+        var saturation: CGFloat = 0
+        var brightness: CGFloat = 0
+        var alpha: CGFloat = 0
+        
+        self.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
+        
+        return hue
+    }
+    
+    //-------------------------------------------------------------------
+
     // ways to create a colour using a hex string (like CSS), or get the hex string of a colour:
     
     

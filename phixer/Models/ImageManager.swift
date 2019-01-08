@@ -68,10 +68,10 @@ class ImageManager {
             return
         }
         
-        //_currBlendImage = getImageFromAssets(assetID:name, size:_currBlendSize)
-        
-        _currBlendImage = CIImage(image: getImageFromAssets(assetID:name)!)
-        if _currBlendImage != nil {
+        let image = getImageFromAssets(assetID:name)
+        if image != nil {
+            //_currBlendImage = CIImage(image: image!)
+            _currBlendImage = CIImage(image: image!)?.oriented(forExifOrientation: imageOrientationToExifOrientation(value: image!.imageOrientation))
             _currBlendName = name
             //_currBlendInput = CIImage(image:_currBlendImage!)
             _currBlendImageScaled = _currBlendImage
@@ -216,8 +216,10 @@ class ImageManager {
         
         let image = getImageFromAssets(assetID:name)
         if image != nil {
-            _currSampleImage = CIImage(image: image!)
-            _currSampleName = name
+            //_currSampleImage = CIImage(image: image!)
+            _currSampleImage = CIImage(image: image!)?.oriented(forExifOrientation: imageOrientationToExifOrientation(value: image!.imageOrientation))
+
+             _currSampleName = name
             //_currSampleInput = CIImage(image:_currSampleImage!)
             _currSampleImageScaled = _currSampleImage
             _currSampleSize = (image?.size)!
@@ -387,12 +389,12 @@ class ImageManager {
         
         //_currEditImage = getImageFromAssets(assetID:ename, size:_currEditSize)
         let image = getImageFromAssets(assetID:ename)
-        //log.debug("\(ename) orientation: \(image?.imageOrientation.rawValue)")
-        if image?.imageOrientation == UIImageOrientation.down {
-            log.debug("\(ename) upside down")
-            _currEditImage = CIImage(image: image!)?.oriented(CGImagePropertyOrientation.up)
+        if image != nil {
+            //_currEditImage = CIImage(image: image!)
+            //_currEditImage = CIImage(image: image!, options: [kCIImageApplyOrientationProperty:true])?.oriented(.up)
+            _currEditImage = CIImage(image: image!)?.oriented(forExifOrientation: imageOrientationToExifOrientation(value: image!.imageOrientation))
         } else {
-            _currEditImage = CIImage(image: image!)
+            log.error("NIL image returned for: \(ename)")
         }
 
         if _currEditImage != nil {
@@ -679,22 +681,6 @@ class ImageManager {
         // resize to match the target
         let newImage = scaleImage(croppedImage, targetSize:tsize)
         
-        /***
-         // debug
-         var nsize:CGSize = CGSize.zero
-         if (newImage != nil){
-         nsize = (newImage?.size)!
-         }
-         
-         log.debug("SIZES: image:\(size), targetSize:\(targetSize), srcImage:\(srcSize), cropSize:\(cropSize), nsize:\(nsize)")
-         let (r1n, r1d) = ClosestFraction.find(Float(size.width/size.height), maxDenominator:Int(size.height))
-         let (r2n, r2d) = ClosestFraction.find(Float(targetSize.width/targetSize.height), maxDenominator:Int(targetSize.height))
-         let (r3n, r3d) = ClosestFraction.find(Float(srcSize.width/srcSize.height), maxDenominator:Int(srcSize.height))
-         let (r4n, r4d) = ClosestFraction.find(Float(cropSize.width/cropSize.height), maxDenominator:Int(cropSize.height))
-         let (r5n, r5d) = ClosestFraction.find(Float(nsize.width/nsize.height), maxDenominator:Int(nsize.height))
-         log.debug("RATIOS: image:\(r1n)/\(r1d), targetSize:\(r2n)/\(r2d), srcImage:\(r3n)/\(r3d), cropSize:\(r4n)/\(r4d), nsize:\(r5n)/\(r5d)")
-         ***/
-        
         return newImage
     }
     
@@ -919,6 +905,28 @@ class ImageManager {
             return true
         } else {
             return false
+        }
+    }
+    
+    
+    static func imageOrientationToExifOrientation(value: UIImageOrientation) -> Int32 {
+        switch (value) {
+        case .up:
+            return 1
+        case .down:
+            return 3
+        case .left:
+            return 8
+        case .right:
+            return 6
+        case .upMirrored:
+            return 2
+        case .downMirrored:
+            return 4
+        case .leftMirrored:
+            return 5
+        case .rightMirrored:
+            return 7
         }
     }
 }

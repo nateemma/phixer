@@ -76,8 +76,8 @@ class DehazeFilter: CIFilter {
             "inputColor": [kCIAttributeIdentity: 0,
                            kCIAttributeDisplayName: "Color",
                            kCIAttributeClass: "CIColor",
-                           kCIAttributeDefault: DehazeFilter.defaultColor,
-                           kCIAttributeType: kCIAttributeTypeScalar]
+                           kCIAttributeDefault: CIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0),
+                           kCIAttributeType: kCIAttributeTypeColor]
         ]
     }
     

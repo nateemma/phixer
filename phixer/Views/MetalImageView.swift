@@ -146,7 +146,7 @@ class MetalImageView: MTKView
             return
         }
         
-        if let image = image {
+        if let srcImg = image {
             
             if let targetTexture = currentDrawable?.texture {
                 
@@ -159,6 +159,17 @@ class MetalImageView: MTKView
                     var originX:CGFloat = 0.0
                     var originY:CGFloat = 0.0
                     
+                    /***  not working, still having issues with upside down images (selfies)
+                    var transform:CGAffineTransform
+                    if srcImg.extent.size.height > srcImg.extent.size.width {
+                        transform = srcImg.orientationTransform(for: .up)
+                    } else {
+                        transform = srcImg.orientationTransform(for: .right)
+                    }
+                    let image = srcImg.transformed(by:transform)
+                     ***/
+                    let image = srcImg
+
                     // test: orient image to match view
                     
                     //let orientation = UIDeviceOrientation.portrait
@@ -173,14 +184,14 @@ class MetalImageView: MTKView
                         angle = .pi / 2.0
                         isize.height = image.extent.size.width
                         isize.width = image.extent.size.height
+
                     } else if (dAR>1.0) && (iAR<1.0) { // drawable is portrait, image is landscape
                         //log.debug("landscape->portrait")
                         angle = -(.pi / 2.0)
                         isize.height = image.extent.size.width
                         isize.width = image.extent.size.height
-                    }
+                  }
                     //log.debug("(\(image.extent.width),\(image.extent.height))->(\(isize.width),\(isize.height))")
-                    
                     
                     var targetRect:CGRect
                     var scaleX:CGFloat = 1.0
@@ -226,9 +237,10 @@ class MetalImageView: MTKView
 
                     //let scaledImage = image.transformed(by: CGAffineTransform(scaleX: scale, y: scale))
                      //   .transformed(by: CGAffineTransform(translationX: originX, y: originY))
-                    let scaledImage = image.transformed(by:CGAffineTransform(rotationAngle: angle))
-                                           .transformed(by: CGAffineTransform(scaleX: scale, y: scale))
-                                           .transformed(by: CGAffineTransform(translationX: originX, y: originY))
+                    let scaledImage = image
+                        .transformed(by:CGAffineTransform(rotationAngle: angle))
+                        .transformed(by: CGAffineTransform(scaleX: scale, y: scale))
+                        .transformed(by: CGAffineTransform(translationX: originX, y: originY))
 
                     
                     ciContext.render(scaledImage,

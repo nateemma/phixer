@@ -50,49 +50,6 @@ class  FilterDescriptor {
     private static let opacityFilter = Opacity()
 
     public static let nullFilter = "NoFilter"
-    
-    // the type of the parameter
-    public enum ParameterType {
-        case float
-        case color
-        case image
-        case position
-        case rectangle
-        case vector2
-        case vector3
-        case vector4
-        case unknown
-    }
-    
-    // set of parameters that are used to set up a filter
-    //public typealias ParameterSettings = (key:String, title:String, min:Float, max:Float, value:Float, type:ParameterType)
-    public struct ParameterSettings {
-        var key:String
-        var title:String
-        var min:Float
-        var max:Float
-        var value:Float
-        var type:ParameterType
-        
-        init(key:String, title:String, min:Float, max:Float, value:Float, type:ParameterType){
-            self.key = key
-            self.title = title
-            self.min = min
-            self.max = max
-            self.value = value
-            self.type = type
-        }
-    }
-    
-    
-    // identifies the general type of filter, so that an app can configure it properly (e.g. with 2 images instead of 1)
-    // Note: declared as String so that you can convert a String (str) to an enum by ftype = FilterOperationType(rawValue:str)
-    public enum FilterOperationType: String {
-        case singleInput
-        case blend
-        case lookup
-        case custom
-    }
 
     
     // private vars
@@ -127,7 +84,37 @@ class  FilterDescriptor {
         self.filter = nil
     }
     
-    // constructor
+    // constructors with parameters
+    
+    init (key: String, definition:FilterDefinition){
+        self.key = key
+        self.title = definition.title
+        self.show = !(definition.hide)
+        self.rating = definition.rating
+        self.filterOperationType = FilterOperationType.singleInput
+        self.stashedParameters = [:]
+        self.parameterConfiguration = [:]
+        self.numParameters = 0
+        self.lookupImage = nil
+        self.lookupImageName = definition.lookup
+        
+        if definition.ftype.isEmpty {
+            log.error("NIL Operation Type for filter: \(key)")
+            self.filterOperationType = FilterOperationType.singleInput
+        } else {
+            self.filterOperationType = FilterOperationType(rawValue:definition.ftype)!
+        }
+
+        
+        // check for null filter (i.e. no operation is applied)
+        if self.key == FilterDescriptor.nullFilter {
+            self.filter = nil
+        } else {
+            // create the filter
+            initFilter(ftype: self.filterOperationType, key:self.key, title:self.title, parameters:definition.parameters)
+        }
+    }
+    
     init(key:String, title:String, ftype:FilterOperationType, parameters:[ParameterSettings]){
         self.key = key
         self.title = title
@@ -144,22 +131,25 @@ class  FilterDescriptor {
         if self.key == FilterDescriptor.nullFilter {
             self.filter = nil
         } else {
-            
             // create the filter
-            switch (ftype){
-            case .singleInput:
-                initSingleInputFilter(key:key, title:title, parameters:parameters)
-            case .lookup:
-                initLookupFilter(key:key, title:title, parameters:parameters)
-            case .blend:
-                initBlendFilter(key:key, title:title, parameters:parameters)
-            case .custom:
-                initCustomFilter(key:key, title:title, parameters:parameters)
-            }
+            initFilter(ftype: ftype, key:key, title:title, parameters:parameters)
         }
     }
     
     // different initializers for the different filter types
+    
+    private func initFilter(ftype:FilterOperationType, key:String, title:String, parameters:[ParameterSettings]){
+        switch (ftype){
+        case .singleInput:
+            initSingleInputFilter(key:key, title:title, parameters:parameters)
+        case .lookup:
+            initLookupFilter(key:key, title:title, parameters:parameters)
+        case .blend:
+            initBlendFilter(key:key, title:title, parameters:parameters)
+        case .custom:
+            initCustomFilter(key:key, title:title, parameters:parameters)
+        }
+    }
     
     private func initSingleInputFilter(key:String, title:String, parameters:[ParameterSettings]){
         //log.debug("Creating CIFilter:\(key)")
@@ -347,11 +337,15 @@ class  FilterDescriptor {
     func setColorParameter(_ key:String, color:CIColor) {
         if let p = parameterConfiguration[key] {
             if p.type == .color {
+                self.filter?.setValue(color, forKey: key)
+                /**** color types have funky names, so don't check - trust that config is correct (will crash otherwise)
                 if ((self.filter?.inputKeys.contains(p.key))!) {
                     self.filter?.setValue(color, forKey: key)
                 } else {
-                    log.error("Invalid parameter:(\(p.key)) for filter:(\(self.key))")
+                    log.error("Invalid parameter:(key:\(key) p.key:\(p.key)) for filter:(\(self.key))")
+                    log.debug("inputKeys:\(self.filter?.inputKeys)")
                 }
+                 ****/
             } else {
                 log.error("Parameter (\(key) is not a Color")
             }

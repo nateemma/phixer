@@ -39,16 +39,11 @@ class EditMainOptionsController: UIViewController, EditChildControllerDelegate {
     let buttonSize : CGFloat = 32.0
     let editControlHeight: CGFloat = 96.0
     
-    var childController:EditBaseController? = nil
+    var childController:EditBaseMenuController? = nil
+        
     
     
-    // the list of controls (not sorted, so put in the order you want displayed)
-    fileprivate var optionNameList: [String] = [ "Basic Adjustments", "Color Adjustments", "Style Transfer", "Color Filters", "Detail", "Curves", "Transforms", "Faces", "Presets" ]
-    
-    // array of handlers. Order must match the names
-    fileprivate lazy var optionHandlerList:[()->()] = [basicAdjustmentsHandler, colorAdjustmentsHandler, styleTransferHandler, colorFiltersHandler, detailHandler,
-                                                       curvesHandler, transformsHandler, facesHandler, presetsHandler]
-
+    /////////////////////////////
     
     convenience init(){
         self.init(nibName:nil, bundle:nil)
@@ -64,7 +59,9 @@ class EditMainOptionsController: UIViewController, EditChildControllerDelegate {
             initDone = true
         }
     }
-    
+
+    /////////////////////////////
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -122,14 +119,22 @@ class EditMainOptionsController: UIViewController, EditChildControllerDelegate {
         self.childController?.previousFilter()
     }
     
+    public func show(){
+        self.childController?.show()
+    }
+    
+    public func hide(){
+        self.childController?.hide()
+    }
+
     //////////////////////////////////////
     // MARK: - Sub-View layout
     //////////////////////////////////////
 
     private func setupOptions() {
         let menu = SimpleCarousel()
-        menu.setTitles(optionNameList)
-        menu.setHandlers(optionHandlerList)
+        menu.setItems(optionList)
+        menu.delegate = self
         optionsControlView.addSubview(menu)
         menu.fillSuperview()
     }
@@ -154,6 +159,41 @@ class EditMainOptionsController: UIViewController, EditChildControllerDelegate {
     // MARK: - Handlers for the menu items
     //////////////////////////////////////////
 
+    fileprivate var optionList: [Adornment] = [ Adornment(key: "basic",      text: "Basic Adjustments", icon: "", view: nil, isHidden: false),
+                                                Adornment(key: "filters",    text: "Color Filters",     icon: "", view: nil, isHidden: false),
+                                                Adornment(key: "style",      text: "Style Transfer",    icon: "", view: nil, isHidden: false),
+                                                Adornment(key: "curves",     text: "Curves",            icon: "", view: nil, isHidden: false),
+                                                Adornment(key: "color",      text: "Color Adjustments", icon: "", view: nil, isHidden: false),
+                                                Adornment(key: "detail",     text: "Detail",            icon: "", view: nil, isHidden: false),
+                                                Adornment(key: "transforms", text: "Transforms",        icon: "", view: nil, isHidden: false),
+                                                Adornment(key: "faces",      text: "Faces",             icon: "", view: nil, isHidden: false),
+                                                Adornment(key: "presets",    text: "Presets",           icon: "", view: nil, isHidden: false) ]
+
+    
+    func handleSelection(key: String){
+        switch (key){
+        case "basic":
+            basicAdjustmentsHandler()
+        case "filters":
+            colorFiltersHandler()
+        case "style":
+            styleTransferHandler()
+        case "curves":
+            curvesHandler()
+        case "color":
+            colorAdjustmentsHandler()
+        case "detail":
+            detailHandler()
+        case "transforms":
+            transformsHandler()
+        case "faces":
+            facesHandler()
+        case "presets":
+            presetsHandler()
+        default:
+            log.error("Unknown key: \(key)")
+        }
+    }
 
     func basicAdjustmentsHandler(){
         self.optionsControlView.isHidden = true
@@ -163,7 +203,6 @@ class EditMainOptionsController: UIViewController, EditChildControllerDelegate {
         //present(vc, animated: true, completion: { })
         self.childController = vc
         add(childController!)
-
     }
     
     func colorAdjustmentsHandler(){
@@ -190,7 +229,13 @@ class EditMainOptionsController: UIViewController, EditChildControllerDelegate {
     }
     
     func curvesHandler(){
-        notYetImplemented()
+        self.optionsControlView.isHidden = true
+        let vc = EditCurvesController()
+        vc.delegate = self
+        vc.view.frame.size = self.view.frame.size
+        //present(vc, animated: true, completion: { })
+        self.childController = vc
+        add(childController!)
     }
     
     func transformsHandler(){
@@ -271,3 +316,12 @@ extension EditMainOptionsController: GalleryViewControllerDelegate {
     }
 }
 
+// Adornment delegate
+
+extension EditMainOptionsController: AdornmentDelegate {
+    func adornmentItemSelected(key: String) {
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.handleSelection(key: key)
+        })
+    }
+}

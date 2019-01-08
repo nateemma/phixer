@@ -134,13 +134,14 @@ class FilterLibrary{
         var version:Float
         var key:String, title:String, ftype:String
         var value:String
+        var slow:Bool
         var hide:Bool
         var rating:Int
         
         var pkey:String, ptitle:String
-        var ptype: FilterDescriptor.ParameterType
+        var ptype: ParameterType
         var pmin:Float, pmax:Float, pval:Float
-        var psettings:[FilterDescriptor.ParameterSettings]
+        var psettings:[ParameterSettings]
 
      
         initLists()
@@ -206,18 +207,21 @@ class FilterLibrary{
                         sampleList.append(sample.stringValue)
                     }
                     ImageManager.setSampleList(sampleList)
-                    
+  
+                    var def:FilterDefinition = FilterDefinition()
+
                     // Filter list
                     count = 0
                     for item in parsedConfig["filters"].arrayValue {
                         count = count + 1
-                        key = item["key"].stringValue
-                        title = item["title"].stringValue
-                        ftype = item["ftype"].stringValue
-                        hide = !(item["show"].boolValue)
-                        rating = item["rating"].intValue
+                        def.key = item["key"].stringValue
+                        def.title = item["title"].stringValue
+                        def.ftype = item["ftype"].stringValue
+                        def.slow = item["slow"].boolValue
+                        def.hide = !(item["show"].boolValue)
+                        def.rating = item["rating"].intValue
                         // get filter parameters
-                        psettings = []
+                        def.parameters = []
                         for p in item["parameters"].arrayValue {
                             pkey = p["key"].stringValue
                             ptitle = p["title"].stringValue
@@ -225,10 +229,10 @@ class FilterLibrary{
                             pmax = p["max"].floatValue
                             pval = p["val"].floatValue
                             ptype = attributeToParameterType(p["type"].stringValue)
-                            psettings.append(FilterDescriptor.ParameterSettings(key: pkey, title: ptitle, min: pmin, max: pmax, value: pval, type: ptype))
+                            def.parameters.append(ParameterSettings(key: pkey, title: ptitle, min: pmin, max: pmax, value: pval, type: ptype))
                         }
 
-                        addFilter(key:key, title:title, ftype:ftype, hide:hide, rating:rating, settings: psettings)
+                        addFilter(key:def.key, definition:def)
                     }
                     print ("\(count) Filters found")
                     
@@ -237,11 +241,14 @@ class FilterLibrary{
                     count = 0
                     for item in parsedConfig["lookup"].arrayValue {
                         count = count + 1
-                        key = item["key"].stringValue
-                        value = item["image"].stringValue
-                        hide = item["hide"].boolValue
-                        rating = item["rating"].intValue
-                        addLookup(key:key, image:value, hide:hide, rating:rating)
+                        def.key = item["key"].stringValue
+                        def.lookup = item["image"].stringValue
+                        def.title = def.lookup
+                        def.ftype = "lookup"
+                        def.slow = item["slow"].boolValue
+                        def.hide = item["hide"].boolValue
+                        def.rating = item["rating"].intValue
+                        addLookup(key:def.key, definition:def)
                     }
                     print ("\(count) Lookup Images found")
                     
@@ -317,8 +324,8 @@ class FilterLibrary{
 
 
     // functio to convert from CIFilter Attribute Type string to simpler internal parameter type
-    private static func attributeToParameterType(_ atype:String) -> FilterDescriptor.ParameterType {
-        var ptype: FilterDescriptor.ParameterType
+    private static func attributeToParameterType(_ atype:String) -> ParameterType {
+        var ptype: ParameterType
         ptype = .unknown
         switch (atype){
         case kCIAttributeTypeTime:
@@ -366,60 +373,38 @@ class FilterLibrary{
   
     
     
-    private static func addFilter(key:String, title:String, ftype:String, hide:Bool, rating:Int, settings:[FilterDescriptor.ParameterSettings]){
-        /*
-        // create an instance from the classname and add it to the dictionary
-        var descriptor:FilterDescriptor? = nil
-        let ns = Bundle.main.infoDictionary!["CFBundleExecutable"] as! String
-        let className = ns + "." + classname
-        let theClass = NSClassFromString(className) as! FilterDescriptor.Type
-        descriptor = theClass.init()
-        
-        if (descriptor != nil){
-            FilterLibrary.filterDictionary[key] = descriptor
-            //print ("FilterLibrary.addFilter() Added class: \(classname)")
-        } else {
-            print ("FilterLibrary.addFilter() ERR: Could not create class: \(classname)")
-        }
- */
+    private static func addFilter(key:String, definition:FilterDefinition){
+
         // just store the mapping. Do lazy allocation as needed because of the potentially large number of filters
         FilterLibrary.filterDictionary[key] = nil // just make sure there is an entry to find later
-        FilterFactory.addFilterDefinition(key: key, title:title, ftype:ftype,  hide:hide, rating:rating, settings:settings)
-        print("addFilter(\(key): \(title), \(ftype), \(hide), \(rating)), \(settings)")
+        FilterFactory.addFilterDefinition(key: key, definition:definition)
+        print("addFilter(\(definition.key): \(definition.title), \(definition.ftype), \(definition.hide), \(definition.rating)), \(definition.parameters)")
     }
     
     
     
-    private static func addLookup(key:String, image:String, hide:Bool, rating:Int){
+    private static func addLookup(key:String, definition:FilterDefinition){
         
-        let l = image.components(separatedBy:".")
+        let l = definition.lookup.components(separatedBy:".")
         let title = l[0]
         let ext = l[1]
         
         guard Bundle.main.path(forResource: title, ofType: ext) != nil else {
-            print("addLookup() ERR: File not found:\(image)")
+            print("addLookup() ERR: File not found:\(definition.lookup)")
             return
         }
         
-        /** old way
-        // create a Lookup filter, set the name/title/image and add it to the Filter dictioary
-        var descriptor:LookupFilterDescriptor
-        descriptor = LookupFilterDescriptor()
-        descriptor.key = key
-        descriptor.title = title
-        descriptor.setLookupFile(name: image)
-        FilterLibrary.filterDictionary[key] = descriptor
- **/
-        
-        // new way: save the image name for later use, when the filter is created
+        // save the image name for later use, when the filter is created
         if (FilterLibrary.lookupDictionary[key] != nil){ // check for duplicate and warn
             print("addLookup() WARN: Duplicate key:\(key)")
         }
-        FilterLibrary.lookupDictionary[key] = image
+        
+        var def = definition
+        def.title = title
         FilterLibrary.filterDictionary[key] = nil
-        FilterFactory.addLookupFilter(key: key, title: title, image: image,  hide:hide, rating:rating)
+        FilterFactory.addLookupFilter(key: key, definition:def)
         //FilterFactory.addFilterDefinition(key: key, title: key, ftype: "lookup",  hide:hide, rating:rating)
-        print("addLookup(\(key), \(image), \(hide), \(rating))")
+        print("addLookup(\(definition.key), \(definition.lookup), \(definition.hide), \(definition.rating))")
     }
     
     

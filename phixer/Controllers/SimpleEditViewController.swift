@@ -312,18 +312,10 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
         // update the photo and blend icons (they can change)
         loadPhotoThumbnail()
         loadBlendThumbnail()
-        
-        // build the list of adornments
-        // TODO: hide blend icon if not relevant??
-        
-        let itemList:[Adornment] = [ Adornment(text: "photo", icon: "", view: photoThumbnail, isHidden: false, callback: imageDidPress),
-                                     Adornment(text: "blend", icon: "", view: blendThumbnail, isHidden: false, callback: blendDidPress),
-                                     Adornment(text: "reset", icon: "ic_reset", view: nil, isHidden: false, callback: resetDidPress),
-                                     Adornment(text: "undo", icon: "ic_undo", view: nil, isHidden: false, callback: undoDidPress),
-                                     Adornment(text: "save", icon: "ic_save", view: nil, isHidden: false, callback: saveDidPress)
-                                     ]
+        updateAdornments()
         
         menuView.addAdornments(itemList)
+        menuView.delegate = self
         //menuView.update()
     }
 
@@ -367,7 +359,37 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
     //////////////////////////////////////
     // MARK: - Menu item handlers
     //////////////////////////////////////
+    // build the list of adornments
+    // TODO: hide blend icon if not relevant??
     
+    var itemList:[Adornment] = [ ]
+
+    func updateAdornments(){
+        itemList = []
+        itemList.append (Adornment(key: "photo", text: "photo", icon: "", view: photoThumbnail, isHidden: false))
+        itemList.append (Adornment(key: "blend", text: "blend", icon: "", view: blendThumbnail, isHidden: false))
+        itemList.append (Adornment(key: "reset", text: "reset", icon: "ic_reset", view: nil, isHidden: false))
+        itemList.append (Adornment(key: "undo", text: "undo", icon: "ic_undo", view: nil, isHidden: false))
+        itemList.append (Adornment(key: "save", text: "save", icon: "ic_save", view: nil, isHidden: false))
+    }
+    
+    func handleSelection(key: String){
+        switch (key){
+        case "photo":
+            imageDidPress()
+        case "blend":
+            blendDidPress()
+        case "reset":
+            resetDidPress()
+        case "undo":
+            defaultDidPress()
+        case "save":
+            saveDidPress()
+        default:
+            log.error("Unknown key: \(key)")
+        }
+    }
+
     @objc func imageDidPress(){
         self.menuView.isHidden = true
         self.changeImage()
@@ -523,12 +545,14 @@ class SimpleEditViewController: UIViewController, UIImagePickerControllerDelegat
                     
                 case UISwipeGestureRecognizerDirection.up:
                     //log.verbose("Swiped Up")
+                    optionsController?.show()
                     showFilterSettings()
                     break
                     
                 case UISwipeGestureRecognizerDirection.down:
                     hideFilterSettings()
                     hideModalViews()
+                    optionsController?.hide()
                     //log.verbose("Swiped Down")
                     break
                     
@@ -977,5 +1001,17 @@ extension SimpleEditViewController: FilterParametersViewDelegate {
         })
     }
     
+}
+
+
+
+// Adornment delegate
+
+extension SimpleEditViewController: AdornmentDelegate {
+    func adornmentItemSelected(key: String) {
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.handleSelection(key: key)
+        })
+    }
 }
 

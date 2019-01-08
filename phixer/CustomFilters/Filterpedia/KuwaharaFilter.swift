@@ -51,7 +51,7 @@ class KuwaharaFilter: CIFilter
         inputRadius = 15
     }
         
-    let kuwaharaKernel = CIKernel(string:
+    let kuwaharaKernel = CIKernel(source:
         "kernel vec4 kuwahara(sampler image, float r) \n" +
         "{" +
         "   vec2 d = destCoord();" +
@@ -113,19 +113,13 @@ class KuwaharaFilter: CIFilter
     
     override var outputImage : CIImage!
     {
-        if let inputImage = inputImage,
-            kuwaharaKernel = kuwaharaKernel
-        {
-            let arguments = [inputImage, inputRadius]
+        if let inputImage = inputImage, let kuwaharaKernel = kuwaharaKernel {
+            let arguments = [inputImage, inputRadius] as [Any]
             let extent = inputImage.extent
             
-            return kuwaharaKernel.applyWithExtent(extent,
-                roiCallback:
-                {
-                    (index, rect) in
-                    return rect
-                },
-                arguments: arguments)
+            return kuwaharaKernel.apply(extent: extent,
+                                        roiCallback: { (index, rect) in return rect },
+                                        arguments: arguments)
         }
         return nil
     }

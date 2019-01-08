@@ -1,5 +1,5 @@
 //
-//  EditBaseController.swift
+//  EditBaseMenuController.swift
 //  phixer
 //
 //  Created by Philip Price on 12/17/18
@@ -16,9 +16,9 @@ private var filterList: [String] = []
 private var filterCount: Int = 0
 
 // This View Controller is the 'base' class used for creating Edit Control displays which consist of a carousel of text & icons
-// The subclass just needs to override the functions that provide the displayed data and the handlers for each item
+// The subclass just needs to override the functions that provide the displayed data and the handler for dealing with a user selection
 
-class EditBaseController: UIViewController, EditChildControllerDelegate {
+class EditBaseMenuController: UIViewController, EditChildControllerDelegate {
     
     
     // delegate for issuing callbacks. Must be set by the parent controller
@@ -59,26 +59,11 @@ class EditBaseController: UIViewController, EditChildControllerDelegate {
         return []
     }
 
-    
-    // returns the list of titles for each item
-    func getTitleList() -> [String] {
+    // function to handle a selected item
+    func handleSelection(key:String) {
         log.error("Base class called, should have been overridden by subclass")
-        return []
     }
     
-    // returns the list of handlers for each item
-    // Note that the sbclass also needs to provide implementations of the supplied handlers
-    func getHandlerList() -> [()->()] {
-        log.error("Base class called, should have been overridden by subclass")
-        return []
-    }
-    
-    // returns the list of icons for each item - can be empty or contan empty ("") items
-    func getIconList() -> [String] {
-        log.warning("Base class called, should have been overridden by subclass")
-        return []
-    }
-
     // go to the next filter, whatever that means for this controller. Note that this is a valid default implementation
     func nextFilter(){
         menu.nextItem()
@@ -89,6 +74,15 @@ class EditBaseController: UIViewController, EditChildControllerDelegate {
         menu.previousItem()
     }
 
+    // show this view
+    func show(){
+        self.view.isHidden = false
+    }
+    
+    // hide this view
+    func hide(){
+        self.view.isHidden = true
+    }
     
     ////////////////////
     // Everything below here is generic so subclasses can just inherit this functionality as-is
@@ -194,9 +188,8 @@ class EditBaseController: UIViewController, EditChildControllerDelegate {
         // set up the menu of option
         menu.frame.size.height = mainView.frame.size.height * 0.7
         menu.frame.size.width = mainView.frame.size.width
-        menu.setTitles(getTitleList())
-        menu.setHandlers(getHandlerList())
-        menu.setIcons(getIconList())
+        menu.setItems(getItemList())
+        menu.delegate = self
         
         mainView.addSubview(menu)
         menu.anchorToEdge(.bottom, padding: 0, width: menu.frame.size.width, height: menu.frame.size.height)
@@ -247,11 +240,10 @@ class EditBaseController: UIViewController, EditChildControllerDelegate {
         })
     }
     
-   
     //////////////////////////////////////////
     // MARK: - Delegate functions for child controllers
     //////////////////////////////////////////
-    
+
     // called when a child controller returns a filter selection
     func editFilterSelected(key: String) {
         // just pass on the to the parent controller
@@ -280,8 +272,20 @@ class EditBaseController: UIViewController, EditChildControllerDelegate {
         self.view.isHidden = false
     }
 
-} // EditBaseController
+} // EditBaseMenuController
 //########################
 
 
+
+//////////////////////////////////////////
+// MARK: - Delegate functions
+//////////////////////////////////////////
+
+extension EditBaseMenuController: AdornmentDelegate {
+    func adornmentItemSelected(key: String) {
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.handleSelection(key: key)
+        })
+    }
+}
 
