@@ -77,7 +77,16 @@ class StyleTransferFilter: CIFilter {
             kCIInputImageKey: [kCIAttributeIdentity: 0,
                                kCIAttributeClass: "CIImage",
                                kCIAttributeDisplayName: "Image",
-                               kCIAttributeType: kCIAttributeTypeImage]
+                               kCIAttributeType: kCIAttributeTypeImage],
+            
+            "inputModel": [kCIAttributeIdentity: 0,
+                               kCIAttributeClass: "String",
+                               kCIAttributeDefault: 0.0,
+                               kCIAttributeDisplayName: "Model",
+                               kCIAttributeMin: 0,
+                               kCIAttributeSliderMin: 0.0,
+                               kCIAttributeSliderMax: 0.0,
+                               kCIAttributeType: "String"],
         ]
     }
     

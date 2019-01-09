@@ -105,7 +105,7 @@ class Sobel5x5Filter: CIFilter {
         log.debug("threshold: \(inputThreshold)")
         
         // using Accelerate, CIConvolution filters don't seem to work...
-        let  cgimage = inputImage.getCGImage()
+        let  cgimage = inputImage.getCGImage(size:inputImage.extent.size)
         
         /*** One-pass matrices
         // Sobel convolution matrix (there are various possible sets)

@@ -36,7 +36,7 @@ class MLModelHelper {
         
         var inputCGImage = image?.cgImage
         if inputCGImage == nil { // can be nil if CIImage was generated, e.g. from a filter
-            inputCGImage = image?.generateCGImage()
+            inputCGImage = image?.generateCGImage(size:imageSize)
         }
 
 
@@ -82,7 +82,7 @@ class MLModelHelper {
         var cgimage:CGImage? = image?.cgImage
         if (cgimage == nil) { // this often (always?) happens with generated images
             //log.error("No CGImage in CIImage, creating one...")
-            cgimage = image?.generateCGImage()
+            cgimage = image?.generateCGImage(size:modelSize)
         }
         if (cgimage == nil) {
             log.error("Coild not convert CIImage to CGImage")

@@ -59,7 +59,7 @@ class Sobel3x3Filter: CIFilter {
     // default settings
     override func setDefaults() {
         inputImage = nil
-        inputThreshold = 0.5
+        inputThreshold = 0.25
     }
     
     
@@ -75,7 +75,7 @@ class Sobel3x3Filter: CIFilter {
             
             "inputThreshold": [kCIAttributeIdentity: 0,
                                kCIAttributeClass: "NSNumber",
-                               kCIAttributeDefault: 0.5,
+                               kCIAttributeDefault: 0.25,
                                kCIAttributeDisplayName: "Threshold",
                                kCIAttributeMin: 0.0,
                                kCIAttributeSliderMin: 0.01,
@@ -96,6 +96,20 @@ class Sobel3x3Filter: CIFilter {
         }
     }
 
+    
+    let horizontalWeights = CIVector(values: [
+        -1, 0, 1,
+        -2, 0, 2,
+        -1, 0, 1], count: 9)
+    
+    let verticalWeights = CIVector(values: [
+        -1, -2, -1,
+        0,  0,  0,
+        1,  2,  1], count: 9)
+    
+    let makeOpaqueKernel = CIColorKernel(source: "kernel vec4 xyz(__sample pixel) { return vec4(pixel.rgb, 1.0); }")
+
+    
     override var outputImage: CIImage? {
         guard let inputImage = inputImage else {
             log.error("No input image")
@@ -104,8 +118,9 @@ class Sobel3x3Filter: CIFilter {
         
         log.debug("threshold: \(inputThreshold)")
         
+/*** Manual way:
         // using Accelerate, CIConvolution filters don't seem to work...
-        let  cgimage = inputImage.getCGImage()
+        let  cgimage = inputImage.getCGImage(size:inputImage.extent.size)
         
         /*** One-pass matrices
         // Sobel convolution matrix (there are various possible sets)
@@ -147,6 +162,19 @@ class Sobel3x3Filter: CIFilter {
         let extent = inputImage.extent
         let arguments = [ciimage_x, ciimage_y, inputThreshold] as [Any]
         return  kernel.apply(extent: extent, arguments: arguments)
+ ***/
         
+        /*** Using CIFilter approach
+ ***/
+        
+        let bias = 1.0
+        let weight = 4.0 * inputThreshold // CIFilter uses 0..4
+        let filterName = "CIConvolution3X3"
+        
+        let edgeImg = inputImage.applyingFilter(filterName, parameters: [kCIInputWeightsKey: horizontalWeights.multiply(value: weight), kCIInputBiasKey: bias])
+            inputImage.applyingFilter(filterName, parameters: [kCIInputWeightsKey: verticalWeights.multiply(value: weight), kCIInputBiasKey: bias])
+                .cropped(to: inputImage.extent)
+
+        return makeOpaqueKernel?.apply(extent: inputImage.extent, arguments: [edgeImg])
     }
 }

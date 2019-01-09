@@ -34,7 +34,8 @@ class  FilterDescriptor {
     //these are get/set because they are often changed
     public var show: Bool = false
     public var rating: Int = 0
-    
+    public var slow: Bool = false
+
     
     
     // constant used to indicate that a parameter has not (yet) been set, or doesn't exist
@@ -75,6 +76,7 @@ class  FilterDescriptor {
         self.title = ""
         self.show = false
         self.rating = 0
+        self.slow = false
         self.filterOperationType = .custom
         self.stashedParameters = [:]
         self.parameterConfiguration = [:]
@@ -91,6 +93,7 @@ class  FilterDescriptor {
         self.title = definition.title
         self.show = !(definition.hide)
         self.rating = definition.rating
+        self.slow = definition.slow
         self.filterOperationType = FilterOperationType.singleInput
         self.stashedParameters = [:]
         self.parameterConfiguration = [:]
@@ -498,7 +501,7 @@ class  FilterDescriptor {
 
             case .singleInput:
                 if validParam(kCIInputImageKey) { filter.setValue(image, forKey: kCIInputImageKey) }
-                return filter.outputImage?.cropped(to: (image?.extent)!)
+                return filter.outputImage?.clampedToExtent().cropped(to: (image?.extent)!)
                 
             case .blend:
                 //log.debug("Using BLEND mode for filter: \(String(describing: self.key))")
@@ -527,7 +530,7 @@ class  FilterDescriptor {
                 if validParam(kCIInputImageKey) { filter.setValue(bImage, forKey: kCIInputImageKey) }
                 if validParam("inputBackgroundImage") { filter.setValue(image, forKey: "inputBackgroundImage") }
 
-                return filter.outputImage?.cropped(to: (image?.extent)!)
+                return filter.outputImage?.clampedToExtent().cropped(to: (image?.extent)!)
                 
             default:
                 log.warning("Don't know how to handle filter \(String(describing: self.key))")

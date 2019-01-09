@@ -14,9 +14,13 @@ class SketchFilter: CIFilter {
     var inputThreshold: CGFloat = 0.5
     var inputMix: CGFloat = 0.5
     var inputTexture: CGFloat = 0.5
-
-    private let kernel: CIKernel!
     
+    var inputChanged:Bool = false
+
+    //private let kernel: CIKernel!
+    var currOutputImage:CIImage? = nil
+    
+    static var pencilTexture:CIImage? = nil
     
     // filter display name
     func displayName() -> String {
@@ -25,6 +29,7 @@ class SketchFilter: CIFilter {
 
     // init
     override init() {
+        /****
         do {
 
             
@@ -55,7 +60,12 @@ class SketchFilter: CIFilter {
         } catch {
             log.error("Could not create filter. Error: \(error)")
         }
+ ****/
         super.init()
+        
+        if SketchFilter.pencilTexture == nil {
+            SketchFilter.loadPencilTexture()
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -65,7 +75,10 @@ class SketchFilter: CIFilter {
     // default settings
     override func setDefaults() {
         inputImage = nil
-        inputThreshold = 5.0
+        inputThreshold = 0.5
+        inputMix = 0.5
+        inputTexture = 0.5
+        inputChanged = true
     }
     
     
@@ -113,157 +126,221 @@ class SketchFilter: CIFilter {
         switch key {
         case "inputImage":
             inputImage = value as? CIImage
+            prepInput()
         case "inputThreshold":
-            inputThreshold = value as! CGFloat
+            let v = value as! CGFloat
+            if !v.approxEqual(inputThreshold){
+                inputThreshold = v
+                inputChanged = true
+               prepThreshold()
+            }
         case "inputMix":
             inputMix = value as! CGFloat
+            inputChanged = true
+           prepMix()
         case "inputTexture":
             inputTexture = value as! CGFloat
+            inputChanged = true
+           prepTexture()
         default:
             log.error("Invalid key: \(key)")
         }
+        
     }
 
+    
+    // class-level vars because we need them to persist across calls:
+    private var resizedInputImg:CIImage? = nil        // resized version of the input (don't need/want full resoultion for sketch)
+    private var workingExtent:CGRect = CGRect.zero    // extent of the downsized (working) image
+    private var shadingTextureImg:CIImage? = nil      // the image used to generate shading
+    private var monoImg:CIImage? = nil                // B&W version of the input
+    private var basicSketchImg:CIImage? = nil         // basic sketch conversion, i.e. without shading and edges
+    private var shadedImg:CIImage? = nil              // shading overlay
+    private var edgeImg:CIImage? = nil                // edges overlay
+
+    
+    // this is called when an app accesses the ouputImage var
+    
     override var outputImage: CIImage? {
-        guard let inputImage = inputImage, let kernel = kernel else {
+        guard let inputImage = inputImage else {
             log.error("No input image")
             return nil
         }
         
-        //log.debug("threshold: \(inputThreshold)")
+        // only run the filter if something changed (or this is the first run)
+        if (inputChanged) {
+            inputChanged = false
+            
+            combineLayers()
+        }
         
-        /**
-        let extent = inputImage.extent
-        let arguments = [inputImage, inputThreshold] as [Any]
+        return currOutputImage
+    }
+    
+    
+    
+    
+    // load the texture to be used for the pencil shading effect
+    static func loadPencilTexture(){
         
-        return kernel.apply(extent: extent,
-                            roiCallback: { (index, rect) in return rect },
-                            arguments: arguments)
-**/
-/*** Attempt 1: use edge detection and invert:
-        // TODO: try mixing under- and 0ver-exposed versions? Problems getting midtones with portraits
-        let edgeImg = inputImage.applyingFilter("Sobel5x5Filter", parameters: ["inputThreshold": inputThreshold])
-            .applyingFilter("CIColorInvert")
-            .applyingFilter("CIGaussianBlur", parameters: ["inputRadius": 0.5])
+        log.debug("Loading pencil texture")
         
-        return edgeImg
+        let url = Bundle.main.url(forResource: "tx_pencil_crosshatch_2", withExtension: "jpg")
+        if url != nil {
+            SketchFilter.pencilTexture = CIImage(contentsOf: url!)
+        } else {
+            log.error("Could not load pencil texture")
+        }
+    }
 
- ***/
+    
+    
+    
+    // sets up vars that only need to be changed when the input changes
+     private func prepInput(){
+        guard let inputImage = inputImage else {
+            log.error("No input image")
+            return
+        }
         
-/*** Attempt 1a: bledge edge image with a 'hashed' image of the md tones
- 
-        // try compositing with the midtones, using different angles for different tones
-        // NOTE: works, but looks like a print, not a sketch
-        // Maybe run again on sketched image?
-
-        let img1 = inputImage.applyingFilter("LumaRangeFilter", parameters: ["inputLower": 0.0, "inputUpper": 0.01])
-            .applyingFilter("CILineScreen", parameters: ["inputAngle": -0.303, "inputWidth": 4, "inputSharpness":0.1])
-            .applyingFilter("CILineScreen", parameters: ["inputAngle": 0.303, "inputWidth": 4, "inputSharpness":0.1])
-            .applyingFilter("CIGaussianBlur", parameters: ["inputRadius": 1.0])
-
-        let img2 = inputImage.applyingFilter("LumaRangeFilter", parameters: ["inputLower": 0.011, "inputUpper": 0.3])
-            .applyingFilter("CILineScreen", parameters: ["inputAngle": 0.606, "inputWidth": 8, "inputSharpness":0.1])
-            .applyingFilter("CIGaussianBlur", parameters: ["inputRadius": 1.0])
-
-        let img3 = inputImage.applyingFilter("LumaRangeFilter", parameters: ["inputLower": 0.21, "inputUpper": 0.45])
-            .applyingFilter("CILineScreen", parameters: ["inputAngle": -0.606, "inputWidth": 8, "inputSharpness":0.1])
-            .applyingFilter("CIGaussianBlur", parameters: ["inputRadius": 1.0])
-
-        let img4 = inputImage.applyingFilter("LumaRangeFilter", parameters: ["inputLower": 0.4, "inputUpper": 0.74])
-            .applyingFilter("CILineScreen", parameters: ["inputAngle": 0.707, "inputWidth": 8, "inputSharpness":0.1])
-            .applyingFilter("CIGaussianBlur", parameters: ["inputRadius": 1.0])
-
-        let img5 = inputImage.applyingFilter("LumaRangeFilter", parameters: ["inputLower": 0.7, "inputUpper": 0.99])
-            .applyingFilter("CILineScreen", parameters: ["inputAngle": -0.707, "inputWidth": 10, "inputSharpness":0.1])
-            .applyingFilter("CIGaussianBlur", parameters: ["inputRadius": 1.0])
-
-
-        let midtoneImage = img1.applyingFilter("CIMultiplyBlendMode", parameters: [kCIInputBackgroundImageKey:img2])
-            .applyingFilter("CIMultiplyBlendMode", parameters: [kCIInputBackgroundImageKey:img3])
-            .applyingFilter("CIMultiplyBlendMode", parameters: [kCIInputBackgroundImageKey:img4])
-            .applyingFilter("CIMultiplyBlendMode", parameters: [kCIInputBackgroundImageKey:img5])
-            .applyingFilter("CIGaussianBlur", parameters: ["inputRadius": 1.0])
-            .applyingFilter("LaplacianGaussianFilter", parameters: ["inputThreshold": inputThreshold])
-            .applyingFilter("CIColorInvert")
-            .applyingFilter("OpacityFilter", parameters:  ["inputOpacity": 0.8])
-
-        return edgeImg.applyingFilter("CIMultiplyBlendMode", parameters: [kCIInputBackgroundImageKey:midtoneImage])
-***/
-
-/*** Attempt 2: use dodge blend mode on B&W version
- ***/
-        
-        //TODO: pre-allocated custom filters during init *******
+        log.debug("Processing input file")
         
         // resize so that longest is edge is at most 1024 pixels
-        var srcImg = inputImage
         let l = max(inputImage.extent.size.width, inputImage.extent.size.height)
         if l > 1024.0 {
             let ratio = 1024.0 / l
             let size = CGSize(width: inputImage.extent.size.width*ratio, height: inputImage.extent.size.height*ratio)
-            srcImg = inputImage.resize(size: size)!
+            resizedInputImg = inputImage.resize(size: size)!
+        } else {
+            resizedInputImg = inputImage
+        }
+        workingExtent = (resizedInputImg?.extent)!
+        
+        // resize the pencil texture to match
+        shadingTextureImg = SketchFilter.pencilTexture?.resize(size: workingExtent.size)
+
+        // equalise, bump up the contrast, convert to B&W
+        monoImg = resizedInputImg?
+            .applyingFilter("YUCIHistogramEqualization")
+            .applyingFilter("CIColorControls", parameters: ["inputContrast": 1.0])
+            //.applyingFilter("CIColorPosterize", parameters: ["inputLevels": 16])
+            .applyingFilter("CIPhotoEffectMono")
+
+        // set the other class-scope vars so that they are not nil
+        basicSketchImg = monoImg
+        shadedImg = monoImg
+        edgeImg = monoImg
+
+        // since the input has changed, call the other prep funcs. This ensures filter will be ready if defaults are used
+        prepMix()
+        prepTexture()
+        prepThreshold()
+        combineLayers()
+
+    }
+    
+    
+    
+    // set up vars that change when the mix threshold is changed
+    private func prepMix(){
+ 
+        log.debug("Generating basic sketch")
+
+        guard let monoImg = monoImg else {
+            log.error("prepped images not available")
+            return
         }
         
-        // convert to B&W, invert and blend using Linear (or Color) Dodge
-        let img1 = srcImg
-            .applyingFilter("CIColorPosterize", parameters: ["inputLevels": 16])
-            .applyingFilter("CIPhotoEffectMono")
-        
-        let img2 = img1.applyingFilter("CIColorInvert")
+        // create the inverse of the mono image and blur it
+        let img2 = monoImg.applyingFilter("CIColorInvert")
             .applyingFilter("CIGaussianBlur", parameters: ["inputRadius": 20.0 * inputMix])
             .clampedToExtent()
-            .cropped(to: img1.extent)
+            .cropped(to: workingExtent)
         
-        let img3 =  img2.applyingFilter("CILinearDodgeBlendMode", parameters: [kCIInputBackgroundImageKey:img1])
-            //.applyingFilter("CIColorControls", parameters: ["inputBrightness": -0.7, "inputContrast": 1.0])
+        // blend the mono image and its inverse. This gives a very basic sketch effect
+        let img3 =  img2.applyingFilter("CILinearDodgeBlendMode", parameters: [kCIInputBackgroundImageKey:monoImg])
+        //.applyingFilter("CIColorControls", parameters: ["inputBrightness": -0.7, "inputContrast": 1.0])
         
         // make lines darker
-        let basicSketchImg = img3.applyingFilter("CIMultiplyBlendMode", parameters: [kCIInputBackgroundImageKey:img3])
+        basicSketchImg = img3.applyingFilter("CIMultiplyBlendMode", parameters: [kCIInputBackgroundImageKey:img3])
+    }
+    
+    
+    
+    // set up vars that change when the texture amount is changed
+    private func prepTexture(){
         
-        //return basicSketchImg //tmp dbg
+ 
+        guard let monoImg = monoImg, let shadingTextureImg = shadingTextureImg  else {
+            log.error("prepped images not available")
+            return
+        }
         
-        // overlay the edges, with some blurring
-        let edgeImg = srcImg
-            .applyingFilter("CIColorControls", parameters: ["inputContrast": 1.0])
-            .applyingFilter("SobelFilter", parameters: ["inputThreshold": inputThreshold])
+        log.debug("Generating shading")
+        
+
+        // create an overlay of the basic sketch and the pencil texture
+        //let texture = shadingTextureImg.applyingFilter("OpacityFilter", parameters:  ["inputOpacity": inputTexture])
+        //let texturedImg = (basicSketchImg.applyingFilter("CISoftLightBlendMode", parameters: [kCIInputBackgroundImageKey: texture]))
+        //.applyingFilter("CIColorControls", parameters: ["inputBrightness": 0.4])
+        
+        
+        // create textured overlay for shadows (they are currently white), with  pencil texture
+
+        // create a mask from the b&w image by selecting the dark regions
+        let shadowMask = monoImg.applyingFilter("LumaRangeFilter", parameters: ["inputLower": 0.0, "inputUpper": 0.1])
             .applyingFilter("CIColorInvert")
+        
+        // create a (slightly) darkened version of the texture
+        let shadowTexture = shadingTextureImg.applyingFilter("CIMultiplyBlendMode", parameters: [kCIInputBackgroundImageKey: shadingTextureImg.applyingFilter("OpacityFilter", parameters:  ["inputOpacity": 0.2])])
+        
+        // blend the normal and darkened textures, using the shadow mask
+        let shadowOverlay = shadowTexture.applyingFilter("CIBlendWithMask",
+                                                         parameters: [kCIInputMaskImageKey: shadowMask, kCIInputBackgroundImageKey: shadingTextureImg])
+        
+        // blend the shaded texture with the basic sketch, and set opacity based on the inputTexture setting
+        shadedImg = shadowOverlay.applyingFilter("CIBlendWithMask", parameters: [kCIInputMaskImageKey: shadowMask, kCIInputBackgroundImageKey: basicSketchImg])
+            .applyingFilter("OpacityFilter", parameters:  ["inputOpacity": inputTexture])
+
+        
+    }
+    
+    
+    // set up vars that change when edge threshold is changed
+    private func prepThreshold(){
+        
+        log.debug("Generating edges")
+        
+
+        // generate the edges, with some blurring and slightly reduced opacity
+        // Note: using colour image because edges can be lost if using the B&W version
+        
+        // Note: - SobelFilter needs to be inverted, Sobel3x3 does not
+        //       - Sobel3x3 has much stronger edge detection, so bring down the opacity if using
+        edgeImg = inputImage?
+            .applyingFilter("CIColorControls", parameters: ["inputContrast": 1.0])
+            .applyingFilter("SobelFilter", parameters: ["inputThreshold": inputThreshold]).applyingFilter("CIColorInvert")
+            //.applyingFilter("Sobel3x3Filter", parameters: ["inputThreshold": inputThreshold])
             //.applyingFilter("LumaRangeFilter", parameters: ["inputLower": 0.0, "inputUpper": 0.5])
             .applyingFilter("CIGaussianBlur", parameters: ["inputRadius": 1.0]).clampedToExtent()
-            .cropped(to: srcImg.extent)
-            .applyingFilter("OpacityFilter", parameters:  ["inputOpacity": 0.8])
-
-        //return edgeImg // tmp debug
+            .cropped(to: workingExtent)
+            .applyingFilter("OpacityFilter", parameters:  ["inputOpacity": 0.6])
+    }
+    
+    private func combineLayers(){
+        log.debug("Combining layers")
         
-        // create an overlay from the edges
-        var texturedImg = basicSketchImg
-        var url = Bundle.main.url(forResource: "tx_pencil_crosshatch_2", withExtension: "jpg")
-        if url != nil {
-            let texture = CIImage(contentsOf: url!)?
-                .resize(size: basicSketchImg.extent.size)?
-                .applyingFilter("OpacityFilter", parameters:  ["inputOpacity": inputTexture])
-            if texture != nil {
-                texturedImg = (basicSketchImg.applyingFilter("CISoftLightBlendMode", parameters: [kCIInputBackgroundImageKey: texture!]))
-                    //.applyingFilter("CIColorControls", parameters: ["inputBrightness": 0.4])
-            }
-        }
-        
-        // create textured overlay for shadows (they are currently white), maybe with dark pencil texture
-        // blend the textured sketch with the edges overlay
-        var shadowImg = texturedImg
-        url = Bundle.main.url(forResource: "tx_pencil_crosshatch_2", withExtension: "jpg")
-        if url != nil {
-            let texture = CIImage(contentsOf: url!)?
-                .resize(size: basicSketchImg.extent.size)?
-                .applyingFilter("CIColorControls", parameters: ["inputBrightness": -1.0])
-                .applyingFilter("OpacityFilter", parameters:  ["inputOpacity": inputTexture*4])
-            if texture != nil {
-                shadowImg = img1.applyingFilter("LumaRangeFilter", parameters: ["inputLower": 0.0, "inputUpper": 0.1])
-                    .applyingFilter("CISoftLightBlendMode", parameters: [kCIInputBackgroundImageKey: texture!])
-                    .applyingFilter("CISoftLightBlendMode", parameters: [kCIInputBackgroundImageKey: texturedImg])
-                //.applyingFilter("CIColorControls", parameters: ["inputBrightness": 0.4])
-            }
+        guard let basicSketchImg = basicSketchImg, let shadedImg = shadedImg, let edgeImg = edgeImg else {
+            log.error("prepped images not available")
+            currOutputImage = inputImage
+            return
         }
 
-        return shadowImg.applyingFilter("CIMultiplyBlendMode", parameters: [kCIInputBackgroundImageKey:edgeImg])
+        // OK, so we have a basic sketch, shading and edges, so combine them
+        // Note: need to resize back to match the input image
+        currOutputImage = basicSketchImg
+            .applyingFilter("CIMultiplyBlendMode", parameters: [kCIInputBackgroundImageKey: shadedImg])
+            .applyingFilter("CIMultiplyBlendMode", parameters: [kCIInputBackgroundImageKey:edgeImg])
+            .resize(size: (inputImage?.extent.size)!)
     }
 }

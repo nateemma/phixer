@@ -148,15 +148,20 @@ class FilterManager{
             FilterManager.currCategory = category
             
             // set current filter to the first filter (alphabetically) in the dictionary
-
-            let count = (FilterLibrary.categoryFilters[category]?.count)!
-            if (count>0){
-                log.verbose ("\(count) items found")
-                let key = (FilterLibrary.categoryFilters[category]?[0])!
-                log.verbose("Setting filter to: \(key)")
-                setCurrentFilterKey(key)
+            
+            if FilterLibrary.categoryFilters[category] != nil {
+                let count = (FilterLibrary.categoryFilters[category]?.count)!
+                if (count>0){
+                    log.verbose ("\(count) items found")
+                    let key = (FilterLibrary.categoryFilters[category]?[0])!
+                    log.verbose("Setting filter to: \(key)")
+                    setCurrentFilterKey(key)
+                } else {
+                    log.debug("List empty: \(category)")
+                    setCurrentFilterDescriptor(nil)
+                }
             } else {
-                log.debug("List empty: \(category)")
+                log.error("NIL category: \(category)")
                 setCurrentFilterDescriptor(nil)
             }
             
@@ -623,6 +628,17 @@ class FilterManager{
     }
     
     
+    open func isSlow(key:String) -> Bool {
+        return FilterFactory.isSlow(key:key)
+    }
+    
+    // designate a filter as hidden or not
+    open func setSlow(key:String, slow:Bool){
+        FilterFactory.setSlow(key: key, slow: slow)
+        FilterLibrary.commitChanges() // HACK: should update single record
+    }
+    
+
     //////////////////////////////////////////////
     // MARK: - Style Transfer-related Accessors
     //////////////////////////////////////////////

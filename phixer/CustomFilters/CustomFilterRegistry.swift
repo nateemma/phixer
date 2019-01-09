@@ -10,10 +10,10 @@
 import Foundation
 import CoreImage
 
-class CustomFiltersRegistry: NSObject, CIFilterConstructor {
+class CustomFilterRegistry: NSObject, CIFilterConstructor {
     
     private static var initDone:Bool = false
-    private static let instance = CustomFiltersRegistry()
+    private static let instance = CustomFilterRegistry()
     
     private static var filterCache:[String:CIFilter?] = [:]
     
@@ -33,18 +33,18 @@ class CustomFiltersRegistry: NSObject, CIFilterConstructor {
     
     
     // this function registers all of the custom filters with the CIFilter framework
-    static func registerFilters()  {
-        if !CustomFiltersRegistry.initDone {
-            CustomFiltersRegistry.initDone = true
+    public static func registerFilters()  {
+        if !CustomFilterRegistry.initDone {
+            CustomFilterRegistry.initDone = true
             log.debug("Registering Custom Filters")
             
-            CustomFiltersRegistry.filterCache = [:]
+            CustomFilterRegistry.filterCache = [:]
             
-            for f in CustomFiltersRegistry.filterList {
+            for f in CustomFilterRegistry.filterList {
                 CIFilter.registerName(f, constructor: instance, classAttributes: [kCIAttributeFilterCategories: ["CustomFilters"]])
             }
             
-            for cf in CustomFiltersRegistry.colorFilters {
+            for cf in CustomFilterRegistry.colorFilters {
                 CIFilter.registerName(cf, constructor: instance,
                                       classAttributes: [kCIAttributeFilterCategories: [kCICategoryColorAdjustment, kCICategoryVideo,
                                                                                        kCICategoryStillImage, kCICategoryInterlaced,
@@ -55,13 +55,13 @@ class CustomFiltersRegistry: NSObject, CIFilterConstructor {
     
     
     // this function is called by the CIFilter framework when a custom filter is created
-    func filter(withName name: String) -> CIFilter? {
+    public func filter(withName name: String) -> CIFilter? {
         
         var filterInstance:CIFilter? = nil
         
         // check cache to see if the filter has already been created
-        if CustomFiltersRegistry.filterCache[name] != nil {
-            filterInstance = CustomFiltersRegistry.filterCache[name]!
+        if CustomFilterRegistry.filterCache[name] != nil {
+            filterInstance = CustomFilterRegistry.filterCache[name]!
         } else {
             log.verbose("Creating custom filter:\(name)")
 
@@ -74,10 +74,198 @@ class CustomFiltersRegistry: NSObject, CIFilterConstructor {
             if (filterInstance == nil){
                 log.error ("ERR: Could not create class: \(name)")
             } else {
-                CustomFiltersRegistry.filterCache[name] = filterInstance
+                CustomFilterRegistry.filterCache[name] = filterInstance
             }
         }
         return filterInstance
     }
     
+    public static func clearCache(){
+        CustomFilterRegistry.filterCache = [:]
+    }
+    
+    //////////////////////////////
+    // MARK: Utilities
+    //////////////////////////////
+    
+    // debug function to print the 'specs' of all available filters
+    
+    public static func listFilters(){
+        print("--- Available CIFilters and their parameters ---")
+
+        // this is the list of CIFilter categories
+        // Note that custom filters defined in this framework will be in the "CustomFilters" or kCICategoryColorAdjustment category
+        let categories:[String] = [ "CICategoryBlur", "CICategoryColorEffect", "CICategoryCompositeOperation",
+                                    "CICategoryDistortionEffect", "CICategoryGeometryAdjustment", "CICategoryGradient",
+                                    "CICategoryHalftoneEffect", "CICategoryReduction", "CICategorySharpen", "CICategoryStylize", "CICategoryTileEffect",
+                                    "CustomFilters", kCICategoryColorAdjustment
+        ]
+        
+        for c in categories {
+            print ("Category = \(c):")
+            for f in CIFilter.filterNames(inCategories: [c]) {
+                //describeFilter(f)
+                let def = makeFilterDefinition(f)
+                if def != nil {
+                    print ("Found filter: key:\((def?.key)!) title:\((def?.title)!) ftype:\((def?.ftype)!)")
+                    //FilterLibrary.addFilter(key:(def?.key)!, definition:def!)
+                }
+            }
+            print ("----------------")
+        }
+        print ("----------------------------------------------")
+    }
+    
+    // print out the definition of the filter in JSON Form
+    static func describeFilter(_ name:String){
+        if let filter = CIFilter(name: name){
+            
+            let inputNames = (filter.inputKeys as [String]).filter { (parameterName) -> Bool in
+                return (parameterName as String) != "inputImage"
+            }
+            
+            let attributes = filter.attributes
+            
+            var title:String = ""
+            var aname:String, atype: String
+            var amin:Float, amax:Float, aval:Float
+            
+            // Print filter top-level attributes
+            //print ("Filter: \(f)")
+            title = attributes[kCIAttributeFilterDisplayName]  as! String
+            print ("{\"key\": \"\(name)\", \"title\": \"\(String(describing: title))\", \"ftype\": \"singleInput\", ")
+            
+            print ("  \"parameters\": { [")
+            // print attributes for each input parameter
+            let nump = inputNames.count
+            if nump > 0 {
+                for i in 0...(nump-1) {
+                    let inp = inputNames[i]
+                    let a = attributes[inp] as! [String : AnyObject]
+                    if let tmp = a[kCIAttributeDisplayName] { aname = tmp as! String } else { aname = "???" }
+                    if let tmp = a[kCIAttributeSliderMin]   { amin = toFloat(tmp) } else { amin = 0.0 }
+                    if let tmp = a[kCIAttributeSliderMax]   { amax = toFloat(tmp) } else { amax = 0.0 }
+                    if let tmp = a[kCIAttributeDefault]     { aval = toFloat(tmp) } else { aval = 0.0 }
+                    if let tmp = a[kCIAttributeType]        { atype = tmp as! String
+                    } else {
+                        if let tmp = a[kCIAttributeClass]   { atype = tmp as! String } else { atype = "???" }
+                    }
+                    
+                    if i < (nump-1) {
+                        print("    {\"key\": \"\(inp)\", \"title\": \"\(aname)\", \"min\": \(amin), \"max\":\(amax), \"val\": \(aval), \"type\": \"\(atype)\"},")
+                    } else {
+                        print("    {\"key\": \"\(inp)\", \"title\": \"\(aname)\", \"min\": \(amin), \"max\":\(amax), \"val\": \(aval), \"type\": \"\(atype)\"}")
+                    }
+                }
+            }
+            print("  ]}")
+            print("},")
+        }
+    }
+    
+    
+    // convert the definition of the filter into FilterDescriptor form
+    static func makeFilterDefinition(_ name:String) -> FilterDefinition? {
+        var def:FilterDefinition? = nil
+        
+        if let filter = CIFilter(name: name){
+            
+            def = FilterDefinition()
+            
+            let inputNames = (filter.inputKeys as [String]).filter { (parameterName) -> Bool in
+                return (parameterName as String) != "inputImage" // everything has inputImage so don't return that
+            }
+            
+            let attributes = filter.attributes
+            
+            
+            // filter top-level attributes
+            def?.key = name
+            def?.title = attributes[kCIAttributeFilterDisplayName]  as! String
+            def?.ftype = FilterOperationType.singleInput.rawValue
+            def?.hide = false
+            def?.rating = 0
+            def?.lookup = ""
+            def?.slow = false
+            def?.parameters = []
+
+            // process attributes for each input parameter
+            var aname:String
+            var atype:String
+            var amin:Float=0.0, amax:Float=0.0, aval:Float=0.0
+
+            let nump = inputNames.count
+            if nump > 0 {
+                for i in 0...(nump-1) {
+                    let inp = inputNames[i]
+                    let a = attributes[inp] as! [String : AnyObject]
+                    if let tmp = a[kCIAttributeDisplayName] { aname = tmp as! String } else { aname = "???" }
+                    if let tmp = a[kCIAttributeSliderMin]   { amin = toFloat(tmp) } else { amin = 0.0 }
+                    if let tmp = a[kCIAttributeSliderMax]   { amax = toFloat(tmp) } else { amax = 0.0 }
+                    if let tmp = a[kCIAttributeDefault]     { aval = toFloat(tmp) } else { aval = 0.0 }
+                    if let tmp = a[kCIAttributeType]        { atype = tmp as! String
+                    } else {
+                        if let tmp = a[kCIAttributeClass]   { atype = tmp as! String } else { atype = "???" }
+                    }
+                    let p = ParameterSettings(key: inp, title: aname, min: amin, max: amax, value: aval, type: toParameterType(atype))
+                    def?.parameters.append(p)
+                    
+                    // If we find a background image parameter, then change filter type to blend
+                    if inp == kCIInputBackgroundImageKey {
+                        def?.ftype = FilterOperationType.blend.rawValue
+                    }
+                }
+            }
+        }
+        return def
+    }
+    
+
+    
+    static func toFloat(_ obj:AnyObject)->Float{
+        
+        let str:String = String(format: "%@", obj as! CVarArg)
+        let fval = Float(str) ?? 0.0
+        return fval
+    }
+
+    
+    // converts from CIFilter Attribute Type to internal ParameterType
+    static func toParameterType(_ atype:String)->ParameterType{
+        
+        var ptype:ParameterType = .unknown
+        switch (atype){
+        case kCIAttributeTypeTime:
+            ptype = .float
+        case kCIAttributeTypeScalar:
+            ptype = .float
+        case kCIAttributeTypeDistance:
+            ptype = .float
+        case kCIAttributeTypeAngle:
+            ptype = .float
+        case kCIAttributeTypeBoolean:
+            ptype = .float
+        case kCIAttributeTypeInteger:
+            ptype = .float
+        case kCIAttributeTypeCount:
+            ptype = .float
+        case kCIAttributeTypeOffset:
+            ptype = .float
+        case kCIAttributeTypeColor:
+            ptype = .color
+        case kCIAttributeTypeImage:
+            ptype = .image
+        case kCIAttributeTypePosition:
+            ptype = .position
+        case kCIAttributeTypeRectangle:
+            ptype = .rectangle
+        default:
+            // anything else is too difficult to handle automatically
+            // anything that needs to use such filters will need to understand these types anyway (vectors, curves, masks etc.)
+            ptype = .unknown
+        }
+        return ptype
+    }
+
+
 }

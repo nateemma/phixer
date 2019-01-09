@@ -17,7 +17,6 @@
 		25159884219E2B850067AA00 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25159883219E2B850067AA00 /* ThemeManager.swift */; };
 		25159886219E2BF20067AA00 /* ColorUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25159885219E2BF20067AA00 /* ColorUtilities.swift */; };
 		2515988821A3495C0067AA00 /* ThemeChooserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2515988721A3495C0067AA00 /* ThemeChooserController.swift */; };
-		251729562174F10700D5E946 /* defaultSettings.json in Resources */ = {isa = PBXBuildFile; fileRef = 251729552174F10700D5E946 /* defaultSettings.json */; };
 		251729582175406100D5E946 /* UserChangesRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251729572175406100D5E946 /* UserChangesRecord.swift */; };
 		2517295A217540C300D5E946 /* UserChangesEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25172959217540C300D5E946 /* UserChangesEntity+CoreDataClass.swift */; };
 		2517295C2175410B00D5E946 /* UserChangesEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2517295B2175410B00D5E946 /* UserChangesEntity+CoreDataProperties.swift */; };
@@ -902,7 +901,6 @@
 		25159883219E2B850067AA00 /* ThemeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ThemeManager.swift; path = Models/ThemeManager.swift; sourceTree = "<group>"; };
 		25159885219E2BF20067AA00 /* ColorUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorUtilities.swift; sourceTree = "<group>"; };
 		2515988721A3495C0067AA00 /* ThemeChooserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ThemeChooserController.swift; path = Controllers/ThemeChooserController.swift; sourceTree = "<group>"; };
-		251729552174F10700D5E946 /* defaultSettings.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = defaultSettings.json; path = Config/defaultSettings.json; sourceTree = "<group>"; };
 		251729572175406100D5E946 /* UserChangesRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserChangesRecord.swift; sourceTree = "<group>"; };
 		25172959217540C300D5E946 /* UserChangesEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserChangesEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		2517295B2175410B00D5E946 /* UserChangesEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserChangesEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -1834,7 +1832,6 @@
 				2559533C1DF0D9EE002A2905 /* defaultConfig.json */,
 				25E80EA6216D62F100EBE8E6 /* testFilterConfig.json */,
 				257E29A02168274100F438C6 /* oldFilterConfig.json */,
-				251729552174F10700D5E946 /* defaultSettings.json */,
 				252745F221825DFF00AA2DA2 /* crayola.json */,
 			);
 			name = Config;
@@ -1919,8 +1916,8 @@
 			isa = PBXGroup;
 			children = (
 				257E29A22168317D00F438C6 /* CustomFilters */,
-				253B236B1DA44E3600203ECB /* FilterDescriptor.swift */,
 				2537A1F621E42C2C00060DBE /* FilterDefinition.swift */,
+				253B236B1DA44E3600203ECB /* FilterDescriptor.swift */,
 			);
 			name = Filters;
 			sourceTree = "<group>";
@@ -3423,7 +3420,6 @@
 				2568BDE321BEEB1C00560287 /* style_the_scream.jpg in Resources */,
 				252B0E021E30690F005A0C2D /* tn_004_tint_aqua.jpg in Resources */,
 				2568BD0321AC72CB00560287 /* Manifest.lock in Resources */,
-				251729562174F10700D5E946 /* defaultSettings.json in Resources */,
 				252B0EA01E30690F005A0C2D /* mo_030_smart_psycho_3.jpg in Resources */,
 				252B0E8D1E30690F005A0C2D /* mo_039_contrast_3.jpg in Resources */,
 				252B0F051E30690F005A0C2D /* fd_09e_wash_apricot.jpg in Resources */,

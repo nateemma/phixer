@@ -127,6 +127,25 @@ class FilterFactory{
         }
     }
     
+    // sets the hidden state of a filter
+    public static func setSlow(key: String, slow:Bool) {
+        if (FilterFactory.filterList[key] != nil){
+            FilterFactory.filterList[key]!.slow = slow
+        } else {
+            log.error("ERR: unknown key:\"\(key)\"")
+        }
+    }
+    
+    // indicates whether filter is slow or not
+    public static func isSlow(key: String)->Bool{
+        if (FilterFactory.filterList[key] != nil){
+            return (FilterFactory.filterList[key]?.slow)!
+        } else {
+            log.error("ERR: unknown key:\"\(key)\"")
+            return true
+        }
+    }
+    
     public static func getRating(key:String) -> Int{
         if (FilterFactory.filterList[key] != nil){
             return FilterFactory.filterList[key]!.rating

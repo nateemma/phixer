@@ -12,7 +12,7 @@ import CoreImage
 class DehazeFilter: CIFilter {
     private static let defaultColor = CIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     var inputImage: CIImage?
-    lazy var inputColor:CIColor = DehazeFilter.defaultColor
+    var inputColor:CIColor = DehazeFilter.defaultColor
     var inputDistance:CGFloat = 0.2
     var inputSlope:CGFloat = 0.0
 
@@ -55,13 +55,13 @@ class DehazeFilter: CIFilter {
             
             "inputDistance": [kCIAttributeIdentity: 0,
                               kCIAttributeDisplayName: "Distance",
-                           kCIAttributeClass: "NSNumber",
-                           kCIAttributeDefault: 0.2,
-                           kCIAttributeMin: 0.0,
-                           kCIAttributeMax: 1.0,
-                           kCIAttributeSliderMin: 0,
-                           kCIAttributeSliderMax: 0.7,
-                           kCIAttributeType: kCIAttributeTypeScalar],
+                              kCIAttributeClass: "NSNumber",
+                              kCIAttributeDefault: 0.2,
+                              kCIAttributeMin: 0.0,
+                              kCIAttributeMax: 1.0,
+                              kCIAttributeSliderMin: 0,
+                              kCIAttributeSliderMax: 0.7,
+                              kCIAttributeType: kCIAttributeTypeScalar],
             
             "inputSlope": [kCIAttributeIdentity: 0,
                            kCIAttributeDisplayName: "Slope",

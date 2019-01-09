@@ -24,15 +24,16 @@ extension CIImage {
     }
     
     // creates a CGImage - useful for cases when the CIImage was not created from a CGImage (or UIImage)
-    public func generateCGImage() -> CGImage? {
-        let imgRect = CGRect(x: 0, y: 0, width: self.extent.width, height: self.extent.height)
+    public func generateCGImage(size:CGSize) -> CGImage? {
+        //let imgRect = CGRect(x: 0, y: 0, width: self.extent.width, height: self.extent.height)
+        let imgRect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
         return CIImage.getContext()?.createCGImage(self, from: imgRect)
     }
     
     // get the associated CGImage, creating it if necessary
-    public func getCGImage() -> CGImage? {
+    public func getCGImage(size:CGSize) -> CGImage? {
         if self.cgImage == nil {
-            return self.generateCGImage()
+            return self.generateCGImage(size:size)
         } else {
             return self.cgImage
         }
@@ -43,7 +44,7 @@ extension CIImage {
     public func resize(size:CGSize) -> CIImage? {
         
         // get the CGImage for this CIImage
-        let cgimage = self.getCGImage()
+        let cgimage = self.getCGImage(size:self.extent.size)
         
         // double-check that CGImage was created
         guard cgimage != nil else {
@@ -64,17 +65,6 @@ extension CIImage {
     // get a portrait Matte Image, if it exists (iOS12 and later)
     func portraitEffectsMatteImage() -> CIImage? {
 
-        // get the CGImage for this CIImage
-        var cgimage = self.cgImage
-        if cgimage == nil {
-            cgimage = self.generateCGImage()
-        }
-        
-        // double-check that CGImage was created
-        guard cgimage != nil else {
-            log.error("Could not generate CGImage")
-            return nil
-        }
         
         if #available(iOS 12.0, *) {
             let matteData = self.portraitEffectsMatte

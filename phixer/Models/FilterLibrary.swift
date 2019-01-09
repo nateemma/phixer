@@ -57,10 +57,11 @@ class FilterLibrary{
             initLists()
             
             // Load custom CIFilters (do this before loading config)
-            CustomFiltersRegistry.registerFilters()
-            
+            CustomFilterRegistry.registerFilters()
+
             // 'restore' the configuration from the setup file
             FilterLibrary.restore()
+            CustomFilterRegistry.clearCache()
         }
         
     }
@@ -132,16 +133,11 @@ class FilterLibrary{
     fileprivate  static func loadFilterConfig(){
         var count:Int = 0
         var version:Float
-        var key:String, title:String, ftype:String
-        var value:String
-        var slow:Bool
-        var hide:Bool
-        var rating:Int
         
+        var key:String, title:String
         var pkey:String, ptitle:String
         var ptype: ParameterType
         var pmin:Float, pmax:Float, pval:Float
-        var psettings:[ParameterSettings]
 
      
         initLists()
@@ -210,6 +206,7 @@ class FilterLibrary{
   
                     var def:FilterDefinition = FilterDefinition()
 
+                    /*** look up from iOS filter categories, don't need to specify twice that way
                     // Filter list
                     count = 0
                     for item in parsedConfig["filters"].arrayValue {
@@ -235,6 +232,14 @@ class FilterLibrary{
                         addFilter(key:def.key, definition:def)
                     }
                     print ("\(count) Filters found")
+                    ***/
+                    addNullFilter() // useful for showing unmodified image
+                    addAvailableFilters()  // adds all CIFilters, including custom filters
+                    
+                    // 'Slow' filters (allows the UI to take action)
+                    for f in parsedConfig["slow"].arrayValue {
+                        FilterFactory.setSlow(key: f.stringValue, slow: true)
+                    }
                     
                     
                     // Lookup Images
@@ -342,6 +347,8 @@ class FilterLibrary{
             ptype = .float
         case kCIAttributeTypeCount:
             ptype = .float
+        case kCIAttributeTypeOffset:
+            ptype = .float
         case kCIAttributeTypeColor:
             ptype = .color
         case kCIAttributeTypeImage:
@@ -351,7 +358,7 @@ class FilterLibrary{
         case kCIAttributeTypeRectangle:
             ptype = .rectangle
         default:
-            // anything else is difficult to handle automatically (maybe position?)
+            // anything else is too difficult to handle automatically
             ptype = .unknown
         }
         return ptype
@@ -373,7 +380,7 @@ class FilterLibrary{
   
     
     
-    private static func addFilter(key:String, definition:FilterDefinition){
+    public static func addFilter(key:String, definition:FilterDefinition){
 
         // just store the mapping. Do lazy allocation as needed because of the potentially large number of filters
         FilterLibrary.filterDictionary[key] = nil // just make sure there is an entry to find later
@@ -383,7 +390,7 @@ class FilterLibrary{
     
     
     
-    private static func addLookup(key:String, definition:FilterDefinition){
+    public static func addLookup(key:String, definition:FilterDefinition){
         
         let l = definition.lookup.components(separatedBy:".")
         let title = l[0]
@@ -435,6 +442,114 @@ class FilterLibrary{
     }
 
     
+    
+    
+    ////////////////////////////
+    // Built in (CI) Filter Processing
+    ////////////////////////////
+    
+    // add the "null" filter
+    private static func addNullFilter(){
+        var def = FilterDefinition()
+        def.key = FilterDescriptor.nullFilter
+        def.title = FilterDescriptor.nullFilter
+        FilterLibrary.addFilter(key:def.key, definition:def)
+    }
+    
+    // adds all of the filters found by querying CIFilter, which will include our custom filters
+    private static func addAvailableFilters(){
+        // this is the list of CIFilter categories
+        // Note that custom filters defined in this framework will be in the "CustomFilters" or kCICategoryColorAdjustment category
+        let categories:[String] = [ "CICategoryBlur", "CICategoryColorEffect", "CICategoryCompositeOperation",
+                                    "CICategoryDistortionEffect", "CICategoryGeometryAdjustment", "CICategoryGradient",
+                                    "CICategoryHalftoneEffect", "CICategoryReduction", "CICategorySharpen", "CICategoryStylize", "CICategoryTileEffect",
+                                    "CustomFilters", kCICategoryColorAdjustment
+        ]
+        
+        for c in categories {
+            //print ("Category = \(c):")
+            for f in CIFilter.filterNames(inCategories: [c]) {
+                //describeFilter(f)
+                let def = makeFilterDefinition(f)
+                if def != nil {
+                    //print ("Found filter: key:\((def?.key)!) title:\((def?.title)!) ftype:\((def?.ftype)!)")
+                    FilterLibrary.addFilter(key:(def?.key)!, definition:def!)
+                }
+            }
+        }
+
+    }
+
+    
+    // convert the definition of the filter into FilterDescriptor form
+    static func makeFilterDefinition(_ name:String) -> FilterDefinition? {
+        var def:FilterDefinition? = nil
+        
+        if let filter = CIFilter(name: name){
+            
+            def = FilterDefinition()
+            
+            let inputNames = (filter.inputKeys as [String]).filter { (parameterName) -> Bool in
+                return (parameterName as String) != "inputImage" // everything has inputImage so don't return that
+            }
+            
+            let attributes = filter.attributes
+            
+            
+            // filter top-level attributes
+            def?.key = name
+            def?.title = attributes[kCIAttributeFilterDisplayName]  as! String
+            def?.ftype = FilterOperationType.singleInput.rawValue
+            def?.hide = false
+            def?.rating = 0
+            def?.lookup = ""
+            def?.slow = false
+            def?.parameters = []
+            
+            // process attributes for each input parameter
+            var aname:String
+            var atype:String
+            var amin:Float=0.0, amax:Float=0.0, aval:Float=0.0
+            
+            let nump = inputNames.count
+            if nump > 0 {
+                for i in 0...(nump-1) {
+                    let inp = inputNames[i]
+                    if attributes[inp] != nil {
+                        let a = attributes[inp] as! [String : AnyObject]
+                        if let tmp = a[kCIAttributeDisplayName] { aname = tmp as! String } else { aname = "???" }
+                        if let tmp = a[kCIAttributeSliderMin]   { amin = toFloat(tmp) } else { amin = 0.0 }
+                        if let tmp = a[kCIAttributeSliderMax]   { amax = toFloat(tmp) } else { amax = 0.0 }
+                        if let tmp = a[kCIAttributeDefault]     { aval = toFloat(tmp) } else { aval = 0.0 }
+                        if let tmp = a[kCIAttributeType]        { atype = tmp as! String
+                        } else {
+                            if let tmp = a[kCIAttributeClass]   { atype = tmp as! String } else { atype = "???" }
+                        }
+                        let p = ParameterSettings(key: inp, title: aname, min: amin, max: amax, value: aval, type: attributeToParameterType(atype))
+                        def?.parameters.append(p)
+                        
+                        // If we find a background image parameter, then change filter type to blend
+                        if inp == kCIInputBackgroundImageKey {
+                            def?.ftype = FilterOperationType.blend.rawValue
+                        }
+                    } else {
+                        log.error("NIL attributes for: \(inp)")
+                    }
+                }
+            }
+        }
+        return def
+    }
+    
+    
+    
+    static func toFloat(_ obj:AnyObject)->Float{
+        
+        let str:String = String(format: "%@", obj as! CVarArg)
+        let fval = Float(str) ?? 0.0
+        return fval
+    }
+
     
     
     ////////////////////////////

@@ -561,20 +561,24 @@ class FilterParametersView: UIView {
     
     @objc func sliderValueDidChange(_ sender:UISlider!){
         //log.verbose("change: \(pKey[sender.tag]) = \(sender.value)")
-        currFilterDesc?.setParameter(pKey[sender.tag], value: sender.value)
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.delegate?.settingsChanged()
-        })
+        if !(currFilterDesc?.slow)! { // only update during drag if not a slow filter
+            currFilterDesc?.setParameter(pKey[sender.tag], value: sender.value)
+            DispatchQueue.main.async(execute: { () -> Void in
+                self.delegate?.settingsChanged()
+            })
+        }
     }
     
     
     @objc func colorSliderValueDidChange(_ sender:GradientSlider!){
         let index = sender.tag
-        currFilterDesc?.setColorParameter(pKey[index], color: CIColor(color: (gsliders[index]?.getSelectedColor())!))
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.delegate?.settingsChanged()
-        })
-    }
+        if !(currFilterDesc?.slow)! { // only update during drag if not a slow filter
+            currFilterDesc?.setColorParameter(pKey[index], color: CIColor(color: (gsliders[index]?.getSelectedColor())!))
+            DispatchQueue.main.async(execute: { () -> Void in
+                self.delegate?.settingsChanged()
+            })
+        }
+}
     
     @objc func slidersDidEndChange(_ sender:UISlider!){
         //log.verbose("end: \(pKey[sender.tag]) = \(sender.value)")

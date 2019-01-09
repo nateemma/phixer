@@ -22,6 +22,7 @@ public enum ParameterType {
     case vector3
     case vector4
     case unknown
+    
 }
 
 // set of parameters that are used to set up a filter

@@ -161,7 +161,7 @@ class EditImageDisplayView: UIView {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             let ciimage = self.renderView?.image
             if (ciimage != nil){
-                let cgimage = ciimage?.generateCGImage()
+                let cgimage = ciimage?.generateCGImage(size:(self.renderView?.image?.extent.size)!)
                 let image = UIImage(cgImage: cgimage!)
                 UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
             } else {
@@ -212,8 +212,9 @@ class EditImageDisplayView: UIView {
         if !self.currFilterKey.isEmpty && layoutDone {
             DispatchQueue.main.async(execute: { () -> Void in
                 if self.currDisplayMode == .full {
-                    switch self.currFilterMode {
-                    case .preview:
+                    log.verbose("Running filter: \(self.currFilterKey)")
+                   switch self.currFilterMode {
+                     case .preview:
                         self.renderView?.image = EditManager.getPreviewImage()
                     case .saved:
                         self.renderView?.image = EditManager.getFilteredImage()
@@ -226,6 +227,9 @@ class EditImageDisplayView: UIView {
                     self.renderView?.image = EditManager.getSplitPreviewImage(offset: self.currSplitOffset)
                 }
             })
+        } else {
+            if self.currFilterKey.isEmpty { log.warning("Filter not set") }
+            if !layoutDone { log.warning("Layout not yet done") }
         }
     }
     

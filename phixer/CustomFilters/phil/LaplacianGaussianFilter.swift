@@ -95,7 +95,7 @@ class LaplacianGaussianFilter: CIFilter {
         
         
         // using Accelerate:
-        let  cgimage = inputImage.getCGImage()
+        let  cgimage = inputImage.getCGImage(size:inputImage.extent.size)
         let matrix:[Int16] = [   0,  0,  -1,  0,  0,
                                  0, -1,  -2, -1,  0,
                                 -1, -2,  16, -2, -1,

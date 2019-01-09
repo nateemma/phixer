@@ -94,7 +94,7 @@ class FilterDisplayView: UIView {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             let ciimage = self.renderView?.image
             if (ciimage != nil){
-                let cgimage = ciimage?.generateCGImage()
+                let cgimage = ciimage?.generateCGImage(size:(self.renderView?.image?.extent.size)!)
                 let image = UIImage(cgImage: cgimage!)
                 UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
             } else {
