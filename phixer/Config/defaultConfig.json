@@ -851,7 +851,7 @@
             "title": "Custom",
             "filters": ["ClarityFilter", "OpacityFilter", "EdgeGlowFilter", "SmoothThresholdFilter", "AdaptiveThresholdFilter", "LumaRangeFilter",
                         "ColorSobelFilter", "SobelFilter", "Sobel3x3Filter", "Sobel5x5Filter", "LaplacianGaussianFilter",
-                        "ColorSketchFilter", "SketchFilter"
+                        "ColorSketchFilter", "SketchFilter", "UnsharpMaskFilter"
             ]
         }
         

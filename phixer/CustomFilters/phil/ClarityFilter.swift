@@ -74,17 +74,18 @@ class ClarityFilter: CIFilter {
        let vibrantImage = inputImage.applyingFilter("CIVibrance", parameters: ["inputAmount": 0.2*factor])
         
         let contrastyImage = inputImage.applyingFilter("LumaRangeFilter", parameters: ["inputLower":0.25, "inputUpper":0.75])
-            .applyingFilter("CIUnsharpMask", parameters: ["inputRadius":50, "inputIntensity":0.25])
-            .applyingFilter("CISharpenLuminance", parameters: ["inputSharpness":0.4*factor])
+            .applyingFilter("UnsharpMaskFilter", parameters: ["inputAmount":0.25, "inputRadius":50, "inputThreshold":0])
+            //.applyingFilter("CIUnsharpMask", parameters: ["inputRadius":50, "inputIntensity":0.25])
+            //.applyingFilter("CISharpenLuminance", parameters: ["inputSharpness":0.4*factor])
             .applyingFilter("OpacityFilter", parameters: ["inputOpacity":inputClarity])
         
         log.debug("c:\(inputClarity) f:\(factor) v:\(0.2*factor) s:\(0.4*factor)")
         
-        let finalComposite = contrastyImage.applyingFilter("CIAdditionCompositing", parameters: [kCIInputBackgroundImageKey:vibrantImage])
+        //let finalComposite = contrastyImage.applyingFilter("CIAdditionCompositing", parameters: [kCIInputBackgroundImageKey:vibrantImage])
         //let finalComposite = vibrantImage.applyingFilter("CIAdditionCompositing", parameters: [kCIInputBackgroundImageKey:contrastyImage])
         //let finalComposite = contrastyImage.applyingFilter("CIOverlayBlendMode", parameters: [kCIInputBackgroundImageKey:vibrantImage])
         //let finalComposite = contrastyImage.applyingFilter("CISourceOverCompositing", parameters: [kCIInputBackgroundImageKey:vibrantImage])
-        //let finalComposite = vibrantImage.applyingFilter("CILuminosityBlendMode", parameters: [kCIInputBackgroundImageKey:contrastyImage])
+        let finalComposite = vibrantImage.applyingFilter("CILuminosityBlendMode", parameters: [kCIInputBackgroundImageKey:contrastyImage])
 
         return finalComposite
     }

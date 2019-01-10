@@ -29,8 +29,9 @@ class CustomFilterRegistry: NSObject, CIFilterConstructor {
                                               "Style_Scream", "Style_Candy", "Style_Mosaic", "Style_Udnie", "Style_LaMuse", "Style_Feathers" ]
     
     // any filters that do not need to access any more than 1 pixel can go here:
-    private static let colorFilters:[String] = ["SmoothThresholdFilter", "AdaptiveThresholdFilter", "LumaRangeFilter", "DehazeFilter"]
+    private static let colorFilters:[String] = ["SmoothThresholdFilter", "AdaptiveThresholdFilter", "LumaRangeFilter", "DehazeFilter", "UnsharpMaskFilter"]
     
+    public static let customCategory = "CustomFilters"
     
     // this function registers all of the custom filters with the CIFilter framework
     public static func registerFilters()  {
@@ -41,12 +42,13 @@ class CustomFilterRegistry: NSObject, CIFilterConstructor {
             CustomFilterRegistry.filterCache = [:]
             
             for f in CustomFilterRegistry.filterList {
-                CIFilter.registerName(f, constructor: instance, classAttributes: [kCIAttributeFilterCategories: ["CustomFilters"]])
+                CIFilter.registerName(f, constructor: instance, classAttributes: [kCIAttributeFilterCategories: [CustomFilterRegistry.customCategory]])
             }
             
             for cf in CustomFilterRegistry.colorFilters {
                 CIFilter.registerName(cf, constructor: instance,
-                                      classAttributes: [kCIAttributeFilterCategories: [kCICategoryColorAdjustment, kCICategoryVideo,
+                                      classAttributes: [kCIAttributeFilterCategories: [CustomFilterRegistry.customCategory,
+                                                                                       kCICategoryColorAdjustment, kCICategoryVideo,
                                                                                        kCICategoryStillImage, kCICategoryInterlaced,
                                                                                        kCICategoryNonSquarePixels]])
             }
