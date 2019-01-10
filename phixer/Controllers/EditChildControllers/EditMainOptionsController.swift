@@ -159,15 +159,15 @@ class EditMainOptionsController: UIViewController, EditChildControllerDelegate {
     // MARK: - Handlers for the menu items
     //////////////////////////////////////////
 
-    fileprivate var optionList: [Adornment] = [ Adornment(key: "basic",      text: "Basic Adjustments", icon: "", view: nil, isHidden: false),
-                                                Adornment(key: "filters",    text: "Color Filters",     icon: "", view: nil, isHidden: false),
-                                                Adornment(key: "style",      text: "Style Transfer",    icon: "", view: nil, isHidden: false),
-                                                Adornment(key: "curves",     text: "Curves",            icon: "", view: nil, isHidden: false),
-                                                Adornment(key: "color",      text: "Color Adjustments", icon: "", view: nil, isHidden: false),
-                                                Adornment(key: "detail",     text: "Detail",            icon: "", view: nil, isHidden: false),
-                                                Adornment(key: "transforms", text: "Transforms",        icon: "", view: nil, isHidden: false),
-                                                Adornment(key: "faces",      text: "Faces",             icon: "", view: nil, isHidden: false),
-                                                Adornment(key: "presets",    text: "Presets",           icon: "", view: nil, isHidden: false) ]
+    fileprivate var optionList: [Adornment] = [ Adornment(key: "basic",      text: "Basic Adjustments", icon: "ic_basic", view: nil, isHidden: false),
+                                                Adornment(key: "filters",    text: "Color Filters",     icon: "ic_filter", view: nil, isHidden: false),
+                                                Adornment(key: "style",      text: "Style Transfer",    icon: "ic_brush", view: nil, isHidden: false),
+                                                Adornment(key: "curves",     text: "Curves",            icon: "ic_curve", view: nil, isHidden: false),
+                                                Adornment(key: "color",      text: "Color Adjustments", icon: "ic_adjust", view: nil, isHidden: false),
+                                                Adornment(key: "detail",     text: "Detail",            icon: "ic_sharpen", view: nil, isHidden: false),
+                                                Adornment(key: "transforms", text: "Transforms",        icon: "ic_transform", view: nil, isHidden: false),
+                                                Adornment(key: "faces",      text: "Faces",             icon: "ic_face", view: nil, isHidden: false),
+                                                Adornment(key: "presets",    text: "Presets",           icon: "ic_preset", view: nil, isHidden: false) ]
 
     
     func handleSelection(key: String){

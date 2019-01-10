@@ -708,7 +708,6 @@
 		2537A1EF21E2E3AC00060DBE /* tx_pencil.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2537A1EE21E2E3AC00060DBE /* tx_pencil.jpg */; };
 		2537A1F121E2EDBF00060DBE /* tx_pencil_2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2537A1F021E2EDBF00060DBE /* tx_pencil_2.jpg */; };
 		2537A1F321E310B500060DBE /* tx_pencil_crosshatch_2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2537A1F221E310B500060DBE /* tx_pencil_crosshatch_2.jpg */; };
-		2537A1F521E3C82500060DBE /* tx_crayon_dark.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2537A1F421E3C82500060DBE /* tx_crayon_dark.jpg */; };
 		2537A1F721E42C2C00060DBE /* FilterDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A1F621E42C2C00060DBE /* FilterDefinition.swift */; };
 		2537A1F921E484AA00060DBE /* EditCurvesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A1F821E484AA00060DBE /* EditCurvesController.swift */; };
 		2537A1FF21E5150800060DBE /* LensFlare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A1FA21E5150800060DBE /* LensFlare.swift */; };
@@ -1601,7 +1600,6 @@
 		2537A1EE21E2E3AC00060DBE /* tx_pencil.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tx_pencil.jpg; sourceTree = "<group>"; };
 		2537A1F021E2EDBF00060DBE /* tx_pencil_2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tx_pencil_2.jpg; sourceTree = "<group>"; };
 		2537A1F221E310B500060DBE /* tx_pencil_crosshatch_2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tx_pencil_crosshatch_2.jpg; sourceTree = "<group>"; };
-		2537A1F421E3C82500060DBE /* tx_crayon_dark.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tx_crayon_dark.jpg; sourceTree = "<group>"; };
 		2537A1F621E42C2C00060DBE /* FilterDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FilterDefinition.swift; path = Filters/FilterDefinition.swift; sourceTree = "<group>"; };
 		2537A1F821E484AA00060DBE /* EditCurvesController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditCurvesController.swift; sourceTree = "<group>"; };
 		2537A1FA21E5150800060DBE /* LensFlare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LensFlare.swift; path = phixer/CustomFilters/Filterpedia/LensFlare.swift; sourceTree = SOURCE_ROOT; };
@@ -1907,7 +1905,6 @@
 		2537A1ED21E2E3AC00060DBE /* Textures */ = {
 			isa = PBXGroup;
 			children = (
-				2537A1F421E3C82500060DBE /* tx_crayon_dark.jpg */,
 				2537A1F221E310B500060DBE /* tx_pencil_crosshatch_2.jpg */,
 				2537A1F021E2EDBF00060DBE /* tx_pencil_2.jpg */,
 				2537A1EE21E2E3AC00060DBE /* tx_pencil.jpg */,
@@ -3306,7 +3303,6 @@
 				252B0F871E30690F005A0C2D /* da_025_crispy.jpg in Resources */,
 				252B0E701E30690F005A0C2D /* ms_019_cool_breeze.jpg in Resources */,
 				252B10051E306920005A0C2D /* crack_and_peel_by_dazzle_textures.jpg in Resources */,
-				2537A1F521E3C82500060DBE /* tx_crayon_dark.jpg in Resources */,
 				252B0E861E30690F005A0C2D /* ms_013_matte.jpg in Resources */,
 				252B0F2E1E30690F005A0C2D /* et_085_cool.jpg in Resources */,
 				252B0FBA1E30690F005A0C2D /* bw_012_push_2.JPG in Resources */,
