@@ -71,21 +71,29 @@ class ClarityFilter: CIFilter {
         
         let factor:CGFloat = (1.0+inputClarity)
         
-       let vibrantImage = inputImage.applyingFilter("CIVibrance", parameters: ["inputAmount": 0.2*factor])
+       // let contrastMask = inputImage.applyingFilter("LumaRangeFilter", parameters: ["inputLower":0.1, "inputUpper":0.8])
+       //     .applyingFilter("CIColorInvert")
         
-        let contrastyImage = inputImage.applyingFilter("LumaRangeFilter", parameters: ["inputLower":0.25, "inputUpper":0.75])
+        //return contrastMask // tmp dbg
+        
+        let contrastyImage = inputImage
+            .applyingFilter("CIVibrance", parameters: ["inputAmount": 0.2*factor])
             .applyingFilter("UnsharpMaskFilter", parameters: ["inputAmount":0.25, "inputRadius":50, "inputThreshold":0])
-            //.applyingFilter("CIUnsharpMask", parameters: ["inputRadius":50, "inputIntensity":0.25])
-            //.applyingFilter("CISharpenLuminance", parameters: ["inputSharpness":0.4*factor])
             .applyingFilter("OpacityFilter", parameters: ["inputOpacity":inputClarity])
         
-        log.debug("c:\(inputClarity) f:\(factor) v:\(0.2*factor) s:\(0.4*factor)")
+        /****
+         
+        //TODO: the following is good, but the edges are too distinct
+        let midtoneMask = contrastyImage
+            .applyingFilter("LumaRangeFilter", parameters: ["inputLower":0.1, "inputUpper":0.95])
+            .applyingFilter("CIColorInvert")
         
-        //let finalComposite = contrastyImage.applyingFilter("CIAdditionCompositing", parameters: [kCIInputBackgroundImageKey:vibrantImage])
-        //let finalComposite = vibrantImage.applyingFilter("CIAdditionCompositing", parameters: [kCIInputBackgroundImageKey:contrastyImage])
-        //let finalComposite = contrastyImage.applyingFilter("CIOverlayBlendMode", parameters: [kCIInputBackgroundImageKey:vibrantImage])
-        //let finalComposite = contrastyImage.applyingFilter("CISourceOverCompositing", parameters: [kCIInputBackgroundImageKey:vibrantImage])
-        let finalComposite = vibrantImage.applyingFilter("CILuminosityBlendMode", parameters: [kCIInputBackgroundImageKey:contrastyImage])
+        // overlay the midtones on the original
+        let midtoneImg = contrastyImage.applyingFilter("CIBlendWithMask", parameters: [kCIInputMaskImageKey: midtoneMask, kCIInputBackgroundImageKey: inputImage])
+
+        let finalComposite = contrastyImage.applyingFilter("CILuminosityBlendMode", parameters: [kCIInputBackgroundImageKey:midtoneImg])
+         ***/
+        let finalComposite = contrastyImage.applyingFilter("CILuminosityBlendMode", parameters: [kCIInputBackgroundImageKey:inputImage])
 
         return finalComposite
     }

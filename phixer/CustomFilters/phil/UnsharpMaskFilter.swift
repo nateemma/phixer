@@ -28,24 +28,24 @@ class UnsharpMaskFilter: CIFilter {
     // init
     override init() {
         
+        // algorithm adapted from Wikipedia: https://en.wikipedia.org/wiki/Unsharp_masking
+        
         kernel = try! CIColorKernel(source:
             "kernel vec4 combine(__sample sharpImage, __sample  blurredImage, float intensity, float threshold)" +
                 "{" +
                 "   float alpha = sharpImage.a);\n" +
                 "   vec3 sharpImageColor = sharpImage.rgb;\n" +
                 "   vec3 blurredImageColor = blurredImage.rgb;\n" +
-                "   float luma1 = dot(vec3(0.2126, 0.7152, 0.0722), sharpImageColor);\n" +
-                "   float luma2 = dot(vec3(0.2126, 0.7152, 0.0722), blurredImageColor);\n" +
-                "   if (abs(luma1 - luma2) > threshold) {\n" +
-                "       vec3 result = sharpImageColor.rgb * intensity + blurredImageColor.rgb * (1.0 - intensity);\n" +
+                "   if (distance(sharpImageColor,blurredImageColor) > threshold) {\n" +
+                "       vec3 result = sharpImageColor.rgb  + (sharpImageColor.rgb - blurredImageColor.rgb) * intensity;\n" +
                 "       float r = clamp(result.r, 0.0, 1.0);\n" +
                 "       float g = clamp(result.g, 0.0, 1.0);\n" +
                 "       float b = clamp(result.b, 0.0, 1.0);\n" +
                 "       return vec4(r, g, b, 1.0);\n" +
                 "   } else {\n" +
                 "       return sharpImage;\n" +
-                "}\n" +
-            "}"
+                "   }\n" +
+                "}"
         )
         
         if kernel == nil {
@@ -139,6 +139,8 @@ class UnsharpMaskFilter: CIFilter {
         
         // combine the original and blurred version
         let sharpImg = kernel.apply(extent: inputImage.extent, arguments: [inputImage, blurredImg, inputAmount, inputThreshold])
+        
+        return sharpImg
         
         // use luminance blending to create the final image
         return sharpImg?.applyingFilter("CILuminosityBlendMode", parameters: [kCIInputBackgroundImageKey:inputImage])

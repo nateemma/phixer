@@ -45,6 +45,7 @@ class EditBasicAdjustmentsController: EditBaseMenuController {
     fileprivate var itemList: [Adornment] = [ Adornment(key: "exposure",   text: "Exposure",             icon: "ic_exposure", view: nil, isHidden: false),
                                               Adornment(key: "brightness", text: "Brightness",           icon: "ic_brightness", view: nil, isHidden: false),
                                               Adornment(key: "contrast",   text: "Contrast",             icon: "ic_contrast", view: nil, isHidden: false),
+                                              Adornment(key: "clarity",    text: "Clarity",              icon: "ic_clarity", view: nil, isHidden: false),
                                               Adornment(key: "highlights", text: "Highlights & Shadows", icon: "ic_highlights", view: nil, isHidden: false),
                                               Adornment(key: "wb",         text: "White Balance",        icon: "ic_wb", view: nil, isHidden: false),
                                               Adornment(key: "dehaze",     text: "Dehaze",               icon: "ic_dehaze", view: nil, isHidden: false),
@@ -58,6 +59,7 @@ class EditBasicAdjustmentsController: EditBaseMenuController {
         case "exposure": exposureHandler()
         case "brightness": brightnessHandler()
         case "contrast": contrastHandler()
+        case "clarity": clarityHandler()
         case "highlights": highlightHandler()
         case "wb": wbHandler()
         case "dehaze": dehazeHandler()
@@ -87,6 +89,10 @@ class EditBasicAdjustmentsController: EditBaseMenuController {
     
     func contrastHandler(){
         self.delegate?.editFilterSelected(key: "ContrastFilter")
+    }
+    
+    func clarityHandler(){
+        self.delegate?.editFilterSelected(key: "ClarityFilter")
     }
 
     func highlightHandler(){

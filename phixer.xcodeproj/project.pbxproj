@@ -1858,7 +1858,6 @@
 				2537A1E421E02D7800060DBE /* SketchFilter.swift */,
 				258F09B8219264C20082FE2A /* SmoothThresholdFilter.swift */,
 				2537A1E021E01EA900060DBE /* Sobel3x3Filter.swift */,
-				2537A20A21E7BC8400060DBE /* UnsharpMaskFilter.swift */,
 				2537A1EA21E271E400060DBE /* Sobel5x5Filter.swift */,
 				2537A1DE21E012B900060DBE /* SobelFilter.swift */,
 				258F09AC218E4AC90082FE2A /* Style_Candy.swift */,
@@ -1868,6 +1867,7 @@
 				258F09A2218CC09C0082FE2A /* Style_Scream.swift */,
 				258F09B2218E4BB30082FE2A /* Style_Udnie.swift */,
 				2568BDD621BEC72600560287 /* StyleTransferFilter.swift */,
+				2537A20A21E7BC8400060DBE /* UnsharpMaskFilter.swift */,
 				2537A1C021D31F4B00060DBE /* WhiteBalanceFilter.swift */,
 			);
 			path = phil;
