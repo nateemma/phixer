@@ -121,7 +121,7 @@ class CameraControlsView: UIView {
         }
         
         // get orientation
-        isLandscape = UIDevice.current.orientation.isLandscape
+        isLandscape = ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight))
         
         // set up layout based on orientation
         if (isLandscape){

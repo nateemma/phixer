@@ -61,7 +61,7 @@ class SimpleEditViewController: FilterBasedController, FilterBasedControllerDele
     var currFilterDescriptor:FilterDescriptor? = nil
     var currIndex:Int = 0
     
-    var isLandscape : Bool = false
+    // var isLandscape : Bool = false // moved to base class
     var screenSize : CGRect = CGRect.zero
     var displayWidth : CGFloat = 0.0
     var displayHeight : CGFloat = 0.0
@@ -141,10 +141,6 @@ class SimpleEditViewController: FilterBasedController, FilterBasedControllerDele
         
         log.verbose("h:\(displayHeight) w:\(displayWidth)")
         
-        // get orientation
-        //isLandscape = UIDevice.current.orientation.isLandscape // doesn't always work properly, especially in simulator
-        isLandscape = (displayWidth > displayHeight)
-        
         //filterManager?.reset()
         doInit()
         
@@ -211,7 +207,7 @@ class SimpleEditViewController: FilterBasedController, FilterBasedControllerDele
     
     /*
      override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-     if UIDevice.current.orientation.isLandscape {
+     if ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight)) {
      log.verbose("Preparing for transition to Landscape")
      } else {
      log.verbose("Preparing for transition to Portrait")
@@ -220,7 +216,7 @@ class SimpleEditViewController: FilterBasedController, FilterBasedControllerDele
      */
     
     override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
-        if UIDevice.current.orientation.isLandscape{
+        if ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight)){
             log.verbose("### Detected change to: Landscape")
         } else {
             log.verbose("### Detected change to: Portrait")

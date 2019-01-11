@@ -130,7 +130,7 @@ class ImageSelectionView: UIView {
         let pad:CGFloat = 4
         
         // get orientation
-        isLandscape = UIDevice.current.orientation.isLandscape
+        isLandscape = ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight))
         
         // set up layout based on orientation
         if (isLandscape){

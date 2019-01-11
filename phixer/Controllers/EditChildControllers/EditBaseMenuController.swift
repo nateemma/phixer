@@ -29,7 +29,7 @@ class EditBaseMenuController: FilterBasedController, FilterBasedControllerDelega
     let menu:SimpleCarousel! = SimpleCarousel()
 
     
-    var isLandscape : Bool = false
+    // var isLandscape : Bool = false // moved to base class
     var screenSize : CGRect = CGRect.zero
     var displayWidth : CGFloat = 0.0
     var displayHeight : CGFloat = 0.0
@@ -124,10 +124,6 @@ class EditBaseMenuController: FilterBasedController, FilterBasedControllerDelega
         
         
         log.verbose("h:\(displayHeight) w:\(displayWidth)")
-        
-        // get orientation
-        //isLandscape = UIDevice.current.orientation.isLandscape // doesn't always work properly, especially in simulator
-        isLandscape = (displayWidth > displayHeight)
         
         
         self.view.frame.size.height = displayHeight

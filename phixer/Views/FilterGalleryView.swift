@@ -31,7 +31,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
 
     public static var showHidden:Bool = false // controls whether hidden filters are shown or not
     
-    fileprivate var isLandscape : Bool = false
+    var isLandscape : Bool = false // moved to base class
     fileprivate var screenSize : CGRect = CGRect.zero
     fileprivate var displayWidth : CGFloat = 0.0
     fileprivate var displayHeight : CGFloat = 0.0
@@ -92,7 +92,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         
         
         // only do layout if this was caused by an orientation change
-        if (isLandscape != UIDevice.current.orientation.isLandscape){ // rotation change?
+        if (isLandscape != ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight))){ // rotation change?
             isLandscape = !isLandscape
             doLayout()
             doLoadData()
@@ -109,7 +109,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         
         if (!FilterGalleryView.initDone){
             FilterGalleryView.initDone = true
-            isLandscape = UIDevice.current.orientation.isLandscape
+            isLandscape = ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight))
             
         }
     }
@@ -123,7 +123,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         
         // get orientation
         //isLandscape = (displayWidth > displayHeight)
-        isLandscape = UIDevice.current.orientation.isLandscape
+        isLandscape = ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight))
         
         // get aspect ratio of input (used for layout sizing)
         

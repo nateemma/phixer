@@ -70,7 +70,7 @@ class SampleGalleryViewController: FilterBasedController, UIImagePickerControlle
     
     var imageSize:CGSize = CGSize.zero
     
-    var isLandscape : Bool = false
+    // var isLandscape : Bool = false // moved to base class
     var showAds : Bool = true
     var screenSize : CGRect = CGRect.zero
     var displayWidth : CGFloat = 0.0
@@ -106,11 +106,6 @@ class SampleGalleryViewController: FilterBasedController, UIImagePickerControlle
       // get display dimensions
         displayHeight = view.height
         displayWidth = view.width
-        
-        
-        // get orientation
-        //isLandscape = UIDevice.current.orientation.isLandscape // doesn't always work properly, especially in simulator
-        isLandscape = (displayWidth > displayHeight)
         
         
         doInit()
@@ -357,44 +352,7 @@ class SampleGalleryViewController: FilterBasedController, UIImagePickerControlle
         photosLinkImage.isUserInteractionEnabled = true
         
     }
-    
-    /*
-     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-     if UIDevice.current.orientation.isLandscape {
-     log.verbose("Preparing for transition to Landscape")
-     } else {
-     log.verbose("Preparing for transition to Portrait")
-     }
-     }
-     */
-    
-    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
-        if UIDevice.current.orientation.isLandscape{
-            log.verbose("### Detected change to: Landscape")
-            isLandscape = true
-        } else {
-            log.verbose("### Detected change to: Portrait")
-            isLandscape = false
-            
-        }
-        //TODO: animate and maybe handle before rotation finishes
-        self.removeSubviews()
-        self.doLayout()
         
-    }
-    
-    func removeSubviews(){
-        for view in self.view.subviews {
-            view.removeFromSuperview()
-        }
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        log.warning("Low Memory Warning")
-        // Dispose of any resources that can be recreated.
-    }
-    
     
     func exitScreen(){
         guard navigationController?.popViewController(animated: true) != nil else { //modal

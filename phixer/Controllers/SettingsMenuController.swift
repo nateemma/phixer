@@ -61,7 +61,7 @@ class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
     
     
     override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
-        if UIDevice.current.orientation.isLandscape{
+        if ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight)){
             log.verbose("### Detected change to: Landscape")
         } else {
             log.verbose("### Detected change to: Portrait")
@@ -111,7 +111,7 @@ class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
         stackHeight = displayHeight
         
         // get orientation
-        //isLandscape = UIDevice.current.orientation.isLandscape // doesn't always work properly, especially in simulator
+        //isLandscape = ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight)) // doesn't always work properly, especially in simulator
         isLandscape = (displayWidth > displayHeight)
         
         showAds = (isLandscape == true) ? false : true // don't show in landscape mode, too cluttered

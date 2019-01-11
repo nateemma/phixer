@@ -25,7 +25,7 @@ class SampleGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     var theme = ThemeManager.currentTheme()
     
 
-    fileprivate var isLandscape : Bool = false
+    var isLandscape : Bool = false // moved to base class
     fileprivate var screenSize : CGRect = CGRect.zero
     fileprivate var displayWidth : CGFloat = 0.0
     fileprivate var displayHeight : CGFloat = 0.0
@@ -95,7 +95,7 @@ class SampleGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         
         if (!SampleGalleryView.initDone){
             SampleGalleryView.initDone = true
-            isLandscape = UIDevice.current.orientation.isLandscape
+            isLandscape = ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight))
             
         }
     }
@@ -109,7 +109,7 @@ class SampleGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         
         // get orientation
         //isLandscape = (displayWidth > displayHeight)
-        isLandscape = UIDevice.current.orientation.isLandscape
+        isLandscape = ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight))
         
         // set items per row. Add 1 if landscape,
         

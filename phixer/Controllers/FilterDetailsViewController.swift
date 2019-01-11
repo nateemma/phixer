@@ -69,7 +69,7 @@ class FilterDetailsViewController: FilterBasedController, UIImagePickerControlle
     fileprivate var currFilterIndex:Int = -1
     fileprivate var currFilterCount:Int = 0
     
-    fileprivate var isLandscape : Bool = false
+    // var isLandscape : Bool = false // moved to base class
     fileprivate var screenSize : CGRect = CGRect.zero
     fileprivate var displayWidth : CGFloat = 0.0
     fileprivate var displayHeight : CGFloat = 0.0
@@ -182,11 +182,7 @@ class FilterDetailsViewController: FilterBasedController, UIImagePickerControlle
         displayWidth = view.width
         
         
-        // get orientation
-        //isLandscape = UIDevice.current.orientation.isLandscape // doesn't always work properly, especially in simulator
-        //isLandscape = (displayWidth > displayHeight)
-        isLandscape = false // only dealing with portrait layout for now
-        
+       
         log.verbose("h:\(displayHeight) w:\(displayWidth) landscape:\(isLandscape)")
         
         doInit()
@@ -489,30 +485,6 @@ class FilterDetailsViewController: FilterBasedController, UIImagePickerControlle
     }
     
 
-    
-    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
-        displayHeight = view.height
-        displayWidth = view.width
-        if UIDevice.current.orientation.isLandscape{
-            log.verbose("### Detected change to: Landscape")
-            isLandscape = true
-        } else {
-            log.verbose("### Detected change to: Portrait")
-            isLandscape = false
-            
-        }
-        //TODO: animate and maybe handle before rotation finishes
-        self.removeSubviews()
-        self.doLayout()
-        
-    }
-    
-    func removeSubviews(){
-        for view in self.view.subviews {
-            view.removeFromSuperview()
-        }
-    }
- 
     
     
     /////////////////////////////

@@ -117,7 +117,7 @@ class FilterInfoView: UIView {
         super.layoutSubviews()
         
         // get orientation
-        //isLandscape = UIDevice.current.orientation.isLandscape
+        //isLandscape = ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight))
 
         if !initDone {
             initViews()

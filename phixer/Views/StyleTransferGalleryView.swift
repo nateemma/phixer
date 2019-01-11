@@ -27,7 +27,7 @@ class StyleTransferGalleryView : UIView {
 
     public static var showHidden:Bool = false // controls whether hidden filters are shown or not
     
-    fileprivate var isLandscape : Bool = false
+    var isLandscape : Bool = false // moved to base class
     fileprivate var screenSize : CGRect = CGRect.zero
     fileprivate var displayWidth : CGFloat = 0.0
     fileprivate var displayHeight : CGFloat = 0.0
@@ -106,7 +106,7 @@ class StyleTransferGalleryView : UIView {
         
         if (!StyleTransferGalleryView.initDone){
             StyleTransferGalleryView.initDone = true
-            isLandscape = UIDevice.current.orientation.isLandscape
+            isLandscape = ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight))
             filterList = []
             sourceImageList = [:]
             styledImageList = [:]
@@ -134,7 +134,7 @@ class StyleTransferGalleryView : UIView {
         
         // get orientation
         //isLandscape = (displayWidth > displayHeight)
-        isLandscape = UIDevice.current.orientation.isLandscape
+        isLandscape = ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight))
         
         itemsPerRow = 1
 

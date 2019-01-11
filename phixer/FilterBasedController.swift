@@ -30,6 +30,9 @@ class FilterBasedController: UIViewController {
     
     // operating mode, OK to set externally
     public var mode:SelectionMode = .displaySelection
+    
+    // flag to indicate whether interface (not device) is in landscape mode
+    public var isLandscape: Bool { return checkLandscape() }
 
     // delegate for handling events
     weak var delegate: FilterBasedControllerDelegate? = nil
@@ -68,6 +71,20 @@ class FilterBasedController: UIViewController {
     // Default implementations
     ////////////////////
 
+    
+    func checkLandscape() -> Bool {
+        let sbo = UIApplication.shared.statusBarOrientation
+        return ((sbo == .landscapeLeft) || (sbo == .landscapeRight))
+    }
+    
+    
+    func removeSubviews(){
+        for view in self.view.subviews {
+            view.removeFromSuperview()
+        }
+    }
+
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         log.warning("Low Memory Warning (\(self.getTag()))")
@@ -78,7 +95,7 @@ class FilterBasedController: UIViewController {
     
     /* restricting to portrait for now, so no need for these
      override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-         if UIDevice.current.orientation.isLandscape {
+         if ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight)) {
              log.verbose("Preparing for transition to Landscape")
          } else {
              log.verbose("Preparing for transition to Portrait")
@@ -87,7 +104,8 @@ class FilterBasedController: UIViewController {
      */
 
     override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
-        if UIDevice.current.orientation.isLandscape{
+        
+        if ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight)){
             log.verbose("### Detected change to: Landscape")
         } else {
             log.verbose("### Detected change to: Portrait")

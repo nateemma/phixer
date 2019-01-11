@@ -29,7 +29,7 @@ class EditMainOptionsController: FilterBasedController, FilterBasedControllerDel
     var optionsControlView: UIView! = UIView()
     
     
-    var isLandscape : Bool = false
+    // var isLandscape : Bool = false // moved to base class
     var screenSize : CGRect = CGRect.zero
     var displayWidth : CGFloat = 0.0
     var displayHeight : CGFloat = 0.0
@@ -87,9 +87,6 @@ class EditMainOptionsController: FilterBasedController, FilterBasedControllerDel
         
         log.verbose("h:\(displayHeight) w:\(displayWidth)")
         
-        // get orientation
-        //isLandscape = UIDevice.current.orientation.isLandscape // doesn't always work properly, especially in simulator
-        isLandscape = (displayWidth > displayHeight)
         
         
         optionsControlView.frame.size.height = displayHeight

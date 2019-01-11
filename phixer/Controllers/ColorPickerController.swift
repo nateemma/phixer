@@ -98,7 +98,7 @@ class ColorPickerController: UIViewController {
 
     
     override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
-        if UIDevice.current.orientation.isLandscape{
+        if ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight)){
             log.verbose("### Detected change to: Landscape")
             isLandscape = true
         } else {
@@ -152,7 +152,7 @@ class ColorPickerController: UIViewController {
         log.verbose("h:\(displayHeight) w:\(displayWidth)")
         
  
-        // NOTE: isLandscape = UIDevice.current.orientation.isLandscape doesn't always work properly, especially in simulator
+        // NOTE: isLandscape = ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight)) doesn't always work properly, especially in simulator
         isLandscape = (displayWidth > displayHeight)
         
         //showAds = (isLandscape == true) ? false : true // don't show in landscape mode (too cluttered)
