@@ -184,7 +184,8 @@ class FilterDetailsViewController: FilterBasedController, UIImagePickerControlle
         
         // get orientation
         //isLandscape = UIDevice.current.orientation.isLandscape // doesn't always work properly, especially in simulator
-        isLandscape = (displayWidth > displayHeight)
+        //isLandscape = (displayWidth > displayHeight)
+        isLandscape = false // only dealing with portrait layout for now
         
         log.verbose("h:\(displayHeight) w:\(displayWidth) landscape:\(isLandscape)")
         
@@ -284,7 +285,7 @@ class FilterDetailsViewController: FilterBasedController, UIImagePickerControlle
         //adView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: adView.frame.size.height)
         
         // set up rest of layout based on orientation
-        if (UIDevice.current.orientation.isLandscape){
+        if (isLandscape){
             // left-to-right layout scheme
             
             editImageView.frame.size.height = displayHeight - bannerHeight
@@ -358,7 +359,7 @@ class FilterDetailsViewController: FilterBasedController, UIImagePickerControlle
     
     private func positionParameterView(){
         // the size of the parameter view changes with each filter, so it's tricky to position. This routine positions it after it has been sized etc.
-        if (UIDevice.current.orientation.isLandscape){
+        if (isLandscape){
             filterParametersView.anchorInCorner(.bottomRight, xPad: 0, yPad: 0, width: filterParametersView.frame.size.width, height: filterParametersView.frame.size.height)
         } else {
             filterParametersView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 1, otherSize: filterParametersView.frame.size.height)

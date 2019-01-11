@@ -15,7 +15,7 @@ class SketchFilter: CIFilter {
     var inputMix: CGFloat = 0.5
     var inputTexture: CGFloat = 0.5
     
-    var inputChanged:Bool = false
+    var parameterChanged:Bool = false
 
     //private let kernel: CIKernel!
     var currOutputImage:CIImage? = nil
@@ -78,7 +78,7 @@ class SketchFilter: CIFilter {
         inputThreshold = 0.5
         inputMix = 0.5
         inputTexture = 0.5
-        inputChanged = true
+        parameterChanged = true
     }
     
     
@@ -126,22 +126,29 @@ class SketchFilter: CIFilter {
         switch key {
         case "inputImage":
             inputImage = value as? CIImage
-            prepInput()
+            parameterChanged = true
+           prepInput()
         case "inputThreshold":
             let v = value as! CGFloat
             if !v.approxEqual(inputThreshold){
                 inputThreshold = v
-                inputChanged = true
-               prepThreshold()
+                parameterChanged = true
+                prepThreshold()
             }
         case "inputMix":
-            inputMix = value as! CGFloat
-            inputChanged = true
-           prepMix()
+            let v = value as! CGFloat
+            if !v.approxEqual(inputMix){
+                inputMix = v
+                parameterChanged = true
+                prepMix()
+            }
         case "inputTexture":
-            inputTexture = value as! CGFloat
-            inputChanged = true
-           prepTexture()
+            let v = value as! CGFloat
+            if !v.approxEqual(inputTexture){
+                inputTexture = v
+                parameterChanged = true
+                prepTexture()
+            }
         default:
             log.error("Invalid key: \(key)")
         }
@@ -168,8 +175,8 @@ class SketchFilter: CIFilter {
         }
         
         // only run the filter if something changed (or this is the first run)
-        if (inputChanged) {
-            inputChanged = false
+        if (parameterChanged) {
+            parameterChanged = false
             
             combineLayers()
         }
@@ -222,7 +229,8 @@ class SketchFilter: CIFilter {
         // equalise, bump up the contrast, convert to B&W
         monoImg = resizedInputImg?
             .applyingFilter("YUCIHistogramEqualization")
-            .applyingFilter("CIColorControls", parameters: ["inputContrast": 1.0])
+            .applyingFilter("ClarityFilter")
+            //.applyingFilter("CIColorControls", parameters: ["inputContrast": 1.0])
             //.applyingFilter("CIColorPosterize", parameters: ["inputLevels": 16])
             .applyingFilter("CIPhotoEffectMono")
 
@@ -232,10 +240,10 @@ class SketchFilter: CIFilter {
         edgeImg = monoImg
 
         // since the input has changed, call the other prep funcs. This ensures filter will be ready if defaults are used
-        //prepMix()
-        //prepTexture()
-        //prepThreshold()
-        //combineLayers()
+        prepMix()
+        prepTexture()
+        prepThreshold()
+        combineLayers()
 
     }
     

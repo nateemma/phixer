@@ -39,9 +39,6 @@ class SimpleEditViewController: FilterBasedController, FilterBasedControllerDele
     // Views for holding the (modal) overlays. Note: must come after EditImageDisplayView()
     //var filterControlsView : FilterControlsView! = FilterControlsView()
     
-    // The Edit controls/options
-    var editControlsView: EditControlsView! = EditControlsView()
-    
     let editControlHeight = 96.0
     
     // child view controller
@@ -193,30 +190,14 @@ class SimpleEditViewController: FilterBasedController, FilterBasedControllerDele
         
         filterParametersView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: filterParametersView.frame.size.height)
 
-/***
-       // bottom
-        editControlsView.anchorToEdge(.bottom, padding: 0, width: displayWidth, height: editControlsView.frame.size.height)
-        
-        filterControlsView.align(.aboveCentered, relativeTo: editControlsView, padding: 0, width: displayWidth, height: filterControlsView.frame.size.height)
-        
-        
-        categorySelectionView.align(.aboveCentered, relativeTo: filterControlsView, padding: 0,
-                                    width: categorySelectionView.frame.size.width, height: categorySelectionView.frame.size.height)
-        
-        filterParametersView.align(.aboveCentered, relativeTo: filterControlsView, padding: 4,
-                                   width: filterParametersView.frame.size.width, height: filterParametersView.frame.size.height)
-
- ***/
-        
-        //TMP:
-        editControlsView.isHidden = true
+        // set up the options controller, which provides the modal menus
         optionsController = EditMainOptionsController()
         optionsController?.view.frame = CGRect(origin: CGPoint(x: 0, y: (displayHeight-CGFloat(editControlHeight))), size: CGSize(width: displayWidth, height: CGFloat(editControlHeight)))
         //optionsController?.view.frame = self.view.frame
         optionsController?.delegate = self
         add(optionsController!)
 
-        // add delegates to sub-views (for callbacks)
+        // add delegate for image picker
         imagePicker.delegate = self
         
         // set gesture detection for the edit display view
@@ -251,31 +232,7 @@ class SimpleEditViewController: FilterBasedController, FilterBasedControllerDele
         editImageView.setFilter(key:(currFilterDescriptor?.key)!) // forces reset of filter pipeline
     }
     
-    
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        log.warning("Low Memory Warning")
-        // Dispose of any resources that can be recreated.
-    }
-    
-    
-    // Autorotate configuration
-    
-    //NOTE: only works for iOS 10 and later
-    
-    override open var shouldAutorotate: Bool {
-        return false
-    }
-    
-    override open var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return .portrait
-    }
-    
-    override open var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
-        return .portrait
-    }
-    
+
     private func checkPhotoAuth() {
         if PHPhotoLibrary.authorizationStatus() != .authorized {
             PHPhotoLibrary.requestAuthorization({ (status) in
@@ -318,7 +275,6 @@ class SimpleEditViewController: FilterBasedController, FilterBasedControllerDele
         menuView.addAdornments(itemList)
         menuView.delegate = self
         menuView.isHidden = true // start off as hidden
-        //menuView.update()
     }
 
     
@@ -362,14 +318,18 @@ class SimpleEditViewController: FilterBasedController, FilterBasedControllerDele
     // MARK: - Menu item handlers
     //////////////////////////////////////
     // build the list of adornments
-    // TODO: hide blend icon if not relevant??
+    
     
     var itemList:[Adornment] = [ ]
 
     func updateAdornments(){
+        
+        // hide blend icon if this is not a blend filter
+       let showBlend = (filterManager?.getCurrentFilterDescriptor()?.filterOperationType == FilterOperationType.blend) ? false : true
+        
         itemList = []
         itemList.append (Adornment(key: "photo", text: "photo", icon: "", view: photoThumbnail, isHidden: false))
-        itemList.append (Adornment(key: "blend", text: "blend", icon: "", view: blendThumbnail, isHidden: false))
+        itemList.append (Adornment(key: "blend", text: "blend", icon: "", view: blendThumbnail, isHidden: showBlend))
         itemList.append (Adornment(key: "reset", text: "reset", icon: "ic_reset", view: nil, isHidden: false))
         itemList.append (Adornment(key: "undo", text: "undo", icon: "ic_undo", view: nil, isHidden: false))
         itemList.append (Adornment(key: "save", text: "save", icon: "ic_save", view: nil, isHidden: false))

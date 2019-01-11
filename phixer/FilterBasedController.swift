@@ -75,6 +75,45 @@ class FilterBasedController: UIViewController {
     }
 
 
+    
+    /* restricting to portrait for now, so no need for these
+     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+         if UIDevice.current.orientation.isLandscape {
+             log.verbose("Preparing for transition to Landscape")
+         } else {
+             log.verbose("Preparing for transition to Portrait")
+         }
+     }
+     */
+
+    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
+        if UIDevice.current.orientation.isLandscape{
+            log.verbose("### Detected change to: Landscape")
+        } else {
+            log.verbose("### Detected change to: Portrait")
+            
+        }
+        //TODO: animate and maybe handle before rotation finishes
+        self.viewDidLoad()
+    }
+
+    
+    // Autorotate configuration default behaviour. Override for something different
+    
+    //NOTE: only works for iOS 10 and later
+    
+    override open var shouldAutorotate: Bool {
+        return false
+    }
+    
+    override open var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .portrait
+    }
+    
+    override open var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
+        return .portrait
+    }
+    
 } // FilterBasedController
 //########################
 

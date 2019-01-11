@@ -194,7 +194,7 @@ class EditMainOptionsController: FilterBasedController, FilterBasedControllerDel
                                                 Adornment(key: "style",      text: "Style Transfer",    icon: "ic_brush", view: nil, isHidden: false),
                                                 Adornment(key: "curves",     text: "Curves",            icon: "ic_curve", view: nil, isHidden: false),
                                                 Adornment(key: "color",      text: "Color Adjustments", icon: "ic_adjust", view: nil, isHidden: false),
-                                                Adornment(key: "detail",     text: "Detail",            icon: "ic_sharpen", view: nil, isHidden: false),
+                                                Adornment(key: "detail",     text: "Detail",            icon: "ic_sharpenness", view: nil, isHidden: false),
                                                 Adornment(key: "transforms", text: "Transforms",        icon: "ic_transform", view: nil, isHidden: false),
                                                 Adornment(key: "faces",      text: "Faces",             icon: "ic_face", view: nil, isHidden: false),
                                                 Adornment(key: "presets",    text: "Presets",           icon: "ic_preset", view: nil, isHidden: false) ]

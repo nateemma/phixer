@@ -101,8 +101,8 @@ class  FilterDescriptor {
         self.lookupImage = nil
         self.lookupImageName = definition.lookup
         
-        if definition.ftype.isEmpty {
-            log.error("NIL Operation Type for filter: \(key)")
+        if definition.ftype.isEmpty {  // not an error
+            //log.error("NIL Operation Type for filter: \(key)")
             self.filterOperationType = FilterOperationType.singleInput
         } else {
             self.filterOperationType = FilterOperationType(rawValue:definition.ftype)!
