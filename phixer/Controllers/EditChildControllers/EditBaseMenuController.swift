@@ -18,11 +18,9 @@ private var filterCount: Int = 0
 // This View Controller is the 'base' class used for creating Edit Control displays which consist of a carousel of text & icons
 // The subclass just needs to override the functions that provide the displayed data and the handler for dealing with a user selection
 
-class EditBaseMenuController: UIViewController, EditChildControllerDelegate {
+class EditBaseMenuController: FilterBasedController, FilterBasedControllerDelegate {
     
     
-    // delegate for issuing callbacks. Must be set by the parent controller
-    public var delegate: EditChildControllerDelegate? = nil
     
     var theme = ThemeManager.currentTheme()
     
@@ -65,24 +63,36 @@ class EditBaseMenuController: UIViewController, EditChildControllerDelegate {
     }
     
     // go to the next filter, whatever that means for this controller. Note that this is a valid default implementation
-    func nextFilter(){
+    override func nextFilter(){
+        log.debug("next...")
         menu.nextItem()
     }
-
+  
     // go to the previous filter, whatever that means for this controller. Note that this is a valid default implementation
-    func previousFilter(){
+    override func previousFilter(){
+        log.debug("previous...")
         menu.previousItem()
     }
 
-    // show this view
-    func show(){
-        self.view.isHidden = false
+    
+    //////////////////////////////////////////
+    // FilterBasedControllerDelegate
+    //////////////////////////////////////////
+    
+    // these are here to allow compilation.
+    
+    func filterControllerSelection(key: String) {
+        log.warning("base class called. key: \(key)")
     }
     
-    // hide this view
-    func hide(){
-        self.view.isHidden = true
+    func filterControllerUpdateRequest(tag: String) {
+        log.warning("base class called. tag: \(tag)")
     }
+    
+    func filterControllerCompleted(tag: String) {
+        log.warning("base class called. tag: \(tag)")
+    }
+    
     
     ////////////////////
     // Everything below here is generic so subclasses can just inherit this functionality as-is
@@ -93,12 +103,6 @@ class EditBaseMenuController: UIViewController, EditChildControllerDelegate {
         self.init(nibName:nil, bundle:nil)
     }
     
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        log.warning("Low Memory Warning")
-        // Dispose of any resources that can be recreated.
-    }
 
     
     override func viewDidLoad() {
@@ -223,7 +227,7 @@ class EditBaseMenuController: UIViewController, EditChildControllerDelegate {
     //////////////////////////////////////////
     
     @objc func cancelDidPress(){
-        delegate?.editFinished()
+        delegate?.filterControllerCompleted(tag:self.getTag())
         dismiss()
     }
 
@@ -240,37 +244,7 @@ class EditBaseMenuController: UIViewController, EditChildControllerDelegate {
         })
     }
     
-    //////////////////////////////////////////
-    // MARK: - Delegate functions for child controllers
-    //////////////////////////////////////////
 
-    // called when a child controller returns a filter selection
-    func editFilterSelected(key: String) {
-        // just pass on the to the parent controller
-        if self.delegate != nil {
-            DispatchQueue.main.async(execute: { () -> Void in
-                self.delegate?.editFilterSelected(key: key)
-            })
-        }
-    }
-    
-    // called when a child controller has done something that requires the main UI to be updated
-    func editRequestUpdate() {
-        // just pass on the to the parent controller
-        if self.delegate != nil {
-            DispatchQueue.main.async(execute: { () -> Void in
-                self.delegate?.editRequestUpdate()
-            })
-        }
-    }
-    
-    // called when a child controller has finished
-    func editFinished(){
-        // remove the child controller and re-display the main options (assuming only 1 level of sub-functionality here)
-        self.childController?.remove()
-        self.childController = nil
-        self.view.isHidden = false
-    }
 
 } // EditBaseMenuController
 //########################

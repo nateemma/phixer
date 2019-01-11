@@ -25,17 +25,12 @@ private var filterCount: Int = 0
 
 // This is the View Controller for displaying and organising filters into categories
 
-class FilterGalleryViewController: UIViewController {
+class FilterGalleryViewController: FilterBasedController, FilterBasedControllerDelegate {
+
     
     var theme = ThemeManager.currentTheme()
     
-
-    // delegate for handling events
-    weak var delegate: GalleryViewControllerDelegate?
-    
-    // operating mode, OK to set externally
-    public var mode:GalleryControllerMode = .displaySelection
-    
+        
     // Banner View (title)
     var bannerView: TitleView! = TitleView()
     
@@ -131,6 +126,18 @@ class FilterGalleryViewController: UIViewController {
         }
     }
     
+    override func previousFilter(){
+        let key = self.filterGalleryView.getFilterBefore(key:filterManager.getCurrentFilterKey())
+        log.verbose("Previous Filter: \(key)")
+        self.delegate?.filterControllerSelection(key: key)
+    }
+    
+    override func nextFilter(){
+        let key = self.filterGalleryView.getFilterAfter(key:filterManager.getCurrentFilterKey())
+        log.verbose("Next Filter: \(key)")
+        self.delegate?.filterControllerSelection(key: key)
+    }
+
     
     
     func suspend(){
@@ -317,11 +324,37 @@ class FilterGalleryViewController: UIViewController {
         guard navigationController?.popViewController(animated: true) != nil else { //modal
             //log.debug("Not a navigation Controller")
             suspend()
-            dismiss(animated: true, completion:  { self.delegate?.galleryCompleted() })
+            dismiss(animated: true, completion:  { self.delegate?.filterControllerCompleted(tag:self.getTag()) })
             return
         }
     }
     
+    
+    /////////////////////////////
+    // FilterBasedControllerDelegate(s)
+    /////////////////////////////
+    
+    func filterControllerSelection(key: String) {
+        log.verbose("Child selected filter: \(key)")
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.updateCategoryDisplay(self.currCategory)
+        })
+   }
+    
+    func filterControllerUpdateRequest(tag:String) {
+        log.verbose("Child requested update: \(tag)")
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.updateCategoryDisplay(self.currCategory)
+        })
+    }
+    
+    
+    func filterControllerCompleted(tag:String) {
+        log.verbose("Returned from: \(tag)")
+        DispatchQueue.main.async(execute: {() -> Void in
+            self.updateCategoryDisplay(self.currCategory)
+        })
+    }
 
 } // FilterGalleryViewController
 
@@ -354,9 +387,9 @@ extension FilterGalleryViewController: FilterGalleryViewDelegate {
         } else {
             suspend()
             if (descriptor != nil) && (!(descriptor?.key.isEmpty)!){
-                dismiss(animated: true, completion:  { self.delegate?.gallerySelection(key: (descriptor?.key)!) })
+                dismiss(animated: true, completion:  { self.delegate?.filterControllerSelection(key: (descriptor?.key)!) })
             } else {
-                dismiss(animated: true, completion:  { self.delegate?.galleryCompleted() })
+                dismiss(animated: true, completion:  { self.delegate?.filterControllerCompleted(tag:self.getTag()) })
             }
         }
     }
@@ -405,11 +438,11 @@ extension FilterGalleryViewController: FilterDetailsViewControllerDelegate {
         })
     }
     
-    func prevFilter(){
+    func prevFilterRequest(){
         log.verbose("Previous Filter")
     }
     
-    func nextFilter(){
+    func nextFilterRequest(){
         log.verbose("Next Filter")
     }
 }

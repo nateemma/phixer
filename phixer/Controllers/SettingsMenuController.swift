@@ -442,16 +442,22 @@ class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
 
 
 
-// GalleryViewControllerDelegate (any of them)
+// FilterBasedControllerDelegate (any of them)
 
-extension SettingsMenuController: GalleryViewControllerDelegate {
-    func galleryCompleted() {
-        log.debug("Returned from Filter Gallery")
-    }
+extension SettingsMenuController: FilterBasedControllerDelegate {
     
-    func gallerySelection(key: String) {
+    func filterControllerSelection(key: String) {
         log.warning("Unexpected selection: \(key)")
     }
+    
+    func filterControllerUpdateRequest(tag: String) {
+        log.debug("filterControllerUpdateRequest ignored for tag: \(tag)")
+    }
+    
+    func filterControllerCompleted(tag: String) {
+        log.debug("Returned from: \(tag)")
+    }
+
 }
 
 

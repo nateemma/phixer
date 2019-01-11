@@ -287,9 +287,9 @@ class SimpleCarousel: UIView {
             return
         }
         
+        log.debug("Selected index:\(index)")
         self.highlightSelection(carousel!, index: index)
         
-        //log.debug("Selected index:\(index)")
         self.currIndex = index
         self.handleOption(index)
 

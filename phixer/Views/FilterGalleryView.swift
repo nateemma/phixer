@@ -55,6 +55,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     fileprivate var filterList:[String] = []
     fileprivate var currCategory: String = FilterManager.defaultCategory
     fileprivate var filterManager:FilterManager = FilterManager.sharedInstance
+    fileprivate var selectedIndex:Int = -1
     
     fileprivate let layout = UICollectionViewFlowLayout()
     
@@ -88,6 +89,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        
         
         // only do layout if this was caused by an orientation change
         if (isLandscape != UIDevice.current.orientation.isLandscape){ // rotation change?
@@ -127,7 +129,9 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         
         //aspectRatio = ImageManager.getSampleImageAspectRatio()
         aspectRatio = InputSource.getAspectRatio()
-        
+
+        selectedIndex = -1
+
         // set items per row. Add 1 if landscape, subtract one if sample is in landscape orientation
         
         if (isLandscape){
@@ -201,6 +205,10 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         //self.filterGallery?.setNeedsDisplay()
     }
     
+    ////////////////////////////////////////////
+    // MARK: - Accessors
+    ////////////////////////////////////////////
+
     open func update(){
         //self.filterGallery?.setNeedsDisplay()
         self.filterGallery?.reloadData()
@@ -242,7 +250,32 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     }
     
     
+    // get the next filter after the specified key
+    func getFilterAfter(key: String)->String {
+        var newkey:String = ""
+        let kIndex = indexForKey(key)
+        if (kIndex >= 0) && (kIndex < self.filterList.count){
+            let index = (kIndex < (filterList.count-1)) ? (kIndex + 1) : 0
+            newkey = self.filterList[index]
+        } else {
+            newkey = self.filterList[0]
+        }
+        return newkey
+    }
     
+    // get the filter before the specified key
+    func getFilterBefore(key: String)->String {
+        var newkey:String = ""
+        let kIndex = indexForKey(key)
+        if (kIndex >= 0) && (kIndex < self.filterList.count){
+            let index = (kIndex > 0) ? (kIndex - 1) : (filterList.count - 1)
+            newkey = self.filterList[index]
+        } else {
+            newkey = self.filterList[0]
+        }
+        return newkey
+    }
+
     ////////////////////////////////////////////
     // MARK: - Rating Alert (for showing rating and allowing change)
     ////////////////////////////////////////////
@@ -413,6 +446,14 @@ private extension FilterGalleryView {
             return ""
         }
     }
+    
+    func indexForKey(_ key:String) -> Int{
+        if let index = filterList.index(of: key) {
+            return index
+        } else {
+            return 0
+        }
+    }
 }
 
 
@@ -493,6 +534,7 @@ extension FilterGalleryView {
         
         //let index:Int = (indexPath as NSIndexPath).row
         let index:Int = (indexPath as NSIndexPath).item
+        selectedIndex = index
         let descr:FilterDescriptor? = (self.filterManager.getFilterDescriptor(key:self.filterList[index]))
         log.verbose("Selected filter: \((descr?.key)!)")
         

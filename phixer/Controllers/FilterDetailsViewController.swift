@@ -23,22 +23,18 @@ import Cosmos
 // delegate method to let the launcing ViewController know that this one has finished
 protocol FilterDetailsViewControllerDelegate: class {
     func onCompletion(key:String)
-    func prevFilter()
-    func nextFilter()
+    func prevFilterRequest()
+    func nextFilterRequest()
 }
 
 
 
 // This is the View Controller for displaying a filter with a sample image and exposing the controls (if any)
 
-class FilterDetailsViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class FilterDetailsViewController: FilterBasedController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var theme = ThemeManager.currentTheme()
-    
-
-    // delegate for handling events
-    weak var delegate: FilterDetailsViewControllerDelegate?
-    
+        
     open var currFilterKey: String = ""
     
     // Banner View (title)
@@ -59,8 +55,6 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
     
     // Overlay/Navigation help views
     fileprivate var overlayView: UIView! = UIView()
-    fileprivate var prevView: UIView! = UIView()
-    fileprivate var nextView: UIView! = UIView()
     
     // Image Selection (& save) view
     var imageSelectionView: ImageSelectionView! = ImageSelectionView()
@@ -97,8 +91,10 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
     var currTouchMode:touchMode = .gestures
     
 
-    
-    
+    ///////////////////////
+    //MARK: Init
+    ///////////////////////
+
     convenience init(){
         self.init(nibName:nil, bundle:nil)
         doInit()
@@ -118,6 +114,11 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
         }
     }
     
+  
+    ///////////////////////
+    //MARK: Accessors
+    ///////////////////////
+
     public func suspend(){
         self.editImageView.suspend()
     }
@@ -129,18 +130,39 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
             self.overlayView.setNeedsLayout()
         })
     }
+    
+  
+    public func saveImage(){
+        editImageView.saveImage()
+    }
 
     
+    // go to the next filter
+    override func nextFilter(){
+        currFilterIndex = (currFilterIndex + 1) % currFilterCount
+        let key = (filterManager?.getFilterKey(category: currCategory, index: currFilterIndex))!
+        loadFilterInfo(category: currCategory, key: key)
+    }
+    
+    // go to the previous filter
+    override func previousFilter(){
+        currFilterIndex = (currFilterIndex - 1)
+        if (currFilterIndex < 0) { currFilterIndex = currFilterCount - 1 }
+        let key = (filterManager?.getFilterKey(category: currCategory, index: currFilterIndex))!
+        loadFilterInfo(category: currCategory, key: key)
+    }
+
+
+    ///////////////////////
+    //MARK: Top level logic
+    ///////////////////////
+
     func loadFilterInfo(category: String, key: String){
         currFilterKey = key
         currCategory = category
         currFilterIndex = (filterManager?.getFilterIndex(category: category, key: key))!
         currFilterDescriptor = filterManager?.getFilterDescriptor(key: key)
         currFilterCount = (filterManager?.getFilterCount(category))!
-    }
-
-    public func saveImage(){
-        editImageView.saveImage()
     }
     
     override func viewDidLoad() {
@@ -208,7 +230,6 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
         setupDisplay()
         //setupAdornments()
         setupAdditionalPanel()
-        setupNavigationControls()
         
         setupConstraints()
         editImageView.setFilter(key: currFilterKey)
@@ -241,53 +262,6 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
         editImageView = EditImageDisplayView()
     }
    
-    
-    
-    fileprivate func setupNavigationControls(){
-        // add the left and right arrows for filter navigation
-        
-        // a little complicated, but we define overlayView as the overall holding view (transparent, used for placement over the filter display)
-        // next/prevImage views are the actual images, next/prevBack is a partially transparent background and next/prevView are the views that are placed onto overlayView
-        
-        let nextImage:UIImageView = UIImageView()
-        let prevImage:UIImageView = UIImageView()
-        let nextBack:UIView = UIView()
-        let prevBack:UIView = UIView()
-        
-        nextImage.image = UIImage(named:"ic_next")
-        prevImage.image = UIImage(named:"ic_prev")
-        
-        nextBack.backgroundColor = theme.backgroundColor
-        nextBack.alpha = 0.2
-        
-        prevBack.backgroundColor = theme.backgroundColor
-        prevBack.alpha = 0.2
-        
-        nextView.addSubview(nextBack)
-        nextView.addSubview(nextImage)
-        nextBack.fillSuperview()
-        nextImage.fillSuperview()
-        nextView.bringSubview(toFront: nextImage)
-        
-        prevView.addSubview(prevBack)
-        prevView.addSubview(prevImage)
-        prevBack.fillSuperview()
-        prevImage.fillSuperview()
-        prevView.bringSubview(toFront: prevImage)
-        
-        overlayView.backgroundColor = UIColor.clear
-        prevView.backgroundColor = UIColor.clear
-        nextView.backgroundColor = UIColor.clear
-        
-        overlayView.addSubview(prevView)
-        overlayView.addSubview(nextView)
-        
-        prevView.frame.size.height = bannerHeight
-        prevView.frame.size.width = bannerHeight
-        
-        nextView.frame.size.height = bannerHeight
-        nextView.frame.size.width = bannerHeight
-    }
     
     
     fileprivate func setupConstraints(){
@@ -375,8 +349,6 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
         overlayView.frame.size.height  = editImageView.frame.size.height - filterParametersView.frame.size.height
         overlayView.align(.underCentered, relativeTo: bannerView, padding: 0, width: overlayView.frame.size.width, height: overlayView.frame.size.height)
         
-        prevView.anchorToEdge(.left, padding: 0, width: prevView.frame.size.width, height: prevView.frame.size.height)
-        nextView.anchorToEdge(.right, padding: 0, width: nextView.frame.size.width, height: nextView.frame.size.height)
         view.bringSubview(toFront: overlayView)
         //overlayView.setNeedsDisplay() // for some reason it doesn't display the first time through
 
@@ -558,35 +530,10 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
     
     
     /////////////////////////////
-    // MARK: - Filter Management
-    /////////////////////////////
-    
-    fileprivate func nextFilter(){
-        currFilterIndex = (currFilterIndex + 1) % currFilterCount
-        let key = (filterManager?.getFilterKey(category: currCategory, index: currFilterIndex))!
-        loadFilterInfo(category: currCategory, key: key)
-    }
-    
-    
-    fileprivate func previousFilter(){
-        currFilterIndex = (currFilterIndex - 1)
-        if (currFilterIndex < 0) { currFilterIndex = currFilterCount - 1 }
-        let key = (filterManager?.getFilterKey(category: currCategory, index: currFilterIndex))!
-        loadFilterInfo(category: currCategory, key: key)
-    }
-    
-    /////////////////////////////
     // MARK: - Touch Handler(s)
     /////////////////////////////
     
     func assignTouchHandlers(){
-        let prevTap = UITapGestureRecognizer(target: self, action: #selector(prevDidPress))
-        prevView.addGestureRecognizer(prevTap)
-        prevView.isUserInteractionEnabled = true
-        
-        let nextTap = UITapGestureRecognizer(target: self, action: #selector(nextDidPress))
-        nextView.addGestureRecognizer(nextTap)
-        nextView.isUserInteractionEnabled = true
         
         setGestureDetectors(overlayView)
     
@@ -597,11 +544,11 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
         guard navigationController?.popViewController(animated: true) != nil else { //modal
             //log.debug("Not a navigation Controller")
             suspend()
-            dismiss(animated: true, completion: { self.delegate?.onCompletion(key: self.currFilterKey) })
+            dismiss(animated: true, completion: { self.delegate?.filterControllerCompleted(tag:self.getTag()) })
             return
         }
     }
-    
+
     @objc func prevDidPress(){
         if gesturesEnabled {
             log.verbose("Previous Filter pressed")
@@ -739,8 +686,6 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
             setTouchMode(.gestures)
             overlayView.isHidden = false
             overlayView.isUserInteractionEnabled = true
-            prevView.isUserInteractionEnabled = true
-            nextView.isUserInteractionEnabled = true
             showParameters()
         }
    }
@@ -750,8 +695,6 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
             gesturesEnabled = false
             overlayView.isHidden = true
             overlayView.isUserInteractionEnabled = false
-            prevView.isUserInteractionEnabled = false
-            nextView.isUserInteractionEnabled = false
             hideParameters()
         }
     }
@@ -760,19 +703,21 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
         
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.swiped))
         swipeRight.direction = .right
-        view.addGestureRecognizer(swipeRight)
         
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.swiped))
         swipeLeft.direction = .left
-        view.addGestureRecognizer(swipeLeft)
         
         let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(self.swiped))
         swipeUp.direction = .up
-        view.addGestureRecognizer(swipeUp)
         
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.swiped))
         swipeDown.direction = .down
-        view.addGestureRecognizer(swipeDown)
+        
+        for gesture in [swipeDown, swipeUp, swipeRight, swipeLeft] {
+            gesture.cancelsTouchesInView = false // allows touch to trickle down to subviews
+            view.addGestureRecognizer(gesture)
+        }
+
     }
     
     
@@ -851,48 +796,54 @@ class FilterDetailsViewController: UIViewController, UIImagePickerControllerDele
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let touch = touches.first {
-            let position = touch.location(in: editImageView)
-            let imgPos = editImageView.getImagePosition(viewPos:position)
-            if currTouchMode == .filter {
-                currFilterDescriptor?.setPositionParameter(touchKey, position:imgPos!)
-            } else if currTouchMode == .preview {
-                editImageView.setSplitPosition(position)
+        if self.currTouchMode != .gestures {
+            if let touch = touches.first {
+                let position = touch.location(in: editImageView)
+                let imgPos = editImageView.getImagePosition(viewPos:position)
+                if currTouchMode == .filter {
+                    currFilterDescriptor?.setPositionParameter(touchKey, position:imgPos!)
+                } else if currTouchMode == .preview {
+                    editImageView.setSplitPosition(position)
+                }
+                editImageView.runFilter()
             }
-            editImageView.runFilter()
         }
     }
     
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let touch = touches.first {
-            let position = touch.location(in: editImageView)
-            let imgPos = editImageView.getImagePosition(viewPos:position)
-            if currTouchMode == .filter {
-                currFilterDescriptor?.setPositionParameter(touchKey, position:imgPos!)
-            } else if currTouchMode == .preview {
-                editImageView.setSplitPosition(position)
+        if self.currTouchMode != .gestures {
+            if let touch = touches.first {
+                let position = touch.location(in: editImageView)
+                let imgPos = editImageView.getImagePosition(viewPos:position)
+                if currTouchMode == .filter {
+                    currFilterDescriptor?.setPositionParameter(touchKey, position:imgPos!)
+                } else if currTouchMode == .preview {
+                    editImageView.setSplitPosition(position)
+                }
+                editImageView.runFilter()
             }
-            editImageView.runFilter()
         }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let touch = touches.first {
-            let position = touch.location(in: editImageView)
-            let imgPos = editImageView.getImagePosition(viewPos:position)
-            if currTouchMode == .filter {
-                currFilterDescriptor?.setPositionParameter(touchKey, position:imgPos!)
-            } else if currTouchMode == .preview {
-                editImageView.setSplitPosition(position)
+        if self.currTouchMode != .gestures {
+            if let touch = touches.first {
+                let position = touch.location(in: editImageView)
+                let imgPos = editImageView.getImagePosition(viewPos:position)
+                if currTouchMode == .filter {
+                    currFilterDescriptor?.setPositionParameter(touchKey, position:imgPos!)
+                } else if currTouchMode == .preview {
+                    editImageView.setSplitPosition(position)
+                }
+                //log.verbose("Touches ended. Final pos:\(position) vec:\(imgPos)")
+                editImageView.runFilter()
+                
+                touchKey = ""
             }
-            //log.verbose("Touches ended. Final pos:\(position) vec:\(imgPos)")
-            editImageView.runFilter()
             
-            touchKey = ""
+            enableGestureDetection()
         }
-        
-        enableGestureDetection()
     }
 
   

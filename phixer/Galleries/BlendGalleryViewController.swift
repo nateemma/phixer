@@ -26,14 +26,8 @@ private var filterCount: Int = 0
 
 // This is the View Controller for displaying and organising filters into categories
 
-class BlendGalleryViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class BlendGalleryViewController: FilterBasedController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
- 
-    // delegate for handling events
-    weak var delegate: GalleryViewControllerDelegate?
-    
-    // operating mode, OK to set externally
-    public var mode:GalleryControllerMode = .displaySelection
     
     // Title View
     fileprivate var titleView:TitleView! = TitleView()
@@ -429,7 +423,7 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
         guard navigationController?.popViewController(animated: true) != nil else { //modal
             //log.debug("Not a navigation Controller")
             suspend()
-            dismiss(animated: true, completion:  { self.delegate?.galleryCompleted() })
+            dismiss(animated: true, completion:  { self.delegate?.filterControllerCompleted(tag:self.getTag()) })
             return
         }
     }
@@ -524,13 +518,13 @@ class BlendGalleryViewController: UIViewController, UIImagePickerControllerDeleg
     /////////////////////////////
 
 
-    fileprivate func nextFilter(){
+    override func nextFilter(){
         currFilterIndex = (currFilterIndex + 1) % filterList.count
         currFilterKey = filterList[currFilterIndex]
         updateFilteredImage()
     }
     
-    fileprivate func previousFilter(){
+    override func previousFilter(){
         currFilterIndex = (currFilterIndex - 1)
         if (currFilterIndex<0) { currFilterIndex = filterList.count - 1 }
         currFilterKey = filterList[currFilterIndex]

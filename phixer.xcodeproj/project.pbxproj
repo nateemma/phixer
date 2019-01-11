@@ -717,9 +717,10 @@
 		2537A20521E516AF00060DBE /* CIVector+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A20421E516AF00060DBE /* CIVector+Extensions.swift */; };
 		2537A20721E5174C00060DBE /* UIBezierPath+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A20621E5174C00060DBE /* UIBezierPath+Extensions.swift */; };
 		2537A20B21E7BC8400060DBE /* UnsharpMaskFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A20A21E7BC8400060DBE /* UnsharpMaskFilter.swift */; };
+		2537A20D21E82C9700060DBE /* FilterBasedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A20C21E82C9700060DBE /* FilterBasedController.swift */; };
+		2537A20F21E848E700060DBE /* FilterBasedControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A20E21E848E700060DBE /* FilterBasedControllerDelegate.swift */; };
 		253A39E21DDA965E00A714D4 /* SampleGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253A39E11DDA965E00A714D4 /* SampleGalleryViewController.swift */; };
 		253A39E41DDA979400A714D4 /* SampleGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253A39E31DDA979400A714D4 /* SampleGalleryView.swift */; };
-		253B235B1DA2CFD400203ECB /* SegueHandlerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253B235A1DA2CFD400203ECB /* SegueHandlerType.swift */; };
 		253B236C1DA44E3600203ECB /* FilterDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253B236B1DA44E3600203ECB /* FilterDescriptor.swift */; };
 		253B23771DA4BB7800203ECB /* ClosestFraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253B23761DA4BB7800203ECB /* ClosestFraction.swift */; };
 		253B23791DA5782300203ECB /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253B23781DA5782300203ECB /* FilterManager.swift */; };
@@ -763,7 +764,6 @@
 		2568BDE621C861A200560287 /* BasicAdjustmentsPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568BDE521C861A200560287 /* BasicAdjustmentsPanel.swift */; };
 		2568BDE821C86BDC00560287 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568BDE721C86BDC00560287 /* UIViewController+Extensions.swift */; };
 		2568BDEF21C870F800560287 /* EditMainOptionsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568BDEE21C870F800560287 /* EditMainOptionsController.swift */; };
-		2568BDF121C8721700560287 /* EditChildControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568BDF021C8721700560287 /* EditChildControllerDelegate.swift */; };
 		2573D1D5217CDCB500E78CAB /* YUCIReflectedTile.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = 2573D1AF217CDCB400E78CAB /* YUCIReflectedTile.cikernel */; };
 		2573D1D6217CDCB500E78CAB /* YUCIGreenBlueChannelOverlayBlend.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = 2573D1B1217CDCB400E78CAB /* YUCIGreenBlueChannelOverlayBlend.cikernel */; };
 		2573D1D7217CDCB500E78CAB /* YUCIBilateralFilter.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = 2573D1B2217CDCB400E78CAB /* YUCIBilateralFilter.cikernel */; };
@@ -848,13 +848,11 @@
 		25F563FC1DD1165C00DFB125 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F563FB1DD1165C00DFB125 /* ImageManager.swift */; };
 		25F85CE621C9650F005498C4 /* SimpleCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F85CE521C9650F005498C4 /* SimpleCarousel.swift */; };
 		25F85CE821C97593005498C4 /* EditBasicAdjustmentsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F85CE721C97593005498C4 /* EditBasicAdjustmentsController.swift */; };
-		25F85CEA21C9C3C3005498C4 /* GalleryViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F85CE921C9C3C3005498C4 /* GalleryViewControllerDelegate.swift */; };
 		25F85CED21CC2631005498C4 /* EditBaseMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F85CEC21CC2631005498C4 /* EditBaseMenuController.swift */; };
 		25F85CEF21CC50E5005498C4 /* UIFont+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F85CEE21CC50E5005498C4 /* UIFont+Extensions.swift */; };
 		25F85CF121CC5125005498C4 /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F85CF021CC5125005498C4 /* UILabel+Extensions.swift */; };
 		560E5668039EDD21652B216D /* Pods_phixerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDBA6C647E0CE1D78E741974 /* Pods_phixerUITests.framework */; };
 		6D62A8FFBDF1408E43BE59D8 /* Pods_phixerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA7977390F9DC393764E04A9 /* Pods_phixerTests.framework */; };
-		863ABCBA1EA6CE5B00B2AED2 /* LiveFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863ABCB91EA6CE5B00B2AED2 /* LiveFilterViewController.swift */; };
 		86DD9D951E9C5A7000A5D855 /* MainMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DD9D941E9C5A7000A5D855 /* MainMenuController.swift */; };
 		E88E81DDAA94E3FBB69A0E8C /* Pods_phixer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E7799EBB34159D9CDB7937F /* Pods_phixer.framework */; };
 /* End PBXBuildFile section */
@@ -1611,9 +1609,10 @@
 		2537A20821E55E7600060DBE /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = phixer/CustomFilters/Filterpedia/README.md; sourceTree = SOURCE_ROOT; };
 		2537A20921E561B000060DBE /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2537A20A21E7BC8400060DBE /* UnsharpMaskFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnsharpMaskFilter.swift; sourceTree = "<group>"; };
+		2537A20C21E82C9700060DBE /* FilterBasedController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterBasedController.swift; path = phixer/FilterBasedController.swift; sourceTree = SOURCE_ROOT; };
+		2537A20E21E848E700060DBE /* FilterBasedControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FilterBasedControllerDelegate.swift; path = Controllers/FilterBasedControllerDelegate.swift; sourceTree = "<group>"; };
 		253A39E11DDA965E00A714D4 /* SampleGalleryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleGalleryViewController.swift; sourceTree = "<group>"; };
 		253A39E31DDA979400A714D4 /* SampleGalleryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SampleGalleryView.swift; path = Views/SampleGalleryView.swift; sourceTree = "<group>"; };
-		253B235A1DA2CFD400203ECB /* SegueHandlerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SegueHandlerType.swift; path = Controllers/SegueHandlerType.swift; sourceTree = "<group>"; };
 		253B236B1DA44E3600203ECB /* FilterDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterDescriptor.swift; path = Filters/FilterDescriptor.swift; sourceTree = "<group>"; };
 		253B23761DA4BB7800203ECB /* ClosestFraction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ClosestFraction.swift; path = Models/ClosestFraction.swift; sourceTree = "<group>"; };
 		253B23781DA5782300203ECB /* FilterManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterManager.swift; path = Models/FilterManager.swift; sourceTree = "<group>"; };
@@ -1660,7 +1659,6 @@
 		2568BDE721C86BDC00560287 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		2568BDEC21C870D300560287 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2568BDEE21C870F800560287 /* EditMainOptionsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditMainOptionsController.swift; sourceTree = "<group>"; };
-		2568BDF021C8721700560287 /* EditChildControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditChildControllerDelegate.swift; sourceTree = "<group>"; };
 		2573D1AE217CDCB400E78CAB /* YUCIReflectedTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YUCIReflectedTile.h; sourceTree = "<group>"; };
 		2573D1AF217CDCB400E78CAB /* YUCIReflectedTile.cikernel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = YUCIReflectedTile.cikernel; sourceTree = "<group>"; };
 		2573D1B0217CDCB400E78CAB /* YUCICLAHE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YUCICLAHE.h; sourceTree = "<group>"; };
@@ -1771,12 +1769,10 @@
 		25F6DEDC216EA37C00964DD7 /* SwiftyJSON */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SwiftyJSON; path = Carthage/Checkouts/SwiftyJSON; sourceTree = "<group>"; };
 		25F85CE521C9650F005498C4 /* SimpleCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SimpleCarousel.swift; path = Views/SimpleCarousel.swift; sourceTree = "<group>"; };
 		25F85CE721C97593005498C4 /* EditBasicAdjustmentsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditBasicAdjustmentsController.swift; sourceTree = "<group>"; };
-		25F85CE921C9C3C3005498C4 /* GalleryViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewControllerDelegate.swift; sourceTree = "<group>"; };
 		25F85CEC21CC2631005498C4 /* EditBaseMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditBaseMenuController.swift; sourceTree = "<group>"; };
 		25F85CEE21CC50E5005498C4 /* UIFont+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extensions.swift"; sourceTree = "<group>"; };
 		25F85CF021CC5125005498C4 /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
 		737C29DA80DD0E6829273461 /* Pods-phixer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-phixer.release.xcconfig"; path = "Pods/Target Support Files/Pods-phixer/Pods-phixer.release.xcconfig"; sourceTree = "<group>"; };
-		863ABCB91EA6CE5B00B2AED2 /* LiveFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LiveFilterViewController.swift; path = Controllers/LiveFilterViewController.swift; sourceTree = "<group>"; };
 		86DD9D941E9C5A7000A5D855 /* MainMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainMenuController.swift; path = Controllers/MainMenuController.swift; sourceTree = "<group>"; };
 		980E4D07C72B2E639881E914 /* Pods-phixer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-phixer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-phixer/Pods-phixer.debug.xcconfig"; sourceTree = "<group>"; };
 		A0E5F104AE4A456893628DB9 /* Pods-phixerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-phixerUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-phixerUITests/Pods-phixerUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1962,7 +1958,6 @@
 				2537A1F821E484AA00060DBE /* EditCurvesController.swift */,
 				25F85CEC21CC2631005498C4 /* EditBaseMenuController.swift */,
 				2568BDEC21C870D300560287 /* README.md */,
-				2568BDF021C8721700560287 /* EditChildControllerDelegate.swift */,
 			);
 			name = EditChildControllers;
 			path = Controllers/EditChildControllers;
@@ -2040,18 +2035,18 @@
 		256D0FEF1D98DADA00220D7E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				2568BDEB21C870D300560287 /* EditChildControllers */,
-				25F85CEB21C9C790005498C4 /* Galleries */,
 				252745FA21851AEB00AA2DA2 /* ColorPickerController.swift */,
 				252745F421826DBC00AA2DA2 /* ColorSchemeViewController.swift */,
 				2556731E1DB961F700187F25 /* DisplayMode.swift */,
+				2568BDEB21C870D300560287 /* EditChildControllers */,
+				2537A20C21E82C9700060DBE /* FilterBasedController.swift */,
+				2537A20E21E848E700060DBE /* FilterBasedControllerDelegate.swift */,
+				25F85CEB21C9C790005498C4 /* Galleries */,
 				25A702911DC2FCDD009441E2 /* FilterDetailsViewController.swift */,
 				255591E62187CC62001B4452 /* HTMLViewController.swift */,
-				863ABCB91EA6CE5B00B2AED2 /* LiveFilterViewController.swift */,
 				86DD9D941E9C5A7000A5D855 /* MainMenuController.swift */,
 				257F49E11D9448920083B1E4 /* MainViewController.swift */,
 				258EA0921ED9472600D5E20E /* ResetViewController.swift */,
-				253B235A1DA2CFD400203ECB /* SegueHandlerType.swift */,
 				258EA08D1ED90A7000D5E20E /* SettingsMenuController.swift */,
 				2542DF5A1ED372BF00CEB968 /* SimpleEditViewController.swift */,
 				252745E4217FE2EF00AA2DA2 /* StartupViewController.swift */,
@@ -2926,7 +2921,6 @@
 				250716081DBEC19400CDDF42 /* FilterGalleryViewController.swift */,
 				253A39E11DDA965E00A714D4 /* SampleGalleryViewController.swift */,
 				2568BDCE21BB371D00560287 /* StyleTransferGalleryViewController.swift */,
-				25F85CE921C9C3C3005498C4 /* GalleryViewControllerDelegate.swift */,
 			);
 			path = Galleries;
 			sourceTree = "<group>";
@@ -3891,7 +3885,6 @@
 				258F09A9218E36870082FE2A /* CGImage+Extensions.swift in Sources */,
 				2573D1DC217CDCB500E78CAB /* YUCIFilterPreviewGenerator.m in Sources */,
 				255591E52187A1A9001B4452 /* ColorWheelView.swift in Sources */,
-				2568BDF121C8721700560287 /* EditChildControllerDelegate.swift in Sources */,
 				2573D1DA217CDCB500E78CAB /* YUCIHighPass.m in Sources */,
 				252745E72180E8FD00AA2DA2 /* OpacityFilter.swift in Sources */,
 				25910B191DB738B3007EC926 /* CategorySelectionView.swift in Sources */,
@@ -3967,6 +3960,7 @@
 				2573D1DB217CDCB500E78CAB /* YUCIColorLookup.m in Sources */,
 				2537A20521E516AF00060DBE /* CIVector+Extensions.swift in Sources */,
 				25F460181D99CCCE00EDA182 /* UISettings.swift in Sources */,
+				2537A20D21E82C9700060DBE /* FilterBasedController.swift in Sources */,
 				252C17951ECE64EE00039BFC /* Model.xcdatamodeld in Sources */,
 				258EA08E1ED90A7000D5E20E /* SettingsMenuController.swift in Sources */,
 				2568BDD321BB3F2800560287 /* StyleTransferGalleryViewCell.swift in Sources */,
@@ -3974,7 +3968,6 @@
 				252745F12182295100AA2DA2 /* EdgeGlowFilter.swift in Sources */,
 				25CF4BD51D9490C400D779CF /* CameraControlsView.swift in Sources */,
 				25CF4BD81D9490C400D779CF /* CameraSettingsView.swift in Sources */,
-				863ABCBA1EA6CE5B00B2AED2 /* LiveFilterViewController.swift in Sources */,
 				2573D1E4217CDCB500E78CAB /* YUCICLAHE.m in Sources */,
 				250716091DBEC19400CDDF42 /* FilterGalleryViewController.swift in Sources */,
 				25CF4BD91D9490C400D779CF /* ImageContainerView.swift in Sources */,
@@ -4007,6 +4000,7 @@
 				2542DF591ECFB4DA00CEB968 /* LookupFilterRecord.swift in Sources */,
 				25274602218764D500AA2DA2 /* CGFloat+Extensions.swift in Sources */,
 				25F85CEF21CC50E5005498C4 /* UIFont+Extensions.swift in Sources */,
+				2537A20F21E848E700060DBE /* FilterBasedControllerDelegate.swift in Sources */,
 				2537A1F721E42C2C00060DBE /* FilterDefinition.swift in Sources */,
 				258EA0931ED9472600D5E20E /* ResetViewController.swift in Sources */,
 				25F85CE821C97593005498C4 /* EditBasicAdjustmentsController.swift in Sources */,
@@ -4019,10 +4013,8 @@
 				25159884219E2B850067AA00 /* ThemeManager.swift in Sources */,
 				2573D1E1217CDCB500E78CAB /* YUCIUtilities.m in Sources */,
 				251729622179459F00D5E946 /* GalleryViewCell.swift in Sources */,
-				253B235B1DA2CFD400203ECB /* SegueHandlerType.swift in Sources */,
 				258F09AB218E3CCF0082FE2A /* CIImage+Extensions.swift in Sources */,
 				258F0991218B7DD90082FE2A /* UIImage+Extensions.swift in Sources */,
-				25F85CEA21C9C3C3005498C4 /* GalleryViewControllerDelegate.swift in Sources */,
 				2568BDCB21AC731100560287 /* EditManager.swift in Sources */,
 				25F4601A1D99CE1E00EDA182 /* GridStyle.swift in Sources */,
 				253B236C1DA44E3600203ECB /* FilterDescriptor.swift in Sources */,

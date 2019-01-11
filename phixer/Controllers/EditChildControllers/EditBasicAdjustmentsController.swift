@@ -76,45 +76,48 @@ class EditBasicAdjustmentsController: EditBaseMenuController {
     //////////////////////////////////////////
 
     func wbHandler(){
-        self.delegate?.editFilterSelected(key: "WhiteBalanceFilter")
+        self.delegate?.filterControllerSelection(key: "WhiteBalanceFilter")
     }
     
     func exposureHandler(){
-        self.delegate?.editFilterSelected(key: "CIExposureAdjust")
+        self.delegate?.filterControllerSelection(key: "CIExposureAdjust")
     }
     
     func brightnessHandler(){
-        self.delegate?.editFilterSelected(key: "BrightnessFilter")
+        self.delegate?.filterControllerSelection(key: "BrightnessFilter")
     }
     
     func contrastHandler(){
-        self.delegate?.editFilterSelected(key: "ContrastFilter")
+        self.delegate?.filterControllerSelection(key: "ContrastFilter")
     }
     
     func clarityHandler(){
-        self.delegate?.editFilterSelected(key: "ClarityFilter")
+        self.delegate?.filterControllerSelection(key: "ClarityFilter")
     }
 
     func highlightHandler(){
-        self.delegate?.editFilterSelected(key: "CIHighlightShadowAdjust")
+        self.delegate?.filterControllerSelection(key: "CIHighlightShadowAdjust")
     }
     
     func vignetteHandler(){
-        self.delegate?.editFilterSelected(key: "CIVignetteEffect")
+        self.delegate?.filterControllerSelection(key: "CIVignetteEffect")
     }
     
     func dehazeHandler(){
-        self.delegate?.editFilterSelected(key: "DehazeFilter")
+        self.delegate?.filterControllerSelection(key: "DehazeFilter")
     }
     
     func vibranceHandler(){
-        self.delegate?.editFilterSelected(key: "CIVibrance")
+        self.delegate?.filterControllerSelection(key: "CIVibrance")
     }
     
     func saturationHandler(){
-        self.delegate?.editFilterSelected(key: "SaturationFilter")
+        self.delegate?.filterControllerSelection(key: "SaturationFilter")
     }
 
+    
+
+    
 } // EditBasicAdjustmentsController
 //########################
 

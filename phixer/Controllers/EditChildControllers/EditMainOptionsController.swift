@@ -17,15 +17,13 @@ private var filterCount: Int = 0
 
 // This View Controller handles simple editing of a photo
 
-class EditMainOptionsController: UIViewController, EditChildControllerDelegate {
-    
-    
-    // delegate for issuing callbacks. Must be set by the parent controller
-    public var delegate: EditChildControllerDelegate? = nil
+class EditMainOptionsController: FilterBasedController, FilterBasedControllerDelegate {
+
     
     var theme = ThemeManager.currentTheme()
     
-    
+    let menu = SimpleCarousel()
+
  
     // The Edit controls/options
     var optionsControlView: UIView! = UIView()
@@ -39,9 +37,11 @@ class EditMainOptionsController: UIViewController, EditChildControllerDelegate {
     let buttonSize : CGFloat = 32.0
     let editControlHeight: CGFloat = 96.0
     
-    var childController:EditBaseMenuController? = nil
-        
-    
+    //var childController:EditBaseMenuController? = nil
+    var childController:FilterBasedController? = nil
+    var fullScreenController:FilterBasedController? = nil
+
+    fileprivate var filterManager: FilterManager? = FilterManager.sharedInstance
     
     /////////////////////////////
     
@@ -71,6 +71,9 @@ class EditMainOptionsController: UIViewController, EditChildControllerDelegate {
 
         doInit()
         
+        childController = nil
+        fullScreenController = nil
+        
       // load theme here in case it changed
         theme = ThemeManager.currentTheme()
         
@@ -97,6 +100,8 @@ class EditMainOptionsController: UIViewController, EditChildControllerDelegate {
         view.addSubview(optionsControlView)
         optionsControlView.fillSuperview()
         
+        childController = nil
+        
     }
     
     
@@ -111,20 +116,46 @@ class EditMainOptionsController: UIViewController, EditChildControllerDelegate {
     // MARK: - Accessors
     //////////////////////////////////////
     
-    public func nextFilter(){
-        self.childController?.nextFilter()
+    override func nextFilter(){
+        log.debug("next...")
+        if self.childController != nil {
+            self.childController?.nextFilter()
+        } else if self.fullScreenController != nil {
+            self.fullScreenController?.nextFilter()
+        } else {
+            menu.nextItem()
+        }
     }
     
-    public func previousFilter(){
-        self.childController?.previousFilter()
+    override func previousFilter(){
+        log.debug("previous...")
+        if self.childController != nil {
+            self.childController?.previousFilter()
+        } else if self.fullScreenController != nil {
+            self.fullScreenController?.previousFilter()
+        } else {
+            menu.previousItem()
+        }
     }
     
-    public func show(){
-        self.childController?.show()
+    override func show(){
+        if self.childController != nil {
+            self.childController?.show()
+        } else if self.fullScreenController != nil {
+            self.fullScreenController?.show()
+       } else {
+            self.show()
+        }
     }
     
-    public func hide(){
-        self.childController?.hide()
+    override func hide(){
+        if self.childController != nil {
+            self.childController?.hide()
+        } else if self.fullScreenController != nil {
+            self.fullScreenController?.hide()
+        } else {
+            self.hide()
+        }
     }
 
     //////////////////////////////////////
@@ -132,7 +163,6 @@ class EditMainOptionsController: UIViewController, EditChildControllerDelegate {
     //////////////////////////////////////
 
     private func setupOptions() {
-        let menu = SimpleCarousel()
         menu.setItems(optionList)
         menu.delegate = self
         optionsControlView.addSubview(menu)
@@ -211,17 +241,20 @@ class EditMainOptionsController: UIViewController, EditChildControllerDelegate {
     
     
     func styleTransferHandler(){
-        let vc = StyleTransferGalleryViewController()
-        vc.delegate = self
-        vc.mode = .returnSelection
-        present(vc, animated: true, completion: { })
+        fullScreenController = StyleTransferGalleryViewController()
+        fullScreenController?.delegate = self
+        fullScreenController?.mode = .returnSelection
+        present(fullScreenController!, animated: true, completion: { })
     }
 
     func colorFiltersHandler(){
-        let vc = FilterGalleryViewController()
-        vc.delegate = self
-        vc.mode = .returnSelection
-        present(vc, animated: true, completion: { })
+        // jump straight to the 'Favourites' category
+        filterManager?.setCurrentCategory(FilterManager.favouriteCategory)
+        
+        fullScreenController = FilterGalleryViewController()
+        fullScreenController?.delegate = self
+        fullScreenController?.mode = .returnSelection
+        present(fullScreenController!, animated: true, completion: { })
     }
     
     func detailHandler(){
@@ -233,7 +266,6 @@ class EditMainOptionsController: UIViewController, EditChildControllerDelegate {
         let vc = EditCurvesController()
         vc.delegate = self
         vc.view.frame.size = self.view.frame.size
-        //present(vc, animated: true, completion: { })
         self.childController = vc
         add(childController!)
     }
@@ -256,32 +288,33 @@ class EditMainOptionsController: UIViewController, EditChildControllerDelegate {
     //////////////////////////////////////////
     
     // called when a child controller has selected a filter
-    func editFilterSelected(key: String) {
+    func filterControllerSelection(key: String) {
         // just pass on the to the parent controller
         if self.delegate != nil {
             DispatchQueue.main.async(execute: { () -> Void in
-                self.delegate?.editFilterSelected(key: key)
+                self.delegate?.filterControllerSelection(key: key)
             })
         }
     }
 
     // called when a child controller has done something that requires the main UI to be updated
-    func editRequestUpdate() {
+    func filterControllerUpdateRequest(tag: String) {
         // just pass on the to the parent controller
         if self.delegate != nil {
             DispatchQueue.main.async(execute: { () -> Void in
-                self.delegate?.editRequestUpdate()
+                self.delegate?.filterControllerUpdateRequest(tag: self.getTag())
             })
         }
     }
     
     // called when a child controller has finished
-    func editFinished(){
+    func filterControllerCompleted(tag: String){
         // remove the child controller and re-display the main options (assuming only 1 level of sub-functionality here)
         self.childController?.remove()
         self.childController = nil
         self.optionsControlView.isHidden = false
     }
+    
 
 } // EditMainOptionsController
 //########################
@@ -291,30 +324,6 @@ class EditMainOptionsController: UIViewController, EditChildControllerDelegate {
 //MARK: Extensions
 //########################
 
-
-// GalleryViewControllerDelegate(s)
-
-extension EditMainOptionsController: GalleryViewControllerDelegate {
-    func galleryCompleted() {
-        DispatchQueue.main.async(execute: { () -> Void in
-            log.verbose("Returned from gallery")
-            self.childController?.remove()
-            self.childController = nil
-            self.optionsControlView.isHidden = false
-       })
-        
-    }
-    
-    func gallerySelection(key: String) {
-        log.debug("Filter selection: \(key)")
-        // just pass on the to the parent controller
-        if self.delegate != nil {
-            DispatchQueue.main.async(execute: { () -> Void in
-                self.delegate?.editFilterSelected(key: key)
-            })
-        }
-    }
-}
 
 // Adornment delegate
 

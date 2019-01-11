@@ -40,7 +40,7 @@ class FilterParametersView: UIView {
     
     var initDone: Bool = false
     
-    let sliderHeight: Float = 32.0
+    let sliderHeight: Float = 38.0
     
     var showControls:Bool = true
 
@@ -320,8 +320,15 @@ class FilterParametersView: UIView {
                             touchButton.setImageAsset("ic_touch")
                             touchButton.setTintable(true)
                             touchButton.highlightOnSelection(true)
+                            
+                            // assign touch hanlder to icon
                             touchButton.addTarget(self, action: #selector(self.touchDidPress), for: .touchUpInside)
                             touchButton.setTag(i) // let button know the parameter order
+                            
+                            // assign touch handler to the entire row, as the little touch icon is pretty small
+                            // Note: need both handlers
+                            pView.tag = i
+                            pView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(viewTouchHandler)))
                             
                             var p = self.currFilterDesc?.getPositionParameter(key)?.cgPointValue
                             // if position is not set, default to the middle of the image
@@ -337,6 +344,7 @@ class FilterParametersView: UIView {
                             pKey.append(key)
                             pView.addSubview(touchButton)
                             pView.groupAndFill(group: .horizontal, views: [label, touchButton], padding: 8.0)
+
                             
                         default:
                             log.error("Invalid parameter type: \(pConfig.type)")
@@ -514,7 +522,7 @@ class FilterParametersView: UIView {
     //////////////////////////////
     //MARK: - touch handlers
     //////////////////////////////
-
+    
     @objc func acceptDidPress() {
         
         // value is set as sliders are moved, so no need to do anything except clean up and return
@@ -597,19 +605,35 @@ class FilterParametersView: UIView {
         })
     }
     
+  
+    // generic touch handler for any view type
+    @objc func viewTouchHandler (sender:UITapGestureRecognizer){
+        if let view = sender.view {
+            let index = view.tag
+            log.verbose("Touch pressed for: \(pKey[index])")
+            self.requestPosition(key:self.pKey[index])
+        } else {
+            log.warning("NIL view")
+        }
+    }
+
     
-    
+    // touch handler for buttons
     @objc func touchDidPress(sender: UIButton!) {
         let index = sender.tag
-        
         log.verbose("Touch pressed for: \(pKey[index])")
+        self.requestPosition(key:self.pKey[index])
+    }
+    
+    @objc func requestPosition(key:String) {
         if delegate != nil {
             DispatchQueue.main.async(execute: { () -> Void in
-                self.delegate?.positionRequested(key:self.pKey[index])
+                self.delegate?.positionRequested(key:key)
             })
         } else {
             log.warning("No delegate")
         }
     }
-    
+
+
 }

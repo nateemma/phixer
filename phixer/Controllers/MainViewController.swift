@@ -24,7 +24,7 @@ private var filterCount: Int = 0
 
 // This is the Main View Controller for phixer, and also displays  filters  applied to the direct camera feed
 
-class MainViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, SegueHandlerType {
+class MainViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var theme = ThemeManager.currentTheme()
     
@@ -302,11 +302,7 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         log.warning("Low Memory Warning")
         // Dispose of any resources that can be recreated.
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let id = segueIdentifierForSegue(segue)
-        log.debug ("Issuing segue: \(id)") // don't really need to do anything, just log which segue was activated
-    }
+ 
     
     
     
@@ -981,15 +977,19 @@ extension MainViewController: FilterSelectionViewDelegate{
 }
 
 
-// GalleryViewControllerDelegate(s)
+// FilterBasedControllerDelegate(s)
 
-extension MainViewController: GalleryViewControllerDelegate {
-    func galleryCompleted() {
-        log.debug("Returned from Filter Gallery")
+extension MainViewController: FilterBasedControllerDelegate {
+    func filterControllerUpdateRequest(tag: String) {
+        log.debug("Update request ignored, from: \(tag)")
+    }
+    
+    func filterControllerCompleted(tag: String) {
+        log.debug("Returned from: \(tag)")
         self.returnFromController()
     }
     
-    func gallerySelection(key: String) {
+    func filterControllerSelection(key: String) {
         log.warning("Unexpected selection: \(key)")
         self.returnFromController()
     }

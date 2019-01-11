@@ -24,18 +24,9 @@ private var filterCount: Int = 0
 
 // This is the View Controller for displaying the available Sample images and setting the one to be used elsewhere
 
-class SampleGalleryViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class SampleGalleryViewController: FilterBasedController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var theme = ThemeManager.currentTheme()
-    
-
-    // delegate for handling events
-    weak var delegate: GalleryViewControllerDelegate?
-    
-    // operating mode, OK to set externally
-    public var mode:GalleryControllerMode = .displaySelection
-    
-    
     
     // Banner View (title)
     var bannerView: TitleView! = TitleView()
@@ -409,7 +400,7 @@ class SampleGalleryViewController: UIViewController, UIImagePickerControllerDele
         guard navigationController?.popViewController(animated: true) != nil else { //modal
             //log.debug("Not a navigation Controller")
             suspend()
-            dismiss(animated: true, completion:  { self.delegate?.galleryCompleted() })
+            dismiss(animated: true, completion:  { self.delegate?.filterControllerCompleted(tag:self.getTag()) })
             return
         }
     }

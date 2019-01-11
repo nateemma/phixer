@@ -24,16 +24,9 @@ private var filterCount: Int = 0
 
 // This is the View Controller for displaying Style Transfer models
 
-class StyleTransferGalleryViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class StyleTransferGalleryViewController: FilterBasedController, FilterBasedControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var theme = ThemeManager.currentTheme()
-    
-    // delegate for handling events
-    weak var delegate: GalleryViewControllerDelegate?
-    
-    // operating mode, OK to set externally
-    public var mode:GalleryControllerMode = .displaySelection
-
     
     // Banner View (title)
     var bannerView: TitleView! = TitleView()
@@ -290,7 +283,7 @@ class StyleTransferGalleryViewController: UIViewController, UIImagePickerControl
         guard navigationController?.popViewController(animated: true) != nil else { //modal
             //log.debug("Not a navigation Controller")
             suspend()
-            dismiss(animated: true, completion:  {  self.delegate?.galleryCompleted() })
+            dismiss(animated: true, completion:  {  self.delegate?.filterControllerCompleted(tag:self.getTag()) })
             return
         }
     }
@@ -340,6 +333,24 @@ class StyleTransferGalleryViewController: UIViewController, UIImagePickerControl
     }
     
     
+    //////////////////////////////////////////
+    // FilterBasedControllerDelegate
+    //////////////////////////////////////////
+
+    // these are here to allow compilation.
+    
+    func filterControllerSelection(key: String) {
+        log.verbose("key: \(key)")
+    }
+    
+    func filterControllerUpdateRequest(tag: String) {
+        log.verbose("tag: \(tag)")
+    }
+    
+    func filterControllerCompleted(tag: String) {
+        log.verbose("tag: \(tag)")
+    }
+    
 } // StyleTransferGalleryViewController
 
 
@@ -363,9 +374,9 @@ extension StyleTransferGalleryViewController: StyleTransferGalleryViewDelegate {
         } else {
             suspend()
             if (descriptor != nil) && (!(descriptor?.key.isEmpty)!){
-                dismiss(animated: true, completion:  { self.delegate?.gallerySelection(key: (descriptor?.key)!) })
+                dismiss(animated: true, completion:  { self.delegate?.filterControllerSelection(key: (descriptor?.key)!) })
             } else {
-                dismiss(animated: true, completion:  { self.delegate?.galleryCompleted() })
+                dismiss(animated: true, completion:  { self.delegate?.filterControllerCompleted(tag:self.getTag()) })
             }
         }        
     }
@@ -380,11 +391,11 @@ extension StyleTransferGalleryViewController: FilterDetailsViewControllerDelegat
         self.update()
     }
     
-    func prevFilter(){
+    func prevFilterRequest(){
         log.verbose("Previous Filter")
     }
     
-    func nextFilter(){
+    func nextFilterRequest(){
         log.verbose("Next Filter")
     }
 }

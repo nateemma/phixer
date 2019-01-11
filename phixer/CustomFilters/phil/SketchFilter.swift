@@ -232,10 +232,10 @@ class SketchFilter: CIFilter {
         edgeImg = monoImg
 
         // since the input has changed, call the other prep funcs. This ensures filter will be ready if defaults are used
-        prepMix()
-        prepTexture()
-        prepThreshold()
-        combineLayers()
+        //prepMix()
+        //prepTexture()
+        //prepThreshold()
+        //combineLayers()
 
     }
     
