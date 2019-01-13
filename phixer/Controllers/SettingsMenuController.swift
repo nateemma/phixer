@@ -44,7 +44,6 @@ class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
     var aboutMenuItem: UIView = UIView()
     var changeBlendMenuItem: UIView = UIView()
     var changeSampleMenuItem: UIView = UIView()
-    var manageCategoriesMenuItem: UIView = UIView()
     var resetMenuItem: UIView = UIView()
     var hideFiltersItem: UIView = UIView()
     var themeMenuItem: UIView = UIView()
@@ -52,7 +51,7 @@ class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
 
     var hideFiltersSwitch:UISwitch = UISwitch()
     
-    let numItems:CGFloat = 8
+    let numItems:CGFloat = 7
     
     //let stackView = AloeStackView()
     var stackHeight:CGFloat = 0.0
@@ -98,7 +97,7 @@ class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
         
         
         // Logging nicety, show that controller has changed:
-        print ("\n========== \(String(describing: self)) ==========")
+        print ("\n========== \(String(describing: type(of: self))) ==========")
 
         // load theme here in case it changed
         theme = ThemeManager.currentTheme()
@@ -111,8 +110,7 @@ class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
         stackHeight = displayHeight
         
         // get orientation
-        //isLandscape = ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight)) // doesn't always work properly, especially in simulator
-        isLandscape = (displayWidth > displayHeight)
+        isLandscape = ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight))
         
         showAds = (isLandscape == true) ? false : true // don't show in landscape mode, too cluttered
         
@@ -174,13 +172,12 @@ class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
         view.addSubview(aboutMenuItem)
         view.addSubview(changeBlendMenuItem)
         view.addSubview(changeSampleMenuItem)
-        view.addSubview(manageCategoriesMenuItem)
         view.addSubview(resetMenuItem)
         view.addSubview(hideFiltersItem)
         view.addSubview(themeMenuItem)
         view.addSubview(colorsMenuItem)
         view.groupAgainstEdge(group: .vertical,
-                              views: [aboutMenuItem, changeBlendMenuItem, changeSampleMenuItem, manageCategoriesMenuItem, resetMenuItem, hideFiltersItem,
+                              views: [aboutMenuItem, changeBlendMenuItem, changeSampleMenuItem, resetMenuItem, hideFiltersItem,
                                       themeMenuItem, colorsMenuItem],
                               againstEdge: .bottom, padding: 4.0, width: displayWidth, height: h)
 
@@ -189,15 +186,6 @@ class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
     
     
     private func buildMenuViews(height:CGFloat) {
-        // set up touch handlers (couldn't do it in setupMenuItem for some reason - scope?!)
-        
-        let tap1 = UITapGestureRecognizer(target: self, action: #selector(presentAbout))
-        let tap2 = UITapGestureRecognizer(target: self, action: #selector(presentBlendGallery))
-        let tap3 = UITapGestureRecognizer(target: self, action: #selector(presentSampleGallery))
-        let tap4 = UITapGestureRecognizer(target: self, action: #selector(presentManageCategories))
-        let tap5 = UITapGestureRecognizer(target: self, action: #selector(presentReset))
-        let tap6 = UITapGestureRecognizer(target: self, action: #selector(presentThemes))
-        let tap7 = UITapGestureRecognizer(target: self, action: #selector(presentColors))
 
         // setup switches
         hideFiltersSwitch.setOn(FilterGalleryView.showHidden, animated: false)
@@ -208,23 +196,46 @@ class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
         let w = displayWidth - 8
         let iconSize = CGSize(width: h-4, height: h-4)
         
-        setupMenuItem(aboutMenuItem, height:h, width:w, title:"About", image: nil, color:UIColor.flatMint, handler: tap1)
+        setupMenuItem(aboutMenuItem, height:h, width:w,
+                      title:"About",
+                      image: nil,
+                      color:UIColor.flatMint,
+                      handler: UITapGestureRecognizer(target: self, action: #selector(presentAbout)))
         
-        setupMenuItem(changeBlendMenuItem, height:h, width:w, title:"Set Blend Image", image: ImageManager.getCurrentBlendImage(size: iconSize),
-                      color:UIColor.flatMintDark, handler: tap2)
+        setupMenuItem(changeBlendMenuItem, height:h, width:w,
+                      title:"Set Blend Image",
+                      image: ImageManager.getCurrentBlendImage(size: iconSize),
+                      color:UIColor.flatMintDark,
+                      handler: UITapGestureRecognizer(target: self, action: #selector(presentBlendGallery)))
         
-        setupMenuItem(changeSampleMenuItem, height:h, width:w, title:"Set Sample Image", image:  ImageManager.getCurrentSampleImage(size: iconSize),
-                      color:UIColor.flatTeal, handler: tap3)
+        setupMenuItem(changeSampleMenuItem, height:h, width:w,
+                      title:"Set Sample Image",
+                      image:  ImageManager.getCurrentSampleImage(size: iconSize),
+                      color:UIColor.flatTeal,
+                      handler: UITapGestureRecognizer(target: self, action: #selector(presentSampleGallery)))
         
-        setupMenuItem(manageCategoriesMenuItem, height:h, width:w, title:"Manage Categories", image: nil, color:UIColor.flatBlue, handler: tap4)
-        
-        setupMenuItem(resetMenuItem, height:h, width:w, title:"Reset Categories/Filters", image: nil, color:UIColor.flatPurple, handler: tap5)
+        setupMenuItem(resetMenuItem, height:h, width:w,
+                      title:"Reset Categories/Filters",
+                      image: nil,
+                      color:UIColor.flatPurple,
+                      handler: UITapGestureRecognizer(target: self, action: #selector(presentReset)))
 
-        setupSwitchItem(hideFiltersItem, height:h, width:w, title:"Show Hidden Filters", switchItem:hideFiltersSwitch, color:UIColor.flatPurpleDark)
+        setupSwitchItem(hideFiltersItem, height:h, width:w,
+                        title:"Show Hidden Filters",
+                        switchItem:hideFiltersSwitch,
+                        color:UIColor.flatPurpleDark)
 
-        setupMenuItem(themeMenuItem, height:h, width:w, title:"Change Theme", image: nil, color:UIColor.flatPlum, handler: tap6)
+        setupMenuItem(themeMenuItem, height:h, width:w,
+                      title:"Change Theme",
+                      image: nil,
+                      color:UIColor.flatPlum,
+                      handler: UITapGestureRecognizer(target: self, action: #selector(presentThemes)))
 
-        setupMenuItem(colorsMenuItem, height:h, width:w, title:"Choose Colours", image: nil, color:UIColor.flatPlumDark, handler: tap7)
+        setupMenuItem(colorsMenuItem, height:h, width:w,
+                      title:"Choose Colours",
+                      image: nil,
+                      color:UIColor.flatPlumDark,
+                      handler: UITapGestureRecognizer(target: self, action: #selector(presentColors)))
 
 
     }
@@ -355,16 +366,6 @@ class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
         vc.mode = .displaySelection
        present(vc, animated: true, completion: nil)
         
-    }
-    
-    
-    @objc func presentManageCategories(){
-        /***
-         let vc = ManagerCategoriesViewController()
-         vc.delegate = self
-         present(vc, animated: true, completion: nil)
-         ***/
-        notImplemented()
     }
     
     

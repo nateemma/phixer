@@ -377,20 +377,8 @@ class FilterManager{
         FilterManager.checkSetup()
         
         if (FilterLibrary.filterDictionary[key] == nil){    // if not allocatd, try creating it, i.e. only created if requested
-            /***
-            // check to see if this is a lookup filter. If so, then use the key for the 'base' lookup filter
-            // NOTE: make sure the base filter is in the list of filters at startup
-            if (FilterLibrary.lookupDictionary[key] != nil){
-                let lookupkey = FilterDescriptor.lookupFilterName
-                log.debug("Creating lookup filter object for key:\(key)")
-                filterDescr = FilterFactory.createFilter(key: lookupkey)
-                filterDescr?.convertToLookup(key: key, image: FilterLibrary.lookupDictionary[key]!)
-            } else {
-                log.debug("Creating filter object for key:\(key)")
-                filterDescr = FilterFactory.createFilter(key: key)
-            }
-            ***/
-            log.debug("Creating filter object for key:\(key)")
+
+            //log.debug("Creating filter object for key:\(key)")
             filterDescr = FilterFactory.createFilter(key: key)
 
             if (filterDescr == nil){ // error somewhere
@@ -399,11 +387,6 @@ class FilterManager{
             
             FilterLibrary.filterDictionary[key] = filterDescr
             
-            // class-specific processing:
-            //if (filterDescr is LookupFilterDescriptor){
-            //    initLookupFilter(key: key)
-            //}
-
         } else {
             filterDescr = FilterLibrary.filterDictionary[key]!
         }
@@ -427,7 +410,7 @@ class FilterManager{
             if (FilterLibrary.filterDictionary[key] != nil){
                 //let descr = (FilterLibrary.filterDictionary[key])!
                 FilterLibrary.filterDictionary[key] = nil
-                log.debug("key:\(key)")
+                //log.debug("key:\(key)")
             }
             
             // make sure RenderView has been released
@@ -476,49 +459,6 @@ class FilterManager{
         
         return key
     }
-    
-
-    
-  /***
-    func addFilterDescriptor(category:String, key:String, descriptor:FilterDescriptor?){
-        // add to the filter list
-        FilterLibrary.filterDictionary[key] = descriptor
-        
-        //add to category list
-        var list = category.getFilterList()
-        if (!(list.contains(key))){
-            list.append(key)
-            FilterManager.sortLists()
-        }
-    }
-    
-    func removeFilterDescriptor(category:String, key:String){
-        var list = category.getFilterList()
-        if let index = list.index(of: key) {
-            list.remove(at: index)
-            log.verbose ("Key (\(key)) removed from category (\(category))")
-        }else {
-            log.warning("Key (\(key)) not present for category (\(category))")
-        }
-    }
-    ***/
-    /***
-    func filterAddress(_ descriptor:FilterDescriptor?)->String{
-        var addr:String
-        guard (descriptor != nil) else {
-            return "NIL"
-        }
-        
-        if (descriptor?.filter != nil){
-            addr = Utilities.addressOf(descriptor?.filter) + " (filter)"
-        } else  if (descriptor?.filterGroup != nil){
-            addr = Utilities.addressOf(descriptor?.filterGroup) + " (group)"
-        } else {
-            addr = "INVALID"
-        }
-        return addr
-    }
-    ***/
     
     
     // returns the RenderView associated with the supplied filter key
@@ -573,38 +513,11 @@ class FilterManager{
         if (FilterManager._renderViewDictionary[key] != nil){
             if (!isLocked(key)){
                 FilterManager._renderViewDictionary[key] = nil
-                log.debug("key:\(key)")
+                //log.debug("key:\(key)")
             }
         }
     }
     
-    /***
-    // class-specific init of LookupFilterDescriptor
-    fileprivate func initLookupFilter(key: String){
-        
-        var lookup:LookupFilterDescriptor? = nil
-        
-        // set the image file for this key
-        if (FilterLibrary.lookupDictionary[key] != nil){
-            
-            lookup = FilterLibrary.filterDictionary[key] as! LookupFilterDescriptor?
-            let image:String = (FilterLibrary.lookupDictionary[key])!
-            log.debug("key:\(key), image:\(image)")
-            
-            let l = image.components(separatedBy:".")
-            let title = l[0]
-            lookup?.key = key
-            lookup?.title = title
-            
-            lookup?.setLookupFile(name:image)
-            FilterLibrary.filterDictionary[key] = lookup
-            
-        } else {
-            log.error("ERR: Entry not found for LookupFilter:\(key)")
-        }
-        
-    }
-    ***/
     
     open func isHidden(key:String) -> Bool {
         return FilterFactory.isHidden(key:key)

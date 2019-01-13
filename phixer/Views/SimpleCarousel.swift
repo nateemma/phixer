@@ -247,7 +247,7 @@ class SimpleCarousel: UIView {
                    oldView?.tintColor = theme.textColor
                     oldView?.layer.cornerRadius = 4.0
                     oldView?.layer.borderWidth = 1.0
-                    oldView?.layer.borderColor = theme.backgroundColor.withAlphaComponent(0.5).cgColor
+                    oldView?.layer.borderColor = theme.borderColor.cgColor
                 }
             }
             

@@ -175,6 +175,7 @@ class FilterParametersView: UIView {
         titleLabel.font = UIFont.systemFont(ofSize: 18)
         titleLabel.text = currFilterDesc?.title
         titleLabel.textAlignment = .center
+        titleLabel.fitTextToBounds()
         titleView.addSubview(titleLabel)
 
         titleView.frame.size.width = (self.frame.size.width - 6.0).rounded()
@@ -589,7 +590,7 @@ class FilterParametersView: UIView {
 }
     
     @objc func slidersDidEndChange(_ sender:UISlider!){
-        //log.verbose("end: \(pKey[sender.tag]) = \(sender.value)")
+        log.verbose("end: \(pKey[sender.tag]) = \(sender.value)")
         currFilterDesc?.setParameter(pKey[sender.tag], value: sender.value)
         DispatchQueue.main.async(execute: { () -> Void in
             self.delegate?.settingsChanged()

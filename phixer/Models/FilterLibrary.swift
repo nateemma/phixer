@@ -347,13 +347,13 @@ class FilterLibrary{
             ptype = .float
         case kCIAttributeTypeCount:
             ptype = .float
-        case kCIAttributeTypeOffset:
-            ptype = .float
         case kCIAttributeTypeColor:
             ptype = .color
         case kCIAttributeTypeImage:
             ptype = .image
         case kCIAttributeTypePosition:
+            ptype = .position
+        case kCIAttributeTypeOffset:
             ptype = .position
         case kCIAttributeTypeRectangle:
             ptype = .rectangle

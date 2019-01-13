@@ -134,11 +134,23 @@ class InputSource {
         if currInput != nil {
             if currInput?.extent.size != nil {
                 size = (currInput?.extent.size)!
-             }
+            }
         }
         return size
     }
     
+    // get the extent of the current image
+    public static func getExtent() -> CGRect {
+        var extent:CGRect = CGRect.zero
+        extent = UIScreen.main.bounds // default to screen size (what else?)
+        if currInput != nil {
+            if currInput?.extent != nil {
+                extent = (currInput?.extent)!
+            }
+        }
+        return extent
+    }
+
     
     // returns the w:h aspect ratio
     public static func getAspectRatio() -> CGFloat{

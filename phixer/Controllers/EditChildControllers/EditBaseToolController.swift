@@ -1,5 +1,5 @@
 //
-//  EditBaseMenuController.swift
+//  EditBaseToolController.swift
 //  phixer
 //
 //  Created by Philip Price on 12/17/18
@@ -15,63 +15,64 @@ import iCarousel
 private var filterList: [String] = []
 private var filterCount: Int = 0
 
-// This View Controller is the 'base' class used for creating Edit Control displays which consist of a carousel of text & icons
-// The subclass just needs to override the functions that provide the displayed data and the handler for dealing with a user selection
+// This View Controller is the 'base' class used for creating Edit 'Tool' displays, which take up most of the screen
+// This mostly just sets up the framing, title, navigation etc. Other stuff must be done in the subclass, via the loadToolView() callback
 
-class EditBaseMenuController: FilterBasedController, FilterBasedControllerDelegate, EditBaseMenuInterface {
-    
-    
+class EditBaseToolController: FilterBasedController, FilterBasedControllerDelegate {
     
     var theme = ThemeManager.currentTheme()
     
-    // The Edit controls/options
+    // The main views.
     var mainView: UIView! = UIView()
-    let menu:SimpleCarousel! = SimpleCarousel()
+    var titleView: UIView! = UIView()
+    var toolView: UIView! = UIView() // this will be passed to the subclass
 
     
-    // var isLandscape : Bool = false // moved to base class
     var screenSize : CGRect = CGRect.zero
     var displayWidth : CGFloat = 0.0
     var displayHeight : CGFloat = 0.0
     
     let buttonSize : CGFloat = 48.0
-    let editControlHeight: CGFloat = 88.0
-    //let editControlHeight: CGFloat = 48.0
-    
-    var childController:UIViewController? = nil
+
     
  
     ////////////////////
     // 'Virtual' funcs, these must be overidden by the subclass
     ////////////////////
     
-    // returns the text to display at the top of the window
-    func getTitle() -> String {
-        log.warning("Base class called, should have been overridden by subclass")
-        return ""
+    func getTitle() -> String{
+        return "Edit Tool Base Class"
     }
     
-    // returns the list of Adornments (text, icon/image, handler)
-    func getItemList() -> [Adornment] {
-        log.error("Base class called, should have been overridden by subclass")
-        return []
+    func loadToolView(toolview: UIView){
+        log.warning("Base class called")
     }
+    
+    func commit() {
+        log.warning("Base class called")
+        delegate?.filterControllerCompleted(tag:self.getTag())
+        dismiss()
+    }
+    
+    func cancel(){
+        // this is OK as a default implementation since we inherently don't need to save or commit anything
+        EditManager.addPreviewFilter(nil)
+        delegate?.filterControllerCompleted(tag:self.getTag())
+        dismiss()
+    }
+    
+    ////////////////////
+    // Filter Navigation - typically not applicable here so override
+    ////////////////////
 
-    // function to handle a selected item
-    func handleSelection(key:String) {
-        log.error("Base class called, should have been overridden by subclass")
-    }
-    
     // go to the next filter, whatever that means for this controller. Note that this is a valid default implementation
     override func nextFilter(){
-        log.debug("next...")
-        menu.nextItem()
+        // just ignore for tools
     }
   
     // go to the previous filter, whatever that means for this controller. Note that this is a valid default implementation
     override func previousFilter(){
-        log.debug("previous...")
-        menu.previousItem()
+        // just ignore for tools
     }
 
     
@@ -109,7 +110,7 @@ class EditBaseMenuController: FilterBasedController, FilterBasedControllerDelega
         super.viewDidLoad()
         
         // Logging nicety, show that controller has changed. Not using the logging API so that this stands out more
-        print ("\n========== \(String(describing: self)) ==========")
+        print ("\n========== \(self.getTag()) ==========")
 
         
         // load theme here in case it changed
@@ -117,42 +118,61 @@ class EditBaseMenuController: FilterBasedController, FilterBasedControllerDelega
         
         view.backgroundColor = UIColor.clear
 
-        // get display dimensions
-        //displayHeight = view.height
-        displayHeight = editControlHeight
-        displayWidth = view.width
+        // make the main view a little smaller than the screen
+
+        displayHeight = view.height - 128
+        displayWidth = view.width - 64
         
+        //TODO: round the corners and add border?
         
         log.verbose("h:\(displayHeight) w:\(displayWidth)")
         
-        
-        //self.view.frame.size.height = displayHeight
-        //self.view.frame.size.width = displayWidth
+        self.view.isHidden = false
+
+        // sizing
         mainView.frame.size.height = displayHeight
         mainView.frame.size.width = displayWidth
+        mainView.backgroundColor = theme.backgroundColor.withAlphaComponent(0.6)
+        mainView.layer.cornerRadius = 16.0
+        mainView.layer.borderWidth = 2.0
+        mainView.layer.borderColor = theme.borderColor.cgColor
+
+
+        titleView.frame.size.height = 32
+        titleView.frame.size.width = mainView.frame.size.width
+        titleView.backgroundColor = theme.subtitleColor
+
+        toolView.frame.size.height = mainView.frame.size.height - titleView.frame.size.height
+        toolView.frame.size.width = mainView.frame.size.width
+        toolView.backgroundColor = mainView.backgroundColor
+
+        // layout
         view.addSubview(mainView)
-
-        setupTitle()
-        setupMenu()
-
-        mainView.anchorToEdge(.bottom, padding: 0, width: mainView.frame.size.width, height: mainView.frame.size.height)
-
-        log.verbose("mainView: w:\(mainView.frame.size.width) h:\(mainView.frame.size.height)")
-        log.verbose("self: w:\(self.view.frame.size.width) h:\(self.view.frame.size.height)")
-
+        mainView.anchorInCenter(width: mainView.frame.size.width, height: mainView.frame.size.height)
         
-        self.view.isHidden = false
+        mainView.addSubview(titleView)
+        mainView.addSubview(toolView)
+        titleView.anchorToEdge(.top, padding: 0, width: titleView.frame.size.width, height: titleView.frame.size.height)
+        toolView.alignAndFillHeight(align: .underCentered, relativeTo: titleView, padding: 0, width: toolView.frame.size.width)
+        //toolView.anchorToEdge(.bottom, padding: 0, width: toolView.frame.size.width, height: toolView.frame.size.height)
+
+        // populate
+        setupTitle()
+        loadToolView(toolview: toolView)
 
     }
     
     func setupTitle(){
-        // set up the title, with a label for the text an an image for the 'cancel' option
-        let titleView = UIView()
-        titleView.frame.size.height = mainView.frame.size.height * 0.3
-        titleView.frame.size.width = mainView.frame.size.width
-        titleView.backgroundColor = theme.subtitleColor
-
- 
+        // set up the title, with a label for the text an an image for the 'commit' and 'cancel' options
+        
+        // commit button
+        let commitButton = SquareButton(bsize: (titleView.frame.size.height*0.8).rounded())
+        commitButton.setImageAsset("ic_yes")
+        commitButton.backgroundColor = theme.titleColor.withAlphaComponent(0.5)
+        commitButton.setTintable(true)
+        commitButton.highlightOnSelection(true)
+        commitButton.addTarget(self, action: #selector(self.commitDidPress), for: .touchUpInside)
+        
         // cancel button
         let cancelButton = SquareButton(bsize: (titleView.frame.size.height*0.8).rounded())
         cancelButton.setImageAsset("ic_no")
@@ -160,13 +180,12 @@ class EditBaseMenuController: FilterBasedController, FilterBasedControllerDelega
         cancelButton.setTintable(true)
         cancelButton.highlightOnSelection(true)
         cancelButton.addTarget(self, action: #selector(self.cancelDidPress), for: .touchUpInside)
-        
-        titleView.addSubview(cancelButton)
+
 
         // label
         let label = UILabel()
         label.frame.size.width = (titleView.frame.size.width - cancelButton.frame.size.width - 4).rounded()
-        label.frame.size.height = titleView.frame.size.height - 2
+        label.frame.size.height = titleView.frame.size.height
         label.text = getTitle()
         label.textAlignment = .center
         label.textColor = theme.titleTextColor
@@ -175,29 +194,15 @@ class EditBaseMenuController: FilterBasedController, FilterBasedControllerDelega
         label.fitTextToBounds()
  
         titleView.addSubview(label)
-        //label.anchorToEdge(.left, padding: 0, width: label.frame.size.width, height: label.frame.size.height)
-        label.anchorInCorner(.topLeft, xPad: 0, yPad: 0, width: label.frame.size.width, height: label.frame.size.height)
-        cancelButton.anchorToEdge(.right, padding: 0, width: cancelButton.frame.size.width, height: cancelButton.frame.size.height)
-        
-        mainView.addSubview(titleView)
-        titleView.anchorToEdge(.top, padding: 0, width: titleView.frame.size.width, height: titleView.frame.size.height)
-        
-    }
-    
-    func setupMenu(){
-        // set up the menu of option
-        menu.frame.size.height = mainView.frame.size.height * 0.7
-        menu.frame.size.width = mainView.frame.size.width
-        menu.backgroundColor = theme.backgroundColor
-        menu.setItems(getItemList())
-        menu.delegate = self
-        
-        mainView.addSubview(menu)
-        menu.anchorToEdge(.bottom, padding: 0, width: menu.frame.size.width, height: menu.frame.size.height)
-        log.verbose("menu: w:\(menu.frame.size.width) h:\(menu.frame.size.height)")
+        titleView.addSubview(commitButton)
+        titleView.addSubview(cancelButton)
 
+        commitButton.anchorToEdge(.left, padding: 8, width: cancelButton.frame.size.width, height: cancelButton.frame.size.height)
+        cancelButton.anchorToEdge(.right, padding: 8, width: cancelButton.frame.size.width, height: cancelButton.frame.size.height)
+        label.alignBetweenHorizontal(align: .toTheRightCentered, primaryView: commitButton, secondaryView: cancelButton, padding: 2, height: AutoHeight)
+
+        
     }
-    
     
     func dismiss(){
         UIView.animate(withDuration: 0.5, animations: {
@@ -223,6 +228,12 @@ class EditBaseMenuController: FilterBasedController, FilterBasedControllerDelega
     // MARK: - Touch Handler
     //////////////////////////////////////////
     
+    @objc func commitDidPress(){
+        commit()
+        delegate?.filterControllerCompleted(tag:self.getTag())
+        dismiss()
+    }
+    
     @objc func cancelDidPress(){
         delegate?.filterControllerCompleted(tag:self.getTag())
         dismiss()
@@ -243,7 +254,7 @@ class EditBaseMenuController: FilterBasedController, FilterBasedControllerDelega
     
 
 
-} // EditBaseMenuController
+} // EditBaseToolController
 //########################
 
 
@@ -252,11 +263,5 @@ class EditBaseMenuController: FilterBasedController, FilterBasedControllerDelega
 // MARK: - Delegate functions
 //////////////////////////////////////////
 
-extension EditBaseMenuController: AdornmentDelegate {
-    func adornmentItemSelected(key: String) {
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.handleSelection(key: key)
-        })
-    }
-}
+
 

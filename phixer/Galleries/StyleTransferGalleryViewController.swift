@@ -79,7 +79,7 @@ class StyleTransferGalleryViewController: FilterBasedController, FilterBasedCont
         
         
         // Logging nicety, show that controller has changed:
-        print ("\n========== \(String(describing: self)) ==========")
+        print ("\n========== \(String(describing: type(of: self))) ==========")
 
         // load theme here in case it changed
         theme = ThemeManager.currentTheme()
@@ -331,9 +331,13 @@ extension StyleTransferGalleryViewController: StyleTransferGalleryViewDelegate {
             self.present(filterDetailsViewController, animated: false, completion: nil)
         } else {
             suspend()
+            log.verbose("ending")
             if (descriptor != nil) && (!(descriptor?.key.isEmpty)!){
-                dismiss(animated: true, completion:  { self.delegate?.filterControllerSelection(key: (descriptor?.key)!) })
-            } else {
+                dismiss(animated: true, completion:  {
+                    self.delegate?.filterControllerSelection(key: (descriptor?.key)!)
+                    self.delegate?.filterControllerCompleted(tag:self.getTag())
+                })
+           } else {
                 dismiss(animated: true, completion:  { self.delegate?.filterControllerCompleted(tag:self.getTag()) })
             }
         }        

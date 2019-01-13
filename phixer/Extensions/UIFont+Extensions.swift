@@ -33,7 +33,7 @@ extension UIFont {
                 break
             }
         }
-        return bestFontSize
+        return (bestFontSize - 2.0)
     }
     
     static func bestFittingFont(for text: String, in bounds: CGRect, fontDescriptor: UIFontDescriptor, additionalAttributes: [NSAttributedStringKey: Any]? = nil) -> UIFont {

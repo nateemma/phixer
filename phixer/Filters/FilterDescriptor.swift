@@ -178,6 +178,7 @@ class  FilterDescriptor {
             }
             self.filter?.setDefaults()
             copyParameters(parameters)
+            self.stashParameters()
         }
         
     }
@@ -211,6 +212,7 @@ class  FilterDescriptor {
             let p = ParameterSettings(key: FilterDescriptor.blendArgIntensity, title: "opacity", min: 0.0, max: 1.0, value: 0.8, type: .float)
             self.parameterConfiguration[FilterDescriptor.blendArgIntensity] = p
             self.numParameters = self.numParameters + 1
+            self.stashParameters()
         }
     }
     

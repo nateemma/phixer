@@ -212,7 +212,7 @@ class EditImageDisplayView: UIView {
         if !self.currFilterKey.isEmpty && layoutDone {
             DispatchQueue.main.async(execute: { () -> Void in
                 if self.currDisplayMode == .full {
-                    log.verbose("Running filter: \(self.currFilterKey)")
+                    //log.verbose("Running filter: \(self.currFilterKey)")
                    switch self.currFilterMode {
                      case .preview:
                         self.renderView?.image = EditManager.getPreviewImage()

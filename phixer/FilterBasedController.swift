@@ -54,11 +54,14 @@ class FilterBasedController: UIViewController {
     
     // show this view
     func show(){
+        log.verbose("\(self.getTag())")
         self.view.isHidden = false
+        self.view.setNeedsDisplay()
     }
     
     // hide this view
     func hide(){
+        log.verbose("\(self.getTag())")
         self.view.isHidden = true
     }
 

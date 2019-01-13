@@ -109,7 +109,7 @@ class BlendGalleryViewController: FilterBasedController, UIImagePickerController
         super.viewDidLoad()
         
         // Logging nicety, show that controller has changed:
-        print ("\n========== \(String(describing: self)) ==========")
+        print ("\n========== \(String(describing: type(of: self))) ==========")
 
         // load theme here in case it changed
         theme = ThemeManager.currentTheme()

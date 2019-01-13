@@ -95,7 +95,7 @@ class SketchFilter: CIFilter {
             "inputThreshold": [kCIAttributeIdentity: 0,
                                kCIAttributeClass: "NSNumber",
                                kCIAttributeDefault: 0.5,
-                               kCIAttributeDisplayName: "EdgeThreshold",
+                               kCIAttributeDisplayName: "Edges",
                                kCIAttributeMin: 0,
                                kCIAttributeSliderMin: 0.01,
                                kCIAttributeSliderMax: 1.0,
@@ -104,7 +104,7 @@ class SketchFilter: CIFilter {
             "inputMix": [kCIAttributeIdentity: 0,
                                kCIAttributeClass: "NSNumber",
                                kCIAttributeDefault: 0.5,
-                               kCIAttributeDisplayName: "Mix",
+                               kCIAttributeDisplayName: "Detail",
                                kCIAttributeMin: 0,
                                kCIAttributeSliderMin: 0.01,
                                kCIAttributeSliderMax: 1.0,
@@ -113,7 +113,7 @@ class SketchFilter: CIFilter {
             "inputTexture": [kCIAttributeIdentity: 0,
                                kCIAttributeClass: "NSNumber",
                                kCIAttributeDefault: 0.5,
-                               kCIAttributeDisplayName: "Texture",
+                               kCIAttributeDisplayName: "Shading",
                                kCIAttributeMin: 0,
                                kCIAttributeSliderMin: 0.01,
                                kCIAttributeSliderMax: 1.0,
@@ -133,21 +133,21 @@ class SketchFilter: CIFilter {
             if !v.approxEqual(inputThreshold){
                 inputThreshold = v
                 parameterChanged = true
-                prepThreshold()
+                prepEdges()
             }
         case "inputMix":
             let v = value as! CGFloat
             if !v.approxEqual(inputMix){
                 inputMix = v
                 parameterChanged = true
-                prepMix()
+                prepDetail()
             }
         case "inputTexture":
             let v = value as! CGFloat
             if !v.approxEqual(inputTexture){
                 inputTexture = v
                 parameterChanged = true
-                prepTexture()
+                prepShading()
             }
         default:
             log.error("Invalid key: \(key)")
@@ -240,9 +240,9 @@ class SketchFilter: CIFilter {
         edgeImg = monoImg
 
         // since the input has changed, call the other prep funcs. This ensures filter will be ready if defaults are used
-        prepMix()
-        prepTexture()
-        prepThreshold()
+        prepDetail()
+        prepShading()
+        prepEdges()
         combineLayers()
 
     }
@@ -250,7 +250,7 @@ class SketchFilter: CIFilter {
     
     
     // set up vars that change when the mix threshold is changed
-    private func prepMix(){
+    private func prepDetail(){
  
         log.debug("Generating basic sketch")
 
@@ -259,6 +259,7 @@ class SketchFilter: CIFilter {
             return
         }
         
+/*** debug version:
         // create the inverse of the mono image and blur it
         let img2 = monoImg.applyingFilter("CIColorInvert")
             .applyingFilter("CIGaussianBlur", parameters: ["inputRadius": 20.0 * inputMix])
@@ -271,12 +272,24 @@ class SketchFilter: CIFilter {
         
         // make lines darker
         basicSketchImg = img3.applyingFilter("CIMultiplyBlendMode", parameters: [kCIInputBackgroundImageKey:img3])
+ ***/
+        
+        // chained version:
+        let tmpImg = monoImg.applyingFilter("CIColorInvert")
+            //.applyingFilter("CIBoxBlur", parameters: ["inputRadius": 20.0 * inputMix])
+            .applyingFilter("CIGaussianBlur", parameters: ["inputRadius": 20.0 * inputMix])
+            .clampedToExtent()
+            .cropped(to: workingExtent)
+            .applyingFilter("CILinearDodgeBlendMode", parameters: [kCIInputBackgroundImageKey:monoImg])
+            
+        basicSketchImg = tmpImg.applyingFilter("CIMultiplyBlendMode", parameters: [kCIInputBackgroundImageKey:tmpImg])
+
     }
     
     
     
     // set up vars that change when the texture amount is changed
-    private func prepTexture(){
+    private func prepShading(){
         
  
         guard let monoImg = monoImg, let shadingTextureImg = shadingTextureImg  else {
@@ -299,6 +312,7 @@ class SketchFilter: CIFilter {
         let shadowMask = monoImg.applyingFilter("LumaRangeFilter", parameters: ["inputLower": 0.0, "inputUpper": 0.1])
             .applyingFilter("CIColorInvert")
         
+        /***
         // create a (slightly) darkened version of the texture
         let shadowTexture = shadingTextureImg.applyingFilter("CIMultiplyBlendMode", parameters: [kCIInputBackgroundImageKey: shadingTextureImg.applyingFilter("OpacityFilter", parameters:  ["inputOpacity": 0.2])])
         
@@ -309,13 +323,21 @@ class SketchFilter: CIFilter {
         // blend the shaded texture with the basic sketch, and set opacity based on the inputTexture setting
         shadedImg = shadowOverlay.applyingFilter("CIBlendWithMask", parameters: [kCIInputMaskImageKey: shadowMask, kCIInputBackgroundImageKey: basicSketchImg])
             .applyingFilter("OpacityFilter", parameters:  ["inputOpacity": inputTexture])
+         ***/
+        
+        // chained version
+        shadedImg = shadingTextureImg
+            .applyingFilter("CIMultiplyBlendMode", parameters: [kCIInputBackgroundImageKey: shadingTextureImg.applyingFilter("OpacityFilter", parameters:  ["inputOpacity": 0.2])])
+            .applyingFilter("CIBlendWithMask", parameters: [kCIInputMaskImageKey: shadowMask, kCIInputBackgroundImageKey: shadingTextureImg])
+            .applyingFilter("CIBlendWithMask", parameters: [kCIInputMaskImageKey: shadowMask, kCIInputBackgroundImageKey: basicSketchImg])
+            .applyingFilter("OpacityFilter", parameters:  ["inputOpacity": inputTexture])
 
         
     }
     
     
     // set up vars that change when edge threshold is changed
-    private func prepThreshold(){
+    private func prepEdges(){
         
         log.debug("Generating edges")
         
@@ -323,16 +345,22 @@ class SketchFilter: CIFilter {
         // generate the edges, with some blurring and slightly reduced opacity
         // Note: using colour image because edges can be lost if using the B&W version
         
-        // Note: - SobelFilter needs to be inverted, Sobel3x3 does not
-        //       - Sobel3x3 has much stronger edge detection, so bring down the opacity if using
+        // Notes: - SobelFilter needs to be inverted, Sobel3x3 does not
+        //        - Sobel3x3 has much stronger edge detection, so bring down the opacity if using
+        //        - BoxBlur is faster than Gaussian Blur
+        //        - the Gloom filter softens edges and adds a glow effect
         edgeImg = inputImage?
             .applyingFilter("CIColorControls", parameters: ["inputContrast": 1.0])
             .applyingFilter("SobelFilter", parameters: ["inputThreshold": inputThreshold]).applyingFilter("CIColorInvert")
             //.applyingFilter("Sobel3x3Filter", parameters: ["inputThreshold": inputThreshold])
             //.applyingFilter("LumaRangeFilter", parameters: ["inputLower": 0.0, "inputUpper": 0.5])
-            .applyingFilter("CIGaussianBlur", parameters: ["inputRadius": 1.0]).clampedToExtent()
+            //.applyingFilter("CIGaussianBlur", parameters: ["inputRadius": 1.0]).clampedToExtent()
+            //.applyingFilter("CIBoxBlur", parameters: ["inputRadius": 1.0]).clampedToExtent()
+            //.cropped(to: workingExtent)
+            .applyingFilter("CIGloom", parameters:  ["inputRadius": 2.0, "inputIntensity": 1.0])
             .cropped(to: workingExtent)
-            .applyingFilter("OpacityFilter", parameters:  ["inputOpacity": 0.6])
+           .applyingFilter("OpacityFilter", parameters:  ["inputOpacity": 0.6])
+
     }
     
     private func combineLayers(){

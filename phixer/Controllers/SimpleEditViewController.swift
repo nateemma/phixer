@@ -128,7 +128,7 @@ class SimpleEditViewController: FilterBasedController, FilterBasedControllerDele
         
         
         // Logging nicety, show that controller has changed:
-        print ("\n========== \(String(describing: self)) ==========")
+        print ("\n========== \(String(describing: type(of: self))) ==========")
 
         // load theme here in case it changed
         theme = ThemeManager.currentTheme()
@@ -188,8 +188,8 @@ class SimpleEditViewController: FilterBasedController, FilterBasedControllerDele
 
         // set up the options controller, which provides the modal menus
         optionsController = EditMainOptionsController()
-        optionsController?.view.frame = CGRect(origin: CGPoint(x: 0, y: (displayHeight-CGFloat(editControlHeight))), size: CGSize(width: displayWidth, height: CGFloat(editControlHeight)))
-        //optionsController?.view.frame = self.view.frame
+        //optionsController?.view.frame = CGRect(origin: CGPoint(x: 0, y: (displayHeight-CGFloat(editControlHeight))), size: CGSize(width: displayWidth, height: CGFloat(editControlHeight)))
+        optionsController?.view.frame = self.view.frame
         optionsController?.delegate = self
         add(optionsController!)
 
@@ -340,7 +340,7 @@ class SimpleEditViewController: FilterBasedController, FilterBasedControllerDele
         case "reset":
             resetDidPress()
         case "undo":
-            defaultDidPress()
+            undoDidPress()
         case "save":
             saveDidPress()
         default:
@@ -370,7 +370,8 @@ class SimpleEditViewController: FilterBasedController, FilterBasedControllerDele
     }
     
     @objc func resetDidPress(){
-        self.menuView.isHidden = true
+        log.debug("reset")
+       self.menuView.isHidden = true
         currFilterDescriptor?.reset()
         EditManager.reset()
         EditManager.addPreviewFilter(currFilterDescriptor)
@@ -388,6 +389,7 @@ class SimpleEditViewController: FilterBasedController, FilterBasedControllerDele
     }
 
     @objc func undoDidPress(){
+        log.debug("undo")
         // restore saved parameters
         currFilterDescriptor?.restoreParameters()
         EditManager.popFilter()
@@ -549,7 +551,7 @@ class SimpleEditViewController: FilterBasedController, FilterBasedControllerDele
         guard navigationController?.popViewController(animated: true) != nil else { //modal
             //log.debug("Not a navigation Controller")
             suspend()
-            dismiss(animated: true, completion:  { })
+            dismiss(animated: true, completion:  { self.delegate?.filterControllerCompleted(tag:self.getTag()) })
             return
         }
     }
@@ -568,12 +570,12 @@ class SimpleEditViewController: FilterBasedController, FilterBasedControllerDele
         AudioServicesPlaySystemSound(1108) // undocumented iOS feature!
     }
     
-    func showMessage(_ msg:String){
+    func showMessage(_ msg:String, time:TimeInterval=1.0){
         if !msg.isEmpty {
             DispatchQueue.main.async(execute: { () -> Void in
                 let alert = UIAlertController(title: "", message: msg, preferredStyle: .alert)
                 self.present(alert, animated: true, completion: nil)
-                Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: { _ in alert.dismiss(animated: true, completion: nil)} )
+                Timer.scheduledTimer(withTimeInterval: time, repeats: false, block: { _ in alert.dismiss(animated: true, completion: nil)} )
             })
         }
     }
@@ -938,20 +940,26 @@ extension SimpleEditViewController: TitleViewDelegate {
 extension SimpleEditViewController: FilterParametersViewDelegate {
 
     func commitChanges(key: String) {
+        log.verbose("\(self.getTag()): \(key)")
         // make the change permanent
         DispatchQueue.main.async(execute: { () -> Void in
             EditManager.savePreviewFilter()
-            self.optionsController!.view.isHidden = false
+            //self.optionsController?.show()
+            self.optionsController?.view.isHidden = false // we want the top level, not a child
+            self.showMessage("Effect applied", time:0.5)
         })
     }
     
     func cancelChanges(key: String) {
+        log.verbose("\(self.getTag()): \(key)")
         // restore saved parameters
         currFilterDescriptor?.restoreParameters()
         EditManager.popFilter()
         DispatchQueue.main.async(execute: { () -> Void in
             self.editImageView.updateImage()
-            self.optionsController!.view.isHidden = false
+            //self.optionsController?.show()
+
+            self.optionsController?.view.isHidden = false // we want the top level, not a child
         })
     }
     

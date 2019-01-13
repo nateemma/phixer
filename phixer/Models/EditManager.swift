@@ -20,13 +20,17 @@ class EditManager {
 
     private static var filterList:[FilterDescriptor?] = []
     private static var previewFilter:FilterDescriptor? = nil
+    static var filterManager: FilterManager? = FilterManager.sharedInstance
 
     // make initialiser private to prevent instantiation
     private init(){}
     
     // reset the filter list
     public static func reset(){
+        log.verbose("Resetting")
         EditManager.filterList = []
+        previewFilter = filterManager?.getFilterDescriptor(key: FilterDescriptor.nullFilter)
+        filterManager?.setCurrentFilterKey(FilterDescriptor.nullFilter)
     }
     
     // set the input image to be processed
@@ -81,9 +85,11 @@ class EditManager {
     
     // removes the last filter in the list
     public static func popFilter() {
+        log.verbose("Removing filter...")
         // if preview set then remove that, otherwise remove last filter
         
         if EditManager.previewFilter != nil {
+            log.debug("Removed filter:\(String(describing: EditManager.previewFilter?.title))")
             addPreviewFilter(nil)
         } else {
             
@@ -92,8 +98,16 @@ class EditManager {
                 filterList.remove(at: filterList.count-1)
                 FilterManager.unlockFilter(key:(filter?.key)!)
                 log.debug("Removed filter:\(String(describing: filter?.title))")
+            } else {
+                log.verbose("No filters to remove")
             }
         }
+        
+        // if nothing left, set the preview filter to the null filter so that at least the image can render
+        if (filterList.count <= 0) && (EditManager.previewFilter != nil){
+            EditManager.previewFilter = filterManager?.getFilterDescriptor(key: FilterDescriptor.nullFilter)
+        }
+
     }
     
     
