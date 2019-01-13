@@ -82,26 +82,35 @@ class EditMainOptionsController: FilterBasedController, FilterBasedControllerDel
         theme = ThemeManager.currentTheme()
         
         view.backgroundColor = UIColor.clear
+        
 
         // get display dimensions
         //displayHeight = view.height
-        displayHeight = editControlHeight
+        displayHeight = view.height
         displayWidth = view.width
         
         
         log.verbose("h:\(displayHeight) w:\(displayWidth)")
         
         
+        /***
+        // resize the main view so that it doesn't block the previous controller
+        //self.view.frame.origin.x = 0.0
+        //self.view.frame.origin.y = displayHeight - editControlHeight
+        self.view.frame.size.height = editControlHeight
+        self.view.frame.size.width = displayWidth
+        self.view.anchorToEdge(.bottom, padding: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+        ***/
         
-        optionsControlView.frame.size.height = displayHeight
+        optionsControlView.frame.size.height = editControlHeight
         optionsControlView.frame.size.width = displayWidth
-        
+
         setupOptions()
         
         view.addSubview(optionsControlView)
         optionsControlView.anchorToEdge(.bottom, padding: 0, width: optionsControlView.frame.size.width, height: optionsControlView.frame.size.height)
         //optionsControlView.fillSuperview()
-        
+
         childController = nil
         
     }

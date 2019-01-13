@@ -117,6 +117,7 @@ class EditBaseToolController: FilterBasedController, FilterBasedControllerDelega
         theme = ThemeManager.currentTheme()
         
         view.backgroundColor = UIColor.clear
+        view.isUserInteractionEnabled = true
 
         // make the main view a little smaller than the screen
 
@@ -153,14 +154,17 @@ class EditBaseToolController: FilterBasedController, FilterBasedControllerDelega
         mainView.addSubview(titleView)
         mainView.addSubview(toolView)
         titleView.anchorToEdge(.top, padding: 0, width: titleView.frame.size.width, height: titleView.frame.size.height)
-        toolView.alignAndFillHeight(align: .underCentered, relativeTo: titleView, padding: 0, width: toolView.frame.size.width)
+        toolView.alignAndFillWidth(align: .underCentered, relativeTo: titleView, padding: 0, height: toolView.frame.size.height)
         //toolView.anchorToEdge(.bottom, padding: 0, width: toolView.frame.size.width, height: toolView.frame.size.height)
 
         // populate
         setupTitle()
         loadToolView(toolview: toolView)
+        
 
     }
+    
+
     
     func setupTitle(){
         // set up the title, with a label for the text an an image for the 'commit' and 'cancel' options
@@ -203,6 +207,20 @@ class EditBaseToolController: FilterBasedController, FilterBasedControllerDelega
 
         
     }
+    
+    // func to reset the height. Intended for use by the subclass if it wants to change height (expand/contract)
+    func resetToolHeight(_ height:CGFloat){
+         if !height.approxEqual(toolView.frame.size.height) {
+            log.debug("old:\(toolView.frame.size.height) new:\(height)")
+            
+            toolView.frame.size.height = height
+            mainView.frame.size.height = titleView.frame.size.height + toolView.frame.size.height
+            self.view.frame.size.height = mainView.frame.size.height
+            //titleView.anchorToEdge(.top, padding: 0, width: titleView.frame.size.width, height: titleView.frame.size.height)
+            toolView.alignAndFillWidth(align: .underCentered, relativeTo: titleView, padding: 0, height: toolView.frame.size.height)
+        }
+    }
+    
     
     func dismiss(){
         UIView.animate(withDuration: 0.5, animations: {

@@ -90,7 +90,7 @@ class EditManager {
         
         if EditManager.previewFilter != nil {
             log.debug("Removed filter:\(String(describing: EditManager.previewFilter?.title))")
-            addPreviewFilter(nil)
+            addPreviewFilter(filterManager?.getFilterDescriptor(key: FilterDescriptor.nullFilter))
         } else {
             
             if filterList.count > 0 {
@@ -105,6 +105,7 @@ class EditManager {
         
         // if nothing left, set the preview filter to the null filter so that at least the image can render
         if (filterList.count <= 0) && (EditManager.previewFilter != nil){
+            filterManager?.setCurrentFilterKey(FilterDescriptor.nullFilter)
             EditManager.previewFilter = filterManager?.getFilterDescriptor(key: FilterDescriptor.nullFilter)
         }
 
@@ -117,6 +118,7 @@ class EditManager {
         if EditManager.previewFilter != nil {
             FilterManager.unlockFilter(key:(EditManager.previewFilter?.key)!)
         }
+
         EditManager.previewFilter = filter
         if filter != nil {
             FilterManager.lockFilter(key:(filter?.key)!)
@@ -129,7 +131,7 @@ class EditManager {
     public static func savePreviewFilter(){
         EditManager.addFilter(previewFilter)
         log.debug("Saved Preview filter:\(String(describing: previewFilter?.title))")
-       previewFilter = nil
+        addPreviewFilter(filterManager?.getFilterDescriptor(key: FilterDescriptor.nullFilter))
     }
 
     

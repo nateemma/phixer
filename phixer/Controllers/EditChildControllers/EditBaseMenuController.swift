@@ -116,6 +116,7 @@ class EditBaseMenuController: FilterBasedController, FilterBasedControllerDelega
         theme = ThemeManager.currentTheme()
         
         view.backgroundColor = UIColor.clear
+        view.isUserInteractionEnabled = true
 
         // get display dimensions
         //displayHeight = view.height

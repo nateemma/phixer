@@ -74,10 +74,6 @@ class EditCurvesToolController: EditBaseToolController {
     private let scale:CGFloat = 256.0
     private var pixelsPerValue:CGFloat = 1.0
 
-    // pre-defined tone curves
-    private let curveLinear = [ CGPoint(x: 0.0, y: 0.0), CGPoint(x: 0.25, y: 0.25), CGPoint(x: 0.5, y: 0.5), CGPoint(x: 0.75, y: 0.75), CGPoint(x: 1.0, y: 1.0) ]
-    private let curveMedContrast = [ CGPoint(x: 0.0, y: 0.0), CGPoint(x: 0.25, y: 0.20), CGPoint(x: 0.5, y: 0.5), CGPoint(x: 0.75, y: 0.80), CGPoint(x: 1.0, y: 1.0) ]
-    private let curveStrongContrast = [ CGPoint(x: 0.0, y: 0.0), CGPoint(x: 0.25, y: 0.15), CGPoint(x: 0.5, y: 0.5), CGPoint(x: 0.75, y: 0.85), CGPoint(x: 1.0, y: 1.0) ]
 
     
     // the main func
@@ -93,10 +89,19 @@ class EditCurvesToolController: EditBaseToolController {
         curveView.frame.size.width = histogramView.frame.size.width
         curveView.backgroundColor = UIColor.clear // needs to be transparent
         
+        /*** for now, leaving control area empty. Later, add controls for chanells, presets etc.
         controlView.frame.size.height = toolview.frame.size.height - histogramView.frame.size.height
         controlView.frame.size.width = toolview.frame.size.width
         controlView.backgroundColor = UIColor.clear
-
+         ***/
+        controlView.frame.size.height = 0
+        controlView.frame.size.width = toolview.frame.size.width
+        controlView.backgroundColor = UIColor.clear
+        
+        // adjust the overall size to account for the control panel
+        let toolHeight = histogramView.frame.size.height + controlView.frame.size.height + 16
+        resetToolHeight(toolHeight) // calls back to the base class
+        
         // layout
         toolview.addSubview(histogramView)
         toolview.addSubview(curveView)
@@ -111,9 +116,6 @@ class EditCurvesToolController: EditBaseToolController {
         loadCurve()
         loadControls()
 
-
-        //DBG:
-        currToneCurve = curveMedContrast
     }
     
     private func initFilters(){
@@ -134,6 +136,7 @@ class EditCurvesToolController: EditBaseToolController {
         histogramImageView.frame.size.height = w
         histogramImageView.layer.borderWidth = 2.0
         histogramImageView.layer.borderColor = theme.borderColor.withAlphaComponent(0.5).cgColor
+        
         histogramView.addSubview(histogramImageView)
         histogramImageView.anchorInCenter(width: histogramImageView.frame.size.width, height: histogramImageView.frame.size.height)
 
@@ -159,14 +162,14 @@ class EditCurvesToolController: EditBaseToolController {
 
     // load the UI controls
     private func loadControls() {
-        
+        // TODO: just leaving it simple for now (other priorities)
     }
 
     ////////////////////////
     // Tone Curve
     ////////////////////////
     
-    let controlPointSize:CGFloat = 16.0
+    let controlPointSize:CGFloat = 24.0
     let curvePath:UIBezierPath = UIBezierPath()
     let curveLayer:CAShapeLayer = CAShapeLayer()
 
@@ -174,17 +177,13 @@ class EditCurvesToolController: EditBaseToolController {
     // load the main curve view
     private func loadCurve() {
 
-        //curveImageView.frame.size.width = histogramImageView.frame.size.width
-        //curveImageView.frame.size.height = histogramImageView.frame.size.height
         curveImageView.frame = histogramImageView.frame
         curveView.addSubview(curveImageView)
-        //curveImageView.anchorInCenter(width: curveImageView.frame.size.width, height: curveImageView.frame.size.height)
 
         loadControlPoints()
         displayCurve()
         applyCurve()
         
-
         EditManager.addPreviewFilter(toneCurveFilter)
     }
  
@@ -193,12 +192,11 @@ class EditCurvesToolController: EditBaseToolController {
         
         controlPoints = [ ]
      
-        
         // set up the curve layer
         curveLayer.frame = CGRect(origin: CGPoint.zero, size: curveImageView.frame.size)
         curveLayer.fillColor = UIColor.clear.cgColor
         curveLayer.strokeColor = theme.borderColor.cgColor
-        curveLayer.lineWidth = 3.0
+        curveLayer.lineWidth = 4.0
         curveLayer.lineJoin = kCALineJoinRound
         curveLayer.lineCap = kCALineCapRound
         curveImageView.layer.addSublayer(curveLayer)
@@ -206,7 +204,7 @@ class EditCurvesToolController: EditBaseToolController {
         // create the views for the control points
         for point in currToneCurve {
             let v = UIImageView()
-            v.backgroundColor = theme.highlightColor
+            v.backgroundColor = theme.highlightColor.withAlphaComponent(0.6)
             let x:CGFloat = ((point.x * curveImageView.frame.size.width) - controlPointSize / 2.0).rounded()
             // UIView origin is top left, graph is bottom left
             let y:CGFloat = ((curveImageView.frame.size.height - point.y * curveImageView.frame.size.height) - controlPointSize / 2.0).rounded()
@@ -216,6 +214,8 @@ class EditCurvesToolController: EditBaseToolController {
             controlPoints.append(v)
             curveImageView.addSubview(v)
         }
+        
+        updateCurve()
     }
 
     // called when the control points are changed
@@ -283,7 +283,7 @@ class EditCurvesToolController: EditBaseToolController {
     func viewToGraphPosition(_ position: CGPoint) -> CGPoint {
         let x:CGFloat = ((position.x / curveImageView.frame.size.width)) //.clamped(0.0, 1.0)
         let y:CGFloat = (1.0 - position.y / curveImageView.frame.size.height) //.clamped(0.0, 1.0)
-        log.debug("frame:(\(curveImageView.frame.size.width),\(curveImageView.frame.size.height)) view:(\(position.x),\(position.y)) -> graph:(\(x),\(y))")
+        //log.debug("frame:(\(curveImageView.frame.size.width),\(curveImageView.frame.size.height)) view:(\(position.x),\(position.y)) -> graph:(\(x),\(y))")
         return CGPoint(x: x, y: y)
     }
 
@@ -324,12 +324,12 @@ class EditCurvesToolController: EditBaseToolController {
             if v.frame.contains(position) {
                 let gpos = viewToGraphPosition(position)
                 let index = v.tag
-                //log.debug("index:\(index) view:\(position) graph:\(gpos)")
+                log.debug("index:\(index) view:\(position) graph:\(gpos)")
                 if (index >= 0) && (index < currToneCurve.count) {
                     // don't allow points to cross in the x direction, or exceed the graph bounds
                     if (gpos.x>=0.0) && (gpos.x<=1.0) && (gpos.y>=0.0) && (gpos.y<=1.0) { // within graph bounds?
                         var ok:Bool = false
-                        let margin:CGFloat = 0.01 // points cannot get closer than this
+                        let margin:CGFloat = 0.1 // points cannot get closer than this
                         if (index == 0){ // left item
                             if gpos.x < (currToneCurve[index+1].x - margin) {
                                 ok = true
@@ -351,6 +351,8 @@ class EditCurvesToolController: EditBaseToolController {
                             currToneCurve[index] = gpos
                             controlPoints[index].frame.origin = CGPoint(x: position.x-controlPointSize/2.0, y: position.y-controlPointSize/2.0)
                             applyCurve()
+                        } else {
+                            log.debug("position out of allowed range")
                         }
                     }
                 }
@@ -363,7 +365,15 @@ class EditCurvesToolController: EditBaseToolController {
 } // EditCurvesToolController
 //########################
 
+class ToneCurvePresets {
+    // pre-defined tone curves
+    public static let linear = [ CGPoint(x: 0.0, y: 0.0), CGPoint(x: 0.25, y: 0.25), CGPoint(x: 0.5, y: 0.5), CGPoint(x: 0.75, y: 0.75), CGPoint(x: 1.0, y: 1.0) ]
+    
+    public static let mediumContrast = [ CGPoint(x: 0.0, y: 0.0), CGPoint(x: 0.25, y: 0.20), CGPoint(x: 0.5, y: 0.5), CGPoint(x: 0.75, y: 0.80), CGPoint(x: 1.0, y: 1.0) ]
+    
+    public static let strongContrast = [ CGPoint(x: 0.0, y: 0.0), CGPoint(x: 0.25, y: 0.15), CGPoint(x: 0.5, y: 0.5), CGPoint(x: 0.75, y: 0.85), CGPoint(x: 1.0, y: 1.0) ]
 
+}
 
 //////////////////////////////////////////
 // MARK: - Delegate functions

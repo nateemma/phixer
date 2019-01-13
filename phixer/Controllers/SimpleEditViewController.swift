@@ -888,6 +888,7 @@ class SimpleEditViewController: FilterBasedController, FilterBasedControllerDele
         log.verbose("Returned from: \(tag)")
         DispatchQueue.main.async(execute: { () -> Void in
             self.editImageView.updateImage()
+            self.view.isUserInteractionEnabled = true
         })
     }
 
@@ -926,6 +927,7 @@ extension SimpleEditViewController: TitleViewDelegate {
                 self.menuView.isHidden = false
             })
         } else {
+            log.debug("Menu active, closing")
             self.menuView.isHidden = true
         }
     }
