@@ -184,6 +184,7 @@ class EditCurvesToolController: EditBaseToolController {
         displayCurve()
         applyCurve()
         
+
         EditManager.addPreviewFilter(toneCurveFilter)
     }
  
@@ -206,11 +207,12 @@ class EditCurvesToolController: EditBaseToolController {
         for point in currToneCurve {
             let v = UIImageView()
             v.backgroundColor = theme.highlightColor
-            let x = ((point.x * curveImageView.frame.size.width) - controlPointSize / 2.0).rounded()
+            let x:CGFloat = ((point.x * curveImageView.frame.size.width) - controlPointSize / 2.0).rounded()
             // UIView origin is top left, graph is bottom left
-            let y = ((curveImageView.frame.size.height - point.y * curveImageView.frame.size.height) - controlPointSize / 2.0).rounded()
+            let y:CGFloat = ((curveImageView.frame.size.height - point.y * curveImageView.frame.size.height) - controlPointSize / 2.0).rounded()
             //log.debug("(\(point.x),\(point.y)) -> (\(x),\(y))")
             v.frame = CGRect(origin: CGPoint(x: x, y: y), size: CGSize(width: controlPointSize, height: controlPointSize))
+            v.isUserInteractionEnabled = true
             controlPoints.append(v)
             curveImageView.addSubview(v)
         }
@@ -223,10 +225,11 @@ class EditCurvesToolController: EditBaseToolController {
         for i in 0...(currToneCurve.count-1) {
             let v = controlPoints[i]
             let point = currToneCurve[i]
-            let x = ((point.x * curveImageView.frame.size.width) - controlPointSize / 2.0).rounded()
-            let y = ((curveImageView.frame.size.height - point.y * curveImageView.frame.size.height) - controlPointSize / 2.0).rounded()
+            let x:CGFloat = ((point.x * curveImageView.frame.size.width) - controlPointSize / 2.0).rounded()
+            let y:CGFloat = ((curveImageView.frame.size.height - point.y * curveImageView.frame.size.height) - controlPointSize / 2.0).rounded()
             //log.debug("(\(point.x),\(point.y)) -> (\(x),\(y))")
             v.frame.origin = CGPoint(x: x, y: y)
+            v.tag = i // lets the touch handler identify which point
         }
         
         displayCurve()
@@ -244,8 +247,8 @@ class EditCurvesToolController: EditBaseToolController {
         //log.debug("frame:\(curveImageView.frame)")
         for i in 0...(currToneCurve.count-1) {
             let point = currToneCurve[i]
-            let x = ((point.x * curveImageView.frame.size.width)).rounded()
-            let y = ((curveImageView.frame.size.height - point.y * curveImageView.frame.size.height)).rounded()
+            let x:CGFloat = ((point.x * curveImageView.frame.size.width)).rounded()
+            let y:CGFloat = ((curveImageView.frame.size.height - point.y * curveImageView.frame.size.height)).rounded()
             //log.debug("(\(point.x),\(point.y)) -> (\(x),\(y))")
             pathPoints.append(CGPoint(x: x, y: y))
         }
@@ -266,6 +269,95 @@ class EditCurvesToolController: EditBaseToolController {
         toneCurveFilter?.setPositionParameter("inputPoint4", position: CIVector(cgPoint: currToneCurve[4]))
         
         self.delegate?.filterControllerUpdateRequest(tag: self.getTag())
+    }
+
+    // convert a position in view coordinates to the equivalent in Graph coordinates
+    func graphToViewPosition(_ position: CGPoint) -> CGPoint {
+        let x:CGFloat = ((position.x * curveImageView.frame.size.width)).rounded().clamped(0.0, curveImageView.frame.size.width)
+        let y:CGFloat = ((curveImageView.frame.size.height - position.y * curveImageView.frame.size.height)).rounded().clamped(0.0, curveImageView.frame.size.height)
+        //log.debug("(\(position.x),\(position.y)) -> (\(x),\(y))")
+        return CGPoint(x: x, y: y)
+    }
+
+    // convert a position in view coordinates to the equivalent in Graph coordinates
+    func viewToGraphPosition(_ position: CGPoint) -> CGPoint {
+        let x:CGFloat = ((position.x / curveImageView.frame.size.width)) //.clamped(0.0, 1.0)
+        let y:CGFloat = (1.0 - position.y / curveImageView.frame.size.height) //.clamped(0.0, 1.0)
+        log.debug("frame:(\(curveImageView.frame.size.width),\(curveImageView.frame.size.height)) view:(\(position.x),\(position.y)) -> graph:(\(x),\(y))")
+        return CGPoint(x: x, y: y)
+    }
+
+    //////////////////////////////////////////
+    // MARK: - Touch handling
+    //////////////////////////////////////////
+    
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touches.first {
+            let position = touch.location(in: curveImageView)
+            //log.debug("touch:\(position)")
+            handleTouch(position)
+        }
+    }
+    
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touches.first {
+            let position = touch.location(in: curveImageView)
+            //log.debug("touch:\(position)")
+            handleTouch(position)
+        }
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touches.first {
+            let position = touch.location(in: curveImageView)
+            //log.debug("touch:\(position)")
+            handleTouch(position)
+         }
+    }
+
+    // common routine to handle a touch
+    private func handleTouch(_ position: CGPoint){
+        // find which view was touched
+        for v in controlPoints {
+            if v.frame.contains(position) {
+                let gpos = viewToGraphPosition(position)
+                let index = v.tag
+                //log.debug("index:\(index) view:\(position) graph:\(gpos)")
+                if (index >= 0) && (index < currToneCurve.count) {
+                    // don't allow points to cross in the x direction, or exceed the graph bounds
+                    if (gpos.x>=0.0) && (gpos.x<=1.0) && (gpos.y>=0.0) && (gpos.y<=1.0) { // within graph bounds?
+                        var ok:Bool = false
+                        let margin:CGFloat = 0.01 // points cannot get closer than this
+                        if (index == 0){ // left item
+                            if gpos.x < (currToneCurve[index+1].x - margin) {
+                                ok = true
+                            }
+                        } else if index == (currToneCurve.count-1) { // right point
+                            if gpos.x > (currToneCurve[index-1].x + margin) {
+                                ok = true
+                           }
+                        } else { // middle points
+                            if (gpos.x < (currToneCurve[index+1].x - margin)) &&
+                                (gpos.x > (currToneCurve[index-1].x + margin)) {
+                                ok = true
+                            }
+
+                        }
+                        
+                        // update the tone curve and the control points displays
+                        if ok {
+                            currToneCurve[index] = gpos
+                            controlPoints[index].frame.origin = CGPoint(x: position.x-controlPointSize/2.0, y: position.y-controlPointSize/2.0)
+                            applyCurve()
+                        }
+                    }
+                }
+                break
+            }
+        }
+
     }
 
 } // EditCurvesToolController
