@@ -7,13 +7,23 @@
 //
 
 import Foundation
+import UIKit
 
 // static class with methods used for setting up and controlling UI appearance and behaviour
 
 class UISettings{
     
-    fileprivate static var gridStyle: GridStyle = GridStyle.none
+    static var isLandscape : Bool = false
     
-    fileprivate static var aspectRatio: AspectRatio = AspectRatio.ratio_3_4
+    static var screenSize : CGRect = CGRect.zero
+    static var displayWidth : CGFloat = 0.0
+    static var displayHeight : CGFloat = 0.0
+    static let bannerHeight : CGFloat = 64.0
+    static let buttonSize : CGFloat = 48.0
+
     
+    
+    // Banner/Navigation View (title)
+    static let statusBarOffset : CGFloat = 2.0
+    static var showAds:Bool = true
 }
