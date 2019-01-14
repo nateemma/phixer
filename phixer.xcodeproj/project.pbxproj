@@ -890,16 +890,16 @@
 /* Begin PBXFileReference section */
 		0B6B26958729CB17D518EC57 /* Pods-phixerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-phixerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-phixerTests/Pods-phixerTests.release.xcconfig"; sourceTree = "<group>"; };
 		0E7799EBB34159D9CDB7937F /* Pods_phixer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_phixer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2506767C1DE1091500226740 /* PresetList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = PresetList.json; path = phixer/Config/PresetList.json; sourceTree = "<group>"; };
+		2506767C1DE1091500226740 /* PresetList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PresetList.json; sourceTree = "<group>"; };
 		250716081DBEC19400CDDF42 /* FilterGalleryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterGalleryViewController.swift; sourceTree = "<group>"; };
 		2507160A1DBECDF200CDDF42 /* Admob.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Admob.swift; sourceTree = "<group>"; };
 		2507160C1DBED62C00CDDF42 /* FilterGalleryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterGalleryView.swift; sourceTree = "<group>"; };
-		251375501DB6AD6200A319DC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "phixer/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		251375501DB6AD6200A319DC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2515987D2193CD490067AA00 /* LumaRangeFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LumaRangeFilter.swift; sourceTree = "<group>"; };
 		2515987F2194B97E0067AA00 /* ClarityFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClarityFilter.swift; sourceTree = "<group>"; };
 		25159883219E2B850067AA00 /* ThemeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		25159885219E2BF20067AA00 /* ColorUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorUtilities.swift; sourceTree = "<group>"; };
-		2515988721A3495C0067AA00 /* ThemeChooserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ThemeChooserController.swift; path = phixer/Controllers/ThemeChooserController.swift; sourceTree = "<group>"; };
+		2515988721A3495C0067AA00 /* ThemeChooserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeChooserController.swift; sourceTree = "<group>"; };
 		251729572175406100D5E946 /* UserChangesRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserChangesRecord.swift; sourceTree = "<group>"; };
 		25172959217540C300D5E946 /* UserChangesEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserChangesEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		2517295B2175410B00D5E946 /* UserChangesEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserChangesEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -913,16 +913,16 @@
 		252745DF217FD09700AA2DA2 /* YUCIFlashTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YUCIFlashTransition.m; sourceTree = "<group>"; };
 		252745E0217FD09700AA2DA2 /* YUCIFlashTransition.cikernel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = YUCIFlashTransition.cikernel; sourceTree = "<group>"; };
 		252745E1217FD09700AA2DA2 /* YUCIFlashTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YUCIFlashTransition.h; sourceTree = "<group>"; };
-		252745E4217FE2EF00AA2DA2 /* StartupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StartupViewController.swift; path = phixer/Controllers/StartupViewController.swift; sourceTree = "<group>"; };
+		252745E4217FE2EF00AA2DA2 /* StartupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupViewController.swift; sourceTree = "<group>"; };
 		252745E62180E8FD00AA2DA2 /* OpacityFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpacityFilter.swift; sourceTree = "<group>"; };
 		252745E82180FDF600AA2DA2 /* CustomFilterRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomFilterRegistry.swift; path = phixer/Filters/CustomFilters/CustomFilterRegistry.swift; sourceTree = SOURCE_ROOT; };
 		252745EE21815FB700AA2DA2 /* CarnivalMirror.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CarnivalMirror.swift; path = phixer/Filters/CustomFilters/Filterpedia/CarnivalMirror.swift; sourceTree = SOURCE_ROOT; };
 		252745F02182295100AA2DA2 /* EdgeGlowFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeGlowFilter.swift; sourceTree = "<group>"; };
-		252745F221825DFF00AA2DA2 /* crayola.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = crayola.json; path = phixer/Config/crayola.json; sourceTree = "<group>"; };
-		252745F421826DBC00AA2DA2 /* ColorSchemeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorSchemeViewController.swift; path = phixer/Controllers/ColorSchemeViewController.swift; sourceTree = "<group>"; };
+		252745F221825DFF00AA2DA2 /* crayola.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = crayola.json; sourceTree = "<group>"; };
+		252745F421826DBC00AA2DA2 /* ColorSchemeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorSchemeViewController.swift; sourceTree = "<group>"; };
 		252745F62182A1D500AA2DA2 /* BorderedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderedButton.swift; sourceTree = "<group>"; };
 		252745F82182AAF900AA2DA2 /* ColorSchemeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSchemeView.swift; sourceTree = "<group>"; };
-		252745FA21851AEB00AA2DA2 /* ColorPickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorPickerController.swift; path = phixer/Controllers/ColorPickerController.swift; sourceTree = "<group>"; };
+		252745FA21851AEB00AA2DA2 /* ColorPickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPickerController.swift; sourceTree = "<group>"; };
 		252745FC21851C6300AA2DA2 /* RGBSliderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGBSliderView.swift; sourceTree = "<group>"; };
 		25274601218764D500AA2DA2 /* CGFloat+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extensions.swift"; sourceTree = "<group>"; };
 		252746032187653500AA2DA2 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
@@ -1609,7 +1609,7 @@
 		2537A20921E561B000060DBE /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2537A20A21E7BC8400060DBE /* UnsharpMaskFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnsharpMaskFilter.swift; sourceTree = "<group>"; };
 		2537A20C21E82C9700060DBE /* FilterBasedController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterBasedController.swift; path = phixer/Controllers/FilterBasedController.swift; sourceTree = SOURCE_ROOT; };
-		2537A20E21E848E700060DBE /* FilterBasedControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FilterBasedControllerDelegate.swift; path = phixer/Controllers/FilterBasedControllerDelegate.swift; sourceTree = "<group>"; };
+		2537A20E21E848E700060DBE /* FilterBasedControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterBasedControllerDelegate.swift; sourceTree = "<group>"; };
 		2537A21021E90DB500060DBE /* EditBaseToolController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditBaseToolController.swift; sourceTree = "<group>"; };
 		2537A21221E915AD00060DBE /* EditBaseMenuInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditBaseMenuInterface.swift; sourceTree = "<group>"; };
 		2537A21421E9A71300060DBE /* EditCurvesToolController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditCurvesToolController.swift; sourceTree = "<group>"; };
@@ -1626,18 +1626,18 @@
 		2542DF541ECFB37400CEB968 /* CategoryRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryRecord.swift; sourceTree = "<group>"; };
 		2542DF561ECFB3F100CEB968 /* AssignmentRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssignmentRecord.swift; sourceTree = "<group>"; };
 		2542DF581ECFB4DA00CEB968 /* LookupFilterRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LookupFilterRecord.swift; sourceTree = "<group>"; };
-		2542DF5A1ED372BF00CEB968 /* SimpleEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SimpleEditViewController.swift; path = phixer/Controllers/SimpleEditViewController.swift; sourceTree = "<group>"; };
+		2542DF5A1ED372BF00CEB968 /* SimpleEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleEditViewController.swift; sourceTree = "<group>"; };
 		2542DF5C1ED373F800CEB968 /* EditImageDisplayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditImageDisplayView.swift; sourceTree = "<group>"; };
 		2542DF641ED6634800CEB968 /* SettingsEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SettingsEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		255459B821681294008A9F55 /* CameraCaptureHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCaptureHelper.swift; sourceTree = "<group>"; };
 		255591E42187A1A9001B4452 /* ColorWheelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorWheelView.swift; sourceTree = "<group>"; };
-		255591E62187CC62001B4452 /* HTMLViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HTMLViewController.swift; path = phixer/Controllers/HTMLViewController.swift; sourceTree = "<group>"; };
+		255591E62187CC62001B4452 /* HTMLViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLViewController.swift; sourceTree = "<group>"; };
 		2556731E1DB961F700187F25 /* DisplayMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayMode.swift; sourceTree = "<group>"; };
 		255673221DB9BF0F00187F25 /* FilterControlsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterControlsView.swift; sourceTree = "<group>"; };
 		255844ED1E03598B009440CA /* FilterFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterFactory.swift; sourceTree = "<group>"; };
-		2559533C1DF0D9EE002A2905 /* defaultConfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = defaultConfig.json; path = phixer/Config/defaultConfig.json; sourceTree = "<group>"; };
+		2559533C1DF0D9EE002A2905 /* defaultConfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = defaultConfig.json; sourceTree = "<group>"; };
 		2568BC0921AB1BE600560287 /* ImageSelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageSelectionView.swift; sourceTree = "<group>"; };
-		2568BC1221AC72C900560287 /* Manifest.lock */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Manifest.lock; path = phixer/Manifest.lock; sourceTree = "<group>"; };
+		2568BC1221AC72C900560287 /* Manifest.lock */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Manifest.lock; sourceTree = "<group>"; };
 		2568BC3B21AC72C900560287 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
 		2568BC3C21AC72C900560287 /* MetalImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalImageView.swift; sourceTree = "<group>"; };
 		2568BC6D21AC72CA00560287 /* HSBSliderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HSBSliderView.swift; sourceTree = "<group>"; };
@@ -1700,14 +1700,14 @@
 		2573D1D2217CDCB400E78CAB /* YUCIBilateralFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YUCIBilateralFilter.m; sourceTree = "<group>"; };
 		2573D1D3217CDCB400E78CAB /* YUCIHighPassSkinSmoothingMaskBoost.cikernel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = YUCIHighPassSkinSmoothingMaskBoost.cikernel; sourceTree = "<group>"; };
 		2573D1D4217CDCB400E78CAB /* YUCIReflectedTileROICalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YUCIReflectedTileROICalculator.h; sourceTree = "<group>"; };
-		257E29A02168274100F438C6 /* oldFilterConfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = oldFilterConfig.json; path = phixer/Config/oldFilterConfig.json; sourceTree = "<group>"; };
-		257E29C9216D505B00F438C6 /* oldPresetList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = oldPresetList.json; path = phixer/Config/oldPresetList.json; sourceTree = "<group>"; };
+		257E29A02168274100F438C6 /* oldFilterConfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = oldFilterConfig.json; sourceTree = "<group>"; };
+		257E29C9216D505B00F438C6 /* oldPresetList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = oldPresetList.json; sourceTree = "<group>"; };
 		257F49DC1D9448920083B1E4 /* phixer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = phixer.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		257F49E11D9448920083B1E4 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainViewController.swift; path = phixer/Controllers/MainViewController.swift; sourceTree = "<group>"; };
+		257F49E11D9448920083B1E4 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		257F49E41D9448920083B1E4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		257F49E61D9448920083B1E4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = phixer/Assets.xcassets; sourceTree = "<group>"; };
+		257F49E61D9448920083B1E4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		257F49E91D9448920083B1E4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		257F49EB1D9448920083B1E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = phixer/Info.plist; sourceTree = "<group>"; };
+		257F49EB1D9448920083B1E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		257F49F01D9448920083B1E4 /* phixerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = phixerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		257F49F41D9448920083B1E4 /* phixerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = phixerTests.swift; sourceTree = "<group>"; };
 		257F49F61D9448920083B1E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1715,8 +1715,8 @@
 		257F49FF1D9448920083B1E4 /* phixerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = phixerUITests.swift; sourceTree = "<group>"; };
 		257F4A011D9448920083B1E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		257F4A131D947CF80083B1E4 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		258EA08D1ED90A7000D5E20E /* SettingsMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsMenuController.swift; path = phixer/Controllers/SettingsMenuController.swift; sourceTree = "<group>"; };
-		258EA0921ED9472600D5E20E /* ResetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResetViewController.swift; path = phixer/Controllers/ResetViewController.swift; sourceTree = "<group>"; };
+		258EA08D1ED90A7000D5E20E /* SettingsMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsMenuController.swift; sourceTree = "<group>"; };
+		258EA0921ED9472600D5E20E /* ResetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResetViewController.swift; sourceTree = "<group>"; };
 		258F098E218A7F100082FE2A /* About.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = About.html; sourceTree = "<group>"; };
 		258F0990218B7DD90082FE2A /* UIImage+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		258F0996218CBFC30082FE2A /* FNS-Candy.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "FNS-Candy.mlmodel"; sourceTree = "<group>"; };
@@ -1738,13 +1738,13 @@
 		258F09B6218E67910082FE2A /* TimedAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimedAlertView.swift; sourceTree = "<group>"; };
 		258F09B8219264C20082FE2A /* SmoothThresholdFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmoothThresholdFilter.swift; sourceTree = "<group>"; };
 		258F09BA2192847F0082FE2A /* AdaptiveThresholdFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdaptiveThresholdFilter.swift; sourceTree = "<group>"; };
-		25910B141DB73833007EC926 /* phixer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "phixer-Bridging-Header.h"; path = "phixer/phixer-Bridging-Header.h"; sourceTree = "<group>"; };
+		25910B141DB73833007EC926 /* phixer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "phixer-Bridging-Header.h"; sourceTree = "<group>"; };
 		25910B181DB738B3007EC926 /* CategorySelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategorySelectionView.swift; sourceTree = "<group>"; };
 		25910B1A1DB7D61A007EC926 /* RenderContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenderContainerView.swift; sourceTree = "<group>"; };
 		25934FB01DD4EC1100C3D665 /* BlendGalleryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlendGalleryView.swift; sourceTree = "<group>"; };
 		25934FB21DD5109C00C3D665 /* BlendGalleryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlendGalleryViewController.swift; sourceTree = "<group>"; };
 		259BE4DA1ECCFA4200D1A5E8 /* Database.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
-		25A702911DC2FCDD009441E2 /* FilterDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterDetailsViewController.swift; path = phixer/Controllers/FilterDetailsViewController.swift; sourceTree = "<group>"; };
+		25A702911DC2FCDD009441E2 /* FilterDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterDetailsViewController.swift; sourceTree = "<group>"; };
 		25A702941DC2FE3C009441E2 /* FilterDisplayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterDisplayView.swift; sourceTree = "<group>"; };
 		25A702961DC3AEEA009441E2 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		25AEBB431DBA8AEC00AA6279 /* FilterSelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterSelectionView.swift; sourceTree = "<group>"; };
@@ -1755,9 +1755,9 @@
 		25CF4BD21D9490C400D779CF /* CameraSettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraSettingsView.swift; sourceTree = "<group>"; };
 		25CF4BD31D9490C400D779CF /* ImageContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageContainerView.swift; sourceTree = "<group>"; };
 		25CF4BD41D9490C400D779CF /* SquareButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SquareButton.swift; sourceTree = "<group>"; };
-		25CF4BDB1D94D93700D779CF /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = phixer/AppDelegate.swift; sourceTree = "<group>"; };
+		25CF4BDB1D94D93700D779CF /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		25D24AB61DC7DCDB001F65B9 /* FilterGalleryViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterGalleryViewCell.swift; sourceTree = "<group>"; };
-		25E80EA6216D62F100EBE8E6 /* testFilterConfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = testFilterConfig.json; path = phixer/Config/testFilterConfig.json; sourceTree = "<group>"; };
+		25E80EA6216D62F100EBE8E6 /* testFilterConfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testFilterConfig.json; sourceTree = "<group>"; };
 		25F460171D99CCCE00EDA182 /* UISettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UISettings.swift; sourceTree = "<group>"; };
 		25F460191D99CE1E00EDA182 /* GridStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridStyle.swift; sourceTree = "<group>"; };
 		25F4601D1D99D65F00EDA182 /* CameraISO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraISO.swift; sourceTree = "<group>"; };
@@ -1775,7 +1775,7 @@
 		25F85CEE21CC50E5005498C4 /* UIFont+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extensions.swift"; sourceTree = "<group>"; };
 		25F85CF021CC5125005498C4 /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
 		737C29DA80DD0E6829273461 /* Pods-phixer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-phixer.release.xcconfig"; path = "Pods/Target Support Files/Pods-phixer/Pods-phixer.release.xcconfig"; sourceTree = "<group>"; };
-		86DD9D941E9C5A7000A5D855 /* MainMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainMenuController.swift; path = phixer/Controllers/MainMenuController.swift; sourceTree = "<group>"; };
+		86DD9D941E9C5A7000A5D855 /* MainMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuController.swift; sourceTree = "<group>"; };
 		980E4D07C72B2E639881E914 /* Pods-phixer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-phixer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-phixer/Pods-phixer.debug.xcconfig"; sourceTree = "<group>"; };
 		A0E5F104AE4A456893628DB9 /* Pods-phixerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-phixerUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-phixerUITests/Pods-phixerUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		CDBA6C647E0CE1D78E741974 /* Pods_phixerUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_phixerUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1832,7 +1832,7 @@
 				257E29A02168274100F438C6 /* oldFilterConfig.json */,
 				252745F221825DFF00AA2DA2 /* crayola.json */,
 			);
-			name = Config;
+			path = Config;
 			sourceTree = "<group>";
 		};
 		25172972217B821C00D5E946 /* phil */ = {
@@ -1894,8 +1894,7 @@
 				2537A20421E516AF00060DBE /* CIVector+Extensions.swift */,
 				2537A20621E5174C00060DBE /* UIBezierPath+Extensions.swift */,
 			);
-			name = Extensions;
-			path = phixer/Extensions;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		2537A1ED21E2E3AC00060DBE /* Textures */ = {
@@ -1915,16 +1914,14 @@
 				2537A1F621E42C2C00060DBE /* FilterDefinition.swift */,
 				253B236B1DA44E3600203ECB /* FilterDescriptor.swift */,
 			);
-			name = Filters;
-			path = phixer/Filters;
+			path = Filters;
 			sourceTree = "<group>";
 		};
 		2541499E1DDF9F03002C7BD5 /* Operations */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			name = Operations;
-			path = phixer/Operations;
+			path = Operations;
 			sourceTree = "<group>";
 		};
 		255459B7216811EE008A9F55 /* Utilities */ = {
@@ -1936,8 +1933,7 @@
 				258F09A6218CDEFD0082FE2A /* Geometry.swift */,
 				25159885219E2BF20067AA00 /* ColorUtilities.swift */,
 			);
-			name = Utilities;
-			path = phixer/Utilities;
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 		2568BDD821BEDC0D00560287 /* Style */ = {
@@ -1965,8 +1961,7 @@
 				2537A21421E9A71300060DBE /* EditCurvesToolController.swift */,
 				2568BDEC21C870D300560287 /* README.md */,
 			);
-			name = EditChildControllers;
-			path = phixer/Controllers/EditChildControllers;
+			path = EditChildControllers;
 			sourceTree = "<group>";
 		};
 		256D0FEC1D98DAC600220D7E /* Views */ = {
@@ -2012,8 +2007,7 @@
 				258F09B6218E67910082FE2A /* TimedAlertView.swift */,
 				251729AA217BE7A300D5E946 /* TitleView.swift */,
 			);
-			name = Views;
-			path = phixer/Views;
+			path = Views;
 			sourceTree = "<group>";
 		};
 		256D0FEE1D98DAD100220D7E /* Models */ = {
@@ -2035,8 +2029,7 @@
 				25159883219E2B850067AA00 /* ThemeManager.swift */,
 				25F460171D99CCCE00EDA182 /* UISettings.swift */,
 			);
-			name = Models;
-			path = phixer/Models;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		256D0FEF1D98DADA00220D7E /* Controllers */ = {
@@ -2058,7 +2051,7 @@
 				252745E4217FE2EF00AA2DA2 /* StartupViewController.swift */,
 				2515988721A3495C0067AA00 /* ThemeChooserController.swift */,
 			);
-			name = Controllers;
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 		2573D1AD217CDCB400E78CAB /* Yu */ = {
@@ -2171,7 +2164,7 @@
 				255459B7216811EE008A9F55 /* Utilities */,
 				256D0FEC1D98DAC600220D7E /* Views */,
 			);
-			name = phixer;
+			path = phixer;
 			sourceTree = "<group>";
 		};
 		257F49F31D9448920083B1E4 /* phixerTests */ = {
@@ -2208,8 +2201,7 @@
 				2537A1DC21DEBA9B00060DBE /* FilterGallery.html */,
 				2537A1CA21DEBA1400060DBE /* Settings.html */,
 			);
-			name = Help;
-			path = phixer/Help;
+			path = Help;
 			sourceTree = "<group>";
 		};
 		258F0995218CBFC30082FE2A /* MLModels */ = {
@@ -2223,8 +2215,7 @@
 				258F099B218CBFC30082FE2A /* FNS-Mosaic.mlmodel */,
 				258F09A4218CD6770082FE2A /* MLModelHelper.swift */,
 			);
-			name = MLModels;
-			path = phixer/MLModels;
+			path = MLModels;
 			sourceTree = "<group>";
 		};
 		259BE4DD1ECCFFFC00D1A5E8 /* Database */ = {
@@ -2251,8 +2242,7 @@
 				2517295B2175410B00D5E946 /* UserChangesEntity+CoreDataProperties.swift */,
 				251729572175406100D5E946 /* UserChangesRecord.swift */,
 			);
-			name = Database;
-			path = phixer/Database;
+			path = Database;
 			sourceTree = "<group>";
 		};
 		25F563FD1DD146D100DFB125 /* Images */ = {
@@ -2265,8 +2255,7 @@
 				25F563FF1DD1470200DFB125 /* Blends */,
 				25F563FE1DD146EC00DFB125 /* Samples */,
 			);
-			name = Images;
-			path = phixer/Images;
+			path = Images;
 			sourceTree = "<group>";
 		};
 		25F563FE1DD146EC00DFB125 /* Samples */ = {
@@ -2933,8 +2922,7 @@
 				253A39E11DDA965E00A714D4 /* SampleGalleryViewController.swift */,
 				2568BDCE21BB371D00560287 /* StyleTransferGalleryViewController.swift */,
 			);
-			name = Galleries;
-			path = phixer/Controllers/Galleries;
+			path = Galleries;
 			sourceTree = "<group>";
 		};
 		6DAB93DA78696DFB7203E582 /* Frameworks */ = {
@@ -4079,7 +4067,6 @@
 				257F49E41D9448920083B1E4 /* Base */,
 			);
 			name = Main.storyboard;
-			path = phixer;
 			sourceTree = "<group>";
 		};
 		257F49E81D9448920083B1E4 /* LaunchScreen.storyboard */ = {
@@ -4088,7 +4075,6 @@
 				257F49E91D9448920083B1E4 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
-			path = phixer;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
