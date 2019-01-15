@@ -31,10 +31,9 @@ protocol FilterDetailsViewControllerDelegate: class {
 
 // This is the View Controller for displaying a filter with a sample image and exposing the controls (if any)
 
-class FilterDetailsViewController: FilterBasedController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class FilterDetailsViewController: CoordinatedController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    var theme = ThemeManager.currentTheme()
-        
+    
     open var currFilterKey: String = ""
     
     // Banner View (title)
@@ -63,7 +62,6 @@ class FilterDetailsViewController: FilterBasedController, UIImagePickerControlle
     // image picker for changing edit image
     let imagePicker = UIImagePickerController()
 
-    fileprivate var filterManager: FilterManager? = FilterManager.sharedInstance
     fileprivate var currCategory: String = ""
     fileprivate var currFilterDescriptor:FilterDescriptor? = nil
     fileprivate var currFilterIndex:Int = -1
@@ -119,6 +117,15 @@ class FilterDetailsViewController: FilterBasedController, UIImagePickerControlle
     //MARK: Accessors
     ///////////////////////
 
+    override func requestUpdate(tag: String){
+        update()
+    }
+
+    override func selectFilter(key: String){
+        loadFilterInfo(category: currCategory, key: key)
+    }
+
+    
     public func suspend(){
         self.editImageView.suspend()
     }
@@ -136,23 +143,9 @@ class FilterDetailsViewController: FilterBasedController, UIImagePickerControlle
         editImageView.saveImage()
     }
 
-    
-    // go to the next filter
-    override func nextFilter(){
-        currFilterIndex = (currFilterIndex + 1) % currFilterCount
-        let key = (filterManager?.getFilterKey(category: currCategory, index: currFilterIndex))!
-        loadFilterInfo(category: currCategory, key: key)
-    }
-    
-    // go to the previous filter
-    override func previousFilter(){
-        currFilterIndex = (currFilterIndex - 1)
-        if (currFilterIndex < 0) { currFilterIndex = currFilterCount - 1 }
-        let key = (filterManager?.getFilterKey(category: currCategory, index: currFilterIndex))!
-        loadFilterInfo(category: currCategory, key: key)
-    }
 
-
+    
+    
     ///////////////////////
     //MARK: Top level logic
     ///////////////////////
@@ -160,9 +153,9 @@ class FilterDetailsViewController: FilterBasedController, UIImagePickerControlle
     func loadFilterInfo(category: String, key: String){
         currFilterKey = key
         currCategory = category
-        currFilterIndex = (filterManager?.getFilterIndex(category: category, key: key))!
-        currFilterDescriptor = filterManager?.getFilterDescriptor(key: key)
-        currFilterCount = (filterManager?.getFilterCount(category))!
+        currFilterIndex = filterManager.getFilterIndex(category: category, key: key)
+        currFilterDescriptor = filterManager.getFilterDescriptor(key: key)
+        currFilterCount = filterManager.getFilterCount(category)
     }
     
     override func viewDidLoad() {
@@ -187,7 +180,7 @@ class FilterDetailsViewController: FilterBasedController, UIImagePickerControlle
         
         doInit()
         
-        loadFilterInfo(category: (filterManager?.getSelectedCategory())!, key: (filterManager?.getSelectedFilter())!)
+        loadFilterInfo(category: filterManager.getSelectedCategory(), key: filterManager.getSelectedFilter())
         
         guard  (currFilterDescriptor != nil) else {
             log.error("!!! No descriptor provided !!!")
@@ -412,20 +405,20 @@ class FilterDetailsViewController: FilterBasedController, UIImagePickerControlle
         let key = (self.currFilterDescriptor?.key)!
 
         // show/hide
-        let showAsset: String =  (self.filterManager?.isHidden(key: key) == true) ? "ic_reject" : "ic_accept"
+        let showAsset: String =  (self.filterManager.isHidden(key: key) == true) ? "ic_reject" : "ic_accept"
         showAdornment.image = UIImage(named: showAsset)?.imageScaled(to: adornmentSize)
         
         
         // favourite
         var favAsset: String =  "ic_heart_outline"
-        if (self.filterManager?.isFavourite(key: key))!{
+        if self.filterManager.isFavourite(key: key){
             favAsset = "ic_heart_filled"
         }
         favAdornment.image = UIImage(named: favAsset)?.imageScaled(to: adornmentSize)
         
         // rating
         var ratingAsset: String =  "ic_star"
-        switch ((self.filterManager?.getRating(key: key))!){
+        switch (self.filterManager.getRating(key: key)){
         case 1:
             ratingAsset = "ic_star_filled_1"
         case 2:
@@ -501,6 +494,21 @@ class FilterDetailsViewController: FilterBasedController, UIImagePickerControlle
      */
   
     
+    // go to the next filter
+    func gotoNextFilter(){
+        currFilterIndex = (currFilterIndex + 1) % currFilterCount
+        let key = filterManager.getFilterKey(category: currCategory, index: currFilterIndex)
+        loadFilterInfo(category: currCategory, key: key)
+    }
+    
+    // go to the previous filter
+    func gotoPreviousFilter(){
+        currFilterIndex = (currFilterIndex - 1)
+        if (currFilterIndex < 0) { currFilterIndex = currFilterCount - 1 }
+        let key = filterManager.getFilterKey(category: currCategory, index: currFilterIndex)
+        loadFilterInfo(category: currCategory, key: key)
+    }
+
     
     /////////////////////////////
     // MARK: - Touch Handler(s)
@@ -517,7 +525,7 @@ class FilterDetailsViewController: FilterBasedController, UIImagePickerControlle
         guard navigationController?.popViewController(animated: true) != nil else { //modal
             //log.debug("Not a navigation Controller")
             suspend()
-            dismiss(animated: true, completion: { self.delegate?.filterControllerCompleted(tag:self.getTag()) })
+            dismiss(animated: true, completion: { self.coordinator?.notifyCompletion(tag:self.getTag()) })
             return
         }
     }
@@ -526,7 +534,7 @@ class FilterDetailsViewController: FilterBasedController, UIImagePickerControlle
         if gesturesEnabled {
             log.verbose("Previous Filter pressed")
             suspend()
-            previousFilter()
+            gotoPreviousFilter()
             update()
         }
     }
@@ -535,7 +543,7 @@ class FilterDetailsViewController: FilterBasedController, UIImagePickerControlle
         if gesturesEnabled {
             log.verbose("Next Filter pressed")
             suspend()
-            nextFilter()
+            gotoNextFilter()
             update()
         }
     }
@@ -553,20 +561,20 @@ class FilterDetailsViewController: FilterBasedController, UIImagePickerControlle
     @objc func showTouched(){
         log.verbose("hide/show touched")
         //TODO: confirmation dialog?
-        let hidden =  (self.filterManager?.isHidden(key: self.currFilterKey))! ? false : true
-        self.filterManager?.setHidden(key: self.currFilterKey, hidden: hidden)
+        let hidden =  self.filterManager.isHidden(key: self.currFilterKey) ? false : true
+        self.filterManager.setHidden(key: self.currFilterKey, hidden: hidden)
         self.update()
     }
     
     @objc func favTouched(){
         log.verbose("favourite touched")
         //TODO: confirmation dialog?
-        if (self.filterManager?.isFavourite(key: self.currFilterKey))!{
+        if self.filterManager.isFavourite(key: self.currFilterKey){
             log.verbose ("Removing from Favourites: \(self.currFilterKey)")
-            self.filterManager?.removeFromFavourites(key: self.currFilterKey)
+            self.filterManager.removeFromFavourites(key: self.currFilterKey)
         } else {
             log.verbose ("Adding to Favourites: \(self.currFilterKey)")
-            self.filterManager?.addToFavourites(key: self.currFilterKey)
+            self.filterManager.addToFavourites(key: self.currFilterKey)
         }
         self.update()
     }
@@ -574,7 +582,7 @@ class FilterDetailsViewController: FilterBasedController, UIImagePickerControlle
     @objc func ratingTouched(){
         log.verbose("rating touched")
         self.currRatingKey = self.currFilterKey
-        self.currRating = (self.filterManager?.getRating(key: self.currRatingKey))!
+        self.currRating = self.filterManager.getRating(key: self.currRatingKey)
         displayRating()
         //self.update()
     }
@@ -622,7 +630,7 @@ class FilterDetailsViewController: FilterBasedController, UIImagePickerControlle
             
             // add the OK button
             let okAction = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction) in
-                self.filterManager?.setRating(key: self.currRatingKey, rating: self.currRating)
+                self.filterManager.setRating(key: self.currRatingKey, rating: self.currRating)
                 log.debug("OK")
             }
             ratingAlert?.addAction(okAction)
@@ -975,10 +983,12 @@ extension FilterDetailsViewController: TitleViewDelegate {
     }
     
     func helpPressed() {
-        let vc = HTMLViewController()
-        vc.setTitle("Filter Preview")
-        vc.loadFile(name: "FilterPreview")
-        present(vc, animated: true, completion: nil)    }
+//        let vc = HTMLViewController()
+//        vc.setTitle("Filter Preview")
+//        vc.loadFile(name: "FilterPreview")
+//        present(vc, animated: true, completion: nil)
+        self.coordinator?.help()
+    }
     
     func menuPressed() {
         // placeholder

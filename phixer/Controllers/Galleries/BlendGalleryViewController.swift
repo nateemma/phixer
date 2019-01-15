@@ -26,7 +26,7 @@ private var filterCount: Int = 0
 
 // This is the View Controller for displaying and organising filters into categories
 
-class BlendGalleryViewController: FilterBasedController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class BlendGalleryViewController: CoordinatedController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     
     // Title View
@@ -75,14 +75,12 @@ class BlendGalleryViewController: FilterBasedController, UIImagePickerController
     
     fileprivate let imagePicker = UIImagePickerController()
     
-    fileprivate var filterManager:FilterManager = FilterManager.sharedInstance
     fileprivate var currDescriptor:FilterDescriptor? = nil
     fileprivate var filterList:[String] = []
     fileprivate var currFilterIndex:Int = 0
     fileprivate var currFilterKey:String = ""
     fileprivate var imageSize:CGSize = CGSize(width:96, height:96*3.0/2.0)
     
-    fileprivate var showAds : Bool = true
     fileprivate var screenSize : CGRect = CGRect.zero
     fileprivate var displayWidth : CGFloat = 0.0
     fileprivate var displayHeight : CGFloat = 0.0
@@ -92,17 +90,10 @@ class BlendGalleryViewController: FilterBasedController, UIImagePickerController
     fileprivate let statusBarOffset : CGFloat = 2.0
     
     
-    var theme = ThemeManager.currentTheme()
-    
-    
     convenience init(){
         self.init(nibName:nil, bundle:nil)
         doInit()
     }
-    
-    
-    
-    
     
     
     override func viewDidLoad() {
@@ -379,7 +370,7 @@ class BlendGalleryViewController: FilterBasedController, UIImagePickerController
         guard navigationController?.popViewController(animated: true) != nil else { //modal
             //log.debug("Not a navigation Controller")
             suspend()
-            dismiss(animated: true, completion:  { self.delegate?.filterControllerCompleted(tag:self.getTag()) })
+            dismiss(animated: true, completion:  { self.coordinator?.notifyCompletion(tag:self.getTag()) })
             return
         }
     }
@@ -465,26 +456,6 @@ class BlendGalleryViewController: FilterBasedController, UIImagePickerController
         filteredView.setNeedsDisplay()
         
         //removeTargets()
-    }
-    
-    
-    
-    /////////////////////////////
-    // MARK: - Filter Management
-    /////////////////////////////
-
-
-    override func nextFilter(){
-        currFilterIndex = (currFilterIndex + 1) % filterList.count
-        currFilterKey = filterList[currFilterIndex]
-        updateFilteredImage()
-    }
-    
-    override func previousFilter(){
-        currFilterIndex = (currFilterIndex - 1)
-        if (currFilterIndex<0) { currFilterIndex = filterList.count - 1 }
-        currFilterKey = filterList[currFilterIndex]
-        updateFilteredImage()
     }
     
     
@@ -641,10 +612,11 @@ extension BlendGalleryViewController: TitleViewDelegate {
     }
     
     func helpPressed() {
-        let vc = HTMLViewController()
-        vc.setTitle("Blend Gallery")
-        vc.loadFile(name: "BlendGallery")
-        present(vc, animated: true, completion: nil)
+//        let vc = HTMLViewController()
+//        vc.setTitle("Blend Gallery")
+//        vc.loadFile(name: "BlendGallery")
+//        present(vc, animated: true, completion: nil)
+        self.coordinator?.help()
     }
     
     func menuPressed() {

@@ -40,7 +40,6 @@ class EditCurvesToolController: EditBaseToolController {
         // Save preview filter(s)
         // TODO: modify EditManager to handle multiple preview filters
         EditManager.savePreviewFilter()
-        delegate?.filterControllerCompleted(tag:self.getTag())
         dismiss()
     }
     
@@ -50,7 +49,6 @@ class EditCurvesToolController: EditBaseToolController {
     // Tool-specific code
     ////////////////////
 
-    private var filterManager: FilterManager? = FilterManager.sharedInstance
 
     // container views
     private var histogramView:UIView! = UIView()
@@ -122,7 +120,7 @@ class EditCurvesToolController: EditBaseToolController {
         // allocate filters once for efficiency
         histogramDataFilter = CIFilter(name: "CIAreaHistogram")
         histogramDisplayFilter = CIFilter(name: "CIHistogramDisplayFilter")
-        toneCurveFilter = filterManager?.getFilterDescriptor(key: "CIToneCurve")
+        toneCurveFilter = filterManager.getFilterDescriptor(key: "CIToneCurve")
     }
 
     ////////////////////////
@@ -268,7 +266,7 @@ class EditCurvesToolController: EditBaseToolController {
         toneCurveFilter?.setPositionParameter("inputPoint3", position: CIVector(cgPoint: currToneCurve[3]))
         toneCurveFilter?.setPositionParameter("inputPoint4", position: CIVector(cgPoint: currToneCurve[4]))
         
-        self.delegate?.filterControllerUpdateRequest(tag: self.getTag())
+        self.coordinator?.requestUpdate(tag: self.getTag())
     }
 
     // convert a position in view coordinates to the equivalent in Graph coordinates

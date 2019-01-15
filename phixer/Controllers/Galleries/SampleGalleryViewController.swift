@@ -24,9 +24,8 @@ private var filterCount: Int = 0
 
 // This is the View Controller for displaying the available Sample images and setting the one to be used elsewhere
 
-class SampleGalleryViewController: FilterBasedController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class SampleGalleryViewController: CoordinatedController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    var theme = ThemeManager.currentTheme()
     
     // Banner View (title)
     var bannerView: TitleView! = TitleView()
@@ -63,15 +62,12 @@ class SampleGalleryViewController: FilterBasedController, UIImagePickerControlle
     
     let imagePicker = UIImagePickerController()
     
-    var filterManager:FilterManager = FilterManager.sharedInstance
-    
     var selectedSampleImageName: String = ""
     var currentSampleImageName: String = ""
     
     var imageSize:CGSize = CGSize.zero
     
     // var isLandscape : Bool = false // moved to base class
-    var showAds : Bool = true
     var screenSize : CGRect = CGRect.zero
     var displayWidth : CGFloat = 0.0
     var displayHeight : CGFloat = 0.0
@@ -358,7 +354,7 @@ class SampleGalleryViewController: FilterBasedController, UIImagePickerControlle
         guard navigationController?.popViewController(animated: true) != nil else { //modal
             //log.debug("Not a navigation Controller")
             suspend()
-            dismiss(animated: true, completion:  { self.delegate?.filterControllerCompleted(tag:self.getTag()) })
+            dismiss(animated: true, completion:  { self.coordinator?.notifyCompletion(tag:self.getTag()) })
             return
         }
     }
@@ -501,10 +497,12 @@ extension SampleGalleryViewController: TitleViewDelegate {
     }
     
     func helpPressed() {
-        let vc = HTMLViewController()
-        vc.setTitle("Sample Gallery")
-        vc.loadFile(name: "SampleGallery")
-        present(vc, animated: true, completion: nil)    }
+//        let vc = HTMLViewController()
+//        vc.setTitle("Sample Gallery")
+//        vc.loadFile(name: "SampleGallery")
+//        present(vc, animated: true, completion: nil)
+        self.coordinator?.help()
+    }
     
     func menuPressed() {
         // placeholder

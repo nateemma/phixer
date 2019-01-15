@@ -24,7 +24,9 @@ let themeColor = UIColor(red: 0.01, green: 0.41, blue: 0.22, alpha: 1.0)
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var appCoordinator: AppCoordinator!
 
+    
     // MARK: - Core Data stack
     
     lazy var persistentContainer: NSPersistentContainer = {
@@ -51,6 +53,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }()
     
     
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
@@ -72,21 +75,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         log.addDestination(console)
         //log.addDestination(file)
         //log.addDestination(cloud)
-        
-        // set the global colour scheme
-        updateAppTheme()
-        
-        // set up Google banner ad framework
-        // Use Firebase library to configure APIs
-        FirebaseApp.configure()
-        
-        //GADMobileAds.configure(withApplicationID: "ca-app-pub-3940256099942544~1458002511"); // Test ID, replace when ready
-        GADMobileAds.configure(withApplicationID: Admob.appID)
-        
+
+        // set up the window and start the coordinator
+        window = UIWindow(frame: UIScreen.main.bounds)
+        appCoordinator = AppCoordinator(window: window)
+        appCoordinator.start(completion: { log.info("AppCoordinator finished") } )
         
         return true
     }
 
+    
     
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

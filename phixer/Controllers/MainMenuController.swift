@@ -14,16 +14,8 @@ import GoogleMobileAds
 
 // This is the Main View Controller for phixer, and basically just presents a menu of available options
 
-class MainMenuController: UIViewController, UINavigationControllerDelegate {
+class MainMenuController: CoordinatedController, UINavigationControllerDelegate {
     
-    var theme = ThemeManager.currentTheme()
-    
-
-    
-    //var filterManager: FilterManager? = FilterManager.sharedInstance
-    var filterManager: FilterManager?
-    
-    var isLandscape : Bool = false
     var screenSize : CGRect = CGRect.zero
     var displayWidth : CGFloat = 0.0
     var displayHeight : CGFloat = 0.0
@@ -31,7 +23,6 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
     
     // Advertisements View
     var adView: GADBannerView! = GADBannerView()
-    var showAds:Bool = true
     var bannerHeight : CGFloat = 64.0
     
     let buttonSize : CGFloat = 48.0
@@ -57,11 +48,6 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
         if (!initDone){
             log.verbose("init")
             initDone = true
-            
-            // load filters etc. on a separate thread (not needed to display menu options)
-            DispatchQueue.main.async(execute: { () -> Void in
-                self.filterManager = FilterManager.sharedInstance
-            })
         }
     }
     
@@ -81,10 +67,6 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
         displayWidth = view.width
         
         log.verbose("h:\(displayHeight) w:\(displayWidth)")
-        
-        // get orientation
-        //isLandscape = ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight)) // doesn't always work properly, especially in simulator
-        isLandscape = (displayWidth > displayHeight)
         
         showAds = (isLandscape == true) ? false : true // don't show in landscape mode, too cluttered
         
@@ -201,38 +183,24 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
     
     @objc func presentSimpleImageEditor(){
         InputSource.setCurrent(source: .edit)
-        let vc = SimpleEditViewController()
-        //vc.delegate = self
-        present(vc, animated: true, completion: nil)
-        //notImplemented()
+        self.coordinator?.activate(.edit)
     }
     
     @objc func presentStyleTransfer(){
         InputSource.setCurrent(source: .edit)
-        let vc = StyleTransferGalleryViewController()
-        vc.mode = .displaySelection
-        vc.delegate = self
-        present(vc, animated: true, completion: nil)
-        //notImplemented()
+        self.coordinator?.activate(.styleTransfer)
     }
 
     
     @objc func presentFilterGallery(){
         InputSource.setCurrent(source: .sample)
-        let vc = FilterGalleryViewController()
-        vc.mode = .displaySelection
-        vc.delegate = self
-        present(vc, animated: true, completion: nil)
-
+        self.coordinator?.activate(.browse)
     }
     
 
     @objc func presentSettings(){
-        //launch Category Manager VC
-        let vc = SettingsMenuController()
-        //vc.delegate = self
-        present(vc, animated: true, completion: nil)
-        //self.performSegueWithIdentifier(.categoryManager, sender: self)
+        self.coordinator?.activate(.settings)
+
     }
     
     
@@ -264,29 +232,3 @@ class MainMenuController: UIViewController, UINavigationControllerDelegate {
 /////////////////////////////////
 
 
-// FilterBasedControllerDelegate(s)
-
-extension MainMenuController: FilterBasedControllerDelegate {
-    func filterControllerSelection(key: String) {
-        log.warning("Unexpected selection: \(key)")
-    }
-    
-    func filterControllerUpdateRequest(tag: String) {
-        log.debug("filterControllerUpdateRequest ignored for tag: \(tag)")
-    }
-    
-    func filterControllerCompleted(tag: String) {
-        log.debug("Returned from: \(tag)")
-    }
-}
-
-
-// SampleFilterBasedControllerDelegate
-
-extension MainMenuController: ColorSchemeViewControllerDelegate {
-    func colorSchemeCompleted(scheme: [UIColor]) {
-        log.debug("Color Scheme finished")
-    }
-    
-
-}

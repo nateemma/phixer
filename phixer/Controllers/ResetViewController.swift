@@ -14,14 +14,9 @@ import GoogleMobileAds
 
 // View Controller to reset the database
 
-class ResetViewController: UIViewController, UINavigationControllerDelegate {
+class ResetViewController: CoordinatedController, UINavigationControllerDelegate {
 
     
-    var theme = ThemeManager.currentTheme()
-    
-
-    
-    var isLandscape : Bool = false
     var screenSize : CGRect = CGRect.zero
     var displayWidth : CGFloat = 0.0
     var displayHeight : CGFloat = 0.0
@@ -34,13 +29,10 @@ class ResetViewController: UIViewController, UINavigationControllerDelegate {
 
     // Advertisements View
     var adView: GADBannerView! = GADBannerView()
-    var showAds:Bool = true
     var bannerHeight : CGFloat = 64.0
     
     let buttonSize : CGFloat = 48.0
     
-    fileprivate var filterManager: FilterManager? = FilterManager.sharedInstance
-
  
     
     convenience init(){
@@ -76,10 +68,6 @@ class ResetViewController: UIViewController, UINavigationControllerDelegate {
         displayWidth = view.width
         
         
-        // get orientation
-        //isLandscape = ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight)) // doesn't always work properly, especially in simulator
-        isLandscape = (displayWidth > displayHeight)
-
         showAds = (isLandscape == true) ? false : true // don't show in landscape mode, too cluttered
         
         
@@ -188,7 +176,7 @@ class ResetViewController: UIViewController, UINavigationControllerDelegate {
             // add the OK button
             let okAction = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction) in
                 log.debug("OK - resetting categories/filters")
-                self.filterManager?.restoreDefaults()
+                self.filterManager.restoreDefaults()
             }
             resetAlert?.addAction(okAction)
             
@@ -218,10 +206,12 @@ extension ResetViewController: TitleViewDelegate {
     }
     
     func helpPressed() {
-        let vc = HTMLViewController()
-        vc.setTitle("Reset")
-        vc.loadFile(name: "Reset")
-        present(vc, animated: true, completion: nil)    }
+//        let vc = HTMLViewController()
+//        vc.setTitle("Reset")
+//        vc.loadFile(name: "Reset")
+//        present(vc, animated: true, completion: nil)
+        self.coordinator?.help()
+    }
     
     func menuPressed() {
         // placeholder

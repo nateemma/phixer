@@ -29,10 +29,8 @@ protocol ColorSchemeViewControllerDelegate: class {
 
 // This is the View Controller for developing a color scheme
 
-class ColorSchemeViewController: UIViewController {
+class ColorSchemeViewController: CoordinatedController {
     
-    var theme = ThemeManager.currentTheme()
-
     // delegate for handling events
     weak var delegate: ColorSchemeViewControllerDelegate?
     
@@ -40,8 +38,6 @@ class ColorSchemeViewController: UIViewController {
 
     
     
-    var isLandscape : Bool = false
-    var showAds : Bool = false
     var screenSize : CGRect = CGRect.zero
     var displayWidth : CGFloat = 0.0
     var displayHeight : CGFloat = 0.0
@@ -102,36 +98,6 @@ class ColorSchemeViewController: UIViewController {
     
 
     
-    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
-        if ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight)){
-            log.verbose("### Detected change to: Landscape")
-            isLandscape = true
-        } else {
-            log.verbose("### Detected change to: Portrait")
-            isLandscape = false
-            
-        }
-        //TODO: animate and maybe handle before rotation finishes
-        self.removeSubviews()
-        self.doLayout()
-        self.updateColors()
-    }
-    
-    func removeSubviews(){
-        for view in self.view.subviews {
-            view.removeFromSuperview()
-        }
-    }
- 
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        log.warning("Received Memory Warning")
-        // Dispose of any resources that can be recreated.
-    }
-    
-    
-    
     
     /////////////////////////////
     // MARK: - Initialisation
@@ -157,9 +123,6 @@ class ColorSchemeViewController: UIViewController {
         displayWidth = view.width
         log.verbose("h:\(displayHeight) w:\(displayWidth)")
         
- 
-        // NOTE: isLandscape = ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight)) doesn't always work properly, especially in simulator
-        isLandscape = (displayWidth > displayHeight)
         
         //showAds = (isLandscape == true) ? false : true // don't show in landscape mode (too cluttered)
         //showAds = false // debug
@@ -461,7 +424,7 @@ extension ColorSchemeViewController: TitleViewDelegate {
     }
     
     func helpPressed() {
-        // placeholder
+        coordinator?.help()
     }
     
     func menuPressed() {

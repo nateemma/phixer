@@ -18,9 +18,7 @@ private var filterCount: Int = 0
 // This View Controller is the 'base' class used for creating Edit 'Tool' displays, which take up most of the screen
 // This mostly just sets up the framing, title, navigation etc. Other stuff must be done in the subclass, via the loadToolView() callback
 
-class EditBaseToolController: FilterBasedController, FilterBasedControllerDelegate {
-    
-    var theme = ThemeManager.currentTheme()
+class EditBaseToolController: CoordinatedController {
     
     // The main views.
     var mainView: UIView! = UIView()
@@ -40,7 +38,7 @@ class EditBaseToolController: FilterBasedController, FilterBasedControllerDelega
     // 'Virtual' funcs, these must be overidden by the subclass
     ////////////////////
     
-    func getTitle() -> String{
+    override func getTitle() -> String{
         return "Edit Tool Base Class"
     }
     
@@ -50,49 +48,15 @@ class EditBaseToolController: FilterBasedController, FilterBasedControllerDelega
     
     func commit() {
         log.warning("Base class called")
-        delegate?.filterControllerCompleted(tag:self.getTag())
         dismiss()
     }
     
     func cancel(){
         // this is OK as a default implementation since we inherently don't need to save or commit anything
         EditManager.addPreviewFilter(nil)
-        delegate?.filterControllerCompleted(tag:self.getTag())
         dismiss()
     }
     
-    ////////////////////
-    // Filter Navigation - typically not applicable here so override
-    ////////////////////
-
-    // go to the next filter, whatever that means for this controller. Note that this is a valid default implementation
-    override func nextFilter(){
-        // just ignore for tools
-    }
-  
-    // go to the previous filter, whatever that means for this controller. Note that this is a valid default implementation
-    override func previousFilter(){
-        // just ignore for tools
-    }
-
-    
-    //////////////////////////////////////////
-    // FilterBasedControllerDelegate
-    //////////////////////////////////////////
-    
-    // these are here to allow compilation.
-    
-    func filterControllerSelection(key: String) {
-        log.warning("base class called. key: \(key)")
-    }
-    
-    func filterControllerUpdateRequest(tag: String) {
-        log.warning("base class called. tag: \(tag)")
-    }
-    
-    func filterControllerCompleted(tag: String) {
-        log.warning("base class called. tag: \(tag)")
-    }
     
     
     ////////////////////
@@ -222,24 +186,6 @@ class EditBaseToolController: FilterBasedController, FilterBasedControllerDelega
     }
     
     
-    func dismiss(){
-        UIView.animate(withDuration: 0.5, animations: {
-            self.view.alpha = 0 }) { _ in
-                self.clearSubviews()
-                self.view.isHidden = true
-                //self.removeFromSuperview()
-        }
-    }
-
-    
-    fileprivate func clearSubviews(){
-        for v in mainView.subviews{
-            v.removeFromSuperview()
-        }
-        for v in self.view.subviews{
-            v.removeFromSuperview()
-        }
-    }
 
     
     //////////////////////////////////////////
@@ -248,12 +194,10 @@ class EditBaseToolController: FilterBasedController, FilterBasedControllerDelega
     
     @objc func commitDidPress(){
         commit()
-        delegate?.filterControllerCompleted(tag:self.getTag())
         dismiss()
     }
     
     @objc func cancelDidPress(){
-        delegate?.filterControllerCompleted(tag:self.getTag())
         dismiss()
     }
 

@@ -56,6 +56,38 @@ class SimpleCarousel: UIView {
         log.verbose("items:\(items)")
     }
 
+    public func getNextItem() -> String {
+        var index:Int = 0
+        
+        if itemList.count > 0 {
+            if isValidIndex(currIndex) {
+                index = (currIndex < (itemList.count-1)) ? (currIndex + 1) : 0
+            } else {
+                index = 0
+            }
+            return itemList[index].key
+        } else {
+            log.error("No items in list")
+            return ""
+        }
+    }
+    
+    public func getPreviousItem() -> String {
+        var index:Int = 0
+        
+        if itemList.count > 0 {
+            if isValidIndex(currIndex) {
+                index = (currIndex > 0) ? (currIndex - 1) : (itemList.count - 1)
+            } else {
+                index = 0
+            }
+            return itemList[index].key
+        } else {
+            log.error("No items in list")
+            return ""
+       }
+    }
+
     public func nextItem(){
         var index:Int = 0
         
@@ -66,7 +98,7 @@ class SimpleCarousel: UIView {
                 index = 0
             }
             self.selectItem(index)
-       } else {
+        } else {
             log.error("No items in list")
         }
     }
@@ -85,7 +117,7 @@ class SimpleCarousel: UIView {
             log.error("No items in list")
         }
     }
-    
+
     ////////////////////////////////////////////
     //MARK: Layout
     ////////////////////////////////////////////

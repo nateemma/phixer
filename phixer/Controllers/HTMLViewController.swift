@@ -11,10 +11,7 @@ import UIKit
 import Neon
 import WebKit
 
-class HTMLViewController: UIViewController {
-    
-    
-    var theme = ThemeManager.currentTheme()
+class HTMLViewController: CoordinatedController {
     
 
     private let statusBarOffset : CGFloat = 2.0
@@ -23,7 +20,6 @@ class HTMLViewController: UIViewController {
     private var bannerView: TitleView! = TitleView()
     private var htmlView: WKWebView! = WKWebView()
     
-    private var isLandscape : Bool = false
     private var screenSize : CGRect = CGRect.zero
     private var displayWidth : CGFloat = 0.0
     private var displayHeight : CGFloat = 0.0
@@ -36,9 +32,22 @@ class HTMLViewController: UIViewController {
     /////////////////////////////
     
     convenience init(){
-        self.init(nibName:nil, bundle:nil)
-        doInit()
+        self.init(title:"", file:"")
+     }
+    
+    init(title: String, file: String) {
+        super.init(nibName:nil, bundle:nil)
+        self.title = title
+        if !file.isEmpty {
+            self.loadFile(name: file)
+        }
     }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,34 +63,6 @@ class HTMLViewController: UIViewController {
         doLayout()
     }
     
-    
-    
-    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
-        if ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight)){
-            log.verbose("### Detected change to: Landscape")
-            isLandscape = true
-        } else {
-            log.verbose("### Detected change to: Portrait")
-            isLandscape = false
-            
-        }
-        //TODO: animate and maybe handle before rotation finishes
-        self.removeSubviews()
-        self.doLayout()
-    }
-    
-    private func removeSubviews(){
-        for view in self.view.subviews {
-            view.removeFromSuperview()
-        }
-    }
-    
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        log.warning("Received Memory Warning")
-        // Dispose of any resources that can be recreated.
-    }
     
     
     /////////////////////////////
@@ -179,9 +160,6 @@ class HTMLViewController: UIViewController {
         log.verbose("h:\(displayHeight) w:\(displayWidth)")
         
         
-        // NOTE: isLandscape = ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight)) doesn't always work properly, especially in simulator
-        isLandscape = (displayWidth > displayHeight)
-        
         view.backgroundColor = theme.backgroundColor // default seems to be white
         
         layoutBanner()
@@ -244,7 +222,7 @@ extension HTMLViewController: TitleViewDelegate {
     }
     
     func helpPressed() {
-        // placeholder
+        // no help for the help screen!
     }
     
     func menuPressed() {

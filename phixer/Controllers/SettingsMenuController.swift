@@ -14,14 +14,9 @@ import GoogleMobileAds
 
 // Menu display for "Settings" Items
 
-class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
+class SettingsMenuController: CoordinatedController, UINavigationControllerDelegate {
     
     
-    var theme = ThemeManager.currentTheme()
-    
-
-    
-    var isLandscape : Bool = false
     var screenSize : CGRect = CGRect.zero
     var displayWidth : CGFloat = 0.0
     var displayHeight : CGFloat = 0.0
@@ -34,7 +29,6 @@ class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
     
     // Advertisements View
     var adView: GADBannerView! = GADBannerView()
-    var showAds:Bool = true
     var bannerHeight : CGFloat = 64.0
     
     let buttonSize : CGFloat = 48.0
@@ -57,28 +51,7 @@ class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
     var stackHeight:CGFloat = 0.0
     
     
-    
-    
-    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
-        if ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight)){
-            log.verbose("### Detected change to: Landscape")
-        } else {
-            log.verbose("### Detected change to: Portrait")
-            
-        }
-        //TODO: animate and maybe handle before rotation finishes
-        self.viewDidLoad()
-    }
-    
-    
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        log.error("Memory Warning")
-        // Dispose of any resources that can be recreated.
-    }
-
-    
+  
     
     static var initDone:Bool = false
     
@@ -108,9 +81,6 @@ class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
         displayHeight = view.height
         displayWidth = view.width
         stackHeight = displayHeight
-        
-        // get orientation
-        isLandscape = ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight))
         
         showAds = (isLandscape == true) ? false : true // don't show in landscape mode, too cluttered
         
@@ -353,40 +323,44 @@ class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
     
     
     @objc func presentBlendGallery(){
-        let vc = BlendGalleryViewController()
-        vc.delegate = self
-        vc.mode = .displaySelection
-        present(vc, animated: true, completion: nil)
+//        let vc = BlendGalleryViewController()
+//        vc.delegate = self
+//        vc.mode = .displaySelection
+//        present(vc, animated: true, completion: nil)
+        self.coordinator?.activate(ControllerIdentifier.blendGallery)
     }
     
     
     @objc func presentSampleGallery(){
-        let vc = SampleGalleryViewController()
-        vc.delegate = self
-        vc.mode = .displaySelection
-       present(vc, animated: true, completion: nil)
-        
+//        let vc = SampleGalleryViewController()
+//        vc.delegate = self
+//        vc.mode = .displaySelection
+//       present(vc, animated: true, completion: nil)
+        self.coordinator?.activate(ControllerIdentifier.sampleGallery)
     }
     
     
     @objc func presentReset(){
-        let vc = ResetViewController()
-        //vc.delegate = self
-        present(vc, animated: true, completion: nil)
-        notImplemented()
+//        let vc = ResetViewController()
+//        //vc.delegate = self
+//        present(vc, animated: true, completion: nil)
+//        notImplemented()
+        self.coordinator?.activate(ControllerIdentifier.reset)
     }
     
     @objc func presentThemes(){
-        let vc = ThemeChooserController()
-        //vc.delegate = self
-        present(vc, animated: true, completion: nil)
+//        let vc = ThemeChooserController()
+//        //vc.delegate = self
+//        present(vc, animated: true, completion: nil)
+        self.coordinator?.activate(ControllerIdentifier.themeChooser)
     }
     
     @objc func presentColors(){
-        let vc = ColorSchemeViewController()
-        //vc.delegate = self
-        present(vc, animated: true, completion: nil)
-    }
+//        let vc = ColorSchemeViewController()
+//        //vc.delegate = self
+//        present(vc, animated: true, completion: nil)
+        self.coordinator?.activate(ControllerIdentifier.colorScheme)
+   }
     
     @objc func hideFiltersSwitchChanged(_ sender:UISwitch){
         if (sender.isOn == true){
@@ -441,25 +415,6 @@ class SettingsMenuController: UIViewController, UINavigationControllerDelegate {
     
 } // SettingsMenuController
 
-
-
-// FilterBasedControllerDelegate (any of them)
-
-extension SettingsMenuController: FilterBasedControllerDelegate {
-    
-    func filterControllerSelection(key: String) {
-        log.warning("Unexpected selection: \(key)")
-    }
-    
-    func filterControllerUpdateRequest(tag: String) {
-        log.debug("filterControllerUpdateRequest ignored for tag: \(tag)")
-    }
-    
-    func filterControllerCompleted(tag: String) {
-        log.debug("Returned from: \(tag)")
-    }
-
-}
 
 
 

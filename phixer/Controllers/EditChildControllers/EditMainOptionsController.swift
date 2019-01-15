@@ -17,10 +17,8 @@ private var filterCount: Int = 0
 
 // This View Controller handles simple editing of a photo
 
-class EditMainOptionsController: FilterBasedController, FilterBasedControllerDelegate {
+class EditMainOptionsController: CoordinatedController {
 
-    
-    var theme = ThemeManager.currentTheme()
     
     let menu = SimpleCarousel()
 
@@ -37,14 +35,6 @@ class EditMainOptionsController: FilterBasedController, FilterBasedControllerDel
     let buttonSize : CGFloat = 32.0
     //let editControlHeight: CGFloat = 96.0
     let editControlHeight: CGFloat = 72.0
-
-    //var childController:EditBaseMenuController? = nil
-    var childController:FilterBasedController? = nil
-    var fullScreenController:FilterBasedController? = nil
-
-    fileprivate var filterManager: FilterManager? = FilterManager.sharedInstance
-    
-    fileprivate var fullScreenControllerActive:Bool = false
 
     
     /////////////////////////////
@@ -75,8 +65,6 @@ class EditMainOptionsController: FilterBasedController, FilterBasedControllerDel
 
         doInit()
         
-        childController = nil
-        fullScreenController = nil
         
       // load theme here in case it changed
         theme = ThemeManager.currentTheme()
@@ -111,15 +99,7 @@ class EditMainOptionsController: FilterBasedController, FilterBasedControllerDel
         optionsControlView.anchorToEdge(.bottom, padding: 0, width: optionsControlView.frame.size.width, height: optionsControlView.frame.size.height)
         //optionsControlView.fillSuperview()
 
-        childController = nil
         
-    }
-    
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        log.warning("Low Memory Warning")
-        // Dispose of any resources that can be recreated.
     }
     
     
@@ -128,50 +108,17 @@ class EditMainOptionsController: FilterBasedController, FilterBasedControllerDel
     //////////////////////////////////////
     
     
-    //TODO: implement navigation via the filter manager? That way we don't have to keep the controller around
-    override func nextFilter(){
+    override func nextFilter() -> String {
         log.debug("next...")
-        if self.childController != nil {
-            self.childController?.nextFilter()
-        } else if self.fullScreenController != nil {
-            self.fullScreenController?.nextFilter()
-        } else {
-            menu.nextItem()
-        }
+        return menu.getNextItem()
     }
     
-    override func previousFilter(){
+    override func previousFilter() -> String {
         log.debug("previous...")
-        if self.childController != nil {
-            self.childController?.previousFilter()
-        } else if self.fullScreenController != nil {
-            self.fullScreenController?.previousFilter()
-        } else {
-            menu.previousItem()
-        }
+        return menu.getPreviousItem()
     }
     
-    override func show(){
-        if self.childController != nil {
-            self.childController?.show()
-        } else if self.fullScreenController != nil {
-            self.fullScreenController?.show()
-       } else {
-            log.verbose("\(self.getTag())")
-            self.view.isHidden = false
-        }
-    }
-    
-    override func hide(){
-        if self.childController != nil {
-            self.childController?.hide()
-        } else if self.fullScreenController != nil {
-            self.fullScreenController?.hide()
-        } else {
-            log.verbose("\(self.getTag())")
-            self.view.isHidden = true
-        }
-    }
+
 
     //////////////////////////////////////
     // MARK: - Sub-View layout
@@ -183,54 +130,7 @@ class EditMainOptionsController: FilterBasedController, FilterBasedControllerDel
         optionsControlView.addSubview(menu)
         menu.fillSuperview()
     }
-    
-    
-    //////////////////////////////////////////
-    // MARK: - Sub-controller handling
-    //////////////////////////////////////////
-    
-    // launch a menu-based sub-controller
-    private func launchMenuSubController(_ controller: EditBaseMenuController?){
-        if let vc = controller {
-            vc.delegate = self
-            //vc.view.frame.size = self.view.frame.size
-            self.childController = vc
-            self.hide()
-            add(self.childController!)
-            self.childController?.view.isHidden = false
-        } else {
-            log.error("NIL controller")
-        }
-    }
-    
-    // launch a tool-based sub-controller
-    private func launchToolSubController(_ controller: EditBaseToolController?){
-        if let vc = controller {
-            vc.delegate = self
-            vc.mode = .returnSelection
-            self.childController = vc
-            self.hide()
-            add(self.childController!)
-            self.childController?.view.isHidden = false
-       } else {
-            log.error("NIL controller")
-        }
-    }
-    
-    // launch a full screen controller
-    private func launchController(_ controller: FilterBasedController?){
-        if let vc = controller {
-            vc.delegate = self
-            vc.mode = .returnSelection
-            self.fullScreenController = vc
-            self.hide()
-            present(self.fullScreenController!, animated: true, completion: { })
-            self.fullScreenController?.view.isHidden = false
-            fullScreenControllerActive = true
-      } else {
-            log.error("NIL controller")
-        }
-    }
+
 
     //////////////////////////////////////////
     // MARK: - Not yet implemented notifier
@@ -288,8 +188,7 @@ class EditMainOptionsController: FilterBasedController, FilterBasedControllerDel
     }
 
     func basicAdjustmentsHandler(){
-        self.optionsControlView.isHidden = true
-        launchMenuSubController (EditBasicAdjustmentsController())
+        self.coordinator?.activate(ControllerIdentifier.editBasicAdjustmentsMenu)
     }
     
     func colorAdjustmentsHandler(){
@@ -298,12 +197,13 @@ class EditMainOptionsController: FilterBasedController, FilterBasedControllerDel
     
     
     func styleTransferHandler(){
-        launchController (StyleTransferGalleryViewController())
+        self.coordinator?.activate(ControllerIdentifier.styleTransfer)
     }
 
     func colorFiltersHandler(){
         // jump straight to the 'Favourites' category
-         launchController (FilterGalleryViewController())
+        filterManager.setCurrentCategory(FilterManager.favouriteCategory)
+        self.coordinator?.activate(ControllerIdentifier.filterGallery)
     }
     
     func detailHandler(){
@@ -311,7 +211,7 @@ class EditMainOptionsController: FilterBasedController, FilterBasedControllerDel
     }
     
     func curvesHandler(){
-        launchToolSubController (EditCurvesToolController())
+        self.coordinator?.activate(ControllerIdentifier.curveTool)
     }
     
     func transformsHandler(){
@@ -327,46 +227,6 @@ class EditMainOptionsController: FilterBasedController, FilterBasedControllerDel
     }
     
 
-    //////////////////////////////////////////
-    // MARK: - Delegate functions for child controllers
-    //////////////////////////////////////////
-    
-    // called when a child controller has selected a filter
-    func filterControllerSelection(key: String) {
-        // just pass on the to the parent controller
-        if self.delegate != nil {
-            DispatchQueue.main.async(execute: { () -> Void in
-                self.delegate?.filterControllerSelection(key: key)
-            })
-        }
-    }
-
-    // called when a child controller has done something that requires the main UI to be updated
-    func filterControllerUpdateRequest(tag: String) {
-        // just pass on the to the parent controller
-        if self.delegate != nil {
-            DispatchQueue.main.async(execute: { () -> Void in
-                self.delegate?.filterControllerUpdateRequest(tag: self.getTag())
-            })
-        }
-    }
-    
-    // called when a child controller has finished
-    func filterControllerCompleted(tag: String){
-        // remove the child controller and re-display the main options
-        // Note that we are assuming only 1 sub controller can be active at any one time
-        log.debug("\(tag)")
-        if self.childController != nil {
-            self.childController?.remove()
-            self.childController = nil
-        } else {
-            // hack: need to leave around
-            //fullScreenControllerActive = false
-            //self.fullScreenController = nil
-        }
-        self.optionsControlView.isHidden = false
-    }
-    
 
 } // EditMainOptionsController
 //########################

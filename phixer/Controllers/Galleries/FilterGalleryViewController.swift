@@ -25,12 +25,9 @@ private var filterCount: Int = 0
 
 // This is the View Controller for displaying and organising filters into categories
 
-class FilterGalleryViewController: FilterBasedController, FilterBasedControllerDelegate {
+class FilterGalleryViewController: CoordinatedController {
 
     
-    var theme = ThemeManager.currentTheme()
-    
-        
     // Banner View (title)
     var bannerView: TitleView! = TitleView()
     
@@ -43,17 +40,9 @@ class FilterGalleryViewController: FilterBasedController, FilterBasedControllerD
     var currCategoryIndex = -1
     var currCategory:String = FilterManager.defaultCategory
     
-    /***
-    // Filter Galleries (one per category).
-    var filterGalleryView : [FilterGalleryView] = []
-    ***/
     var filterGalleryView : FilterGalleryView! = FilterGalleryView()
     
-    var filterManager:FilterManager = FilterManager.sharedInstance
     
-    
-    // var isLandscape : Bool = false // moved to base class
-    var showAds : Bool = true
     var screenSize : CGRect = CGRect.zero
     var displayWidth : CGFloat = 0.0
     var displayHeight : CGFloat = 0.0
@@ -121,18 +110,6 @@ class FilterGalleryViewController: FilterBasedController, FilterBasedControllerD
         if (!FilterGalleryViewController.initDone){
             FilterGalleryViewController.initDone = true
         }
-    }
-    
-    override func previousFilter(){
-        let key = self.filterGalleryView.getFilterBefore(key:filterManager.getCurrentFilterKey())
-        log.verbose("Previous Filter: \(key)")
-        self.delegate?.filterControllerSelection(key: key)
-    }
-    
-    override func nextFilter(){
-        let key = self.filterGalleryView.getFilterAfter(key:filterManager.getCurrentFilterKey())
-        log.verbose("Next Filter: \(key)")
-        self.delegate?.filterControllerSelection(key: key)
     }
 
     
@@ -283,7 +260,7 @@ class FilterGalleryViewController: FilterBasedController, FilterBasedControllerD
         guard navigationController?.popViewController(animated: true) != nil else { //modal
             //log.debug("Not a navigation Controller")
             suspend()
-            dismiss(animated: true, completion:  { self.delegate?.filterControllerCompleted(tag:self.getTag()) })
+            dismiss(animated: true, completion:  { self.coordinator?.notifyCompletion(tag:self.getTag()) })
             return
         }
     }
@@ -338,6 +315,9 @@ extension FilterGalleryViewController: FilterGalleryViewDelegate {
         //suspend()
         filterManager.setSelectedCategory(currCategory)
         filterManager.setSelectedFilter(key: (descriptor?.key)!)
+        
+        self.coordinator?.activate(.displayFilter)
+/***
         if self.mode == .displaySelection {
             let filterDetailsViewController = FilterDetailsViewController()
             filterDetailsViewController.delegate = self
@@ -349,12 +329,13 @@ extension FilterGalleryViewController: FilterGalleryViewDelegate {
             if (descriptor != nil) && (!(descriptor?.key.isEmpty)!){
                 dismiss(animated: true, completion:  {
                     self.delegate?.filterControllerSelection(key: (descriptor?.key)!)
-                    self.delegate?.filterControllerCompleted(tag:self.getTag())
+                    self.coordinator?.notifyCompletion(tag:self.getTag())
                 })
             } else {
-                dismiss(animated: true, completion:  { self.delegate?.filterControllerCompleted(tag:self.getTag()) })
+                dismiss(animated: true, completion:  { self.coordinator?.notifyCompletion(tag:self.getTag()) })
             }
         }
+ ***/
     }
     
     func requestUpdate(category:String){
@@ -390,25 +371,6 @@ extension FilterGalleryViewController: FilterGalleryViewDelegate {
     }
 }
 
-
-
-extension FilterGalleryViewController: FilterDetailsViewControllerDelegate {
-    func onCompletion(key:String){
-        //DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {() -> Void in
-        DispatchQueue.main.async(execute: {() -> Void in
-            log.verbose("FilterDetailsView completed")
-            self.updateCategoryDisplay(self.currCategory)
-        })
-    }
-    
-    func prevFilterRequest(){
-        log.verbose("Previous Filter")
-    }
-    
-    func nextFilterRequest(){
-        log.verbose("Next Filter")
-    }
-}
 
 
 

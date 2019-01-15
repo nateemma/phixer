@@ -93,9 +93,9 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         if (!MainViewController.initDone){
             log.verbose("init")
             //filterManager = FilterManager.sharedInstance
-            filterManager?.setCurrentCategory(FilterManager.defaultCategory)
-            categorySelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)
-            currFilterDescriptor = filterManager?.getCurrentFilterDescriptor()
+            filterManager.setCurrentCategory(FilterManager.defaultCategory)
+            categorySelectionView.setFilterCategory((filterManager.getCurrentCategory())!)
+            currFilterDescriptor = filterManager.getCurrentFilterDescriptor()
             MainViewController.initDone = true
             updateCurrentFilter()
             filterSelectionView.setInputSource(.camera)
@@ -123,7 +123,7 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         showAds = (isLandscape == true) ? false : true // don't show in landscape mode, too cluttered
         
-        //filterManager?.reset()
+        //filterManager.reset()
         doInit()
         
         // Note: need to add subviews before modifying constraints
@@ -267,8 +267,8 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         //TODO: start timer and update setting display peridodically
         
         // register for change notifications (don't do this before the views are set up)
-        //filterManager?.setCategoryChangeNotification(callback: categoryChanged())
-        //filterManager?.setFilterChangeNotification(callback: filterChanged())
+        //filterManager.setCategoryChangeNotification(callback: categoryChanged())
+        //filterManager.setFilterChangeNotification(callback: filterChanged())
         
     }
     
@@ -352,13 +352,13 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     // Note: look up current values each time because they can be changed in multiple ways (so difficult to track)
     
     fileprivate func nextFilter(){
-        var index  = (filterManager?.getCurrentFilterIndex())!
-        let category = (filterManager?.getCurrentCategory())!
+        var index  = (filterManager.getCurrentFilterIndex())!
+        let category = (filterManager.getCurrentCategory())!
         let oldIndex = index
-        let oldKey = (filterManager?.getFilterKey(category: category, index: index))!
+        let oldKey = (filterManager.getFilterKey(category: category, index: index))!
             
-        index = (index + 1) % (filterManager?.getFilterCount(category))!
-        let key = (filterManager?.getFilterKey(category: category, index: index))!
+        index = (index + 1) % (filterManager.getFilterCount(category))!
+        let key = (filterManager.getFilterKey(category: category, index: index))!
         
         log.debug("Changing filter: \(oldKey)(\(oldIndex))->\(key)(\(index))")
         changeFilterTo(key)
@@ -366,33 +366,33 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     
     fileprivate func previousFilter(){
-        var index  = (filterManager?.getCurrentFilterIndex())!
-        let category = (filterManager?.getCurrentCategory())!
+        var index  = (filterManager.getCurrentFilterIndex())!
+        let category = (filterManager.getCurrentCategory())!
         let oldIndex = index
-        let oldKey = (filterManager?.getFilterKey(category: category, index: index))!
+        let oldKey = (filterManager.getFilterKey(category: category, index: index))!
         
         index = index - 1
-        if (index < 0) { index = (filterManager?.getFilterCount(category))! - 1 }
-        let key = (filterManager?.getFilterKey(category: category, index: index))!
+        if (index < 0) { index = (filterManager.getFilterCount(category))! - 1 }
+        let key = (filterManager.getFilterKey(category: category, index: index))!
         
         log.debug("Changing filter: \(oldKey)(\(oldIndex))->\(key)(\(index))")
         changeFilterTo(key)
     }
     
     fileprivate func nextCategory(){
-        var category = (filterManager?.getCurrentCategory())!
-        var index = (filterManager?.getCurrentCategoryIndex())!
-        index = (index + 1) % (filterManager?.getCategoryCount())!
-        category = (filterManager?.getCategory(index: index))!
+        var category = (filterManager.getCurrentCategory())!
+        var index = (filterManager.getCurrentCategoryIndex())!
+        index = (index + 1) % (filterManager.getCategoryCount())!
+        category = (filterManager.getCategory(index: index))!
         changeCategoryTo(category)
     }
     
     fileprivate func previousCategory(){
-        var category = (filterManager?.getCurrentCategory())!
-        var index = (filterManager?.getCurrentCategoryIndex())!
+        var category = (filterManager.getCurrentCategory())!
+        var index = (filterManager.getCurrentCategoryIndex())!
         index = (index - 1)
-        if (index < 0) { index = (filterManager?.getCategoryCount())! - 1 }
-        category = (filterManager?.getCategory(index: index))!
+        if (index < 0) { index = (filterManager.getCategoryCount())! - 1 }
+        category = (filterManager.getCategory(index: index))!
         changeCategoryTo(category)
     }
     
@@ -486,8 +486,8 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         // get list of filters in the current category
         if (filterCount==0){
             filterList = []
-            let category = filterManager?.getCurrentCategory()
-            filterList = (filterManager?.getFilterList(category!))!
+            let category = filterManager.getCurrentCategory()
+            filterList = (filterManager.getFilterList(category!))!
             filterList.sort(by: { (value1: String, value2: String) -> Bool in return value1 < value2 }) // sort ascending
             filterCount = filterList.count
             log.debug("Filter list: \(filterList)")
@@ -502,20 +502,20 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     //////////////////////////////////////
 
     func changeCategoryTo(_ category: String){
-        if (category != filterManager?.getCurrentCategory()){
+        if (category != filterManager.getCurrentCategory()){
             log.debug("Category Selected: \(category)")
-            filterManager?.setCurrentCategory(category)
-            currFilterDescriptor = filterManager?.getCurrentFilterDescriptor()
+            filterManager.setCurrentCategory(category)
+            currFilterDescriptor = filterManager.getCurrentFilterDescriptor()
             updateCurrentFilter()
         }
     }
     
     func changeFilterTo(_ key:String){
         // setup the filter descriptor
-        if (key != filterManager?.getCurrentFilterKey()){
+        if (key != filterManager.getCurrentFilterKey()){
             log.debug("Filter Selected: \(key)")
-            filterManager?.setCurrentFilterKey(key)
-            currFilterDescriptor = filterManager?.getFilterDescriptor(key:key)
+            filterManager.setCurrentFilterKey(key)
+            currFilterDescriptor = filterManager.getFilterDescriptor(key:key)
             updateCurrentFilter()
         }
     }
@@ -531,14 +531,14 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     // retrive current settings from FilterManager and store locally
     func updateCurrentFilter(){
-        if let descriptor = filterManager?.getCurrentFilterDescriptor(){
+        if let descriptor = filterManager.getCurrentFilterDescriptor(){
             //log.verbose("Current filter: \(descriptor.key)")
             //if ((currFilterDescriptor == nil) || (descriptor.key != currFilterDescriptor?.key)){
                 log.debug("Filter change: \(descriptor.key)->\(String(describing: currFilterDescriptor?.key))")
                 //currFilterDescriptor = descriptor
                 cameraDisplayView.setFilter(currFilterDescriptor)
-                categorySelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)
-                filterSelectionView.setFilterCategory((filterManager?.getCurrentCategory())!)
+                categorySelectionView.setFilterCategory((filterManager.getCurrentCategory())!)
+                filterSelectionView.setFilterCategory((filterManager.getCurrentCategory())!)
                 //filterSelectionView.update()
                 filterInfoView.update()
             //} else {
@@ -686,7 +686,7 @@ class MainViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         log.debug("Returned from ViewController")
         DispatchQueue.main.async(execute: { () -> Void in
             callbacksEnabled = true
-            self.filterManager?.setCurrentCategory((self.filterManager?.getCurrentCategory())!)
+            self.filterManager.setCurrentCategory((self.filterManager.getCurrentCategory())!)
             self.viewDidLoad()
             //self.cameraDisplayView.setFilter(nil)
             self.cameraDisplayView.setFilter(self.currFilterDescriptor) // forces reset of filter pipeline

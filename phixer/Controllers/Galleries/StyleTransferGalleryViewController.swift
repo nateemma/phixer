@@ -24,9 +24,7 @@ private var filterCount: Int = 0
 
 // This is the View Controller for displaying Style Transfer models
 
-class StyleTransferGalleryViewController: FilterBasedController, FilterBasedControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
-    var theme = ThemeManager.currentTheme()
+class StyleTransferGalleryViewController: CoordinatedController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     // Banner View (title)
     var bannerView: TitleView! = TitleView()
@@ -48,11 +46,8 @@ class StyleTransferGalleryViewController: FilterBasedController, FilterBasedCont
     // controller for displaying full screen version of filtered image
     fileprivate var filterDetailsViewController:FilterDetailsViewController? = nil
     
-    var filterManager:FilterManager = FilterManager.sharedInstance
-    
     
     // var isLandscape : Bool = false // moved to base class
-    var showAds : Bool = true
     var screenSize : CGRect = CGRect.zero
     var displayWidth : CGFloat = 0.0
     var displayHeight : CGFloat = 0.0
@@ -241,7 +236,7 @@ class StyleTransferGalleryViewController: FilterBasedController, FilterBasedCont
         guard navigationController?.popViewController(animated: true) != nil else { //modal
             //log.debug("Not a navigation Controller")
             suspend()
-            dismiss(animated: true, completion:  {  self.delegate?.filterControllerCompleted(tag:self.getTag()) })
+            dismiss(animated: true, completion:  {  self.coordinator?.notifyCompletion(tag:self.getTag()) })
             return
         }
     }
@@ -317,6 +312,18 @@ class StyleTransferGalleryViewController: FilterBasedController, FilterBasedCont
 //////////////////////////////////////////
 
 
+extension StyleTransferGalleryViewController: StyleTransferGalleryViewDelegate {
+    
+    
+    func filterSelected(_ descriptor:FilterDescriptor?){
+        
+        filterManager.setSelectedFilter(key: (descriptor?.key)!)
+        self.coordinator?.selectFilter(key: (descriptor?.key)!)
+    }
+    
+}
+
+/****
 
 extension StyleTransferGalleryViewController: StyleTransferGalleryViewDelegate {
 
@@ -335,10 +342,10 @@ extension StyleTransferGalleryViewController: StyleTransferGalleryViewDelegate {
             if (descriptor != nil) && (!(descriptor?.key.isEmpty)!){
                 dismiss(animated: true, completion:  {
                     self.delegate?.filterControllerSelection(key: (descriptor?.key)!)
-                    self.delegate?.filterControllerCompleted(tag:self.getTag())
+                    self.coordinator?.notifyCompletion(tag:self.getTag())
                 })
            } else {
-                dismiss(animated: true, completion:  { self.delegate?.filterControllerCompleted(tag:self.getTag()) })
+                dismiss(animated: true, completion:  { self.coordinator?.notifyCompletion(tag:self.getTag()) })
             }
         }        
     }
@@ -362,7 +369,7 @@ extension StyleTransferGalleryViewController: FilterDetailsViewControllerDelegat
     }
 }
 
-
+****/
 
 extension StyleTransferGalleryViewController: TitleViewDelegate {
     func backPressed() {
@@ -370,10 +377,12 @@ extension StyleTransferGalleryViewController: TitleViewDelegate {
     }
     
     func helpPressed() {
-        let vc = HTMLViewController()
-        vc.setTitle("Style Transfer")
-        vc.loadFile(name: "StyleTransferGallery")
-        present(vc, animated: true, completion: nil)    }
+//        let vc = HTMLViewController()
+//        vc.setTitle("Style Transfer")
+//        vc.loadFile(name: "StyleTransferGallery")
+//        present(vc, animated: true, completion: nil)
+        self.coordinator?.help()
+    }
     
     func menuPressed() {
         // placeholder

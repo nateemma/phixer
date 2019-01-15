@@ -720,6 +720,17 @@
 		2537A21121E90DB500060DBE /* EditBaseToolController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A21021E90DB500060DBE /* EditBaseToolController.swift */; };
 		2537A21321E915AD00060DBE /* EditBaseMenuInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A21221E915AD00060DBE /* EditBaseMenuInterface.swift */; };
 		2537A21521E9A71300060DBE /* EditCurvesToolController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A21421E9A71300060DBE /* EditCurvesToolController.swift */; };
+		2537A21821ED383E00060DBE /* CoordinatorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A21721ED383E00060DBE /* CoordinatorDelegate.swift */; };
+		2537A21A21ED3E7F00060DBE /* ControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A21921ED3E7F00060DBE /* ControllerFactory.swift */; };
+		2537A21C21ED572A00060DBE /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A21B21ED572A00060DBE /* AppCoordinator.swift */; };
+		2537A21E21ED58B300060DBE /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A21D21ED58B300060DBE /* Coordinator.swift */; };
+		2537A22221ED91E300060DBE /* CoordinatedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A22121ED91E300060DBE /* CoordinatedController.swift */; };
+		2537A22421EE461900060DBE /* CoordinatorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A22321EE461900060DBE /* CoordinatorFactory.swift */; };
+		2537A22621EE4EAA00060DBE /* SimpleCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A22521EE4EA900060DBE /* SimpleCoordinator.swift */; };
+		2537A22821EE510200060DBE /* BasicEditCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A22721EE510200060DBE /* BasicEditCoordinator.swift */; };
+		2537A22A21EE772100060DBE /* StyleTransferGalleryCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A22921EE772100060DBE /* StyleTransferGalleryCoordinator.swift */; };
+		2537A22C21EE784000060DBE /* FilterGalleryCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A22B21EE784000060DBE /* FilterGalleryCoordinator.swift */; };
+		2537A22E21EE78AC00060DBE /* SettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A22D21EE78AC00060DBE /* SettingsCoordinator.swift */; };
 		253A39E21DDA965E00A714D4 /* SampleGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253A39E11DDA965E00A714D4 /* SampleGalleryViewController.swift */; };
 		253A39E41DDA979400A714D4 /* SampleGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253A39E31DDA979400A714D4 /* SampleGalleryView.swift */; };
 		253B236C1DA44E3600203ECB /* FilterDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253B236B1DA44E3600203ECB /* FilterDescriptor.swift */; };
@@ -733,7 +744,7 @@
 		2542DF551ECFB37400CEB968 /* CategoryRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2542DF541ECFB37400CEB968 /* CategoryRecord.swift */; };
 		2542DF571ECFB3F100CEB968 /* AssignmentRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2542DF561ECFB3F100CEB968 /* AssignmentRecord.swift */; };
 		2542DF591ECFB4DA00CEB968 /* LookupFilterRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2542DF581ECFB4DA00CEB968 /* LookupFilterRecord.swift */; };
-		2542DF5B1ED372BF00CEB968 /* SimpleEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2542DF5A1ED372BF00CEB968 /* SimpleEditViewController.swift */; };
+		2542DF5B1ED372BF00CEB968 /* BasicEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2542DF5A1ED372BF00CEB968 /* BasicEditViewController.swift */; };
 		2542DF5D1ED373F800CEB968 /* EditImageDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2542DF5C1ED373F800CEB968 /* EditImageDisplayView.swift */; };
 		2542DF651ED6634800CEB968 /* SettingsEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2542DF641ED6634800CEB968 /* SettingsEntity+CoreDataProperties.swift */; };
 		255459B921681294008A9F55 /* CameraCaptureHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255459B821681294008A9F55 /* CameraCaptureHelper.swift */; };
@@ -792,7 +803,6 @@
 		2573D1ED217CDCB500E78CAB /* YUCIHighPassSkinSmoothingMaskBoost.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = 2573D1D3217CDCB400E78CAB /* YUCIHighPassSkinSmoothingMaskBoost.cikernel */; };
 		257E29A12168274100F438C6 /* oldFilterConfig.json in Resources */ = {isa = PBXBuildFile; fileRef = 257E29A02168274100F438C6 /* oldFilterConfig.json */; };
 		257E29CA216D505B00F438C6 /* oldPresetList.json in Resources */ = {isa = PBXBuildFile; fileRef = 257E29C9216D505B00F438C6 /* oldPresetList.json */; };
-		257F49E21D9448920083B1E4 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257F49E11D9448920083B1E4 /* MainViewController.swift */; };
 		257F49E51D9448920083B1E4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 257F49E31D9448920083B1E4 /* Main.storyboard */; };
 		257F49E71D9448920083B1E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 257F49E61D9448920083B1E4 /* Assets.xcassets */; };
 		257F49EA1D9448920083B1E4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 257F49E81D9448920083B1E4 /* LaunchScreen.storyboard */; };
@@ -1613,6 +1623,17 @@
 		2537A21021E90DB500060DBE /* EditBaseToolController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditBaseToolController.swift; sourceTree = "<group>"; };
 		2537A21221E915AD00060DBE /* EditBaseMenuInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditBaseMenuInterface.swift; sourceTree = "<group>"; };
 		2537A21421E9A71300060DBE /* EditCurvesToolController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditCurvesToolController.swift; sourceTree = "<group>"; };
+		2537A21721ED383E00060DBE /* CoordinatorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorDelegate.swift; sourceTree = "<group>"; };
+		2537A21921ED3E7F00060DBE /* ControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerFactory.swift; sourceTree = "<group>"; };
+		2537A21B21ED572A00060DBE /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		2537A21D21ED58B300060DBE /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		2537A22121ED91E300060DBE /* CoordinatedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatedController.swift; sourceTree = "<group>"; };
+		2537A22321EE461900060DBE /* CoordinatorFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoordinatorFactory.swift; sourceTree = "<group>"; };
+		2537A22521EE4EA900060DBE /* SimpleCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleCoordinator.swift; sourceTree = "<group>"; };
+		2537A22721EE510200060DBE /* BasicEditCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicEditCoordinator.swift; sourceTree = "<group>"; };
+		2537A22921EE772100060DBE /* StyleTransferGalleryCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleTransferGalleryCoordinator.swift; sourceTree = "<group>"; };
+		2537A22B21EE784000060DBE /* FilterGalleryCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterGalleryCoordinator.swift; sourceTree = "<group>"; };
+		2537A22D21EE78AC00060DBE /* SettingsCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCoordinator.swift; sourceTree = "<group>"; };
 		253A39E11DDA965E00A714D4 /* SampleGalleryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleGalleryViewController.swift; sourceTree = "<group>"; };
 		253A39E31DDA979400A714D4 /* SampleGalleryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleGalleryView.swift; sourceTree = "<group>"; };
 		253B236B1DA44E3600203ECB /* FilterDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterDescriptor.swift; sourceTree = "<group>"; };
@@ -1626,7 +1647,7 @@
 		2542DF541ECFB37400CEB968 /* CategoryRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryRecord.swift; sourceTree = "<group>"; };
 		2542DF561ECFB3F100CEB968 /* AssignmentRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssignmentRecord.swift; sourceTree = "<group>"; };
 		2542DF581ECFB4DA00CEB968 /* LookupFilterRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LookupFilterRecord.swift; sourceTree = "<group>"; };
-		2542DF5A1ED372BF00CEB968 /* SimpleEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleEditViewController.swift; sourceTree = "<group>"; };
+		2542DF5A1ED372BF00CEB968 /* BasicEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicEditViewController.swift; sourceTree = "<group>"; };
 		2542DF5C1ED373F800CEB968 /* EditImageDisplayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditImageDisplayView.swift; sourceTree = "<group>"; };
 		2542DF641ED6634800CEB968 /* SettingsEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SettingsEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		255459B821681294008A9F55 /* CameraCaptureHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCaptureHelper.swift; sourceTree = "<group>"; };
@@ -1703,7 +1724,6 @@
 		257E29A02168274100F438C6 /* oldFilterConfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = oldFilterConfig.json; sourceTree = "<group>"; };
 		257E29C9216D505B00F438C6 /* oldPresetList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = oldPresetList.json; sourceTree = "<group>"; };
 		257F49DC1D9448920083B1E4 /* phixer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = phixer.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		257F49E11D9448920083B1E4 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		257F49E41D9448920083B1E4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		257F49E61D9448920083B1E4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		257F49E91D9448920083B1E4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -1907,6 +1927,24 @@
 			path = Textures;
 			sourceTree = "<group>";
 		};
+		2537A21621EC5A7D00060DBE /* Coordinators */ = {
+			isa = PBXGroup;
+			children = (
+				2537A21B21ED572A00060DBE /* AppCoordinator.swift */,
+				2537A22721EE510200060DBE /* BasicEditCoordinator.swift */,
+				2537A22921EE772100060DBE /* StyleTransferGalleryCoordinator.swift */,
+				2537A22B21EE784000060DBE /* FilterGalleryCoordinator.swift */,
+				2537A22D21EE78AC00060DBE /* SettingsCoordinator.swift */,
+				2537A21921ED3E7F00060DBE /* ControllerFactory.swift */,
+				2537A22121ED91E300060DBE /* CoordinatedController.swift */,
+				2537A21D21ED58B300060DBE /* Coordinator.swift */,
+				2537A21721ED383E00060DBE /* CoordinatorDelegate.swift */,
+				2537A22321EE461900060DBE /* CoordinatorFactory.swift */,
+				2537A22521EE4EA900060DBE /* SimpleCoordinator.swift */,
+			);
+			path = Coordinators;
+			sourceTree = "<group>";
+		};
 		253B236D1DA44E4D00203ECB /* Filters */ = {
 			isa = PBXGroup;
 			children = (
@@ -2044,10 +2082,9 @@
 				25A702911DC2FCDD009441E2 /* FilterDetailsViewController.swift */,
 				255591E62187CC62001B4452 /* HTMLViewController.swift */,
 				86DD9D941E9C5A7000A5D855 /* MainMenuController.swift */,
-				257F49E11D9448920083B1E4 /* MainViewController.swift */,
 				258EA0921ED9472600D5E20E /* ResetViewController.swift */,
 				258EA08D1ED90A7000D5E20E /* SettingsMenuController.swift */,
-				2542DF5A1ED372BF00CEB968 /* SimpleEditViewController.swift */,
+				2542DF5A1ED372BF00CEB968 /* BasicEditViewController.swift */,
 				252745E4217FE2EF00AA2DA2 /* StartupViewController.swift */,
 				2515988721A3495C0067AA00 /* ThemeChooserController.swift */,
 			);
@@ -2144,11 +2181,10 @@
 			isa = PBXGroup;
 			children = (
 				25CF4BDB1D94D93700D779CF /* AppDelegate.swift */,
-				2568BC1221AC72C900560287 /* Manifest.lock */,
-				25910B141DB73833007EC926 /* phixer-Bridging-Header.h */,
 				257F49E61D9448920083B1E4 /* Assets.xcassets */,
 				2506767B1DE108A500226740 /* Config */,
 				256D0FEF1D98DADA00220D7E /* Controllers */,
+				2537A21621EC5A7D00060DBE /* Coordinators */,
 				259BE4DD1ECCFFFC00D1A5E8 /* Database */,
 				25274600218764D500AA2DA2 /* Extensions */,
 				253B236D1DA44E4D00203ECB /* Filters */,
@@ -2158,9 +2194,11 @@
 				257F49EB1D9448920083B1E4 /* Info.plist */,
 				257F49E81D9448920083B1E4 /* LaunchScreen.storyboard */,
 				257F49E31D9448920083B1E4 /* Main.storyboard */,
+				2568BC1221AC72C900560287 /* Manifest.lock */,
 				258F0995218CBFC30082FE2A /* MLModels */,
 				256D0FEE1D98DAD100220D7E /* Models */,
 				2541499E1DDF9F03002C7BD5 /* Operations */,
+				25910B141DB73833007EC926 /* phixer-Bridging-Header.h */,
 				255459B7216811EE008A9F55 /* Utilities */,
 				256D0FEC1D98DAC600220D7E /* Views */,
 			);
@@ -3867,16 +3905,18 @@
 				258F09A0218CBFC30082FE2A /* FNS-The-Scream.mlmodel in Sources */,
 				2568BDA121AC72CB00560287 /* iCarousel.m in Sources */,
 				25CF4BDC1D94D93700D779CF /* AppDelegate.swift in Sources */,
-				2542DF5B1ED372BF00CEB968 /* SimpleEditViewController.swift in Sources */,
+				2542DF5B1ED372BF00CEB968 /* BasicEditViewController.swift in Sources */,
 				2507160D1DBED62C00CDDF42 /* FilterGalleryView.swift in Sources */,
 				25B24D181DAFE255008CD38A /* FilterInfoView.swift in Sources */,
 				2573D1DE217CDCB500E78CAB /* YUCIHighPassSkinSmoothing.m in Sources */,
 				255591E72187CC62001B4452 /* HTMLViewController.swift in Sources */,
+				2537A22221ED91E300060DBE /* CoordinatedController.swift in Sources */,
 				2568BDEF21C870F800560287 /* EditMainOptionsController.swift in Sources */,
 				258F099C218CBFC30082FE2A /* FNS-Candy.mlmodel in Sources */,
 				25159886219E2BF20067AA00 /* ColorUtilities.swift in Sources */,
 				259BE4DB1ECCFA4200D1A5E8 /* Database.swift in Sources */,
 				251729582175406100D5E946 /* UserChangesRecord.swift in Sources */,
+				2537A21E21ED58B300060DBE /* Coordinator.swift in Sources */,
 				2568BD2821AC72CB00560287 /* MetalImageView.swift in Sources */,
 				258F09B9219264C20082FE2A /* SmoothThresholdFilter.swift in Sources */,
 				2537A1E121E01EA900060DBE /* Sobel3x3Filter.swift in Sources */,
@@ -3933,13 +3973,14 @@
 				252C17A71ECE75FC00039BFC /* AssignmentEntity+CoreDataProperties.swift in Sources */,
 				258F09B1218E4B810082FE2A /* Style_LaMuse.swift in Sources */,
 				252745FB21851AEB00AA2DA2 /* ColorPickerController.swift in Sources */,
+				2537A22621EE4EAA00060DBE /* SimpleCoordinator.swift in Sources */,
 				25910B1B1DB7D61A007EC926 /* RenderContainerView.swift in Sources */,
 				2537A1E521E02D7800060DBE /* SketchFilter.swift in Sources */,
 				2573D1D8217CDCB500E78CAB /* YUCIFilterConstructor.m in Sources */,
 				258F099D218CBFC30082FE2A /* FNS-Feathers.mlmodel in Sources */,
 				252746042187653500AA2DA2 /* UIColor+Extensions.swift in Sources */,
 				2537A1C721DC27BC00060DBE /* Adornment.swift in Sources */,
-				257F49E21D9448920083B1E4 /* MainViewController.swift in Sources */,
+				2537A22C21EE784000060DBE /* FilterGalleryCoordinator.swift in Sources */,
 				2537A1C121D31F4B00060DBE /* WhiteBalanceFilter.swift in Sources */,
 				2573D1E5217CDCB500E78CAB /* YUCIReflectedTile.m in Sources */,
 				2568BDD721BEC72600560287 /* StyleTransferFilter.swift in Sources */,
@@ -3951,10 +3992,12 @@
 				2507160B1DBECDF200CDDF42 /* Admob.swift in Sources */,
 				2568BDD121BB3ECD00560287 /* StyleTransferGalleryView.swift in Sources */,
 				252C17A51ECE75FC00039BFC /* CategoryEntity+CoreDataProperties.swift in Sources */,
+				2537A22421EE461900060DBE /* CoordinatorFactory.swift in Sources */,
 				251598802194B97E0067AA00 /* ClarityFilter.swift in Sources */,
 				25F85CE621C9650F005498C4 /* SimpleCarousel.swift in Sources */,
 				25D24AB71DC7DCDB001F65B9 /* FilterGalleryViewCell.swift in Sources */,
 				2537A1E321E0220F00060DBE /* LaplacianGaussianFilter.swift in Sources */,
+				2537A22E21EE78AC00060DBE /* SettingsCoordinator.swift in Sources */,
 				2537A1E721E0305700060DBE /* ColorSobelFilter.swift in Sources */,
 				2573D1DB217CDCB500E78CAB /* YUCIColorLookup.m in Sources */,
 				2537A20521E516AF00060DBE /* CIVector+Extensions.swift in Sources */,
@@ -3962,6 +4005,7 @@
 				2537A20D21E82C9700060DBE /* FilterBasedController.swift in Sources */,
 				252C17951ECE64EE00039BFC /* Model.xcdatamodeld in Sources */,
 				258EA08E1ED90A7000D5E20E /* SettingsMenuController.swift in Sources */,
+				2537A22821EE510200060DBE /* BasicEditCoordinator.swift in Sources */,
 				2568BDD321BB3F2800560287 /* StyleTransferGalleryViewCell.swift in Sources */,
 				2537A21521E9A71300060DBE /* EditCurvesToolController.swift in Sources */,
 				255673231DB9BF0F00187F25 /* FilterControlsView.swift in Sources */,
@@ -3986,15 +4030,18 @@
 				2556731F1DB961F700187F25 /* DisplayMode.swift in Sources */,
 				2568BDE821C86BDC00560287 /* UIViewController+Extensions.swift in Sources */,
 				2542DF551ECFB37400CEB968 /* CategoryRecord.swift in Sources */,
+				2537A21821ED383E00060DBE /* CoordinatorDelegate.swift in Sources */,
 				2537A1EB21E271E400060DBE /* Sobel5x5Filter.swift in Sources */,
 				86DD9D951E9C5A7000A5D855 /* MainMenuController.swift in Sources */,
 				2537A21321E915AD00060DBE /* EditBaseMenuInterface.swift in Sources */,
 				2573D1EC217CDCB500E78CAB /* YUCIBilateralFilter.m in Sources */,
 				2573D1E9217CDCB500E78CAB /* YUCIHistogramEqualization.m in Sources */,
 				25A702921DC2FCDD009441E2 /* FilterDetailsViewController.swift in Sources */,
+				2537A21A21ED3E7F00060DBE /* ControllerFactory.swift in Sources */,
 				2537A1BD21D28E5600060DBE /* SaturationFilter.swift in Sources */,
 				2568BDE621C861A200560287 /* BasicAdjustmentsPanel.swift in Sources */,
 				252C17A61ECE75FC00039BFC /* AssignmentEntity+CoreDataClass.swift in Sources */,
+				2537A21C21ED572A00060DBE /* AppCoordinator.swift in Sources */,
 				2568BDCF21BB371D00560287 /* StyleTransferGalleryViewController.swift in Sources */,
 				258F09B3218E4BB30082FE2A /* Style_Udnie.swift in Sources */,
 				2542DF571ECFB3F100CEB968 /* AssignmentRecord.swift in Sources */,
@@ -4003,6 +4050,7 @@
 				25F85CEF21CC50E5005498C4 /* UIFont+Extensions.swift in Sources */,
 				2537A20F21E848E700060DBE /* FilterBasedControllerDelegate.swift in Sources */,
 				2537A1F721E42C2C00060DBE /* FilterDefinition.swift in Sources */,
+				2537A22A21EE772100060DBE /* StyleTransferGalleryCoordinator.swift in Sources */,
 				258EA0931ED9472600D5E20E /* ResetViewController.swift in Sources */,
 				25F85CE821C97593005498C4 /* EditBasicAdjustmentsController.swift in Sources */,
 				253A39E21DDA965E00A714D4 /* SampleGalleryViewController.swift in Sources */,

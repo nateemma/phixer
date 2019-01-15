@@ -18,18 +18,15 @@ private var filterCount: Int = 0
 // This View Controller is the 'base' class used for creating Edit Control displays which consist of a carousel of text & icons
 // The subclass just needs to override the functions that provide the displayed data and the handler for dealing with a user selection
 
-class EditBaseMenuController: FilterBasedController, FilterBasedControllerDelegate, EditBaseMenuInterface {
+class EditBaseMenuController: CoordinatedController, EditBaseMenuInterface {
     
     
-    
-    var theme = ThemeManager.currentTheme()
     
     // The Edit controls/options
     var mainView: UIView! = UIView()
     let menu:SimpleCarousel! = SimpleCarousel()
 
     
-    // var isLandscape : Bool = false // moved to base class
     var screenSize : CGRect = CGRect.zero
     var displayWidth : CGFloat = 0.0
     var displayHeight : CGFloat = 0.0
@@ -46,9 +43,9 @@ class EditBaseMenuController: FilterBasedController, FilterBasedControllerDelega
     ////////////////////
     
     // returns the text to display at the top of the window
-    func getTitle() -> String {
+    override func getTitle() -> String {
         log.warning("Base class called, should have been overridden by subclass")
-        return ""
+        return "BASE"
     }
     
     // returns the list of Adornments (text, icon/image, handler)
@@ -62,36 +59,21 @@ class EditBaseMenuController: FilterBasedController, FilterBasedControllerDelega
         log.error("Base class called, should have been overridden by subclass")
     }
     
-    // go to the next filter, whatever that means for this controller. Note that this is a valid default implementation
-    override func nextFilter(){
+    // get the next filter, whatever that means for this controller. Note that this is a valid default implementation
+    
+    override func nextFilter() -> String {
         log.debug("next...")
-        menu.nextItem()
+        return menu.getNextItem()
     }
-  
-    // go to the previous filter, whatever that means for this controller. Note that this is a valid default implementation
-    override func previousFilter(){
+    
+
+    // get the previous filter, whatever that means for this controller. Note that this is a valid default implementation
+    override func previousFilter() -> String {
         log.debug("previous...")
-        menu.previousItem()
+        return menu.getPreviousItem()
     }
 
-    
-    //////////////////////////////////////////
-    // FilterBasedControllerDelegate
-    //////////////////////////////////////////
-    
-    // these are here to allow compilation.
-    
-    func filterControllerSelection(key: String) {
-        log.warning("base class called. key: \(key)")
-    }
-    
-    func filterControllerUpdateRequest(tag: String) {
-        log.warning("base class called. tag: \(tag)")
-    }
-    
-    func filterControllerCompleted(tag: String) {
-        log.warning("base class called. tag: \(tag)")
-    }
+
     
     
     ////////////////////
@@ -199,18 +181,9 @@ class EditBaseMenuController: FilterBasedController, FilterBasedControllerDelega
 
     }
     
-    
-    func dismiss(){
-        UIView.animate(withDuration: 0.5, animations: {
-            self.view.alpha = 0 }) { _ in
-                self.clearSubviews()
-                self.view.isHidden = true
-                //self.removeFromSuperview()
-        }
-    }
 
     
-    fileprivate func clearSubviews(){
+    override func clearSubviews(){
         for v in mainView.subviews{
             v.removeFromSuperview()
         }
@@ -225,7 +198,6 @@ class EditBaseMenuController: FilterBasedController, FilterBasedControllerDelega
     //////////////////////////////////////////
     
     @objc func cancelDidPress(){
-        delegate?.filterControllerCompleted(tag:self.getTag())
         dismiss()
     }
 
