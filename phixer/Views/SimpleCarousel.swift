@@ -53,7 +53,7 @@ class SimpleCarousel: UIView {
 
     public func setItems(_ items:[Adornment]) {
         itemList = items
-        log.verbose("items:\(items)")
+        //log.verbose("items:\(items)")
     }
 
     public func getNextItem() -> String {
@@ -218,7 +218,7 @@ class SimpleCarousel: UIView {
             image.tintColor =  theme.tintColor
             
             image.backgroundColor = theme.backgroundColor
-            imgView.layer.borderColor = theme.tintColor.cgColor
+            imgView.layer.borderColor = theme.tintColor.withAlphaComponent(0.5).cgColor
 
             imgView.addSubview(image)
             imgView.addSubview(label)
@@ -279,7 +279,7 @@ class SimpleCarousel: UIView {
                    oldView?.tintColor = theme.textColor
                     oldView?.layer.cornerRadius = 4.0
                     oldView?.layer.borderWidth = 1.0
-                    oldView?.layer.borderColor = theme.borderColor.cgColor
+                    oldView?.layer.borderColor = theme.borderColor.withAlphaComponent(0.5).cgColor
                 }
             }
             

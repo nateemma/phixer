@@ -25,23 +25,38 @@ class SimpleCoordinator: Coordinator {
     // MARK:  Delegate Functions
     /////////////////////////////
     
-    override func selectFilter(key: String) {
-        log.error("Not supported by this Coordnator")
-        // TODO: Set it anyway?
-    }
     
-    override func nextFilter() -> String {
-        log.error("Not supported by this Coordnator")
-        return (Coordinator.filterManager?.getCurrentFilterKey())!
-    }
-    
-    override func previousFilter() -> String {
-        log.error("Not supported by this Coordnator")
-        return (Coordinator.filterManager?.getCurrentFilterKey())!
+    // move to the next item, whatever that is (can be nothing)
+    override func nextItemRequest() {
+        
+        // get next filter and send it to the main controller
+        let key = Coordinator.filterManager?.getNextFilterKey()
+        self.mainController?.selectFilter(key: key!)
     }
     
     
-    override func start(completion: @escaping ()->()){
+    
+    // move to the previous item, whatever that is (can be nothing)
+    override func previousItemRequest() {
+        
+        // get prev filter and send it to the main controller
+        let key = Coordinator.filterManager?.getPreviousFilterKey()
+        self.mainController?.selectFilter(key: key!)
+    }
+
+    
+    override func selectFilterNotification (key: String) {
+        // filter selected, pass it on to the parent controller
+        log.debug("key: \(key)")
+        self.coordinator?.selectFilterNotification(key: key)
+        
+        // exit this coordinator
+        // TODO: tell mainController first???
+        self.completionNotification(id: self.mainControllerId)
+    }
+
+    
+    override func startRequest(completion: @escaping ()->()){
         // Logging nicety, show that controller has changed:
         print ("\n========== \(String(describing: type(of: self))): \(self.mainControllerId.rawValue) ==========\n")
         
@@ -52,7 +67,7 @@ class SimpleCoordinator: Coordinator {
         self.subControllers = [:]
         self.validControllers = [self.mainControllerId]
         
-         self.activate(self.mainControllerId)
+         self.activateRequest(id: self.mainControllerId)
         
     }
 

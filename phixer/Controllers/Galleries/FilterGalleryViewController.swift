@@ -256,13 +256,9 @@ class FilterGalleryViewController: CoordinatedController {
     
     @objc func backDidPress(){
         log.verbose("Back pressed")
-        //_ = self.navigationController?.popViewController(animated: true)
-        guard navigationController?.popViewController(animated: true) != nil else { //modal
-            //log.debug("Not a navigation Controller")
-            suspend()
-            dismiss(animated: true, completion:  { self.coordinator?.notifyCompletion(tag:self.getTag()) })
-            return
-        }
+        suspend()
+        self.dismiss()
+        return
     }
     
     
@@ -316,26 +312,8 @@ extension FilterGalleryViewController: FilterGalleryViewDelegate {
         filterManager.setSelectedCategory(currCategory)
         filterManager.setSelectedFilter(key: (descriptor?.key)!)
         
-        self.coordinator?.activate(.displayFilter)
-/***
-        if self.mode == .displaySelection {
-            let filterDetailsViewController = FilterDetailsViewController()
-            filterDetailsViewController.delegate = self
-            filterDetailsViewController.currFilterKey = (descriptor?.key)!
-            self.present(filterDetailsViewController, animated: false, completion: nil)
-        } else {
-            log.verbose("ending")
-            suspend()
-            if (descriptor != nil) && (!(descriptor?.key.isEmpty)!){
-                dismiss(animated: true, completion:  {
-                    self.delegate?.filterControllerSelection(key: (descriptor?.key)!)
-                    self.coordinator?.notifyCompletion(tag:self.getTag())
-                })
-            } else {
-                dismiss(animated: true, completion:  { self.coordinator?.notifyCompletion(tag:self.getTag()) })
-            }
-        }
- ***/
+        self.coordinator?.selectFilterNotification(key: (descriptor?.key)!)
+        //self.dismiss()
     }
     
     func requestUpdate(category:String){

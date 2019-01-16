@@ -367,12 +367,10 @@ class BlendGalleryViewController: CoordinatedController, UIImagePickerController
      
     
     func exitScreen(){
-        guard navigationController?.popViewController(animated: true) != nil else { //modal
-            //log.debug("Not a navigation Controller")
-            suspend()
-            dismiss(animated: true, completion:  { self.coordinator?.notifyCompletion(tag:self.getTag()) })
-            return
-        }
+        
+        suspend()
+        self.dismiss()
+        
     }
     
     func loadPhotoThumbnail(view: UIImageView){
@@ -486,12 +484,12 @@ class BlendGalleryViewController: CoordinatedController, UIImagePickerController
                 
             case UISwipeGestureRecognizerDirection.right:
                 //log.verbose("Swiped Right")
-                previousFilter()
+                self.coordinator?.nextItemRequest()
                 break
                 
             case UISwipeGestureRecognizerDirection.left:
                 //log.verbose("Swiped Left")
-                nextFilter()
+                self.coordinator?.previousItemRequest()
                 break
                 
             default:
@@ -528,8 +526,7 @@ class BlendGalleryViewController: CoordinatedController, UIImagePickerController
     
     @objc func filterDidPress(){
         log.verbose("Filter pressed")
-        nextFilter()
-    }
+        self.coordinator?.nextItemRequest()    }
     
     @objc func photosLinkDidPress(){
         log.verbose("Photos pressed")
@@ -616,7 +613,7 @@ extension BlendGalleryViewController: TitleViewDelegate {
 //        vc.setTitle("Blend Gallery")
 //        vc.loadFile(name: "BlendGallery")
 //        present(vc, animated: true, completion: nil)
-        self.coordinator?.help()
+        self.coordinator?.helpRequest()
     }
     
     func menuPressed() {

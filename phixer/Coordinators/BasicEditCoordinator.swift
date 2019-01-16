@@ -15,24 +15,20 @@ import GoogleMobileAds
 
 class BasicEditCoordinator: Coordinator {
    
+
     
     /////////////////////////////
     // MARK:  Delegate Functions
     /////////////////////////////
     
-    override func selectFilter(key: String) {
-        // filter selected, so update the edit display
-        Coordinator.filterManager?.setCurrentFilterKey(key)
-        self.mainController?.requestUpdate(tag: self.getTag())
+    override func selectFilterNotification (key: String) {
+        // filter selected, display it. e want this to go back to the edit controller, not launch a separate viewer (as is done for the gallery scenes)
+        log.debug("key: \(key)")
+        self.mainController?.selectFilter(key: key)
     }
+
     
-    
-    
-    /////////////////////////////
-    // MARK:  Delegate Functions
-    /////////////////////////////
-    
-    override func start(completion: @escaping ()->()){
+    override func startRequest(completion: @escaping ()->()){
         // Logging nicety, show that controller has changed:
         print ("\n========== \(self.getTag()) ==========\n")
 
@@ -47,11 +43,13 @@ class BasicEditCoordinator: Coordinator {
         self.validControllers = [.edit, .filterGallery, .styleGallery, .editMainMenu, .editBasicAdjustmentsMenu, .curveTool]
 
         // no (main) mappings for coordinators
-        self.coordinatorMap = [:] 
-        
+        //self.coordinatorMap = [:]
+        self.coordinatorMap [ControllerIdentifier.filterGallery] = CoordinatorIdentifier.filterGallery
+        self.coordinatorMap [ControllerIdentifier.styleGallery] = CoordinatorIdentifier.styleGallery
+
         // start the Edit Controller and the Main Menu
-        self.activate (.edit)
-        self.activate (.editMainMenu)
+        self.activateRequest(id: .edit)
+        self.activateRequest(id: .editMainMenu)
 
     }
     

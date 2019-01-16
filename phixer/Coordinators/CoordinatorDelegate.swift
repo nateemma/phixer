@@ -9,40 +9,47 @@
 import Foundation
 
 
-// Coordinator interface available to View Controllers
+// Coordinator interface available to View Controllers (or other Coordinators)
+
+// Note: Request implies the coordinator is being asked to do something, Notification implies it is being informed about something.
+//       It's also a way to avoid naming clashes with teh opposite interface (Coordinator->Controller)
 
 protocol CoordinatorDelegate: class {
     
+    // sets the coordinator parent
+    func setCoordinator(_ coordinator:Coordinator)
+    
     // start processing
-    func start(completion: @escaping ()->())
+    func startRequest(completion: @escaping ()->())
     
-    // notifies active controller that a filter has been selected
-    func selectFilter (key: String)
+    // notification to prepare to end processing. Coordinator will wait for the endNotification
+    func endRequest()
     
-    // returns the 'next' filter, which can vary based on what is currently active
-    func nextFilter() -> String
     
-    // returns the 'previous' filter, which can vary based on what is currently active
-    func previousFilter()  -> String
-    
-    // requests the active controller to update the UI
-    func requestUpdate (tag: String)
-    
-    // notifies the previous controller that the current controller has ended
-    func notifyCompletion (tag: String)
+    // notifies the coordinator that a controller or coordinator has ended
+    func completionNotification (id: ControllerIdentifier)
     
     // requests activation of controller (using the known list of controllers)
-    func activate (_ controller: ControllerIdentifier)
+    func activateRequest (id: ControllerIdentifier)
+
+    // notifies active controller that a filter has been selected
+    func selectFilterNotification (key: String)
+    
+    // move to the next item, whatever that is (can be nothing)
+    func nextItemRequest()
+    
+    // move to the previous item, whatever that is (can be nothing)
+    func previousItemRequest()
+    
+    // requests the active controller to update the UI
+    func updateRequest (id: ControllerIdentifier)
     
     // // request to hide any subcontrollers that are active
-    func hideSubcontrollers()
+    func hideSubcontrollersRequest()
     
     // // request to show any subcontrollers that are active
-    func showSubcontrollers()
-    
-    // request navigation back to the previous coordinator (or root)
-    func back()
+    func showSubcontrollersRequest()
     
     // activate help function for current state (typically not known by the controller if there are sub-controllers active)
-    func help()
+    func helpRequest()
 }

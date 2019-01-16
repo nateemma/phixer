@@ -315,51 +315,30 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
     
     
     @objc func presentAbout(){
-        let vc = HTMLViewController()
-        vc.setTitle("About")
-        vc.loadFile(name: "About")
-        present(vc, animated: true, completion: nil)
+        self.coordinator?.activateRequest(id: ControllerIdentifier.about)
     }
     
     
     @objc func presentBlendGallery(){
-//        let vc = BlendGalleryViewController()
-//        vc.delegate = self
-//        vc.mode = .displaySelection
-//        present(vc, animated: true, completion: nil)
-        self.coordinator?.activate(ControllerIdentifier.blendGallery)
+        self.coordinator?.activateRequest(id: ControllerIdentifier.blendGallery)
     }
     
     
     @objc func presentSampleGallery(){
-//        let vc = SampleGalleryViewController()
-//        vc.delegate = self
-//        vc.mode = .displaySelection
-//       present(vc, animated: true, completion: nil)
-        self.coordinator?.activate(ControllerIdentifier.sampleGallery)
+        self.coordinator?.activateRequest(id: ControllerIdentifier.sampleGallery)
     }
     
     
     @objc func presentReset(){
-//        let vc = ResetViewController()
-//        //vc.delegate = self
-//        present(vc, animated: true, completion: nil)
-//        notImplemented()
-        self.coordinator?.activate(ControllerIdentifier.reset)
+        self.coordinator?.activateRequest(id: ControllerIdentifier.reset)
     }
     
     @objc func presentThemes(){
-//        let vc = ThemeChooserController()
-//        //vc.delegate = self
-//        present(vc, animated: true, completion: nil)
-        self.coordinator?.activate(ControllerIdentifier.themeChooser)
+        self.coordinator?.activateRequest(id: ControllerIdentifier.themeChooser)
     }
     
     @objc func presentColors(){
-//        let vc = ColorSchemeViewController()
-//        //vc.delegate = self
-//        present(vc, animated: true, completion: nil)
-        self.coordinator?.activate(ControllerIdentifier.colorScheme)
+        self.coordinator?.activateRequest(id: ControllerIdentifier.colorScheme)
    }
     
     @objc func hideFiltersSwitchChanged(_ sender:UISwitch){

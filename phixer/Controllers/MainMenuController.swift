@@ -37,7 +37,7 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
     
     convenience init(){
         self.init(nibName:nil, bundle:nil)
-        log.debug("=== MainMenuController() ===")
+        //log.debug("=== MainMenuController() ===")
         //doInit()
     }
     
@@ -129,26 +129,7 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
         
     }
     
-
-    
-    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
-        if ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight)){
-            log.verbose("### Detected change to: Landscape")
-        } else {
-            log.verbose("### Detected change to: Portrait")
-            
-        }
-        //TODO: animate and maybe handle before rotation finishes
-        self.viewDidLoad()
-    }
-    
-    
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        log.error("Memory Warning")
-        // Dispose of any resources that can be recreated.
-    }
+   
  
     // utility function to setup a menu item
     func setupMenuItem(label:UILabel, height:CGFloat, width:CGFloat, title:String, color:UIColor, handler:UITapGestureRecognizer){
@@ -183,23 +164,23 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
     
     @objc func presentSimpleImageEditor(){
         InputSource.setCurrent(source: .edit)
-        self.coordinator?.activate(.edit)
+        self.coordinator?.activateRequest(id: .edit)
     }
     
     @objc func presentStyleTransfer(){
         InputSource.setCurrent(source: .edit)
-        self.coordinator?.activate(.styleTransfer)
+        self.coordinator?.activateRequest(id: .browseStyleTransfer)
     }
 
     
     @objc func presentFilterGallery(){
         InputSource.setCurrent(source: .sample)
-        self.coordinator?.activate(.browse)
+        self.coordinator?.activateRequest(id: .browseFilters)
     }
     
 
     @objc func presentSettings(){
-        self.coordinator?.activate(.settings)
+        self.coordinator?.activateRequest(id: .settings)
 
     }
     

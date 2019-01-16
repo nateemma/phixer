@@ -24,41 +24,18 @@ class AppCoordinator: Coordinator {
 
     var window: UIWindow? = nil
     
-    lazy var rootViewController: UINavigationController = {
-        return UINavigationController(rootViewController: UIViewController())
-    }()
-    
-    
     init(window: UIWindow?) {
-        Coordinator.navigationController = UINavigationController(rootViewController: UIViewController())
         self.window = window
-    }
+        Coordinator.navigationController = UINavigationController()
+   }
     
-    /////////////////////////////
-    // MARK:  Delegate Functions
-    /////////////////////////////
-    
-    override func selectFilter(key: String) {
-        log.error("Not supported by this Coordnator")
-        // TODO: Set it anyway?
-    }
-    
-    override func nextFilter() -> String {
-        log.error("Not supported by this Coordnator")
-        return (Coordinator.filterManager?.getCurrentFilterKey())!
-    }
-    
-    override func previousFilter() -> String {
-        log.error("Not supported by this Coordnator")
-        return (Coordinator.filterManager?.getCurrentFilterKey())!
-    }
     
     
     /////////////////////////////
     // MARK:  Delegate Functions
     /////////////////////////////
     
-    override func start(completion: @escaping ()->()){
+    override func startRequest(completion: @escaping ()->()){
         // Logging nicety, show that controller has changed:
         print ("\n========== \(String(describing: type(of: self))) ==========\n")
         
@@ -68,7 +45,7 @@ class AppCoordinator: Coordinator {
         
         window.rootViewController = Coordinator.navigationController
         window.makeKeyAndVisible()
-        
+
         // reset controller/coordinator vars
         self.completionHandler = completion
         self.subCoordinators = [:]
@@ -123,12 +100,12 @@ class AppCoordinator: Coordinator {
         self.mainControllerId = .home
         
         // define the list of valid Controllers
-        self.validControllers = [ .home, .edit, .browse, .styleTransfer, .settings ]
+        self.validControllers = [ .home, .edit, .browseFilters, .browseStyleTransfer, .settings ]
         
         // map controllers to their associated coordinators
         self.coordinatorMap [ControllerIdentifier.edit] = CoordinatorIdentifier.edit
-        self.coordinatorMap [ControllerIdentifier.browse] = CoordinatorIdentifier.browse
-        self.coordinatorMap [ControllerIdentifier.styleTransfer] = CoordinatorIdentifier.styleTransfer
+        self.coordinatorMap [ControllerIdentifier.browseFilters] = CoordinatorIdentifier.browseFilters
+        self.coordinatorMap [ControllerIdentifier.browseStyleTransfer] = CoordinatorIdentifier.browseStyleTransfer
         self.coordinatorMap [ControllerIdentifier.settings] = CoordinatorIdentifier.settings
 
     }
@@ -138,19 +115,20 @@ class AppCoordinator: Coordinator {
     private func setupFrames() {
 
         let w = UIScreen.main.bounds.size.width
-        let h = UIScreen.main.bounds.size.width
+        let h = UIScreen.main.bounds.size.height
         let topBarHeight = UIApplication.shared.statusBarFrame.size.height +
             (Coordinator.navigationController?.navigationBar.frame.height ?? 0.0)
         let menuHeight:CGFloat = 88.0
         
-        let fullFrame:CGRect = CGRect(x: 0, y: topBarHeight, width: w, height: h)
-        let menuFrame:CGRect = CGRect(x: 0, y: h-menuHeight, width: w, height: h)
-        let toolFrame:CGRect = CGRect(x: menuHeight/2.0, y: menuHeight, width: w, height: h)
+        let fullFrame:CGRect = CGRect(x: 0, y: topBarHeight, width: w, height: h-topBarHeight)
+        let menuFrame:CGRect = CGRect(x: 0, y: h-menuHeight, width: w, height: menuHeight)
+        let toolFrame:CGRect = CGRect(x: menuHeight/2.0, y: menuHeight, width: w-2.0*menuHeight, height: w-2.0*menuHeight)
         
         ControllerFactory.setFrame(.fullscreen, frame: fullFrame)
         ControllerFactory.setFrame(.menu, frame: menuFrame)
         ControllerFactory.setFrame(.tool, frame: toolFrame)
 
+        log.debug("screen: (\(w),\(h)), top bar h: \(topBarHeight)")
     }
 
     
@@ -160,6 +138,18 @@ class AppCoordinator: Coordinator {
 
     private func startMainController() {
         
-        self.activate(self.mainControllerId)
+        // a little different since nothing is running yet
+        
+        self.mainController = MainMenuController()
+        self.mainController?.coordinator = self
+        self.mainControllerTag = (self.mainController?.getTag())!
+        self.mainControllerId = .home
+        Coordinator.navigationController?.setViewControllers([self.mainController!], animated: true)
+
+       // self.activate(self.mainControllerId)
+//        if self.mainController != nil {
+//            Coordinator.navigationController = UINavigationController(rootViewController: self.mainController!)
+//            //window?.rootViewController = self.mainController
+//        }
     }
 }

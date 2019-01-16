@@ -1,5 +1,5 @@
 //
-//  StyleTransferGalleryCoordinator.swift
+//  BrowseStyleTransferCoordinator.swift
 //  phixer
 //
 //  Created by Philip Price on 1/14/19.
@@ -13,27 +13,24 @@ import GoogleMobileAds
 
 // Coordinator for the Style Transfer Gallery (standalone) functionality
 
-class StyleTransferGalleryCoordinator: Coordinator {
+class BrowseStyleTransferCoordinator: Coordinator {
    
     
     /////////////////////////////
     // MARK:  Delegate Functions
     /////////////////////////////
-    
-    override func selectFilter(key: String) {
+ 
+
+    override func selectFilterNotification (key: String) {
         // filter selected, display it
         log.debug("key: \(key)")
         //Coordinator.filterManager?.setCurrentFilterKey(key)
-        self.activate(.displayFilter)
-    }
+        self.activateRequest(id: ControllerIdentifier.displayFilter)
+   }
+
+ 
     
-    
-    
-    /////////////////////////////
-    // MARK:  Delegate Functions
-    /////////////////////////////
-    
-    override func start(completion: @escaping ()->()){
+    override func startRequest(completion: @escaping ()->()){
         // Logging nicety, show that controller has changed:
         print ("\n========== \(self.getTag()) ==========\n")
 
@@ -48,12 +45,12 @@ class StyleTransferGalleryCoordinator: Coordinator {
         self.validControllers = [.styleGallery, .displayFilter]
 
         // no (main) mappings for coordinators
-        self.coordinatorMap = [:] 
-        
-        // start the main controller
-        self.activate (self.mainControllerId)
+        //self.coordinatorMap = [:]
+        self.coordinatorMap [ControllerIdentifier.displayFilter] = CoordinatorIdentifier.filterDisplay
 
-        
+        // start the main controller
+        self.activateRequest(id: self.mainControllerId)
+
     }
  
 }

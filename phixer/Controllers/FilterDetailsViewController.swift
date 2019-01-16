@@ -117,7 +117,8 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
     //MARK: Accessors
     ///////////////////////
 
-    override func requestUpdate(tag: String){
+
+    override func updateDisplays() {
         update()
     }
 
@@ -525,7 +526,7 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
         guard navigationController?.popViewController(animated: true) != nil else { //modal
             //log.debug("Not a navigation Controller")
             suspend()
-            dismiss(animated: true, completion: { self.coordinator?.notifyCompletion(tag:self.getTag()) })
+            self.dismiss()
             return
         }
     }
@@ -987,7 +988,7 @@ extension FilterDetailsViewController: TitleViewDelegate {
 //        vc.setTitle("Filter Preview")
 //        vc.loadFile(name: "FilterPreview")
 //        present(vc, animated: true, completion: nil)
-        self.coordinator?.help()
+        self.coordinator?.helpRequest()
     }
     
     func menuPressed() {

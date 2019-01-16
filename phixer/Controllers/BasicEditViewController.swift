@@ -358,7 +358,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
 //        let vc = BlendGalleryViewController()
 //        vc.delegate = self
 //        self.present(vc, animated: true, completion: { })
-        self.coordinator?.activate(.blendGallery)
+        self.coordinator?.activateRequest(id: .blendGallery)
     }
     
     @objc func saveDidPress(){
@@ -498,12 +498,12 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
                     
                 case UISwipeGestureRecognizerDirection.right:
                     log.verbose("Swiped Right")
-                    gotoPreviousFilter()
+                    self.coordinator?.nextItemRequest()
                     break
                     
                 case UISwipeGestureRecognizerDirection.left:
                     log.verbose("Swiped Left")
-                    gotoNextFilter()
+                    self.coordinator?.previousItemRequest()
                    break
                     
                 case UISwipeGestureRecognizerDirection.up:
@@ -538,10 +538,43 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     }
 
     
+    //////////////////////////////////////
+    //MARK: - Coordination
+    //////////////////////////////////////
+
     
+    // do something if a filter was selected
+    override func selectFilter(key: String){
+        log.verbose("Change filter to: \(key)")
+        DispatchQueue.main.async(execute: { () -> Void in
+            //self.currFilterKey = ""
+            self.changeFilterTo (key)
+            self.editImageView.updateImage()
+        })
+   }
+    
+    // handle update of the UI
+    override func updateDisplays() {
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.editImageView.updateImage()
+        })
+    }
+
+    
+    // return the display title for this Controller
+    override func getTitle() -> String {
+        return "Edit"
+    }
+    
+    // return the name of the help file associated with this Controller (without extension)
+    override func getHelpKey() -> String {
+        return "SimpleEditor"
+    }
+
     //////////////////////////////////////
     //MARK: - Navigation
     //////////////////////////////////////
+    
     @objc func backDidPress(){
         log.verbose("Back pressed")
         exitScreen()
@@ -549,12 +582,9 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     
     
     func exitScreen(){
-        guard navigationController?.popViewController(animated: true) != nil else { //modal
-            //log.debug("Not a navigation Controller")
-            suspend()
-            dismiss(animated: true, completion:  { self.coordinator?.notifyCompletion(tag:self.getTag()) })
-            return
-        }
+        suspend()
+        self.dismiss()
+        return
     }
     
     
@@ -592,7 +622,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     // convenience function to hide all modal views
     func hideModalViews(){
         
-        self.coordinator?.hideSubcontrollers()
+        self.coordinator?.hideSubcontrollersRequest()
         
         // go through the modal views and hide them if they are not already hidden
         // NOTE: if any more modal views are added, remmber to add them this list
@@ -611,7 +641,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     // function to restore all modal views that were previously hidden
     func showModalViews() {
         
-        self.coordinator?.showSubcontrollers()
+        self.coordinator?.showSubcontrollersRequest()
 
         // for other views, use the hidden list
         if hiddenViewList.count > 0 {
@@ -630,13 +660,6 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     // MARK: - Filter Management
     //////////////////////////////////////
     
-    func gotoPreviousFilter(){
-        changeFilterTo((self.coordinator?.previousFilter())!)
-    }
-    
-    func gotoNextFilter(){
-        changeFilterTo((self.coordinator?.nextFilter())!)
-    }
     
     
     func changeFilterTo(_ key:String){
@@ -676,14 +699,14 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     fileprivate var filterSettingsShown: Bool = false
     
     fileprivate func showFilterSettings(){
-        self.coordinator?.hideSubcontrollers()
+        self.coordinator?.hideSubcontrollersRequest()
         if (currFilterDescriptor != nil) {
             filterParametersView.isHidden = false
         }
     }
     
     fileprivate func hideFilterSettings(){
-        self.coordinator?.showSubcontrollers()
+        self.coordinator?.showSubcontrollersRequest()
         filterParametersView.isHidden = true
         filterSettingsShown = false
     }

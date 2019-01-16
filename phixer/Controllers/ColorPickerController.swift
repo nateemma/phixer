@@ -314,7 +314,7 @@ extension ColorPickerController: TitleViewDelegate {
     }
     
     func helpPressed() {
-        coordinator?.help()
+        coordinator?.helpRequest()
     }
     
     func menuPressed() {

@@ -18,8 +18,8 @@ private var filterCount: Int = 0
 // This View Controller is the 'base' class used for creating Edit Control displays which consist of a carousel of text & icons
 // The subclass just needs to override the functions that provide the displayed data and the handler for dealing with a user selection
 
-class EditBaseMenuController: CoordinatedController, EditBaseMenuInterface {
-    
+class EditBaseMenuController: CoordinatedController, SubControllerDelegate, EditBaseMenuInterface {
+  
     
     
     // The Edit controls/options
@@ -37,42 +37,48 @@ class EditBaseMenuController: CoordinatedController, EditBaseMenuInterface {
     
     var childController:UIViewController? = nil
     
- 
+    
+    ////////////////////
+    // Coordination Interface requests (forward/back)
+    ////////////////////
+    
+    // these don't really make sense for a tool controller, which is typically a single item.
+    // Can be overridden if needed
+    func nextItem() {
+        DispatchQueue.main.async(execute: { () -> Void in
+            log.debug("next...")
+            self.menu.nextItem()
+        })
+    }
+    
+    func previousItem() {
+        DispatchQueue.main.async(execute: { () -> Void in
+            log.debug("previous...")
+            self.menu.previousItem()
+        })
+    }
+    
+    
     ////////////////////
     // 'Virtual' funcs, these must be overidden by the subclass
     ////////////////////
     
     // returns the text to display at the top of the window
     override func getTitle() -> String {
-        log.warning("Base class called, should have been overridden by subclass")
+        log.warning("WARNING: Base class called, should have been overridden by subclass")
         return "BASE"
     }
     
     // returns the list of Adornments (text, icon/image, handler)
     func getItemList() -> [Adornment] {
-        log.error("Base class called, should have been overridden by subclass")
+        log.error("ERROR: Base class called, should have been overridden by subclass")
         return []
     }
 
     // function to handle a selected item
     func handleSelection(key:String) {
-        log.error("Base class called, should have been overridden by subclass")
+        log.error("ERROR: Base class called, should have been overridden by subclass")
     }
-    
-    // get the next filter, whatever that means for this controller. Note that this is a valid default implementation
-    
-    override func nextFilter() -> String {
-        log.debug("next...")
-        return menu.getNextItem()
-    }
-    
-
-    // get the previous filter, whatever that means for this controller. Note that this is a valid default implementation
-    override func previousFilter() -> String {
-        log.debug("previous...")
-        return menu.getPreviousItem()
-    }
-
 
     
     
@@ -93,6 +99,8 @@ class EditBaseMenuController: CoordinatedController, EditBaseMenuInterface {
         // Logging nicety, show that controller has changed. Not using the logging API so that this stands out more
         print ("\n========== \(String(describing: self)) ==========")
 
+        //HACK: resize view based on type
+        view.frame = ControllerFactory.getFrame(ControllerType.menu)
         
         // load theme here in case it changed
         theme = ThemeManager.currentTheme()

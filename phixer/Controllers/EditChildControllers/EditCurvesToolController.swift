@@ -266,7 +266,7 @@ class EditCurvesToolController: EditBaseToolController {
         toneCurveFilter?.setPositionParameter("inputPoint3", position: CIVector(cgPoint: currToneCurve[3]))
         toneCurveFilter?.setPositionParameter("inputPoint4", position: CIVector(cgPoint: currToneCurve[4]))
         
-        self.coordinator?.requestUpdate(tag: self.getTag())
+        self.coordinator?.updateRequest(id: self.getId())
     }
 
     // convert a position in view coordinates to the equivalent in Graph coordinates

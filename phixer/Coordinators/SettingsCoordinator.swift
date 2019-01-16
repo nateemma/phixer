@@ -24,7 +24,7 @@ class SettingsCoordinator: Coordinator {
     // MARK:  Delegate Functions
     /////////////////////////////
     
-    override func start(completion: @escaping ()->()){
+    override func startRequest(completion: @escaping ()->()){
         // Logging nicety, show that controller has changed:
         print ("\n========== \(self.getTag()) ==========\n")
 
@@ -42,7 +42,7 @@ class SettingsCoordinator: Coordinator {
         self.coordinatorMap = [:] 
         
         // start the main controller
-        self.activate (self.mainControllerId)
+        self.activateRequest(id: self.mainControllerId)
 
         
     }

@@ -14,11 +14,17 @@ import UIKit
 
 enum CoordinatorIdentifier: String {
     
+    case none
+    
     case edit
-    case styleTransfer
-    case browse
+    case browseStyleTransfer
+    case browseFilters
     case settings
     
+    case filterDisplay
+    case filterGallery
+    case styleGallery
+
     // TODO: add coordinators for next levels
  }
 
@@ -35,23 +41,43 @@ class CoordinatorFactory {
         
         var instance:Coordinator? = nil
         switch (coordinator){
+            
         case .edit:
             instance = BasicEditCoordinator()
             
-        case .styleTransfer:
-            instance = StyleTransferGalleryCoordinator()
+        case .browseStyleTransfer:
+            instance = BrowseStyleTransferCoordinator()
             
-        case .browse:
-            instance = FilterGalleryCoordinator()
+        case .browseFilters:
+            instance = BrowseFiltersCoordinator()
             
         case .settings:
             instance = SettingsCoordinator()
             
+        case .filterDisplay:
+            let sc = SimpleCoordinator()
+            sc.setMainController (ControllerIdentifier.displayFilter)
+            instance = sc
+            
+        case .filterGallery:
+            let sc = SimpleCoordinator()
+            sc.setMainController (ControllerIdentifier.filterGallery)
+            instance = sc
+            
+        case .styleGallery:
+            let sc = SimpleCoordinator()
+            sc.setMainController (ControllerIdentifier.styleGallery)
+            instance = sc
+
         default:
             log.error("Invalid coordinator: \(coordinator.rawValue)")
             instance = nil
         }
         
+        if instance != nil {
+            log.debug("Created Coordinator: \(coordinator.rawValue)")
+            instance?.id = coordinator
+        }
         return instance
         
     }

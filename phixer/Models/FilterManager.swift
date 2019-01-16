@@ -313,6 +313,60 @@ class FilterManager{
         setCurrentFilterDescriptor(getFilterDescriptor(key:FilterManager.currFilterKey))
     }
     
+    // returns the next (alphabetical) key in the current catgeory, or the current key if there isn't a 'next'
+    public func getNextFilterKey() -> String {
+        FilterManager.checkSetup()
+        
+        var key = FilterManager.currFilterKey
+        let category = FilterManager.currCategory
+        
+        if (FilterLibrary.filterDictionary[key] != nil){ // filter exists
+            if let list = FilterLibrary.categoryFilters[category]?.sorted() {
+                if list.count > 1 { // 0 or 1, just return current key
+                    if list.contains(key) {
+                        if var index = list.index(of:key) {
+                            index = (index < (list.count-1)) ? (index + 1) : 0
+                            key = list[index]
+                        }
+                    }
+                }
+            } else {
+                log.error("Could not retrieve list for category: \(category)")
+            }
+        } else {
+            log.error("ERR: Unknown filter: \(key)")
+        }
+        
+        return key
+    }
+    
+    // returns the previous (alphabetical) key in the current catgeory, or the current key if there isn't a 'previous'
+    public func getPreviousFilterKey() -> String {
+        FilterManager.checkSetup()
+        
+        var key = FilterManager.currFilterKey
+        let category = FilterManager.currCategory
+        
+        if (FilterLibrary.filterDictionary[key] != nil){ // filter exists
+            if let list = FilterLibrary.categoryFilters[category]?.sorted() {
+                if list.count > 1 { // 0 or 1, just return current key
+                    if list.contains(key) {
+                        if var index = list.index(of:key) {
+                            index = (index > 0) ? (index - 1) : (list.count - 1)
+                          key = list[index]
+                        }
+                    }
+                }
+            } else {
+                log.error("Could not retrieve list for category: \(category)")
+            }
+        } else {
+            log.error("ERR: Unknown filter: \(key)")
+        }
+        
+        return key
+    }
+    
     
     private static var selectedFilter:String = ""
     

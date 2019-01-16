@@ -21,8 +21,8 @@ enum ControllerIdentifier: String {
     case home
     
     case edit
-    case styleTransfer
-    case browse
+    case browseStyleTransfer
+    case browseFilters
     case settings
     
     case help
@@ -65,16 +65,23 @@ class ControllerFactory {
     
     private init(){} // prevent instantiation
     
-    private static var frameMap:[String:CGRect] = [:]
+    private static var frameMap:[ControllerType:CGRect] = [:]
     
     
     
     // sets the frame for a type of controller
     public static func setFrame(_ ctype:ControllerType, frame:CGRect) {
-        frameMap[ctype.rawValue] = frame
+        frameMap[ctype] = frame
+        log.debug("Type: \(ctype.rawValue) Frame:\(frame)")
     }
     
-    
+    public static func getFrame(_ ctype:ControllerType) -> CGRect {
+        if frameMap[ctype] == nil {
+            log.error("Frame not set up for: \(ctype.rawValue). Using full screen")
+            frameMap[ctype] = UIScreen.main.bounds
+        }
+        return frameMap[ctype]!
+    }
     
     public static func getController(_ controller: ControllerIdentifier) -> CoordinatedController? {
         
@@ -91,10 +98,10 @@ class ControllerFactory {
         case .edit:
             instance = BasicEditViewController()
             
-        case .styleTransfer:
+        case .browseStyleTransfer:
             instance = StyleTransferGalleryViewController()
             
-        case .browse:
+        case .browseFilters:
             instance = FilterGalleryViewController()
             
         case .settings:
@@ -156,12 +163,14 @@ class ControllerFactory {
         
         // set the frame within which the (Sub-) controller will run
         if instance != nil {
-            if frameMap[ctype.rawValue] == nil {
+            if frameMap[ctype] == nil {
                 log.error("Frame not set up for: \(ctype.rawValue). Using full screen")
-                frameMap[ctype.rawValue] = UIScreen.main.bounds
+                frameMap[ctype] = UIScreen.main.bounds
             }
-            instance?.view.frame = frameMap[ctype.rawValue]!
+            instance?.view.frame = frameMap[ctype]!
             instance?.controllerType = ctype
+            instance?.id = controller
+            log.debug("Type:\(ctype) Frame: \((instance?.view.frame)!)")
         }
         
         return instance

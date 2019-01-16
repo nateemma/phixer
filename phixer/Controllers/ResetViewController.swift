@@ -210,7 +210,7 @@ extension ResetViewController: TitleViewDelegate {
 //        vc.setTitle("Reset")
 //        vc.loadFile(name: "Reset")
 //        present(vc, animated: true, completion: nil)
-        self.coordinator?.help()
+        self.coordinator?.helpRequest()
     }
     
     func menuPressed() {

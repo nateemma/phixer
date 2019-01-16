@@ -18,7 +18,9 @@ private var filterCount: Int = 0
 // This View Controller is the 'base' class used for creating Edit 'Tool' displays, which take up most of the screen
 // This mostly just sets up the framing, title, navigation etc. Other stuff must be done in the subclass, via the loadToolView() callback
 
-class EditBaseToolController: CoordinatedController {
+class EditBaseToolController: CoordinatedController, SubControllerDelegate {
+    
+
     
     // The main views.
     var mainView: UIView! = UIView()
@@ -33,7 +35,21 @@ class EditBaseToolController: CoordinatedController {
     let buttonSize : CGFloat = 48.0
 
     
- 
+    
+    ////////////////////
+    // Coordination requests (forward/back)
+    ////////////////////
+
+    // these don't really make sense for a tool controller, which is typically a single item.
+    // Can be overridden if needed
+    func nextItem() {
+        log.verbose("Ignoring request")
+    }
+    
+    func previousItem() {
+        log.verbose("Ignoring request")
+    }
+    
     ////////////////////
     // 'Virtual' funcs, these must be overidden by the subclass
     ////////////////////
@@ -58,6 +74,18 @@ class EditBaseToolController: CoordinatedController {
     }
     
     
+ 
+    ////////////////////
+    // SubController interfaces. Can be ignored for Tools
+    ////////////////////
+    
+   func getNextFilter() -> String {
+        return self.filterManager.getCurrentFilterKey()
+    }
+    
+    func getPreviousFilter() -> String {
+        return self.filterManager.getCurrentFilterKey()
+    }
     
     ////////////////////
     // Everything below here is generic so subclasses can just inherit this functionality as-is
@@ -76,7 +104,10 @@ class EditBaseToolController: CoordinatedController {
         // Logging nicety, show that controller has changed. Not using the logging API so that this stands out more
         print ("\n========== \(self.getTag()) ==========")
 
-        
+       
+        //HACK: resize view based on type
+        view.frame = ControllerFactory.getFrame(ControllerType.tool)
+
         // load theme here in case it changed
         theme = ThemeManager.currentTheme()
         

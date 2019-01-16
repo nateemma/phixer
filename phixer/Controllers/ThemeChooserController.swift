@@ -416,7 +416,7 @@ extension ThemeChooserController: TitleViewDelegate {
 //        vc.setTitle("Theme Chooser")
 //        vc.loadFile(name: "ThemeChooser")
 //        present(vc, animated: true, completion: nil)
-        self.coordinator?.help()
+        self.coordinator?.helpRequest()
     }
     
     func menuPressed() {

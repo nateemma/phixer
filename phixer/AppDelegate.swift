@@ -79,7 +79,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // set up the window and start the coordinator
         window = UIWindow(frame: UIScreen.main.bounds)
         appCoordinator = AppCoordinator(window: window)
-        appCoordinator.start(completion: { log.info("AppCoordinator finished") } )
+        appCoordinator.startRequest(completion: { log.info("AppCoordinator finished") } )
         
         return true
     }

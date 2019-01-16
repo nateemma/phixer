@@ -17,152 +17,47 @@ private var filterCount: Int = 0
 
 // This View Controller handles simple editing of a photo
 
-class EditMainOptionsController: CoordinatedController {
+class EditMainOptionsController: EditBaseMenuController {
 
     
-    let menu = SimpleCarousel()
-
- 
-    // The Edit controls/options
-    var optionsControlView: UIView! = UIView()
-    
-    
-    // var isLandscape : Bool = false // moved to base class
-    var screenSize : CGRect = CGRect.zero
-    var displayWidth : CGFloat = 0.0
-    var displayHeight : CGFloat = 0.0
-    
-    let buttonSize : CGFloat = 32.0
-    //let editControlHeight: CGFloat = 96.0
-    let editControlHeight: CGFloat = 72.0
-
-    
-    /////////////////////////////
     
     convenience init(){
         self.init(nibName:nil, bundle:nil)
-        doInit()
-    }
-    
-
-    private var initDone:Bool = false
-    
-    private func doInit(){
-        
-        if !initDone {
-            initDone = true
-        }
-    }
-
-    /////////////////////////////
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        
-        // Logging nicety, show that controller has changed. Not using the logging API so that this stands out more
-        print ("\n========== \(String(describing: type(of: self))) ==========")
-
-        doInit()
-        
-        
-      // load theme here in case it changed
-        theme = ThemeManager.currentTheme()
-        
-        view.backgroundColor = UIColor.clear
-        
-
-        // get display dimensions
-        //displayHeight = view.height
-        displayHeight = view.height
-        displayWidth = view.width
-        
-        
-        log.verbose("h:\(displayHeight) w:\(displayWidth)")
-        
-        
-        /***
-        // resize the main view so that it doesn't block the previous controller
-        //self.view.frame.origin.x = 0.0
-        //self.view.frame.origin.y = displayHeight - editControlHeight
-        self.view.frame.size.height = editControlHeight
-        self.view.frame.size.width = displayWidth
-        self.view.anchorToEdge(.bottom, padding: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
-        ***/
-        
-        optionsControlView.frame.size.height = editControlHeight
-        optionsControlView.frame.size.width = displayWidth
-
-        setupOptions()
-        
-        view.addSubview(optionsControlView)
-        optionsControlView.anchorToEdge(.bottom, padding: 0, width: optionsControlView.frame.size.width, height: optionsControlView.frame.size.height)
-        //optionsControlView.fillSuperview()
-
-        
     }
     
     
-    //////////////////////////////////////
-    // MARK: - Accessors
-    //////////////////////////////////////
-    
-    
-    override func nextFilter() -> String {
-        log.debug("next...")
-        return menu.getNextItem()
-    }
-    
-    override func previousFilter() -> String {
-        log.debug("previous...")
-        return menu.getPreviousItem()
-    }
-    
-
-
-    //////////////////////////////////////
-    // MARK: - Sub-View layout
-    //////////////////////////////////////
-
-    private func setupOptions() {
-        menu.setItems(optionList)
-        menu.delegate = self
-        optionsControlView.addSubview(menu)
-        menu.fillSuperview()
-    }
-
-
     //////////////////////////////////////////
-    // MARK: - Not yet implemented notifier
+    // MARK: - Override funcs for specifying items
     //////////////////////////////////////////
     
-    func notYetImplemented(){
-        DispatchQueue.main.async(execute: { () -> Void in
-            let alert = UIAlertController(title: "Oh Dear", message: "Not yet implemented. Sorry!", preferredStyle: .alert)
-            self.present(alert, animated: true, completion: nil)
-            Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: { _ in alert.dismiss(animated: true, completion: nil)} )
-        })
+    
+    // returns the text to display at the top of the window
+    override func getTitle() -> String {
+        return "Edit Options"
     }
     
-    
+    // returns the list of titles for each item
+    override func getItemList() -> [Adornment] {
+        return itemList
+    }
+
  
-  
     //////////////////////////////////////////
     // MARK: - Handlers for the menu items
     //////////////////////////////////////////
-
-    fileprivate var optionList: [Adornment] = [ Adornment(key: "basic",      text: "Basic Adjustments", icon: "ic_basic", view: nil, isHidden: false),
-                                                Adornment(key: "filters",    text: "Color Filters",     icon: "ic_filter", view: nil, isHidden: false),
-                                                Adornment(key: "style",      text: "Style Transfer",    icon: "ic_brush", view: nil, isHidden: false),
-                                                Adornment(key: "curves",     text: "Curves",            icon: "ic_curve", view: nil, isHidden: false),
-                                                Adornment(key: "color",      text: "Color Adjustments", icon: "ic_adjust", view: nil, isHidden: false),
-                                                Adornment(key: "detail",     text: "Detail",            icon: "ic_sharpness", view: nil, isHidden: false),
-                                                Adornment(key: "transforms", text: "Transforms",        icon: "ic_transform", view: nil, isHidden: false),
-                                                Adornment(key: "faces",      text: "Faces",             icon: "ic_face", view: nil, isHidden: false),
-                                                Adornment(key: "presets",    text: "Presets",           icon: "ic_preset", view: nil, isHidden: false) ]
+    
+    fileprivate var itemList: [Adornment] = [ Adornment(key: "basic",      text: "Basic Adjustments", icon: "ic_basic", view: nil, isHidden: false),
+                                              Adornment(key: "filters",    text: "Color Filters",     icon: "ic_filter", view: nil, isHidden: false),
+                                              Adornment(key: "style",      text: "Style Transfer",    icon: "ic_brush", view: nil, isHidden: false),
+                                              Adornment(key: "curves",     text: "Curves",            icon: "ic_curve", view: nil, isHidden: false),
+                                              Adornment(key: "color",      text: "Color Adjustments", icon: "ic_adjust", view: nil, isHidden: false),
+                                              Adornment(key: "detail",     text: "Detail",            icon: "ic_sharpness", view: nil, isHidden: false),
+                                              Adornment(key: "transforms", text: "Transforms",        icon: "ic_transform", view: nil, isHidden: false),
+                                              Adornment(key: "faces",      text: "Faces",             icon: "ic_face", view: nil, isHidden: false),
+                                              Adornment(key: "presets",    text: "Presets",           icon: "ic_preset", view: nil, isHidden: false) ]
 
     
-    func handleSelection(key: String){
+    override func handleSelection(key: String){
         switch (key){
         case "basic":
             basicAdjustmentsHandler()
@@ -188,7 +83,7 @@ class EditMainOptionsController: CoordinatedController {
     }
 
     func basicAdjustmentsHandler(){
-        self.coordinator?.activate(ControllerIdentifier.editBasicAdjustmentsMenu)
+        self.coordinator?.activateRequest(id: ControllerIdentifier.editBasicAdjustmentsMenu)
     }
     
     func colorAdjustmentsHandler(){
@@ -197,13 +92,13 @@ class EditMainOptionsController: CoordinatedController {
     
     
     func styleTransferHandler(){
-        self.coordinator?.activate(ControllerIdentifier.styleTransfer)
+        self.coordinator?.activateRequest(id: ControllerIdentifier.browseStyleTransfer)
     }
 
     func colorFiltersHandler(){
         // jump straight to the 'Favourites' category
         filterManager.setCurrentCategory(FilterManager.favouriteCategory)
-        self.coordinator?.activate(ControllerIdentifier.filterGallery)
+        self.coordinator?.activateRequest(id: ControllerIdentifier.filterGallery)
     }
     
     func detailHandler(){
@@ -211,7 +106,7 @@ class EditMainOptionsController: CoordinatedController {
     }
     
     func curvesHandler(){
-        self.coordinator?.activate(ControllerIdentifier.curveTool)
+        self.coordinator?.activateRequest(id: ControllerIdentifier.curveTool)
     }
     
     func transformsHandler(){
@@ -232,17 +127,3 @@ class EditMainOptionsController: CoordinatedController {
 //########################
 
 
-//########################
-//MARK: Extensions
-//########################
-
-
-// Adornment delegate
-
-extension EditMainOptionsController: AdornmentDelegate {
-    func adornmentItemSelected(key: String) {
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.handleSelection(key: key)
-        })
-    }
-}

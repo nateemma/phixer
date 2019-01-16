@@ -424,7 +424,7 @@ extension ColorSchemeViewController: TitleViewDelegate {
     }
     
     func helpPressed() {
-        coordinator?.help()
+        coordinator?.helpRequest()
     }
     
     func menuPressed() {

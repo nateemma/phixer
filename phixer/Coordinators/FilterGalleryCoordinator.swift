@@ -1,5 +1,5 @@
 //
-//  FilterGalleryCoordinator.swift
+//  BrowseFiltersCoordinator.swift
 //  phixer
 //
 //  Created by Philip Price on 1/14/19.
@@ -13,26 +13,28 @@ import GoogleMobileAds
 
 // Coordinator for the Browse Filter Gallery (standalone) functionality
 
-class FilterGalleryCoordinator: Coordinator {
+class BrowseFiltersCoordinator: Coordinator {
    
     
     /////////////////////////////
     // MARK:  Delegate Functions
     /////////////////////////////
     
-    override func selectFilter(key: String) {
+
+    override func selectFilterNotification (key: String) {
         // filter selected, display it
-        Coordinator.filterManager?.setCurrentFilterKey(key)
-        self.activate(.displayFilter)
+        log.debug("key: \(key)")
+        //Coordinator.filterManager?.setCurrentFilterKey(key)
+        self.activateRequest(id: ControllerIdentifier.displayFilter)
     }
-    
+
     
     
     /////////////////////////////
     // MARK:  Delegate Functions
     /////////////////////////////
     
-    override func start(completion: @escaping ()->()){
+    override func startRequest(completion: @escaping ()->()){
         // Logging nicety, show that controller has changed:
         print ("\n========== \(self.getTag()) ==========\n")
 
@@ -47,10 +49,11 @@ class FilterGalleryCoordinator: Coordinator {
         self.validControllers = [.filterGallery, .displayFilter]
 
         // no (main) mappings for coordinators
-        self.coordinatorMap = [:] 
-        
+        //self.coordinatorMap = [:]
+        self.coordinatorMap [ControllerIdentifier.displayFilter] = CoordinatorIdentifier.filterDisplay
+
         // start the main controller
-        self.activate (self.mainControllerId)
+        self.activateRequest(id: self.mainControllerId)
 
         
     }

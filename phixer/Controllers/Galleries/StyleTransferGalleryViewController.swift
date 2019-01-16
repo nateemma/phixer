@@ -236,7 +236,7 @@ class StyleTransferGalleryViewController: CoordinatedController, UIImagePickerCo
         guard navigationController?.popViewController(animated: true) != nil else { //modal
             //log.debug("Not a navigation Controller")
             suspend()
-            dismiss(animated: true, completion:  {  self.coordinator?.notifyCompletion(tag:self.getTag()) })
+            self.dismiss()
             return
         }
     }
@@ -286,24 +286,6 @@ class StyleTransferGalleryViewController: CoordinatedController, UIImagePickerCo
     }
     
     
-    //////////////////////////////////////////
-    // FilterBasedControllerDelegate
-    //////////////////////////////////////////
-
-    // these are here to allow compilation.
-    
-    func filterControllerSelection(key: String) {
-        log.verbose("key: \(key)")
-    }
-    
-    func filterControllerUpdateRequest(tag: String) {
-        log.verbose("tag: \(tag)")
-    }
-    
-    func filterControllerCompleted(tag: String) {
-        log.verbose("tag: \(tag)")
-    }
-    
 } // StyleTransferGalleryViewController
 
 
@@ -318,7 +300,9 @@ extension StyleTransferGalleryViewController: StyleTransferGalleryViewDelegate {
     func filterSelected(_ descriptor:FilterDescriptor?){
         
         filterManager.setSelectedFilter(key: (descriptor?.key)!)
-        self.coordinator?.selectFilter(key: (descriptor?.key)!)
+        self.coordinator?.selectFilterNotification(key: (descriptor?.key)!)
+        //self.dismiss()
+
     }
     
 }
@@ -345,7 +329,7 @@ extension StyleTransferGalleryViewController: StyleTransferGalleryViewDelegate {
                     self.coordinator?.notifyCompletion(tag:self.getTag())
                 })
            } else {
-                dismiss(animated: true, completion:  { self.coordinator?.notifyCompletion(tag:self.getTag()) })
+                self.dismiss()
             }
         }        
     }
@@ -381,7 +365,7 @@ extension StyleTransferGalleryViewController: TitleViewDelegate {
 //        vc.setTitle("Style Transfer")
 //        vc.loadFile(name: "StyleTransferGallery")
 //        present(vc, animated: true, completion: nil)
-        self.coordinator?.help()
+        self.coordinator?.helpRequest()
     }
     
     func menuPressed() {

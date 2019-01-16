@@ -351,12 +351,9 @@ class SampleGalleryViewController: CoordinatedController, UIImagePickerControlle
         
     
     func exitScreen(){
-        guard navigationController?.popViewController(animated: true) != nil else { //modal
-            //log.debug("Not a navigation Controller")
-            suspend()
-            dismiss(animated: true, completion:  { self.coordinator?.notifyCompletion(tag:self.getTag()) })
-            return
-        }
+        suspend()
+        self.dismiss()
+        return
     }
     
     func loadPhotoThumbnail(view: UIImageView){
@@ -501,7 +498,7 @@ extension SampleGalleryViewController: TitleViewDelegate {
 //        vc.setTitle("Sample Gallery")
 //        vc.loadFile(name: "SampleGallery")
 //        present(vc, animated: true, completion: nil)
-        self.coordinator?.help()
+        self.coordinator?.helpRequest()
     }
     
     func menuPressed() {

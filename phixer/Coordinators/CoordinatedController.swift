@@ -12,15 +12,18 @@ import UIKit
 
 // base class for ViewControllers that are part of the Coordinator approach
 
-class CoordinatedController: UIViewController {
-    
+class CoordinatedController: UIViewController, ControllerDelegate {
+  
     
     // delegate for handling events
     weak var coordinator: CoordinatorDelegate? = nil
     
+    // the id of controller (useful to the coordinator)
+    public var id: ControllerIdentifier = .help // has to be something
+    
     // the type of controller (useful to the coordinator)
     public var controllerType: ControllerType = .fullscreen
-    
+
     // indicates whether this Controller should show Google Ads
     public var showAds:Bool = false
     
@@ -42,26 +45,28 @@ class CoordinatedController: UIViewController {
     // Virtual funcs - should be overriden by subclass
     ////////////////////
     
-    // do something if a filter was selected
-    public func selectFilter(key: String){
-        log.error("Base class called for key: \(key)")
-    }
-  
-    public func nextFilter() -> String {
-        log.error("Not supported by this Controller")
-        return filterManager.getCurrentFilterKey()
+    func start() {
+        log.error("ERROR: Base class called")
     }
     
-    public func previousFilter() -> String {
-        log.error("Not supported by this Controller")
-        return filterManager.getCurrentFilterKey()
+    func end() {
+        log.error("ERROR: Base class called")
+        dismiss()
     }
-
-    // handle update of the UI
-    public func requestUpdate(tag: String){
-        log.error("Base class called by: \(tag)")
+    
+    func updateDisplays() {
+        log.error("ERROR: Base class called")
     }
-
+    
+    func updateTheme() {
+        log.error("ERROR: Base class called")
+    }
+    
+    func selectFilter(key: String) {
+        log.error("ERROR: Base class called. key: \(key)")
+    }
+    
+    
     // return the display title for this Controller
     public func getTitle() -> String {
         return "ERROR: Base Class"
@@ -89,15 +94,25 @@ class CoordinatedController: UIViewController {
             self.view.alpha = 0 }) { _ in
                 self.clearSubviews()
                 self.view.isHidden = true
-                self.coordinator?.notifyCompletion(tag: self.getTag())
+                self.coordinator?.completionNotification(id: self.getId())
         }
     }
     
+    // get the tag used to identify this controller. IDs are assigned by the Coordinator pattern and are used to track activity
+    func setId(_ id: ControllerIdentifier){
+        self.id = id
+    }
+    
+    // get the tag used to identify this controller. IDs are assigned by the Coordinator pattern and are used to track activity
+    func getId()->ControllerIdentifier{
+        return self.id
+    }
+
     // get the tag used to identify this controller. Implemented as a func so that it gets the actual class, not the base class
     func getTag()->String{
         return "\(String(describing: type(of: self)))"
     }
-    
+
     
     func checkLandscape() -> Bool {
         let sbo = UIApplication.shared.statusBarOrientation
@@ -115,7 +130,7 @@ class CoordinatedController: UIViewController {
     ////////////////////
     // Default implementations of UIViewController funcs, mostly just for convenience and consistency
     ////////////////////
-    
+      
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         log.warning("Low Memory Warning (\(self.getTag()))")
