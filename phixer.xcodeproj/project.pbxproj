@@ -1638,6 +1638,7 @@
 		2537A22D21EE78AC00060DBE /* SettingsCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCoordinator.swift; sourceTree = "<group>"; };
 		2537A22F21EEC99000060DBE /* ControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControllerDelegate.swift; sourceTree = "<group>"; };
 		2537A23121EED2AC00060DBE /* SubControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubControllerDelegate.swift; sourceTree = "<group>"; };
+		2537A23321EFC88200060DBE /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		253A39E11DDA965E00A714D4 /* SampleGalleryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleGalleryViewController.swift; sourceTree = "<group>"; };
 		253A39E31DDA979400A714D4 /* SampleGalleryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleGalleryView.swift; sourceTree = "<group>"; };
 		253B236B1DA44E3600203ECB /* FilterDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterDescriptor.swift; sourceTree = "<group>"; };
@@ -1947,6 +1948,7 @@
 				2537A22D21EE78AC00060DBE /* SettingsCoordinator.swift */,
 				2537A22521EE4EA900060DBE /* SimpleCoordinator.swift */,
 				2537A22921EE772100060DBE /* StyleTransferGalleryCoordinator.swift */,
+				2537A23321EFC88200060DBE /* README.md */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
