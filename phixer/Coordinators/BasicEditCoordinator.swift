@@ -40,12 +40,13 @@ class BasicEditCoordinator: Coordinator {
         self.subControllers = [:]
         
         self.mainControllerId = .edit
-        self.validControllers = [.edit, .filterGallery, .styleGallery, .editMainMenu, .editBasicAdjustmentsMenu, .curveTool]
+        self.validControllers = [.edit, .filterGallery, .styleGallery, .blendGallery,  .editMainMenu, .editBasicAdjustmentsMenu, .curveTool]
 
-        // no (main) mappings for coordinators
-        //self.coordinatorMap = [:]
+        //  mappings for coordinators
+        self.coordinatorMap = [:]
         self.coordinatorMap [ControllerIdentifier.filterGallery] = CoordinatorIdentifier.filterGallery
         self.coordinatorMap [ControllerIdentifier.styleGallery] = CoordinatorIdentifier.styleGallery
+        self.coordinatorMap [ControllerIdentifier.blendGallery] = CoordinatorIdentifier.blendGallery
 
         // start the Edit Controller and the Main Menu
         self.activateRequest(id: .edit)

@@ -35,6 +35,12 @@ class EditCurvesController: EditBaseMenuController {
         return "Curves & Histogram"
     }
 
+    
+    // return the name of the help file associated with this Controller (without extension)
+    override public func getHelpKey() -> String {
+        return "SimpleEditor"
+    }
+    
     // returns the list of titles for each item
     override func getItemList() -> [Adornment] {
         return itemList

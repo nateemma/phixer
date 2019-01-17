@@ -47,7 +47,7 @@ class SimpleCoordinator: Coordinator {
     
     override func selectFilterNotification (key: String) {
         // filter selected, pass it on to the parent controller
-        log.debug("key: \(key)")
+        log.debug("Passing up to parent - key: \(key)")
         self.coordinator?.selectFilterNotification(key: key)
         
         // exit this coordinator
@@ -55,6 +55,11 @@ class SimpleCoordinator: Coordinator {
         self.completionNotification(id: self.mainControllerId)
     }
 
+    override func themeUpdatedNotification() {
+        // pass up to the parent
+        log.verbose("Passing up to parent")
+        self.coordinator?.themeUpdatedNotification()
+    }
     
     override func startRequest(completion: @escaping ()->()){
         // Logging nicety, show that controller has changed:

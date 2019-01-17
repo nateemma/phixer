@@ -35,6 +35,26 @@ class ThemeChooserController: CoordinatedController {
     var themeList:[String] = []
 
     
+    
+    /////////////////////////////
+    // MARK: - Override Base Class functions
+    /////////////////////////////
+    
+    // return the display title for this Controller
+    override public func getTitle() -> String {
+        return "Theme Chooser"
+    }
+    
+    // return the name of the help file associated with this Controller (without extension)
+    override public func getHelpKey() -> String {
+        return "ThemeChooser"
+    }
+    
+    /////////////////////////////
+    // INIT
+    /////////////////////////////
+    
+
     /////////////////////////////
     // MARK: - Boilerplate
     /////////////////////////////
@@ -49,12 +69,9 @@ class ThemeChooserController: CoordinatedController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Logging nicety, show that controller has changed:
-        print ("\n========== \(String(describing: type(of: self))) ==========")
+        // common setup
+        self.prepController()
 
-        // load theme here in case it changed
-        theme = ThemeManager.currentTheme()
-        
         displayHeight = view.height
         displayWidth = view.width
 
@@ -384,11 +401,13 @@ class ThemeChooserController: CoordinatedController {
     }
     
     @objc func doneDidPress(){
+        if !selectedThemeKey.isEmpty {
+            ThemeManager.applyTheme(key: selectedThemeKey)
+            log.debug("Sending themeUpdatedNotification")
+            self.coordinator?.themeUpdatedNotification()
+        }
         guard navigationController?.popViewController(animated: true) != nil else { //modal
             //log.debug("Not a navigation Controller")
-            if !selectedThemeKey.isEmpty {
-                ThemeManager.applyTheme(key: selectedThemeKey)
-            }
             dismiss(animated: true, completion:  {
                 log.verbose("Saving theme \(self.selectedThemeKey)...")
             })
@@ -465,7 +484,7 @@ extension ThemeChooserController: UIPickerViewDelegate {
         // This method is triggered whenever the user makes a change to the picker selection.
         // The parameter named row and component represents what was selected.
         if (row>=0) && (row<themeList.count){
-            log.verbose("Selected [\(row)]: \(themeList[row])")
+            //log.verbose("Selected [\(row)]: \(themeList[row])")
             selectedThemeKey = themeList[row]
             updateColors()
         } else {

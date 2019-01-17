@@ -37,12 +37,14 @@ class EditBaseMenuController: CoordinatedController, SubControllerDelegate, Edit
     
     var childController:UIViewController? = nil
     
+    var cancelButton: SquareButton? = nil
+
     
     ////////////////////
     // Coordination Interface requests (forward/back)
     ////////////////////
     
-    // these don't really make sense for a tool controller, which is typically a single item.
+    // For menu controllers, the response that makes sense is to just go to the next/previous menu item
     // Can be overridden if needed
     func nextItem() {
         DispatchQueue.main.async(execute: { () -> Void in
@@ -97,7 +99,7 @@ class EditBaseMenuController: CoordinatedController, SubControllerDelegate, Edit
         super.viewDidLoad()
         
         // Logging nicety, show that controller has changed. Not using the logging API so that this stands out more
-        print ("\n========== \(String(describing: self)) ==========")
+        print ("\n========== \(self.getTag()) ID: \(self.id.rawValue) ==========")
 
         //HACK: resize view based on type
         view.frame = ControllerFactory.getFrame(ControllerType.menu)
@@ -145,18 +147,18 @@ class EditBaseMenuController: CoordinatedController, SubControllerDelegate, Edit
 
  
         // cancel button
-        let cancelButton = SquareButton(bsize: (titleView.frame.size.height*0.8).rounded())
-        cancelButton.setImageAsset("ic_no")
-        cancelButton.backgroundColor = theme.titleColor.withAlphaComponent(0.5)
-        cancelButton.setTintable(true)
-        cancelButton.highlightOnSelection(true)
-        cancelButton.addTarget(self, action: #selector(self.cancelDidPress), for: .touchUpInside)
+        cancelButton = SquareButton(bsize: (titleView.frame.size.height*0.8).rounded())
+        cancelButton?.setImageAsset("ic_no")
+        cancelButton?.backgroundColor = theme.titleColor.withAlphaComponent(0.5)
+        cancelButton?.setTintable(true)
+        cancelButton?.highlightOnSelection(true)
+        cancelButton?.addTarget(self, action: #selector(self.cancelDidPress), for: .touchUpInside)
         
-        titleView.addSubview(cancelButton)
+        titleView.addSubview(cancelButton!)
 
         // label
         let label = UILabel()
-        label.frame.size.width = (titleView.frame.size.width - cancelButton.frame.size.width - 4).rounded()
+        label.frame.size.width = (titleView.frame.size.width - (cancelButton?.frame.size.width)! - 4).rounded()
         label.frame.size.height = titleView.frame.size.height - 2
         label.text = getTitle()
         label.textAlignment = .center
@@ -168,7 +170,7 @@ class EditBaseMenuController: CoordinatedController, SubControllerDelegate, Edit
         titleView.addSubview(label)
         //label.anchorToEdge(.left, padding: 0, width: label.frame.size.width, height: label.frame.size.height)
         label.anchorInCorner(.topLeft, xPad: 0, yPad: 0, width: label.frame.size.width, height: label.frame.size.height)
-        cancelButton.anchorToEdge(.right, padding: 0, width: cancelButton.frame.size.width, height: cancelButton.frame.size.height)
+        cancelButton?.anchorToEdge(.right, padding: 0, width: (cancelButton?.frame.size.width)!, height: (cancelButton?.frame.size.height)!)
         
         mainView.addSubview(titleView)
         titleView.anchorToEdge(.top, padding: 0, width: titleView.frame.size.width, height: titleView.frame.size.height)

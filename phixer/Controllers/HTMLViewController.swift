@@ -27,6 +27,26 @@ class HTMLViewController: CoordinatedController {
     private static let defaultHelpFile:String = "default"
 
     
+    
+    /////////////////////////////
+    // MARK: - Override Base Class functions
+    /////////////////////////////
+    
+    // return the display title for this Controller
+    override public func getTitle() -> String {
+        return "Help"
+    }
+    
+    // return the name of the help file associated with this Controller (without extension)
+    override public func getHelpKey() -> String {
+        return "default"
+    }
+    
+    /////////////////////////////
+    // INIT
+    /////////////////////////////
+    
+
     /////////////////////////////
     // MARK: - Boilerplate
     /////////////////////////////
@@ -52,12 +72,9 @@ class HTMLViewController: CoordinatedController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Logging nicety, show that controller has changed:
-        print ("\n========== \(String(describing: type(of: self))) ==========")
+        // common setup
+        self.prepController()
 
-        // load theme here in case it changed
-        theme = ThemeManager.currentTheme()
-        
 
         doInit()
         doLayout()
@@ -147,8 +164,8 @@ class HTMLViewController: CoordinatedController {
         
         if (!initDone){
             initDone = true
-            setTitle("           HTML Viewer         ")
-            setText("<p>Hello World</p><p><i>Hello World!</i></p><p><u>Hello World!!</u></p><p><b>Hello World!!!</b></p>")
+            //setTitle("           HTML Viewer         ")
+            //setText("<p>Hello World</p><p><i>Hello World!</i></p><p><u>Hello World!!</u></p><p><b>Hello World!!!</b></p>")
         }
     }
     

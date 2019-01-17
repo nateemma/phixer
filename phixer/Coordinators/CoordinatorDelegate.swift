@@ -52,4 +52,7 @@ protocol CoordinatorDelegate: class {
     
     // activate help function for current state (typically not known by the controller if there are sub-controllers active)
     func helpRequest()
+    
+    // lets the coordinator know that the theme has been updated
+    func themeUpdatedNotification()
 }

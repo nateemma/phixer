@@ -35,6 +35,26 @@ class ResetViewController: CoordinatedController, UINavigationControllerDelegate
     
  
     
+    
+    /////////////////////////////
+    // MARK: - Override Base Class functions
+    /////////////////////////////
+    
+    // return the display title for this Controller
+    override public func getTitle() -> String {
+        return "Reset"
+    }
+    
+    // return the name of the help file associated with this Controller (without extension)
+    override public func getHelpKey() -> String {
+        return "Reset"
+    }
+    
+    /////////////////////////////
+    // INIT
+    /////////////////////////////
+    
+
     convenience init(){
         self.init(nibName:nil, bundle:nil)
         //doInit()
@@ -53,13 +73,8 @@ class ResetViewController: CoordinatedController, UINavigationControllerDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        // Logging nicety, show that controller has changed:
-        print ("\n========== \(String(describing: type(of: self))) ==========")
-
-        // load theme here in case it changed
-        theme = ThemeManager.currentTheme()
-        
+        // common setup
+        self.prepController()
 
         view.backgroundColor = theme.backgroundColor
         

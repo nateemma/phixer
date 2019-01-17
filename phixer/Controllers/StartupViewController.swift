@@ -34,9 +34,9 @@ class StartupViewController: UIViewController, UINavigationControllerDelegate {
         super.viewDidLoad()
     
         
-        // load theme here in case it changed
-        theme = ThemeManager.currentTheme()
-        
+        // common setup
+        //self.prepController()
+
        /*** add this back when debugged
         // load filters etc. on a separate thread 
         DispatchQueue.main.async(execute: { () -> Void in

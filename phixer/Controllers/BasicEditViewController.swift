@@ -81,6 +81,43 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     
     
     
+    /////////////////////////////
+    // MARK: - Override Base Class functions
+    /////////////////////////////
+    
+    // return the display title for this Controller
+    override public func getTitle() -> String {
+        return "Edit"
+    }
+    
+    // return the name of the help file associated with this Controller (without extension)
+    override public func getHelpKey() -> String {
+        return "BasicEditor"
+    }
+    
+    // do something if a filter was selected
+    override func selectFilter(key: String){
+        log.verbose("Change filter to: \(key)")
+        DispatchQueue.main.async(execute: { () -> Void in
+            //self.currFilterKey = ""
+            self.changeFilterTo (key)
+            self.editImageView.updateImage()
+        })
+    }
+    
+    // handle update of the UI
+    override func updateDisplays() {
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.editImageView.updateImage()
+        })
+    }
+
+    /////////////////////////////
+    // INIT
+    /////////////////////////////
+    
+
+    
     
     convenience init(){
         self.init(nibName:nil, bundle:nil)
@@ -126,15 +163,9 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        // Logging nicety, show that controller has changed:
-        print ("\n========== \(String(describing: type(of: self))) ==========")
+        // common setup
+        self.prepController()
 
-        // load theme here in case it changed
-        theme = ThemeManager.currentTheme()
-        
-        view.backgroundColor = theme.backgroundColor
-        
         // get display dimensions
         displayHeight = view.height
         displayWidth = view.width
@@ -537,39 +568,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         }
     }
 
-    
-    //////////////////////////////////////
-    //MARK: - Coordination
-    //////////////////////////////////////
 
-    
-    // do something if a filter was selected
-    override func selectFilter(key: String){
-        log.verbose("Change filter to: \(key)")
-        DispatchQueue.main.async(execute: { () -> Void in
-            //self.currFilterKey = ""
-            self.changeFilterTo (key)
-            self.editImageView.updateImage()
-        })
-   }
-    
-    // handle update of the UI
-    override func updateDisplays() {
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.editImageView.updateImage()
-        })
-    }
-
-    
-    // return the display title for this Controller
-    override func getTitle() -> String {
-        return "Edit"
-    }
-    
-    // return the name of the help file associated with this Controller (without extension)
-    override func getHelpKey() -> String {
-        return "SimpleEditor"
-    }
 
     //////////////////////////////////////
     //MARK: - Navigation

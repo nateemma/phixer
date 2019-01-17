@@ -52,6 +52,21 @@ class ColorPickerController: CoordinatedController {
     
     
     /////////////////////////////
+    // MARK: - Override Base Class functions
+    /////////////////////////////
+
+    // return the display title for this Controller
+    override public func getTitle() -> String {
+        return "Color Picker"
+    }
+    
+    // return the name of the help file associated with this Controller (without extension)
+    override public func getHelpKey() -> String {
+        return "default"
+    }
+   
+    
+    /////////////////////////////
     // MARK: - Boilerplate
     /////////////////////////////
 

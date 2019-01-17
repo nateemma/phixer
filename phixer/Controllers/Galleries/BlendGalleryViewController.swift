@@ -90,6 +90,24 @@ class BlendGalleryViewController: CoordinatedController, UIImagePickerController
     fileprivate let statusBarOffset : CGFloat = 2.0
     
     
+    /////////////////////////////
+    // MARK: - Override Base Class functions
+    /////////////////////////////
+    
+    // return the display title for this Controller
+    override public func getTitle() -> String {
+        return "Blend Image Gallery"
+    }
+    
+    // return the name of the help file associated with this Controller (without extension)
+    override public func getHelpKey() -> String {
+        return "BlendGallery"
+    }
+    
+    /////////////////////////////
+    // INIT
+    /////////////////////////////
+    
     convenience init(){
         self.init(nibName:nil, bundle:nil)
         doInit()
@@ -99,11 +117,8 @@ class BlendGalleryViewController: CoordinatedController, UIImagePickerController
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Logging nicety, show that controller has changed:
-        print ("\n========== \(String(describing: type(of: self))) ==========")
-
-        // load theme here in case it changed
-        theme = ThemeManager.currentTheme()
+        // common setup
+        self.prepController()
 
         // get display dimensions
         displayHeight = view.height

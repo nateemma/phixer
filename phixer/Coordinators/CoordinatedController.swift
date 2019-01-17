@@ -19,7 +19,7 @@ class CoordinatedController: UIViewController, ControllerDelegate {
     weak var coordinator: CoordinatorDelegate? = nil
     
     // the id of controller (useful to the coordinator)
-    public var id: ControllerIdentifier = .help // has to be something
+    public var id: ControllerIdentifier = .home // has to be something
     
     // the type of controller (useful to the coordinator)
     public var controllerType: ControllerType = .fullscreen
@@ -46,30 +46,34 @@ class CoordinatedController: UIViewController, ControllerDelegate {
     ////////////////////
     
     func start() {
-        log.error("ERROR: Base class called")
+        log.error("\(self.getTag) - ERROR: Base class called")
     }
     
     func end() {
-        log.error("ERROR: Base class called")
+        log.error("\(self.getTag) - ERROR: Base class called")
         dismiss()
     }
     
     func updateDisplays() {
-        log.error("ERROR: Base class called")
+        log.error("\(self.getTag) - ERROR: Base class called")
     }
     
     func updateTheme() {
-        log.error("ERROR: Base class called")
+        log.warning("\(self.getTag()) - Attempting to reapply theme")
+        ThemeManager.applyTheme(key: ThemeManager.getCurrentThemeKey())
+        theme = ThemeManager.currentTheme()
+        self.view.backgroundColor = theme.backgroundColor
+        self.navigationItem.titleView?.backgroundColor = theme.titleColor
     }
     
     func selectFilter(key: String) {
-        log.error("ERROR: Base class called. key: \(key)")
+        log.error("\(self.getTag()) - ERROR: Base class called. key: \(key)")
     }
     
     
     // return the display title for this Controller
     public func getTitle() -> String {
-        return "ERROR: Base Class"
+        return "(\(self.getTag()))"
     }
     
     // return the name of the help file associated with this Controller (without extension)
@@ -80,6 +84,32 @@ class CoordinatedController: UIViewController, ControllerDelegate {
     ////////////////////
     // Useful funcs
     ////////////////////
+    
+    // setup that needs to be run from viewDidLoad()
+    func prepController() {
+ 
+        // set the frame size
+        self.view.frame = ControllerFactory.getFrame(ControllerType.fullscreen)
+
+        // set the ID
+        self.id = ControllerFactory.getId(tag:self.getTag())
+        
+        // configure the nav bar
+        setupNavBar()
+        
+        // Logging nicety, show that controller has changed:
+        print ("\n========== \(self.getTag()) ==========")
+        
+        // load theme here in case it changed
+        theme = ThemeManager.currentTheme()
+        
+        //setupNavBar()
+        
+        self.view.backgroundColor = theme.backgroundColor
+        
+        log.verbose("\(self.getTag()) Frame:\(self.view.frame)")
+    }
+    
     
     
     func clearSubviews(){
@@ -127,10 +157,71 @@ class CoordinatedController: UIViewController, ControllerDelegate {
     }
     
     
+    
+    
+    ////////////////////
+    // Navigation Bar setup - apparently, this has to be done from each ViewController
+    ////////////////////
+
+    func setupNavBar(){
+        
+        let h = (Coordinator.navigationController?.navigationBar.frame.height)! * 0.8
+        let size = CGSize(width: h, height: h)
+        
+        log.verbose("Setting up navBar")
+        let backButton = UIBarButtonItem(image: UIImage(named: "ic_back")?.imageScaled(to: size), style: .plain, target: self, action: #selector(navbarBackDidPress))
+        let helpButton = UIBarButtonItem(image: UIImage(named: "ic_help")?.imageScaled(to: size), style: .plain, target: self, action: #selector(navbarHelpDidPress))
+        let menuButton = UIBarButtonItem(image: UIImage(named: "ic_menu")?.imageScaled(to: size), style: .plain, target: self, action: #selector(navbarMenuDidPress))
+        
+
+        if (self.id != .home) &&  (self.id != .none) {
+            self.navigationItem.leftBarButtonItem = backButton
+        }
+        //self.navigationItem.rightBarButtonItems = [ helpButton, menuButton ] // build custom view?
+        self.navigationItem.rightBarButtonItem = menuButton
+        
+        self.navigationItem.title = self.getTitle()
+        
+        // Apply theme colours
+        self.navigationController?.navigationBar.backgroundColor = theme.backgroundColor
+        self.navigationController?.navigationBar.tintColor = theme.tintColor
+
+    }
+    
+    @objc func navbarBackDidPress(){
+        log.debug("\(self.getTag()) Back Pressed")
+        if self.id != .home {
+            self.dismiss()
+        }
+    }
+    
+    @objc func navbarMenuDidPress(){
+        log.debug("\(self.getTag()) Menu Pressed")
+        //TODO: default menu should contain at least "Help"
+    }
+    
+    @objc func navbarHelpDidPress(){
+        log.debug("\(self.getTag()) Help Pressed")
+        self.coordinator?.helpRequest()
+    }
+    
+    
     ////////////////////
     // Default implementations of UIViewController funcs, mostly just for convenience and consistency
     ////////////////////
-      
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        // there is a race condition where vars are not always configured before viewDidLoad() is called, so make sure they are set here
+        self.id = ControllerFactory.getId(tag:self.getTag())
+
+        log.debug("\(self.getTag()) ID:\(self.id)")
+        
+        setupNavBar()
+
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         log.warning("Low Memory Warning (\(self.getTag()))")

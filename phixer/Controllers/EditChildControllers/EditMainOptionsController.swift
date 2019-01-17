@@ -23,6 +23,7 @@ class EditMainOptionsController: EditBaseMenuController {
     
     convenience init(){
         self.init(nibName:nil, bundle:nil)
+        self.cancelButton?.isHidden = true // disable, since top level
     }
     
     
@@ -33,15 +34,22 @@ class EditMainOptionsController: EditBaseMenuController {
     
     // returns the text to display at the top of the window
     override func getTitle() -> String {
+        self.cancelButton?.isHidden = true
         return "Edit Options"
+    }
+    
+    // return the name of the help file associated with this Controller (without extension)
+    override public func getHelpKey() -> String {
+        return "SimpleEditor"
     }
     
     // returns the list of titles for each item
     override func getItemList() -> [Adornment] {
+        self.cancelButton?.isHidden = true
         return itemList
     }
 
- 
+    
     //////////////////////////////////////////
     // MARK: - Handlers for the menu items
     //////////////////////////////////////////

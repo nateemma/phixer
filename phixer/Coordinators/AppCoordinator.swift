@@ -26,11 +26,13 @@ class AppCoordinator: Coordinator {
     
     init(window: UIWindow?) {
         self.window = window
+        
         Coordinator.navigationController = UINavigationController()
-   }
+
+    }
     
     
-    
+
     /////////////////////////////
     // MARK:  Delegate Functions
     /////////////////////////////
@@ -43,6 +45,7 @@ class AppCoordinator: Coordinator {
             return
         }
         
+
         window.rootViewController = Coordinator.navigationController
         window.makeKeyAndVisible()
 
@@ -60,6 +63,9 @@ class AppCoordinator: Coordinator {
         startMainController()
         
     }
+    
+
+    
     
     /////////////////////////////
     // MARK:  Initial Setup
@@ -81,11 +87,20 @@ class AppCoordinator: Coordinator {
         GADMobileAds.configure(withApplicationID: Admob.appID)
     }
     
-     private func setupTheme() {
-
-        // set the global colour scheme
+    
+    private func setupTheme() {
+        
+        // set the global colour scheme - needed before assigning the Navigation Controller since that uses the current theme
         ThemeManager.applyTheme(key: ThemeManager.getSavedTheme())
+        let theme = ThemeManager.currentTheme()
+        
+        Coordinator.navigationController?.navigationBar.barStyle = .blackTranslucent
+        Coordinator.navigationController?.navigationBar.isTranslucent = true
+        Coordinator.navigationController?.view.backgroundColor = theme.titleColor
+        Coordinator.navigationController?.navigationBar.tintColor = theme.tintColor
+
     }
+    
     
     private func setupConfig() {
         // Create an instance of Filteranager. This will take care of reading the configuration file etc.
@@ -94,6 +109,7 @@ class AppCoordinator: Coordinator {
         setupFrames()
         
     }
+    
     
     private func setupCoordinator() {
         
@@ -116,13 +132,14 @@ class AppCoordinator: Coordinator {
 
         let w = UIScreen.main.bounds.size.width
         let h = UIScreen.main.bounds.size.height
-        let topBarHeight = UIApplication.shared.statusBarFrame.size.height +
-            (Coordinator.navigationController?.navigationBar.frame.height ?? 0.0)
+        let topBarHeight = UIApplication.shared.statusBarFrame.size.height + (Coordinator.navigationController?.navigationBar.frame.height ?? 0.0)
         let menuHeight:CGFloat = 88.0
+        //let toolSize = w - menuHeight / 2.0
+        let toolSize = w - 24
         
         let fullFrame:CGRect = CGRect(x: 0, y: topBarHeight, width: w, height: h-topBarHeight)
         let menuFrame:CGRect = CGRect(x: 0, y: h-menuHeight, width: w, height: menuHeight)
-        let toolFrame:CGRect = CGRect(x: menuHeight/2.0, y: menuHeight, width: w-2.0*menuHeight, height: w-2.0*menuHeight)
+        let toolFrame:CGRect = CGRect(x: (w-toolSize)/2.0, y: menuHeight, width: toolSize, height: toolSize)
         
         ControllerFactory.setFrame(.fullscreen, frame: fullFrame)
         ControllerFactory.setFrame(.menu, frame: menuFrame)

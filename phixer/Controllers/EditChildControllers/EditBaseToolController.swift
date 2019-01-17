@@ -102,11 +102,11 @@ class EditBaseToolController: CoordinatedController, SubControllerDelegate {
         super.viewDidLoad()
         
         // Logging nicety, show that controller has changed. Not using the logging API so that this stands out more
-        print ("\n========== \(self.getTag()) ==========")
+        print ("\n========== \(self.getTag()) ID: \(self.id.rawValue) ==========")
 
        
         //HACK: resize view based on type
-        view.frame = ControllerFactory.getFrame(ControllerType.tool)
+        self.view.frame = ControllerFactory.getFrame(ControllerType.tool)
 
         // load theme here in case it changed
         theme = ThemeManager.currentTheme()

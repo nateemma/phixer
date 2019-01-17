@@ -165,7 +165,18 @@ class ThemeManager {
         // Swift 2:
         //UserDefaults.standard.setValue(key, forKey: ThemeManager.currThemeKey)
         //UserDefaults.standard.synchronize()
-            log.debug("Saved theme: \(key)")    }
+            log.debug("Saved theme: \(key)")
+    }
+    
+    
+    // get the current theme key
+    static func getCurrentThemeKey() -> String {
+        if currKey.isEmpty {
+            currKey = getSavedTheme()
+        }
+        return currKey
+    }
+   
     
     // get the current Theme
     static func currentTheme() -> ThemeParameters {
@@ -235,6 +246,8 @@ class ThemeManager {
             UISlider.appearance().backgroundColor = currTheme?.backgroundColor
             UISlider.appearance().tintColor = currTheme?.highlightColor
 
+            UINavigationBar.appearance().backgroundColor = currTheme?.backgroundColor
+            UINavigationBar.appearance().tintColor = currTheme?.highlightColor
 
         } else {
             log.error ("Unknown Theme: \(key). Available themes: \(getThemeList())")

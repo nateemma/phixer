@@ -15,6 +15,8 @@ import UIKit
 
 enum ControllerIdentifier: String {
     
+    case none // mainly used for initialising
+    
     // Full Controllers:
     
     case startup
@@ -67,6 +69,8 @@ class ControllerFactory {
     
     private static var frameMap:[ControllerType:CGRect] = [:]
     
+    private static var idMap:[String:ControllerIdentifier] = [:]
+    
     
     
     // sets the frame for a type of controller
@@ -75,6 +79,8 @@ class ControllerFactory {
         log.debug("Type: \(ctype.rawValue) Frame:\(frame)")
     }
     
+    
+    // returns the frame size for a controller type
     public static func getFrame(_ ctype:ControllerType) -> CGRect {
         if frameMap[ctype] == nil {
             log.error("Frame not set up for: \(ctype.rawValue). Using full screen")
@@ -83,6 +89,8 @@ class ControllerFactory {
         return frameMap[ctype]!
     }
     
+    
+    // creates the requested kind of controller
     public static func getController(_ controller: ControllerIdentifier) -> CoordinatedController? {
         
         var ctype:ControllerType = .fullscreen
@@ -170,10 +178,25 @@ class ControllerFactory {
             instance?.view.frame = frameMap[ctype]!
             instance?.controllerType = ctype
             instance?.id = controller
-            log.debug("Type:\(ctype) Frame: \((instance?.view.frame)!)")
+            
+            let tag = "\(String(describing: type(of: instance!)))"
+            idMap[tag] = controller
+            
+            log.debug("Type:\(ctype) Tag:\(tag) Frame: \((instance?.view.frame)!)")
+        } else {
+            log.error("No Controller created for ID:\(controller)")
         }
         
         return instance
         
+    }
+    
+    // returns the id given the tag (class name). Needed because of race condition between creating controller and viewDidLoad() activation
+    public static func getId(tag: String) -> ControllerIdentifier {
+        var id:ControllerIdentifier = .none
+        if idMap[tag] != nil { id = (idMap[tag])! }
+        log.debug("\(tag) -> \(id)")
+        return id
+
     }
 }

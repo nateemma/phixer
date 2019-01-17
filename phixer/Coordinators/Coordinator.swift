@@ -23,6 +23,13 @@ class Coordinator: CoordinatorDelegate {
     
     static var navigationController: UINavigationController? = nil
     
+    // completion handler for when this coordinator has finished (set by parent)
+    var completionHandler:(()->())? = nil
+    
+    // reference to the FilterManager
+    static var filterManager: FilterManager? = nil
+
+    
     // map of sub-coordinators
     var subCoordinators: [CoordinatorIdentifier:CoordinatorDelegate] = [:]
     
@@ -32,20 +39,18 @@ class Coordinator: CoordinatorDelegate {
     // Map of Controller to its associated Coordinator
     var coordinatorMap: [ControllerIdentifier:CoordinatorIdentifier] = [:]
     
-    // the main ViewController. Ther can be only one!
+    // the main ViewController. There can be only one!
     var mainController: CoordinatedController? = nil
-    var mainControllerId: ControllerIdentifier = .help // have to default to something
+    var mainControllerId: ControllerIdentifier = .none // have to default to something
     var mainControllerTag: String = ""
     
-    // list of currently active sub-controllers. The key is the tag of the controller (retrieved when launched)
+    // list of currently active sub-controllers. The key is the id of the controller
     var subControllers: [ControllerIdentifier:CoordinatedController] = [:]
+
+    // the ID of the currently active sub-controller. Note that it is not required for one to be active (only complicated activities will have them)
+    var currSubController: ControllerIdentifier = .none
+    var subControllerStack:Stack = Stack<ControllerIdentifier>()
     
-    // completion handler for when this coordinator has finished (set by parent)
-    var completionHandler:(()->())? = nil
-
-    // reference to the FilterManager
-    static var filterManager: FilterManager? = nil
-
     /////////////////////////
     // MARK: - Initializer
     /////////////////////////
@@ -58,6 +63,8 @@ class Coordinator: CoordinatorDelegate {
         self.subControllers = [:]
         self.coordinator = nil
         self.id = .none
+        
+        self.currSubController = .none
     }
     
     // get the tag used to identify this class. Implemented as a func so that it gets the actual class, not the base class
@@ -91,8 +98,8 @@ class Coordinator: CoordinatorDelegate {
     
     // default selection. Pass on to the main controller. Intercept this in the subclass if you need to do something different, e.g. launch another screen
     func selectFilterNotification(key: String) {
-            log.debug("default action")
-            self.mainController?.selectFilter(key: key)
+        log.debug("default action")
+        DispatchQueue.main.async(execute: { self.mainController?.selectFilter(key: key) })
     }
 
     
@@ -121,21 +128,16 @@ class Coordinator: CoordinatorDelegate {
     // move to the next item, whatever that is (can be nothing)
     func nextItemRequest() {
         
-        // TODO: ask current subcontroller
-        // Temp HACK: ask any csub-controller that is currently not hidden. May get mulitple responses!
         if subControllers.count > 0 {
-            for k in self.subControllers.keys {
-                if self.subControllers[k]?.view.isHidden == false {
-                    let sc = subControllers[k] as? SubControllerDelegate
-                    if sc != nil {
-                        sc?.previousItem()
-                    } else {
-                        log.error("Could not get reference to subcontroller: \(k)")
-                    }
+            if let id = subControllerStack.top {
+                if let sc = subControllers[id] as? SubControllerDelegate {
+                    DispatchQueue.main.async(execute: { sc.previousItem() })
+                } else {
+                    log.error("Could not get reference to subcontroller: \(id)")
                 }
             }
         } else {
-            log.error("Base class. Unable to route request")
+            log.error("No sub-controllers - unable to route request")
          }
     }
     
@@ -144,21 +146,16 @@ class Coordinator: CoordinatorDelegate {
     // move to the previous item, whatever that is (can be nothing)
     func previousItemRequest() {
         
-        // TODO: ask current subcontroller
-        // Temp HACK: ask any csub-controller that is currently not hidden. May get mulitple responses!
         if subControllers.count > 0 {
-            for k in self.subControllers.keys {
-                if self.subControllers[k]?.view.isHidden == false {
-                    let sc = subControllers[k] as? SubControllerDelegate
-                    if sc != nil {
-                        sc?.previousItem()
-                    } else {
-                        log.error("Could not get reference to subcontroller: \(k)")
-                    }
+            if let id = subControllerStack.top {
+                if let sc = subControllers[id] as? SubControllerDelegate {
+                    DispatchQueue.main.async(execute: { sc.nextItem() })
+                } else {
+                    log.error("Could not get reference to subcontroller: \(id)")
                 }
             }
         } else {
-            log.error("Base class. Unable to route request")
+            log.error("No sub-controllers - unable to route request")
         }
     }
 
@@ -171,14 +168,8 @@ class Coordinator: CoordinatorDelegate {
             log.verbose("Main Controller finished: \(id.rawValue)")
             Coordinator.navigationController?.popViewController(animated: true)
         } else {
-            if subControllers[id] != nil {
-                log.verbose("Sub-Controller finished: \(id.rawValue)")
-                subControllers[id]?.remove()
-                subControllers[id] = nil
-                // TODO: restore previous sub-controller?
-            } else {
-                log.error("Unkown Sub-Controller: \(id.rawValue)")
-            }
+            log.verbose("Sub-Controller finished: \(id.rawValue)")
+            deactivateSubController(id:id)
         }
 
     }
@@ -210,22 +201,9 @@ class Coordinator: CoordinatorDelegate {
             if vc != nil {
                 
                 if vc?.controllerType == .fullscreen { // full screen controller
-                    if id == self.mainControllerId {
-                        self.mainController = vc
-                        self.mainControllerId = id
-                    }
-                    log.verbose("Pushing: \(id.rawValue)")
-                    Coordinator.navigationController?.pushViewController(vc!, animated: true)
+                    activateController(id:id, vc: vc)
                 } else { // sub-controller
-                    log.verbose("Adding sub-cntroller: \(id.rawValue)")
-                    if self.subControllers[id] != nil {
-                        log.warning("Sub-Controller being replaced: \(id.rawValue)")
-                    }
-                    self.subControllers[id] = vc
-                    self.mainController?.add(vc!)
-                    vc?.view.isHidden = false
-                    
-                    // TODO: maintain stack of sub-controllers
+                    activateSubController(id:id, vc:vc)
                 }
                 vc?.coordinator = self
                 vc?.view.isHidden = false
@@ -238,8 +216,10 @@ class Coordinator: CoordinatorDelegate {
     
     // default requestUpdate: pass on to main controller
     func updateRequest(id: ControllerIdentifier) {
-        self.mainController?.updateDisplays()
+        DispatchQueue.main.async(execute: { self.mainController?.updateDisplays() })
     }
+    
+    
     // default help function
     func helpRequest() {
         // use the help file associated with the main controller id
@@ -250,15 +230,14 @@ class Coordinator: CoordinatorDelegate {
         // NOTE: if there are multiple possible help files, then this func must be overridden in the Coordinator
     }
     
-    private var hideList:[ControllerIdentifier] = []
-    
     // request to hide any subcontrollers that are active
     func hideSubcontrollersRequest() {
-        if self.subControllers.count > 0 {
-            for k in self.subControllers.keys {
-                if self.subControllers[k]?.view.isHidden == false {
-                    self.subControllers[k]?.view.isHidden = true
-                    self.hideList.append(k)
+        if subControllers.count > 0 {
+            if let id = subControllerStack.top {
+                if let sc = subControllers[id]  {
+                    sc.view.isHidden = true
+                } else {
+                    log.error("Could not get reference to subcontroller: \(id)")
                 }
             }
         }
@@ -266,11 +245,33 @@ class Coordinator: CoordinatorDelegate {
     
     // request to show any subcontrollers that were previously hidden
     func showSubcontrollersRequest() {
-        for k in self.hideList {
-            self.subControllers[k]?.view.isHidden = false
+        if subControllers.count > 0 {
+            if let id = subControllerStack.top {
+                if let sc = subControllers[id]  {
+                    sc.view.isHidden = false
+                } else {
+                    log.error("Could not get reference to subcontroller: \(id)")
+                }
+            }
         }
-        self.hideList = []
     }
+    
+    // theme updated, tell the main controller and any subcontrollers
+    func themeUpdatedNotification() {
+        log.debug("Notifying Controller: \(self.mainControllerId.rawValue)")
+        DispatchQueue.main.async(execute: { self.mainController?.updateTheme() })
+        if self.subControllers.count > 0 {
+            for id in self.subControllers.keys {
+                if let vc = self.subControllers[id] {
+                    log.debug("Notifying Subcontroller: \(id.rawValue)")
+                   DispatchQueue.main.async(execute: { vc.updateTheme() })
+                }
+            }
+        }
+        // pass up the chain of command
+        self.coordinator?.themeUpdatedNotification()
+    }
+    
     
     func startCoordinator(_ coordinator: CoordinatorIdentifier){
         if self.subCoordinators[coordinator] == nil {
@@ -280,6 +281,57 @@ class Coordinator: CoordinatorDelegate {
         if let subc = self.subCoordinators[coordinator] {
             subc.setCoordinator (self)
             subc.startRequest(completion: {  } )
+        }
+    }
+    
+    func activateController(id:ControllerIdentifier, vc:CoordinatedController?){
+        if id == self.mainControllerId {
+            self.mainController = vc
+            self.mainControllerId = id
+        }
+        log.verbose("Pushing: \(id.rawValue)")
+        vc?.id = id
+        Coordinator.navigationController?.pushViewController(vc!, animated: true)
+    }
+    
+    func activateSubController(id:ControllerIdentifier, vc:CoordinatedController?) {
+        log.verbose("Adding sub-controller: \(id.rawValue)")
+        if self.subControllers[id] != nil {
+            log.warning("Sub-Controller being replaced: \(id.rawValue)")
+        }
+        self.subControllers[id] = vc
+        vc?.id = id
+        self.mainController?.add(vc!)
+        vc?.view.isHidden = false
+        
+        // hide the currently active SubController
+        if !subControllerStack.isEmpty {
+            self.subControllers[subControllerStack.top!]?.view.isHidden = true
+        }
+        
+        // Add to the stack
+        subControllerStack.push(id)
+    }
+    
+    func deactivateSubController(id:ControllerIdentifier) {
+        log.verbose("Adding sub-controller: \(id.rawValue)")
+        guard self.subControllers[id] != nil else {
+            log.warning("Sub-Controller not active: \(id.rawValue)")
+            return
+        }
+        
+        log.verbose("Sub-Controller finished: \(id.rawValue)")
+        subControllers[id]?.remove()
+        subControllers[id] = nil
+ 
+        // pop the current subcontroller
+        if !subControllerStack.isEmpty {
+            subControllerStack.pop()
+        }
+        
+        // unhide the next one in the stack (if any)
+        if !subControllerStack.isEmpty {
+            self.subControllers[subControllerStack.top!]?.view.isHidden = false
         }
     }
 

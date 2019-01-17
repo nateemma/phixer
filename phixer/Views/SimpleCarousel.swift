@@ -45,7 +45,7 @@ class SimpleCarousel: UIView {
     
     fileprivate var displayWidth : CGFloat = 0.0
     fileprivate var displayHeight : CGFloat = 0.0
-
+ 
     
     ////////////////////////////////////////////
     //MARK: Accessors
@@ -118,6 +118,7 @@ class SimpleCarousel: UIView {
         }
     }
 
+    
     ////////////////////////////////////////////
     //MARK: Layout
     ////////////////////////////////////////////
@@ -218,7 +219,9 @@ class SimpleCarousel: UIView {
             image.tintColor =  theme.tintColor
             
             image.backgroundColor = theme.backgroundColor
-            imgView.layer.borderColor = theme.tintColor.withAlphaComponent(0.5).cgColor
+            imgView.layer.cornerRadius = 4.0
+            imgView.layer.borderWidth = 0.5
+            imgView.layer.borderColor = theme.borderColor.withAlphaComponent(0.5).cgColor
 
             imgView.addSubview(image)
             imgView.addSubview(label)
@@ -278,7 +281,7 @@ class SimpleCarousel: UIView {
                     oldView?.backgroundColor = theme.backgroundColor
                    oldView?.tintColor = theme.textColor
                     oldView?.layer.cornerRadius = 4.0
-                    oldView?.layer.borderWidth = 1.0
+                    oldView?.layer.borderWidth = 0.5
                     oldView?.layer.borderColor = theme.borderColor.withAlphaComponent(0.5).cgColor
                 }
             }

@@ -79,26 +79,39 @@ class SampleGalleryViewController: CoordinatedController, UIImagePickerControlle
     
     
     
+    /////////////////////////////
+    // MARK: - Override Base Class functions
+    /////////////////////////////
+    
+    // return the display title for this Controller
+    override public func getTitle() -> String {
+        return "Sample Image Gallery"
+    }
+    
+    // return the name of the help file associated with this Controller (without extension)
+    override public func getHelpKey() -> String {
+        return "SampleGallery"
+    }
+    
+    /////////////////////////////
+    // INIT
+    /////////////////////////////
+    
+
+    
     convenience init(){
         self.init(nibName:nil, bundle:nil)
         doInit()
     }
     
-    
-    
-    
-    
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        // Logging nicety, show that controller has changed:
-        print ("\n========== \(String(describing: type(of: self))) ==========")
+        // common setup
+        self.prepController()
 
-        // load theme here in case it changed
-        theme = ThemeManager.currentTheme()
-        
       // get display dimensions
         displayHeight = view.height
         displayWidth = view.width

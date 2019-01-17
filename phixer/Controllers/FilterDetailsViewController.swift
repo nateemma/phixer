@@ -88,6 +88,23 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
     
     var currTouchMode:touchMode = .gestures
     
+    
+    
+    /////////////////////////////
+    // MARK: - Override Base Class functions
+    /////////////////////////////
+    
+    // return the display title for this Controller
+    override public func getTitle() -> String {
+        return "Filter Preview"
+    }
+    
+    // return the name of the help file associated with this Controller (without extension)
+    override public func getHelpKey() -> String {
+        return "FilterPreview"
+    }
+    
+  
 
     ///////////////////////
     //MARK: Init
@@ -162,13 +179,9 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        // Logging nicety, show that controller has changed:
-        print ("\n========== \(String(describing: type(of: self))) ==========")
+        // common setup
+        self.prepController()
 
-        // load theme here in case it changed
-        theme = ThemeManager.currentTheme()
-        
         log.verbose("currFilterKey:\(currFilterKey)")
         
         // get display dimensions

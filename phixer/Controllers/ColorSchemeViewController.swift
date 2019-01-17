@@ -63,7 +63,21 @@ class ColorSchemeViewController: CoordinatedController {
     var colorSchemeView: ColorSchemeView! = ColorSchemeView()
     var controlView:UIView! = UIView()
     let seedButton = SquareButton(bsize:48.0)
-
+    
+    /////////////////////////////
+    // MARK: - Override Base Class functions
+    /////////////////////////////
+    
+    // return the display title for this Controller
+    override public func getTitle() -> String {
+        return "Color Scheme"
+    }
+    
+    // return the name of the help file associated with this Controller (without extension)
+    override public func getHelpKey() -> String {
+        return "default"
+    }
+    
     /////////////////////////////
     // MARK: - Boilerplate
     /////////////////////////////

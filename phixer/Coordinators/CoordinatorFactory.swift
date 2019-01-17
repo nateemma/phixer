@@ -16,6 +16,8 @@ enum CoordinatorIdentifier: String {
     
     case none
     
+    case help
+    
     case edit
     case browseStyleTransfer
     case browseFilters
@@ -24,10 +26,12 @@ enum CoordinatorIdentifier: String {
     case filterDisplay
     case filterGallery
     case styleGallery
+    case sampleGallery
+    case blendGallery
+    case themeChooser
+    case reset
 
-    // TODO: add coordinators for next levels
  }
-
 
 
 // Factory class to create instances of the requested Coordinator
@@ -42,9 +46,14 @@ class CoordinatorFactory {
         var instance:Coordinator? = nil
         switch (coordinator){
             
+        case .help:
+            let sc = SimpleCoordinator()
+            sc.setMainController (ControllerIdentifier.help)
+            instance = sc
+
         case .edit:
             instance = BasicEditCoordinator()
-            
+
         case .browseStyleTransfer:
             instance = BrowseStyleTransferCoordinator()
             
@@ -68,6 +77,27 @@ class CoordinatorFactory {
             let sc = SimpleCoordinator()
             sc.setMainController (ControllerIdentifier.styleGallery)
             instance = sc
+
+        case .sampleGallery:
+            let sc = SimpleCoordinator()
+            sc.setMainController (ControllerIdentifier.sampleGallery)
+            instance = sc
+            
+        case .blendGallery:
+            let sc = SimpleCoordinator()
+            sc.setMainController (ControllerIdentifier.blendGallery)
+            instance = sc
+            
+        case .themeChooser:
+            let sc = SimpleCoordinator()
+            sc.setMainController (ControllerIdentifier.themeChooser)
+            instance = sc
+            
+        case .reset:
+            let sc = SimpleCoordinator()
+            sc.setMainController (ControllerIdentifier.reset)
+            instance = sc
+
 
         default:
             log.error("Invalid coordinator: \(coordinator.rawValue)")

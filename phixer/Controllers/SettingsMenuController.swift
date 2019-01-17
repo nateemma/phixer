@@ -41,17 +41,36 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
     var resetMenuItem: UIView = UIView()
     var hideFiltersItem: UIView = UIView()
     var themeMenuItem: UIView = UIView()
-    var colorsMenuItem: UIView = UIView()
 
     var hideFiltersSwitch:UISwitch = UISwitch()
     
-    let numItems:CGFloat = 7
+    let numItems:CGFloat = 6
     
     //let stackView = AloeStackView()
     var stackHeight:CGFloat = 0.0
     
     
-  
+    
+    
+    /////////////////////////////
+    // MARK: - Override Base Class functions
+    /////////////////////////////
+    
+    // return the display title for this Controller
+    override public func getTitle() -> String {
+        return "Settings"
+    }
+    
+    // return the name of the help file associated with this Controller (without extension)
+    override public func getHelpKey() -> String {
+        return "Settings"
+    }
+    
+    /////////////////////////////
+    // INIT
+    /////////////////////////////
+    
+
     
     static var initDone:Bool = false
     
@@ -68,14 +87,9 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        // Logging nicety, show that controller has changed:
-        print ("\n========== \(String(describing: type(of: self))) ==========")
+        // common setup
+        self.prepController()
 
-        // load theme here in case it changed
-        theme = ThemeManager.currentTheme()
-        
-        view.backgroundColor = theme.backgroundColor
         
         // get display dimensions
         displayHeight = view.height
@@ -145,10 +159,9 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
         view.addSubview(resetMenuItem)
         view.addSubview(hideFiltersItem)
         view.addSubview(themeMenuItem)
-        view.addSubview(colorsMenuItem)
         view.groupAgainstEdge(group: .vertical,
                               views: [aboutMenuItem, changeBlendMenuItem, changeSampleMenuItem, resetMenuItem, hideFiltersItem,
-                                      themeMenuItem, colorsMenuItem],
+                                      themeMenuItem ],
                               againstEdge: .bottom, padding: 4.0, width: displayWidth, height: h)
 
 
@@ -200,13 +213,6 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
                       image: nil,
                       color:UIColor.flatPlum,
                       handler: UITapGestureRecognizer(target: self, action: #selector(presentThemes)))
-
-        setupMenuItem(colorsMenuItem, height:h, width:w,
-                      title:"Choose Colours",
-                      image: nil,
-                      color:UIColor.flatPlumDark,
-                      handler: UITapGestureRecognizer(target: self, action: #selector(presentColors)))
-
 
     }
     

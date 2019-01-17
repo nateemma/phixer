@@ -32,6 +32,11 @@ class EditCurvesToolController: EditBaseToolController {
         return "Tone Curve Editor"
     }
     
+    // return the name of the help file associated with this Controller (without extension)
+    override public func getHelpKey() -> String {
+        return "SimpleEditor"
+    }
+    
     override func loadToolView(toolview: UIView){
         buildView(toolview)
     }
