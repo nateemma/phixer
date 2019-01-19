@@ -171,20 +171,7 @@ class FilterManager{
     }
     
     
-    
-    private static var selectedCategory:String = FilterManager.defaultCategory
-    
-    func setSelectedCategory(_ category: String){
-        FilterManager.checkSetup()
-        FilterManager.selectedCategory = category
-        log.verbose("Selected Category: \(FilterManager.selectedCategory)")
-    }
-    
-    func getSelectedCategory()->String{
-        FilterManager.checkSetup()
-        return FilterManager.selectedCategory
-    }
-  
+
     
     // 'Index' methods are provided to support previous/next types of navigation
     
@@ -319,14 +306,16 @@ class FilterManager{
         
         var key = FilterManager.currFilterKey
         let category = FilterManager.currCategory
-        
+        var oldIndex:Int = 0
+        var newIndex:Int = 0
         if (FilterLibrary.filterDictionary[key] != nil){ // filter exists
             if let list = FilterLibrary.categoryFilters[category]?.sorted() {
                 if list.count > 1 { // 0 or 1, just return current key
                     if list.contains(key) {
-                        if var index = list.index(of:key) {
-                            index = (index < (list.count-1)) ? (index + 1) : 0
-                            key = list[index]
+                        if let index = list.index(of:key) {
+                            oldIndex = index
+                            newIndex = (oldIndex < (list.count-1)) ? (oldIndex + 1) : 0
+                            key = list[newIndex]
                         }
                     }
                 }
@@ -337,6 +326,7 @@ class FilterManager{
             log.error("ERR: Unknown filter: \(key)")
         }
         
+        log.debug("[\(oldIndex)]:\(FilterManager.currFilterKey) => [\(newIndex)]:\(key)  category: \(category)")
         return key
     }
     
@@ -364,21 +354,8 @@ class FilterManager{
             log.error("ERR: Unknown filter: \(key)")
         }
         
+
         return key
-    }
-    
-    
-    private static var selectedFilter:String = ""
-    
-    func setSelectedFilter(key: String){
-        FilterManager.checkSetup()
-        FilterManager.selectedFilter = key
-        log.verbose("Selected filter: \(FilterManager.selectedFilter)")
-    }
-    
-    func getSelectedFilter()->String{
-        FilterManager.checkSetup()
-        return FilterManager.selectedFilter
     }
     
     

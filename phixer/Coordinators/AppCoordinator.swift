@@ -116,13 +116,14 @@ class AppCoordinator: Coordinator {
         self.mainControllerId = .home
         
         // define the list of valid Controllers
-        self.validControllers = [ .home, .edit, .browseFilters, .browseStyleTransfer, .settings ]
+        self.validControllers = [ .home, .edit, .browseFilters, .browseStyleTransfer, .settings, .help ]
         
         // map controllers to their associated coordinators
         self.coordinatorMap [ControllerIdentifier.edit] = CoordinatorIdentifier.edit
         self.coordinatorMap [ControllerIdentifier.browseFilters] = CoordinatorIdentifier.browseFilters
         self.coordinatorMap [ControllerIdentifier.browseStyleTransfer] = CoordinatorIdentifier.browseStyleTransfer
         self.coordinatorMap [ControllerIdentifier.settings] = CoordinatorIdentifier.settings
+        self.coordinatorMap [ControllerIdentifier.help] = CoordinatorIdentifier.help
 
     }
 
@@ -135,9 +136,10 @@ class AppCoordinator: Coordinator {
         let topBarHeight = UIApplication.shared.statusBarFrame.size.height + (Coordinator.navigationController?.navigationBar.frame.height ?? 0.0)
         let menuHeight:CGFloat = 88.0
         //let toolSize = w - menuHeight / 2.0
-        let toolSize = w - 24
+        let toolSize = w - 16
         
-        let fullFrame:CGRect = CGRect(x: 0, y: topBarHeight, width: w, height: h-topBarHeight)
+        //let fullFrame:CGRect = CGRect(x: 0, y: topBarHeight, width: w, height: h-topBarHeight)
+        let fullFrame:CGRect = CGRect(x: 0, y: 0, width: w, height: h)
         let menuFrame:CGRect = CGRect(x: 0, y: h-menuHeight, width: w, height: menuHeight)
         let toolFrame:CGRect = CGRect(x: (w-toolSize)/2.0, y: menuHeight, width: toolSize, height: toolSize)
         

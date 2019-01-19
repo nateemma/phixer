@@ -452,7 +452,9 @@ class FilterLibrary{
     private static func addNullFilter(){
         var def = FilterDefinition()
         def.key = FilterDescriptor.nullFilter
-        def.title = FilterDescriptor.nullFilter
+        def.title = "(No Filter)"
+        def.ftype = FilterOperationType.singleInput.rawValue
+        def.parameters = []
         FilterLibrary.addFilter(key:def.key, definition:def)
     }
     
@@ -571,21 +573,22 @@ class FilterLibrary{
             print("loadFromDatabase() - ERR: settings NOT found...")
         }
         
-        
+/****
         // Categories
         for crec in Database.getCategoryRecords(){
             addCategory(key:(crec.key)!, title:(crec.title)!)
         }
-        
+ ***/
         // Build Category array from dictionary. More convenient than a dictionary
         categoryList = Array(categoryDictionary.keys)
         categoryList.sort(by: sortClosure)
         
+        /*** Won't be needing this for quite a while
         // Assignments
         for arec in Database.getAssignmentRecords(){
             addAssignment(category:arec.category!, filters:arec.filters)
         }
-        
+        ***/
 
         // user changes
         for urec in Database.getUserChangesRecords(){
@@ -614,7 +617,8 @@ class FilterLibrary{
         
         Database.saveSettings(settings)
         
-        
+/*** Won't be needing this for quite a while
+
         // Categories
         
         let crec: CategoryRecord = CategoryRecord()
@@ -624,7 +628,7 @@ class FilterLibrary{
             crec.hide = false
             Database.updateCategoryRecord(crec)
         }
-        
+ ***/
         /***
         // Standard and Lookup filters
         let frec: FilterRecord = FilterRecord()
@@ -646,6 +650,7 @@ class FilterLibrary{
             }
         }
          ***/
+/*** Won't be needing this for quite a while
 
         // Category->Filter Assignments
         
@@ -680,7 +685,7 @@ class FilterLibrary{
                 Database.updateUserChangesRecord(urec)
             }
         }
-
+***/
  
         Database.save()
     }

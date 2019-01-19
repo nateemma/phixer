@@ -46,11 +46,12 @@ class BrowseFiltersCoordinator: Coordinator {
         self.subControllers = [:]
         
         self.mainControllerId = .filterGallery
-        self.validControllers = [.filterGallery, .displayFilter]
+        self.validControllers = [.filterGallery, .displayFilter, .help]
 
         // no (main) mappings for coordinators
-        //self.coordinatorMap = [:]
+        self.coordinatorMap = [:]
         self.coordinatorMap [ControllerIdentifier.displayFilter] = CoordinatorIdentifier.filterDisplay
+        self.coordinatorMap [ControllerIdentifier.help] = CoordinatorIdentifier.help
 
         // start the main controller
         self.activateRequest(id: self.mainControllerId)

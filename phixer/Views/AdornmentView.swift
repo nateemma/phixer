@@ -38,6 +38,7 @@ class AdornmentView: UIView {
     // specify the list of adornments to use
     public func addAdornments(_ list:[Adornment]){
         adornmentList = list
+        log.debug("list: \(list)")
         update()
     }
 

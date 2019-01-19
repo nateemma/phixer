@@ -1,5 +1,5 @@
 //
-//  SimpleCoordinator.swift
+//  HelpCoordinator.swift
 //  phixer
 //
 //  Created by Philip Price on 1/14/19.
@@ -13,13 +13,9 @@ import GoogleMobileAds
 
 // class that implements the simple case of a single Controller. The ID can be passed to the constructor
 
-class SimpleCoordinator: Coordinator {
+class HelpCoordinator: Coordinator {
    
-    
-    // set the ID of the main controller
-    func setMainController(_ controller: ControllerIdentifier) {
-        self.mainControllerId = controller
-    }
+
     
     /////////////////////////////
     // MARK:  Delegate Functions
@@ -65,17 +61,19 @@ class SimpleCoordinator: Coordinator {
         // Logging nicety, show that controller has changed:
         print ("\n========== \(String(describing: type(of: self))): \(self.mainControllerId.rawValue) ==========\n")
         
+        
+        self.mainControllerId = .help
+        
+        
         // reset controller/coordinator vars
         self.completionHandler = completion
         self.subCoordinators = [:]
         self.mainController = nil
         self.subControllers = [:]
-        self.validControllers = [self.mainControllerId, .help]
+        self.validControllers = [self.mainControllerId]
         
          self.activateRequest(id: self.mainControllerId)
         
-        self.coordinatorMap [ControllerIdentifier.help] = CoordinatorIdentifier.help
-
     }
 
 

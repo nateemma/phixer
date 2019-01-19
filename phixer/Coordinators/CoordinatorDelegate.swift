@@ -32,7 +32,7 @@ protocol CoordinatorDelegate: class {
     // requests activation of controller (using the known list of controllers)
     func activateRequest (id: ControllerIdentifier)
 
-    // notifies active controller that a filter has been selected
+    // notifies active controller that a filter has been selected. 
     func selectFilterNotification (key: String)
     
     // move to the next item, whatever that is (can be nothing)

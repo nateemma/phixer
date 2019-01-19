@@ -145,7 +145,7 @@ class EditImageDisplayView: UIView {
     }
 
     public func setFilter(key:String){
-        //currFilterKey = filterManager.getSelectedFilter()
+        //currFilterKey = filterManager.getCurrentFilter()
         if (!key.isEmpty){
             currFilterKey = key
 

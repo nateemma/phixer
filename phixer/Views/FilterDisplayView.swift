@@ -78,7 +78,7 @@ class FilterDisplayView: UIView {
     
     
     open func setFilter(key:String){
-        //currFilterKey = filterManager.getSelectedFilter()
+        //currFilterKey = filterManager.getCurrentFilter()
         if (currFilterKey.isEmpty) || (key != currFilterKey) {
             currFilterKey = key
             currFilterDescriptor = filterManager.getFilterDescriptor(key: currFilterKey)

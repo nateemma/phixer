@@ -23,6 +23,7 @@ enum CoordinatorIdentifier: String {
     case browseFilters
     case settings
     
+    case about
     case filterDisplay
     case filterGallery
     case styleGallery
@@ -47,9 +48,7 @@ class CoordinatorFactory {
         switch (coordinator){
             
         case .help:
-            let sc = SimpleCoordinator()
-            sc.setMainController (ControllerIdentifier.help)
-            instance = sc
+            instance = HelpCoordinator()
 
         case .edit:
             instance = BasicEditCoordinator()
@@ -63,6 +62,12 @@ class CoordinatorFactory {
         case .settings:
             instance = SettingsCoordinator()
             
+            
+        case .about:
+            let sc = SimpleCoordinator()
+            sc.setMainController (ControllerIdentifier.about)
+            instance = sc
+
         case .filterDisplay:
             let sc = SimpleCoordinator()
             sc.setMainController (ControllerIdentifier.displayFilter)
@@ -105,7 +110,7 @@ class CoordinatorFactory {
         }
         
         if instance != nil {
-            log.debug("Created Coordinator: \(coordinator.rawValue)")
+            //log.debug("Created Coordinator: \(coordinator.rawValue)")
             instance?.id = coordinator
         }
         return instance

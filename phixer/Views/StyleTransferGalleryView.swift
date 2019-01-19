@@ -425,7 +425,7 @@ extension StyleTransferGalleryView: UICollectionViewDelegate {
         log.verbose("Selected filter: \((descr?.key)!)")
         
         // suspend all active rendering and launch viewer for this filter
-        filterManager.setSelectedFilter(key: (descr?.key)!)
+        filterManager.setCurrentFilterKey((descr?.key)!)
         //suspend()
         //self.present(FilterDetailsViewController(), animated: true, completion: nil)
         delegate?.filterSelected(descr!)

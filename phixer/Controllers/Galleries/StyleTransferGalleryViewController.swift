@@ -312,7 +312,7 @@ extension StyleTransferGalleryViewController: StyleTransferGalleryViewDelegate {
     
     func filterSelected(_ descriptor:FilterDescriptor?){
         
-        filterManager.setSelectedFilter(key: (descriptor?.key)!)
+        filterManager.setCurrentFilterKey((descriptor?.key)!)
         self.coordinator?.selectFilterNotification(key: (descriptor?.key)!)
         //self.dismiss()
 
@@ -327,7 +327,7 @@ extension StyleTransferGalleryViewController: StyleTransferGalleryViewDelegate {
     
     func filterSelected(_ descriptor:FilterDescriptor?){
         
-        filterManager.setSelectedFilter(key: (descriptor?.key)!)
+        filterManager.setCurrentFilterKey((descriptor?.key)!)
         if self.mode == .displaySelection {
             let filterDetailsViewController = FilterDetailsViewController()
             filterDetailsViewController.delegate = self

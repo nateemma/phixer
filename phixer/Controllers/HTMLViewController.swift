@@ -25,6 +25,8 @@ class HTMLViewController: CoordinatedController {
     private var displayHeight : CGFloat = 0.0
     
     private static let defaultHelpFile:String = "default"
+    
+    private var helpFile:String = ""
 
     
     
@@ -39,12 +41,8 @@ class HTMLViewController: CoordinatedController {
     
     // return the name of the help file associated with this Controller (without extension)
     override public func getHelpKey() -> String {
-        return "default"
+        return HTMLViewController.defaultHelpFile
     }
-    
-    /////////////////////////////
-    // INIT
-    /////////////////////////////
     
 
     /////////////////////////////
@@ -59,7 +57,7 @@ class HTMLViewController: CoordinatedController {
         super.init(nibName:nil, bundle:nil)
         self.title = title
         if !file.isEmpty {
-            self.loadFile(name: file)
+            self.helpFile = file
         }
     }
     
@@ -76,7 +74,7 @@ class HTMLViewController: CoordinatedController {
         self.prepController()
 
 
-        doInit()
+        processFile()
         doLayout()
     }
     
@@ -98,7 +96,7 @@ class HTMLViewController: CoordinatedController {
         <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
-        body { font: 100%/150% Arial,calibri,helvetica,sans-serif; font-size: 100%; \(buildColourString())}
+        body { font: 100%/150% Arial,calibri,helvetica,sans-serif; font-size: 80%; \(buildColourString())}
         </style>
         </head>
         <body>
@@ -107,7 +105,7 @@ class HTMLViewController: CoordinatedController {
         </html>
         """
         
-        log.verbose("HTML:\n \(html)")
+        //log.verbose("HTML:\n \(html)")
         htmlView.loadHTMLString(html, baseURL: nil)
     }
 
@@ -157,16 +155,20 @@ class HTMLViewController: CoordinatedController {
     // MARK: - Initialisation & Layout
     /////////////////////////////
     
-    var initDone:Bool = false
-    
-    
-    private func doInit(){
+
+    private func processFile(){
+        //OK, a bit of a hack, but the problem here is that the coordinators don't really know anything about the specifics of this controller, so it's hard to pass parameters
+        // Instead, the previous coodinator will have saved the needed info in the sharedInfo map, so we retrieve it from there
         
-        if (!initDone){
-            initDone = true
-            //setTitle("           HTML Viewer         ")
-            //setText("<p>Hello World</p><p><i>Hello World!</i></p><p><u>Hello World!!</u></p><p><b>Hello World!!!</b></p>")
+        if self.helpFile.isEmpty {
+            if let file = Coordinator.sharedInfo["helpFile"] {
+                self.helpFile = file
+            } else {
+                self.helpFile = HTMLViewController.defaultHelpFile
+            }
         }
+        self.loadFile(name:  self.helpFile)
+        
     }
     
     

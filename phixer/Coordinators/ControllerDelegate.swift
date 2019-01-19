@@ -19,7 +19,7 @@ protocol ControllerDelegate: class {
     // notification to prepare to end processing
     func end()
 
-    // notifies  controller that a filter has been selected
+    // notifies  controller that a filter has been selected. 
     func selectFilter (key: String)
     
     // notifies the controller that an update is required
@@ -28,4 +28,6 @@ protocol ControllerDelegate: class {
     // informs the controller that the theme has changed
     func updateTheme()
     
+    // asks the controller to handle the menu request.
+    func handleMenu()
 }

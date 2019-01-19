@@ -26,7 +26,7 @@ class WhiteBalanceFilter: CIFilter {
     
     // filter display name
     func displayName() -> String {
-        return "Luma Range"
+        return "White Balance"
     }
     
     

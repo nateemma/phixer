@@ -276,31 +276,7 @@ class FilterGalleryViewController: CoordinatedController {
     }
     
     
-    /////////////////////////////
-    // FilterBasedControllerDelegate(s)
-    /////////////////////////////
-    
-    func filterControllerSelection(key: String) {
-        log.verbose("Child selected filter: \(key)")
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.updateCategoryDisplay(self.currCategory)
-        })
-   }
-    
-    func filterControllerUpdateRequest(tag:String) {
-        log.verbose("Child requested update: \(tag)")
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.updateCategoryDisplay(self.currCategory)
-        })
-    }
-    
-    
-    func filterControllerCompleted(tag:String) {
-        log.verbose("Returned from: \(tag)")
-        DispatchQueue.main.async(execute: {() -> Void in
-            self.updateCategoryDisplay(self.currCategory)
-        })
-    }
+
 
 } // FilterGalleryViewController
 
@@ -323,8 +299,8 @@ extension FilterGalleryViewController: CategorySelectionViewDelegate {
 extension FilterGalleryViewController: FilterGalleryViewDelegate {
     func filterSelected(_ descriptor:FilterDescriptor?){
         //suspend()
-        filterManager.setSelectedCategory(currCategory)
-        filterManager.setSelectedFilter(key: (descriptor?.key)!)
+        filterManager.setCurrentCategory(currCategory)
+        filterManager.setCurrentFilterKey((descriptor?.key)!)
         
         self.coordinator?.selectFilterNotification(key: (descriptor?.key)!)
         //self.dismiss()

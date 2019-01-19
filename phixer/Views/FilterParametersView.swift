@@ -85,22 +85,96 @@ class FilterParametersView: UIView {
         self.init(frame: CGRect.zero)
     }
     
-    
+    //////////////////////////////
+    // Accessors
+    //////////////////////////////
+
     // enables/disabled 'confirm' mode, where user has to explicitly Accept changes
     public func setConfirmMode(_ confirm:Bool){
         self.showControls = confirm
     }
    
 
+    private var savedFrame: CGRect = CGRect.zero
+    
+    
+    //////////////////////////////
+    // Accessors
+    //////////////////////////////
+    
+
+    // Collapses the detail part of the view, leaving just the title bar
+    public func collapse(){
+        if initDone {
+            
+            /****/
+            // move the frame to just under the navbar
+            let topBarHeight = UIApplication.shared.statusBarFrame.size.height + (Coordinator.navigationController?.navigationBar.frame.height ?? 0.0)
+            //        self.frame = CGRect(origin: CGPoint(x: savedFrame.origin.x,
+            //                                            y: savedFrame.origin.y + (savedFrame.size.height - (titleView?.frame.size.height)!)),
+            //                            size: (titleView?.frame.size)!)
+            self.frame = CGRect(origin: CGPoint(x: 0, y: topBarHeight),
+                                size: (titleView?.frame.size)!)
+            self.scrollView?.isHidden = true
+            /***/
+        }
+    }
+    
+    
+    // Expands the detail part
+    public func expand(){
+        if initDone {
+            self.frame = savedFrame
+            if self.numVisibleParams > 0 {
+                self.scrollView?.isHidden = false
+                self.scrollView?.canCancelContentTouches = false
+            }
+        }
+    }
+    
+    
+    public func dismiss(){
+        UIView.animate(withDuration: 0.5, animations: {
+            self.alpha = 0 }) { _ in
+                self.clearSubviews()
+                self.isHidden = true
+                //self.removeFromSuperview()
+        }
+    }
+    
+    public func setFilter(_ descriptor:FilterDescriptor?){
+
+        // if no filter then clear sub-views and hide view, otherwise re-build based on the filter descriptor
+        clearSubviews()
+        if (descriptor != nil)  {
+            
+            currFilterDesc = descriptor
+            currFilterDesc?.stashParameters() // save initial values in case the user cancels
+            
+            layoutUI()
+            
+            logSizes()
+
+        }
+    }
+
+    //////////////////////////////
+    // Init
+    //////////////////////////////
+    
+
     
     fileprivate func initViews(){
-        
+  
+        savedFrame = self.frame
+
         //if (!initDone && (currFilterDesc != nil)){
-        if (currFilterDesc != nil){
+        //if (currFilterDesc != nil){
             
             //self.backgroundColor = UIColor.flatGray()
-            self.backgroundColor = viewBackgroundColor
-            self.alpha = 0.9
+            //self.backgroundColor = viewBackgroundColor
+            self.backgroundColor = viewBackgroundColor.withAlphaComponent(0.6)
+            //self.alpha = 0.9
             
             viewList = []
             fullScreenEnabled = true
@@ -110,7 +184,7 @@ class FilterParametersView: UIView {
             // height: title + sliders + buttons (or not)
             var f1, f2: CGFloat
 
-            f1 = 1.6*CGFloat((currFilterDesc?.getNumDisplayableParameters())!) + 1.6
+            f1 = 1.6*CGFloat(currFilterDesc?.getNumDisplayableParameters() ?? 0) + 1.6
             f2 = CGFloat(sliderHeight)
             self.frame.size.height = max((f1 * f2).rounded(), 3*f2)
             
@@ -121,7 +195,7 @@ class FilterParametersView: UIView {
             }
             
             initDone = true
-        }
+        //}
     }
     
     
@@ -207,6 +281,7 @@ class FilterParametersView: UIView {
         var pConfig: ParameterSettings
         var slider: UISlider?
         var label: UILabel
+        var textView: UIView
         var pView: UIView
         var currColor: UIColor = UIColor.blue
         
@@ -234,15 +309,27 @@ class FilterParametersView: UIView {
                         pView.frame.size.width = self.frame.size.width
                         pView.frame.size.height = CGFloat(sliderHeight*1.25)
                         
+                        textView = UIView()
+                        textView.frame.size.width = self.frame.size.width
+                        textView.frame.size.height = CGFloat(0.25)
+                        textView.backgroundColor = UIColor.clear
+
                         label = UILabel()
+                        label.backgroundColor = viewBackgroundColor
                         label.text = pConfig.title
                         label.frame.size.width = self.frame.size.width/3.0
                         label.frame.size.height = CGFloat(sliderHeight/2.0)
-                        //label.textAlignment = .center
                         label.textAlignment = .left
                         label.textColor = sliderTextColor
                         label.font = UIFont.systemFont(ofSize: 12.0)
-                        pView.addSubview(label)
+                        
+                        // dynamically size label:
+                        let newSize: CGSize = label.sizeThatFits(label.frame.size)
+                        label.frame.size = newSize
+
+                        textView.addSubview(label)
+                        textView.anchorAndFillEdge(.left, xPad: 2, yPad: 0, otherSize: label.frame.size.width)
+                        pView.addSubview(textView)
                         
                         switch pConfig.type {
                         case  ParameterType.float:
@@ -266,7 +353,7 @@ class FilterParametersView: UIView {
                             pView.addSubview(slider!)
                             //TODO: add labels for: min, max, current value (?)
                             
-                            pView.groupAndFill(group: .vertical, views: [label, slider!], padding: 4.0)
+                            pView.groupAndFill(group: .vertical, views: [textView, slider!], padding: 4.0)
                             
                         case ParameterType.color:
                             // RGB Slider, need to deal with colors
@@ -313,10 +400,11 @@ class FilterParametersView: UIView {
                             //attachColorSliderAction(gsliders[i]!)
                             gsliders.append(gslider)
                             pView.addSubview(gslider)
-                            pView.groupAndFill(group: .vertical, views: [label, gslider], padding: 2.0)
+                            pView.groupAndFill(group: .vertical, views: [textView, gslider], padding: 2.0)
                             
                         case ParameterType.position:
-                            let touchButton = SquareButton(bsize: CGFloat(sliderHeight)*0.8)
+                            let touchButton = SquareButton(bsize: CGFloat(sliderHeight))
+                            touchButton.backgroundColor = viewBackgroundColor.withAlphaComponent(0.8)
                             
                             touchButton.setImageAsset("ic_touch")
                             touchButton.setTintable(true)
@@ -330,10 +418,11 @@ class FilterParametersView: UIView {
                             // Note: need both handlers
                             pView.tag = i
                             pView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(viewTouchHandler)))
+
                             
                             var p = self.currFilterDesc?.getPositionParameter(key)?.cgPointValue
                             // if position is not set, default to the middle of the image
-                            if ((p?.x)! < CGFloat(0.01)) && ((p?.y)! < CGFloat(0.01)) {
+                            if ((p?.x)! < CGFloat(0.01)) && ((p?.y)! < CGFloat(0.01)) { // approximately (0, 0)
                                 let size = InputSource.getSize()
                                 p?.x = min (size.width, size.height) / 2
                                 p?.y = max (size.width, size.height) / 2
@@ -344,13 +433,18 @@ class FilterParametersView: UIView {
                             
                             pKey.append(key)
                             pView.addSubview(touchButton)
-                            pView.groupAndFill(group: .horizontal, views: [label, touchButton], padding: 8.0)
+                            textView.frame.size.height = pView.frame.size.height
+                            label.frame.size.height = textView.frame.size.height
+                            textView.anchorToEdge(.left, padding: 2, width: label.frame.size.width, height: pView.frame.size.height) // re-align
+                            touchButton.anchorInCenter(width: pView.frame.size.height, height: pView.frame.size.height)
+                            //pView.groupAndFill(group: .horizontal, views: [label, touchButton], padding: 8.0)
 
                             
                         default:
                             log.error("Invalid parameter type: \(pConfig.type)")
                         }
                         
+                        pView.isUserInteractionEnabled = true
                         sliders.append(pView)
                         parameterView.addSubview(pView)
                         numVisibleParams = numVisibleParams + 1
@@ -360,8 +454,10 @@ class FilterParametersView: UIView {
             }
         }
         
-        scrollView?.addSubview(parameterView)
-        self.addSubview(scrollView!)
+        if numVisibleParams > 0 {
+            scrollView?.addSubview(parameterView)
+            self.addSubview(scrollView!)
+        }
         
     }
     
@@ -407,24 +503,20 @@ class FilterParametersView: UIView {
             scrollView?.contentSize = parameterView.frame.size
             scrollView?.frame.size.height = min(h, CGFloat(4*sliderHeight))
             height = height + parameterView.frame.size.height
-        } else {
+            scrollView?.isHidden = false
+            //self.backgroundColor = viewBackgroundColor
+       } else {
             parameterView.frame.size.width = titleView.frame.size.width
             parameterView.frame.size.height = 0
             scrollView?.frame.size.height = 0
             scrollView?.contentSize = CGSize.zero
+            scrollView?.isHidden = true
+            //self.backgroundColor = UIColor.clear
         }
 
         self.frame.size.height = height
-        self.anchorToEdge(.bottom, padding: 1, width: self.frame.size.width, height: self.frame.size.height)
+        //self.anchorToEdge(.bottom, padding: 1, width: self.frame.size.width, height: self.frame.size.height)
 
-        //DEBUG
-        /***
-        log.debug("\(numVisibleParams) params\n" +
-                  "T:[w:\(titleView.frame.size.width), h:\(titleView.frame.size.height)]\n" +
-                  "P:[w:\(parameterView.frame.size.width), h:\(parameterView.frame.size.height)]\n" +
-                  "S:[w:\(scrollView?.contentSize.width), h:\(scrollView?.contentSize.height)]\n" +
-                  "A:[w:\(self.frame.size.width), h:\(self.frame.size.height)]" )
-        ***/
 
         // layout sub-views
         
@@ -435,8 +527,9 @@ class FilterParametersView: UIView {
             parameterView.groupAndFill(group: .vertical, views: sliders, padding: 2.0)
             scrollView?.alignAndFill(align: .underCentered, relativeTo: titleView, padding: 0, offset: 0)
         }
+        
+        logSizes()
     }
-    
     
     
     fileprivate func clearSubviews(){
@@ -461,6 +554,7 @@ class FilterParametersView: UIView {
         layoutTitle()
         layoutParameters()
         finishLayout()
+        savedFrame = self.frame
     }
     
     
@@ -469,36 +563,17 @@ class FilterParametersView: UIView {
         // don't do anything until filter is set
     }
     
-    
-    open func dismiss(){
-        UIView.animate(withDuration: 0.5, animations: {
-            self.alpha = 0 }) { _ in
-            self.clearSubviews()
-            self.isHidden = true
-            //self.removeFromSuperview()
-        }
+    func logSizes(_ f:String = #function, _ l:Int = #line){
+        /***/
+        log.debug("\(f):\(l)\n " +
+            "params: \(numVisibleParams)\n" +
+            "Title: [\(titleView.frame)], hid:\(titleView.isHidden)\n" +
+            "Params:[\(parameterView.frame)], hid:\(parameterView.isHidden)\n" +
+            "Scroll:[\(scrollView?.contentSize)], hid:\((scrollView?.isHidden)!)\n" +
+            "All:   [\(self.frame)], hid:\(self.isHidden)" )
+        /***/
     }
-    
-    open func setFilter(_ descriptor:FilterDescriptor?){
-        
-        // if no filter then clear sub-views and hide view, otherwise re-build based on the filter descriptor
-        if (descriptor == nil)  {
-            clearSubviews()
-            self.isHidden = false
-        } else {
-            
-            currFilterDesc = descriptor
-            currFilterDesc?.stashParameters() // save initial values in case the user cancels
-
-            layoutUI()
-        }
-    }
-    
-    func updateFilterTargets(){
-        //TODO: how to force UI update on filtered image???
-    }
-    
-    
+  
     
     // get the hue value (0.0-1.0) from a Color type
     fileprivate func hueFromColor(_ color:CIColor?)->CGFloat{

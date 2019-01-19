@@ -19,7 +19,8 @@ private var filterCount: Int = 0
 
 class EditMainOptionsController: EditBaseMenuController {
 
-    
+    // special case flag - if a submenu enters a mode that follws the catgeory/filter scheme then we can handle prev/next using that
+    private var filterCategoriesActive:Bool = false
     
     convenience init(){
         self.init(nibName:nil, bundle:nil)
@@ -49,6 +50,24 @@ class EditMainOptionsController: EditBaseMenuController {
         return itemList
     }
 
+    ////////////////////
+    // Coordination Interface requests (forward/back)
+    ////////////////////
+    
+    // Disable swipe, doesn't make sense here
+    override func nextItem() {
+        if filterCategoriesActive {
+            let key = filterManager.getNextFilterKey()
+            self.coordinator?.selectFilterNotification(key: key)
+        }
+    }
+    
+    override func previousItem() {
+        if filterCategoriesActive {
+            let key = filterManager.getPreviousFilterKey()
+            self.coordinator?.selectFilterNotification(key: key)
+        }
+   }
     
     //////////////////////////////////////////
     // MARK: - Handlers for the menu items
@@ -66,10 +85,12 @@ class EditMainOptionsController: EditBaseMenuController {
 
     
     override func handleSelection(key: String){
+        filterCategoriesActive = false
         switch (key){
         case "basic":
             basicAdjustmentsHandler()
         case "filters":
+            filterCategoriesActive = true
             colorFiltersHandler()
         case "style":
             styleTransferHandler()

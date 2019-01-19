@@ -38,6 +38,10 @@ class CoordinatedController: UIViewController, ControllerDelegate {
     public var filterManager: FilterManager = FilterManager.sharedInstance
     
     
+    // Default Menu view
+    var defaultMenuView: DefaultControllerMenuView! = DefaultControllerMenuView()
+    
+    
     //TODO: add titlebar and Ad views (and handling)?
     
     
@@ -71,6 +75,32 @@ class CoordinatedController: UIViewController, ControllerDelegate {
     }
     
     
+    private var defaultMenuReady:Bool = false
+    
+    // handle the menu request.
+    func handleMenu() {
+        log.debug("\(self.getTag()) - using default menu")
+        
+        if !defaultMenuReady {
+            buildDefaultMenu()
+            defaultMenuReady = true
+            defaultMenuView.isHidden = true
+        }
+        
+        // if menu is hidden then re-layout and show it, otherwise hide it
+        if self.defaultMenuView.isHidden == true {
+            log.debug("showing menu")
+            self.defaultMenuView.delegate = self
+            self.defaultMenuView.isHidden = false
+            self.view.bringSubview(toFront: self.defaultMenuView)
+        } else {
+            log.debug("Menu active, closing")
+            self.defaultMenuView.isHidden = true
+        }
+    }
+
+    
+    
     // return the display title for this Controller
     public func getTitle() -> String {
         return "(\(self.getTag()))"
@@ -94,16 +124,13 @@ class CoordinatedController: UIViewController, ControllerDelegate {
         // set the ID
         self.id = ControllerFactory.getId(tag:self.getTag())
         
-        // configure the nav bar
-        setupNavBar()
-        
         // Logging nicety, show that controller has changed:
         print ("\n========== \(self.getTag()) ==========")
         
         // load theme here in case it changed
         theme = ThemeManager.currentTheme()
         
-        //setupNavBar()
+        setupNavBar()
         
         self.view.backgroundColor = theme.backgroundColor
         
@@ -120,12 +147,16 @@ class CoordinatedController: UIViewController, ControllerDelegate {
 
     
     func dismiss(){
-        UIView.animate(withDuration: 0.5, animations: {
+        /*** TODO: better animation?
+        UIView.animate(withDuration: 0.2, animations: {
             self.view.alpha = 0 }) { _ in
                 self.clearSubviews()
                 self.view.isHidden = true
-                self.coordinator?.completionNotification(id: self.getId())
         }
+ ***/
+        self.clearSubviews()
+        self.view.isHidden = true
+        self.coordinator?.completionNotification(id: self.getId())
     }
     
     // get the tag used to identify this controller. IDs are assigned by the Coordinator pattern and are used to track activity
@@ -156,9 +187,45 @@ class CoordinatedController: UIViewController, ControllerDelegate {
         }
     }
     
+    public func displayTimedMessage(title:String, text:String, time:TimeInterval){
+        log.debug("title:\(title) time:\(time) \ntext: \(text)")
+        DispatchQueue.main.async(execute: { () -> Void in
+            let alert = UIAlertController(title: title, message: text, preferredStyle: .alert)
+            self.present(alert, animated: true, completion: nil)
+            Timer.scheduledTimer(withTimeInterval: time, repeats: false, block: { _ in alert.dismiss(animated: true, completion: nil)} )
+        })
+    }
     
+    ////////////////////
+    // Default Menu Handling
+    ////////////////////
+
+    private func buildDefaultMenu(){
+        defaultMenuReady = true
+        self.view.addSubview(defaultMenuView)
+        let topBarHeight = UIApplication.shared.statusBarFrame.size.height + (Coordinator.navigationController?.navigationBar.frame.height ?? 0.0)
+        defaultMenuView.frame.size.height = CGFloat(48.0)
+        defaultMenuView.frame.size.width = self.view.frame.size.width
+        defaultMenuView.anchorAndFillEdge(.top, xPad: 0, yPad: topBarHeight, otherSize: defaultMenuView.frame.size.height)
+        defaultMenuView.isHidden = true
+    }
+
     
-    
+    // handler (called from the AdornmentView extension)
+    // implemented as switch in case we add something else later
+    fileprivate func handleDefaultMenuSelection(key: String){
+        switch (key){
+        case "help":
+            log.debug("help")
+            DispatchQueue.main.async(execute: { () -> Void in
+                self.coordinator?.helpRequest()
+            })
+        default:
+            log.error("Unknown key: \(key)")
+        }
+        self.defaultMenuView.isHidden = true
+   }
+
     ////////////////////
     // Navigation Bar setup - apparently, this has to be done from each ViewController
     ////////////////////
@@ -170,14 +237,14 @@ class CoordinatedController: UIViewController, ControllerDelegate {
         
         log.verbose("Setting up navBar")
         let backButton = UIBarButtonItem(image: UIImage(named: "ic_back")?.imageScaled(to: size), style: .plain, target: self, action: #selector(navbarBackDidPress))
-        let helpButton = UIBarButtonItem(image: UIImage(named: "ic_help")?.imageScaled(to: size), style: .plain, target: self, action: #selector(navbarHelpDidPress))
+        //let helpButton = UIBarButtonItem(image: UIImage(named: "ic_help")?.imageScaled(to: size), style: .plain, target: self, action: #selector(navbarHelpDidPress))
         let menuButton = UIBarButtonItem(image: UIImage(named: "ic_menu")?.imageScaled(to: size), style: .plain, target: self, action: #selector(navbarMenuDidPress))
         
 
         if (self.id != .home) &&  (self.id != .none) {
             self.navigationItem.leftBarButtonItem = backButton
         }
-        //self.navigationItem.rightBarButtonItems = [ helpButton, menuButton ] // build custom view?
+        //self.navigationItem.rightBarButtonItems = [ menuButton, helpButton ] // build custom view?
         self.navigationItem.rightBarButtonItem = menuButton
         
         self.navigationItem.title = self.getTitle()
@@ -185,6 +252,9 @@ class CoordinatedController: UIViewController, ControllerDelegate {
         // Apply theme colours
         self.navigationController?.navigationBar.backgroundColor = theme.backgroundColor
         self.navigationController?.navigationBar.tintColor = theme.tintColor
+        
+        // build the menu
+        buildDefaultMenu()
 
     }
     
@@ -196,8 +266,7 @@ class CoordinatedController: UIViewController, ControllerDelegate {
     }
     
     @objc func navbarMenuDidPress(){
-        log.debug("\(self.getTag()) Menu Pressed")
-        //TODO: default menu should contain at least "Help"
+        self.handleMenu() 
     }
     
     @objc func navbarHelpDidPress(){
@@ -210,6 +279,7 @@ class CoordinatedController: UIViewController, ControllerDelegate {
     // Default implementations of UIViewController funcs, mostly just for convenience and consistency
     ////////////////////
     
+    private var firstTime = true
     
     override func viewDidAppear(_ animated: Bool) {
         
@@ -218,7 +288,10 @@ class CoordinatedController: UIViewController, ControllerDelegate {
 
         log.debug("\(self.getTag()) ID:\(self.id)")
         
-        setupNavBar()
+        if firstTime {
+            firstTime = false
+            setupNavBar()
+       }
 
     }
     
@@ -271,3 +344,17 @@ class CoordinatedController: UIViewController, ControllerDelegate {
     
     
 } // CoordinatedController
+
+
+
+
+
+// Default Menu delegate
+
+extension CoordinatedController: DefaultControllerMenuDelegate {
+    func defaultMenuItemSelected(key: String) {
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.handleDefaultMenuSelection(key: key)
+        })
+    }
+}

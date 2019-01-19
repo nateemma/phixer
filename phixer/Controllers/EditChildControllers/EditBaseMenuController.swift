@@ -217,11 +217,14 @@ class EditBaseMenuController: CoordinatedController, SubControllerDelegate, Edit
     //////////////////////////////////////////
 
     func notYetImplemented(){
+        displayTimedMessage(title: "Oh Dear", text: "Not yet implemented. Sorry!", time: 1.0)
+        /***
         DispatchQueue.main.async(execute: { () -> Void in
             let alert = UIAlertController(title: "Oh Dear", message: "Not yet implemented. Sorry!", preferredStyle: .alert)
             self.present(alert, animated: true, completion: nil)
             Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: { _ in alert.dismiss(animated: true, completion: nil)} )
         })
+         ***/
     }
     
 

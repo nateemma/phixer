@@ -111,7 +111,7 @@
         { "key": "bw_028", "image": "bw_028_cool_tones_1.JPG", "slow": false, "show": true, "rating": 0 },
         { "key": "bw_029", "image": "bw_029_cool_tones_2.JPG", "slow": false, "show": true, "rating": 0 },
         { "key": "bw_030", "image": "bw_030_film_noir_1.JPG", "slow": false, "show": true, "rating": 1 },
-        { "key": "bw_031", "image": "bw_031_film_noir_2.JPG", "slow": false, "show": true, "rating": 2 },
+        { "key": "bw_031", "image": "bw_031_film_noir_2.JPG", "slow": false, "show": true, "rating": 1 },
         { "key": "bw_032", "image": "bw_032_film_noir_3.JPG", "slow": false, "show": true, "rating": 0 },
         { "key": "bw_033", "image": "bw_033_yellowed_1.JPG", "slow": false, "show": true, "rating": 0 },
         { "key": "bw_034", "image": "bw_034_yellowed_2.JPG", "slow": false, "show": true, "rating": 0 },

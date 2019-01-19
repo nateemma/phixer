@@ -42,11 +42,12 @@ class BrowseStyleTransferCoordinator: Coordinator {
         self.subControllers = [:]
         
         self.mainControllerId = .styleGallery
-        self.validControllers = [.styleGallery, .displayFilter]
+        self.validControllers = [.styleGallery, .displayFilter, .help]
 
-        // no (main) mappings for coordinators
-        //self.coordinatorMap = [:]
+        // mappings for coordinators
+        self.coordinatorMap = [:]
         self.coordinatorMap [ControllerIdentifier.displayFilter] = CoordinatorIdentifier.filterDisplay
+        self.coordinatorMap [ControllerIdentifier.help] = CoordinatorIdentifier.help
 
         // start the main controller
         self.activateRequest(id: self.mainControllerId)

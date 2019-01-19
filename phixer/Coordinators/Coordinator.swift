@@ -49,7 +49,14 @@ class Coordinator: CoordinatorDelegate {
 
     // the ID of the currently active sub-controller. Note that it is not required for one to be active (only complicated activities will have them)
     var currSubController: ControllerIdentifier = .none
+    
+    // stack of subcontrollers
     var subControllerStack:Stack = Stack<ControllerIdentifier>()
+    
+    
+    
+    // a way to share keyed data between Coordinators
+    static var sharedInfo:[String:String] = [:]
     
     /////////////////////////
     // MARK: - Initializer
@@ -166,7 +173,7 @@ class Coordinator: CoordinatorDelegate {
         
         if id == self.mainControllerId {
             log.verbose("Main Controller finished: \(id.rawValue)")
-            Coordinator.navigationController?.popViewController(animated: true)
+            Coordinator.navigationController?.popViewController(animated: false)
         } else {
             log.verbose("Sub-Controller finished: \(id.rawValue)")
             deactivateSubController(id:id)
@@ -223,9 +230,13 @@ class Coordinator: CoordinatorDelegate {
     // default help function
     func helpRequest() {
         // use the help file associated with the main controller id
-        let vc = ControllerFactory.getController(.help) as? HTMLViewController
-        vc?.setTitle("Help: \((self.mainController?.getTitle())!)")
-        vc?.loadFile(name: (self.mainController?.getHelpKey())!)
+        let title = (self.mainController?.getTitle())!
+        let file = (self.mainController?.getHelpKey())!
+        
+        Coordinator.sharedInfo["helpTitle"] = title
+        Coordinator.sharedInfo["helpFile"] = file
+        
+        self.activateRequest(id: .help)
         
         // NOTE: if there are multiple possible help files, then this func must be overridden in the Coordinator
     }
@@ -291,7 +302,7 @@ class Coordinator: CoordinatorDelegate {
         }
         log.verbose("Pushing: \(id.rawValue)")
         vc?.id = id
-        Coordinator.navigationController?.pushViewController(vc!, animated: true)
+        Coordinator.navigationController?.pushViewController(vc!, animated: false)
     }
     
     func activateSubController(id:ControllerIdentifier, vc:CoordinatedController?) {
@@ -319,7 +330,7 @@ class Coordinator: CoordinatorDelegate {
             log.warning("Sub-Controller not active: \(id.rawValue)")
             return
         }
-        
+
         log.verbose("Sub-Controller finished: \(id.rawValue)")
         subControllers[id]?.remove()
         subControllers[id] = nil

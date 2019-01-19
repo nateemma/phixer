@@ -265,7 +265,7 @@ class  FilterDescriptor {
         count = 0
         for k in parameterConfiguration.keys {
             if let p = parameterConfiguration[k] {
-                if (p.type == .float) || (p.type == .color) {
+                if (p.type == .float) || (p.type == .color) || (p.type == .position){
                     count = count + 1
                 }
             }

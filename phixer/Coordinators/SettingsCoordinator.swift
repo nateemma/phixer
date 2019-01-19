@@ -36,12 +36,15 @@ class SettingsCoordinator: Coordinator {
         self.subControllers = [:]
         
         self.mainControllerId = .settings
-        self.validControllers = [.settings, .about, .reset, .sampleGallery, .blendGallery, .themeChooser ]
+        self.validControllers = [.settings, .about, .reset, .sampleGallery, .blendGallery, .themeChooser, .help ]
 
+        self.coordinatorMap = [:]
         self.coordinatorMap [ControllerIdentifier.sampleGallery] = CoordinatorIdentifier.sampleGallery
         self.coordinatorMap [ControllerIdentifier.blendGallery] = CoordinatorIdentifier.blendGallery
         self.coordinatorMap [ControllerIdentifier.themeChooser] = CoordinatorIdentifier.themeChooser
         self.coordinatorMap [ControllerIdentifier.reset] = CoordinatorIdentifier.reset
+        self.coordinatorMap [ControllerIdentifier.about] = CoordinatorIdentifier.about
+        self.coordinatorMap [ControllerIdentifier.help] = CoordinatorIdentifier.help
 
         // start the main controller
         self.activateRequest(id: self.mainControllerId)

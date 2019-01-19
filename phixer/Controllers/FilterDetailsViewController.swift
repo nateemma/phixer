@@ -194,7 +194,7 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
         
         doInit()
         
-        loadFilterInfo(category: filterManager.getSelectedCategory(), key: filterManager.getSelectedFilter())
+        loadFilterInfo(category: filterManager.getCurrentCategory(), key: filterManager.getCurrentFilterKey())
         
         guard  (currFilterDescriptor != nil) else {
             log.error("!!! No descriptor provided !!!")

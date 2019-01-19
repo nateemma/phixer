@@ -26,27 +26,15 @@ private var filterCount: Int = 0
 class BasicEditViewController: CoordinatedController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     
-    // Banner/Navigation View (title)
-    fileprivate var bannerView: TitleView! = TitleView()
-    
-    
     // Main Display View
     var editImageView: EditImageDisplayView! = EditImageDisplayView()
     
-    // Views for holding the (modal) overlays. Note: must come after EditImageDisplayView()
-    //var filterControlsView : FilterControlsView! = FilterControlsView()
-    
     let editControlHeight = 96.0
     
-    /***
-    // child view controller
-    var optionsController: EditMainOptionsController? = nil
-    **/
     
-    
-    // Menu view
+    // Custom Menu view
     var menuView: AdornmentView! = AdornmentView()
-    
+
     // The filter configuration subview
     var filterParametersView: FilterParametersView! = FilterParametersView()
     
@@ -68,6 +56,8 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     let bannerHeight : CGFloat = 64.0
     let buttonSize : CGFloat = 48.0
     fileprivate let statusBarOffset : CGFloat = 2.0
+    
+    var topBarHeight: CGFloat = 44.0
  
     // vars related to gestures/touches
     enum touchMode {
@@ -112,6 +102,23 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         })
     }
 
+    // handle the menu request. Return true if handled, false otherwise (base controller will handle it)
+    override func handleMenu() {
+        // if menu is hidden then re-layout and show it, otherwise hide it
+        if self.menuView.isHidden == true {
+            DispatchQueue.main.async(execute: { () -> Void in
+                self.layoutMenu()
+                self.menuView.isHidden = false
+                self.filterParametersView.isHidden = true
+            })
+        } else {
+            //log.debug("Menu active, closing")
+            self.menuView.isHidden = true
+            self.filterParametersView.isHidden = false
+      }
+    }
+
+    
     /////////////////////////////
     // INIT
     /////////////////////////////
@@ -142,15 +149,20 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             BasicEditViewController.initDone = true
             log.verbose("init")
             
-            filterManager.setCurrentCategory("none")
+            filterManager.setCurrentCategory(FilterManager.defaultCategory)
             currFilterDescriptor = filterManager.getFilterDescriptor(key: FilterDescriptor.nullFilter)
             filterParametersView.setConfirmMode(true)
             filterParametersView.delegate = self
             //filterParametersView.setConfirmMode(false)
-            editImageView.setFilter(key: FilterDescriptor.nullFilter)
+            
+            filterManager.setCurrentFilterKey(FilterDescriptor.nullFilter)
+            //editImageView.setFilter(key: FilterDescriptor.nullFilter)
             BasicEditViewController.initDone = true
             updateCurrentFilter()
             currTouchMode = .gestures
+            
+            filterParametersView.collapse()
+            filterParametersView.isHidden = false
         }
     }
     
@@ -177,27 +189,20 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         
         checkPhotoAuth()
 
-        
-        // set up layout based on orientation
-        
-        layoutBanner()
-        
-        
-        // Only Portrait mode supported (for now)
-        // TODO: add landscape mode
+  
+        // do layout
         
         menuView.frame.size.height = CGFloat(bannerHeight)
         menuView.frame.size.width = displayWidth
         layoutMenu()
 
         editImageView.frame.size.width = displayWidth
-        editImageView.frame.size.height = displayHeight - bannerView.frame.size.height
+        editImageView.frame.size.height = displayHeight
 
         filterParametersView.frame.size.width = displayWidth
         filterParametersView.frame.size.height = bannerHeight // will be adjusted based on selected filter
  
         // Note: need to add subviews before modifying constraints
-        view.addSubview(bannerView)
         view.addSubview(editImageView)
         view.addSubview(menuView)
         view.addSubview(filterParametersView)
@@ -207,23 +212,21 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
 
         // set layout constraints
         
+        //TODO: layout frame so this is already taken into account
+        topBarHeight = UIApplication.shared.statusBarFrame.size.height + (Coordinator.navigationController?.navigationBar.frame.height ?? 0.0)
+
         // top
-        bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
-        
-        menuView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: menuView.frame.size.height)
+        menuView.anchorAndFillEdge(.top, xPad: 0, yPad: topBarHeight, otherSize: menuView.frame.size.height)
+
         
         // main window
-        editImageView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: editImageView.frame.size.height)
-        
-        filterParametersView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: filterParametersView.frame.size.height)
-/***
-        // set up the options controller, which provides the modal menus
-        optionsController = EditMainOptionsController()
-        //optionsController?.view.frame = CGRect(origin: CGPoint(x: 0, y: (displayHeight-CGFloat(editControlHeight))), size: CGSize(width: displayWidth, height: CGFloat(editControlHeight)))
-        optionsController?.view.frame = self.view.frame
-        optionsController?.delegate = self
-        add(optionsController!)
-***/
+        //editImageView.anchorAndFillEdge(.top, xPad: 0, yPad: topBarHeight, otherSize: editImageView.frame.size.height)
+        editImageView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: editImageView.frame.size.height)
+
+        // filter parameters
+        //filterParametersView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: filterParametersView.frame.size.height)
+        filterParametersView.anchorAndFillEdge(.top, xPad: 0, yPad: topBarHeight, otherSize: filterParametersView.frame.size.height)
+
         // add delegate for image picker
         imagePicker.delegate = self
         
@@ -236,29 +239,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         
     }
     
-    /*
-     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-     if ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight)) {
-     log.verbose("Preparing for transition to Landscape")
-     } else {
-     log.verbose("Preparing for transition to Portrait")
-     }
-     }
-     */
-    
-    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
-        if ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight)){
-            log.verbose("### Detected change to: Landscape")
-        } else {
-            log.verbose("### Detected change to: Portrait")
-            
-        }
-        //TODO: animate and maybe handle before rotation finishes
-        self.viewDidLoad()
-        //editImageView.setFilter(nil)
-        editImageView.setFilter(key:(currFilterDescriptor?.key)!) // forces reset of filter pipeline
-    }
-    
+   
 
     private func checkPhotoAuth() {
         if PHPhotoLibrary.authorizationStatus() != .authorized {
@@ -276,15 +257,6 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     //////////////////////////////////////
     // MARK: - Sub-View layout
     //////////////////////////////////////
-    
-    // layout the banner view, with the Back button, title etc.
-    func layoutBanner(){
-        bannerView.frame.size.height = bannerHeight * 0.75
-        bannerView.frame.size.width = displayWidth
-        bannerView.title = "Edit Photo"
-        bannerView.delegate = self
-    }
-    
 
  
     // these vars are global scope because they are updated asynchronously
@@ -360,6 +332,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         itemList.append (Adornment(key: "reset", text: "reset", icon: "ic_reset", view: nil, isHidden: false))
         itemList.append (Adornment(key: "undo", text: "undo", icon: "ic_undo", view: nil, isHidden: false))
         itemList.append (Adornment(key: "save", text: "save", icon: "ic_save", view: nil, isHidden: false))
+        itemList.append (Adornment(key: "help", text: "help", icon: "ic_help", view: nil, isHidden: false))
     }
     
     func handleSelection(key: String){
@@ -374,6 +347,8 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             undoDidPress()
         case "save":
             saveDidPress()
+        case "help":
+            helpDidPress()
         default:
             log.error("Unknown key: \(key)")
         }
@@ -385,10 +360,6 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
      }
     
     @objc func blendDidPress(){
-//        self.menuView.isHidden = true
-//        let vc = BlendGalleryViewController()
-//        vc.delegate = self
-//        self.present(vc, animated: true, completion: { })
         self.coordinator?.activateRequest(id: .blendGallery)
     }
     
@@ -428,6 +399,13 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         DispatchQueue.main.async(execute: { () -> Void in
             self.editImageView.updateImage()
             //self.menuView.isHidden = true
+        })
+    }
+
+    @objc func helpDidPress(){
+        log.debug("help")
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.coordinator?.helpRequest()
         })
     }
 
@@ -484,6 +462,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             gesturesEnabled = true
             editImageView.isUserInteractionEnabled = true
             filterParametersView.isHidden = false
+            filterParametersView.isUserInteractionEnabled = true
             setTouchMode(.gestures)
         }
     }
@@ -495,7 +474,8 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             filterParametersView.isHidden = true
         }
     }
-
+    
+    
     func setGestureDetectors(view: UIView){
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.swiped))
         swipeDown.direction = .down
@@ -515,7 +495,9 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
 
         for gesture in [swipeDown, swipeUp, swipeRight, swipeLeft] {
             gesture.cancelsTouchesInView = false // allows touch to trickle down to subviews
+            //view.addGestureRecognizer(gesture)
             view.addGestureRecognizer(gesture)
+            gesture.delegate = self
         }
 
     }
@@ -528,12 +510,12 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
                 switch swipeGesture.direction {
                     
                 case UISwipeGestureRecognizerDirection.right:
-                    log.verbose("Swiped Right")
+                    //log.verbose("Swiped Right")
                     self.coordinator?.nextItemRequest()
                     break
                     
                 case UISwipeGestureRecognizerDirection.left:
-                    log.verbose("Swiped Left")
+                    //log.verbose("Swiped Left")
                     self.coordinator?.previousItemRequest()
                    break
                     
@@ -569,22 +551,6 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     }
 
 
-
-    //////////////////////////////////////
-    //MARK: - Navigation
-    //////////////////////////////////////
-    
-    @objc func backDidPress(){
-        log.verbose("Back pressed")
-        exitScreen()
-    }
-    
-    
-    func exitScreen(){
-        suspend()
-        self.dismiss()
-        return
-    }
     
     
     //////////////////////////////////////
@@ -622,10 +588,11 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     func hideModalViews(){
         
         self.coordinator?.hideSubcontrollersRequest()
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
         
         // go through the modal views and hide them if they are not already hidden
         // NOTE: if any more modal views are added, remmber to add them this list
-        for view in [ menuView, filterParametersView ] {
+        for view in [ menuView ] {
             if let v = view {
                 if !v.isHidden {
                     // add to the list so that they will be restored later
@@ -634,6 +601,10 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
                 }
             }
         }
+        
+        filterParametersView.collapse()
+        filterParametersView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: filterParametersView.frame.size.height)
+
     }
     
     
@@ -641,6 +612,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     func showModalViews() {
         
         self.coordinator?.showSubcontrollersRequest()
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
 
         // for other views, use the hidden list
         if hiddenViewList.count > 0 {
@@ -651,6 +623,14 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
                 hiddenViewList = []
             }
         }
+        
+        if filterParametersView.numVisibleParams > 0 {
+            filterParametersView.expand()
+            self.view.bringSubview(toFront: filterParametersView)
+            filterParametersView.setNeedsDisplay()
+        }
+        filterParametersView.anchorAndFillEdge(.top, xPad: 0, yPad: topBarHeight, otherSize: filterParametersView.frame.size.height)
+
     }
     
 
@@ -698,16 +678,18 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     fileprivate var filterSettingsShown: Bool = false
     
     fileprivate func showFilterSettings(){
-        self.coordinator?.hideSubcontrollersRequest()
+        //self.coordinator?.hideSubcontrollersRequest()
         if (currFilterDescriptor != nil) {
             filterParametersView.isHidden = false
+            filterParametersView.expand()
         }
     }
     
     fileprivate func hideFilterSettings(){
         self.coordinator?.showSubcontrollersRequest()
-        filterParametersView.isHidden = true
+        //filterParametersView.isHidden = true
         filterSettingsShown = false
+        filterParametersView.collapse()
     }
     
     func toggleFilterSettings(){
@@ -867,36 +849,6 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         })
     }
     
-    
-    
-    //////////////////////////////////////////
-    // FilterBasedControllerDelegate(s)
-    //////////////////////////////////////////
-
-    
-    func filterControllerSelection(key: String) {
-        log.verbose("Child selected filter: \(key)")
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.changeFilterTo(key)
-            self.showFilterSettings()
-        })
-    }
-    
-    func filterControllerUpdateRequest(tag:String) {
-        log.verbose("Child requested update: \(tag)")
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.editImageView.updateImage()
-        })
-    }
-
-    
-    func filterControllerCompleted(tag:String) {
-        log.verbose("Returned from: \(tag)")
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.editImageView.updateImage()
-            self.view.isUserInteractionEnabled = true
-        })
-    }
 
     
 } // BasicEditViewController
@@ -913,37 +865,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
 
 
 
-// TitleViewDelegate
-extension BasicEditViewController: TitleViewDelegate {
-    func backPressed() {
-        backDidPress()
-    }
-    
-    func helpPressed() {
-        let vc = HTMLViewController()
-        vc.setTitle("'Simple' Editor")
-        vc.loadFile(name: "BasicEditor")
-        present(vc, animated: true, completion: nil)    }
-    
-    func menuPressed() {
-        // if menu is hidden then re-layout and show it, otherwise hide it
-        if self.menuView.isHidden == true {
-            DispatchQueue.main.async(execute: { () -> Void in
-                self.layoutMenu()
-                self.menuView.isHidden = false
-            })
-        } else {
-            log.debug("Menu active, closing")
-            self.menuView.isHidden = true
-        }
-    }
-}
-
-
-
-
-
-
+// Interfaces to the FilterParameters view
 
 extension BasicEditViewController: FilterParametersViewDelegate {
 
@@ -953,8 +875,10 @@ extension BasicEditViewController: FilterParametersViewDelegate {
         DispatchQueue.main.async(execute: { () -> Void in
             EditManager.savePreviewFilter()
             self.showMessage("Effect applied", time:0.5)
-            self.dismiss()
-        })
+            self.editImageView.updateImage()
+            self.hideModalViews()
+            self.coordinator?.showSubcontrollersRequest()
+       })
     }
     
     func cancelChanges(key: String) {
@@ -962,10 +886,11 @@ extension BasicEditViewController: FilterParametersViewDelegate {
         // restore saved parameters
         currFilterDescriptor?.restoreParameters()
         EditManager.popFilter()
+        self.hideModalViews()
         DispatchQueue.main.async(execute: { () -> Void in
             self.editImageView.updateImage()
-            self.dismiss()
-        })
+            self.coordinator?.showSubcontrollersRequest()
+         })
     }
     
     
@@ -1023,6 +948,40 @@ extension BasicEditViewController: AdornmentDelegate {
         DispatchQueue.main.async(execute: { () -> Void in
             self.handleSelection(key: key)
         })
+    }
+}
+
+// gesture tweaking
+
+extension BasicEditViewController: UIGestureRecognizerDelegate {
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        
+        if let touchedView = touch.view, touchedView.isKind(of: UISlider.self) {
+            return false
+        }
+        
+        return true
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+                           shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer)
+        -> Bool {
+            // If the gesture recognizer's view isn't one of the squares, do not allow simultaneous recognition.
+            if gestureRecognizer.view != self.editImageView {
+                return false
+            }
+            // If the gesture recognizers are on diferent views, do not allow simultaneous recognition.
+            if gestureRecognizer.view != otherGestureRecognizer.view {
+                return false
+            }
+            // If either gesture recognizer is a long press, do not allow simultaneous recognition.
+            if gestureRecognizer is UILongPressGestureRecognizer ||
+                otherGestureRecognizer is UILongPressGestureRecognizer {
+                return false
+            }
+            
+            return true
     }
 }
 
