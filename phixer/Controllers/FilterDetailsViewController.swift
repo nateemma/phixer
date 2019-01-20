@@ -322,7 +322,7 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
 
             filterParametersView.frame.size.width = displayWidth
             filterParametersView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 1, otherSize: filterParametersView.frame.size.height)
-            view.bringSubview(toFront: filterParametersView)
+            view.bringSubviewToFront(filterParametersView)
 
             // Filter display takes the rest of the screen
             //editImageView.frame.size.height = displayHeight - bannerHeight - filterParametersView.frame.size.height - 4
@@ -353,7 +353,7 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
         overlayView.frame.size.height  = editImageView.frame.size.height - filterParametersView.frame.size.height
         overlayView.align(.underCentered, relativeTo: bannerView, padding: 0, width: overlayView.frame.size.width, height: overlayView.frame.size.height)
         
-        view.bringSubview(toFront: overlayView)
+        view.bringSubviewToFront(overlayView)
         //overlayView.setNeedsDisplay() // for some reason it doesn't display the first time through
 
         
@@ -472,7 +472,7 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
         showAdornment.anchorInCorner(.topLeft, xPad:pad, yPad:pad, width: dim, height: dim)
         ratingAdornment.anchorInCorner(.topRight, xPad:pad, yPad:pad, width: dim, height: dim)
         favAdornment.anchorToEdge(.top, padding:pad, width:dim, height:dim)
-        view.bringSubview(toFront: overlayView)
+        view.bringSubviewToFront(overlayView)
         
         // add touch handlers for the adornments
         log.verbose("Adding adornment touch handlers")
@@ -723,22 +723,22 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
             if let swipeGesture = gesture as? UISwipeGestureRecognizer {
                 switch swipeGesture.direction {
                     
-                case UISwipeGestureRecognizerDirection.right:
+                case UISwipeGestureRecognizer.Direction.right:
                     //log.verbose("Swiped Right")
                     prevDidPress()
                     break
                     
-                case UISwipeGestureRecognizerDirection.left:
+                case UISwipeGestureRecognizer.Direction.left:
                     //log.verbose("Swiped Left")
                     nextDidPress()
                     break
                     
-                case UISwipeGestureRecognizerDirection.up:
+                case UISwipeGestureRecognizer.Direction.up:
                     //log.verbose("Swiped Up")
                     showParameters()
                     break
                     
-                case UISwipeGestureRecognizerDirection.down:
+                case UISwipeGestureRecognizer.Direction.down:
                     hideParameters()
                     //log.verbose("Swiped Down")
                     break
@@ -750,9 +750,9 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
             } else {
                 // still allow up/down
                 if let swipeGesture = gesture as? UISwipeGestureRecognizer {
-                    if swipeGesture.direction == UISwipeGestureRecognizerDirection.up {
+                    if swipeGesture.direction == UISwipeGestureRecognizer.Direction.up {
                         showParameters()
-                    } else if swipeGesture.direction == UISwipeGestureRecognizerDirection.down {
+                    } else if swipeGesture.direction == UISwipeGestureRecognizer.Direction.down {
                         hideParameters()
                     }
                 }
@@ -860,10 +860,8 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
         })
     }
     
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        
-        if let asset = info[UIImagePickerControllerPHAsset] as? PHAsset {
+    private func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+         if let asset = info[UIImagePickerController.InfoKey.phAsset] as? PHAsset {
             let assetResources = PHAssetResource.assetResources(for: asset)
             let name = assetResources.first!.originalFilename
             let id = assetResources.first!.assetLocalIdentifier

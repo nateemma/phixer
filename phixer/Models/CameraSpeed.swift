@@ -153,89 +153,89 @@ enum CameraSpeed {
     func getSpeedAsTime()->CMTime {
         switch self{
         case .speed_auto :
-            return CMTimeMake(0,0) // special case
+            return CMTimeMake(value: 0,timescale: 0) // special case
         case .speed_1_1000:
-            return CMTimeMake(1, 1000)
+            return CMTimeMake(value: 1, timescale: 1000)
         case .speed_1_800:
-            return CMTimeMake(1,800)
+            return CMTimeMake(value: 1,timescale: 800)
         case .speed_1_640:
-            return CMTimeMake(1,640)
+            return CMTimeMake(value: 1,timescale: 640)
         case .speed_1_500:
-            return CMTimeMake(1,500)
+            return CMTimeMake(value: 1,timescale: 500)
         case .speed_1_400:
-            return CMTimeMake(1,400)
+            return CMTimeMake(value: 1,timescale: 400)
         case .speed_1_320:
-            return CMTimeMake(1,320)
+            return CMTimeMake(value: 1,timescale: 320)
         case .speed_1_250:
-            return CMTimeMake(1,250)
+            return CMTimeMake(value: 1,timescale: 250)
         case .speed_1_200:
-            return CMTimeMake(1,200)
+            return CMTimeMake(value: 1,timescale: 200)
         case .speed_1_160:
-            return CMTimeMake(1,160)
+            return CMTimeMake(value: 1,timescale: 160)
         case .speed_1_125:
-            return CMTimeMake(1,125)
+            return CMTimeMake(value: 1,timescale: 125)
         case .speed_1_100:
-            return CMTimeMake(1,100)
+            return CMTimeMake(value: 1,timescale: 100)
         case .speed_1_80:
-            return CMTimeMake(1,80)
+            return CMTimeMake(value: 1,timescale: 80)
         case .speed_1_60:
-            return CMTimeMake(1,60)
+            return CMTimeMake(value: 1,timescale: 60)
         case .speed_1_50:
-            return CMTimeMake(1,50)
+            return CMTimeMake(value: 1,timescale: 50)
         case .speed_1_40:
-            return CMTimeMake(1,40)
+            return CMTimeMake(value: 1,timescale: 40)
         case .speed_1_30:
-            return CMTimeMake(1,30)
+            return CMTimeMake(value: 1,timescale: 30)
         case .speed_1_25:
-            return CMTimeMake(1,25)
+            return CMTimeMake(value: 1,timescale: 25)
         case .speed_1_20:
-            return CMTimeMake(1,20)
+            return CMTimeMake(value: 1,timescale: 20)
         case .speed_1_15:
-            return CMTimeMake(1,15)
+            return CMTimeMake(value: 1,timescale: 15)
         case .speed_1_13:
-            return CMTimeMake(1,13)
+            return CMTimeMake(value: 1,timescale: 13)
         case .speed_1_10:
-            return CMTimeMake(1,10)
+            return CMTimeMake(value: 1,timescale: 10)
         case .speed_1_8:
-            return CMTimeMake(1,8)
+            return CMTimeMake(value: 1,timescale: 8)
         case .speed_1_6:
-            return CMTimeMake(1,6)
+            return CMTimeMake(value: 1,timescale: 6)
         case .speed_1_5:
-            return CMTimeMake(1,5)
+            return CMTimeMake(value: 1,timescale: 5)
         case .speed_1_4:
-            return CMTimeMake(1,4)
+            return CMTimeMake(value: 1,timescale: 4)
         case .speed_1_3:
-            return CMTimeMake(1,3)
+            return CMTimeMake(value: 1,timescale: 3)
         case .speed_1_2:
-            return CMTimeMake(1,2)
+            return CMTimeMake(value: 1,timescale: 2)
         case .speed_1_1 :
-            return CMTimeMake(1,1)
+            return CMTimeMake(value: 1,timescale: 1)
         case .speed_2_1:
-            return CMTimeMake(2,1)
+            return CMTimeMake(value: 2,timescale: 1)
         case .speed_3_1:
-            return CMTimeMake(3,1)
+            return CMTimeMake(value: 3,timescale: 1)
         case .speed_4_1:
-            return CMTimeMake(4,1)
+            return CMTimeMake(value: 4,timescale: 1)
         case .speed_5_1:
-            return CMTimeMake(5,1)
+            return CMTimeMake(value: 5,timescale: 1)
         case .speed_6_1:
-            return CMTimeMake(6,1)
+            return CMTimeMake(value: 6,timescale: 1)
         case .speed_8_1:
-            return CMTimeMake(8,1)
+            return CMTimeMake(value: 8,timescale: 1)
         case .speed_10_1:
-            return CMTimeMake(10,1)
+            return CMTimeMake(value: 10,timescale: 1)
         case .speed_13_1:
-            return CMTimeMake(13,1)
+            return CMTimeMake(value: 13,timescale: 1)
         case .speed_15_1:
-            return CMTimeMake(15,1)
+            return CMTimeMake(value: 15,timescale: 1)
         case .speed_20_1:
-            return CMTimeMake(20,1)
+            return CMTimeMake(value: 20,timescale: 1)
         case .speed_25_1:
-            return CMTimeMake(25,1)
+            return CMTimeMake(value: 25,timescale: 1)
         case .speed_30_1:
-            return CMTimeMake(30,1)
+            return CMTimeMake(value: 30,timescale: 1)
         case .speed_40_1:
-            return CMTimeMake(40, 1)
+            return CMTimeMake(value: 40, timescale: 1)
         }
         
     }

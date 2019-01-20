@@ -92,7 +92,7 @@ class CoordinatedController: UIViewController, ControllerDelegate {
             log.debug("showing menu")
             self.defaultMenuView.delegate = self
             self.defaultMenuView.isHidden = false
-            self.view.bringSubview(toFront: self.defaultMenuView)
+            self.view.bringSubviewToFront(self.defaultMenuView)
         } else {
             log.debug("Menu active, closing")
             self.defaultMenuView.isHidden = true

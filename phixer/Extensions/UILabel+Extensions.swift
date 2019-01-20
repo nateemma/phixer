@@ -20,8 +20,8 @@ extension UILabel {
         font = bestFittingFont
     }
     
-    private var basicStringAttributes: [NSAttributedStringKey: Any] {
-        var attribs = [NSAttributedStringKey: Any]()
+    private var basicStringAttributes: [NSAttributedString.Key: Any] {
+        var attribs = [NSAttributedString.Key: Any]()
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = self.textAlignment

@@ -131,7 +131,7 @@ class TitleView: UIView {
         menuButton?.anchorToEdge(.right, padding: 0, width: (menuButton?.frame.size.width)!, height: (menuButton?.frame.size.height)!)
         titleLabel.alignBetweenHorizontal(align: .toTheRightCentered, primaryView: backButton!, secondaryView: menuButton!, padding: 2, height: AutoHeight)
         helpButton?.align(.toTheLeftCentered, relativeTo: menuButton!, padding: 12, width: (helpButton?.frame.size.width)!, height: (helpButton?.frame.size.height)!)
-        helpButton?.bringSubview(toFront: self)
+        helpButton?.bringSubviewToFront(self)
 
     }
     

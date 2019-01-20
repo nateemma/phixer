@@ -101,7 +101,7 @@ class FilterGalleryViewCell: UICollectionViewCell {
         adornmentView.backgroundColor = UIColor.clear
         adornmentView.frame.size = renderView.frame.size
         self.addSubview(adornmentView)
-        self.bringSubview(toFront: adornmentView)
+        self.bringSubviewToFront(adornmentView)
         adornmentView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: self.height * 0.8)
 
         // position icons withing the adornment view
@@ -258,7 +258,7 @@ class FilterGalleryViewCell: UICollectionViewCell {
         ratingAdornment.anchorInCorner(.topRight, xPad: 2.0, yPad: 2.0, width: dim, height: dim)
         
         // make sure the adornment overlay is on top
-        self.bringSubview(toFront: adornmentView)
+        self.bringSubviewToFront(adornmentView)
         
         // set the touch handlers
         setAdornmentTouchHandlers()

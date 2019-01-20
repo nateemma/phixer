@@ -18,7 +18,7 @@ extension CIImage {
     // get the current CIContext, creating it if necessary
     private static func getContext() -> CIContext? {
         if (CIImage.context == nil){
-            CIImage.context = CIContext(options: [ kCIContextUseSoftwareRenderer : false, kCIContextHighQualityDownsample : true ])
+            CIImage.context = CIContext(options: [ CIContextOption.useSoftwareRenderer : false, CIContextOption.highQualityDownsample : true ])
         }
         return CIImage.context
     }

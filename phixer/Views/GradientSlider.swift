@@ -284,7 +284,7 @@ import UIKit
     ***/
     
     override open var intrinsicContentSize: CGSize {
-        return CGSize(width: UIViewNoIntrinsicMetric, height: thumbSize)
+        return CGSize(width: UIView.noIntrinsicMetric, height: thumbSize)
     }
     
     /*** Swift 2
@@ -294,7 +294,7 @@ import UIKit
      ***/
     
     override open var alignmentRectInsets: UIEdgeInsets {
-        return UIEdgeInsetsMake(4.0, 2.0, 4.0, 2.0)
+        return UIEdgeInsets(top: 4.0, left: 2.0, bottom: 4.0, right: 2.0)
     }
     
     override func layoutSublayers(of layer: CALayer) {
@@ -350,7 +350,7 @@ import UIKit
         let diameter = max(thumbSize,44.0)
         let r = CGRect(x:center.x - diameter/2.0, y:center.y - diameter/2.0, width:diameter, height:diameter)
         if r.contains(pt){
-            sendActions(for: UIControlEvents.touchDown)
+            sendActions(for: UIControl.Event.touchDown)
             return true
         }
         return false
@@ -362,7 +362,7 @@ import UIKit
         //setValue(value:newValue, animated: false)
         setValue(newValue, animated: false)
         if(continuous){
-            sendActions(for: UIControlEvents.valueChanged)
+            sendActions(for: UIControl.Event.valueChanged)
             actionBlock(self,newValue)
         }
         return true
@@ -375,7 +375,7 @@ import UIKit
             setValue(newValue, animated: false)
         }
         actionBlock(self,_value)
-        sendActions(for: [UIControlEvents.valueChanged, UIControlEvents.touchUpInside])
+        sendActions(for: [UIControl.Event.valueChanged, UIControl.Event.touchUpInside])
 
     }
     

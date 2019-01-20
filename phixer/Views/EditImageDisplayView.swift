@@ -228,7 +228,12 @@ class EditImageDisplayView: UIView {
                 }
             })
         } else {
-            if self.currFilterKey.isEmpty { log.warning("Filter not set") }
+            if self.currFilterKey.isEmpty { // this can happen if no filters have been applied yet
+                log.warning("Filter not set")
+                DispatchQueue.main.async(execute: { () -> Void in
+                    self.renderView?.image = EditManager.getOriginalImage()
+                })
+            }
             if !layoutDone { log.warning("Layout not yet done") }
         }
     }

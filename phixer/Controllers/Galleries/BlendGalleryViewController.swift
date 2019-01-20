@@ -271,7 +271,7 @@ class BlendGalleryViewController: CoordinatedController, UIImagePickerController
             button?.backgroundColor = theme.buttonColor
             button?.setTitleColor(theme.titleTextColor, for: .normal)
             button?.titleLabel!.font = UIFont.boldSystemFont(ofSize: 20.0)
-            button?.contentHorizontalAlignment = UIControlContentHorizontalAlignment.center
+            button?.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.center
         }
         acceptButton.setTitle("Accept", for: .normal)
         cancelButton.setTitle("Cancel", for: .normal)
@@ -497,12 +497,12 @@ class BlendGalleryViewController: CoordinatedController, UIImagePickerController
             switch swipeGesture.direction
             {
                 
-            case UISwipeGestureRecognizerDirection.right:
+            case UISwipeGestureRecognizer.Direction.right:
                 //log.verbose("Swiped Right")
                 self.coordinator?.nextItemRequest()
                 break
                 
-            case UISwipeGestureRecognizerDirection.left:
+            case UISwipeGestureRecognizer.Direction.left:
                 //log.verbose("Swiped Left")
                 self.coordinator?.previousItemRequest()
                 break
@@ -560,19 +560,9 @@ class BlendGalleryViewController: CoordinatedController, UIImagePickerController
     // MARK: - ImagePicker handling
     //////////////////////////////////////////
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        /***
-        if let imageRefURL = info[UIImagePickerControllerReferenceURL] as? NSURL {
-            log.verbose("URL:\(imageRefURL)")
-            self.selectedBlendImageName = imageRefURL.absoluteString!
-            self.updateSelectedImage()
-        } else {
-            log.error("Error accessing image URL")
-        }
-        
-        picker.dismiss(animated: true)
-        ***/
-        if let asset = info[UIImagePickerControllerPHAsset] as? PHAsset {
+    private func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let asset = info[UIImagePickerController.InfoKey.phAsset] as? PHAsset {
+
             let assetResources = PHAssetResource.assetResources(for: asset)
             
             let name = assetResources.first!.originalFilename

@@ -48,8 +48,8 @@ class BorderedButton: UIButton {
         }
         setTitleColor(theme.titleTextColor, for: .normal)
         titleLabel!.font = UIFont.boldSystemFont(ofSize: 16.0)
-        contentHorizontalAlignment = UIControlContentHorizontalAlignment.center
-        contentVerticalAlignment = UIControlContentVerticalAlignment.center
+        contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.center
+        contentVerticalAlignment = UIControl.ContentVerticalAlignment.center
         layer.cornerRadius = 5
         layer.borderWidth = 1
         layer.borderColor = UIColor.flatBlack.cgColor

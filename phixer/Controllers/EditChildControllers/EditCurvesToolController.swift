@@ -200,8 +200,8 @@ class EditCurvesToolController: EditBaseToolController {
         curveLayer.fillColor = UIColor.clear.cgColor
         curveLayer.strokeColor = theme.borderColor.cgColor
         curveLayer.lineWidth = 4.0
-        curveLayer.lineJoin = kCALineJoinRound
-        curveLayer.lineCap = kCALineCapRound
+        curveLayer.lineJoin = CAShapeLayerLineJoin.round
+        curveLayer.lineCap = CAShapeLayerLineCap.round
         curveImageView.layer.addSublayer(curveLayer)
 
         // create the views for the control points

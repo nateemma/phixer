@@ -273,9 +273,8 @@ class StyleTransferGalleryViewController: CoordinatedController, UIImagePickerCo
     }
     
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        
-        if let asset = info[UIImagePickerControllerPHAsset] as? PHAsset {
+    private func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let asset = info[UIImagePickerController.InfoKey.phAsset] as? PHAsset {
             let assetResources = PHAssetResource.assetResources(for: asset)
             let name = assetResources.first!.originalFilename
             let id = assetResources.first!.assetLocalIdentifier

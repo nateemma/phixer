@@ -254,7 +254,7 @@ class SampleGalleryViewController: CoordinatedController, UIImagePickerControlle
             button?.backgroundColor = theme.buttonColor
             button?.setTitleColor(theme.titleTextColor, for: .normal)
             button?.titleLabel!.font = UIFont.boldSystemFont(ofSize: 20.0)
-            button?.contentHorizontalAlignment = UIControlContentHorizontalAlignment.center
+            button?.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.center
         }
         acceptButton.setTitle("Accept", for: .normal)
         cancelButton.setTitle("Cancel", for: .normal)
@@ -441,19 +441,8 @@ class SampleGalleryViewController: CoordinatedController, UIImagePickerControlle
     // MARK: - ImagePicker handling
     //////////////////////////////////////////
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        /***
-        if let imageRefURL = info[UIImagePickerControllerReferenceURL] as? NSURL {
-            log.verbose("URL:\(imageRefURL)")
-            self.selectedSampleImageName = imageRefURL.absoluteString!
-            self.updateSelectedImage()
-        } else {
-            log.error("Error accessing image URL")
-        }
-        
-        picker.dismiss(animated: true)
-        ***/
-        if let asset = info[UIImagePickerControllerPHAsset] as? PHAsset {
+    private func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let asset = info[UIImagePickerController.InfoKey.phAsset] as? PHAsset {
             let assetResources = PHAssetResource.assetResources(for: asset)
             
             let name = assetResources.first!.originalFilename
@@ -466,7 +455,7 @@ class SampleGalleryViewController: CoordinatedController, UIImagePickerControlle
             log.error("Error accessing image data")
         }
         picker.dismiss(animated: true)
-
+        
     }
 
     

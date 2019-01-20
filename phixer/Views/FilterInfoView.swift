@@ -81,7 +81,7 @@ class FilterInfoView: UIView {
             categoryLabel.setTitleColor(theme.titleTextColor, for: .normal)
             categoryLabel.titleLabel!.font = UIFont.boldSystemFont(ofSize: 14.0)
             //categoryLabel.titleLabel!.textAlignment = .left
-            categoryLabel.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
+            categoryLabel.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.left
 
             
             filterIcon.setImageAsset("ic_filters")
@@ -91,7 +91,7 @@ class FilterInfoView: UIView {
             filterLabel.setTitleColor(theme.titleTextColor, for: .normal)
             filterLabel.titleLabel!.font = UIFont.boldSystemFont(ofSize: 14.0)
             //filterLabel.titleLabel!.textAlignment = .left
-            filterLabel.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
+            filterLabel.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.left
             
             swapIcon.setImageAsset("ic_swap")
 

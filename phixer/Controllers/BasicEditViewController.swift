@@ -242,6 +242,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
    
 
     private func checkPhotoAuth() {
+        //PHPhotoLibrary.shared().register(self)
         if PHPhotoLibrary.authorizationStatus() != .authorized {
             PHPhotoLibrary.requestAuthorization({ (status) in
                 if status == .authorized {
@@ -251,6 +252,8 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
                 }
             })
             
+        } else {
+            log.verbose("Photo library access OK")
         }
     }
     
@@ -417,8 +420,8 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     func setVolumeListener() {
         let audioSession = AVAudioSession.sharedInstance()
         do {
-            try audioSession.setCategory(AVAudioSessionCategoryAmbient, mode: AVAudioSessionModeDefault, options: [])
-            try audioSession.setActive(true, with: [])
+            try audioSession.setCategory(AVAudioSession.Category.ambient, mode: AVAudioSession.Mode.default, options: [])
+            try audioSession.setActive(true, options: [])
             audioSession.addObserver(self, forKeyPath: "outputVolume", options: NSKeyValueObservingOptions(), context: nil)
         } catch {
             log.error("\(error)")
@@ -509,24 +512,24 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             if let swipeGesture = gesture as? UISwipeGestureRecognizer {
                 switch swipeGesture.direction {
                     
-                case UISwipeGestureRecognizerDirection.right:
+                case UISwipeGestureRecognizer.Direction.right:
                     //log.verbose("Swiped Right")
                     self.coordinator?.nextItemRequest()
                     break
                     
-                case UISwipeGestureRecognizerDirection.left:
+                case UISwipeGestureRecognizer.Direction.left:
                     //log.verbose("Swiped Left")
                     self.coordinator?.previousItemRequest()
                    break
                     
-                case UISwipeGestureRecognizerDirection.up:
+                case UISwipeGestureRecognizer.Direction.up:
                     //log.verbose("Swiped Up")
                     showModalViews()
                     //optionsController?.show()
                     //showFilterSettings()
                     break
                     
-                case UISwipeGestureRecognizerDirection.down:
+                case UISwipeGestureRecognizer.Direction.down:
                     //hideFilterSettings()
                     hideModalViews()
                     //optionsController?.hide()
@@ -540,9 +543,9 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             } else {
                 // still allow up/down
                 if let swipeGesture = gesture as? UISwipeGestureRecognizer {
-                    if swipeGesture.direction == UISwipeGestureRecognizerDirection.up {
+                    if swipeGesture.direction == UISwipeGestureRecognizer.Direction.up {
                         showFilterSettings()
-                    } else if swipeGesture.direction == UISwipeGestureRecognizerDirection.down {
+                    } else if swipeGesture.direction == UISwipeGestureRecognizer.Direction.down {
                         hideFilterSettings()
                     }
                 }
@@ -626,7 +629,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         
         if filterParametersView.numVisibleParams > 0 {
             filterParametersView.expand()
-            self.view.bringSubview(toFront: filterParametersView)
+            self.view.bringSubviewToFront(filterParametersView)
             filterParametersView.setNeedsDisplay()
         }
         filterParametersView.anchorAndFillEdge(.top, xPad: 0, yPad: topBarHeight, otherSize: filterParametersView.frame.size.height)
@@ -722,15 +725,16 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             self.imagePicker.allowsEditing = false
             self.imagePicker.sourceType = .photoLibrary
             
-            self.present(self.imagePicker, animated: true, completion: {
-            })
+            self.present(self.imagePicker, animated: true, completion: {})
         })
     }
     
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-
-        if let asset = info[UIImagePickerControllerPHAsset] as? PHAsset {
+    //private func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        log.verbose("Image picked")
+        if let asset = info[UIImagePickerController.InfoKey.phAsset] as? PHAsset {
+        //if let asset = info[UIImagePickerController.InfoKey.phAsset]  {
             let assetResources = PHAssetResource.assetResources(for: asset)
             let name = assetResources.first!.originalFilename
             let id = assetResources.first!.assetLocalIdentifier
@@ -744,8 +748,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         } else {
             log.error("Error accessing image data")
         }
-        picker.dismiss(animated: true)
-        
+        picker.dismiss(animated: true, completion: nil)
     }
     
     

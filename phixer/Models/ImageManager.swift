@@ -627,8 +627,9 @@ class ImageManager {
             if asset != nil {
                 let options = PHImageRequestOptions()
                 //        options.deliveryMode = PHImageRequestOptionsDeliveryMode.Opportunistic
-                options.resizeMode = PHImageRequestOptionsResizeMode.exact
+                options.resizeMode = PHImageRequestOptionsResizeMode.fast
                 options.isSynchronous = true // need to set this to get the full size image
+                options.isNetworkAccessAllowed = false
                 options.version = .current
                 
                 /***
@@ -679,8 +680,9 @@ class ImageManager {
                     //options.resizeMode = PHImageRequestOptionsResizeMode.exact
                     options.resizeMode = PHImageRequestOptionsResizeMode.fast
                     options.isNetworkAccessAllowed = false
+                    options.version = .current
                     options.isSynchronous = true // need to set this to get the full size image
-                    try PHImageManager.default().requestImage(for: asset, targetSize: tsize, contentMode: .aspectFill, options: options, resultHandler: { img, info in
+                    try PHImageManager.default().requestImage(for: asset, targetSize: tsize, contentMode: .aspectFit, options: options, resultHandler: { img, info in
                         if img != nil {
                             image = img
                         } else {
@@ -704,7 +706,7 @@ class ImageManager {
 
 
     
-    public static func resizeImage(_ image: UIImage?, targetSize: CGSize, mode:UIViewContentMode) -> UIImage? {
+    public static func resizeImage(_ image: UIImage?, targetSize: CGSize, mode:UIView.ContentMode) -> UIImage? {
         guard (image != nil) else {
             log.error("NIL image provided for resizing")
             return nil
@@ -717,7 +719,7 @@ class ImageManager {
         // figure out if we need to rotate the image to match the target
         let srcIsLandscape:Bool = (size.width > size.height)
         let tgtIsLandscape:Bool = (tsize.width > tsize.height)
-        let tgtIsSquare:Bool =  (fabs(Float(tsize.width - tsize.height)) < 0.001)
+        let tgtIsSquare:Bool =  (abs(Float(tsize.width - tsize.height)) < 0.001)
         
         var srcImage:UIImage? = image
         var srcSize:CGSize = CGSize.zero
@@ -929,7 +931,7 @@ class ImageManager {
     }
     
     
-    public static func fitIntoRect(srcSize:CGSize, targetRect: CGRect, withContentMode contentMode: UIViewContentMode)->CGRect {
+    public static func fitIntoRect(srcSize:CGSize, targetRect: CGRect, withContentMode contentMode: UIView.ContentMode)->CGRect {
         
         var rect:CGRect = CGRect.zero
         
@@ -977,7 +979,7 @@ class ImageManager {
     }
     
     
-    static func imageOrientationToExifOrientation(value: UIImageOrientation) -> Int32 {
+    static func imageOrientationToExifOrientation(value: UIImage.Orientation) -> Int32 {
         switch (value) {
         case .up:
             return 1

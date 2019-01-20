@@ -76,26 +76,26 @@ class SquareButton: UIView {
             image = UIImage(named: "ic_unknown")
         }
         
-        self.button.imageView?.contentMode = UIViewContentMode.scaleToFill
+        self.button.imageView?.contentMode = UIView.ContentMode.scaleToFill
         if tint {
             self.button.imageView?.tintColor =  theme.tintColor
-            self.button.setImage(image!.withRenderingMode(.alwaysTemplate), for: UIControlState.normal)
+            self.button.setImage(image!.withRenderingMode(.alwaysTemplate), for: UIControl.State.normal)
         } else {
-            self.button.setImage(image!, for: UIControlState.normal)
+            self.button.setImage(image!, for: UIControl.State.normal)
         }
     }
     
     // set the image based on any UIImage (e.g. from Camera Roll)
     func setImage(_ image: UIImage){
         if tint {
-            self.button.imageView?.contentMode = UIViewContentMode.scaleToFill
+            self.button.imageView?.contentMode = UIView.ContentMode.scaleToFill
             self.button.imageView?.tintColor =  theme.tintColor
         }
-        self.button.setImage(image, for: UIControlState.normal)
+        self.button.setImage(image, for: UIControl.State.normal)
     }
     
     // passthrough for addTarget, just to avoid exposing the internal button
-    func addTarget (_ target: Any?, action: Selector, for event: UIControlEvents){
+    func addTarget (_ target: Any?, action: Selector, for event: UIControl.Event){
         self.button.isUserInteractionEnabled = true
         self.button.addTarget(target, action: action, for: event)
     }
