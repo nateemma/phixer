@@ -97,6 +97,8 @@ class HTMLViewController: CoordinatedController {
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
         body { font: 100%/150% Arial,calibri,helvetica,sans-serif; font-size: 80%; \(buildColourString())}
+        h1   {color: blue;}
+        </style>
         </style>
         </head>
         <body>

@@ -298,41 +298,23 @@ class SketchFilter: CIFilter {
         }
         
         log.debug("Generating shading")
-        
 
         // create an overlay of the basic sketch and the pencil texture
-        //let texture = shadingTextureImg.applyingFilter("OpacityFilter", parameters:  ["inputOpacity": inputTexture])
-        //let texturedImg = (basicSketchImg.applyingFilter("CISoftLightBlendMode", parameters: [kCIInputBackgroundImageKey: texture]))
-        //.applyingFilter("CIColorControls", parameters: ["inputBrightness": 0.4])
-        
-        
-        // create textured overlay for shadows (they are currently white), with  pencil texture
 
         // create a mask from the b&w image by selecting the dark regions
         let shadowMask = monoImg.applyingFilter("LumaRangeFilter", parameters: ["inputLower": 0.0, "inputUpper": 0.1])
             .applyingFilter("CIColorInvert")
         
-        /***
-        // create a (slightly) darkened version of the texture
-        let shadowTexture = shadingTextureImg.applyingFilter("CIMultiplyBlendMode", parameters: [kCIInputBackgroundImageKey: shadingTextureImg.applyingFilter("OpacityFilter", parameters:  ["inputOpacity": 0.2])])
+        //TODO: create masks of different areas/depths of darkness?
         
-        // blend the normal and darkened textures, using the shadow mask
-        let shadowOverlay = shadowTexture.applyingFilter("CIBlendWithMask",
-                                                         parameters: [kCIInputMaskImageKey: shadowMask, kCIInputBackgroundImageKey: shadingTextureImg])
-        
-        // blend the shaded texture with the basic sketch, and set opacity based on the inputTexture setting
-        shadedImg = shadowOverlay.applyingFilter("CIBlendWithMask", parameters: [kCIInputMaskImageKey: shadowMask, kCIInputBackgroundImageKey: basicSketchImg])
-            .applyingFilter("OpacityFilter", parameters:  ["inputOpacity": inputTexture])
-         ***/
-        
-        // chained version
+        // darken the shading texture, mask it, blend with the basic sketch and turn down the opacity based on the user input
         shadedImg = shadingTextureImg
             .applyingFilter("CIMultiplyBlendMode", parameters: [kCIInputBackgroundImageKey: shadingTextureImg.applyingFilter("OpacityFilter", parameters:  ["inputOpacity": 0.2])])
             .applyingFilter("CIBlendWithMask", parameters: [kCIInputMaskImageKey: shadowMask, kCIInputBackgroundImageKey: shadingTextureImg])
             .applyingFilter("CIBlendWithMask", parameters: [kCIInputMaskImageKey: shadowMask, kCIInputBackgroundImageKey: basicSketchImg])
             .applyingFilter("OpacityFilter", parameters:  ["inputOpacity": inputTexture])
 
-        
+               // TODO: add light opacity overlay of mono image?
     }
     
     
@@ -360,6 +342,7 @@ class SketchFilter: CIFilter {
             .applyingFilter("CIGloom", parameters:  ["inputRadius": 2.0, "inputIntensity": 1.0])
             .cropped(to: workingExtent)
            .applyingFilter("OpacityFilter", parameters:  ["inputOpacity": 0.6])
+
 
     }
     

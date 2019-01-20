@@ -381,6 +381,8 @@ class ImageManager {
     
     public static func setCurrentEditImageName(_ name:String) {
         var ename:String
+        
+        log.debug("name: \(name)")
         ename = name
         if (ename.isEmpty){
             checkEditImage()
@@ -521,6 +523,7 @@ class ImageManager {
             })
             
         }
+        log.debug("curr edit name: \(_currEditName)")
         return _currEditName
         
     }
@@ -549,15 +552,53 @@ class ImageManager {
     // MARK: - Image Utilities
     //////////////////////////////////
  
+    // lists the available top-level albums. Used mostly for debug
+    public static func listPhotoAlbum(_ name:String = "All Photos"){
+        
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.predicate = NSPredicate(format: "title = %@", name)
+
+        let smartAlbums = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .any, options: fetchOptions)
+        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+        fetchOptions.includeHiddenAssets = false
+
+        log.debug("Smart Albums:")
+        smartAlbums.enumerateObjects { (assetCollection, index, stop) in
+            log.debug("[\(index)]:\(assetCollection)")
+            let assets = PHAsset.fetchAssets(in: assetCollection, options: fetchOptions)
+            if let asset = assets.firstObject {
+                log.debug("...\(asset) ")
+            }
+       }
+ /***
+        let topLevelUserCollections = PHCollectionList.fetchTopLevelUserCollections(with: fetchOptions)
+        log.debug("Top Level User Albums:")
+        topLevelUserCollections.enumerateObjects { (assetCollection, index, stop) in
+            log.debug("[\(index)]:\(assetCollection)")
+        }
+        smartAlbums.enumerateObjects { (assetCollection, index, stop) in
+            log.debug("[\(index)]:\(assetCollection)")
+            let assets = PHAsset.fetchAssets(in: assetCollection, options: fetchOptions)
+            if let asset = assets.firstObject {
+                log.debug("...\(asset)")
+            }
+        }
+ ***/
+    }
     
     // returns the name (Asset) of the latest photo in the Camera Roll. Useful as a default setting
     // NOTE: returns asynchronously via the 'completion(name)' callback
 
     public static func getLatestPhotoName(completion: (_ name: String?) -> Void){
         
+        
+        // TMP DBG:
+        //listPhotoAlbum()
+        
         let fetchOptions = PHFetchOptions()
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
-        //fetchOptions.fetchLimit = 1
+        fetchOptions.includeHiddenAssets = false
+       //fetchOptions.fetchLimit = 1
         
         
         let fetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
@@ -565,11 +606,14 @@ class ImageManager {
         let last = fetchResult.lastObject
         
         if let lastAsset = last {
+            log.debug("Latest photo AssetID:\(lastAsset)")
             completion(lastAsset.localIdentifier)
         } else {
             completion(nil)
         }
 
+        
+        
     }
     
     // return the requested asset with the original asset size
@@ -585,9 +629,19 @@ class ImageManager {
                 //        options.deliveryMode = PHImageRequestOptionsDeliveryMode.Opportunistic
                 options.resizeMode = PHImageRequestOptionsResizeMode.exact
                 options.isSynchronous = true // need to set this to get the full size image
-                PHImageManager.default().requestImageData(for: asset!, options: options, resultHandler: { data, _, _, _ in
-                    image = data.flatMap { UIImage(data: $0) }
-                })
+                options.version = .current
+                
+                /***
+                 PHImageManager.default().requestImageData(for: asset!, options: options, resultHandler: { data, _, _, _ in
+                 image = data.flatMap { UIImage(data: $0) }
+                 })
+                 ***/
+                
+                
+                PHImageManager.default().requestImage(for: asset!, targetSize: UIScreen.main.bounds.size, contentMode: .aspectFit, options: options,
+                                                      resultHandler: { img, _ in
+                                                        image = img })
+                
             } else {
                 log.error("Invalid asset: \(assetID)")
             }
@@ -607,21 +661,35 @@ class ImageManager {
         
         tsize = size
         if (tsize.width < 0.01) || (tsize.height < 0.01) {
-            tsize = UIScreen.main.bounds.size // don't know what other size to use
+            tsize = UIScreen.main.bounds.size
+            // set to screen resolution, don't know what other size to use
+            tsize.width = UIScreen.main.bounds.size.width * UIScreen.main.scale
+            tsize.height = UIScreen.main.bounds.size.height * UIScreen.main.scale
         }
+        log.debug("tsize: \(tsize)")
         
         if isAssetID(assetID) { // Asset?
             let assets = PHAsset.fetchAssets(withLocalIdentifiers: [assetID], options:nil)
             
-            let asset = assets.firstObject
-            if asset != nil {
-                let options = PHImageRequestOptions()
-                //        options.deliveryMode = PHImageRequestOptionsDeliveryMode.Opportunistic
-                options.resizeMode = PHImageRequestOptionsResizeMode.exact
-                options.isSynchronous = true // need to set this to get the full size image
-                PHImageManager.default().requestImage(for: asset!, targetSize: tsize, contentMode: .aspectFill, options: options, resultHandler: { img, _ in
-                    image = img
-                })
+            if let asset = assets.firstObject {
+                do {
+                    log.debug("asset: \(asset)")
+                    let options = PHImageRequestOptions()
+                    //        options.deliveryMode = PHImageRequestOptionsDeliveryMode.Opportunistic
+                    //options.resizeMode = PHImageRequestOptionsResizeMode.exact
+                    options.resizeMode = PHImageRequestOptionsResizeMode.fast
+                    options.isNetworkAccessAllowed = false
+                    options.isSynchronous = true // need to set this to get the full size image
+                    try PHImageManager.default().requestImage(for: asset, targetSize: tsize, contentMode: .aspectFill, options: options, resultHandler: { img, info in
+                        if img != nil {
+                            image = img
+                        } else {
+                            log.error("NIL image. info: \(info)")
+                        }
+                    })
+                } catch {
+                    log.error("ERROR retrieveing image: \(asset)")
+                }
             } else {
                 log.error("Invalid asset: \(assetID)")
             }

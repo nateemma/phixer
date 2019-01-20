@@ -21,8 +21,10 @@ class FilterManager{
     
     static let sharedInstance = FilterManager() // the actual instance shared by everyone
     
+    // predefine categories
     public static let favouriteCategory = "favorites"
     public static let defaultCategory = favouriteCategory
+    public static let styleTransferCategory = "styletransfer"
 
     fileprivate static var initDone:Bool = false
     fileprivate static var currCategory: String = defaultCategory
@@ -601,6 +603,8 @@ class FilterManager{
         
         FilterManager.checkSetup()
         FilterManager.shownStyleTransferList = []
+        
+/***
         let count:Int = (FilterLibrary.styleTransferList.count)
         if (count > 0){
             for key in FilterLibrary.styleTransferList {
@@ -609,6 +613,13 @@ class FilterManager{
                 }
             }
             
+            FilterManager.shownStyleTransferList.sort(by: { (value1: String, value2: String) -> Bool in return value1 < value2 }) // sort ascending
+        }
+ ***/
+        
+        // just use the well-known style transfer category. This approach has uses elsewhere (e.g. navigation through filter lists)
+        FilterManager.shownStyleTransferList = getFilterList(FilterManager.styleTransferCategory) ?? []
+        if FilterLibrary.styleTransferList.count > 0 {
             FilterManager.shownStyleTransferList.sort(by: { (value1: String, value2: String) -> Bool in return value1 < value2 }) // sort ascending
         }
         return FilterManager.shownStyleTransferList

@@ -57,11 +57,10 @@ class AppCoordinator: Coordinator {
         self.validControllers = []
 
         //TODO: display transition screen while the App is being prepared???
-        
-        prepareApp()
-        
-        startMainController()
-        
+        DispatchQueue.main.async(execute: {
+            self.prepareApp()
+            self.startMainController()
+        })
     }
     
 
@@ -104,8 +103,9 @@ class AppCoordinator: Coordinator {
     
     private func setupConfig() {
         // Create an instance of Filteranager. This will take care of reading the configuration file etc.
+//        DispatchQueue.global(qos: .background).async { Coordinator.filterManager = FilterManager.sharedInstance }
         Coordinator.filterManager = FilterManager.sharedInstance
-        
+
         setupFrames()
         
     }
@@ -163,7 +163,9 @@ class AppCoordinator: Coordinator {
         self.mainController?.coordinator = self
         self.mainControllerTag = (self.mainController?.getTag())!
         self.mainControllerId = .home
-        Coordinator.navigationController?.setViewControllers([self.mainController!], animated: true)
+        DispatchQueue.main.async(execute: {
+            Coordinator.navigationController?.setViewControllers([self.mainController!], animated: false)
+        })
 
        // self.activate(self.mainControllerId)
 //        if self.mainController != nil {

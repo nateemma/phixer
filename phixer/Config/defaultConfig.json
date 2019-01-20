@@ -3,6 +3,14 @@
     
     "slow": [ "SketchFilter" ],
     
+    
+    "settings": {
+        "blend": "_film_grain_numba_1__by_su_y.jpg",
+        "sample": "sample_0846.png",
+        "edit": ""
+    },
+
+    
     "blends": [
         "067_by_candymax_stock.jpg",
         "15_by_grandeombre_stock.jpg",
@@ -70,13 +78,6 @@
         "sample_0846.png", "sample_1149.png", "sample_1151.png", "sample_1412.png", "sample_1504.png", "sample_1533.png", "sample_1629.png",
         "sample_1687.png", "sample_1748.png", "sample_1902.png", "sample_2143.png", "sample_2216.png", "sample_9989.png"
     ],
-    
-    "settings": {
-        "blend": "_film_grain_numba_1__by_su_y.jpg",
-        "sample": "sample_0846.png",
-        "edit": ""
-    },
-    
     
     
     "lookup": [
@@ -629,13 +630,6 @@
         { "key": "vn_047", "image": "vn_047_red_cyan.jpg", "slow": false, "show": true, "rating": 0 }
     ],
     
-    "styletransfer": [
-        {"key": "style",
-            "title": "Style Transfer",
-            "filters": ["Style_Scream", "Style_Candy",  "Style_Feathers",  "Style_LaMuse",  "Style_Udnie",  "Style_Mosaic"
-            ]
-        }
-    ],
     
     
     "categories": [
@@ -650,11 +644,12 @@
                 "ps_004", "ps_009", "bw_031", "bw_037" ]
         },
         
-        {"key": "basic",
-            "title": "Basic Adjustments",
-            "filters": ["CIExposureAdjust", "CINoiseReduction", "CIVibrance", "CIWhitePointAdjust", "CIVignette",
-                "CITemperatureAndTint", "CIToneCurve", "CIAreaAverage", "CIAreaHistogram", "CISharpenLuminance", "CIUnsharpMask" ]
+        {"key": "styletransfer",
+            "title": "Style Transfer",
+            "filters": ["Style_Scream", "Style_Candy",  "Style_Feathers",  "Style_LaMuse",  "Style_Udnie",  "Style_Mosaic"
+            ]
         },
+        
         
         {"key": "blends",
             "title": "Blend Effects",
@@ -672,15 +667,9 @@
         
         {"key": "colorAdjustment",
             "title": "Color Adjustments",
-            "filters": ["CIColorClamp", "CIColorControls", "CIExposureAdjust", "CIGammaAdjust", "CIHueAdjust", "CILinearToSRGBToneCurve",
-                "CISRGBToneCurveToLinear", "CITemperatureAndTint", "CIToneCurve", "CIVibrance", "CIWhitePointAdjust" ]
+            "filters": ["CIGammaAdjust", "CIHueAdjust", "CILinearToSRGBToneCurve", "CISRGBToneCurveToLinear" ]
         },
         
-        {"key": "colorEffect",
-            "title": "Color Effects",
-            "filters": ["CIColorInvert", "CIColorMonochrome", "CIColorPosterize",
-                "CIFalseColor", "CIMaskToAlpha", "CIMaximumComponent", "CIMinimumComponent" ]
-        },
         
         {"key": "photoEffect",
             "title": "Basic Photo Effects",
@@ -704,12 +693,13 @@
         
         {"key": "sharpen",
             "title": "Sharpen",
-            "filters": ["CISharpenLuminance", "CIUnsharpMask" ]
+            "filters": ["CISharpenLuminance", "CIUnsharpMask", "UnsharpMaskFilter", "ClarityFilter" ]
         },
         
         {"key": "stylize",
             "title": "Stylize",
-            "filters": ["CIBlendWithAlphaMask", "CIBlendWithMask", "CIBloom", "CIComicEffect", "CICrystallize", "CIDepthOfField", "CIEdges", "CIEdgeWork", "CIGloom", "CIHeightFieldFromMask", "CIHexagonalPixellate",
+            "filters": ["CIBloom", "CIComicEffect", "CICrystallize", "CIDepthOfField", "CIEdges", "CIEdgeWork", "CIGloom", "CIHeightFieldFromMask", "CIHexagonalPixellate",
+                "CIColorInvert", "CIColorMonochrome", "CIColorPosterize", "CIFalseColor",
                 "CIHighlightShadowAdjust", "CIPixellate", "CIPointillize", "CISpotColor", "CISpotLight" ]
         },
         
@@ -851,7 +841,7 @@
             "title": "Custom",
             "filters": ["ClarityFilter", "OpacityFilter", "EdgeGlowFilter", "SmoothThresholdFilter", "AdaptiveThresholdFilter", "LumaRangeFilter",
                         "ColorSobelFilter", "SobelFilter", "Sobel3x3Filter", "Sobel5x5Filter", "LaplacianGaussianFilter",
-                        "ColorSketchFilter", "SketchFilter", "UnsharpMaskFilter"
+                        "ColorSketchFilter", "SketchFilter", "UnsharpMaskFilter", "CarnivalMirror", "RGBChannelCompositing"
             ]
         }
         

@@ -146,31 +146,8 @@ class FilterLibrary{
         // parsing the config file is done
         
         
-        if let settings = Database.getSettings() {
-            // Double-check that there is something valid in there...
-            if (settings.blendImage!.isEmpty) {
-                settings.blendImage = ImageManager.getDefaultBlendImageName()
-                log.warning("Blend image empty. Set to default: \(settings.blendImage)")
-            }
-            if (settings.sampleImage!.isEmpty) {
-                settings.sampleImage = ImageManager.getDefaultSampleImageName()
-                log.warning("Sample image empty. Set to default: \(settings.sampleImage)")
-            }
-            if (settings.editImage!.isEmpty) {
-                settings.editImage = ImageManager.getDefaultEditImageName()
-                log.warning("Edit image empty. Set to default: \(settings.editImage)")
-            }
-
-            print("loadFilterConfig() - Restoring Settings: key:\(settings.key) Sample:\(settings.sampleImage!) Blend:\(settings.blendImage!) Edit:\(settings.editImage!)")
-            ImageManager.setCurrentBlendImageName(settings.blendImage!)
-            ImageManager.setCurrentSampleImageName(settings.sampleImage!)
-            ImageManager.setCurrentEditImageName(settings.editImage!)
-        } else {
-            print("loadFilterConfig() - ERR: settings NOT found...")
-        }
-
-        
-        print ("FilterLibrary.loadFilterConfig() - loading configuration...")
+  
+        log.verbose("loading configuration...")
         
         // find the configuration file, which must be part of the project
         let path = Bundle.main.path(forResource: configFile, ofType: "json")
@@ -179,18 +156,40 @@ class FilterLibrary{
             // load the file contents and parse the JSON string
             let fileContents = try NSString(contentsOfFile: path!, encoding: String.Encoding.utf8.rawValue) as String
             if let data = fileContents.data(using: String.Encoding.utf8) {
-                print("restore() - parsing data from: \(path!)")
+                log.verbose("parsing data from: \(path!)")
                 parsedConfig = try JSON(data: data)
                 if (parsedConfig != JSON.null){
-                    print("restore() - parsing data")
+                    log.verbose("parsing data")
                     //print ("\(parsedConfig)")
                     
                     // version
                     let vParams = parsedConfig["version"].dictionaryValue
-                    print("vParams:\(vParams)")
+                    log.verbose("vParams:\(vParams)")
                     version = vParams["id"]?.floatValue ?? 0.0
                     overwriteConfig = vParams["overwrite"]?.boolValue ?? false
                     print ("version: \(version) overwrite: \(overwriteConfig)")
+                    
+                    if overwriteConfig {
+                        //TODO: if overwrite flag is set, clear stored values before processing config file
+                        
+                        log.debug ("Using config file settings instead of saved settings")
+                        Database.clearSettings()
+
+                        // blend, sample, edit assignments
+                        let blend = parsedConfig["settings"]["blend"].stringValue
+                        let sample = parsedConfig["settings"]["sample"].stringValue
+                        let edit = parsedConfig["settings"]["edit"].stringValue
+                        log.debug("Sample:\(sample) Blend:\(blend) Edit:\(edit)")
+                        // Note: need to do edit image first, so that default can be processed
+                        ImageManager.setCurrentEditImageName(edit) // set even if empty
+                        if !blend.isEmpty { ImageManager.setCurrentBlendImageName(blend)}
+                        if !sample.isEmpty { ImageManager.setCurrentSampleImageName(sample)}
+ 
+
+                    } else {
+                        log.debug("Skipping config file settings, using database entries instead")
+                        loadSettings()
+                    }
                     
                     // blend list
                     for blend in parsedConfig["blends"].arrayValue {
@@ -261,19 +260,6 @@ class FilterLibrary{
                     // only do these if the database has not already been set up
                     // TODO: check version number
                     
-                    //TODO: if overwrite flag is set, clear stored values before processing config file
-                    
-                    if (!Database.isSetup()) || overwriteConfig {
-                        // blend, sample, edit assignments
-                        let blend = parsedConfig["settings"]["blend"].stringValue
-                        let sample = parsedConfig["settings"]["sample"].stringValue
-                        let edit = parsedConfig["settings"]["edit"].stringValue
-                        if !blend.isEmpty { ImageManager.setCurrentBlendImageName(blend)}
-                        if !sample.isEmpty { ImageManager.setCurrentSampleImageName(sample)}
-                        ImageManager.setCurrentBlendImageName(edit) // set even if empty
-                    } else {
-                        log.debug("Skipping config file settings, using database entries instead")
-                    }
                     
                     // Style Transfer list
                     // These are 'normal' filters, so they are already registered. Just need to maintain a list of them
@@ -308,26 +294,55 @@ class FilterLibrary{
 
                     
                 } else {
-                    print("ERROR parsing JSON file")
-                    print("*** categories error: \(String(describing: parsedConfig["categories"].error))")
-                    print("*** filters error: \(String(describing: parsedConfig["filters"].error))")
-                    print("*** lookup error: \(String(describing: parsedConfig["lookup"].error))")
-                    print("*** assign error: \(String(describing: parsedConfig["assign"].error))")
+                    log.error("ERROR parsing JSON file")
+                    log.error("*** categories error: \(String(describing: parsedConfig["categories"].error))")
+                    log.error("*** filters error: \(String(describing: parsedConfig["filters"].error))")
+                    log.error("*** lookup error: \(String(describing: parsedConfig["lookup"].error))")
+                    log.error("*** assign error: \(String(describing: parsedConfig["assign"].error))")
                 }
             } else {
-                print("restore() - ERROR : no data found")
+                log.error("restore() - ERROR : no data found")
             }
         }
         catch let error as NSError {
-            print("ERROR: restore() - error reading from config file : \(error.localizedDescription)")
-            print("*** categories error: \(String(describing: parsedConfig["categories"].error))")
-            print("*** filters error: \(String(describing: parsedConfig["filters"].error))")
-            print("*** lookup error: \(String(describing: parsedConfig["lookup"].error))")
-            print("*** assign error: \(String(describing: parsedConfig["assign"].error))")
+            log.error("ERROR: restore() - error reading from config file : \(error.localizedDescription)")
+            log.error("*** categories error: \(String(describing: parsedConfig["categories"].error))")
+            log.error("*** filters error: \(String(describing: parsedConfig["filters"].error))")
+            log.error("*** lookup error: \(String(describing: parsedConfig["lookup"].error))")
+            log.error("*** assign error: \(String(describing: parsedConfig["assign"].error))")
         }
     }
 
 
+    // load settings from the database
+    private static func loadSettings(){
+        if let settings = Database.getSettings() {
+            // Double-check that there is something valid in there...
+            if (settings.blendImage!.isEmpty) {
+                settings.blendImage = ImageManager.getDefaultBlendImageName()
+                log.warning("Blend image empty. Set to default: \(settings.blendImage)")
+            }
+            if (settings.sampleImage!.isEmpty) {
+                settings.sampleImage = ImageManager.getDefaultSampleImageName()
+                log.warning("Sample image empty. Set to default: \(settings.sampleImage)")
+            }
+            if (settings.editImage!.isEmpty) {
+                settings.editImage = ImageManager.getDefaultEditImageName()
+                log.warning("Edit image empty. Set to default: \(settings.editImage)")
+            }
+            
+            log.verbose("Restoring Settings: key:\(settings.key) Sample:\(settings.sampleImage!) Blend:\(settings.blendImage!) Edit:\(settings.editImage!)")
+
+            // Inform ImageManager. Note that edit must be done first otherwise it leads to race conditions
+            ImageManager.setCurrentEditImageName(settings.editImage!)
+            ImageManager.setCurrentBlendImageName(settings.blendImage!)
+            ImageManager.setCurrentSampleImageName(settings.sampleImage!)
+        } else {
+            log.verbose("ERR: settings NOT found...")
+        }
+        
+    }
+    
     // functio to convert from CIFilter Attribute Type string to simpler internal parameter type
     private static func attributeToParameterType(_ atype:String) -> ParameterType {
         var ptype: ParameterType
@@ -366,7 +381,7 @@ class FilterLibrary{
 
 
     public static func save(){
-        print ("FilterLibrary.save() - saving configuration...")
+        print ("saving configuration...")
         commitChanges()
     }
 
@@ -375,7 +390,7 @@ class FilterLibrary{
     private static func addCategory(key:String, title:String){
         // just add the data to the dictionary
         FilterLibrary.categoryDictionary[key] = title
-        print("addCategory(\(key), \(title))")
+        log.verbose("addCategory(\(key), \(title))")
     }
   
     
@@ -385,7 +400,7 @@ class FilterLibrary{
         // just store the mapping. Do lazy allocation as needed because of the potentially large number of filters
         FilterLibrary.filterDictionary[key] = nil // just make sure there is an entry to find later
         FilterFactory.addFilterDefinition(key: key, definition:definition)
-        print("addFilter(\(definition.key): \(definition.title), \(definition.ftype), \(definition.hide), \(definition.rating)), \(definition.parameters)")
+        log.verbose("addFilter(\(definition.key): \(definition.title), \(definition.ftype), \(definition.hide), \(definition.rating)), \(definition.parameters)")
     }
     
     
@@ -397,13 +412,13 @@ class FilterLibrary{
         let ext = l[1]
         
         guard Bundle.main.path(forResource: title, ofType: ext) != nil else {
-            print("addLookup() ERR: File not found:\(definition.lookup)")
+            log.error("ERR: File not found:\(definition.lookup)")
             return
         }
         
         // save the image name for later use, when the filter is created
         if (FilterLibrary.lookupDictionary[key] != nil){ // check for duplicate and warn
-            print("addLookup() WARN: Duplicate key:\(key)")
+            log.warning("WARN: Duplicate key:\(key)")
         }
         
         var def = definition
@@ -411,7 +426,7 @@ class FilterLibrary{
         FilterLibrary.filterDictionary[key] = nil
         FilterFactory.addLookupFilter(key: key, definition:def)
         //FilterFactory.addFilterDefinition(key: key, title: key, ftype: "lookup",  hide:hide, rating:rating)
-        print("addLookup(\(definition.key), \(definition.lookup), \(definition.hide), \(definition.rating))")
+        log.verbose("addLookup(\(definition.key), \(definition.lookup), \(definition.hide), \(definition.rating))")
     }
     
     
@@ -433,7 +448,7 @@ class FilterLibrary{
                 
                 // double check
                 if !FilterLibrary.categoryFilters[category]!.contains(f){
-                    print("addAssignment() ERROR: did not add to category:\(category)")
+                    log.error("ERROR: did not add to category:\(category)")
                 }
             } else {
                 log.warning("Ignoring filter: \(f)")
@@ -565,12 +580,12 @@ class FilterLibrary{
         // restore the settings
         
         if let settings = Database.getSettings() {
-            print("loadFromDatabase() - Restoring Settings: key:\(settings.key) Sample:\(settings.sampleImage!) Blend:\(settings.blendImage!) Edit:\(settings.editImage!)")
+            log.verbose("loadFromDatabase() - Restoring Settings: key:\(settings.key) Sample:\(settings.sampleImage!) Blend:\(settings.blendImage!) Edit:\(settings.editImage!)")
             ImageManager.setCurrentBlendImageName(settings.blendImage!)
             ImageManager.setCurrentSampleImageName(settings.sampleImage!)
             ImageManager.setCurrentEditImageName(settings.editImage!)
         } else {
-            print("loadFromDatabase() - ERR: settings NOT found...")
+            log.error("ERR: settings NOT found...")
         }
         
 /****
@@ -666,10 +681,10 @@ class FilterLibrary{
                     }
                     //arec.filters = (FilterLibrary.categoryFilters[category])!
                 } else {
-                    print("commitChanges()() no filters found for: \(category)")
+                    log.verbose("commitChanges()() no filters found for: \(category)")
                 }
             } else {
-                print("commitChanges()() no filters found for: \(category)")
+                log.verbose("commitChanges()() no filters found for: \(category)")
             }
             Database.updateAssignmentRecord(arec)
         }

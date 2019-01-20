@@ -54,7 +54,7 @@ class EditMainOptionsController: EditBaseMenuController {
     // Coordination Interface requests (forward/back)
     ////////////////////
     
-    // Disable swipe, doesn't make sense here
+    // get from FilterManager if valid, or just ignore
     override func nextItem() {
         if filterCategoriesActive {
             let key = filterManager.getNextFilterKey()
@@ -93,6 +93,7 @@ class EditMainOptionsController: EditBaseMenuController {
             filterCategoriesActive = true
             colorFiltersHandler()
         case "style":
+            filterCategoriesActive = true
             styleTransferHandler()
         case "curves":
             curvesHandler()
