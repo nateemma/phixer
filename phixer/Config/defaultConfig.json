@@ -1,7 +1,7 @@
 {
-    "version": { "id": 2.4, "overwrite": false },
+    "version": { "id": 3.0, "overwrite": false },
     
-    "slow": [ "SketchFilter" ],
+    "slow": [ "KuwaharaFilter", "SketchFilter", "Style_Scream", "Style_Candy", "Style_Mosaic", "Style_Udnie", "Style_LaMuse", "Style_Feathers" ],
     
     
     "settings": {
@@ -662,7 +662,7 @@
         
         {"key": "blur",
             "title": "Blur Effects",
-            "filters": ["CIBoxBlur", "CIDiscBlur", "CIGaussianBlur", "CIMedianFilter", "CIMotionBlur", "CINoiseReduction", "CIZoomBlur" ]
+            "filters": ["CIBoxBlur", "CIDiscBlur", "CIGaussianBlur", "CIMedianFilter", "CIMotionBlur", "CIZoomBlur" ]
         },
         
         {"key": "colorAdjustment",
@@ -693,7 +693,7 @@
         
         {"key": "sharpen",
             "title": "Sharpen",
-            "filters": ["CISharpenLuminance", "CIUnsharpMask", "UnsharpMaskFilter", "ClarityFilter" ]
+            "filters": ["CISharpenLuminance", "CIUnsharpMask", "UnsharpMaskFilter", "ClarityFilter", "CINoiseReduction" ]
         },
         
         {"key": "stylize",
@@ -841,7 +841,8 @@
             "title": "Custom",
             "filters": ["ClarityFilter", "OpacityFilter", "EdgeGlowFilter", "SmoothThresholdFilter", "AdaptiveThresholdFilter", "LumaRangeFilter",
                         "ColorSobelFilter", "SobelFilter", "Sobel3x3Filter", "Sobel5x5Filter", "LaplacianGaussianFilter",
-                        "ColorSketchFilter", "SketchFilter", "UnsharpMaskFilter", "CarnivalMirror", "RGBChannelCompositing"
+                        "ColorSketchFilter", "SketchFilter", "UnsharpMaskFilter",
+                        "CarnivalMirror", "RGBChannelCompositing", "KuwaharaFilter", "LensFlare", "MercurializeFilter"
             ]
         }
         

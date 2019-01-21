@@ -94,27 +94,22 @@ class FilterParametersView: UIView {
         self.showControls = confirm
     }
    
-
-    private var savedFrame: CGRect = CGRect.zero
     
     
     //////////////////////////////
     // Accessors
     //////////////////////////////
-    
+ 
+    private var savedColor:UIColor? = UIColor.clear
 
     // Collapses the detail part of the view, leaving just the title bar
     public func collapse(){
         if initDone {
             
             /****/
-            // move the frame to just under the navbar
-            let topBarHeight = UIApplication.shared.statusBarFrame.size.height + (Coordinator.navigationController?.navigationBar.frame.height ?? 0.0)
-            //        self.frame = CGRect(origin: CGPoint(x: savedFrame.origin.x,
-            //                                            y: savedFrame.origin.y + (savedFrame.size.height - (titleView?.frame.size.height)!)),
-            //                            size: (titleView?.frame.size)!)
-            self.frame = CGRect(origin: CGPoint(x: 0, y: topBarHeight),
-                                size: (titleView?.frame.size)!)
+
+            savedColor = self.backgroundColor
+            self.backgroundColor = UIColor.clear
             self.scrollView?.isHidden = true
             /***/
         }
@@ -124,11 +119,13 @@ class FilterParametersView: UIView {
     // Expands the detail part
     public func expand(){
         if initDone {
-            self.frame = savedFrame
+            self.backgroundColor = savedColor
             if self.numVisibleParams > 0 {
                 self.scrollView?.isHidden = false
                 self.scrollView?.canCancelContentTouches = false
             }
+        } else {
+            log.error("ERRR: init not done")
         }
     }
     
@@ -145,7 +142,7 @@ class FilterParametersView: UIView {
     public func setFilter(_ descriptor:FilterDescriptor?){
 
         // if no filter then clear sub-views and hide view, otherwise re-build based on the filter descriptor
-        clearSubviews()
+        //clearSubviews()
         if (descriptor != nil)  {
             
             currFilterDesc = descriptor
@@ -155,6 +152,8 @@ class FilterParametersView: UIView {
             
             logSizes()
 
+        } else {
+            log.error("NIL filter descriptor supplied")
         }
     }
 
@@ -166,20 +165,26 @@ class FilterParametersView: UIView {
     
     fileprivate func initViews(){
   
-        savedFrame = self.frame
 
         //if (!initDone && (currFilterDesc != nil)){
         //if (currFilterDesc != nil){
-            
-            //self.backgroundColor = UIColor.flatGray()
-            //self.backgroundColor = viewBackgroundColor
+        
+        clearSubviews()
+        
             self.backgroundColor = viewBackgroundColor.withAlphaComponent(0.6)
             //self.alpha = 0.9
             
             viewList = []
             fullScreenEnabled = true
             showFiltersEnabled = true
-           
+        
+        // generate each time, otherwise stuff hangs around
+
+        titleLabel = UILabel()
+        titleView = UIView()
+        parameterView = UIView()
+        scrollView = nil
+        
             //self.frame.size.width = self.frame.size.width - 16.0
             // height: title + sliders + buttons (or not)
             var f1, f2: CGFloat
@@ -201,12 +206,8 @@ class FilterParametersView: UIView {
     
     fileprivate func layoutTitle(){
         
-        guard (currFilterDesc != nil) else{
-            return
-        }
         
         // add control icons to title bar
-        
         
         let side:CGFloat = CGFloat(sliderHeight)*0.8
         
@@ -247,7 +248,7 @@ class FilterParametersView: UIView {
         titleLabel.frame.size.height = (CGFloat(sliderHeight*0.8)).rounded()
         titleLabel.textColor = titleTextColor
         titleLabel.font = UIFont.systemFont(ofSize: 18)
-        titleLabel.text = currFilterDesc?.title
+        titleLabel.text = currFilterDesc?.title ?? "No Filter"
         titleLabel.textAlignment = .center
         titleLabel.fitTextToBounds()
         titleView.addSubview(titleLabel)
@@ -265,7 +266,7 @@ class FilterParametersView: UIView {
         filterModeButton?.align(.toTheLeftCentered, relativeTo: cancelButton!, padding: 12, width: side, height: side)
         titleLabel.alignBetweenHorizontal(align: .toTheRightCentered, primaryView: screenModeButton!, secondaryView: filterModeButton!, padding: 2, height: AutoHeight)
 
-        log.verbose("Filter Title: \(String(describing: currFilterDesc?.title)) h:\(titleLabel.frame.size.height) w:\(titleLabel.frame.size.width)")
+        log.verbose("Filter Title: \(titleLabel.text) h:\(titleLabel.frame.size.height) w:\(titleLabel.frame.size.width)")
     }
   
    
@@ -286,6 +287,8 @@ class FilterParametersView: UIView {
         var currColor: UIColor = UIColor.blue
         
         log.verbose("Laying out parameters...")
+        parameterView.backgroundColor = UIColor.clear
+        scrollView?.backgroundColor = UIColor.clear
         sliders = []
         gsliders = []
         pKey = []
@@ -554,7 +557,6 @@ class FilterParametersView: UIView {
         layoutTitle()
         layoutParameters()
         finishLayout()
-        savedFrame = self.frame
     }
     
     
@@ -566,6 +568,7 @@ class FilterParametersView: UIView {
     func logSizes(_ f:String = #function, _ l:Int = #line){
         /***/
         log.debug("\(f):\(l)\n " +
+            "\(titleLabel.text)\n" +
             "params: \(numVisibleParams)\n" +
             "Title: [\(titleView.frame)], hid:\(titleView.isHidden)\n" +
             "Params:[\(parameterView.frame)], hid:\(parameterView.isHidden)\n" +
@@ -601,24 +604,33 @@ class FilterParametersView: UIView {
     
     @objc func acceptDidPress() {
         
+        if delegate == nil { log.warning("No delegate") }
+
         // value is set as sliders are moved, so no need to do anything except clean up and return
         delegate?.commitChanges(key: (currFilterDesc?.key)!)
-        dismiss()
+        //dismiss()
+
     }
     
     @objc func defaultDidPress(){
+        if delegate == nil { log.warning("No delegate") }
+
         currFilterDesc?.reset()
         layoutUI()
    }
     
     @objc func cancelDidPress(){
+        if delegate == nil { log.warning("No delegate") }
+
         // restore saved parameters
         currFilterDesc?.restoreParameters()
         delegate?.cancelChanges(key:  (currFilterDesc?.key)!)
-        dismiss()
+        //dismiss()
     }
 
     @objc func screenModeDidPress(){
+        if delegate == nil { log.warning("No delegate") }
+
         if fullScreenEnabled {
             screenModeButton?.setImageAsset("ic_full_screen")
             fullScreenEnabled = false
@@ -632,6 +644,8 @@ class FilterParametersView: UIView {
     
     @objc func filterModeDidPress(){
         
+        if delegate == nil { log.warning("No delegate") }
+
         if showFiltersEnabled {
             filterModeButton?.setImageAsset("ic_view")
             showFiltersEnabled = false

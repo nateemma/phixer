@@ -710,7 +710,6 @@
 		2537A1F321E310B500060DBE /* tx_pencil_crosshatch_2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2537A1F221E310B500060DBE /* tx_pencil_crosshatch_2.jpg */; };
 		2537A1F721E42C2C00060DBE /* FilterDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A1F621E42C2C00060DBE /* FilterDefinition.swift */; };
 		2537A1F921E484AA00060DBE /* EditCurvesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A1F821E484AA00060DBE /* EditCurvesController.swift */; };
-		2537A20021E5150800060DBE /* RGBChannelCompositing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A1FB21E5150800060DBE /* RGBChannelCompositing.swift */; };
 		2537A20321E5150800060DBE /* MultiBandHSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A1FE21E5150800060DBE /* MultiBandHSV.swift */; };
 		2537A20521E516AF00060DBE /* CIVector+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A20421E516AF00060DBE /* CIVector+Extensions.swift */; };
 		2537A20721E5174C00060DBE /* UIBezierPath+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537A20621E5174C00060DBE /* UIBezierPath+Extensions.swift */; };
@@ -846,6 +845,9 @@
 		25AEBB441DBA8AEC00AA6279 /* FilterSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AEBB431DBA8AEC00AA6279 /* FilterSelectionView.swift */; };
 		25B24D121DAEE1B5008CD38A /* GradientSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D111DAEE1B5008CD38A /* GradientSlider.swift */; };
 		25B24D181DAFE255008CD38A /* FilterInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D171DAFE255008CD38A /* FilterInfoView.swift */; };
+		25CC3E9F21F5916200EB8A0A /* MercurializeFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CC3E9B21F5916200EB8A0A /* MercurializeFilter.swift */; };
+		25CC3EA021F5916200EB8A0A /* KuwaharaFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CC3E9C21F5916200EB8A0A /* KuwaharaFilter.swift */; };
+		25CC3EA121F5916200EB8A0A /* TransverseChromaticAberration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CC3E9D21F5916200EB8A0A /* TransverseChromaticAberration.swift */; };
 		25CF4BD51D9490C400D779CF /* CameraControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BCF1D9490C400D779CF /* CameraControlsView.swift */; };
 		25CF4BD61D9490C400D779CF /* CameraDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BD01D9490C400D779CF /* CameraDisplayView.swift */; };
 		25CF4BD81D9490C400D779CF /* CameraSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BD21D9490C400D779CF /* CameraSettingsView.swift */; };
@@ -1614,7 +1616,6 @@
 		2537A1F221E310B500060DBE /* tx_pencil_crosshatch_2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tx_pencil_crosshatch_2.jpg; sourceTree = "<group>"; };
 		2537A1F621E42C2C00060DBE /* FilterDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDefinition.swift; sourceTree = "<group>"; };
 		2537A1F821E484AA00060DBE /* EditCurvesController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditCurvesController.swift; sourceTree = "<group>"; };
-		2537A1FB21E5150800060DBE /* RGBChannelCompositing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RGBChannelCompositing.swift; path = phixer/Filters/CustomFilters/Filterpedia/RGBChannelCompositing.swift; sourceTree = SOURCE_ROOT; };
 		2537A1FE21E5150800060DBE /* MultiBandHSV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultiBandHSV.swift; path = phixer/Filters/CustomFilters/Filterpedia/MultiBandHSV.swift; sourceTree = SOURCE_ROOT; };
 		2537A20421E516AF00060DBE /* CIVector+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CIVector+Extensions.swift"; sourceTree = "<group>"; };
 		2537A20621E5174C00060DBE /* UIBezierPath+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBezierPath+Extensions.swift"; sourceTree = "<group>"; };
@@ -1777,6 +1778,9 @@
 		25AEBB431DBA8AEC00AA6279 /* FilterSelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterSelectionView.swift; sourceTree = "<group>"; };
 		25B24D111DAEE1B5008CD38A /* GradientSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientSlider.swift; sourceTree = "<group>"; };
 		25B24D171DAFE255008CD38A /* FilterInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterInfoView.swift; sourceTree = "<group>"; };
+		25CC3E9B21F5916200EB8A0A /* MercurializeFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MercurializeFilter.swift; sourceTree = "<group>"; };
+		25CC3E9C21F5916200EB8A0A /* KuwaharaFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KuwaharaFilter.swift; sourceTree = "<group>"; };
+		25CC3E9D21F5916200EB8A0A /* TransverseChromaticAberration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransverseChromaticAberration.swift; sourceTree = "<group>"; };
 		25CF4BCF1D9490C400D779CF /* CameraControlsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraControlsView.swift; sourceTree = "<group>"; };
 		25CF4BD01D9490C400D779CF /* CameraDisplayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraDisplayView.swift; sourceTree = "<group>"; };
 		25CF4BD21D9490C400D779CF /* CameraSettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraSettingsView.swift; sourceTree = "<group>"; };
@@ -1899,8 +1903,10 @@
 		252745ED21815F8D00AA2DA2 /* Filterpedia */ = {
 			isa = PBXGroup;
 			children = (
+				25CC3E9C21F5916200EB8A0A /* KuwaharaFilter.swift */,
+				25CC3E9B21F5916200EB8A0A /* MercurializeFilter.swift */,
+				25CC3E9D21F5916200EB8A0A /* TransverseChromaticAberration.swift */,
 				2537A1FE21E5150800060DBE /* MultiBandHSV.swift */,
-				2537A1FB21E5150800060DBE /* RGBChannelCompositing.swift */,
 				252745EE21815FB700AA2DA2 /* CarnivalMirror.swift */,
 				2537A20821E55E7600060DBE /* README.md */,
 			);
@@ -3932,6 +3938,7 @@
 				258F09B9219264C20082FE2A /* SmoothThresholdFilter.swift in Sources */,
 				2537A1E121E01EA900060DBE /* Sobel3x3Filter.swift in Sources */,
 				2568BDA221AC72CB00560287 /* ISColorWheel.m in Sources */,
+				25CC3EA121F5916200EB8A0A /* TransverseChromaticAberration.swift in Sources */,
 				2515988821A3495C0067AA00 /* ThemeChooserController.swift in Sources */,
 				258F09A9218E36870082FE2A /* CGImage+Extensions.swift in Sources */,
 				2573D1DC217CDCB500E78CAB /* YUCIFilterPreviewGenerator.m in Sources */,
@@ -3989,6 +3996,7 @@
 				252745FB21851AEB00AA2DA2 /* ColorPickerController.swift in Sources */,
 				2537A22621EE4EAA00060DBE /* SimpleCoordinator.swift in Sources */,
 				25910B1B1DB7D61A007EC926 /* RenderContainerView.swift in Sources */,
+				25CC3E9F21F5916200EB8A0A /* MercurializeFilter.swift in Sources */,
 				2537A1E521E02D7800060DBE /* SketchFilter.swift in Sources */,
 				2573D1D8217CDCB500E78CAB /* YUCIFilterConstructor.m in Sources */,
 				258F099D218CBFC30082FE2A /* FNS-Feathers.mlmodel in Sources */,
@@ -3996,6 +4004,7 @@
 				2537A1C721DC27BC00060DBE /* Adornment.swift in Sources */,
 				2537A22C21EE784000060DBE /* FilterGalleryCoordinator.swift in Sources */,
 				2537A1C121D31F4B00060DBE /* WhiteBalanceFilter.swift in Sources */,
+				25CC3EA021F5916200EB8A0A /* KuwaharaFilter.swift in Sources */,
 				2573D1E5217CDCB500E78CAB /* YUCIReflectedTile.m in Sources */,
 				2568BDD721BEC72600560287 /* StyleTransferFilter.swift in Sources */,
 				25AEBB441DBA8AEC00AA6279 /* FilterSelectionView.swift in Sources */,
@@ -4070,7 +4079,6 @@
 				253A39E21DDA965E00A714D4 /* SampleGalleryViewController.swift in Sources */,
 				2515987E2193CD490067AA00 /* LumaRangeFilter.swift in Sources */,
 				25F563FC1DD1165C00DFB125 /* ImageManager.swift in Sources */,
-				2537A20021E5150800060DBE /* RGBChannelCompositing.swift in Sources */,
 				2573D1E2217CDCB500E78CAB /* YUCIRGBToneCurve.m in Sources */,
 				2537A1BF21D28F6E00060DBE /* BrightnessFilter.swift in Sources */,
 				25159884219E2B850067AA00 /* ThemeManager.swift in Sources */,

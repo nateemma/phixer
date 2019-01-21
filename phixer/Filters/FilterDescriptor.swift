@@ -224,8 +224,10 @@ class  FilterDescriptor {
     func copyParameters(_ parameters:[ParameterSettings]){
         // (deep) copy the parameters and set up the filter
         for p in parameters {
-            self.stashedParameters[p.key] = p
-            self.parameterConfiguration[p.key] = p
+            //self.stashedParameters[p.key] = p
+            //self.parameterConfiguration[p.key] = p
+            self.stashedParameters[p.key] = ParameterSettings(key: p.key, title: p.title, min: p.min, max: p.max, value: p.value, type: p.type)
+            self.parameterConfiguration[p.key] = ParameterSettings(key: p.key, title: p.title, min: p.min, max: p.max, value: p.value, type: p.type)
             if p.type == .float { // any other types must be set by the app
                 self.filter?.setValue(p.value, forKey: p.key)
             } else {
@@ -325,18 +327,22 @@ class  FilterDescriptor {
     
     // Parameter access for Color parameters
     func getColorParameter(_ key:String)->CIColor {
-        var cval:CIColor
+        var cval:CIColor?
         cval = defaultColor
         if let p = parameterConfiguration[key] {
             if p.type == .color {
-                cval = self.filter?.value(forKey: key) as! CIColor
+                cval = self.filter?.value(forKey: key) as? CIColor
             } else {
                 log.error("Parameter (\(key) is not a Color")
             }
         } else {
             log.error("Invalid key:\(key) for filter:\(self.key)")
         }
-        return cval
+        if cval != nil {
+            return cval!
+        } else {
+            return CIColor(red: 0, green: 0, blue: 0)
+        }
     }
     
     func setColorParameter(_ key:String, color:CIColor) {

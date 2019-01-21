@@ -43,7 +43,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     
     
     var currCategory:String? = nil
-    var currFilterKey:String? = nil
+    var currFilterKey:String? = FilterDescriptor.nullFilter
     
     var currFilterDescriptor:FilterDescriptor? = nil
     var currIndex:Int = 0
@@ -156,7 +156,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             //filterParametersView.setConfirmMode(false)
             
             filterManager.setCurrentFilterKey(FilterDescriptor.nullFilter)
-            //editImageView.setFilter(key: FilterDescriptor.nullFilter)
+            editImageView.setFilter(key: FilterDescriptor.nullFilter)
             BasicEditViewController.initDone = true
             updateCurrentFilter()
             currTouchMode = .gestures
@@ -208,7 +208,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         view.addSubview(filterParametersView)
 
 
-        hideModalViews()
+        showModalViews()
 
         // set layout constraints
         
@@ -474,7 +474,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         if gesturesEnabled {
             gesturesEnabled = false
             editImageView.isUserInteractionEnabled = false
-            filterParametersView.isHidden = true
+            //filterParametersView.isHidden = true
         }
     }
     
@@ -498,7 +498,6 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
 
         for gesture in [swipeDown, swipeUp, swipeRight, swipeLeft] {
             gesture.cancelsTouchesInView = false // allows touch to trickle down to subviews
-            //view.addGestureRecognizer(gesture)
             view.addGestureRecognizer(gesture)
             gesture.delegate = self
         }
@@ -525,14 +524,10 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
                 case UISwipeGestureRecognizer.Direction.up:
                     //log.verbose("Swiped Up")
                     showModalViews()
-                    //optionsController?.show()
-                    //showFilterSettings()
                     break
                     
                 case UISwipeGestureRecognizer.Direction.down:
-                    //hideFilterSettings()
                     hideModalViews()
-                    //optionsController?.hide()
                     //log.verbose("Swiped Down")
                     break
                     
@@ -589,51 +584,59 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     
     // convenience function to hide all modal views
     func hideModalViews(){
-        
-        self.coordinator?.hideSubcontrollersRequest()
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-        
-        // go through the modal views and hide them if they are not already hidden
-        // NOTE: if any more modal views are added, remmber to add them this list
-        for view in [ menuView ] {
-            if let v = view {
-                if !v.isHidden {
-                    // add to the list so that they will be restored later
-                    hiddenViewList.append(v)
-                    v.isHidden = true
+        DispatchQueue.main.async(execute: { () -> Void in
+            
+            self.coordinator?.hideSubcontrollersRequest()
+            self.navigationController?.setNavigationBarHidden(true, animated: false)
+            
+            // go through the modal views and hide them if they are not already hidden
+            // NOTE: if any more modal views are added, remmber to add them this list
+            for view in [ self.menuView ] {
+                if let v = view {
+                    if !v.isHidden {
+                        // add to the list so that they will be restored later
+                        self.hiddenViewList.append(v)
+                        v.isHidden = true
+                    }
                 }
             }
-        }
-        
-        filterParametersView.collapse()
-        filterParametersView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: filterParametersView.frame.size.height)
-
+            
+            // collapse filter pamaeters and move to top of screen
+            self.filterParametersView.collapse()
+            self.filterParametersView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: self.filterParametersView.frame.size.height)
+        })
     }
     
     
     // function to restore all modal views that were previously hidden
     func showModalViews() {
         
-        self.coordinator?.showSubcontrollersRequest()
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-
-        // for other views, use the hidden list
-        if hiddenViewList.count > 0 {
-            for view in hiddenViewList {
-                if let v = view {
-                    v.isHidden = false
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.coordinator?.showSubcontrollersRequest()
+            self.navigationController?.setNavigationBarHidden(false, animated: false)
+            
+            // for other views, use the hidden list
+            if self.hiddenViewList.count > 0 {
+                for view in self.hiddenViewList {
+                    if let v = view {
+                        v.isHidden = false
+                    }
+                    self.hiddenViewList = []
                 }
-                hiddenViewList = []
             }
-        }
-        
-        if filterParametersView.numVisibleParams > 0 {
-            filterParametersView.expand()
-            self.view.bringSubviewToFront(filterParametersView)
-            filterParametersView.setNeedsDisplay()
-        }
-        filterParametersView.anchorAndFillEdge(.top, xPad: 0, yPad: topBarHeight, otherSize: filterParametersView.frame.size.height)
-
+            
+            //if filterParametersView.numVisibleParams > 0 {
+            self.filterParametersView.isHidden = false
+            self.filterParametersView.expand()
+            //self.view.bringSubviewToFront(filterParametersView)
+            self.filterParametersView.setNeedsDisplay()
+            self.filterParametersView.setNeedsLayout()
+            //}
+            self.filterParametersView.anchorAndFillEdge(.top, xPad: 0, yPad: self.topBarHeight, otherSize: self.filterParametersView.frame.size.height)
+            //self.filterParametersView.logSizes()//debug
+            
+            self.view.sendSubviewToBack(self.editImageView)
+        })
     }
     
 
@@ -645,21 +648,23 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     
     
     func changeFilterTo(_ key:String){
-        //TODO: make user accept changes before applying? (Add buttons to parameter display)
-        // setup the filter descriptor
-        //if (key != filterManager.getCurrentFilterKey()){
-        if (key != currFilterKey){
-            log.debug("Filter Selected: \(key)")
-            currFilterKey = key
-            filterManager.setCurrentFilterKey(key)
-            currFilterDescriptor = filterManager.getFilterDescriptor(key:key)
-            updateCurrentFilter()
-        } else {
-            // something other than the filter changed
-            self.editImageView.updateImage()
-        }
-        self.showFilterSettings()
-   }
+        DispatchQueue.main.async(execute: { () -> Void in
+            //TODO: make user accept changes before applying? (Add buttons to parameter display)
+            // setup the filter descriptor
+            //if (key != filterManager.getCurrentFilterKey()){
+            if (key != self.currFilterKey){
+                log.debug("Filter Selected: \(key)")
+                self.currFilterKey = key
+                self.filterManager.setCurrentFilterKey(key)
+                self.currFilterDescriptor = self.filterManager.getFilterDescriptor(key:key)
+                self.updateCurrentFilter()
+            } else {
+                // something other than the filter changed
+                self.editImageView.updateImage()
+            }
+            self.showFilterSettings()
+        })
+    }
     
     
     func filterChanged(){
@@ -669,8 +674,11 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     // retrive current settings from FilterManager and store locally
     func updateCurrentFilter(){
         if (currFilterKey != nil) {
-            editImageView.setFilter(key:currFilterKey!)
-            filterParametersView.setFilter(currFilterDescriptor)
+            DispatchQueue.main.async(execute: { () -> Void in
+                self.editImageView.setFilter(key:self.currFilterKey!)
+                self.filterParametersView.setFilter(self.currFilterDescriptor)
+                self.filterParametersView.delegate = self
+            })
         }
     }
     
@@ -683,16 +691,20 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     fileprivate func showFilterSettings(){
         //self.coordinator?.hideSubcontrollersRequest()
         if (currFilterDescriptor != nil) {
-            filterParametersView.isHidden = false
-            filterParametersView.expand()
+            DispatchQueue.main.async(execute: { () -> Void in
+                self.filterParametersView.isHidden = false
+                self.filterParametersView.expand()
+            })
         }
     }
     
     fileprivate func hideFilterSettings(){
-        self.coordinator?.showSubcontrollersRequest()
-        //filterParametersView.isHidden = true
-        filterSettingsShown = false
-        filterParametersView.collapse()
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.coordinator?.showSubcontrollersRequest()
+            //filterParametersView.isHidden = true
+            self.filterSettingsShown = false
+            self.filterParametersView.collapse()
+        })
     }
     
     func toggleFilterSettings(){
@@ -878,9 +890,10 @@ extension BasicEditViewController: FilterParametersViewDelegate {
         DispatchQueue.main.async(execute: { () -> Void in
             EditManager.savePreviewFilter()
             self.showMessage("Effect applied", time:0.5)
+            self.filterParametersView.setFilter(EditManager.getPreviewFilter())
             self.editImageView.updateImage()
-            self.hideModalViews()
             self.coordinator?.showSubcontrollersRequest()
+            self.showModalViews()
        })
     }
     
@@ -889,8 +902,9 @@ extension BasicEditViewController: FilterParametersViewDelegate {
         // restore saved parameters
         currFilterDescriptor?.restoreParameters()
         EditManager.popFilter()
-        self.hideModalViews()
         DispatchQueue.main.async(execute: { () -> Void in
+            self.showModalViews()
+            self.filterParametersView.setFilter(EditManager.getPreviewFilter())
             self.editImageView.updateImage()
             self.coordinator?.showSubcontrollersRequest()
          })

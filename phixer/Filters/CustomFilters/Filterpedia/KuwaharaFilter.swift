@@ -50,6 +50,18 @@ class KuwaharaFilter: CIFilter
     {
         inputRadius = 15
     }
+    
+    
+    override func setValue(_ value: Any?, forKey key: String) {
+        switch key {
+        case "inputImage":
+            inputImage = value as? CIImage
+        case "inputRadius":
+            inputRadius = value as! CGFloat
+        default:
+            log.error("Invalid key: \(key)")
+        }
+    }
         
     let kuwaharaKernel = CIKernel(source:
         "kernel vec4 kuwahara(sampler image, float r) \n" +

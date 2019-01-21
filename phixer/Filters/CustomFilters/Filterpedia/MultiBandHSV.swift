@@ -160,6 +160,32 @@ class MultiBandHSV: CIFilter
                 kCIAttributeType: kCIAttributeTypePosition3],
             ]
     }
+
+    override func setValue(_ value: Any?, forKey key: String) {
+        switch key {
+        case "inputImage":
+            inputImage = value as? CIImage
+        case "inputRedShift":
+            inputRedShift = value as! CIVector
+        case "inputOrangeShift":
+            inputOrangeShift = value as! CIVector
+        case "inputYellowShift":
+            inputYellowShift = value as! CIVector
+        case "inputGreenShift":
+            inputGreenShift = value as! CIVector
+        case "inputAquaShift":
+            inputAquaShift = value as! CIVector
+        case "inputBlueShift":
+            inputBlueShift = value as! CIVector
+        case "inputPurpleShift":
+            inputPurpleShift = value as! CIVector
+        case "inputMagentaShift":
+            inputMagentaShift = value as! CIVector
+        default:
+            log.error("Invalid key: \(key)")
+        }
+    }
+
     
     override var outputImage: CIImage?
     {

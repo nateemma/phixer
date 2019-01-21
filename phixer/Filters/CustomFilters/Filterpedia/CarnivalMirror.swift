@@ -37,6 +37,25 @@ class CarnivalMirror: CIFilter{
         inputVerticalAmount = 20
     }
     
+    
+    override func setValue(_ value: Any?, forKey key: String) {
+        switch key {
+        case "inputImage":
+            inputImage = value as? CIImage
+        case "inputHorizontalWavelength":
+            inputHorizontalWavelength = value as! CGFloat
+        case "inputHorizontalAmount":
+            inputHorizontalAmount = value as! CGFloat
+        case "inputVerticalWavelength":
+            inputVerticalWavelength = value as! CGFloat
+        case "inputVerticalAmount":
+            inputVerticalAmount = value as! CGFloat
+        default:
+            log.error("Invalid key: \(key)")
+        }
+    }
+
+    
     override var attributes: [String : Any]{
         return [
             kCIAttributeFilterDisplayName: "Carnival Mirror",

@@ -221,7 +221,7 @@ class LensFlare: CIFilter {
     }
     
     
-    let sunbeamsFilter = CIFilter(name: "CISunbeamsGenerator", withInputParameters: ["inputStriationStrength": 0])
+    let sunbeamsFilter = CIFilter(name: "CISunbeamsGenerator", parameters: ["inputStriationStrength": 0])
     
     var colorKernel = CIColorKernel(source:
         "float brightnessWithinHexagon(vec2 coord, vec2 center, float v)" +

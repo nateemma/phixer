@@ -112,6 +112,7 @@ class EditManager {
     }
     
     
+    
     // add a Preview Filter, which is displayed in the output, but not saved to the filter list
     // NIL is OK, it just removes the preview filter
     public static func addPreviewFilter(_ filter:FilterDescriptor?){
@@ -127,6 +128,14 @@ class EditManager {
     }
 
     
+    
+    // get the current preview filter
+    public static func getPreviewFilter() -> FilterDescriptor? {
+        return EditManager.previewFilter
+    }
+    
+    
+    
     // add the previewed filter to the list (i.e. make it permanent)
     public static func savePreviewFilter(){
         EditManager.addFilter(previewFilter)
@@ -134,6 +143,7 @@ class EditManager {
         addPreviewFilter(filterManager?.getFilterDescriptor(key: FilterDescriptor.nullFilter))
     }
 
+   
     
     // apply all filters in the list to the supplied image, excluding the preview image
     // Done this way so that you can call using any image, not just the static (shared) input image

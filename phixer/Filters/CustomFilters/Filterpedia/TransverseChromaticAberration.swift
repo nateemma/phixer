@@ -66,6 +66,23 @@ class TransverseChromaticAberration: CIFilter
         ]
     }
     
+    
+    override func setValue(_ value: Any?, forKey key: String) {
+        switch key {
+        case "inputImage":
+            inputImage = value as? CIImage
+       case "inputBlur":
+            inputBlur = value as! CGFloat
+        case "inputFalloff":
+            inputFalloff = value as! CGFloat
+        case "inputSamples":
+            inputSamples = value as! CGFloat
+        default:
+            log.error("Invalid key: \(key)")
+        }
+    }
+    
+    
     let transverseChromaticAberrationKernel = CIKernel(source:
         "kernel vec4 motionBlur(sampler image, vec2 size, float sampleCount, float start, float blur) {" +
         "  int sampleCountInt = int(floor(sampleCount));" +

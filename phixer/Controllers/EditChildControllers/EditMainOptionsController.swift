@@ -122,12 +122,15 @@ class EditMainOptionsController: EditBaseMenuController {
     
     
     func styleTransferHandler(){
-        self.coordinator?.activateRequest(id: ControllerIdentifier.browseStyleTransfer)
+        filterManager.setCurrentCategory(FilterManager.styleTransferCategory)
+        self.coordinator?.activateRequest(id: ControllerIdentifier.styleGallery)
     }
 
     func colorFiltersHandler(){
-        // jump straight to the 'Favourites' category
-        filterManager.setCurrentCategory(FilterManager.favouriteCategory)
+        // if category hasn't been set, jump to favourites, otherwise go to previous choice
+        if filterManager.getCurrentCategory() == FilterManager.defaultCategory {
+            filterManager.setCurrentCategory(FilterManager.favouriteCategory)
+        }
         self.coordinator?.activateRequest(id: ControllerIdentifier.filterGallery)
     }
     
