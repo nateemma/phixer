@@ -97,8 +97,10 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     
     // handle update of the UI
     override func updateDisplays() {
+        log.verbose("updating")
         DispatchQueue.main.async(execute: { () -> Void in
             self.editImageView.updateImage()
+            self.filterParametersView.update()
         })
     }
 
@@ -118,6 +120,15 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
       }
     }
 
+    // handle the end request. Check to see if there is anything to save before exiting
+    override func end() {
+        log.debug("Checking applied filters")
+        if EditManager.getAppliedCount() <= 0 {
+            self.dismiss()
+        } else {
+            displayUnsavedFiltersAlert()
+        }
+    }
     
     /////////////////////////////
     // INIT
@@ -189,6 +200,9 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         
         checkPhotoAuth()
 
+        // TMP DBG
+        //ImageManager.listAllAlbums()
+        //ImageManager.listPhotoAlbum("All Photos")
   
         // do layout
         
@@ -377,13 +391,15 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     
     @objc func resetDidPress(){
         log.debug("reset")
-       self.menuView.isHidden = true
+        self.menuView.isHidden = true
         currFilterDescriptor?.reset()
         EditManager.reset()
         EditManager.addPreviewFilter(currFilterDescriptor)
         DispatchQueue.main.async(execute: { () -> Void in
             self.editImageView.updateImage()
-      })
+            self.filterParametersView.update()
+            self.menuView.isHidden = true
+        })
     }
     
     @objc func defaultDidPress(){
@@ -391,9 +407,11 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         currFilterDescriptor?.reset()
         DispatchQueue.main.async(execute: { () -> Void in
             self.editImageView.updateImage()
-       })
+            self.filterParametersView.update()
+            self.menuView.isHidden = true
+        })
     }
-
+    
     @objc func undoDidPress(){
         log.debug("undo")
         // restore saved parameters
@@ -401,7 +419,8 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         EditManager.popFilter()
         DispatchQueue.main.async(execute: { () -> Void in
             self.editImageView.updateImage()
-            //self.menuView.isHidden = true
+            self.filterParametersView.update()
+            self.menuView.isHidden = true
         })
     }
 
@@ -409,6 +428,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         log.debug("help")
         DispatchQueue.main.async(execute: { () -> Void in
             self.coordinator?.helpRequest()
+            self.menuView.isHidden = true
         })
     }
 
@@ -449,9 +469,46 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     }()
     
     
+    //////////////////////////////////////
+    // MARK: - Save Applied filters alert processing
+    //////////////////////////////////////
 
     
-    
+    fileprivate var savePhotoAlert:UIAlertController? = nil
+
+    private func displayUnsavedFiltersAlert() {
+        
+
+        // build the alert if first time
+        if (savePhotoAlert == nil){
+            savePhotoAlert = UIAlertController(title: "Are You Sure?",
+                                               message:"Did you want to save your edited photo before leaving this screen?\n" +
+                                                       "If you leave, the filters will be lost",
+                                               preferredStyle: .alert)
+            
+            // add the OK button
+            let okAction = UIAlertAction(title: "Leave", style: .default) { (action:UIAlertAction) in
+                log.debug("Leaving")
+                self.dismiss()
+            }
+            savePhotoAlert?.addAction(okAction)
+            
+            // add the Cancel Button
+            let cancelAction = UIAlertAction(title: "Cancel", style: .default) { (action:UIAlertAction) in
+                log.debug("Cancel")
+            }
+            savePhotoAlert?.addAction(cancelAction)
+            
+        }
+        
+        // display the dialog
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.present(self.savePhotoAlert!, animated: true, completion:nil)
+        })
+        
+        
+    }
+
     
     //////////////////////////////////////
     // MARK: - Gesture Detection
@@ -723,8 +780,26 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     }
     
     
+    //////////////////////////////////////////
+    // MARK: - Filter Stack
+    //////////////////////////////////////////
+
+    fileprivate var stackView:EditStackView? = nil
     
-    
+    fileprivate func showFilterStack(){
+        stackView = EditStackView()
+        stackView?.frame.size.width = self.view.frame.size.width - 32
+        stackView?.frame.size.height = self.view.frame.size.height * 0.7
+        stackView?.delegate = self
+        
+        self.view.addSubview(stackView!)
+        stackView?.anchorInCenter(width: (stackView?.frame.size.width)!, height: (stackView?.frame.size.height)!)
+    }
+
+    fileprivate func closeStackView() {
+        stackView?.isHidden = true
+        stackView = nil
+    }
     
     //////////////////////////////////////////
     // MARK: - ImagePicker handling
@@ -742,11 +817,9 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     }
     
     
-    //private func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         log.verbose("Image picked")
-        if let asset = info[UIImagePickerController.InfoKey.phAsset] as? PHAsset {
-        //if let asset = info[UIImagePickerController.InfoKey.phAsset]  {
+        if let asset = info[UIImagePickerController.InfoKey.phAsset] as? PHAsset { 
             let assetResources = PHAssetResource.assetResources(for: asset)
             let name = assetResources.first!.originalFilename
             let id = assetResources.first!.assetLocalIdentifier
@@ -755,7 +828,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             ImageManager.setCurrentEditImageName(id)
             //InputSource.setCurrent(source: .edit)
             DispatchQueue.main.async(execute: { () -> Void in
-                self.editImageView.updateImage()
+                self.updateDisplays()
             })
         } else {
             log.error("Error accessing image data")
@@ -793,6 +866,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     func handlePositionRequest(key:String){
         if !key.isEmpty{
             log.verbose("Position Request for parameter: \(key)")
+            hideModalViews()
             disableGestureDetection()
             touchKey = key
             setTouchMode(.filter)
@@ -847,6 +921,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
                 touchKey = ""
             }
             
+            showModalViews()
             enableGestureDetection()
         }
     }
@@ -883,6 +958,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
 // Interfaces to the FilterParameters view
 
 extension BasicEditViewController: FilterParametersViewDelegate {
+ 
 
     func commitChanges(key: String) {
         log.verbose("\(self.getTag()): \(key)")
@@ -936,6 +1012,12 @@ extension BasicEditViewController: FilterParametersViewDelegate {
             self.editImageView.setDisplayMode(.split)
             self.editImageView.updateImage()
             self.setTouchMode(.preview)
+        })
+    }
+    
+    func showStackRequested() {
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.showFilterStack()
         })
     }
     
@@ -1002,3 +1084,12 @@ extension BasicEditViewController: UIGestureRecognizerDelegate {
     }
 }
 
+extension BasicEditViewController: EditStackViewDelegate {
+    func editStackDismiss() {
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.closeStackView()
+        })
+    }
+    
+    
+}

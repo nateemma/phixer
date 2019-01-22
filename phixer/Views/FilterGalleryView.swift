@@ -361,21 +361,13 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     // MARK: - Rendering stuff
     ////////////////////////////////////////////
     
-    /***
-    fileprivate var sampleImageFull:UIImage!
-    fileprivate var blendImageFull:UIImage!
-    fileprivate var sampleImageSmall:UIImage? = nil
-    fileprivate var blendImageSmall:UIImage? = nil
-    ***/
     fileprivate var sample:CIImage? = nil
     fileprivate var blend:CIImage? = nil
     
     
     
     fileprivate func loadInputs(size:CGSize){
-        //sample = ImageManager.getCurrentSampleImage()
-        //sample = ImageManager.getCurrentSampleImage(size:size)
-        sample = InputSource.getCurrentImage(size: size)
+        sample = EditManager.getPreviewImage()?.resize(size: CGSize(width: size.width*6, height: size.height*6))
         blend  = ImageManager.getCurrentBlendImage(size:size)
     }
     

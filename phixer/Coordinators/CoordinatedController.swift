@@ -53,8 +53,9 @@ class CoordinatedController: UIViewController, ControllerDelegate {
         log.error("\(self.getTag) - ERROR: Base class called")
     }
     
+    // prepare to end task. Override in subclass if you need to do anything first (e.g. commit changes). Call dismiss() at the end if you want the VC to exit
     func end() {
-        log.error("\(self.getTag) - ERROR: Base class called")
+        log.debug("\(self.getTag) - Base class called")
         dismiss()
     }
     
@@ -147,16 +148,9 @@ class CoordinatedController: UIViewController, ControllerDelegate {
 
     
     func dismiss(){
-        /*** TODO: better animation?
-        UIView.animate(withDuration: 0.2, animations: {
-            self.view.alpha = 0 }) { _ in
-                self.clearSubviews()
-                self.view.isHidden = true
-        }
- ***/
         self.clearSubviews()
         self.view.isHidden = true
-        self.coordinator?.completionNotification(id: self.getId())
+        self.coordinator?.completionNotification(id: self.getId(), activate: .none)
     }
     
     // get the tag used to identify this controller. IDs are assigned by the Coordinator pattern and are used to track activity
@@ -261,7 +255,8 @@ class CoordinatedController: UIViewController, ControllerDelegate {
     @objc func navbarBackDidPress(){
         log.debug("\(self.getTag()) Back Pressed")
         if self.id != .home {
-            self.dismiss()
+            //self.dismiss()
+            self.end()
         }
     }
     

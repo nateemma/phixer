@@ -155,7 +155,7 @@ class MercurializeFilter: CIFilter
                 kCIAttributeDisplayName: "Light Position",
                 kCIAttributeDefault: CIVector(x: 0, y: 1),
                 kCIAttributeDescription: "Vector defining normalised light position. (0, 0) is bottom left, (1, 1) is top right.",
-                kCIAttributeType: kCIAttributeTypeColor],
+                kCIAttributeType: kCIAttributeTypePosition],
             
             "inputAmbientLightColor": [kCIAttributeIdentity: 0,
                 kCIAttributeClass: "CIColor",

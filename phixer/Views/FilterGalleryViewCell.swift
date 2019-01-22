@@ -114,12 +114,14 @@ class FilterGalleryViewCell: UICollectionViewCell {
     
     fileprivate func loadInputs(){
 
-        let size = (renderView?.frame.size)!
-        
+        //let size = (renderView?.frame.size)!
+        let size = CGSize(width: (renderView?.frame.size.width)! * 6, height: (renderView?.frame.size.height)! * 6)
+
         // downsize input images since we really only need thumbnails
         //sample = ImageManager.getCurrentSampleImage(size:size)
         if FilterGalleryViewCell.sample == nil {
-            FilterGalleryViewCell.sample = InputSource.getCurrentImage()?.resize(size: size)
+            //FilterGalleryViewCell.sample = InputSource.getCurrentImage()?.resize(size: size)
+            FilterGalleryViewCell.sample = EditManager.getPreviewImage()?.resize(size: size)
             FilterGalleryViewCell.blend = ImageManager.getCurrentBlendImage(size:size)
         }
     }

@@ -48,7 +48,7 @@ class HelpCoordinator: Coordinator {
         
         // exit this coordinator
         // TODO: tell mainController first???
-        self.completionNotification(id: self.mainControllerId)
+        self.completionNotification(id: self.mainControllerId, activate: .none)
     }
 
     override func themeUpdatedNotification() {

@@ -48,6 +48,11 @@ class EditManager {
         return EditManager.filteredImage
     }
     
+    // get a subset of the filters applied
+    public static func getFilteredImageAt(position:Int) -> CIImage? {
+        return EditManager.applyFilterSubset(image: EditManager._input, count: position)
+    }
+
     
     // get a 'split preview' image, with the preview filtered image on the left and the filtered image (sans preview) on the right
     // Note that x is specifed in image coordinates, not screen/view coordinates
@@ -83,12 +88,18 @@ class EditManager {
     }
     
     
+    // get the number of applied filters
+    public static func getAppliedCount() -> Int {
+        return EditManager.filterList.count
+    }
+    
+    
     // removes the last filter in the list
     public static func popFilter() {
         log.verbose("Removing filter...")
         // if preview set then remove that, otherwise remove last filter
         
-        if EditManager.previewFilter != nil {
+        if (EditManager.previewFilter != nil) && (EditManager.previewFilter?.key != FilterDescriptor.nullFilter) {
             log.debug("Removed filter:\(String(describing: EditManager.previewFilter?.title))")
             addPreviewFilter(filterManager?.getFilterDescriptor(key: FilterDescriptor.nullFilter))
         } else {
@@ -134,7 +145,12 @@ class EditManager {
         return EditManager.previewFilter
     }
     
+    // get the title associated with the preview filter
+    public static func getPreviewTitle() -> String {
+        return EditManager.previewFilter?.title ?? "(none)"
+    }
     
+
     
     // add the previewed filter to the list (i.e. make it permanent)
     public static func savePreviewFilter(){
@@ -189,6 +205,43 @@ class EditManager {
         
         return outImage
     }
+    
+    
+    // return the image at the requested 'layer', with all lower filters applied
+    public static func applyFilterSubset(image:CIImage?, count:Int) -> CIImage? {
+        
+        guard image != nil else {
+            log.warning("NIL image supplied")
+            return nil
+        }
+        
+        var outImage:CIImage? = image
+        var tmpImage:CIImage? = image
+        
+        // apply the list of filters
+        if filterList.count > 0 {
+            let num = min(count, filterList.count - 1)
+            for i in 0...num {
+                let f = filterList[i]
+                tmpImage = f?.apply(image: outImage)
+                outImage = tmpImage
+            }
+        }
+        
+        return outImage
+
+    }
+    
+    // return the title associated with the filter at the requested layer
+    public static func getTitleAt(position:Int) -> String {
+        if position < filterList.count{
+            return filterList[position]?.title ?? "(unkown)"
+        } else {
+            return "(invalid)"
+        }
+    }
+    
+    
     
 
     // creates a preview mask based on the supplied size usingthe supplied offset

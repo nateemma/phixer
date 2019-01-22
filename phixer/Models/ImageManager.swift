@@ -561,15 +561,22 @@ class ImageManager {
         let smartAlbums = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .any, options: fetchOptions)
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
         fetchOptions.includeHiddenAssets = false
-
+        
         log.debug("Smart Albums:")
         smartAlbums.enumerateObjects { (assetCollection, index, stop) in
             log.debug("[\(index)]:\(assetCollection)")
             let assets = PHAsset.fetchAssets(in: assetCollection, options: fetchOptions)
-            if let asset = assets.firstObject {
-                log.debug("...\(asset) ")
+            
+            assets.enumerateObjects{(object: AnyObject!,
+                count: Int,
+                stop: UnsafeMutablePointer<ObjCBool>) in
+                log.debug("asset[\(count)}:\n \(object)")
             }
-       }
+            
+            //            if let asset = assets.firstObject {
+            //                log.debug("...\(asset) ")
+            //            }
+        }
  /***
         let topLevelUserCollections = PHCollectionList.fetchTopLevelUserCollections(with: fetchOptions)
         log.debug("Top Level User Albums:")
@@ -586,6 +593,28 @@ class ImageManager {
  ***/
     }
     
+    
+    public static func listAllAlbums(){
+        let fetchOptions = PHFetchOptions()
+        let smartAlbums = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .any, options: fetchOptions)
+        
+        ////fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+        fetchOptions.includeHiddenAssets = true
+        
+        log.debug("Smart Albums:")
+        smartAlbums.enumerateObjects { (assetCollection, index, stop) in
+            log.debug("[\(index)]:\(assetCollection)")
+        }
+        
+        let topLevelUserCollections = PHCollectionList.fetchTopLevelUserCollections(with: fetchOptions)
+        log.debug("Top Level User Albums:")
+        topLevelUserCollections.enumerateObjects { (assetCollection, index, stop) in
+            log.debug("[\(index)]:\(assetCollection)")
+        }
+        
+     }
+    
+    
     // returns the name (Asset) of the latest photo in the Camera Roll. Useful as a default setting
     // NOTE: returns asynchronously via the 'completion(name)' callback
 
@@ -594,6 +623,7 @@ class ImageManager {
         
         // TMP DBG:
         //listPhotoAlbum()
+        //listAllAlbums() // tmp
         
         let fetchOptions = PHFetchOptions()
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]

@@ -21,6 +21,7 @@ protocol FilterParametersViewDelegate: class {
     func cancelChanges(key:String)
     func fullScreenRequested()
     func splitScreenrequested()
+    func showStackRequested()
     func showFiltersRequested()
     func showOriginalRequested()
 }
@@ -55,9 +56,10 @@ class FilterParametersView: UIView {
     var cancelButton: SquareButton? = nil
     var screenModeButton: SquareButton? = nil
     var filterModeButton: SquareButton? = nil
+    var stackButton: SquareButton? = nil
 
     
-    var sliders: [UIView] = []
+    var parameterRow: [UIView] = []
     
     var viewList:[UIView] = []
     
@@ -94,12 +96,7 @@ class FilterParametersView: UIView {
         self.showControls = confirm
     }
    
-    
-    
-    //////////////////////////////
-    // Accessors
-    //////////////////////////////
- 
+  
     private var savedColor:UIColor? = UIColor.clear
 
     // Collapses the detail part of the view, leaving just the title bar
@@ -150,62 +147,83 @@ class FilterParametersView: UIView {
             
             layoutUI()
             
-            logSizes()
+//            logSizes()
 
         } else {
             log.error("NIL filter descriptor supplied")
         }
     }
-
+    
+    
+    public func update() {
+        layoutUI()
+    }
+ 
     //////////////////////////////
-    // Init
+    // Layout
     //////////////////////////////
     
+    
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        // don't do anything until filter is set
+    }
 
+
+    fileprivate func layoutUI(){
+        clearSubviews()
+        self.isHidden = false
+        initViews()
+        layoutTitle()
+        layoutParameters()
+        finishLayout() // variable parameters, so need final pass
+    }
+
+    
     
     fileprivate func initViews(){
-  
-
+        
         //if (!initDone && (currFilterDesc != nil)){
         //if (currFilterDesc != nil){
         
         clearSubviews()
         
-            self.backgroundColor = viewBackgroundColor.withAlphaComponent(0.6)
-            //self.alpha = 0.9
-            
-            viewList = []
-            fullScreenEnabled = true
-            showFiltersEnabled = true
+        self.backgroundColor = viewBackgroundColor.withAlphaComponent(0.6)
+        //self.alpha = 0.9
+        
+        viewList = []
+        fullScreenEnabled = true
+        showFiltersEnabled = true
         
         // generate each time, otherwise stuff hangs around
-
+        
         titleLabel = UILabel()
         titleView = UIView()
         parameterView = UIView()
         scrollView = nil
         
-            //self.frame.size.width = self.frame.size.width - 16.0
-            // height: title + sliders + buttons (or not)
-            var f1, f2: CGFloat
-
-            f1 = 1.6*CGFloat(currFilterDesc?.getNumDisplayableParameters() ?? 0) + 1.6
-            f2 = CGFloat(sliderHeight)
-            self.frame.size.height = max((f1 * f2).rounded(), 3*f2)
-            
-            if (scrollView == nil) {
-                var frame = self.frame
-                frame.size.height = frame.size.height - titleView.frame.size.height
-                scrollView = UIScrollView(frame: frame)
-            }
-            
-            initDone = true
+        //self.frame.size.width = self.frame.size.width - 16.0
+        // height: title + parameterRow + buttons (or not)
+        var f1, f2: CGFloat
+        
+        f1 = 1.6*CGFloat(currFilterDesc?.getNumDisplayableParameters() ?? 0) + 1.6
+        f2 = CGFloat(sliderHeight)
+        self.frame.size.height = max((f1 * f2).rounded(), 3*f2)
+        
+        if (scrollView == nil) {
+            var frame = self.frame
+            frame.size.height = frame.size.height - titleView.frame.size.height
+            scrollView = UIScrollView(frame: frame)
+        }
+        
+        initDone = true
         //}
     }
     
     
+
     fileprivate func layoutTitle(){
-        
         
         // add control icons to title bar
         
@@ -235,7 +253,13 @@ class FilterParametersView: UIView {
         }
         filterModeButton?.addTarget(self, action: #selector(self.filterModeDidPress), for: .touchUpInside)
         
-        for b in [acceptButton, cancelButton, screenModeButton, filterModeButton] {
+        
+        stackButton = SquareButton(bsize: side*0.75) // bigger icon
+        stackButton?.setImageAsset("ic_layers_3")
+        stackButton?.addTarget(self, action: #selector(self.stackDidPress), for: .touchUpInside)
+
+        
+        for b in [acceptButton, cancelButton, screenModeButton, filterModeButton, stackButton] {
             b?.backgroundColor = theme.subtitleColor.withAlphaComponent(0.8)
             b?.setTintable(true)
             b?.highlightOnSelection(true)
@@ -245,12 +269,18 @@ class FilterParametersView: UIView {
 
         
         titleLabel.frame.size.width = (self.frame.size.width - 4.0*side).rounded()
-        titleLabel.frame.size.height = (CGFloat(sliderHeight*0.8)).rounded()
+        titleLabel.frame.size.height = (CGFloat(sliderHeight)).rounded()
         titleLabel.textColor = titleTextColor
-        titleLabel.font = UIFont.systemFont(ofSize: 18)
-        titleLabel.text = currFilterDesc?.title ?? "No Filter"
+        titleLabel.font = UIFont.systemFont(ofSize: 14)
+        let currName = EditManager.getPreviewFilter()?.title  ?? "(No Filter)"
+        let numApplied = EditManager.getAppliedCount()
+        //titleLabel.text = "\(currName)   [\(numApplied)]"
+        titleLabel.text = "\(currName)"
         titleLabel.textAlignment = .center
-        titleLabel.fitTextToBounds()
+        //titleLabel.fitTextToBounds()
+        titleLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
+        titleLabel.numberOfLines = 0
+
         titleView.addSubview(titleLabel)
 
         titleView.frame.size.width = (self.frame.size.width - 6.0).rounded()
@@ -264,7 +294,13 @@ class FilterParametersView: UIView {
         cancelButton?.anchorToEdge(.right, padding: 0, width: (cancelButton?.frame.size.width)!, height: (cancelButton?.frame.size.height)!)
         screenModeButton?.align(.toTheRightCentered, relativeTo: acceptButton!, padding: 12, width: side, height: side)
         filterModeButton?.align(.toTheLeftCentered, relativeTo: cancelButton!, padding: 12, width: side, height: side)
+        stackButton?.align(.toTheLeftCentered, relativeTo: filterModeButton!, padding: 8, width: side, height: side)
         titleLabel.alignBetweenHorizontal(align: .toTheRightCentered, primaryView: screenModeButton!, secondaryView: filterModeButton!, padding: 2, height: AutoHeight)
+        if numApplied > 0 {
+            stackButton?.isHidden = false
+       } else {
+            stackButton?.isHidden = true
+        }
 
         log.verbose("Filter Title: \(titleLabel.text) h:\(titleLabel.frame.size.height) w:\(titleLabel.frame.size.width)")
     }
@@ -289,7 +325,7 @@ class FilterParametersView: UIView {
         log.verbose("Laying out parameters...")
         parameterView.backgroundColor = UIColor.clear
         scrollView?.backgroundColor = UIColor.clear
-        sliders = []
+        parameterRow = []
         gsliders = []
         pKey = []
         numVisibleParams = 0
@@ -448,7 +484,8 @@ class FilterParametersView: UIView {
                         }
                         
                         pView.isUserInteractionEnabled = true
-                        sliders.append(pView)
+                        pView.tag = i
+                        parameterRow.append(pView)
                         parameterView.addSubview(pView)
                         numVisibleParams = numVisibleParams + 1
                         i = i + 1
@@ -469,10 +506,12 @@ class FilterParametersView: UIView {
     // Attaches an action handler based on the slider index
     fileprivate func attachSliderAction(_ slider:UISlider){
 
-        slider.addTarget(self, action: #selector(self.sliderValueDidChange), for: .valueChanged)
+        slider.addTarget(self, action: #selector(self.sliderTouched), for: .touchDown)
         
+        slider.addTarget(self, action: #selector(self.sliderValueDidChange), for: .valueChanged)
+
         // shared callback for when user ends changing any slider (intended as an update trigger, don't need the value)
-        slider.addTarget(self, action: #selector(self.slidersDidEndChange), for: .touchUpInside)
+        slider.addTarget(self, action: #selector(self.silderDidEndChange), for: .touchUpInside)
         
         slider.isContinuous = true
     }
@@ -482,10 +521,12 @@ class FilterParametersView: UIView {
     // Attaches an action handler based on the slider index
     fileprivate func attachColorSliderAction(_ gslider:GradientSlider){
         
+        gslider.addTarget(self, action: #selector(self.sliderTouched), for: .touchDown)
+        
         gslider.addTarget(self, action: #selector(self.colorSliderValueDidChange), for: .valueChanged)
-       
+
         // shared callback for when user ends changing any slider (intended as an update trigger, don't need the value)
-        gslider.addTarget(self, action: #selector(self.gslidersDidEndChange), for: .touchUpInside)
+        gslider.addTarget(self, action: #selector(self.colorSliderDidEndChange), for: .touchUpInside)
     }
     
     
@@ -523,15 +564,15 @@ class FilterParametersView: UIView {
 
         // layout sub-views
         
-        // Place the tile at the top, buttons at the bottom and sliders distributed in between
-        titleView.anchorAndFillEdge(.top, xPad: 2.0, yPad: 2.0, otherSize: titleView.frame.size.height)
+        // Place the tile at the top, buttons at the bottom and parameterRow distributed in between
+        titleView.anchorAndFillEdge(.top, xPad: 1.0, yPad: 1.0, otherSize: titleView.frame.size.height)
 
         if ((currFilterDesc?.getNumDisplayableParameters())! > 0){
-            parameterView.groupAndFill(group: .vertical, views: sliders, padding: 2.0)
+            parameterView.groupAndFill(group: .vertical, views: parameterRow, padding: 1.0)
             scrollView?.alignAndFill(align: .underCentered, relativeTo: titleView, padding: 0, offset: 0)
         }
         
-        logSizes()
+//        logSizes()
     }
     
     
@@ -547,22 +588,6 @@ class FilterParametersView: UIView {
         for v in self.subviews{
             v.removeFromSuperview()
         }
-    }
-    
-    
-    fileprivate func layoutUI(){
-        clearSubviews()
-        self.isHidden = false
-        initViews()
-        layoutTitle()
-        layoutParameters()
-        finishLayout()
-    }
-    
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        // don't do anything until filter is set
     }
     
     func logSizes(_ f:String = #function, _ l:Int = #line){
@@ -606,7 +631,7 @@ class FilterParametersView: UIView {
         
         if delegate == nil { log.warning("No delegate") }
 
-        // value is set as sliders are moved, so no need to do anything except clean up and return
+        // value is set as parameterRow are moved, so no need to do anything except clean up and return
         delegate?.commitChanges(key: (currFilterDesc?.key)!)
         //dismiss()
 
@@ -657,6 +682,22 @@ class FilterParametersView: UIView {
         }
     }
     
+    @objc func stackDidPress() {
+        if delegate == nil { log.warning("No delegate") }
+        log.debug("\(EditManager.getAppliedCount()) filters applied")
+        delegate?.showStackRequested()
+    }
+    
+    // when a slider (any type) is touched, hide all of the other rows
+    @objc func sliderTouched(_ sender:UIView!){
+        let index = sender.tag
+        for v in parameterRow {
+            if v.tag != index {
+                v.isHidden = true
+            }
+        }
+    }
+    
     @objc func sliderValueDidChange(_ sender:UISlider!){
         //log.verbose("change: \(pKey[sender.tag]) = \(sender.value)")
         if !(currFilterDesc?.slow)! { // only update during drag if not a slow filter
@@ -676,19 +717,29 @@ class FilterParametersView: UIView {
                 self.delegate?.settingsChanged()
             })
         }
-}
+    }
     
-    @objc func slidersDidEndChange(_ sender:UISlider!){
+    @objc func silderDidEndChange(_ sender:UISlider!){
         log.verbose("end: \(pKey[sender.tag]) = \(sender.value)")
-        currFilterDesc?.setParameter(pKey[sender.tag], value: sender.value)
+        let index = sender.tag
+        // unhide the rows
+        for v in parameterRow {
+            v.isHidden = false
+        }
+        currFilterDesc?.setParameter(pKey[index], value: sender.value)
         DispatchQueue.main.async(execute: { () -> Void in
             self.delegate?.settingsChanged()
         })
     }
     
-    @objc func gslidersDidEndChange(_ sender:GradientSlider!){
+    @objc func colorSliderDidEndChange(_ sender:GradientSlider!){
         let index = sender.tag
         //log.verbose("Settings changed for color slider \(pKey[index])")
+
+        // unhide the rows
+        for v in parameterRow {
+            v.isHidden = false
+        }
         currFilterDesc?.setColorParameter(pKey[index], color: CIColor(color: (gsliders[index]?.getSelectedColor())!))
         DispatchQueue.main.async(execute: { () -> Void in
             self.delegate?.settingsChanged()

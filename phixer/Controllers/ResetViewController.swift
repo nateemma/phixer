@@ -134,26 +134,6 @@ class ResetViewController: CoordinatedController, UINavigationControllerDelegate
     }
 
     
-    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
-        if ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight)){
-            log.verbose("### Detected change to: Landscape")
-        } else {
-            log.verbose("### Detected change to: Portrait")
-            
-        }
-        //TODO: animate and maybe handle before rotation finishes
-        self.viewDidLoad()
-    }
-    
-    
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        log.error("Memory Warning")
-        // Dispose of any resources that can be recreated.
-    }
-
-    
     
     
     //////////////////////////////////////

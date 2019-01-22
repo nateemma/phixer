@@ -48,7 +48,8 @@ class AppCoordinator: Coordinator {
 
         window.rootViewController = Coordinator.navigationController
         window.makeKeyAndVisible()
-
+        
+        
         // reset controller/coordinator vars
         self.completionHandler = completion
         self.subCoordinators = [:]

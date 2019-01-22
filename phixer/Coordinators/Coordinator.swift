@@ -169,7 +169,7 @@ class Coordinator: CoordinatorDelegate {
     
 
     // default notifyCompletion: removes
-    func completionNotification(id: ControllerIdentifier) {
+    func completionNotification(id: ControllerIdentifier, activate: ControllerIdentifier) {
         
         if id == self.mainControllerId {
             log.verbose("Main Controller finished: \(id.rawValue)")
@@ -177,6 +177,10 @@ class Coordinator: CoordinatorDelegate {
         } else {
             log.verbose("Sub-Controller finished: \(id.rawValue)")
             deactivateSubController(id:id)
+        }
+        
+        if activate != .none {
+            activateRequest(id: activate)
         }
 
     }

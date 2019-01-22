@@ -62,14 +62,18 @@ class EditBaseToolController: CoordinatedController, SubControllerDelegate {
         log.warning("Base class called")
     }
     
-    func commit() {
+    func commitChanges() {
         log.warning("Base class called")
+        EditManager.savePreviewFilter()
+        self.coordinator?.updateRequest(id: self.id)
         dismiss()
     }
     
-    func cancel(){
+    func cancelChanges(){
         // this is OK as a default implementation since we inherently don't need to save or commit anything
+        log.debug("default")
         EditManager.addPreviewFilter(nil)
+        self.coordinator?.updateRequest(id: self.id)
         dismiss()
     }
     
@@ -220,16 +224,15 @@ class EditBaseToolController: CoordinatedController, SubControllerDelegate {
 
     
     //////////////////////////////////////////
-    // MARK: - Touch Handler
+    // MARK: - Tool Banner Touch Handlers
     //////////////////////////////////////////
     
     @objc func commitDidPress(){
-        commit()
-        dismiss()
+        self.commitChanges()
     }
     
     @objc func cancelDidPress(){
-        dismiss()
+        self.cancelChanges()
     }
 
     

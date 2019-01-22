@@ -26,8 +26,8 @@ protocol CoordinatorDelegate: class {
     func endRequest()
     
     
-    // notifies the coordinator that a controller or coordinator has ended
-    func completionNotification (id: ControllerIdentifier)
+    // notifies the coordinator that a controller or coordinator has ended, and request the activation of another coordinator (set to .none if not needed)
+    func completionNotification (id: ControllerIdentifier, activate: ControllerIdentifier)
     
     // requests activation of controller (using the known list of controllers)
     func activateRequest (id: ControllerIdentifier)

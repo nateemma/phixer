@@ -895,6 +895,7 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
 
 extension FilterDetailsViewController: FilterParametersViewDelegate {
     
+    
     func fullScreenRequested() {
         DispatchQueue.main.async(execute: { () -> Void in
             self.editImageView.setDisplayMode(.full)
@@ -911,6 +912,11 @@ extension FilterDetailsViewController: FilterParametersViewDelegate {
         })
     }
     
+    
+    func showStackRequested() {
+        // ignore
+    }
+
     func showFiltersRequested() {
         DispatchQueue.main.async(execute: { () -> Void in
             self.editImageView.setFilterMode(.preview)

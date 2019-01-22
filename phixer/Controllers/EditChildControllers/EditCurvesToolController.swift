@@ -41,15 +41,19 @@ class EditCurvesToolController: EditBaseToolController {
         buildView(toolview)
     }
     
-    override func commit() {
+    override func commitChanges() {
         // Save preview filter(s)
         // TODO: modify EditManager to handle multiple preview filters
-        EditManager.savePreviewFilter()
-        dismiss()
+        super.commitChanges()
     }
     
-    
-    
+    override func cancelChanges() {
+        // Save preview filter(s)
+        // TODO: modify EditManager to handle multiple preview filters
+        super.cancelChanges()
+    }
+
+   
     ////////////////////
     // Tool-specific code
     ////////////////////
