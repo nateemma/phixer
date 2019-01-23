@@ -28,11 +28,9 @@ class EditBaseToolController: CoordinatedController, SubControllerDelegate {
     var toolView: UIView! = UIView() // this will be passed to the subclass
 
     
-    var screenSize : CGRect = CGRect.zero
     var displayWidth : CGFloat = 0.0
     var displayHeight : CGFloat = 0.0
     
-    let buttonSize : CGFloat = 48.0
 
     
     

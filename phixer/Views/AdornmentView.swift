@@ -23,9 +23,6 @@ class AdornmentView: UIView {
     
    //MARK: - Class variables:
     
-    let bannerHeight : CGFloat = 64.0
-    let buttonSize : CGFloat = 32.0
-
     var layoutDone: Bool = false
 
     var adornmentList:[Adornment] = []
@@ -113,8 +110,8 @@ class AdornmentView: UIView {
             }
             
             // distribute the adornments evenly
-            let pad = (self.frame.size.width - (CGFloat (adornmentList.count) * buttonSize)) / CGFloat (adornmentList.count + 1)
-            self.groupInCenter(group: .horizontal, views: adornmentViewList, padding: pad, width: buttonSize, height: bannerHeight)
+            let pad = (self.frame.size.width - (CGFloat (adornmentList.count) * UISettings.buttonSide)) / CGFloat (adornmentList.count + 1)
+            self.groupInCenter(group: .horizontal, views: adornmentViewList, padding: pad, width: UISettings.buttonSide, height: UISettings.panelHeight)
         }
 
     }
@@ -132,10 +129,10 @@ class AdornmentView: UIView {
     
     private func makeAdornmentView(index: Int, adornment:Adornment) -> UIView? {
         let view:UIView? = UIView()
-        view?.frame.size.width = buttonSize
-        view?.frame.size.height = bannerHeight
+        view?.frame.size.width = UISettings.buttonSide
+        view?.frame.size.height = UISettings.panelHeight
         
-        let btn = SquareButton(bsize: buttonSize)
+        let btn = SquareButton(bsize: UISettings.buttonSide)
         if !(adornment.icon.isEmpty) {
             btn.setImageAsset(adornment.icon)
         } else if (adornment.view != nil) {
@@ -155,8 +152,8 @@ class AdornmentView: UIView {
         view?.addSubview(btn)
         view?.addSubview(label)
         
-        btn.anchorToEdge(.top, padding: 0, width: buttonSize, height: buttonSize)
-        label.align(.underCentered, relativeTo: btn, padding: 0, width: buttonSize, height: bannerHeight-buttonSize)
+        btn.anchorToEdge(.top, padding: 0, width: UISettings.buttonSide, height: UISettings.buttonSide)
+        label.align(.underCentered, relativeTo: btn, padding: 0, width: UISettings.buttonSide, height: UISettings.panelHeight-UISettings.buttonSide)
         
         return view
     }

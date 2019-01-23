@@ -25,8 +25,6 @@ class DefaultControllerMenuView: UIView {
     
     weak var delegate: DefaultControllerMenuDelegate? = nil
     
-    let bannerHeight : CGFloat = 64.0
-
     
     ////////////////////
     // Default Menu - override func handleMenu() in the Controller subclass to provide a differet set of options
@@ -42,16 +40,13 @@ class DefaultControllerMenuView: UIView {
         theme = ThemeManager.currentTheme()
         self.backgroundColor = theme.backgroundColor
         
-        self.frame.size.height = CGFloat(bannerHeight)
+        self.frame.size.height = UISettings.panelHeight
         self.frame.size.width = self.frame.size.width
         
         menuView.frame = self.frame
         self.addSubview(menuView)
         
-        //let topBarHeight = UIApplication.shared.statusBarFrame.size.height + (Coordinator.navigationController?.navigationBar.frame.height ?? 0.0)
-        let topBarHeight:CGFloat = 0.0
-
-        self.anchorAndFillEdge(.top, xPad: 0, yPad: topBarHeight, otherSize: self.frame.size.height)
+        self.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: self.frame.size.height)
         
         // build the list of adornments
         self.defaultMenuItems = []

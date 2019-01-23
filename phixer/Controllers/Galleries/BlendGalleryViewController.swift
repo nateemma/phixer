@@ -81,13 +81,10 @@ class BlendGalleryViewController: CoordinatedController, UIImagePickerController
     fileprivate var currFilterKey:String = ""
     fileprivate var imageSize:CGSize = CGSize(width:96, height:96*3.0/2.0)
     
-    fileprivate var screenSize : CGRect = CGRect.zero
+
     fileprivate var displayWidth : CGFloat = 0.0
     fileprivate var displayHeight : CGFloat = 0.0
     
-    fileprivate let bannerHeight : CGFloat = 64.0
-    fileprivate let buttonSize : CGFloat = 48.0
-    fileprivate let statusBarOffset : CGFloat = 2.0
     
     
     /////////////////////////////
@@ -129,7 +126,7 @@ class BlendGalleryViewController: CoordinatedController, UIImagePickerController
         doLayout()
         
         // start Ads
-        if (showAds){
+        if (UISettings.showAds){
             Admob.startAds(view:adView, viewController:self)
         }
         
@@ -166,8 +163,8 @@ class BlendGalleryViewController: CoordinatedController, UIImagePickerController
         displayWidth = view.width
         log.verbose("h:\(displayHeight) w:\(displayWidth)")
         
-        //showAds = (isLandscape == true) ? false : true // don't show in landscape mode (too cluttered)
-        showAds = false // this screen looks bad with ads included...
+        //UISettings.showAds = (UISettings.isLandscape == true) ? false : true // don't show in landscape mode (too cluttered)
+        UISettings.showAds = false // this screen looks bad with ads included...
         
         
         view.backgroundColor = theme.backgroundColor
@@ -184,26 +181,26 @@ class BlendGalleryViewController: CoordinatedController, UIImagePickerController
         
         //set up dimensions
         
-        titleView.frame.size.height = bannerHeight * 0.5
+        titleView.frame.size.height = UISettings.panelHeight * 0.5
         titleView.frame.size.width = displayWidth
         titleView.title = "Select Blend Image"
         titleView.delegate = self
 
         
-        if (showAds){
-            adView.frame.size.height = bannerHeight
+        if (UISettings.showAds){
+            adView.frame.size.height = UISettings.panelHeight
             adView.frame.size.width = displayWidth
             adView.layer.cornerRadius = 0.0
             adView.layer.borderWidth = 1.0
             adView.layer.borderColor = theme.borderColor.cgColor
         }
         
-        infoView.frame.size.height = 4.2 * bannerHeight // TODO: calculate from components
+        infoView.frame.size.height = 4.2 * UISettings.panelHeight // TODO: calculate from components
         infoView.frame.size.width = displayWidth
         layoutInfoView()
         view.addSubview(infoView)
         
-        if (showAds){
+        if (UISettings.showAds){
             blendGalleryView.frame.size.height = displayHeight - titleView.frame.size.height - adView.frame.size.height - infoView.frame.size.height
         } else {
             blendGalleryView.frame.size.height = displayHeight - titleView.frame.size.height - infoView.frame.size.height
@@ -219,7 +216,7 @@ class BlendGalleryViewController: CoordinatedController, UIImagePickerController
         
         // Note: need to add subviews before modifying constraints
         view.addSubview(titleView)
-        if (showAds){
+        if (UISettings.showAds){
             adView.isHidden = false
             adView.layer.borderColor = theme.borderColor.cgColor
             adView.layer.borderWidth = 1.0
@@ -231,9 +228,9 @@ class BlendGalleryViewController: CoordinatedController, UIImagePickerController
         
         
         // layout constraints
-        titleView.anchorAndFillEdge(.top, xPad: 0, yPad: statusBarOffset/2.0, otherSize: titleView.frame.size.height)
+        titleView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.statusBarOffset/2.0, otherSize: titleView.frame.size.height)
         
-        if (showAds){
+        if (UISettings.showAds){
             adView.align(.underCentered, relativeTo: titleView, padding: 0, width: displayWidth, height: adView.frame.size.height)
             infoView.align(.underCentered, relativeTo: adView, padding: 0, width: displayWidth, height: infoView.frame.size.height)
         } else {

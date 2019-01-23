@@ -48,16 +48,9 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     var currFilterDescriptor:FilterDescriptor? = nil
     var currIndex:Int = 0
     
-    // var isLandscape : Bool = false // moved to base class
-    var screenSize : CGRect = CGRect.zero
     var displayWidth : CGFloat = 0.0
     var displayHeight : CGFloat = 0.0
     
-    let bannerHeight : CGFloat = 64.0
-    let buttonSize : CGFloat = 48.0
-    fileprivate let statusBarOffset : CGFloat = 2.0
-    
-    var topBarHeight: CGFloat = 44.0
  
     // vars related to gestures/touches
     enum touchMode {
@@ -206,7 +199,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
   
         // do layout
         
-        menuView.frame.size.height = CGFloat(bannerHeight)
+        menuView.frame.size.height = CGFloat(UISettings.panelHeight)
         menuView.frame.size.width = displayWidth
         layoutMenu()
 
@@ -214,7 +207,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         editImageView.frame.size.height = displayHeight
 
         filterParametersView.frame.size.width = displayWidth
-        filterParametersView.frame.size.height = bannerHeight // will be adjusted based on selected filter
+        filterParametersView.frame.size.height = UISettings.panelHeight // will be adjusted based on selected filter
  
         // Note: need to add subviews before modifying constraints
         view.addSubview(editImageView)
@@ -226,20 +219,17 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
 
         // set layout constraints
         
-        //TODO: layout frame so this is already taken into account
-        topBarHeight = UIApplication.shared.statusBarFrame.size.height + (Coordinator.navigationController?.navigationBar.frame.height ?? 0.0)
-
         // top
-        menuView.anchorAndFillEdge(.top, xPad: 0, yPad: topBarHeight, otherSize: menuView.frame.size.height)
+        menuView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: menuView.frame.size.height)
 
         
         // main window
-        //editImageView.anchorAndFillEdge(.top, xPad: 0, yPad: topBarHeight, otherSize: editImageView.frame.size.height)
+        //editImageView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: editImageView.frame.size.height)
         editImageView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: editImageView.frame.size.height)
 
         // filter parameters
         //filterParametersView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: filterParametersView.frame.size.height)
-        filterParametersView.anchorAndFillEdge(.top, xPad: 0, yPad: topBarHeight, otherSize: filterParametersView.frame.size.height)
+        filterParametersView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: filterParametersView.frame.size.height)
 
         // add delegate for image picker
         imagePicker.delegate = self
@@ -298,7 +288,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     // set photo image to the last photo in the camera roll
     func loadPhotoThumbnail(){
         
-        let tgtSize = CGSize(width: buttonSize, height: buttonSize)
+        let tgtSize = CGSize(width: UISettings.buttonSide, height: UISettings.buttonSide)
         
         
         // get most recent photo
@@ -327,7 +317,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     }
     
     private func loadBlendThumbnail(){
-        self.blendThumbnail = UIImage(ciImage: ImageManager.getCurrentBlendImage(size:CGSize(width: self.buttonSize, height: self.buttonSize))!)
+        self.blendThumbnail = UIImage(ciImage: ImageManager.getCurrentBlendImage(size:UISettings.buttonSize)!)
     }
     
     //////////////////////////////////////
@@ -689,7 +679,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             self.filterParametersView.setNeedsDisplay()
             self.filterParametersView.setNeedsLayout()
             //}
-            self.filterParametersView.anchorAndFillEdge(.top, xPad: 0, yPad: self.topBarHeight, otherSize: self.filterParametersView.frame.size.height)
+            self.filterParametersView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: self.filterParametersView.frame.size.height)
             //self.filterParametersView.logSizes()//debug
             
             self.view.sendSubviewToBack(self.editImageView)

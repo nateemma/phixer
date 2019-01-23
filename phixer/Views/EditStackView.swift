@@ -174,7 +174,7 @@ class EditStackView: UIView {
     private func makePreviewView() -> UIView? {
         let image = EditManager.getPreviewImage()
         let title = EditManager.getPreviewTitle()
-        return makeLayerView(image: image, text: "\(title) (Preview)")
+        return makeLayerView(image: image, text: "\(title)\n(Preview, not saved)")
     }
     
     

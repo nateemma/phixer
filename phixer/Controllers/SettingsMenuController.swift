@@ -17,21 +17,16 @@ import GoogleMobileAds
 class SettingsMenuController: CoordinatedController, UINavigationControllerDelegate {
     
     
-    var screenSize : CGRect = CGRect.zero
-    var displayWidth : CGFloat = 0.0
+     var displayWidth : CGFloat = 0.0
     var displayHeight : CGFloat = 0.0
     
     
     
     // Banner/Navigation View (title)
     fileprivate var titleView:TitleView! = TitleView()
-    fileprivate let statusBarOffset : CGFloat = 2.0
     
     // Advertisements View
     var adView: GADBannerView! = GADBannerView()
-    var bannerHeight : CGFloat = 64.0
-    
-    let buttonSize : CGFloat = 48.0
     
     // Menu items
     
@@ -96,17 +91,17 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
         displayWidth = view.width
         stackHeight = displayHeight
         
-        showAds = (isLandscape == true) ? false : true // don't show in landscape mode, too cluttered
+        UISettings.showAds = (UISettings.isLandscape == true) ? false : true // don't show in landscape mode, too cluttered
         
         
-        //log.verbose("h:\(displayHeight) w:\(displayWidth) Landscape:\(isLandscape) showAds:\(showAds)")
+        //log.verbose("h:\(displayHeight) w:\(displayWidth) Landscape:\(UISettings.isLandscape) UISettings.showAds:\(UISettings.showAds)")
         
         doInit()
         
         
         
         // Banner and filter info view are always at the top of the screen
-        titleView.frame.size.height = bannerHeight * 0.8
+        titleView.frame.size.height = UISettings.panelHeight * 0.8
         titleView.frame.size.width = displayWidth
         titleView.title = "Settings"
         titleView.delegate = self
@@ -114,12 +109,12 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
         stackHeight = stackHeight - titleView.frame.size.height
         
         view.addSubview(titleView)
-        titleView.anchorAndFillEdge(.top, xPad: 0, yPad: statusBarOffset/2.0, otherSize: titleView.frame.size.height)
+        titleView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.statusBarOffset/2.0, otherSize: titleView.frame.size.height)
         
         // Set up Ads
-        if (showAds){
+        if (UISettings.showAds){
             adView.isHidden = false
-            adView.frame.size.height = bannerHeight * 1.4
+            adView.frame.size.height = UISettings.panelHeight * 1.4
             adView.frame.size.width = displayWidth
             adView.layer.borderColor = theme.borderColor.cgColor
             adView.layer.borderWidth = 1.0
@@ -135,7 +130,7 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
         //stackView.frame.size.width = displayWidth
         
         // Note: need to add subviews before modifying constraints
-        //let h = max((stackHeight/CGFloat(numItems)), bannerHeight).rounded()
+        //let h = max((stackHeight/CGFloat(numItems)), UISettings.panelHeight).rounded()
         let h = (stackHeight/CGFloat(numItems)).rounded() - 8
         buildMenuViews(height:h)
         
@@ -174,7 +169,7 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
         hideFiltersSwitch.setOn(FilterGalleryView.showHidden, animated: false)
         hideFiltersSwitch.addTarget(self, action: #selector(hideFiltersSwitchChanged(_:)), for: .valueChanged)
 
-        //let h = max ((stackHeight / CGFloat(numItems)), bannerHeight)
+        //let h = max ((stackHeight / CGFloat(numItems)), UISettings.panelHeight)
         let h = height
         let w = displayWidth - 8
         let iconSize = CGSize(width: h-4, height: h-4)

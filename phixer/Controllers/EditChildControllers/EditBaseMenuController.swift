@@ -27,12 +27,10 @@ class EditBaseMenuController: CoordinatedController, SubControllerDelegate, Edit
     let menu:SimpleCarousel! = SimpleCarousel()
 
     
-    var screenSize : CGRect = CGRect.zero
     var displayWidth : CGFloat = 0.0
     var displayHeight : CGFloat = 0.0
     
-    let buttonSize : CGFloat = 48.0
-    let editControlHeight: CGFloat = 88.0
+    let editControlHeight: CGFloat = UISettings.menuHeight
     //let editControlHeight: CGFloat = 48.0
     
     var childController:UIViewController? = nil

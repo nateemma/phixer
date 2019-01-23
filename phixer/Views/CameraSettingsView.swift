@@ -31,11 +31,7 @@ class CameraSettingsView: UIView {
     var theme = ThemeManager.currentTheme()
     
 
-    var isLandscape : Bool = false
     var initDone: Bool = false
-    
-    let bannerHeight : CGFloat = 48.0
-    let buttonSize : CGFloat = 40.0
     
     // Buttons within the view
     var flashButton: SquareButton! = SquareButton()
@@ -76,12 +72,12 @@ class CameraSettingsView: UIView {
         //self.backgroundColor = GradientColor(UIGradientStyle.topToBottom, frame: self.frame, colors: [UIColor.gray, UIColor.lightGray])
         
         // Set up buttons/icons
-        flashButton = SquareButton(bsize: buttonSize)
-        gridButton = SquareButton(bsize: buttonSize)
-        aspectButton = SquareButton(bsize: buttonSize)
-        cameraButton = SquareButton(bsize: buttonSize)
-        timerButton = SquareButton(bsize: buttonSize)
-        switchButton = SquareButton(bsize: buttonSize)
+        flashButton = SquareButton(bsize: UISettings.buttonSide)
+        gridButton = SquareButton(bsize: UISettings.buttonSide)
+        aspectButton = SquareButton(bsize: UISettings.buttonSide)
+        cameraButton = SquareButton(bsize: UISettings.buttonSide)
+        timerButton = SquareButton(bsize: UISettings.buttonSide)
+        switchButton = SquareButton(bsize: UISettings.buttonSide)
         
         assignIcons()
     }
@@ -123,9 +119,6 @@ class CameraSettingsView: UIView {
             assignIcons()
         }
         
-        // get orientation
-        isLandscape = ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight))
-        
         
         
         self.addSubview(flashButton)
@@ -136,14 +129,14 @@ class CameraSettingsView: UIView {
         self.addSubview(switchButton)
 
         // set up layout based on orientation
-        if (isLandscape){
+        if (UISettings.isLandscape){
             // Landscape: icons/buttons are arranged vertically
             
             // figure out horizontal padding to center images
-            hpad = (self.frame.size.width - buttonSize)/2.0
+            hpad = (self.frame.size.width - UISettings.buttonSide)/2.0
             
             // figure out vertical padding (6 button means 7 spaces)
-            vpad = ((self.frame.size.height - 6.0*(buttonSize+2.0*hpad)) / 7.0)
+            vpad = ((self.frame.size.height - 6.0*(UISettings.buttonSide+2.0*hpad)) / 7.0)
             
             pad = fmin(fabs(hpad), fabs(vpad))
             
@@ -160,15 +153,15 @@ class CameraSettingsView: UIView {
             
             
             // figure out vertical padding to center images
-            vpad = (self.frame.size.height - buttonSize)/2.0 + 8 // +8 moves it away from the system banner a little (empirical)
+            vpad = (self.frame.size.height - UISettings.buttonSide)/2.0 + 8 // +8 moves it away from the system banner a little (empirical)
             
             // figure out horizontal padding (6 button means 7 spaces)
-            //hpad = ((self.frame.size.width - 6.0*(buttonSize+2.0*vpad)) / 7.0)
-            hpad = ((self.frame.size.width - 6.0*(buttonSize)) / 7.0)
+            //hpad = ((self.frame.size.width - 6.0*(UISettings.buttonSide+2.0*vpad)) / 7.0)
+            hpad = ((self.frame.size.width - 6.0*(UISettings.buttonSide)) / 7.0)
             
             spacer = SquareButton(bsize: hpad)
             
-            //pad = (self.frame.size.width - 6.0*buttonSize) / 7.0
+            //pad = (self.frame.size.width - 6.0*UISettings.buttonSide) / 7.0
             pad = fmin(fabs(hpad), fabs(vpad))
             
             print("Laying out CameraSettings (Portrait). vpad:\(vpad) hpad:\(hpad)")

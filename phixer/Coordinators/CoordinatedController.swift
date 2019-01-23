@@ -23,13 +23,7 @@ class CoordinatedController: UIViewController, ControllerDelegate {
     
     // the type of controller (useful to the coordinator)
     public var controllerType: ControllerType = .fullscreen
-
-    // indicates whether this Controller should show Google Ads
-    public var showAds:Bool = false
     
-    
-    // flag to indicate whether interface (not device) is in landscape mode. TODO: move to UISettings?
-    public var isLandscape: Bool { return checkLandscape() }
 
     // the current UI Theme. Note: this can change
     public var theme = ThemeManager.currentTheme()
@@ -197,10 +191,9 @@ class CoordinatedController: UIViewController, ControllerDelegate {
     private func buildDefaultMenu(){
         defaultMenuReady = true
         self.view.addSubview(defaultMenuView)
-        let topBarHeight = UIApplication.shared.statusBarFrame.size.height + (Coordinator.navigationController?.navigationBar.frame.height ?? 0.0)
-        defaultMenuView.frame.size.height = CGFloat(48.0)
+        defaultMenuView.frame.size.height = UISettings.panelHeight
         defaultMenuView.frame.size.width = self.view.frame.size.width
-        defaultMenuView.anchorAndFillEdge(.top, xPad: 0, yPad: topBarHeight, otherSize: defaultMenuView.frame.size.height)
+        defaultMenuView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: defaultMenuView.frame.size.height)
         defaultMenuView.isHidden = true
     }
 

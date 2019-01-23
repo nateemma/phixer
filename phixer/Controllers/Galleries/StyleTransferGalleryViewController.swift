@@ -47,14 +47,9 @@ class StyleTransferGalleryViewController: CoordinatedController, UIImagePickerCo
     fileprivate var filterDetailsViewController:FilterDetailsViewController? = nil
     
     
-    // var isLandscape : Bool = false // moved to base class
-    var screenSize : CGRect = CGRect.zero
     var displayWidth : CGFloat = 0.0
     var displayHeight : CGFloat = 0.0
     
-    let bannerHeight : CGFloat = 64.0
-    let buttonSize : CGFloat = 48.0
-    let statusBarOffset : CGFloat = 2.0
     
     var currInputName:String = ""
     
@@ -105,7 +100,7 @@ class StyleTransferGalleryViewController: CoordinatedController, UIImagePickerCo
         doLayout()
         
         // start Ads
-        if (showAds){
+        if (UISettings.showAds){
             Admob.startAds(view:adView, viewController:self)
         }
         
@@ -150,8 +145,8 @@ class StyleTransferGalleryViewController: CoordinatedController, UIImagePickerCo
         displayWidth = view.width
         log.verbose("h:\(displayHeight) w:\(displayWidth)")
         
-        showAds = (isLandscape == true) ? false : true // don't show in landscape mode (too cluttered)
-        //showAds = false // debug
+        UISettings.showAds = (UISettings.isLandscape == true) ? false : true // don't show in landscape mode (too cluttered)
+        //UISettings.showAds = false // debug
         
         
         view.backgroundColor = theme.backgroundColor // default seems to be white
@@ -161,12 +156,12 @@ class StyleTransferGalleryViewController: CoordinatedController, UIImagePickerCo
         
         layoutBanner()
         
-        if (showAds){
-            adView.frame.size.height = bannerHeight
+        if (UISettings.showAds){
+            adView.frame.size.height = UISettings.panelHeight
             adView.frame.size.width = displayWidth
         }
         
-        imageSelectionView.frame.size.height = CGFloat(bannerHeight)
+        imageSelectionView.frame.size.height = CGFloat(UISettings.panelHeight)
         imageSelectionView.frame.size.width = displayWidth
         imageSelectionView.enableBlend(false)
         imageSelectionView.enableSave(false)
@@ -174,7 +169,7 @@ class StyleTransferGalleryViewController: CoordinatedController, UIImagePickerCo
         view.addSubview(imageSelectionView)
 
         
-        if (showAds){
+        if (UISettings.showAds){
             styleGalleryView.frame.size.height = displayHeight - bannerView.frame.size.height - adView.frame.size.height - imageSelectionView.frame.size.height
         } else {
             styleGalleryView.frame.size.height = displayHeight - bannerView.frame.size.height - imageSelectionView.frame.size.height
@@ -188,7 +183,7 @@ class StyleTransferGalleryViewController: CoordinatedController, UIImagePickerCo
         
         // Note: need to add subviews before modifying constraints
         view.addSubview(bannerView)
-        if (showAds){
+        if (UISettings.showAds){
             adView.isHidden = false
             view.addSubview(adView)
             adView.layer.borderColor = theme.borderColor.cgColor
@@ -200,9 +195,9 @@ class StyleTransferGalleryViewController: CoordinatedController, UIImagePickerCo
 
 
         // layout constraints
-        bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
+        bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
 
-        if (showAds){
+        if (UISettings.showAds){
             adView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: adView.frame.size.height)
             imageSelectionView.align(.underCentered, relativeTo: adView, padding: 0, width: displayWidth, height: imageSelectionView.frame.size.height)
         } else {
@@ -215,7 +210,7 @@ class StyleTransferGalleryViewController: CoordinatedController, UIImagePickerCo
  
     
     func layoutBanner(){
-        bannerView.frame.size.height = bannerHeight
+        bannerView.frame.size.height = UISettings.panelHeight
         bannerView.frame.size.width = displayWidth
         bannerView.backgroundColor = theme.backgroundColor
         bannerView.title = "Style Transfer Gallery"

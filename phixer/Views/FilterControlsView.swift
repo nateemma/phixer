@@ -35,7 +35,6 @@ class FilterControlsView: UIView {
         case disabled
     }
     
-    var isLandscape : Bool = false
     
     // display items
     var categoryButton: SquareButton! = SquareButton()
@@ -46,7 +45,6 @@ class FilterControlsView: UIView {
     var filterState:ControlState = .hidden
     var parametersState:ControlState = .hidden
 
-    var buttonSize : CGFloat = 32.0
     
     var initDone: Bool = false
    
@@ -69,14 +67,14 @@ class FilterControlsView: UIView {
 
             self.backgroundColor = theme.backgroundColor
             
-            //if (buttonSize>self.frame.size.height){ buttonSize = self.frame.size.height - 4 }
-            buttonSize = fmin(self.frame.size.height, self.frame.size.width) - 8
+            //if (UISettings.buttonSide>self.frame.size.height){ UISettings.buttonSide = self.frame.size.height - 4 }
+            let side = fmin(self.frame.size.height, self.frame.size.width) - 8
             
-            categoryButton = SquareButton(bsize: buttonSize)
+            categoryButton = SquareButton(bsize: side)
             categoryButton.setTintable(false)
-            filterButton = SquareButton(bsize: buttonSize)
+            filterButton = SquareButton(bsize: side)
             filterButton.setTintable(false)
-            parametersButton = SquareButton(bsize: buttonSize)
+            parametersButton = SquareButton(bsize: side)
            
             // show the sub views
             self.addSubview(categoryButton)
@@ -98,26 +96,25 @@ class FilterControlsView: UIView {
         super.layoutSubviews()
         
         // get orientation
-        //isLandscape = ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight))
+        //UISettings.isLandscape = ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight))
 
         if !initDone {
             initViews()
         }
         
-        let isLandscape:Bool = (self.height > self.width)
         
-        if (isLandscape){
+        if (UISettings.isLandscape){
             // top-to-bottom layout
             //self.groupAndFill(.vertical, views: [categoryButton, filterButton, parametersButton], padding: 2)
-            categoryButton.anchorToEdge(.top, padding: 2, width: buttonSize, height: buttonSize)
-            parametersButton.anchorToEdge(.bottom, padding: 2, width: buttonSize, height: buttonSize)
-            filterButton.anchorInCenter(width: buttonSize, height: buttonSize)
+            categoryButton.anchorToEdge(.top, padding: 2, width: UISettings.buttonSide, height: UISettings.buttonSide)
+            parametersButton.anchorToEdge(.bottom, padding: 2, width: UISettings.buttonSide, height: UISettings.buttonSide)
+            filterButton.anchorInCenter(width: UISettings.buttonSide, height: UISettings.buttonSide)
         } else {
             // left-to-right layout
             //self.groupAndFill(.horizontal, views: [categoryButton, filterButton, parametersButton], padding: 2)
-            categoryButton.anchorToEdge(.left, padding: 2, width: buttonSize, height: buttonSize)
-            parametersButton.anchorToEdge(.right, padding: 2, width: buttonSize, height: buttonSize)
-            filterButton.anchorInCenter(width: buttonSize, height: buttonSize)
+            categoryButton.anchorToEdge(.left, padding: 2, width: UISettings.buttonSide, height: UISettings.buttonSide)
+            parametersButton.anchorToEdge(.right, padding: 2, width: UISettings.buttonSide, height: UISettings.buttonSide)
+            filterButton.anchorInCenter(width: UISettings.buttonSide, height: UISettings.buttonSide)
         }
         
         // TODO: update current values

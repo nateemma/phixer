@@ -134,21 +134,19 @@ class AppCoordinator: Coordinator {
 
         let w = UIScreen.main.bounds.size.width
         let h = UIScreen.main.bounds.size.height
-        let topBarHeight = UIApplication.shared.statusBarFrame.size.height + (Coordinator.navigationController?.navigationBar.frame.height ?? 0.0)
-        let menuHeight:CGFloat = 88.0
-        //let toolSize = w - menuHeight / 2.0
+        //let toolSize = w - UISettings.menuHeight / 2.0
         let toolSize = w - 16
         
-        //let fullFrame:CGRect = CGRect(x: 0, y: topBarHeight, width: w, height: h-topBarHeight)
+        //let fullFrame:CGRect = CGRect(x: 0, y: UISettings.topBarHeight, width: w, height: h-UISettings.topBarHeight)
         let fullFrame:CGRect = CGRect(x: 0, y: 0, width: w, height: h)
-        let menuFrame:CGRect = CGRect(x: 0, y: h-menuHeight, width: w, height: menuHeight)
-        let toolFrame:CGRect = CGRect(x: (w-toolSize)/2.0, y: menuHeight, width: toolSize, height: toolSize)
+        let menuFrame:CGRect = CGRect(x: 0, y: h-UISettings.menuHeight, width: w, height: UISettings.menuHeight)
+        let toolFrame:CGRect = CGRect(x: (w-toolSize)/2.0, y: UISettings.menuHeight, width: toolSize, height: toolSize)
         
         ControllerFactory.setFrame(.fullscreen, frame: fullFrame)
         ControllerFactory.setFrame(.menu, frame: menuFrame)
         ControllerFactory.setFrame(.tool, frame: toolFrame)
 
-        log.debug("screen: (\(w),\(h)), top bar h: \(topBarHeight)")
+        log.debug("screen: (\(w),\(h)), top bar h: \(UISettings.topBarHeight)")
     }
 
     

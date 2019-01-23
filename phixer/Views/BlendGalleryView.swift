@@ -24,8 +24,6 @@ class BlendGalleryView : UIView {
     var theme = ThemeManager.currentTheme()
     
 
-    var isLandscape : Bool = false // moved to base class
-    fileprivate var screenSize : CGRect = CGRect.zero
     fileprivate var displayWidth : CGFloat = 0.0
     fileprivate var displayHeight : CGFloat = 0.0
     fileprivate var cellSize: CGSize = CGSize.zero
@@ -95,8 +93,6 @@ class BlendGalleryView : UIView {
         
         if (!BlendGalleryView.initDone){
             BlendGalleryView.initDone = true
-            isLandscape = ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight))
-            
         }
     }
     
@@ -107,13 +103,9 @@ class BlendGalleryView : UIView {
         
         log.verbose("w:\(displayWidth) h:\(displayHeight)")
         
-        // get orientation
-        //isLandscape = (displayWidth > displayHeight)
-        isLandscape = ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight))
-        
         // set items per row. Add 1 if landscape,
         
-        if (isLandscape){
+        if (UISettings.isLandscape){
                 itemsPerRow = 5
         } else {
                 itemsPerRow = 3

@@ -41,11 +41,9 @@ class CameraControlsView: UIView {
     
    //MARK: - Class variables:
     
-    let bannerHeight : CGFloat = 64.0
-    let buttonSize : CGFloat = 48.0
+
     let smallIconFactor : CGFloat = 0.75
     
-    var isLandscape : Bool = false
     
     //var photoThumbnail: UIImageView! = UIImageView()
     
@@ -69,9 +67,9 @@ class CameraControlsView: UIView {
         self.init(frame: CGRect.zero)
         
         
-        activateButton = SquareButton(bsize: buttonSize)
-        modeButton = SquareButton(bsize: buttonSize*smallIconFactor)
-        menuButton = SquareButton(bsize: buttonSize*smallIconFactor)
+        activateButton = SquareButton(bsize: UISettings.buttonSide)
+        modeButton = SquareButton(bsize: UISettings.buttonSide*smallIconFactor)
+        menuButton = SquareButton(bsize: UISettings.buttonSide*smallIconFactor)
     }
     
     func initViews(){
@@ -80,7 +78,7 @@ class CameraControlsView: UIView {
             // set the colors etc.
             self.backgroundColor = theme.backgroundColor //temp
             
-            photoThumbnail = SquareButton(bsize: buttonSize)
+            photoThumbnail = SquareButton(bsize: UISettings.buttonSide)
             photoThumbnail.setColor(theme.highlightColor)
             
             
@@ -120,33 +118,31 @@ class CameraControlsView: UIView {
             initViews()
         }
         
-        // get orientation
-        isLandscape = ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight))
         
         // set up layout based on orientation
-        if (isLandscape){
+        if (UISettings.isLandscape){
             // Landscape: top-to-bottom layout scheme
             
             
-            //self.anchorAndFillEdge(.right, xPad: 0, yPad: 0, otherSize: bannerHeight)
+            //self.anchorAndFillEdge(.right, xPad: 0, yPad: 0, otherSize: UISettings.panelHeight)
             
             // add items to the  view
-            photoThumbnail.anchorToEdge(.top, padding: 8, width: buttonSize, height: buttonSize)
-            activateButton.anchorInCenter(width: buttonSize, height: buttonSize)
-            modeButton.align(.underCentered, relativeTo: activateButton, padding: 8, width: buttonSize*smallIconFactor, height: buttonSize*smallIconFactor)
-            menuButton.align(.underCentered, relativeTo: activateButton, padding: 8, width: buttonSize*smallIconFactor, height: buttonSize*smallIconFactor)
-            self.groupAgainstEdge(group: .vertical, views: [modeButton, menuButton], againstEdge: .bottom, padding: (bannerHeight-buttonSize*smallIconFactor)/2, width: buttonSize*smallIconFactor, height: buttonSize*smallIconFactor)
+            photoThumbnail.anchorToEdge(.top, padding: 8, width: UISettings.buttonSide, height: UISettings.buttonSide)
+            activateButton.anchorInCenter(width: UISettings.buttonSide, height: UISettings.buttonSide)
+            modeButton.align(.underCentered, relativeTo: activateButton, padding: 8, width: UISettings.buttonSide*smallIconFactor, height: UISettings.buttonSide*smallIconFactor)
+            menuButton.align(.underCentered, relativeTo: activateButton, padding: 8, width: UISettings.buttonSide*smallIconFactor, height: UISettings.buttonSide*smallIconFactor)
+            self.groupAgainstEdge(group: .vertical, views: [modeButton, menuButton], againstEdge: .bottom, padding: (UISettings.panelHeight-UISettings.buttonSide*smallIconFactor)/2, width: UISettings.buttonSide*smallIconFactor, height: UISettings.buttonSide*smallIconFactor)
             
         } else {
             // left-to-right layout scheme
             
-            //self.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: bannerHeight)
+            //self.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: UISettings.panelHeight)
             
             
             // add items to the  view
-            photoThumbnail.anchorToEdge(.left, padding: 8, width: buttonSize, height: buttonSize)
-            activateButton.anchorInCenter(width: buttonSize, height: buttonSize)
-            self.groupAgainstEdge(group: .horizontal, views: [modeButton, menuButton], againstEdge: .right, padding: (bannerHeight-buttonSize*smallIconFactor)/2, width: buttonSize*smallIconFactor, height: buttonSize*smallIconFactor)
+            photoThumbnail.anchorToEdge(.left, padding: 8, width: UISettings.buttonSide, height: UISettings.buttonSide)
+            activateButton.anchorInCenter(width: UISettings.buttonSide, height: UISettings.buttonSide)
+            self.groupAgainstEdge(group: .horizontal, views: [modeButton, menuButton], againstEdge: .right, padding: (UISettings.panelHeight-UISettings.buttonSide*smallIconFactor)/2, width: UISettings.buttonSide*smallIconFactor, height: UISettings.buttonSide*smallIconFactor)
             
         }
         

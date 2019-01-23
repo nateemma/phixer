@@ -31,8 +31,6 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
 
     public static var showHidden:Bool = false // controls whether hidden filters are shown or not
     
-    var isLandscape : Bool = false // moved to base class
-    fileprivate var screenSize : CGRect = CGRect.zero
     fileprivate var displayWidth : CGFloat = 0.0
     fileprivate var displayHeight : CGFloat = 0.0
     
@@ -92,8 +90,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         
         
         // only do layout if this was caused by an orientation change
-        if (isLandscape != ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight))){ // rotation change?
-            isLandscape = !isLandscape
+        if (UISettings.isLandscape != ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight))){ // rotation change?
             doLayout()
             doLoadData()
         }
@@ -109,8 +106,6 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         
         if (!FilterGalleryView.initDone){
             FilterGalleryView.initDone = true
-            isLandscape = ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight))
-            
         }
     }
     
@@ -121,10 +116,6 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         
         log.verbose("w:\(displayWidth) h:\(displayHeight)")
         
-        // get orientation
-        //isLandscape = (displayWidth > displayHeight)
-        isLandscape = ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight))
-        
         // get aspect ratio of input (used for layout sizing)
         
         //aspectRatio = ImageManager.getSampleImageAspectRatio()
@@ -134,7 +125,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
 
         // set items per row. Add 1 if landscape, subtract one if sample is in landscape orientation
         
-        if (isLandscape){
+        if (UISettings.isLandscape){
             if (aspectRatio > 1.0){ // w > h
                 itemsPerRow = 4
             } else {

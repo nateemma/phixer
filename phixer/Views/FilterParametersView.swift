@@ -34,7 +34,7 @@ class FilterParametersView: UIView {
 
     public var numVisibleParams:Int = 0
 
-    //var isLandscape : Bool = false
+    //var UISettings.isLandscape : Bool = false
     
     var currFilterDesc: FilterDescriptor? = nil
 

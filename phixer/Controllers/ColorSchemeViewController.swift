@@ -38,13 +38,9 @@ class ColorSchemeViewController: CoordinatedController {
 
     
     
-    var screenSize : CGRect = CGRect.zero
     var displayWidth : CGFloat = 0.0
     var displayHeight : CGFloat = 0.0
     
-    let bannerHeight : CGFloat = 64.0
-    let buttonSize : CGFloat = 48.0
-    let statusBarOffset : CGFloat = 2.0
     
     var defaultColor:UIColor = UIColor.flatMint
     let defaultCount:Int = 6
@@ -102,7 +98,7 @@ class ColorSchemeViewController: CoordinatedController {
         doLayout()
         
         // start Ads
-        if (showAds){
+        if (UISettings.showAds){
             Admob.startAds(view:adView, viewController:self)
         }
         
@@ -138,8 +134,8 @@ class ColorSchemeViewController: CoordinatedController {
         log.verbose("h:\(displayHeight) w:\(displayWidth)")
         
         
-        //showAds = (isLandscape == true) ? false : true // don't show in landscape mode (too cluttered)
-        //showAds = false // debug
+        //UISettings.showAds = (UISettings.isLandscape == true) ? false : true // don't show in landscape mode (too cluttered)
+        //UISettings.showAds = false // debug
         
         
         view.backgroundColor = theme.backgroundColor // default seems to be white
@@ -152,12 +148,12 @@ class ColorSchemeViewController: CoordinatedController {
         view.addSubview(bannerView)
         
         // Ads
-        if (showAds){
-            adView.frame.size.height = bannerHeight
+        if (UISettings.showAds){
+            adView.frame.size.height = UISettings.panelHeight
             adView.frame.size.width = displayWidth
         }
 
-        if (showAds){
+        if (UISettings.showAds){
             adView.isHidden = false
             view.addSubview(adView)
         } else {
@@ -178,16 +174,16 @@ class ColorSchemeViewController: CoordinatedController {
         view.addSubview(controlView)
         
         // layout constraints
-        bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
+        bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
     
-        if (showAds){
+        if (UISettings.showAds){
             adView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: adView.frame.size.height)
             parameterView.align(.underCentered, relativeTo: adView, padding: 0, width: displayWidth, height: parameterView.frame.size.height)
         } else {
             parameterView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: parameterView.frame.size.height)
         }
         
-        controlView.anchorAndFillEdge(.bottom, xPad: 0, yPad: statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
+        controlView.anchorAndFillEdge(.bottom, xPad: 0, yPad: UISettings.statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
         colorSchemeView.alignBetweenVertical(align: .underCentered, primaryView: parameterView, secondaryView: controlView, padding: 1.0, width: displayWidth)
     }
     
@@ -199,7 +195,7 @@ class ColorSchemeViewController: CoordinatedController {
  
     
     func layoutBanner(){
-        bannerView.frame.size.height = bannerHeight * 0.75
+        bannerView.frame.size.height = UISettings.panelHeight * 0.75
         bannerView.frame.size.width = displayWidth
         bannerView.backgroundColor = theme.backgroundColor
         bannerView.title = "Color Scheme Chooser"
@@ -210,7 +206,7 @@ class ColorSchemeViewController: CoordinatedController {
     
     func layoutParameters(){
         
-        parameterView.frame.size.height = bannerHeight * 3.0
+        parameterView.frame.size.height = UISettings.panelHeight * 3.0
         parameterView.frame.size.width = displayWidth
 
         // Seed Color
@@ -230,7 +226,7 @@ class ColorSchemeViewController: CoordinatedController {
         // set the label widths to 1/2 the display width and right justify the text
         for label in [seedLabel, numLabel, schemeLabel] {
             label.frame.size.width = (displayWidth / 2) - 32
-            label.frame.size.height = bannerHeight
+            label.frame.size.height = UISettings.panelHeight
             label.textAlignment = .right
             label.textColor = theme.textColor
         }
@@ -246,8 +242,8 @@ class ColorSchemeViewController: CoordinatedController {
         numEntry.font = UIFont.systemFont(ofSize: 14.0)
         numEntry.text = "\(selectedCount)"
         numEntry.keyboardType = UIKeyboardType.numberPad
-        numEntry.frame.size.width = bannerHeight
-        numEntry.frame.size.height = bannerHeight * 0.8
+        numEntry.frame.size.width = UISettings.panelHeight
+        numEntry.frame.size.height = UISettings.panelHeight * 0.8
         numEntry.delegate = self
         //init toolbar
         let toolbar:UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0,  width: self.view.frame.size.width, height: 30))
@@ -266,7 +262,7 @@ class ColorSchemeViewController: CoordinatedController {
         buildSchemeList()
         schemeSelector.showsSelectionIndicator = true
         schemeSelector.frame.size.width = (displayWidth / 2) - 8
-        schemeSelector.frame.size.height = bannerHeight * 0.8
+        schemeSelector.frame.size.height = UISettings.panelHeight * 0.8
         schemeSelector.setValue(theme.titleTextColor, forKeyPath: "textColor")
         
         
@@ -279,7 +275,7 @@ class ColorSchemeViewController: CoordinatedController {
         parameterView.addSubview(schemeSelector)
         
         let w:CGFloat = (parameterView.frame.size.width / 2) - 8
-        let h:CGFloat = min ((parameterView.frame.size.height / 4), bannerHeight)
+        let h:CGFloat = min ((parameterView.frame.size.height / 4), UISettings.panelHeight)
         let pad:CGFloat = 2
         
         // line up the labels on the left
@@ -317,7 +313,7 @@ class ColorSchemeViewController: CoordinatedController {
     
     func layoutColorScheme() {
         colorSchemeView = ColorSchemeView()
-        colorSchemeView.frame.size.height = bannerHeight * 3
+        colorSchemeView.frame.size.height = UISettings.panelHeight * 3
         colorSchemeView.frame.size.width = displayWidth
         //colorSchemeView.flatten = false
         colorSchemeView.flatten = true
@@ -327,12 +323,12 @@ class ColorSchemeViewController: CoordinatedController {
     
     func layoutControls(){
         controlView.frame.size.width = displayWidth
-        controlView.frame.size.height = bannerHeight
+        controlView.frame.size.height = UISettings.panelHeight
     
         // build a view with a "Done" Button and a "Cancel" button
         let cancelButton:BorderedButton = BorderedButton()
         cancelButton.frame.size.width = displayWidth / 3.0
-        cancelButton.frame.size.height = bannerHeight - 16
+        cancelButton.frame.size.height = UISettings.panelHeight - 16
         cancelButton.setTitle("Cancel", for: .normal)
         cancelButton.useGradient = true
         cancelButton.backgroundColor = theme.highlightColor

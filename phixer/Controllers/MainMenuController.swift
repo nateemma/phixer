@@ -16,16 +16,12 @@ import GoogleMobileAds
 
 class MainMenuController: CoordinatedController, UINavigationControllerDelegate {
     
-    var screenSize : CGRect = CGRect.zero
     var displayWidth : CGFloat = 0.0
     var displayHeight : CGFloat = 0.0
     
     
     // Advertisements View
     var adView: GADBannerView! = GADBannerView()
-    var bannerHeight : CGFloat = 64.0
-    
-    let buttonSize : CGFloat = 48.0
     
     // Menu items
     var simpleEditMenuItem: UILabel = UILabel()
@@ -84,7 +80,7 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
         
         log.verbose("h:\(displayHeight) w:\(displayWidth)")
         
-        showAds = (isLandscape == true) ? false : true // don't show in landscape mode, too cluttered
+        UISettings.showAds = (UISettings.isLandscape == true) ? false : true // don't show in landscape mode, too cluttered
         
         doInit()
         
@@ -96,20 +92,22 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
         view.addSubview(settingsMenuItem)
         
         
+        /***
         // set default size for menu items
-        if (bannerHeight < (view.frame.size.height/CGFloat(numItems+1))) {
-            bannerHeight = view.frame.size.height/CGFloat(numItems+1) + 8
+        if (UISettings.panelHeight < (view.frame.size.height/CGFloat(numItems+1))) {
+            UISettings.panelHeight = view.frame.size.height/CGFloat(numItems+1) + 8
         }
+        ***/
         
-        let h = (view.frame.size.height - bannerHeight) / CGFloat(numItems) - 8
+        let h = (view.frame.size.height - UISettings.panelHeight) / CGFloat(numItems) - 8
         let w = displayWidth - 4
         
         
         
         // set up Ads
-        if (showAds){
+        if (UISettings.showAds){
             adView.isHidden = false
-            adView.frame.size.height = bannerHeight
+            adView.frame.size.height = UISettings.panelHeight
             adView.frame.size.width = displayWidth
             adView.layer.borderColor = theme.borderColor.cgColor
             adView.layer.borderWidth = 1.0
@@ -139,7 +137,7 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
                               againstEdge: .bottom, padding: 8, width: w-8, height: h)
         
         // start Ads
-        if (showAds){
+        if (UISettings.showAds){
             Admob.startAds(view:adView, viewController:self)
         }
         

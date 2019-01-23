@@ -67,13 +67,10 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
     fileprivate var currFilterIndex:Int = -1
     fileprivate var currFilterCount:Int = 0
     
-    // var isLandscape : Bool = false // moved to base class
-    fileprivate var screenSize : CGRect = CGRect.zero
+
     fileprivate var displayWidth : CGFloat = 0.0
     fileprivate var displayHeight : CGFloat = 0.0
     
-    fileprivate let bannerHeight : CGFloat = 64.0
-    fileprivate let buttonSize : CGFloat = 48.0
     
     fileprivate var initDone:Bool = false
     
@@ -190,7 +187,7 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
         
         
        
-        log.verbose("h:\(displayHeight) w:\(displayWidth) landscape:\(isLandscape)")
+        log.verbose("h:\(displayHeight) w:\(displayWidth) landscape:\(UISettings.isLandscape)")
         
         doInit()
         
@@ -248,7 +245,7 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
   
     
     fileprivate func setupBanner(){
-        bannerView.frame.size.height = bannerHeight * 0.5
+        bannerView.frame.size.height = UISettings.panelHeight * 0.5
         bannerView.frame.size.width = displayWidth
         bannerView.title = "Filter Preview"
         bannerView.delegate = self
@@ -277,21 +274,21 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
         view.addSubview(imageSelectionView)
         view.addSubview(filterParametersView)
         
-        bannerView.frame.size.height = bannerHeight
+        bannerView.frame.size.height = UISettings.panelHeight
         bannerView.frame.size.width = displayWidth
         bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: 4, otherSize: bannerView.frame.size.height)
         //bannerView.anchorInCorner(.topLeft, xPad: 0, yPad: 4, width: bannerView.frame.size.width, height: bannerView.frame.size.height)
         log.verbose("Banner: \(bannerView.title) w:\(bannerView.frame.size.width) h:\(bannerView.frame.size.height)")
         
-        //adView.frame.size.height = bannerHeight
+        //adView.frame.size.height = UISettings.panelHeight
         //adView.frame.size.width = displayWidth
         //adView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: adView.frame.size.height)
         
         // set up rest of layout based on orientation
-        if (isLandscape){
+        if (UISettings.isLandscape){
             // left-to-right layout scheme
             
-            editImageView.frame.size.height = displayHeight - bannerHeight
+            editImageView.frame.size.height = displayHeight - UISettings.panelHeight
             editImageView.frame.size.width = displayWidth / 2
             editImageView.anchorInCorner(.bottomLeft, xPad: 0, yPad: 0, width: editImageView.frame.size.width, height: editImageView.frame.size.height)
             
@@ -301,7 +298,7 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
             
             
             // Align Overlay view to bottom of Render View
-            filterParametersView.frame.size.height = displayHeight - bannerHeight
+            filterParametersView.frame.size.height = displayHeight - UISettings.panelHeight
             filterParametersView.frame.size.width = displayWidth / 2
             filterParametersView.anchorInCorner(.bottomRight, xPad: 0, yPad: 0, width: filterParametersView.frame.size.width, height: filterParametersView.frame.size.height)
             
@@ -314,10 +311,10 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
             // Parameters on the bottom
 
             if (currFilterDescriptor != nil) {
-                //filterParametersView.frame.size.height = fmin((CGFloat(((currFilterDescriptor?.numParameters)! + 1)) * bannerHeight * 0.75), (displayHeight*0.75))
-                filterParametersView.frame.size.height = fmin((CGFloat(((currFilterDescriptor?.getNumDisplayableParameters())! + 1)) * bannerHeight * 0.75), (displayHeight*0.75))
+                //filterParametersView.frame.size.height = fmin((CGFloat(((currFilterDescriptor?.numParameters)! + 1)) * UISettings.panelHeight * 0.75), (displayHeight*0.75))
+                filterParametersView.frame.size.height = fmin((CGFloat(((currFilterDescriptor?.getNumDisplayableParameters())! + 1)) * UISettings.panelHeight * 0.75), (displayHeight*0.75))
             } else {
-                filterParametersView.frame.size.height = (displayHeight - 2.0 * bannerHeight) * 0.3
+                filterParametersView.frame.size.height = (displayHeight - 2.0 * UISettings.panelHeight) * 0.3
             }
 
             filterParametersView.frame.size.width = displayWidth
@@ -325,8 +322,8 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
             view.bringSubviewToFront(filterParametersView)
 
             // Filter display takes the rest of the screen
-            //editImageView.frame.size.height = displayHeight - bannerHeight - filterParametersView.frame.size.height - 4
-            editImageView.frame.size.height = displayHeight - bannerHeight
+            //editImageView.frame.size.height = displayHeight - UISettings.panelHeight - filterParametersView.frame.size.height - 4
+            editImageView.frame.size.height = displayHeight - UISettings.panelHeight
             editImageView.frame.size.width = displayWidth
             log.verbose("FilterDisplay: (w:\(editImageView.frame.size.width), h:\(editImageView.frame.size.height))")
             
@@ -362,7 +359,7 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
     
     private func positionParameterView(){
         // the size of the parameter view changes with each filter, so it's tricky to position. This routine positions it after it has been sized etc.
-        if (isLandscape){
+        if (UISettings.isLandscape){
             filterParametersView.anchorInCorner(.bottomRight, xPad: 0, yPad: 0, width: filterParametersView.frame.size.width, height: filterParametersView.frame.size.height)
         } else {
             filterParametersView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 1, otherSize: filterParametersView.frame.size.height)
@@ -387,7 +384,7 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
     
     private func setupImageSelectionView(){
         
-        imageSelectionView.frame.size.height = CGFloat(bannerHeight)
+        imageSelectionView.frame.size.height = CGFloat(UISettings.panelHeight)
         imageSelectionView.frame.size.width = displayWidth
         imageSelectionView.enableBlend(false)
         imageSelectionView.enableSave(true)
@@ -413,7 +410,7 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
         
         // set size of adornments
         //let dim: CGFloat = overlayView.frame.size.height / 8.0
-        let dim: CGFloat = buttonSize
+        let dim: CGFloat = UISettings.buttonSide
         let adornmentSize = CGSize(width: dim, height: dim)
         
         let key = (self.currFilterDescriptor?.key)!

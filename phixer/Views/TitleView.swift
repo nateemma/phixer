@@ -49,11 +49,6 @@ class TitleView: UIView {
     fileprivate var helpButton:SquareButton? = nil
     fileprivate var menuButton:SquareButton? = nil
     fileprivate var titleLabel:UILabel! = UILabel()
-
-    fileprivate let bannerHeight : CGFloat = 64.0
-    fileprivate let buttonSize : CGFloat = 48.0
-    fileprivate let statusBarOffset : CGFloat = 2.0
-
     
     
     convenience init() {
@@ -71,7 +66,7 @@ class TitleView: UIView {
     
     private func layout(){
         
-        self.frame.size.height = bannerHeight * 0.75
+        self.frame.size.height = UISettings.panelHeight * 0.75
         self.backgroundColor = theme.titleColor
         
         

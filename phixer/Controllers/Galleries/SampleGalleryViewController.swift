@@ -67,14 +67,8 @@ class SampleGalleryViewController: CoordinatedController, UIImagePickerControlle
     
     var imageSize:CGSize = CGSize.zero
     
-    // var isLandscape : Bool = false // moved to base class
-    var screenSize : CGRect = CGRect.zero
     var displayWidth : CGFloat = 0.0
     var displayHeight : CGFloat = 0.0
-    
-    let bannerHeight : CGFloat = 64.0
-    let buttonSize : CGFloat = 48.0
-    let statusBarOffset : CGFloat = 2.0
     
     
     
@@ -122,7 +116,7 @@ class SampleGalleryViewController: CoordinatedController, UIImagePickerControlle
         doLayout()
         
         // start Ads
-        if (showAds){
+        if (UISettings.showAds){
             Admob.startAds(view:adView, viewController:self)
         }
         
@@ -156,8 +150,8 @@ class SampleGalleryViewController: CoordinatedController, UIImagePickerControlle
         displayWidth = view.width
         log.verbose("h:\(displayHeight) w:\(displayWidth)")
         
-        //showAds = (isLandscape == true) ? false : true // don't show in landscape mode (too cluttered)
-        showAds = false // this screen looks bad with ads included...
+        //UISettings.showAds = (UISettings.isLandscape == true) ? false : true // don't show in landscape mode (too cluttered)
+        UISettings.showAds = false // this screen looks bad with ads included...
         
         
         view.backgroundColor = theme.backgroundColor // default seems to be white
@@ -166,27 +160,27 @@ class SampleGalleryViewController: CoordinatedController, UIImagePickerControlle
         
         //set up dimensions
         
-        bannerView.frame.size.height = bannerHeight * 0.75
+        bannerView.frame.size.height = UISettings.panelHeight * 0.75
         bannerView.frame.size.width = displayWidth
         bannerView.backgroundColor = theme.backgroundColor
         
         
         layoutBanner()
         
-        if (showAds){
-            adView.frame.size.height = bannerHeight
+        if (UISettings.showAds){
+            adView.frame.size.height = UISettings.panelHeight
             adView.frame.size.width = displayWidth
             adView.layer.cornerRadius = 0.0
             adView.layer.borderWidth = 1.0
             adView.layer.borderColor = theme.borderColor.cgColor
         }
         
-        infoView.frame.size.height = 3.5 * bannerHeight
+        infoView.frame.size.height = 3.5 * UISettings.panelHeight
         infoView.frame.size.width = displayWidth
         layoutInfoView()
         view.addSubview(infoView)
         
-        if (showAds){
+        if (UISettings.showAds){
             sampleGalleryView.frame.size.height = displayHeight - bannerView.frame.size.height - adView.frame.size.height - infoView.frame.size.height
         } else {
             sampleGalleryView.frame.size.height = displayHeight - bannerView.frame.size.height - infoView.frame.size.height
@@ -202,7 +196,7 @@ class SampleGalleryViewController: CoordinatedController, UIImagePickerControlle
         
         // Note: need to add subviews before modifying constraints
         view.addSubview(bannerView)
-        if (showAds){
+        if (UISettings.showAds){
             adView.isHidden = false
             view.addSubview(adView)
         } else {
@@ -212,9 +206,9 @@ class SampleGalleryViewController: CoordinatedController, UIImagePickerControlle
         
         
         // layout constraints
-        bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
+        bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
         
-        if (showAds){
+        if (UISettings.showAds){
             adView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: adView.frame.size.height)
             infoView.align(.underCentered, relativeTo: adView, padding: 0, width: displayWidth, height: infoView.frame.size.height)
         } else {
@@ -236,7 +230,7 @@ class SampleGalleryViewController: CoordinatedController, UIImagePickerControlle
     
     // layout the banner view, with the Back button, title etc.
     func layoutBanner(){
-        bannerView.frame.size.height = bannerHeight * 0.5
+        bannerView.frame.size.height = UISettings.panelHeight * 0.5
         bannerView.frame.size.width = displayWidth
         bannerView.title = "Select Sample Image"
         bannerView.delegate = self

@@ -14,13 +14,9 @@ import WebKit
 class HTMLViewController: CoordinatedController {
     
 
-    private let statusBarOffset : CGFloat = 2.0
-    private let bannerHeight : CGFloat = 64.0
-
     private var bannerView: TitleView! = TitleView()
     private var htmlView: WKWebView! = WKWebView()
     
-    private var screenSize : CGRect = CGRect.zero
     private var displayWidth : CGFloat = 0.0
     private var displayHeight : CGFloat = 0.0
     
@@ -190,14 +186,14 @@ class HTMLViewController: CoordinatedController {
         view.addSubview(htmlView)
         
         // layout constraints
-        bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
+        bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
         htmlView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: (displayHeight-bannerView.frame.size.height))
     }
     
     
     // layout the banner view, with the Back button, title etc.
     private func layoutBanner(){
-        bannerView.frame.size.height = min (bannerHeight,displayHeight * 0.2)
+        bannerView.frame.size.height = min (UISettings.panelHeight,displayHeight * 0.2)
         bannerView.frame.size.width = displayWidth
         bannerView.delegate = self
     }

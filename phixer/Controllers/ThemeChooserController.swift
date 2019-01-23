@@ -22,13 +22,9 @@ class ThemeChooserController: CoordinatedController {
     var sampleView:UIView! = UIView()
     
     
-    var screenSize : CGRect = CGRect.zero
+
     var displayWidth : CGFloat = 0.0
     var displayHeight : CGFloat = 0.0
-    
-    let bannerHeight : CGFloat = 64.0
-    let buttonSize : CGFloat = 48.0
-    let statusBarOffset : CGFloat = 2.0
     
     var selectedThemeKey:String = ""
     var selectedTheme:ThemeParameters? = nil
@@ -112,8 +108,8 @@ class ThemeChooserController: CoordinatedController {
         
         
         
-        //showAds = (isLandscape == true) ? false : true // don't show in landscape mode (too cluttered)
-        //showAds = false // debug
+        //UISettings.showAds = (UISettings.isLandscape == true) ? false : true // don't show in landscape mode (too cluttered)
+        //UISettings.showAds = false // debug
         
         
         view.backgroundColor = theme.backgroundColor
@@ -138,7 +134,7 @@ class ThemeChooserController: CoordinatedController {
         view.addSubview(sampleView)
         
         // layout constraints
-        bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
+        bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
         selectionView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: selectionView.frame.size.height)
         controlView.align(.underCentered, relativeTo: selectionView, padding: 0, width: displayWidth, height: controlView.frame.size.height)
         //sampleView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: sampleView.frame.size.height)
@@ -154,7 +150,7 @@ class ThemeChooserController: CoordinatedController {
     
     
     func layoutBanner(){
-        bannerView.frame.size.height = bannerHeight
+        bannerView.frame.size.height = UISettings.panelHeight
         bannerView.frame.size.width = displayWidth
         bannerView.backgroundColor = theme.backgroundColor
         bannerView.title = "Color Theme Chooser"
@@ -164,7 +160,7 @@ class ThemeChooserController: CoordinatedController {
     func layoutSelectionView(){
         
         selectionView.frame.size.width = displayWidth
-        selectionView.frame.size.height = 2*bannerHeight
+        selectionView.frame.size.height = 2*UISettings.panelHeight
 
         // Colour Scheme selection
         let themeLabel = UILabel()
@@ -174,14 +170,14 @@ class ThemeChooserController: CoordinatedController {
         themeLabel.textColor = theme.textColor
         themeLabel.textAlignment = .right
         themeSelector.frame.size.width = (displayWidth / 2) - 8
-        themeSelector.frame.size.height = bannerHeight
+        themeSelector.frame.size.height = UISettings.panelHeight
 
         themeSelector.delegate = self
         themeSelector.dataSource = self
         
         themeSelector.showsSelectionIndicator = true
         themeSelector.frame.size.width = (displayWidth / 2) - 8
-        themeSelector.frame.size.height = bannerHeight
+        themeSelector.frame.size.height = UISettings.panelHeight
         themeSelector.setValue(theme.titleTextColor, forKeyPath: "textColor")
         let index = themeList.firstIndex(of: selectedThemeKey)
         themeSelector.selectRow(index!, inComponent: 0, animated: true)
@@ -190,7 +186,7 @@ class ThemeChooserController: CoordinatedController {
         selectionView.addSubview(themeSelector)
         
         let w:CGFloat = (selectionView.frame.size.width / 2) - 8
-        let h:CGFloat = min ((selectionView.frame.size.height / 4), bannerHeight)
+        let h:CGFloat = min ((selectionView.frame.size.height / 4), UISettings.panelHeight)
         let pad:CGFloat = 2
         
         // line up the labels on the left
@@ -222,7 +218,7 @@ class ThemeChooserController: CoordinatedController {
         // add items that show modified components. Can't set theme, bacuase that changes the 'real' UI
         
         let numComponents:CGFloat = 5
-        let h = min (bannerHeight, (sampleView.frame.size.height-4)/numComponents).rounded()
+        let h = min (UISettings.panelHeight, (sampleView.frame.size.height-4)/numComponents).rounded()
         let w = sampleView.frame.size.width - 4
         let rowSize = CGSize(width: w, height: h)
         let itemSize = CGSize(width: w/2, height: h)
@@ -339,12 +335,12 @@ class ThemeChooserController: CoordinatedController {
     
     func layoutControls(){
         controlView.frame.size.width = displayWidth
-        controlView.frame.size.height = bannerHeight
+        controlView.frame.size.height = UISettings.panelHeight
         
         // build a view with a "Done" Button and a "Cancel" button
         let cancelButton:BorderedButton = BorderedButton()
         cancelButton.frame.size.width = displayWidth / 3.0
-        cancelButton.frame.size.height = bannerHeight - 16
+        cancelButton.frame.size.height = UISettings.panelHeight - 16
         cancelButton.setTitle("Cancel", for: .normal)
         cancelButton.useGradient = true
         cancelButton.backgroundColor = theme.buttonColor

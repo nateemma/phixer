@@ -26,17 +26,12 @@ class FilterInfoView: UIView {
     
     var theme = ThemeManager.currentTheme()
     
-
-    var isLandscape : Bool = false
-    
     // display items
     var categoryIcon: SquareButton! = SquareButton()
     var categoryLabel: UIButton! = UIButton()
     var filterIcon: SquareButton! = SquareButton()
     var filterLabel: UIButton! = UIButton()
     var swapIcon: SquareButton! = SquareButton()
-
-    var buttonSize : CGFloat = 48.0
     
     var initDone: Bool = false
     
@@ -62,14 +57,14 @@ class FilterInfoView: UIView {
 
             self.backgroundColor = theme.backgroundColor
             
-            //if (buttonSize>self.frame.size.height){ buttonSize = self.frame.size.height - 4 }
-            buttonSize = fmin(self.frame.size.height, self.frame.size.width) - 8
+            //if (UISettings.buttonSide>self.frame.size.height){ UISettings.buttonSide = self.frame.size.height - 4 }
+            let side = fmin(self.frame.size.height, self.frame.size.width) - 8
             
-            categoryIcon = SquareButton(bsize: buttonSize)
+            categoryIcon = SquareButton(bsize: side)
             categoryIcon.setTintable(false)
-            filterIcon = SquareButton(bsize: buttonSize)
+            filterIcon = SquareButton(bsize: side)
             filterIcon.setTintable(false)
-            swapIcon = SquareButton(bsize: buttonSize)
+            swapIcon = SquareButton(bsize: side)
 
             // initial values
 
@@ -117,7 +112,7 @@ class FilterInfoView: UIView {
         super.layoutSubviews()
         
         // get orientation
-        //isLandscape = ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight))
+        //UISettings.isLandscape = ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight))
 
         if !initDone {
             initViews()
@@ -125,11 +120,11 @@ class FilterInfoView: UIView {
         
 
         // place at the bottom of the view to avoid the battery icon
-        categoryIcon.anchorInCorner(.bottomLeft, xPad: 2, yPad: 2, width: buttonSize, height: buttonSize)
+        categoryIcon.anchorInCorner(.bottomLeft, xPad: 2, yPad: 2, width: UISettings.buttonSide, height: UISettings.buttonSide)
         categoryLabel.align(.toTheRightCentered, relativeTo: categoryIcon, padding: 0, width: categoryLabel.frame.size.width, height: categoryLabel.frame.size.height)
-        filterIcon.anchorToEdge(.bottom, padding: 2, width: buttonSize, height: buttonSize)
+        filterIcon.anchorToEdge(.bottom, padding: 2, width: UISettings.buttonSide, height: UISettings.buttonSide)
         filterLabel.align(.toTheRightCentered, relativeTo: filterIcon, padding: 0, width: filterLabel.frame.size.width, height: filterLabel.frame.size.height)
-        swapIcon.anchorInCorner(.bottomRight, xPad: 2, yPad: 2, width: buttonSize, height: buttonSize)
+        swapIcon.anchorInCorner(.bottomRight, xPad: 2, yPad: 2, width: UISettings.buttonSide, height: UISettings.buttonSide)
 
         
         // register touch handlers

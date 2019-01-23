@@ -17,7 +17,6 @@ import GoogleMobileAds
 class ResetViewController: CoordinatedController, UINavigationControllerDelegate {
 
     
-    var screenSize : CGRect = CGRect.zero
     var displayWidth : CGFloat = 0.0
     var displayHeight : CGFloat = 0.0
     
@@ -25,13 +24,9 @@ class ResetViewController: CoordinatedController, UINavigationControllerDelegate
     
     // Banner/Navigation View (title)
     fileprivate var bannerView: TitleView! = TitleView()
-    fileprivate let statusBarOffset : CGFloat = 2.0
 
     // Advertisements View
     var adView: GADBannerView! = GADBannerView()
-    var bannerHeight : CGFloat = 64.0
-    
-    let buttonSize : CGFloat = 48.0
     
  
     
@@ -83,10 +78,10 @@ class ResetViewController: CoordinatedController, UINavigationControllerDelegate
         displayWidth = view.width
         
         
-        showAds = (isLandscape == true) ? false : true // don't show in landscape mode, too cluttered
+        UISettings.showAds = (UISettings.isLandscape == true) ? false : true // don't show in landscape mode, too cluttered
         
         
-        log.verbose("h:\(displayHeight) w:\(displayWidth) Landscape:\(isLandscape) showAds:\(showAds)")
+        log.verbose("h:\(displayHeight) w:\(displayWidth) Landscape:\(UISettings.isLandscape) UISettings.showAds:\(UISettings.showAds)")
 
         doInit()
         
@@ -96,18 +91,18 @@ class ResetViewController: CoordinatedController, UINavigationControllerDelegate
 
         
         // Banner and filter info view are always at the top of the screen
-        bannerView.frame.size.height = bannerHeight * 0.5
+        bannerView.frame.size.height = UISettings.panelHeight * 0.5
         bannerView.frame.size.width = displayWidth
         bannerView.backgroundColor = theme.backgroundColor
         
         
         layoutBanner()
-        bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
+        bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
 
         // Set up Ads
-        if (showAds){
+        if (UISettings.showAds){
             adView.isHidden = false
-            adView.frame.size.height = bannerHeight
+            adView.frame.size.height = UISettings.panelHeight
             adView.frame.size.width = displayWidth
             
             adView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: adView.frame.size.height)
@@ -115,7 +110,7 @@ class ResetViewController: CoordinatedController, UINavigationControllerDelegate
 
         
         // start Ads
-        if (showAds){
+        if (UISettings.showAds){
             Admob.startAds(view:adView, viewController:self)
         }
         
@@ -127,7 +122,7 @@ class ResetViewController: CoordinatedController, UINavigationControllerDelegate
     
     // layout the banner view, with the Back button, title etc.
     func layoutBanner(){
-        bannerView.frame.size.height = bannerHeight * 0.5
+        bannerView.frame.size.height = UISettings.panelHeight * 0.5
         bannerView.frame.size.width = displayWidth
         bannerView.title = "Reset Filters"
         bannerView.delegate = self

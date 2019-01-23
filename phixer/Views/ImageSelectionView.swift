@@ -34,11 +34,7 @@ class ImageSelectionView: UIView {
     
    //MARK: - Class variables:
     
-    let bannerHeight : CGFloat = 64.0
-    let buttonSize : CGFloat = 32.0
     let smallIconFactor : CGFloat = 0.75
-    
-    var isLandscape : Bool = false
     
     var imageButton: SquareButton!
     var blendButton: SquareButton!
@@ -77,9 +73,9 @@ class ImageSelectionView: UIView {
             self.backgroundColor = theme.backgroundColor
             
             // set up buttons and labels
-            imageButton = SquareButton(bsize: buttonSize)
-            blendButton = SquareButton(bsize: buttonSize)
-            saveButton = SquareButton(bsize: buttonSize)
+            imageButton = SquareButton(bsize: UISettings.buttonSide)
+            blendButton = SquareButton(bsize: UISettings.buttonSide)
+            saveButton = SquareButton(bsize: UISettings.buttonSide)
             
             saveButton.setImageAsset("ic_save")
             saveButton.setTintable(true)
@@ -129,44 +125,41 @@ class ImageSelectionView: UIView {
         
         let pad:CGFloat = 4
         
-        // get orientation
-        isLandscape = ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight))
-        
         // set up layout based on orientation
-        if (isLandscape){
+        if (UISettings.isLandscape){
             // Landscape: top-to-bottom layout scheme
             
             
-            //self.anchorAndFillEdge(.right, xPad: 0, yPad: 0, otherSize: bannerHeight)
+            //self.anchorAndFillEdge(.right, xPad: 0, yPad: 0, otherSize: UISettings.panelHeight)
             
             // add items to the  view
-            imageButton.anchorToEdge(.top, padding: pad, width: buttonSize, height: buttonSize)
-            blendButton.anchorInCenter(width: buttonSize, height: buttonSize)
-            saveButton.anchorToEdge(.bottom, padding: pad, width: buttonSize, height: buttonSize)
+            imageButton.anchorToEdge(.top, padding: pad, width: UISettings.buttonSide, height: UISettings.buttonSide)
+            blendButton.anchorInCenter(width: UISettings.buttonSide, height: UISettings.buttonSide)
+            saveButton.anchorToEdge(.bottom, padding: pad, width: UISettings.buttonSide, height: UISettings.buttonSide)
             
-            imageLabel.align(.underCentered, relativeTo: imageButton, padding: pad, width: buttonSize, height: buttonSize/2)
-            blendLabel.align(.underCentered, relativeTo: blendButton, padding: pad, width: buttonSize, height: buttonSize/2)
-            saveLabel.align(.underCentered, relativeTo: saveButton, padding: pad, width: buttonSize, height: buttonSize/2)
+            imageLabel.align(.underCentered, relativeTo: imageButton, padding: pad, width: UISettings.buttonSide, height: UISettings.buttonSide/2)
+            blendLabel.align(.underCentered, relativeTo: blendButton, padding: pad, width: UISettings.buttonSide, height: UISettings.buttonSide/2)
+            saveLabel.align(.underCentered, relativeTo: saveButton, padding: pad, width: UISettings.buttonSide, height: UISettings.buttonSide/2)
 
         } else {
             // left-to-right layout scheme
             
-            //self.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: bannerHeight)
+            //self.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: UISettings.panelHeight)
             
             
             // add items to the  view
-            imageButton.anchorToEdge(.left, padding: pad, width: buttonSize, height: buttonSize)
-            blendButton.anchorInCenter(width: buttonSize, height: buttonSize)
-            saveButton.anchorToEdge(.right, padding: pad, width: buttonSize, height: buttonSize)
+            imageButton.anchorToEdge(.left, padding: pad, width: UISettings.buttonSide, height: UISettings.buttonSide)
+            blendButton.anchorInCenter(width: UISettings.buttonSide, height: UISettings.buttonSide)
+            saveButton.anchorToEdge(.right, padding: pad, width: UISettings.buttonSide, height: UISettings.buttonSide)
             /***
-            imageButton.anchorInCorner(.topLeft, xPad: 4*pad, yPad: pad, width: buttonSize, height: buttonSize)
-            blendButton.anchorToEdge(.top, padding: pad, width: buttonSize, height: buttonSize)
-            saveButton.anchorInCorner(.topRight, xPad: 4*pad, yPad: pad, width: buttonSize, height: buttonSize)
+            imageButton.anchorInCorner(.topLeft, xPad: 4*pad, yPad: pad, width: UISettings.buttonSide, height: UISettings.buttonSide)
+            blendButton.anchorToEdge(.top, padding: pad, width: UISettings.buttonSide, height: UISettings.buttonSide)
+            saveButton.anchorInCorner(.topRight, xPad: 4*pad, yPad: pad, width: UISettings.buttonSide, height: UISettings.buttonSide)
             ***/
             
-            imageLabel.align(.underCentered, relativeTo: imageButton, padding: 0, width: buttonSize, height: buttonSize/2)
-            blendLabel.align(.underCentered, relativeTo: blendButton, padding: 0, width: buttonSize, height: buttonSize/2)
-            saveLabel.align(.underCentered, relativeTo: saveButton, padding: 0, width: buttonSize, height: buttonSize/2)
+            imageLabel.align(.underCentered, relativeTo: imageButton, padding: 0, width: UISettings.buttonSide, height: UISettings.buttonSide/2)
+            blendLabel.align(.underCentered, relativeTo: blendButton, padding: 0, width: UISettings.buttonSide, height: UISettings.buttonSide/2)
+            saveLabel.align(.underCentered, relativeTo: saveButton, padding: 0, width: UISettings.buttonSide, height: UISettings.buttonSide/2)
 
         }
         

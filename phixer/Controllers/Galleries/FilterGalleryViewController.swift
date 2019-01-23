@@ -43,14 +43,8 @@ class FilterGalleryViewController: CoordinatedController {
     var filterGalleryView : FilterGalleryView! = FilterGalleryView()
     
     
-    var screenSize : CGRect = CGRect.zero
     var displayWidth : CGFloat = 0.0
     var displayHeight : CGFloat = 0.0
-    
-    let bannerHeight : CGFloat = 64.0
-    let buttonSize : CGFloat = 48.0
-    let statusBarOffset : CGFloat = 2.0
-    
     
     
     
@@ -100,7 +94,7 @@ class FilterGalleryViewController: CoordinatedController {
         doLayout()
         
         // start Ads
-        if (showAds){
+        if (UISettings.showAds){
             Admob.startAds(view:adView, viewController:self)
         }
         
@@ -142,8 +136,8 @@ class FilterGalleryViewController: CoordinatedController {
         displayWidth = view.width
         log.verbose("h:\(displayHeight) w:\(displayWidth)")
         
-        showAds = (isLandscape == true) ? false : true // don't show in landscape mode (too cluttered)
-        //showAds = false // debug
+        UISettings.showAds = (UISettings.isLandscape == true) ? false : true // don't show in landscape mode (too cluttered)
+        //UISettings.showAds = false // debug
         
         
         view.backgroundColor = theme.backgroundColor // default seems to be white
@@ -153,18 +147,18 @@ class FilterGalleryViewController: CoordinatedController {
         
         layoutBanner()
         
-        if (showAds){
-            adView.frame.size.height = bannerHeight
+        if (UISettings.showAds){
+            adView.frame.size.height = UISettings.panelHeight
             adView.frame.size.width = displayWidth
         }
         
         
-        if (showAds){
-            //filterView.frame.size.height = displayHeight - 3.75 * bannerHeight
-            filterGalleryView.frame.size.height = displayHeight - 4.25 * bannerHeight
+        if (UISettings.showAds){
+            //filterView.frame.size.height = displayHeight - 3.75 * UISettings.panelHeight
+            filterGalleryView.frame.size.height = displayHeight - 4.25 * UISettings.panelHeight
         } else {
-            //filterView.frame.size.height = displayHeight - 2.75 * bannerHeight
-            filterGalleryView.frame.size.height = displayHeight - 3.25 * bannerHeight
+            //filterView.frame.size.height = displayHeight - 2.75 * UISettings.panelHeight
+            filterGalleryView.frame.size.height = displayHeight - 3.25 * UISettings.panelHeight
         }
         filterGalleryView.frame.size.width = displayWidth
         filterGalleryView.backgroundColor = theme.backgroundColor
@@ -175,7 +169,7 @@ class FilterGalleryViewController: CoordinatedController {
         
         // Note: need to add subviews before modifying constraints
         view.addSubview(bannerView)
-        if (showAds){
+        if (UISettings.showAds){
             adView.isHidden = false
             view.addSubview(adView)
             adView.layer.borderColor = theme.borderColor.cgColor
@@ -188,18 +182,18 @@ class FilterGalleryViewController: CoordinatedController {
         
         categorySelectionView = CategorySelectionView()
         
-        categorySelectionView.frame.size.height = 1.5 * bannerHeight
+        categorySelectionView.frame.size.height = 1.5 * UISettings.panelHeight
         categorySelectionView.frame.size.width = displayWidth
         categorySelectionView.backgroundColor = theme.backgroundColor
         view.addSubview(categorySelectionView)
 
 
         // layout constraints
-        bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
+        bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
 
         filterGalleryView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: filterGalleryView.frame.size.height)
         
-        if (showAds){
+        if (UISettings.showAds){
             adView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: adView.frame.size.height)
             categorySelectionView.align(.underCentered, relativeTo: adView, padding: 0, width: displayWidth, height: categorySelectionView.frame.size.height)
         } else {
@@ -212,7 +206,7 @@ class FilterGalleryViewController: CoordinatedController {
  
     
     func layoutBanner(){
-        bannerView.frame.size.height = bannerHeight
+        bannerView.frame.size.height = UISettings.panelHeight
         bannerView.frame.size.width = displayWidth
         bannerView.backgroundColor = theme.backgroundColor
         bannerView.title = "Filter Gallery"

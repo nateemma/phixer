@@ -28,7 +28,6 @@ class ColorPickerController: CoordinatedController {
     var delegate: ColorPickerControllerDelegate? = nil
     
     // Main Views
-    var bannerView: TitleView! = TitleView()
     var adView: GADBannerView! = GADBannerView()
     //var colorWheelView:ISColorWheel! = ISColorWheel()
     var colorWheelView:ColorWheelView? = nil
@@ -39,13 +38,9 @@ class ColorPickerController: CoordinatedController {
 
     
     
-    var screenSize : CGRect = CGRect.zero
     var displayWidth : CGFloat = 0.0
     var displayHeight : CGFloat = 0.0
     
-    let bannerHeight : CGFloat = 64.0
-    let buttonSize : CGFloat = 48.0
-    let statusBarOffset : CGFloat = 2.0
     
     var selectedColor:UIColor = UIColor.flatGreen
 
@@ -95,7 +90,7 @@ class ColorPickerController: CoordinatedController {
         doLayout()
         
         // start Ads
-        if (showAds){
+        if (UISettings.showAds){
             Admob.startAds(view:adView, viewController:self)
         }
         
@@ -130,25 +125,20 @@ class ColorPickerController: CoordinatedController {
         log.verbose("h:\(displayHeight) w:\(displayWidth)")
         
  
-        showAds = false // debug
+        UISettings.showAds = false // debug
         
         
         view.backgroundColor = theme.backgroundColor // default seems to be white
         
        
-        //top-to-bottom layout scheme
-        // Note: need to define and add subviews before modifying constraints
-
-         layoutBanner()
-        view.addSubview(bannerView)
-        
+         
         // Ads
-        if (showAds){
-            adView.frame.size.height = bannerHeight
+        if (UISettings.showAds){
+            adView.frame.size.height = UISettings.panelHeight
             adView.frame.size.width = displayWidth
         }
 
-        if (showAds){
+        if (UISettings.showAds){
             adView.isHidden = false
             view.addSubview(adView)
         } else {
@@ -168,15 +158,13 @@ class ColorPickerController: CoordinatedController {
 
         
         // layout constraints
-        bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
-    
-        if (showAds){
-            adView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: adView.frame.size.height)
+        if (UISettings.showAds){
+            adView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: adView.frame.size.height)
             colorWheelView?.align(.underCentered, relativeTo: adView, padding: 0, width: displayWidth, height: (colorWheelView?.frame.size.height)!)
         } else {
-            colorWheelView?.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: (colorWheelView?.frame.size.height)!)
+            colorWheelView?.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: (colorWheelView?.frame.size.height)!)
         }
-        controlView.anchorAndFillEdge(.bottom, xPad: 0, yPad: statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
+        controlView.anchorAndFillEdge(.bottom, xPad: 0, yPad: UISettings.topBarHeight, otherSize: controlView.frame.size.height)
         hsbView.align(.aboveCentered, relativeTo: controlView, padding: 0, width: displayWidth, height: hsbView.frame.size.height)
         rgbView.align(.aboveCentered, relativeTo: hsbView, padding: 0, width: displayWidth, height: rgbView.frame.size.height)
 
@@ -190,14 +178,6 @@ class ColorPickerController: CoordinatedController {
     /////////////////////////////
  
     //NOTE: make sure height percentages add up to 1.0 (or less)
-    
-    func layoutBanner(){
-        bannerView.frame.size.height = displayHeight * 0.1
-        bannerView.frame.size.width = displayWidth
-        bannerView.backgroundColor = theme.backgroundColor
-        bannerView.title = "Color Picker"
-        bannerView.delegate = self
-    }
 
     func layoutColorWheel(){
         
