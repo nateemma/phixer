@@ -136,11 +136,11 @@ class EditBaseToolController: CoordinatedController, SubControllerDelegate {
         mainView.layer.borderColor = theme.borderColor.cgColor
 
 
-        titleView.frame.size.height = 32
         titleView.frame.size.width = mainView.frame.size.width
+        titleView.frame.size.height = UISettings.titleHeight
         titleView.backgroundColor = theme.subtitleColor
 
-        toolView.frame.size.height = mainView.frame.size.height - titleView.frame.size.height
+        toolView.frame.size.height = mainView.frame.size.height - UISettings.panelHeight
         toolView.frame.size.width = mainView.frame.size.width
         toolView.backgroundColor = mainView.backgroundColor
 
@@ -150,7 +150,7 @@ class EditBaseToolController: CoordinatedController, SubControllerDelegate {
         
         mainView.addSubview(titleView)
         mainView.addSubview(toolView)
-        titleView.anchorToEdge(.top, padding: 0, width: titleView.frame.size.width, height: titleView.frame.size.height)
+        titleView.anchorToEdge(.top, padding: 0, width: titleView.frame.size.width, height: UISettings.titleHeight)
         toolView.alignAndFillWidth(align: .underCentered, relativeTo: titleView, padding: 0, height: toolView.frame.size.height)
         //toolView.anchorToEdge(.bottom, padding: 0, width: toolView.frame.size.width, height: toolView.frame.size.height)
 
@@ -167,7 +167,7 @@ class EditBaseToolController: CoordinatedController, SubControllerDelegate {
         // set up the title, with a label for the text an an image for the 'commit' and 'cancel' options
         
         // commit button
-        let commitButton = SquareButton(bsize: (titleView.frame.size.height*0.8).rounded())
+        let commitButton = SquareButton(bsize: (UISettings.titleHeight*0.6).rounded())
         commitButton.setImageAsset("ic_yes")
         commitButton.backgroundColor = theme.titleColor.withAlphaComponent(0.5)
         commitButton.setTintable(true)
@@ -175,7 +175,7 @@ class EditBaseToolController: CoordinatedController, SubControllerDelegate {
         commitButton.addTarget(self, action: #selector(self.commitDidPress), for: .touchUpInside)
         
         // cancel button
-        let cancelButton = SquareButton(bsize: (titleView.frame.size.height*0.8).rounded())
+        let cancelButton = SquareButton(bsize: (UISettings.titleHeight*0.6).rounded())
         cancelButton.setImageAsset("ic_no")
         cancelButton.backgroundColor = theme.titleColor.withAlphaComponent(0.5)
         cancelButton.setTintable(true)
@@ -186,13 +186,14 @@ class EditBaseToolController: CoordinatedController, SubControllerDelegate {
         // label
         let label = UILabel()
         label.frame.size.width = (titleView.frame.size.width - cancelButton.frame.size.width - 4).rounded()
-        label.frame.size.height = titleView.frame.size.height
+        label.frame.size.height = UISettings.panelHeight
         label.text = getTitle()
         label.textAlignment = .center
         label.textColor = theme.titleTextColor
         label.backgroundColor = theme.titleColor
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.fitTextToBounds()
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.adjustsFontSizeToFitWidth = true
+        //label.fitTextToBounds()
  
         titleView.addSubview(label)
         titleView.addSubview(commitButton)
@@ -211,9 +212,9 @@ class EditBaseToolController: CoordinatedController, SubControllerDelegate {
             log.debug("old:\(toolView.frame.size.height) new:\(height)")
             
             toolView.frame.size.height = height
-            mainView.frame.size.height = titleView.frame.size.height + toolView.frame.size.height
+            mainView.frame.size.height = UISettings.panelHeight + toolView.frame.size.height
             self.view.frame.size.height = mainView.frame.size.height
-            //titleView.anchorToEdge(.top, padding: 0, width: titleView.frame.size.width, height: titleView.frame.size.height)
+            //titleView.anchorToEdge(.top, padding: 0, width: titleView.frame.size.width, height: UISettings.panelHeight)
             toolView.alignAndFillWidth(align: .underCentered, relativeTo: titleView, padding: 0, height: toolView.frame.size.height)
         }
     }

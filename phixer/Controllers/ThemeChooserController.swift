@@ -16,7 +16,6 @@ import Neon
 class ThemeChooserController: CoordinatedController {
     
     // Main Views
-    var bannerView: TitleView! = TitleView()
     var selectionView:UIView! = UIView()
     var controlView:UIView! = UIView()
     var sampleView:UIView! = UIView()
@@ -118,9 +117,6 @@ class ThemeChooserController: CoordinatedController {
         //top-to-bottom layout scheme
         // Note: need to define and add subviews before modifying constraints
         
-        layoutBanner()
-        view.addSubview(bannerView)
-        
         // Selection view
         layoutSelectionView()
         view.addSubview(selectionView)
@@ -134,8 +130,8 @@ class ThemeChooserController: CoordinatedController {
         view.addSubview(sampleView)
         
         // layout constraints
-        bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
-        selectionView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: selectionView.frame.size.height)
+
+        selectionView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: selectionView.frame.size.height)
         controlView.align(.underCentered, relativeTo: selectionView, padding: 0, width: displayWidth, height: controlView.frame.size.height)
         //sampleView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: sampleView.frame.size.height)
         sampleView.alignAndFillHeight(align: .underCentered, relativeTo: controlView, padding: 0, width: displayWidth-8)
@@ -147,14 +143,6 @@ class ThemeChooserController: CoordinatedController {
     /////////////////////////////
     // MARK: - Layout Functions
     /////////////////////////////
-    
-    
-    func layoutBanner(){
-        bannerView.frame.size.height = UISettings.panelHeight
-        bannerView.frame.size.width = displayWidth
-        bannerView.backgroundColor = theme.backgroundColor
-        bannerView.title = "Color Theme Chooser"
-    }
     
     
     func layoutSelectionView(){
@@ -203,7 +191,7 @@ class ThemeChooserController: CoordinatedController {
         
         // set up the background and border
         sampleView.frame.size.width = displayWidth - 8
-        sampleView.frame.size.height = displayHeight - bannerView.frame.size.height - selectionView.frame.size.height - controlView.frame.size.height - 8
+        sampleView.frame.size.height = displayHeight - UISettings.topBarHeight - selectionView.frame.size.height - controlView.frame.size.height - 8
         
         selectedTheme = ThemeManager.getTheme(selectedThemeKey)
         sampleView.backgroundColor = selectedTheme!.backgroundColor
@@ -420,24 +408,6 @@ class ThemeChooserController: CoordinatedController {
 // MARK: - Extensions
 /////////////////////////////
 
-
-extension ThemeChooserController: TitleViewDelegate {
-    func backPressed() {
-        backDidPress()
-    }
-    
-    func helpPressed() {
-//        let vc = HTMLViewController()
-//        vc.setTitle("Theme Chooser")
-//        vc.loadFile(name: "ThemeChooser")
-//        present(vc, animated: true, completion: nil)
-        self.coordinator?.helpRequest()
-    }
-    
-    func menuPressed() {
-        // placeholder
-    }
-}
 
 // UIPicker stuff
 

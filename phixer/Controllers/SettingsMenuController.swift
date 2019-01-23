@@ -17,15 +17,10 @@ import GoogleMobileAds
 class SettingsMenuController: CoordinatedController, UINavigationControllerDelegate {
     
     
-     var displayWidth : CGFloat = 0.0
+    var displayWidth : CGFloat = 0.0
     var displayHeight : CGFloat = 0.0
     
-    
-    
-    // Banner/Navigation View (title)
-    fileprivate var titleView:TitleView! = TitleView()
-    
-    // Advertisements View
+     // Advertisements View
     var adView: GADBannerView! = GADBannerView()
     
     // Menu items
@@ -99,17 +94,7 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
         doInit()
         
         
-        
-        // Banner and filter info view are always at the top of the screen
-        titleView.frame.size.height = UISettings.panelHeight * 0.8
-        titleView.frame.size.width = displayWidth
-        titleView.title = "Settings"
-        titleView.delegate = self
-        
-        stackHeight = stackHeight - titleView.frame.size.height
-        
-        view.addSubview(titleView)
-        titleView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.statusBarOffset/2.0, otherSize: titleView.frame.size.height)
+        stackHeight = stackHeight - UISettings.panelHeight
         
         // Set up Ads
         if (UISettings.showAds){
@@ -120,7 +105,7 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
             adView.layer.borderWidth = 1.0
             
             view.addSubview(adView)
-            adView.align(.underCentered, relativeTo: titleView, padding: 0, width: displayWidth, height: adView.frame.size.height)
+           adView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: adView.frame.size.height)
             Admob.startAds(view:adView, viewController:self)
             stackHeight = stackHeight - adView.frame.size.height
         }
@@ -394,24 +379,3 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
     }
     
 } // SettingsMenuController
-
-
-
-
-
-extension SettingsMenuController: TitleViewDelegate {
-    func backPressed() {
-        backDidPress()
-    }
-    
-    func helpPressed() {
-        let vc = HTMLViewController()
-        vc.setTitle("Settings")
-        vc.loadFile(name: "Settings")
-        present(vc, animated: true, completion: nil)
-    }
-    
-    func menuPressed() {
-        // placeholder
-    }
-}

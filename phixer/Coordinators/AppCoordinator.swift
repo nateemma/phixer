@@ -139,7 +139,7 @@ class AppCoordinator: Coordinator {
         
         //let fullFrame:CGRect = CGRect(x: 0, y: UISettings.topBarHeight, width: w, height: h-UISettings.topBarHeight)
         let fullFrame:CGRect = CGRect(x: 0, y: 0, width: w, height: h)
-        let menuFrame:CGRect = CGRect(x: 0, y: h-UISettings.menuHeight, width: w, height: UISettings.menuHeight)
+        let menuFrame:CGRect = CGRect(x: 0, y: h-(UISettings.titleHeight+UISettings.menuHeight), width: w, height: (UISettings.titleHeight+UISettings.menuHeight))
         let toolFrame:CGRect = CGRect(x: (w-toolSize)/2.0, y: UISettings.menuHeight, width: toolSize, height: toolSize)
         
         ControllerFactory.setFrame(.fullscreen, frame: fullFrame)

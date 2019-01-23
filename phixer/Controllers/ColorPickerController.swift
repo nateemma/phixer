@@ -303,20 +303,6 @@ class ColorPickerController: CoordinatedController {
 // MARK: - Delegate methods for sub-views
 //////////////////////////////////////////
 
-extension ColorPickerController: TitleViewDelegate {
-    func backPressed() {
-        backDidPress()
-    }
-    
-    func helpPressed() {
-        coordinator?.helpRequest()
-    }
-    
-    func menuPressed() {
-        // placeholder
-    }
-}
-
 extension ColorPickerController: RGBSliderViewDelegate {
     func rgbColorChanged(_ color: UIColor) {
         if !color.matches(self.selectedColor) {

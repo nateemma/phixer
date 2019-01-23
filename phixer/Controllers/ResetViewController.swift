@@ -20,10 +20,6 @@ class ResetViewController: CoordinatedController, UINavigationControllerDelegate
     var displayWidth : CGFloat = 0.0
     var displayHeight : CGFloat = 0.0
     
-    
-    
-    // Banner/Navigation View (title)
-    fileprivate var bannerView: TitleView! = TitleView()
 
     // Advertisements View
     var adView: GADBannerView! = GADBannerView()
@@ -86,18 +82,8 @@ class ResetViewController: CoordinatedController, UINavigationControllerDelegate
         doInit()
         
         // Note: need to add subviews before modifying constraints
-        view.addSubview(bannerView)
         view.addSubview(adView)
-
         
-        // Banner and filter info view are always at the top of the screen
-        bannerView.frame.size.height = UISettings.panelHeight * 0.5
-        bannerView.frame.size.width = displayWidth
-        bannerView.backgroundColor = theme.backgroundColor
-        
-        
-        layoutBanner()
-        bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
 
         // Set up Ads
         if (UISettings.showAds){
@@ -105,7 +91,7 @@ class ResetViewController: CoordinatedController, UINavigationControllerDelegate
             adView.frame.size.height = UISettings.panelHeight
             adView.frame.size.width = displayWidth
             
-            adView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: adView.frame.size.height)
+            adView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: adView.frame.size.height)
         }
 
         
@@ -120,35 +106,6 @@ class ResetViewController: CoordinatedController, UINavigationControllerDelegate
     }
     
     
-    // layout the banner view, with the Back button, title etc.
-    func layoutBanner(){
-        bannerView.frame.size.height = UISettings.panelHeight * 0.5
-        bannerView.frame.size.width = displayWidth
-        bannerView.title = "Reset Filters"
-        bannerView.delegate = self
-    }
-
-    
-    
-    
-    //////////////////////////////////////
-    //MARK: - Navigation
-    //////////////////////////////////////
-    @objc func backDidPress(){
-        log.verbose("Back pressed")
-        exitScreen()
-    }
-    
-    
-    func exitScreen(){
-        guard navigationController?.popViewController(animated: true) != nil else { //modal
-            //log.debug("Not a navigation Controller")
-            //suspend()
-            dismiss(animated: true, completion:  { })
-            return
-        }
-    }
-
     
     /////////////////////////////////
     // Handling for functions not yet implemented
@@ -188,24 +145,5 @@ class ResetViewController: CoordinatedController, UINavigationControllerDelegate
 
 } // ResetViewController
 
-
-
-extension ResetViewController: TitleViewDelegate {
-    func backPressed() {
-        backDidPress()
-    }
-    
-    func helpPressed() {
-//        let vc = HTMLViewController()
-//        vc.setTitle("Reset")
-//        vc.loadFile(name: "Reset")
-//        present(vc, animated: true, completion: nil)
-        self.coordinator?.helpRequest()
-    }
-    
-    func menuPressed() {
-        // placeholder
-    }
-}
 
 

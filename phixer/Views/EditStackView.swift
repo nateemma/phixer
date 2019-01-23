@@ -66,8 +66,8 @@ class EditStackView: UIView {
 
         // layout the main contianer views
         titleView.frame.size.width = self.frame.size.width
-        titleView.frame.size.height = titleHeight
-        
+        titleView.frame.size.height = UISettings.titleHeight
+
         if (scrollView == nil) {
             var frame = self.frame
             frame.size.height = frame.size.height - titleView.frame.size.height
@@ -84,7 +84,7 @@ class EditStackView: UIView {
 
  
         titleView.anchorToEdge(.top, padding: 8, width: titleView.frame.size.width, height: titleView.frame.size.height)
-        //scrollView?.anchorToEdge(.bottom, padding: 8, width: titleView.frame.size.width, height: titleView.frame.size.height)
+        //scrollView?.anchorToEdge(.bottom, padding: 8, width: titleView.frame.size.width, height: UISettings.panelHeight)
    }
     
     
@@ -140,8 +140,8 @@ class EditStackView: UIView {
         
         // Add the applied filters (if any)
         if count > 0 {
-            //for i in 0...count-1 {
-            for i in stride(from: count-1, to: 0, by: -1) {
+            // why does Swift not allow backwards iteration?!
+            for i in stride(from: count-1, through: 0, by: -1) {
                 //scrollView?.addSubview(makeStackEntryView(layer:i)!)
                 layerView.append(makeStackEntryView(layer:i)!)
            }
@@ -153,7 +153,7 @@ class EditStackView: UIView {
         
         let layers = UIView()
         layers.frame = self.frame
-        layers.frame.size.height = layers.frame.size.height - titleView.frame.size.height
+        layers.frame.size.height = layers.frame.size.height - UISettings.panelHeight
         self.addSubview(layers)
         layers.align(.underCentered, relativeTo: titleView, padding: 0, width: 0, height: layers.frame.size.height)
         
@@ -182,6 +182,7 @@ class EditStackView: UIView {
     private func makeStackEntryView(layer:Int) -> UIView? {
         let image = EditManager.getFilteredImageAt(position:layer)
         let title = EditManager.getTitleAt(position:layer)
+        log.debug("Layer:[\(layer)] = \(title)")
         return makeLayerView(image: image, text: "\(title)")
     }
     

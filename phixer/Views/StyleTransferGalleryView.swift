@@ -267,7 +267,8 @@ class StyleTransferGalleryView : UIView {
         //sample = ImageManager.getCurrentSampleImage()
         if sample == nil {
             //sample = ImageManager.getCurrentSampleImage(size:size)
-            sample = InputSource.getCurrentImage()?.resize(size: size)
+            EditManager.setInputImage(InputSource.getCurrentImage())
+            sample = EditManager.getPreviewImage()?.resize(size: CGSize(width: size.width*6, height: size.height*6))
        }
     }
     

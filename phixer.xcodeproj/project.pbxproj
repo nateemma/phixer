@@ -23,7 +23,6 @@
 		2517295E2177FC2400D5E946 /* MuliticastDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2517295D2177FC2400D5E946 /* MuliticastDelegate.swift */; };
 		251729622179459F00D5E946 /* GalleryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251729612179459F00D5E946 /* GalleryViewCell.swift */; };
 		25172964217A1C6E00D5E946 /* Opacity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25172963217A1C6E00D5E946 /* Opacity.swift */; };
-		251729AB217BE7A300D5E946 /* TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251729AA217BE7A300D5E946 /* TitleView.swift */; };
 		252745E2217FD09700AA2DA2 /* YUCIFlashTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 252745DF217FD09700AA2DA2 /* YUCIFlashTransition.m */; };
 		252745E3217FD09700AA2DA2 /* YUCIFlashTransition.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = 252745E0217FD09700AA2DA2 /* YUCIFlashTransition.cikernel */; };
 		252745E5217FE2EF00AA2DA2 /* StartupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252745E4217FE2EF00AA2DA2 /* StartupViewController.swift */; };
@@ -839,7 +838,6 @@
 		25934FB11DD4EC1100C3D665 /* BlendGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25934FB01DD4EC1100C3D665 /* BlendGalleryView.swift */; };
 		25934FB31DD5109C00C3D665 /* BlendGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25934FB21DD5109C00C3D665 /* BlendGalleryViewController.swift */; };
 		259BE4DB1ECCFA4200D1A5E8 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259BE4DA1ECCFA4200D1A5E8 /* Database.swift */; };
-		25A702921DC2FCDD009441E2 /* FilterDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A702911DC2FCDD009441E2 /* FilterDetailsViewController.swift */; };
 		25A702951DC2FE3C009441E2 /* FilterDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A702941DC2FE3C009441E2 /* FilterDisplayView.swift */; };
 		25A702971DC3AEEA009441E2 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A702961DC3AEEA009441E2 /* Utilities.swift */; };
 		25AEBB441DBA8AEC00AA6279 /* FilterSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AEBB431DBA8AEC00AA6279 /* FilterSelectionView.swift */; };
@@ -849,6 +847,7 @@
 		25CC3EA021F5916200EB8A0A /* KuwaharaFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CC3E9C21F5916200EB8A0A /* KuwaharaFilter.swift */; };
 		25CC3EA121F5916200EB8A0A /* TransverseChromaticAberration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CC3E9D21F5916200EB8A0A /* TransverseChromaticAberration.swift */; };
 		25CC3EA321F6E67A00EB8A0A /* EditStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CC3EA221F6E67A00EB8A0A /* EditStackView.swift */; };
+		25CC3EA521F80AE400EB8A0A /* FilterDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CC3EA421F80AE400EB8A0A /* FilterDetailsViewController.swift */; };
 		25CF4BD51D9490C400D779CF /* CameraControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BCF1D9490C400D779CF /* CameraControlsView.swift */; };
 		25CF4BD61D9490C400D779CF /* CameraDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BD01D9490C400D779CF /* CameraDisplayView.swift */; };
 		25CF4BD81D9490C400D779CF /* CameraSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BD21D9490C400D779CF /* CameraSettingsView.swift */; };
@@ -925,7 +924,6 @@
 		25172963217A1C6E00D5E946 /* Opacity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Opacity.swift; sourceTree = "<group>"; };
 		25172977217BB8A600D5E946 /* YUCIHighPassSkinSmoothing.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YUCIHighPassSkinSmoothing.m; sourceTree = "<group>"; };
 		2517297D217BB8A700D5E946 /* YUCIFilterConstructor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YUCIFilterConstructor.m; sourceTree = "<group>"; };
-		251729AA217BE7A300D5E946 /* TitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleView.swift; sourceTree = "<group>"; };
 		252745DF217FD09700AA2DA2 /* YUCIFlashTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YUCIFlashTransition.m; sourceTree = "<group>"; };
 		252745E0217FD09700AA2DA2 /* YUCIFlashTransition.cikernel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = YUCIFlashTransition.cikernel; sourceTree = "<group>"; };
 		252745E1217FD09700AA2DA2 /* YUCIFlashTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YUCIFlashTransition.h; sourceTree = "<group>"; };
@@ -1773,7 +1771,6 @@
 		25934FB01DD4EC1100C3D665 /* BlendGalleryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlendGalleryView.swift; sourceTree = "<group>"; };
 		25934FB21DD5109C00C3D665 /* BlendGalleryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlendGalleryViewController.swift; sourceTree = "<group>"; };
 		259BE4DA1ECCFA4200D1A5E8 /* Database.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
-		25A702911DC2FCDD009441E2 /* FilterDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterDetailsViewController.swift; sourceTree = "<group>"; };
 		25A702941DC2FE3C009441E2 /* FilterDisplayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterDisplayView.swift; sourceTree = "<group>"; };
 		25A702961DC3AEEA009441E2 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		25AEBB431DBA8AEC00AA6279 /* FilterSelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterSelectionView.swift; sourceTree = "<group>"; };
@@ -1783,6 +1780,7 @@
 		25CC3E9C21F5916200EB8A0A /* KuwaharaFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KuwaharaFilter.swift; sourceTree = "<group>"; };
 		25CC3E9D21F5916200EB8A0A /* TransverseChromaticAberration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransverseChromaticAberration.swift; sourceTree = "<group>"; };
 		25CC3EA221F6E67A00EB8A0A /* EditStackView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditStackView.swift; sourceTree = "<group>"; };
+		25CC3EA421F80AE400EB8A0A /* FilterDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterDetailsViewController.swift; sourceTree = "<group>"; };
 		25CF4BCF1D9490C400D779CF /* CameraControlsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraControlsView.swift; sourceTree = "<group>"; };
 		25CF4BD01D9490C400D779CF /* CameraDisplayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraDisplayView.swift; sourceTree = "<group>"; };
 		25CF4BD21D9490C400D779CF /* CameraSettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraSettingsView.swift; sourceTree = "<group>"; };
@@ -2064,7 +2062,6 @@
 				2568BDD021BB3ECD00560287 /* StyleTransferGalleryView.swift */,
 				2568BDD221BB3F2800560287 /* StyleTransferGalleryViewCell.swift */,
 				258F09B6218E67910082FE2A /* TimedAlertView.swift */,
-				251729AA217BE7A300D5E946 /* TitleView.swift */,
 				2537A23A21F1876C00060DBE /* DefaultControllerMenuView.swift */,
 			);
 			path = Views;
@@ -2095,11 +2092,11 @@
 		256D0FEF1D98DADA00220D7E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				25CC3EA421F80AE400EB8A0A /* FilterDetailsViewController.swift */,
 				2542DF5A1ED372BF00CEB968 /* BasicEditViewController.swift */,
 				252745FA21851AEB00AA2DA2 /* ColorPickerController.swift */,
 				252745F421826DBC00AA2DA2 /* ColorSchemeViewController.swift */,
 				2568BDEB21C870D300560287 /* EditChildControllers */,
-				25A702911DC2FCDD009441E2 /* FilterDetailsViewController.swift */,
 				25F85CEB21C9C790005498C4 /* Galleries */,
 				255591E62187CC62001B4452 /* HTMLViewController.swift */,
 				86DD9D941E9C5A7000A5D855 /* MainMenuController.swift */,
@@ -3968,6 +3965,7 @@
 				2568BDCD21B9DE3600560287 /* InputSource.swift in Sources */,
 				2573D1EA217CDCB500E78CAB /* YUCIFXAA.m in Sources */,
 				252C17A01ECE75FC00039BFC /* SettingsEntity+CoreDataClass.swift in Sources */,
+				25CC3EA521F80AE400EB8A0A /* FilterDetailsViewController.swift in Sources */,
 				252745F72182A1D500AA2DA2 /* BorderedButton.swift in Sources */,
 				25F460201D99D79B00EDA182 /* AspectRatio.swift in Sources */,
 				2537A1E921E030A700060DBE /* ColorSketchFilter.swift in Sources */,
@@ -3985,7 +3983,6 @@
 				2537A23521EFE8D000060DBE /* Stack.swift in Sources */,
 				2568BD5421AC72CB00560287 /* HSBSliderView.swift in Sources */,
 				258F09AF218E4B5B0082FE2A /* Style_Feathers.swift in Sources */,
-				251729AB217BE7A300D5E946 /* TitleView.swift in Sources */,
 				25934FB11DD4EC1100C3D665 /* BlendGalleryView.swift in Sources */,
 				25CF4BDA1D9490C400D779CF /* SquareButton.swift in Sources */,
 				2537A23221EED2AC00060DBE /* SubControllerDelegate.swift in Sources */,
@@ -4064,7 +4061,6 @@
 				2537A21321E915AD00060DBE /* EditBaseMenuInterface.swift in Sources */,
 				2573D1EC217CDCB500E78CAB /* YUCIBilateralFilter.m in Sources */,
 				2573D1E9217CDCB500E78CAB /* YUCIHistogramEqualization.m in Sources */,
-				25A702921DC2FCDD009441E2 /* FilterDetailsViewController.swift in Sources */,
 				2537A21A21ED3E7F00060DBE /* ControllerFactory.swift in Sources */,
 				2537A1BD21D28E5600060DBE /* SaturationFilter.swift in Sources */,
 				2568BDE621C861A200560287 /* BasicAdjustmentsPanel.swift in Sources */,

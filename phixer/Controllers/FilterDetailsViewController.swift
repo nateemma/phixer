@@ -36,9 +36,6 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
     
     open var currFilterKey: String = ""
     
-    // Banner View (title)
-    fileprivate var bannerView: TitleView! = TitleView()
-    
     
     // Advertisements View
     //var adView: GADBannerView! = GADBannerView()
@@ -54,10 +51,6 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
     
     // Overlay/Navigation help views
     fileprivate var overlayView: UIView! = UIView()
-    
-    // Image Selection (& save) view
-    var imageSelectionView: ImageSelectionView! = ImageSelectionView()
-
     
     // image picker for changing edit image
     let imagePicker = UIImagePickerController()
@@ -224,8 +217,6 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
         // get display dimensions
         displayHeight = view.height
         displayWidth = view.width
-
-        setupBanner()
         
         //view.addSubview(adView)
         setupDisplay()
@@ -235,28 +226,12 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
         setupConstraints()
         editImageView.setFilter(key: currFilterKey)
         filterParametersView.setFilter(currFilterDescriptor)
-        updateBanner(key: self.currFilterKey)
         positionParameterView()
 
         filterParametersView.delegate = self
     }
     
-    
-  
-    
-    fileprivate func setupBanner(){
-        bannerView.frame.size.height = UISettings.panelHeight * 0.5
-        bannerView.frame.size.width = displayWidth
-        bannerView.title = "Filter Preview"
-        bannerView.delegate = self
-
-    }
-
-    
-    fileprivate func updateBanner(key: String){
-        bannerView.title = key
-    }
-
+ 
     
     fileprivate func setupDisplay(){
         //editImageView = FilterDisplayView()
@@ -267,89 +242,45 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
     
     fileprivate func setupConstraints(){
         
-        
-        view.addSubview(bannerView)
         view.addSubview(editImageView)
         view.addSubview(overlayView)
-        view.addSubview(imageSelectionView)
         view.addSubview(filterParametersView)
         
-        bannerView.frame.size.height = UISettings.panelHeight
-        bannerView.frame.size.width = displayWidth
-        bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: 4, otherSize: bannerView.frame.size.height)
-        //bannerView.anchorInCorner(.topLeft, xPad: 0, yPad: 4, width: bannerView.frame.size.width, height: bannerView.frame.size.height)
-        log.verbose("Banner: \(bannerView.title) w:\(bannerView.frame.size.width) h:\(bannerView.frame.size.height)")
+        // Portrait: top-to-bottom layout scheme
         
-        //adView.frame.size.height = UISettings.panelHeight
-        //adView.frame.size.width = displayWidth
-        //adView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: adView.frame.size.height)
+        // Parameters on the bottom
         
-        // set up rest of layout based on orientation
-        if (UISettings.isLandscape){
-            // left-to-right layout scheme
-            
-            editImageView.frame.size.height = displayHeight - UISettings.panelHeight
-            editImageView.frame.size.width = displayWidth / 2
-            editImageView.anchorInCorner(.bottomLeft, xPad: 0, yPad: 0, width: editImageView.frame.size.width, height: editImageView.frame.size.height)
-            
-            // Adornment view is same size and location as editImageView
-            overlayView.frame.size = editImageView.frame.size
-            overlayView.anchorInCorner(.bottomLeft, xPad: 0, yPad: 0, width: overlayView.frame.size.width, height: overlayView.frame.size.height)
-            
-            
-            // Align Overlay view to bottom of Render View
-            filterParametersView.frame.size.height = displayHeight - UISettings.panelHeight
-            filterParametersView.frame.size.width = displayWidth / 2
-            filterParametersView.anchorInCorner(.bottomRight, xPad: 0, yPad: 0, width: filterParametersView.frame.size.width, height: filterParametersView.frame.size.height)
-            
-            // put controls in the middle of the left/right edges
-            
+        if (currFilterDescriptor != nil) {
+            //filterParametersView.frame.size.height = fmin((CGFloat(((currFilterDescriptor?.numParameters)! + 1)) * UISettings.panelHeight * 0.75), (displayHeight*0.75))
+            filterParametersView.frame.size.height = fmin((CGFloat(((currFilterDescriptor?.getNumDisplayableParameters())! + 1)) * UISettings.panelHeight * 0.75), (displayHeight*0.75))
         } else {
-            // Portrait: top-to-bottom layout scheme
-            
-            
-            // Parameters on the bottom
-
-            if (currFilterDescriptor != nil) {
-                //filterParametersView.frame.size.height = fmin((CGFloat(((currFilterDescriptor?.numParameters)! + 1)) * UISettings.panelHeight * 0.75), (displayHeight*0.75))
-                filterParametersView.frame.size.height = fmin((CGFloat(((currFilterDescriptor?.getNumDisplayableParameters())! + 1)) * UISettings.panelHeight * 0.75), (displayHeight*0.75))
-            } else {
-                filterParametersView.frame.size.height = (displayHeight - 2.0 * UISettings.panelHeight) * 0.3
-            }
-
-            filterParametersView.frame.size.width = displayWidth
-            filterParametersView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 1, otherSize: filterParametersView.frame.size.height)
-            view.bringSubviewToFront(filterParametersView)
-
-            // Filter display takes the rest of the screen
-            //editImageView.frame.size.height = displayHeight - UISettings.panelHeight - filterParametersView.frame.size.height - 4
-            editImageView.frame.size.height = displayHeight - UISettings.panelHeight
-            editImageView.frame.size.width = displayWidth
-            log.verbose("FilterDisplay: (w:\(editImageView.frame.size.width), h:\(editImageView.frame.size.height))")
-            
-            editImageView.align(.underCentered, relativeTo: bannerView, padding: 0, width: editImageView.frame.size.width, height: editImageView.frame.size.height)
-        
-            
-            // Adornment view is same size and location as editImageView
-            overlayView.frame.size = editImageView.frame.size
-            overlayView.align(.underCentered, relativeTo: bannerView, padding: 0, width: overlayView.frame.size.width, height: overlayView.frame.size.height)
-            
-            imageSelectionView.frame.size = bannerView.frame.size
-            imageSelectionView.align(.underCentered, relativeTo: bannerView, padding: 0, width: imageSelectionView.frame.size.width, height: imageSelectionView.frame.size.height)
+            filterParametersView.frame.size.height = (displayHeight - 2.0 * UISettings.panelHeight) * 0.3
         }
+        
+        filterParametersView.frame.size.width = displayWidth
+        filterParametersView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 1, otherSize: filterParametersView.frame.size.height)
+        view.bringSubviewToFront(filterParametersView)
+        
+        // Filter display takes the rest of the screen
+        //editImageView.frame.size.height = displayHeight - UISettings.topBarHeight - filterParametersView.frame.size.height - 4
+        editImageView.frame.size.height = displayHeight - UISettings.topBarHeight
+        editImageView.frame.size.width = displayWidth
+        log.verbose("FilterDisplay: (w:\(editImageView.frame.size.width), h:\(editImageView.frame.size.height))")
+        
+        editImageView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: editImageView.frame.size.height)
+
+        
         
         // prev/next navigation (same for both layouts)
 
         log.debug("Overlaying navigation buttons")
         
-        //TODO: fix landscape layout
         
         // resize overlayView to match the display view (minus the parameters view)
         overlayView.frame.size.width  = editImageView.frame.size.width
-        //overlayView.frame.size.height  = editImageView.frame.size.height
         overlayView.frame.size.height  = editImageView.frame.size.height - filterParametersView.frame.size.height
-        overlayView.align(.underCentered, relativeTo: bannerView, padding: 0, width: overlayView.frame.size.width, height: overlayView.frame.size.height)
-        
+        overlayView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: overlayView.frame.size.height)
+
         view.bringSubviewToFront(overlayView)
         //overlayView.setNeedsDisplay() // for some reason it doesn't display the first time through
 
@@ -372,25 +303,10 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
         // if this is showing samples, then display ratings, else display change photo/save etc.
         if InputSource.getCurrent() == .sample {
             overlayView.isHidden = false
-            imageSelectionView.isHidden = true
             setupAdornments()
-        } else {
-            //overlayView.isHidden = true
-            imageSelectionView.isHidden = false
-            setupImageSelectionView()
         }
     }
     
-    
-    private func setupImageSelectionView(){
-        
-        imageSelectionView.frame.size.height = CGFloat(UISettings.panelHeight)
-        imageSelectionView.frame.size.width = displayWidth
-        imageSelectionView.enableBlend(false)
-        imageSelectionView.enableSave(true)
-        imageSelectionView.delegate = self
-
-    }
     
     // setup the adornments (favourites, show/hide, ratings etc.) for the current filter
     
@@ -952,30 +868,6 @@ extension FilterDetailsViewController: FilterParametersViewDelegate {
 }
 
 
-// ImageSelectionViewDelegate
-extension FilterDetailsViewController: ImageSelectionViewDelegate {
-    
-    func changeImagePressed(){
-        self.changeImage()
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.imageSelectionView.update()
-        })
-    }
-    
-    func changeBlendPressed() {
-        // no blend image for style transfer, ignore
-    }
-    
-    func savePressed() {
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.saveImage()
-            log.verbose("Image saved")
-            self.imageSelectionView.update()
-        })
-    }
-    
-}
-
 
 ////////////////////////////////////////////
 // MARK: - UIAlertController
@@ -990,24 +882,5 @@ extension UIAlertController {
     }
 }
 /***/
-
-
-extension FilterDetailsViewController: TitleViewDelegate {
-    func backPressed() {
-        backDidPress()
-    }
-    
-    func helpPressed() {
-//        let vc = HTMLViewController()
-//        vc.setTitle("Filter Preview")
-//        vc.loadFile(name: "FilterPreview")
-//        present(vc, animated: true, completion: nil)
-        self.coordinator?.helpRequest()
-    }
-    
-    func menuPressed() {
-        // placeholder
-    }
-}
 
 

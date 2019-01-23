@@ -27,10 +27,6 @@ private var filterCount: Int = 0
 class SampleGalleryViewController: CoordinatedController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     
-    // Banner View (title)
-    var bannerView: TitleView! = TitleView()
-    
-    
     // Advertisements View
     var adView: GADBannerView! = GADBannerView()
     
@@ -160,13 +156,6 @@ class SampleGalleryViewController: CoordinatedController, UIImagePickerControlle
         
         //set up dimensions
         
-        bannerView.frame.size.height = UISettings.panelHeight * 0.75
-        bannerView.frame.size.width = displayWidth
-        bannerView.backgroundColor = theme.backgroundColor
-        
-        
-        layoutBanner()
-        
         if (UISettings.showAds){
             adView.frame.size.height = UISettings.panelHeight
             adView.frame.size.width = displayWidth
@@ -181,9 +170,9 @@ class SampleGalleryViewController: CoordinatedController, UIImagePickerControlle
         view.addSubview(infoView)
         
         if (UISettings.showAds){
-            sampleGalleryView.frame.size.height = displayHeight - bannerView.frame.size.height - adView.frame.size.height - infoView.frame.size.height
+            sampleGalleryView.frame.size.height = displayHeight - UISettings.topBarHeight - adView.frame.size.height - infoView.frame.size.height
         } else {
-            sampleGalleryView.frame.size.height = displayHeight - bannerView.frame.size.height - infoView.frame.size.height
+            sampleGalleryView.frame.size.height = displayHeight - UISettings.topBarHeight - infoView.frame.size.height
         }
         sampleGalleryView.frame.size.width = displayWidth
         //sampleGalleryView.backgroundColor = theme.backgroundColor
@@ -195,7 +184,6 @@ class SampleGalleryViewController: CoordinatedController, UIImagePickerControlle
         
         
         // Note: need to add subviews before modifying constraints
-        view.addSubview(bannerView)
         if (UISettings.showAds){
             adView.isHidden = false
             view.addSubview(adView)
@@ -206,18 +194,18 @@ class SampleGalleryViewController: CoordinatedController, UIImagePickerControlle
         
         
         // layout constraints
-        bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
+
         
         if (UISettings.showAds){
-            adView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: adView.frame.size.height)
+            adView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: adView.frame.size.height)
             infoView.align(.underCentered, relativeTo: adView, padding: 0, width: displayWidth, height: infoView.frame.size.height)
         } else {
-            infoView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: infoView.frame.size.height)
+            infoView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: infoView.frame.size.height)
         }
         
         sampleGalleryView.align(.underCentered, relativeTo: infoView, padding: 0, width: displayWidth, height: sampleGalleryView.frame.size.height)
         
-        log.verbose("H: banner:\(bannerView.frame.size.height) , ad:\(adView.frame.size.height), info:\(infoView.frame.size.height), gallery:\(sampleGalleryView.frame.size.height)")
+        log.verbose("H: banner:\(UISettings.panelHeight) , ad:\(adView.frame.size.height), info:\(infoView.frame.size.height), gallery:\(sampleGalleryView.frame.size.height)")
         
         // add delegates to sub-views (for callbacks)
         //bannerView.delegate = self
@@ -225,17 +213,7 @@ class SampleGalleryViewController: CoordinatedController, UIImagePickerControlle
         sampleGalleryView.delegate = self
         
     }
-    
-    
-    
-    // layout the banner view, with the Back button, title etc.
-    func layoutBanner(){
-        bannerView.frame.size.height = UISettings.panelHeight * 0.5
-        bannerView.frame.size.width = displayWidth
-        bannerView.title = "Select Sample Image"
-        bannerView.delegate = self
-    }
-    
+        
     
     
     // layout the info view, which contains previews of the current and proposed selections, link to photos and accept/cancel buttons
@@ -243,7 +221,7 @@ class SampleGalleryViewController: CoordinatedController, UIImagePickerControlle
         
         // Accept/Cancel Buttons
         for button in [acceptButton, cancelButton] {
-            button?.frame.size.height = bannerView.frame.size.height - 8
+            button?.frame.size.height = UISettings.panelHeight - 8
             button?.frame.size.width = 3.0 * (button?.frame.size.height)!
             button?.backgroundColor = theme.buttonColor
             button?.setTitleColor(theme.titleTextColor, for: .normal)
@@ -481,25 +459,5 @@ extension SampleGalleryViewController: SampleGalleryViewDelegate {
     }
 }
 
-
-
-
-extension SampleGalleryViewController: TitleViewDelegate {
-    func backPressed() {
-        backDidPress()
-    }
-    
-    func helpPressed() {
-//        let vc = HTMLViewController()
-//        vc.setTitle("Sample Gallery")
-//        vc.loadFile(name: "SampleGallery")
-//        present(vc, animated: true, completion: nil)
-        self.coordinator?.helpRequest()
-    }
-    
-    func menuPressed() {
-        // placeholder
-    }
-}
 
 

@@ -358,6 +358,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     
     
     fileprivate func loadInputs(size:CGSize){
+        EditManager.setInputImage(InputSource.getCurrentImage())
         sample = EditManager.getPreviewImage()?.resize(size: CGSize(width: size.width*6, height: size.height*6))
         blend  = ImageManager.getCurrentBlendImage(size:size)
     }

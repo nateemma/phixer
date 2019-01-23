@@ -28,9 +28,6 @@ private var filterCount: Int = 0
 class FilterGalleryViewController: CoordinatedController {
 
     
-    // Banner View (title)
-    var bannerView: TitleView! = TitleView()
-    
     
     // Advertisements View
     var adView: GADBannerView! = GADBannerView()
@@ -104,7 +101,6 @@ class FilterGalleryViewController: CoordinatedController {
         selectCategory(currCategory)
         categorySelectionView.setFilterCategory(currCategory)
         
-        
     }
     
     
@@ -145,8 +141,6 @@ class FilterGalleryViewController: CoordinatedController {
         
         //top-to-bottom layout scheme
         
-        layoutBanner()
-        
         if (UISettings.showAds){
             adView.frame.size.height = UISettings.panelHeight
             adView.frame.size.width = displayWidth
@@ -168,7 +162,6 @@ class FilterGalleryViewController: CoordinatedController {
         
         
         // Note: need to add subviews before modifying constraints
-        view.addSubview(bannerView)
         if (UISettings.showAds){
             adView.isHidden = false
             view.addSubview(adView)
@@ -189,28 +182,19 @@ class FilterGalleryViewController: CoordinatedController {
 
 
         // layout constraints
-        bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
 
         filterGalleryView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: filterGalleryView.frame.size.height)
         
         if (UISettings.showAds){
-            adView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: adView.frame.size.height)
+            adView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: adView.frame.size.height)
             categorySelectionView.align(.underCentered, relativeTo: adView, padding: 0, width: displayWidth, height: categorySelectionView.frame.size.height)
         } else {
-            categorySelectionView.align(.underMatchingLeft, relativeTo: bannerView, padding: 0, width: displayWidth, height: categorySelectionView.frame.size.height)
+            categorySelectionView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: categorySelectionView.frame.size.height)
+
         }
   
         categorySelectionView.delegate = self
 
-    }
- 
-    
-    func layoutBanner(){
-        bannerView.frame.size.height = UISettings.panelHeight
-        bannerView.frame.size.width = displayWidth
-        bannerView.backgroundColor = theme.backgroundColor
-        bannerView.title = "Filter Gallery"
-        bannerView.delegate = self
     }
     
     
@@ -218,6 +202,7 @@ class FilterGalleryViewController: CoordinatedController {
         //return ((index>=0) && (index<filterGalleryView.count)) ? true : false
         return ((index>=0) && (index<filterManager.getCategoryCount())) ? true : false
     }
+    
     
     fileprivate func selectCategory(_ category:String){
         DispatchQueue.main.async(execute: { () -> Void in
@@ -254,21 +239,6 @@ class FilterGalleryViewController: CoordinatedController {
             filterGalleryView.update()
         }
     }
-        
-    
-    
-    
-    /////////////////////////////
-    // MARK: - Touch Handler(s)
-    /////////////////////////////
-    
-    @objc func backDidPress(){
-        log.verbose("Back pressed")
-        suspend()
-        self.dismiss()
-        return
-    }
-    
     
 
 
@@ -334,22 +304,4 @@ extension FilterGalleryViewController: FilterGalleryViewDelegate {
 }
 
 
-
-
-extension FilterGalleryViewController: TitleViewDelegate {
-    
-    func backPressed() {
-        backDidPress()
-    }
-    
-    func helpPressed() {
-        let vc = HTMLViewController()
-        vc.setTitle("Filter Gallery")
-        vc.loadFile(name: "FilterGallery")
-        present(vc, animated: true, completion: nil)    }
-    
-    func menuPressed() {
-        // placeholder
-    }
-}
 

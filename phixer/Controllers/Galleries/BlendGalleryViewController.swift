@@ -29,10 +29,6 @@ private var filterCount: Int = 0
 class BlendGalleryViewController: CoordinatedController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     
-    // Title View
-    fileprivate var titleView:TitleView! = TitleView()
-
-    
     // Advertisements View
     fileprivate var adView: GADBannerView! = GADBannerView()
     
@@ -181,12 +177,6 @@ class BlendGalleryViewController: CoordinatedController, UIImagePickerController
         
         //set up dimensions
         
-        titleView.frame.size.height = UISettings.panelHeight * 0.5
-        titleView.frame.size.width = displayWidth
-        titleView.title = "Select Blend Image"
-        titleView.delegate = self
-
-        
         if (UISettings.showAds){
             adView.frame.size.height = UISettings.panelHeight
             adView.frame.size.width = displayWidth
@@ -201,9 +191,9 @@ class BlendGalleryViewController: CoordinatedController, UIImagePickerController
         view.addSubview(infoView)
         
         if (UISettings.showAds){
-            blendGalleryView.frame.size.height = displayHeight - titleView.frame.size.height - adView.frame.size.height - infoView.frame.size.height
+            blendGalleryView.frame.size.height = displayHeight - UISettings.topBarHeight - adView.frame.size.height - infoView.frame.size.height
         } else {
-            blendGalleryView.frame.size.height = displayHeight - titleView.frame.size.height - infoView.frame.size.height
+            blendGalleryView.frame.size.height = displayHeight - UISettings.topBarHeight - infoView.frame.size.height
         }
         blendGalleryView.frame.size.width = displayWidth
         //blendGalleryView.backgroundColor = theme.backgroundColor
@@ -215,7 +205,6 @@ class BlendGalleryViewController: CoordinatedController, UIImagePickerController
         
         
         // Note: need to add subviews before modifying constraints
-        view.addSubview(titleView)
         if (UISettings.showAds){
             adView.isHidden = false
             adView.layer.borderColor = theme.borderColor.cgColor
@@ -228,18 +217,17 @@ class BlendGalleryViewController: CoordinatedController, UIImagePickerController
         
         
         // layout constraints
-        titleView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.statusBarOffset/2.0, otherSize: titleView.frame.size.height)
         
         if (UISettings.showAds){
-            adView.align(.underCentered, relativeTo: titleView, padding: 0, width: displayWidth, height: adView.frame.size.height)
+           adView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: adView.frame.size.height)
             infoView.align(.underCentered, relativeTo: adView, padding: 0, width: displayWidth, height: infoView.frame.size.height)
         } else {
-            infoView.align(.underCentered, relativeTo: titleView, padding: 0, width: displayWidth, height: infoView.frame.size.height)
+            infoView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: infoView.frame.size.height)
         }
         
         blendGalleryView.align(.underCentered, relativeTo: infoView, padding: 0, width: displayWidth, height: blendGalleryView.frame.size.height)
         
-        log.verbose("H: banner:\(titleView.frame.size.height) , ad:\(adView.frame.size.height), info:\(infoView.frame.size.height), gallery:\(blendGalleryView.frame.size.height)")
+        log.verbose("H: banner:\(UISettings.panelHeight) , ad:\(adView.frame.size.height), info:\(infoView.frame.size.height), gallery:\(blendGalleryView.frame.size.height)")
         
         // add delegates to sub-views (for callbacks)
         //titleView.delegate = self
@@ -263,7 +251,7 @@ class BlendGalleryViewController: CoordinatedController, UIImagePickerController
         
         // Accept/Cancel Buttons
         for button in [acceptButton, cancelButton] {
-            button?.frame.size.height = titleView.frame.size.height - 8
+            button?.frame.size.height = UISettings.panelHeight - 8
             button?.frame.size.width = 3.0 * (button?.frame.size.height)!
             button?.backgroundColor = theme.buttonColor
             button?.setTitleColor(theme.titleTextColor, for: .normal)
@@ -604,22 +592,4 @@ extension BlendGalleryViewController: BlendGalleryViewDelegate {
     }
 }
 
-
-extension BlendGalleryViewController: TitleViewDelegate {
-    func backPressed() {
-        backDidPress()
-    }
-    
-    func helpPressed() {
-//        let vc = HTMLViewController()
-//        vc.setTitle("Blend Gallery")
-//        vc.loadFile(name: "BlendGallery")
-//        present(vc, animated: true, completion: nil)
-        self.coordinator?.helpRequest()
-    }
-    
-    func menuPressed() {
-        // placeholder
-    }
-}
 

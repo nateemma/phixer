@@ -467,7 +467,7 @@ class FilterLibrary{
     private static func addNullFilter(){
         var def = FilterDefinition()
         def.key = FilterDescriptor.nullFilter
-        def.title = "(No Filter)"
+        def.title = "No Filter"
         def.ftype = FilterOperationType.singleInput.rawValue
         def.parameters = []
         FilterLibrary.addFilter(key:def.key, definition:def)

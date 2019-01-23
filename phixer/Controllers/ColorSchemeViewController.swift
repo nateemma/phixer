@@ -53,7 +53,6 @@ class ColorSchemeViewController: CoordinatedController {
     
     
     // Main Views
-    var bannerView: TitleView! = TitleView()
     var adView: GADBannerView! = GADBannerView()
     var parameterView: UIView! = UIView()
     var colorSchemeView: ColorSchemeView! = ColorSchemeView()
@@ -143,9 +142,6 @@ class ColorSchemeViewController: CoordinatedController {
        
         //top-to-bottom layout scheme
         // Note: need to define and add subviews before modifying constraints
-
-         layoutBanner()
-        view.addSubview(bannerView)
         
         // Ads
         if (UISettings.showAds){
@@ -174,16 +170,15 @@ class ColorSchemeViewController: CoordinatedController {
         view.addSubview(controlView)
         
         // layout constraints
-        bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
     
         if (UISettings.showAds){
-            adView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: adView.frame.size.height)
+            adView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: adView.frame.size.height)
             parameterView.align(.underCentered, relativeTo: adView, padding: 0, width: displayWidth, height: parameterView.frame.size.height)
         } else {
-            parameterView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: parameterView.frame.size.height)
+            parameterView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: parameterView.frame.size.height)
         }
         
-        controlView.anchorAndFillEdge(.bottom, xPad: 0, yPad: UISettings.statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
+        controlView.anchorAndFillEdge(.bottom, xPad: 0, yPad: UISettings.topBarHeight, otherSize: UISettings.panelHeight)
         colorSchemeView.alignBetweenVertical(align: .underCentered, primaryView: parameterView, secondaryView: controlView, padding: 1.0, width: displayWidth)
     }
     
@@ -192,16 +187,6 @@ class ColorSchemeViewController: CoordinatedController {
     /////////////////////////////
     // MARK: - Layout Functions
     /////////////////////////////
- 
-    
-    func layoutBanner(){
-        bannerView.frame.size.height = UISettings.panelHeight * 0.75
-        bannerView.frame.size.width = displayWidth
-        bannerView.backgroundColor = theme.backgroundColor
-        bannerView.title = "Color Scheme Chooser"
-        bannerView.delegate = self
-    }
-
     
     
     func layoutParameters(){
@@ -427,20 +412,6 @@ class ColorSchemeViewController: CoordinatedController {
 //////////////////////////////////////////
 // MARK: - Delegate methods for sub-views
 //////////////////////////////////////////
-
-extension ColorSchemeViewController: TitleViewDelegate {
-    func backPressed() {
-        backDidPress()
-    }
-    
-    func helpPressed() {
-        coordinator?.helpRequest()
-    }
-    
-    func menuPressed() {
-        // placeholder
-    }
-}
 
 
 // UIPicker stuff

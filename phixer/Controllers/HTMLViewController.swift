@@ -13,8 +13,6 @@ import WebKit
 
 class HTMLViewController: CoordinatedController {
     
-
-    private var bannerView: TitleView! = TitleView()
     private var htmlView: WKWebView! = WKWebView()
     
     private var displayWidth : CGFloat = 0.0
@@ -24,6 +22,7 @@ class HTMLViewController: CoordinatedController {
     
     private var helpFile:String = ""
 
+    private var helpTitle:String = "Help"
     
     
     /////////////////////////////
@@ -32,7 +31,7 @@ class HTMLViewController: CoordinatedController {
     
     // return the display title for this Controller
     override public func getTitle() -> String {
-        return "Help"
+        return self.helpTitle
     }
     
     // return the name of the help file associated with this Controller (without extension)
@@ -82,7 +81,7 @@ class HTMLViewController: CoordinatedController {
     
 
     public func setTitle(_ title:String){
-        bannerView.title = title
+        self.helpTitle = title
     }
     
     public func setText(_ text:String){
@@ -179,24 +178,13 @@ class HTMLViewController: CoordinatedController {
         
         view.backgroundColor = theme.backgroundColor // default seems to be white
         
-        layoutBanner()
-        view.addSubview(bannerView)
-        
         layoutHTMLView()
         view.addSubview(htmlView)
         
         // layout constraints
-        bannerView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.statusBarOffset/2.0, otherSize: bannerView.frame.size.height)
-        htmlView.align(.underCentered, relativeTo: bannerView, padding: 0, width: displayWidth, height: (displayHeight-bannerView.frame.size.height))
+        htmlView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: (displayHeight-UISettings.panelHeight))
     }
     
-    
-    // layout the banner view, with the Back button, title etc.
-    private func layoutBanner(){
-        bannerView.frame.size.height = min (UISettings.panelHeight,displayHeight * 0.2)
-        bannerView.frame.size.width = displayWidth
-        bannerView.delegate = self
-    }
 
     private func layoutHTMLView(){
         htmlView.frame.size.height = displayHeight * 0.8
@@ -231,19 +219,4 @@ class HTMLViewController: CoordinatedController {
 
 }
 
-
-
-extension HTMLViewController: TitleViewDelegate {
-    func backPressed() {
-        backDidPress()
-    }
-    
-    func helpPressed() {
-        // no help for the help screen!
-    }
-    
-    func menuPressed() {
-        // placeholder
-    }
-}
 

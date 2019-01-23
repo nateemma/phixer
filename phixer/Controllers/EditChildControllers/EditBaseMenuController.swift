@@ -31,7 +31,6 @@ class EditBaseMenuController: CoordinatedController, SubControllerDelegate, Edit
     var displayHeight : CGFloat = 0.0
     
     let editControlHeight: CGFloat = UISettings.menuHeight
-    //let editControlHeight: CGFloat = 48.0
     
     var childController:UIViewController? = nil
     
@@ -110,7 +109,7 @@ class EditBaseMenuController: CoordinatedController, SubControllerDelegate, Edit
 
         // get display dimensions
         //displayHeight = view.height
-        displayHeight = editControlHeight
+        displayHeight = view.height
         displayWidth = view.width
         
         
@@ -139,13 +138,13 @@ class EditBaseMenuController: CoordinatedController, SubControllerDelegate, Edit
     func setupTitle(){
         // set up the title, with a label for the text an an image for the 'cancel' option
         let titleView = UIView()
-        titleView.frame.size.height = mainView.frame.size.height * 0.3
         titleView.frame.size.width = mainView.frame.size.width
+        titleView.frame.size.height = UISettings.titleHeight
         titleView.backgroundColor = theme.subtitleColor
 
  
         // cancel button
-        cancelButton = SquareButton(bsize: (titleView.frame.size.height*0.8).rounded())
+        cancelButton = SquareButton(bsize: (UISettings.titleHeight*0.6).rounded())
         cancelButton?.setImageAsset("ic_no")
         cancelButton?.backgroundColor = theme.titleColor.withAlphaComponent(0.5)
         cancelButton?.setTintable(true)
@@ -157,13 +156,14 @@ class EditBaseMenuController: CoordinatedController, SubControllerDelegate, Edit
         // label
         let label = UILabel()
         label.frame.size.width = (titleView.frame.size.width - (cancelButton?.frame.size.width)! - 4).rounded()
-        label.frame.size.height = titleView.frame.size.height - 2
+        label.frame.size.height = UISettings.titleHeight - 2
         label.text = getTitle()
         label.textAlignment = .center
         label.textColor = theme.titleTextColor
         label.backgroundColor = theme.titleColor
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.fitTextToBounds()
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.adjustsFontSizeToFitWidth = true
+        //label.fitTextToBounds()
  
         titleView.addSubview(label)
         //label.anchorToEdge(.left, padding: 0, width: label.frame.size.width, height: label.frame.size.height)
@@ -177,7 +177,7 @@ class EditBaseMenuController: CoordinatedController, SubControllerDelegate, Edit
     
     func setupMenu(){
         // set up the menu of option
-        menu.frame.size.height = mainView.frame.size.height * 0.7
+        menu.frame.size.height = UISettings.menuHeight
         menu.frame.size.width = mainView.frame.size.width
         menu.backgroundColor = theme.backgroundColor
         menu.setItems(getItemList())

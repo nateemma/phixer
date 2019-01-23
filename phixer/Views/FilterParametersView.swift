@@ -213,7 +213,7 @@ class FilterParametersView: UIView {
         
         if (scrollView == nil) {
             var frame = self.frame
-            frame.size.height = frame.size.height - titleView.frame.size.height
+            frame.size.height = frame.size.height - UISettings.panelHeight
             scrollView = UIScrollView(frame: frame)
         }
         
@@ -280,11 +280,12 @@ class FilterParametersView: UIView {
         //titleLabel.fitTextToBounds()
         titleLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
         titleLabel.numberOfLines = 0
+        titleLabel.adjustsFontSizeToFitWidth = true
 
         titleView.addSubview(titleLabel)
 
         titleView.frame.size.width = (self.frame.size.width - 6.0).rounded()
-        titleView.frame.size.height = CGFloat(sliderHeight*0.9).rounded()
+        titleView.frame.size.height = UISettings.titleHeight
         titleView.backgroundColor = titleBackgroundColor
         
         
@@ -538,7 +539,7 @@ class FilterParametersView: UIView {
         var height:CGFloat = 0.0
         
         // calculate sizes (need to this before setting constraints)
-        height = titleView.frame.size.height
+        height = UISettings.panelHeight
         if ((currFilterDesc?.getNumDisplayableParameters())! > 0){
             let n:CGFloat = CGFloat(numVisibleParams)
             let h:CGFloat =  (CGFloat(sliderHeight) * n*1.3).rounded() + 16 // empirical
@@ -565,7 +566,7 @@ class FilterParametersView: UIView {
         // layout sub-views
         
         // Place the tile at the top, buttons at the bottom and parameterRow distributed in between
-        titleView.anchorAndFillEdge(.top, xPad: 1.0, yPad: 1.0, otherSize: titleView.frame.size.height)
+        titleView.anchorAndFillEdge(.top, xPad: 1.0, yPad: 1.0, otherSize: UISettings.titleHeight)
 
         if ((currFilterDesc?.getNumDisplayableParameters())! > 0){
             parameterView.groupAndFill(group: .vertical, views: parameterRow, padding: 1.0)
