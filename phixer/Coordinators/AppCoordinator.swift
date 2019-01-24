@@ -104,8 +104,9 @@ class AppCoordinator: Coordinator {
     
     private func setupConfig() {
         // Create an instance of Filteranager. This will take care of reading the configuration file etc.
-//        DispatchQueue.global(qos: .background).async { Coordinator.filterManager = FilterManager.sharedInstance }
-        Coordinator.filterManager = FilterManager.sharedInstance
+        DispatchQueue.main.async(execute: {
+            Coordinator.filterManager = FilterManager.sharedInstance
+        })
 
         setupFrames()
         
@@ -156,7 +157,7 @@ class AppCoordinator: Coordinator {
 
     private func startMainController() {
         
-        // a little different since nothing is running yet
+        // a little different since nothing is running yet. Set the top-level Menu as the root ViewController
         
         self.mainController = MainMenuController()
         self.mainController?.coordinator = self

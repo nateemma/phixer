@@ -62,22 +62,22 @@ class FilterManager{
             _categoryChangeCallbackList = []
             _filterChangeCallbackList = []
             
-            FilterLibrary.checkSetup()
+            FilterConfiguration.checkSetup()
             
             // TEMP DEBUG
-            //print("FilterLibrary contents:...")
-            //print ("FilterLibrary.categoryDictionary: \(FilterLibrary.categoryDictionary)")
-            //print ("FilterLibrary.categoryList: \(FilterLibrary.categoryList)")
-            //print ("FilterLibrary.filterDictionary: \(FilterLibrary.filterDictionary)")
-            //print ("FilterLibrary.categoryFilters: \(FilterLibrary.categoryFilters)")
+            //print("FilterConfiguration contents:...")
+            //print ("FilterConfiguration.categoryDictionary: \(FilterConfiguration.categoryDictionary)")
+            //print ("FilterConfiguration.categoryList: \(FilterConfiguration.categoryList)")
+            //print ("FilterConfiguration.filterDictionary: \(FilterConfiguration.filterDictionary)")
+            //print ("FilterConfiguration.categoryFilters: \(FilterConfiguration.categoryFilters)")
             
             /////////
             
             // Need to start somewhere...
             FilterManager.currCategory = defaultCategory
-            //FilterManager.currIndex = FilterLibrary.categoryList.index(of: defaultCategory)
+            //FilterManager.currIndex = FilterConfiguration.categoryList.index(of: defaultCategory)
             log.verbose("category: \(defaultCategory)")
-            let list = FilterLibrary.categoryFilters[defaultCategory]
+            let list = FilterConfiguration.categoryFilters[defaultCategory]
             if (list != nil){
                 if (list!.count > 0){
                     FilterManager.currFilterKey = list![0]
@@ -86,10 +86,10 @@ class FilterManager{
                     log.error("No filters for category: \(defaultCategory)")
                     FilterManager.currFilterKey = "NoFilter"
                 }
-                if (FilterLibrary.filterDictionary[FilterManager.currFilterKey] == nil){
-                    FilterLibrary.filterDictionary[FilterManager.currFilterKey] = FilterFactory.createFilter(key: FilterManager.currFilterKey)
+                if (FilterConfiguration.filterDictionary[FilterManager.currFilterKey] == nil){
+                    FilterConfiguration.filterDictionary[FilterManager.currFilterKey] = FilterFactory.createFilter(key: FilterManager.currFilterKey)
                 }
-                FilterManager.currFilterDescriptor = (FilterLibrary.filterDictionary[FilterManager.currFilterKey])!
+                FilterManager.currFilterDescriptor = (FilterConfiguration.filterDictionary[FilterManager.currFilterKey])!
                 //TODO: class-specific init?!
             } else {
                 log.error("Invalid filter list for: \(defaultCategory)")
@@ -115,7 +115,7 @@ class FilterManager{
     
     
     open func restoreDefaults(){
-        FilterLibrary.restoreDefaults()
+        FilterConfiguration.restoreDefaults()
     }
     
     //////////////////////////////////////////////
@@ -124,17 +124,17 @@ class FilterManager{
     
     open func getCategoryList()->[String]{
         FilterManager.checkSetup()
-        return FilterLibrary.categoryList
+        return FilterConfiguration.categoryList
     }
     
     func getFilterCount(_ category:String)->Int {
         FilterManager.checkSetup()
-        return (FilterLibrary.categoryFilters[category]?.count)!
+        return (FilterConfiguration.categoryFilters[category]?.count)!
     }
     
     func getCategoryCount()->Int {
         FilterManager.checkSetup()
-        return FilterLibrary.categoryList.count
+        return FilterConfiguration.categoryList.count
     }
     
     func getCurrentCategory() -> String{
@@ -151,11 +151,11 @@ class FilterManager{
             
             // set current filter to the first filter (alphabetically) in the dictionary
             
-            if FilterLibrary.categoryFilters[category] != nil {
-                let count = (FilterLibrary.categoryFilters[category]?.count)!
+            if FilterConfiguration.categoryFilters[category] != nil {
+                let count = (FilterConfiguration.categoryFilters[category]?.count)!
                 if (count>0){
                     log.verbose ("\(count) items found")
-                    let key = (FilterLibrary.categoryFilters[category]?[0])!
+                    let key = (FilterConfiguration.categoryFilters[category]?[0])!
                     log.verbose("Setting filter to: \(key)")
                     setCurrentFilterKey(key)
                 } else {
@@ -182,9 +182,9 @@ class FilterManager{
         var index:Int = -1
         
         FilterManager.checkSetup()
-        if (FilterLibrary.categoryList.count > 0){
-            if (FilterLibrary.categoryList.contains(category)){
-                index = FilterLibrary.categoryList.index(of: category)!
+        if (FilterConfiguration.categoryList.count > 0){
+            if (FilterConfiguration.categoryList.contains(category)){
+                index = FilterConfiguration.categoryList.index(of: category)!
                 //log.verbose("category:\(category) index:\(index)")
             } else {
                 log.error("Category not found:\(category)")
@@ -205,8 +205,8 @@ class FilterManager{
     open func getCategory(index: Int) -> String{
         FilterManager.checkSetup()
         var category:String = FilterManager.defaultCategory
-        if ((index >= 0) && (index < FilterLibrary.categoryList.count)){
-            category =  FilterLibrary.categoryList[index]
+        if ((index >= 0) && (index < FilterConfiguration.categoryList.count)){
+            category =  FilterConfiguration.categoryList[index]
         }
         return category
     }
@@ -222,12 +222,12 @@ class FilterManager{
         var result:Bool = false
         let index = getCategoryIndex(category: FilterManager.favouriteCategory)
         if (index>=0) {
-            result = (FilterLibrary.categoryFilters[FilterManager.favouriteCategory]?.contains(key))!
+            result = (FilterConfiguration.categoryFilters[FilterManager.favouriteCategory]?.contains(key))!
 /***
             if (result) {
                 log.verbose("Key: \(key) in favourites")
             } else {
-                log.verbose("Key: \(key) NOT in favourites (\(index)): \(FilterLibrary.categoryFilters[FilterManager.favouriteCategory])")
+                log.verbose("Key: \(key) NOT in favourites (\(index)): \(FilterConfiguration.categoryFilters[FilterManager.favouriteCategory])")
             }
  ***/
         } else {
@@ -238,10 +238,10 @@ class FilterManager{
     
     // add a filter to the "Favourites" list
     open func addToFavourites(key: String) {
-        if (FilterLibrary.filterDictionary[key] != nil){ // filter exists
-            if (!((FilterLibrary.categoryFilters[FilterManager.favouriteCategory]?.contains(key))!)){ // not already there
-                FilterLibrary.categoryFilters[FilterManager.favouriteCategory]?.append(key)
-                FilterLibrary.commitChanges() // HACK: should update single record
+        if (FilterConfiguration.filterDictionary[key] != nil){ // filter exists
+            if (!((FilterConfiguration.categoryFilters[FilterManager.favouriteCategory]?.contains(key))!)){ // not already there
+                FilterConfiguration.categoryFilters[FilterManager.favouriteCategory]?.append(key)
+                FilterConfiguration.commitChanges() // HACK: should update single record
             }
         } else {
             log.error("ERR: Unknown filter: \(key)")
@@ -250,11 +250,11 @@ class FilterManager{
     
     // remove a filter from the "Favourites" list
     open func removeFromFavourites(key: String) {
-        if (FilterLibrary.filterDictionary[key] != nil){ // filter exists
-            if ((FilterLibrary.categoryFilters[FilterManager.favouriteCategory]?.contains(key))!){ // in list?
-                if let index = FilterLibrary.categoryFilters[FilterManager.favouriteCategory]?.index(of: key) {
-                    FilterLibrary.categoryFilters[FilterManager.favouriteCategory]?.remove(at: index)
-                    FilterLibrary.commitChanges() // HACK: should update single record
+        if (FilterConfiguration.filterDictionary[key] != nil){ // filter exists
+            if ((FilterConfiguration.categoryFilters[FilterManager.favouriteCategory]?.contains(key))!){ // in list?
+                if let index = FilterConfiguration.categoryFilters[FilterManager.favouriteCategory]?.index(of: key) {
+                    FilterConfiguration.categoryFilters[FilterManager.favouriteCategory]?.remove(at: index)
+                    FilterConfiguration.commitChanges() // HACK: should update single record
                 }
             }
         } else {
@@ -310,8 +310,8 @@ class FilterManager{
         let category = FilterManager.currCategory
         var oldIndex:Int = 0
         var newIndex:Int = 0
-        if (FilterLibrary.filterDictionary[key] != nil){ // filter exists
-            if let list = FilterLibrary.categoryFilters[category]?.sorted() {
+        if (FilterConfiguration.filterDictionary[key] != nil){ // filter exists
+            if let list = FilterConfiguration.categoryFilters[category]?.sorted() {
                 if list.count > 1 { // 0 or 1, just return current key
                     if list.contains(key) {
                         if let index = list.index(of:key) {
@@ -339,8 +339,8 @@ class FilterManager{
         var key = FilterManager.currFilterKey
         let category = FilterManager.currCategory
         
-        if (FilterLibrary.filterDictionary[key] != nil){ // filter exists
-            if let list = FilterLibrary.categoryFilters[category]?.sorted() {
+        if (FilterConfiguration.filterDictionary[key] != nil){ // filter exists
+            if let list = FilterConfiguration.categoryFilters[category]?.sorted() {
                 if list.count > 1 { // 0 or 1, just return current key
                     if list.contains(key) {
                         if var index = list.index(of:key) {
@@ -364,8 +364,8 @@ class FilterManager{
     
     open func getFilterList(_ category:String)->[String]?{
         FilterManager.checkSetup()
-        if (FilterLibrary.categoryFilters[category] != nil){
-            return FilterLibrary.categoryFilters[category]
+        if (FilterConfiguration.categoryFilters[category] != nil){
+            return FilterConfiguration.categoryFilters[category]
         } else {
             log.error("Invalid category:\"\(category)\"")
             return []
@@ -379,11 +379,11 @@ class FilterManager{
         //var key:String = ""
         
         FilterManager.checkSetup()
-        if (FilterLibrary.categoryFilters[category] != nil){
+        if (FilterConfiguration.categoryFilters[category] != nil){
             FilterManager.shownFilterList = []
-            let count:Int = (FilterLibrary.categoryFilters[category]?.count)!
+            let count:Int = (FilterConfiguration.categoryFilters[category]?.count)!
             if (count > 0){
-                for key in FilterLibrary.categoryFilters[category]! {
+                for key in FilterConfiguration.categoryFilters[category]! {
                     if (!FilterFactory.isHidden(key: key)){
                         FilterManager.shownFilterList.append(key)
                     }
@@ -409,7 +409,7 @@ class FilterManager{
         
         FilterManager.checkSetup()
         
-        if (FilterLibrary.filterDictionary[key] == nil){    // if not allocatd, try creating it, i.e. only created if requested
+        if (FilterConfiguration.filterDictionary[key] == nil){    // if not allocatd, try creating it, i.e. only created if requested
 
             //log.debug("Creating filter object for key:\(key)")
             filterDescr = FilterFactory.createFilter(key: key)
@@ -418,10 +418,10 @@ class FilterManager{
                 log.error("NIL descriptor returned for key:\(key)")
             }
             
-            FilterLibrary.filterDictionary[key] = filterDescr
+            FilterConfiguration.filterDictionary[key] = filterDescr
             
         } else {
-            filterDescr = FilterLibrary.filterDictionary[key]!
+            filterDescr = FilterConfiguration.filterDictionary[key]!
         }
         //log.verbose("Found key:\((filterDescr?.key)!) addr:\(filterAddress(filterDescr))")
         
@@ -440,9 +440,9 @@ class FilterManager{
         if (!isLocked(key)){
             
             // release the filter descriptor
-            if (FilterLibrary.filterDictionary[key] != nil){
-                //let descr = (FilterLibrary.filterDictionary[key])!
-                FilterLibrary.filterDictionary[key] = nil
+            if (FilterConfiguration.filterDictionary[key] != nil){
+                //let descr = (FilterConfiguration.filterDictionary[key])!
+                FilterConfiguration.filterDictionary[key] = nil
                 //log.debug("key:\(key)")
             }
             
@@ -464,8 +464,8 @@ class FilterManager{
         var index = -1
         
         //let list = category.getFilterList()
-        if ((FilterLibrary.categoryFilters[category]?.contains(key))!){
-            index = (FilterLibrary.categoryFilters[category]?.index(of: key))!
+        if ((FilterConfiguration.categoryFilters[category]?.contains(key))!){
+            index = (FilterConfiguration.categoryFilters[category]?.index(of: key))!
         }
         
         return index
@@ -485,9 +485,9 @@ class FilterManager{
         
         FilterManager.checkSetup()
         
-        let count = (FilterLibrary.categoryFilters[category]?.count)!
+        let count = (FilterConfiguration.categoryFilters[category]?.count)!
         if ((index>=0) && (index<count)){
-            key = (FilterLibrary.categoryFilters[category]?[index])!
+            key = (FilterConfiguration.categoryFilters[category]?[index])!
         }
         
         return key
@@ -559,7 +559,7 @@ class FilterManager{
     // designate a filter as hidden or not
     open func setHidden(key:String, hidden:Bool){
         FilterFactory.setHidden(key: key, hidden: hidden)
-        FilterLibrary.commitChanges() // HACK: should update single record
+        FilterConfiguration.commitChanges() // HACK: should update single record
     }
     
     // get the rating for a filter
@@ -570,7 +570,7 @@ class FilterManager{
     // set the rating for a filter
     open func setRating(key:String, rating:Int){
         FilterFactory.setRating(key:key, rating:rating)
-        FilterLibrary.commitChanges() // HACK: should update single record
+        FilterConfiguration.commitChanges() // HACK: should update single record
     }
     
     
@@ -581,7 +581,7 @@ class FilterManager{
     // designate a filter as hidden or not
     open func setSlow(key:String, slow:Bool){
         FilterFactory.setSlow(key: key, slow: slow)
-        FilterLibrary.commitChanges() // HACK: should update single record
+        FilterConfiguration.commitChanges() // HACK: should update single record
     }
     
 
@@ -593,7 +593,7 @@ class FilterManager{
     
     open func getStyleTransferList()->[String]?{
         FilterManager.checkSetup()
-        return FilterLibrary.styleTransferList
+        return FilterConfiguration.styleTransferList
     }
     
     
@@ -605,9 +605,9 @@ class FilterManager{
         FilterManager.shownStyleTransferList = []
         
 /***
-        let count:Int = (FilterLibrary.styleTransferList.count)
+        let count:Int = (FilterConfiguration.styleTransferList.count)
         if (count > 0){
-            for key in FilterLibrary.styleTransferList {
+            for key in FilterConfiguration.styleTransferList {
                 if (!FilterFactory.isHidden(key: key)){
                     FilterManager.shownStyleTransferList.append(key)
                 }
@@ -619,7 +619,7 @@ class FilterManager{
         
         // just use the well-known style transfer category. This approach has uses elsewhere (e.g. navigation through filter lists)
         FilterManager.shownStyleTransferList = getFilterList(FilterManager.styleTransferCategory) ?? []
-        if FilterLibrary.styleTransferList.count > 0 {
+        if FilterConfiguration.styleTransferList.count > 0 {
             FilterManager.shownStyleTransferList.sort(by: { (value1: String, value2: String) -> Bool in return value1 < value2 }) // sort ascending
         }
         return FilterManager.shownStyleTransferList

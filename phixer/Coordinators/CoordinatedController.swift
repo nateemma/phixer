@@ -268,7 +268,6 @@ class CoordinatedController: UIViewController, ControllerDelegate {
     ////////////////////
     
     private var firstTime = true
-    
     override func viewDidAppear(_ animated: Bool) {
         
         // there is a race condition where vars are not always configured before viewDidLoad() is called, so make sure they are set here

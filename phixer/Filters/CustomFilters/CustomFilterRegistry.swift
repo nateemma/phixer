@@ -12,6 +12,7 @@ import CoreImage
 
 class CustomFilterRegistry: NSObject, CIFilterConstructor {
     
+    public static let  customFilterCategory = "CustomFilters"
     private static var initDone:Bool = false
     private static let instance = CustomFilterRegistry()
     
@@ -33,7 +34,6 @@ class CustomFilterRegistry: NSObject, CIFilterConstructor {
     private static let colorFilters:[String] = ["SmoothThresholdFilter", "AdaptiveThresholdFilter", "LumaRangeFilter", "DehazeFilter", "UnsharpMaskFilter",
                                                 "MultiBandHSV", "YUCIHighPassSkinSmoothing"]
     
-    public static let customCategory = "CustomFilters"
     
     // this function registers all of the custom filters with the CIFilter framework
     public static func registerFilters()  {
@@ -44,12 +44,12 @@ class CustomFilterRegistry: NSObject, CIFilterConstructor {
             CustomFilterRegistry.filterCache = [:]
             
             for f in CustomFilterRegistry.filterList {
-                CIFilter.registerName(f, constructor: instance, classAttributes: [kCIAttributeFilterCategories: [CustomFilterRegistry.customCategory]])
+                CIFilter.registerName(f, constructor: instance, classAttributes: [kCIAttributeFilterCategories: [CustomFilterRegistry.customFilterCategory]])
             }
             
             for cf in CustomFilterRegistry.colorFilters {
                 CIFilter.registerName(cf, constructor: instance,
-                                      classAttributes: [kCIAttributeFilterCategories: [CustomFilterRegistry.customCategory,
+                                      classAttributes: [kCIAttributeFilterCategories: [CustomFilterRegistry.customFilterCategory,
                                                                                        kCICategoryColorAdjustment, kCICategoryVideo,
                                                                                        kCICategoryStillImage, kCICategoryInterlaced,
                                                                                        kCICategoryNonSquarePixels]])
@@ -112,7 +112,7 @@ class CustomFilterRegistry: NSObject, CIFilterConstructor {
                 let def = makeFilterDefinition(f)
                 if def != nil {
                     print ("Found filter: key:\((def?.key)!) title:\((def?.title)!) ftype:\((def?.ftype)!)")
-                    //FilterLibrary.addFilter(key:(def?.key)!, definition:def!)
+                    //FilterConfiguration.addFilter(key:(def?.key)!, definition:def!)
                 }
             }
             print ("----------------")

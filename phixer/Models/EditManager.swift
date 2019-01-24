@@ -38,6 +38,15 @@ class EditManager {
         EditManager._input = image
     }
     
+    // get the size of the image (any of them, they are the same size)
+    public static func getImageSize() -> CGSize{
+        if EditManager._input != nil {
+            return (EditManager._input?.extent.size)!
+        } else {
+            return CGSize.zero
+        }
+    }
+    
     // get the filtered version of the input image, including the preview filter
     public static func getPreviewImage() -> CIImage? {
         return EditManager.previewImage

@@ -167,6 +167,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             
             filterParametersView.collapse()
             filterParametersView.isHidden = false
+            
         }
     }
     
@@ -801,7 +802,9 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             // launch an ImagePicker
             self.imagePicker.allowsEditing = false
             self.imagePicker.sourceType = .photoLibrary
-            
+            //self.imagePicker.modalPresentationStyle = .popover // required after ios12
+            self.imagePicker.delegate = self
+
             self.present(self.imagePicker, animated: true, completion: {})
         })
     }
@@ -823,15 +826,14 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         } else {
             log.error("Error accessing image data")
         }
-        picker.dismiss(animated: true, completion: nil)
+        picker.dismiss(animated: false, completion: nil)
     }
     
-    
+
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true)
+        log.verbose("Image Picker cancelled")
+        picker.dismiss(animated: false)
     }
-    
-    
     
     
     //////////////////////////////////////////

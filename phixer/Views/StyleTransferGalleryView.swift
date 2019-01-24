@@ -264,11 +264,31 @@ class StyleTransferGalleryView : UIView {
     
     
     fileprivate func loadInputs(size:CGSize){
+        
+        // input image can change, so make sure it's current
+        EditManager.setInputImage(InputSource.getCurrentImage())
+
         //sample = ImageManager.getCurrentSampleImage()
         if sample == nil {
+            // downsize the input image to something based on the requested size. Keep the aspect ratio though, otherwise redndering will be strange
+            // resize so that longest is edge is a multiple of the desired size
+            
+            let lreq = max(size.width, size.height) // longest requested side
+            var insize = EditManager.getImageSize()
+            if insize.width < 0.01 {
+                log.error("Invalid size for input image: \(insize)")
+            }
+            let lin = max(insize.width, insize.height) // longest side of the input image
+            let ldes = 2 * lreq * UISettings.screenScale // desired size - account for screen scale (dots per pixel) and provide some margin
+            var mysize:CGSize = insize
+            
+            // resize if the input image is bigger than desired (which it should be)
+            if lin > ldes {
+                let ratio = ldes / lin
+                mysize = CGSize(width: (insize.width*ratio).rounded(), height: (insize.height*ratio).rounded())
+            }
             //sample = ImageManager.getCurrentSampleImage(size:size)
-            EditManager.setInputImage(InputSource.getCurrentImage())
-            sample = EditManager.getPreviewImage()?.resize(size: CGSize(width: size.width*6, height: size.height*6))
+            sample = EditManager.getPreviewImage()?.resize(size: mysize)
        }
     }
     

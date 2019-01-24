@@ -534,6 +534,7 @@ class BlendGalleryViewController: CoordinatedController, UIImagePickerController
             // launch an ImagePicker
             self.imagePicker.allowsEditing = false
             self.imagePicker.sourceType = .photoLibrary
+            self.imagePicker.modalPresentationStyle = .popover // required after ios12
             self.imagePicker.delegate = self
             self.present(self.imagePicker, animated: true, completion: nil)
         })
@@ -545,7 +546,7 @@ class BlendGalleryViewController: CoordinatedController, UIImagePickerController
     // MARK: - ImagePicker handling
     //////////////////////////////////////////
     
-    private func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let asset = info[UIImagePickerController.InfoKey.phAsset] as? PHAsset {
 
             let assetResources = PHAssetResource.assetResources(for: asset)
@@ -565,7 +566,8 @@ class BlendGalleryViewController: CoordinatedController, UIImagePickerController
     
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true)
+        log.verbose("Image Picker cancelled")
+       picker.dismiss(animated: true)
     }
     
     

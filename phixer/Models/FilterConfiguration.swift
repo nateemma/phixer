@@ -1,5 +1,5 @@
 //
-//  FilterLibrary
+//  FilterConfiguration
 //  phixer
 //
 //  Created by Philip Price on 12/2/16.
@@ -11,9 +11,8 @@ import CoreImage
 import SwiftyJSON
 
 // Static class that provides the data structures for holding the category and filter information, and also methods for loading from/saving to config files
-// NOTE: loaded sometime during static initialisation, so cannot rely on log service to be running yet, ie. have to use 'print' statements or local calls
 
-class FilterLibrary{
+class FilterConfiguration{
 
     fileprivate static var initDone:Bool = false
     fileprivate static var saveDone:Bool = false
@@ -51,8 +50,8 @@ class FilterLibrary{
     //////////////////////////////////////////////
     
     public static func checkSetup(){
-        if (!FilterLibrary.initDone) {
-            FilterLibrary.initDone = true
+        if (!FilterConfiguration.initDone) {
+            FilterConfiguration.initDone = true
             
             initLists()
             
@@ -60,20 +59,20 @@ class FilterLibrary{
             CustomFilterRegistry.registerFilters()
 
             // 'restore' the configuration from the setup file
-            FilterLibrary.restore()
-            CustomFilterRegistry.clearCache()
+            FilterConfiguration.restore()
+            CustomFilterRegistry.clearCache() // lots of filters, so start with a clean cache
         }
         
     }
     
     fileprivate init(){
-        FilterLibrary.checkSetup()
+        FilterConfiguration.checkSetup()
     }
     
     deinit{
-        if (!FilterLibrary.saveDone){
-            FilterLibrary.save()
-            FilterLibrary.saveDone = true
+        if (!FilterConfiguration.saveDone){
+            FilterConfiguration.save()
+            FilterConfiguration.saveDone = true
         }
     }
     
@@ -99,7 +98,7 @@ class FilterLibrary{
         //    loadFromDatabase()
         //} else {
         loadFilterConfig()
-        if !FilterLibrary.overwriteConfig {
+        if !FilterConfiguration.overwriteConfig {
             loadFromDatabase()
         } else {
             clearDatabase()
@@ -135,11 +134,8 @@ class FilterLibrary{
         var version:Float
         
         var key:String, title:String
-        var pkey:String, ptitle:String
-        var ptype: ParameterType
-        var pmin:Float, pmax:Float, pval:Float
 
-     
+        print ("======================== Loading Config File ========================")
         initLists()
 
         // load the settings first because timing is a bit tricky and we may need those values set before
@@ -160,14 +156,14 @@ class FilterLibrary{
                 parsedConfig = try JSON(data: data)
                 if (parsedConfig != JSON.null){
                     log.verbose("parsing data")
-                    //print ("\(parsedConfig)")
+                    //log.verbose ("\(parsedConfig)")
                     
                     // version
                     let vParams = parsedConfig["version"].dictionaryValue
                     log.verbose("vParams:\(vParams)")
                     version = vParams["id"]?.floatValue ?? 0.0
                     overwriteConfig = vParams["overwrite"]?.boolValue ?? false
-                    print ("version: \(version) overwrite: \(overwriteConfig)")
+                    log.verbose ("version: \(version) overwrite: \(overwriteConfig)")
                     
                     if overwriteConfig {
                         //TODO: if overwrite flag is set, clear stored values before processing config file
@@ -205,33 +201,6 @@ class FilterLibrary{
   
                     var def:FilterDefinition = FilterDefinition()
 
-                    /*** look up from iOS filter categories, don't need to specify twice that way
-                    // Filter list
-                    count = 0
-                    for item in parsedConfig["filters"].arrayValue {
-                        count = count + 1
-                        def.key = item["key"].stringValue
-                        def.title = item["title"].stringValue
-                        def.ftype = item["ftype"].stringValue
-                        def.slow = item["slow"].boolValue
-                        def.hide = !(item["show"].boolValue)
-                        def.rating = item["rating"].intValue
-                        // get filter parameters
-                        def.parameters = []
-                        for p in item["parameters"].arrayValue {
-                            pkey = p["key"].stringValue
-                            ptitle = p["title"].stringValue
-                            pmin = p["min"].floatValue
-                            pmax = p["max"].floatValue
-                            pval = p["val"].floatValue
-                            ptype = attributeToParameterType(p["type"].stringValue)
-                            def.parameters.append(ParameterSettings(key: pkey, title: ptitle, min: pmin, max: pmax, value: pval, type: ptype))
-                        }
-
-                        addFilter(key:def.key, definition:def)
-                    }
-                    print ("\(count) Filters found")
-                    ***/
                     addNullFilter() // useful for showing unmodified image
                     addAvailableFilters()  // adds all CIFilters, including custom filters
                     
@@ -254,13 +223,14 @@ class FilterLibrary{
                         def.rating = item["rating"].intValue
                         addLookup(key:def.key, definition:def)
                     }
-                    print ("\(count) Lookup Images found")
+                    log.verbose ("\(count) Lookup Images found")
                     
                     
                     // only do these if the database has not already been set up
                     // TODO: check version number
                     
                     
+                    /** moved back to general filters
                     // Style Transfer list
                     // These are 'normal' filters, so they are already registered. Just need to maintain a list of them
                     count = 0
@@ -271,8 +241,8 @@ class FilterLibrary{
                         styleTransferList = item["filters"].arrayValue.map { $0.string!}
                         styleTransferList.sort(by: sortClosure) // sort alphabetically
                     }
-                    print ("\(count) Style Transfer filters found")
-                    
+                    log.verbose ("\(count) Style Transfer filters found")
+                    ***/
                     
                     // Category list
                     count = 0
@@ -285,7 +255,7 @@ class FilterLibrary{
                         list.sort(by: sortClosure) // sort alphabetically
                         addAssignment(category:key, filters:list)
                     }
-                    print ("\(count) Categories found")
+                    log.verbose ("\(count) Categories found")
                     
                     // Build Category array from dictionary. More convenient than a dictionary
                     categoryList = Array(categoryDictionary.keys)
@@ -343,7 +313,7 @@ class FilterLibrary{
         
     }
     
-    // functio to convert from CIFilter Attribute Type string to simpler internal parameter type
+    // function to convert from CIFilter Attribute Type string to simpler internal parameter type. Note that there is NOT a 1:1 mapping
     private static func attributeToParameterType(_ atype:String) -> ParameterType {
         var ptype: ParameterType
         ptype = .unknown
@@ -381,7 +351,7 @@ class FilterLibrary{
 
 
     public static func save(){
-        print ("saving configuration...")
+        log.verbose ("saving configuration...")
         commitChanges()
     }
 
@@ -389,7 +359,7 @@ class FilterLibrary{
     
     private static func addCategory(key:String, title:String){
         // just add the data to the dictionary
-        FilterLibrary.categoryDictionary[key] = title
+        FilterConfiguration.categoryDictionary[key] = title
         log.verbose("addCategory(\(key), \(title))")
     }
   
@@ -398,7 +368,7 @@ class FilterLibrary{
     public static func addFilter(key:String, definition:FilterDefinition){
 
         // just store the mapping. Do lazy allocation as needed because of the potentially large number of filters
-        FilterLibrary.filterDictionary[key] = nil // just make sure there is an entry to find later
+        FilterConfiguration.filterDictionary[key] = nil // just make sure there is an entry to find later
         FilterFactory.addFilterDefinition(key: key, definition:definition)
         log.verbose("addFilter(\(definition.key): \(definition.title), \(definition.ftype), \(definition.hide), \(definition.rating)), \(definition.parameters)")
     }
@@ -417,13 +387,13 @@ class FilterLibrary{
         }
         
         // save the image name for later use, when the filter is created
-        if (FilterLibrary.lookupDictionary[key] != nil){ // check for duplicate and warn
+        if (FilterConfiguration.lookupDictionary[key] != nil){ // check for duplicate and warn
             log.warning("WARN: Duplicate key:\(key)")
         }
         
         var def = definition
         def.title = title
-        FilterLibrary.filterDictionary[key] = nil
+        FilterConfiguration.filterDictionary[key] = nil
         FilterFactory.addLookupFilter(key: key, definition:def)
         //FilterFactory.addFilterDefinition(key: key, title: key, ftype: "lookup",  hide:hide, rating:rating)
         log.verbose("addLookup(\(definition.key), \(definition.lookup), \(definition.hide), \(definition.rating))")
@@ -433,21 +403,21 @@ class FilterLibrary{
     
     private static func addAssignment(category:String, filters: [String]){
         // scan through list to make sure they are valid filters
-        //FilterLibrary.categoryFilters[category] = []
+        //FilterConfiguration.categoryFilters[category] = []
         //var list:[String] = []
         let validKeys = FilterFactory.getFilterList()
         for f in filters {
             if (validKeys.contains(f)) {
-                if FilterLibrary.categoryFilters[category] == nil {
-                    FilterLibrary.categoryFilters[category] = []
+                if FilterConfiguration.categoryFilters[category] == nil {
+                    FilterConfiguration.categoryFilters[category] = []
                 }
-                if !FilterLibrary.categoryFilters[category]!.contains(f){ // don't add if already there
-                    FilterLibrary.categoryFilters[category]?.append(f)
+                if !FilterConfiguration.categoryFilters[category]!.contains(f){ // don't add if already there
+                    FilterConfiguration.categoryFilters[category]?.append(f)
                 }
                 //list.append(f)
                 
                 // double check
-                if !FilterLibrary.categoryFilters[category]!.contains(f){
+                if !FilterConfiguration.categoryFilters[category]!.contains(f){
                     log.error("ERROR: did not add to category:\(category)")
                 }
             } else {
@@ -470,27 +440,34 @@ class FilterLibrary{
         def.title = "No Filter"
         def.ftype = FilterOperationType.singleInput.rawValue
         def.parameters = []
-        FilterLibrary.addFilter(key:def.key, definition:def)
+        FilterConfiguration.addFilter(key:def.key, definition:def)
     }
     
     // adds all of the filters found by querying CIFilter, which will include our custom filters
     private static func addAvailableFilters(){
         // this is the list of CIFilter categories
         // Note that custom filters defined in this framework will be in the "CustomFilters" or kCICategoryColorAdjustment category
+        /***
         let categories:[String] = [ "CICategoryBlur", "CICategoryColorEffect", "CICategoryCompositeOperation",
                                     "CICategoryDistortionEffect", "CICategoryGeometryAdjustment", "CICategoryGradient",
                                     "CICategoryHalftoneEffect", "CICategoryReduction", "CICategorySharpen", "CICategoryStylize", "CICategoryTileEffect",
                                     "CustomFilters", kCICategoryColorAdjustment
         ]
+        ***/
+        
+         let categories:[String] = [ kCICategoryDistortionEffect, kCICategoryGeometryAdjustment, kCICategoryCompositeOperation, kCICategoryHalftoneEffect,
+                                     kCICategoryColorAdjustment, kCICategoryColorEffect, kCICategoryTileEffect, kCICategoryGenerator, kCICategoryGradient,
+                                     kCICategoryStylize, kCICategorySharpen, kCICategoryBlur, kCICategoryHighDynamicRange,
+                                     CustomFilterRegistry.customFilterCategory ]
         
         for c in categories {
-            //print ("Category = \(c):")
+            //log.verbose ("Category = \(c):")
             for f in CIFilter.filterNames(inCategories: [c]) {
                 //describeFilter(f)
                 let def = makeFilterDefinition(f)
                 if def != nil {
-                    //print ("Found filter: key:\((def?.key)!) title:\((def?.title)!) ftype:\((def?.ftype)!)")
-                    FilterLibrary.addFilter(key:(def?.key)!, definition:def!)
+                    //log.verbose ("Found filter: key:\((def?.key)!) title:\((def?.title)!) ftype:\((def?.ftype)!)")
+                    FilterConfiguration.addFilter(key:(def?.key)!, definition:def!)
                 }
             }
         }
@@ -637,9 +614,9 @@ class FilterLibrary{
         // Categories
         
         let crec: CategoryRecord = CategoryRecord()
-        for key in FilterLibrary.categoryList {
+        for key in FilterConfiguration.categoryList {
             crec.key = key
-            crec.title = FilterLibrary.categoryDictionary[key]
+            crec.title = FilterConfiguration.categoryDictionary[key]
             crec.hide = false
             Database.updateCategoryRecord(crec)
         }
@@ -651,14 +628,14 @@ class FilterLibrary{
         
         for key in FilterFactory.getFilterList() {
             // built-in or preset?
-            if (FilterLibrary.lookupDictionary[key] == nil){ // built-in filter
+            if (FilterConfiguration.lookupDictionary[key] == nil){ // built-in filter
                 frec.key = key
                 frec.hide = FilterFactory.isHidden(key: key)
                 frec.rating = FilterFactory.getRating(key: key)
                 Database.updateFilterRecord(frec)
             } else { // Lookup Filter
                 lrec.key = key
-                lrec.image = FilterLibrary.lookupDictionary[key]
+                lrec.image = FilterConfiguration.lookupDictionary[key]
                 lrec.hide = FilterFactory.isHidden(key: key)
                 lrec.rating = FilterFactory.getRating(key: key)
                 Database.updateLookupFilterRecord(lrec)
@@ -671,15 +648,15 @@ class FilterLibrary{
         
         let arec:AssignmentRecord = AssignmentRecord()
         
-        for category in FilterLibrary.categoryList {
+        for category in FilterConfiguration.categoryList {
             arec.category = category
             arec.filters = []
-            if (FilterLibrary.categoryFilters[category] != nil){
-                if ((FilterLibrary.categoryFilters[category]?.count)! > 0){
-                    for f in (FilterLibrary.categoryFilters[category])!{
+            if (FilterConfiguration.categoryFilters[category] != nil){
+                if ((FilterConfiguration.categoryFilters[category]?.count)! > 0){
+                    for f in (FilterConfiguration.categoryFilters[category])!{
                         arec.filters.append(f)
                     }
-                    //arec.filters = (FilterLibrary.categoryFilters[category])!
+                    //arec.filters = (FilterConfiguration.categoryFilters[category])!
                 } else {
                     log.verbose("commitChanges()() no filters found for: \(category)")
                 }

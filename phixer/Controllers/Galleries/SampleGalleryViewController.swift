@@ -402,6 +402,7 @@ class SampleGalleryViewController: CoordinatedController, UIImagePickerControlle
             // launch an ImagePicker
             self.imagePicker.allowsEditing = false
             self.imagePicker.sourceType = .photoLibrary
+            self.imagePicker.modalPresentationStyle = .popover // required after ios12
             self.imagePicker.delegate = self
             self.present(self.imagePicker, animated: true, completion: nil)
         })
@@ -413,7 +414,7 @@ class SampleGalleryViewController: CoordinatedController, UIImagePickerControlle
     // MARK: - ImagePicker handling
     //////////////////////////////////////////
     
-    private func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let asset = info[UIImagePickerController.InfoKey.phAsset] as? PHAsset {
             let assetResources = PHAssetResource.assetResources(for: asset)
             
@@ -432,13 +433,11 @@ class SampleGalleryViewController: CoordinatedController, UIImagePickerControlle
 
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        log.verbose("Image Picker cancelled")
         picker.dismiss(animated: true)
     }
     
-    
-    
-    
-}
+ }
 
 
 //////////////////////////////////////////

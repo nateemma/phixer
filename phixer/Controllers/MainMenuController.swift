@@ -92,16 +92,6 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
         view.addSubview(settingsMenuItem)
         
         
-        /***
-        // set default size for menu items
-        if (UISettings.panelHeight < (view.frame.size.height/CGFloat(numItems+1))) {
-            UISettings.panelHeight = view.frame.size.height/CGFloat(numItems+1) + 8
-        }
-        ***/
-        
-        let h = (view.frame.size.height - UISettings.panelHeight) / CGFloat(numItems) - 8
-        let w = displayWidth - 4
-        
         
         
         // set up Ads
@@ -111,11 +101,18 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
             adView.frame.size.width = displayWidth
             adView.layer.borderColor = theme.borderColor.cgColor
             adView.layer.borderWidth = 1.0
+            view.addSubview(adView)
+            adView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: adView.frame.size.height)
+            Admob.startAds(view:adView, viewController:self)
         } else {
+            adView.frame.size.height = 0
             adView.isHidden = true
         }
 
+        let h = ((view.frame.size.height - adView.frame.size.height - UISettings.topBarHeight) / CGFloat(numItems)) - 8
+        let w = displayWidth - 4
         
+
         // setup text, colours etc.
         setupMenuItem(label:simpleEditMenuItem, height:h, width:w,
                       title:"Simple Picture Editor", color:UIColor.flatMint, handler: UITapGestureRecognizer(target: self, action: #selector(presentSimpleImageEditor)))
@@ -135,11 +132,6 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
         view.groupAgainstEdge(group: .vertical,
                               views: [simpleEditMenuItem, styleTransferMenuItem, browseFiltersMenuItem, settingsMenuItem],
                               againstEdge: .bottom, padding: 8, width: w-8, height: h)
-        
-        // start Ads
-        if (UISettings.showAds){
-            Admob.startAds(view:adView, viewController:self)
-        }
         
     }
     

@@ -59,8 +59,8 @@ extension CGImage {
                                 space: colorSpace, bitmapInfo: bitmapInfo)
         */
         guard context != nil else {
-            log.error("Could not create CG context")
-            return nil
+            log.error("Could not create CG context. size:\(size)")
+            return self
         }
         
         // draw the 'old' CGImage into the new one at the calculation place
@@ -69,7 +69,7 @@ extension CGImage {
         let resizedCGImage = context!.makeImage()
         guard resizedCGImage != nil else {
             log.error("Could not create CGImage")
-            return nil
+            return self
         }
 
         return resizedCGImage

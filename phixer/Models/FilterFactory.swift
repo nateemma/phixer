@@ -81,7 +81,7 @@ class FilterFactory{
         }
         
         // set up entries for the lookup filter
-        FilterLibrary.filterDictionary[key] = nil // forces lazy allocation
+        FilterConfiguration.filterDictionary[key] = nil // forces lazy allocation
         FilterFactory.filterList[key] = definition
         log.verbose("Created Lookup filter:\(key) image:\(definition.lookup)")
     }

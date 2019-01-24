@@ -185,8 +185,8 @@ class  FilterDescriptor {
     
     private func initLookupFilter(key:String, title:String, parameters:[ParameterSettings]){
         self.filter = CIFilter(name: FilterDescriptor.lookupFilterName)
-        //HACK: lookup image from FilterLibrary
-        if let name = FilterLibrary.lookupDictionary[key] {
+        //HACK: lookup image from FilterConfiguration
+        if let name = FilterConfiguration.lookupDictionary[key] {
             // set the name of the lookup image and default intensity
             self.setLookupImage(name:name)
             self.filter?.setValue(1.0, forKey:FilterDescriptor.lookupArgIntensity)

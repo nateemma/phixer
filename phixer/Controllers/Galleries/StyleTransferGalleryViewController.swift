@@ -87,6 +87,8 @@ class StyleTransferGalleryViewController: CoordinatedController, UIImagePickerCo
         
         currInputName = InputSource.getCurrentName()
         
+        self.filterManager.setCurrentCategory(FilterManager.styleTransferCategory)
+        
         doLayout()
         
         // start Ads
