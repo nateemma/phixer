@@ -35,11 +35,11 @@ class EditStackView: UIView {
     fileprivate var currInput:CIImage? = nil
 
 
-    private let titleHeight:CGFloat = 44
-    private var imageHeight:CGFloat = 64
-    private var rowHeight:CGFloat = 96
-    
-    fileprivate lazy var imgSize:CGSize = CGSize(width: imageHeight*3, height: imageHeight*3)
+    private let titleHeight:CGFloat = UISettings.titleHeight
+    private var rowHeight:CGFloat = UISettings.panelHeight
+    private var imageHeight:CGFloat = UISettings.panelHeight - 8
+
+    fileprivate lazy var imgSize:CGSize = CGSize(width: imageHeight*UISettings.screenScale, height: imageHeight*UISettings.screenScale)
     
     ///////////////////////////////////
     // MARK: - Setup/teardown
@@ -84,13 +84,16 @@ class EditStackView: UIView {
 
  
         titleView.anchorToEdge(.top, padding: 8, width: titleView.frame.size.width, height: titleView.frame.size.height)
-        //scrollView?.anchorToEdge(.bottom, padding: 8, width: titleView.frame.size.width, height: UISettings.panelHeight)
+        scrollView?.alignAndFill(align: .underCentered, relativeTo: titleView, padding: 0, offset: 0)
+       //scrollView?.anchorToEdge(.bottom, padding: 8, width: titleView.frame.size.width, height: UISettings.panelHeight)
    }
     
     
     private func setupTitle(){
         // set up the title, with a label for the text and an image for 'exit' options
 
+        titleView.backgroundColor = theme.subtitleColor
+        
         // exit button
         let cancelButton = SquareButton(bsize: (titleView.frame.size.height*0.8).rounded())
         cancelButton.setImageAsset("ic_no")
@@ -124,10 +127,11 @@ class EditStackView: UIView {
         
         layerView = []
         
-        let count = EditManager.getAppliedCount()
-        let h = max (rowHeight, (scrollView?.frame.size.height)!/CGFloat(count+2))
+        let count = CGFloat(EditManager.getAppliedCount() + 2) // filters in stack + original + preview
+        let h = max (rowHeight, (scrollView?.frame.size.height)!/count)
         rowHeight = h
-        imgSize = CGSize(width: h*0.8, height: h*0.8)
+        //imgSize = CGSize(width: h*0.9, height: h*0.9)
+        imgSize = CGSize(width: imageHeight*UISettings.screenScale, height: imageHeight*UISettings.screenScale)
 
         // setup the input
         //self.currInput = InputSource.getCurrentImage()?.resize(size: CGSize(width: imgSize.width*8, height: imgSize.height*8))
@@ -139,9 +143,10 @@ class EditStackView: UIView {
         layerView.append(makePreviewView()!)
         
         // Add the applied filters (if any)
-        if count > 0 {
+        let numfilters = Int(count) - 2
+        if numfilters > 0 {
             // why does Swift not allow backwards iteration?!
-            for i in stride(from: count-1, through: 0, by: -1) {
+            for i in stride(from: numfilters-1, through: 0, by: -1) {
                 //scrollView?.addSubview(makeStackEntryView(layer:i)!)
                 layerView.append(makeStackEntryView(layer:i)!)
            }
@@ -150,12 +155,13 @@ class EditStackView: UIView {
         // Add the original on the bottom
         //scrollView?.addSubview(makeOriginalView()!)
         layerView.append(makeOriginalView()!)
-        
+
+
         let layers = UIView()
-        layers.frame = self.frame
-        layers.frame.size.height = layers.frame.size.height - UISettings.panelHeight
-        self.addSubview(layers)
-        layers.align(.underCentered, relativeTo: titleView, padding: 0, width: 0, height: layers.frame.size.height)
+        layers.frame.size.width = self.frame.size.width
+        layers.frame.size.height = h * count
+        //self.addSubview(layers)
+        //layers.align(.underCentered, relativeTo: titleView, padding: 0, width: 0, height: layers.frame.size.height)
         
         
         for v in layerView {
@@ -167,7 +173,8 @@ class EditStackView: UIView {
                               views:layerView,
                               againstEdge: .top, padding: 0, width: self.frame.size.width, height: rowHeight)
 
-    }
+        scrollView?.addSubview(layers)
+   }
     
 
     // make a view from the preview (not yet applied) image
