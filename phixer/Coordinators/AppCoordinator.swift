@@ -103,11 +103,12 @@ class AppCoordinator: Coordinator {
     
     
     private func setupConfig() {
-        // Create an instance of Filteranager. This will take care of reading the configuration file etc.
+/***
+        // Create an instance of FilterManager. This will take care of reading the configuration file etc.
         DispatchQueue.main.async(execute: {
             Coordinator.filterManager = FilterManager.sharedInstance
         })
-
+***/
         setupFrames()
         
     }
@@ -163,9 +164,14 @@ class AppCoordinator: Coordinator {
         self.mainController?.coordinator = self
         self.mainControllerTag = (self.mainController?.getTag())!
         self.mainControllerId = .home
-        DispatchQueue.main.async(execute: {
+        //DispatchQueue.main.async(execute: {
             Coordinator.navigationController?.setViewControllers([self.mainController!], animated: false)
-        })
+       //})
+        
+        // Create an instance of FilterManager (in a different queue entry). This will take care of reading the configuration file etc.
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {
+            Coordinator.filterManager = FilterManager.sharedInstance
+        }
 
        // self.activate(self.mainControllerId)
 //        if self.mainController != nil {

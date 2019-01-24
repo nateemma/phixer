@@ -178,8 +178,8 @@ class FilterConfiguration{
                         log.debug("Sample:\(sample) Blend:\(blend) Edit:\(edit)")
                         // Note: need to do edit image first, so that default can be processed
                         ImageManager.setCurrentEditImageName(edit) // set even if empty
-                        if !blend.isEmpty { ImageManager.setCurrentBlendImageName(blend)}
-                        if !sample.isEmpty { ImageManager.setCurrentSampleImageName(sample)}
+                        ImageManager.setCurrentSampleImageName(sample) // set even if empty
+                       if !blend.isEmpty { ImageManager.setCurrentBlendImageName(blend)}
  
 
                     } else {

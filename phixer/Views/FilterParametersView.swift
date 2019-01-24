@@ -557,6 +557,7 @@ class FilterParametersView: UIView {
             scrollView?.contentSize = CGSize.zero
             scrollView?.isHidden = true
             //self.backgroundColor = UIColor.clear
+            scrollView?.backgroundColor = UIColor.clear
         }
 
         self.frame.size.height = height

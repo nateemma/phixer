@@ -96,8 +96,11 @@ class StyleTransferGalleryViewCell: UICollectionViewCell {
         arrowView.anchorInCenter(width: arrowView.frame.size.width, height: arrowView.frame.size.height)
         styledView.anchorToEdge(.right, padding: 0, width: styledView.frame.size.width, height: styledView.frame.size.height)
          ***/
-        self.groupInCenter(group: .horizontal, views: [sourceView, arrowView, styledView], padding: 8,
-                           width: StyleTransferGalleryViewCell.imgSize.width, height: StyleTransferGalleryViewCell.imgSize.height)
+        self.groupInCenter(group: .horizontal,
+                           views: [sourceView, arrowView, styledView],
+                           padding: 8,
+                           width: StyleTransferGalleryViewCell.imgSize.width,
+                           height: StyleTransferGalleryViewCell.imgSize.height)
 
     }
  
@@ -181,6 +184,10 @@ class StyleTransferGalleryViewCell: UICollectionViewCell {
             // update the images
             if (srcImage != nil) { self.sourceView.image = srcImage }
             if (styledImage != nil) {
+                // set the image size to match the aspect ratio of the input image
+                let h = self.frame.size.height * 0.9
+                let w = h * (styledImage?.frame.size.width)! / (styledImage?.frame.size.height)!
+                StyleTransferGalleryViewCell.imgSize = CGSize(width: w.rounded(), height: h.rounded())
                 styledImage?.frame.size = StyleTransferGalleryViewCell.imgSize // can change
                 self.styledView = styledImage
             }

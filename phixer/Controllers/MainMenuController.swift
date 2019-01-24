@@ -132,7 +132,9 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
         view.groupAgainstEdge(group: .vertical,
                               views: [simpleEditMenuItem, styleTransferMenuItem, browseFiltersMenuItem, settingsMenuItem],
                               againstEdge: .bottom, padding: 8, width: w-8, height: h)
+      
         
+
     }
     
    

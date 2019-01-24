@@ -209,52 +209,33 @@ class ImageManager {
     
     
     public static func setCurrentSampleImageName(_ name:String) {
+/***
         guard !(name.isEmpty) else {
             log.error("Sample name is empty, ignoring")
             return
         }
+ ***/
+        var sname = name
         
-        let image = getImageFromAssets(assetID:name)
+        // if empty, set to edit image
+        if name.isEmpty {
+            sname = getCurrentEditImageName()
+        }
+        
+        let image = getImageFromAssets(assetID:sname)
         if image != nil {
             //_currSampleImage = CIImage(image: image!)
             _currSampleImage = CIImage(image: image!)?.oriented(forExifOrientation: imageOrientationToExifOrientation(value: image!.imageOrientation))
 
-             _currSampleName = name
+             _currSampleName = sname
             //_currSampleInput = CIImage(image:_currSampleImage!)
             _currSampleImageScaled = _currSampleImage
             _currSampleSize = (image?.size)!
-            log.verbose("Image set to:\(name)")
+            log.verbose("Image set to:\(sname)")
             updateStoredSettings()
         } else {
-            log.error("Could not find image: \(name)")
+            log.error("Could not find image: \(sname)")
         }
-
-        /***
-        if (isAssetID(name)){ // Asset?
-            log.debug("Current Sample image set to:\(name)")
-            _currSampleName = name
-            _currSampleImage = getImageFromAssets(assetID:name, size:_currSampleSize)
-            setSampleInput(image: _currSampleImage!)
-           //_currSampleImageScaled = resizeImage(_currSampleImage, targetSize: _currSampleSize, mode:.scaleAspectFill)
-            //setSampleInput(image: _currSampleImageScaled!)
-         } else { // allow anything as long as the image is created
-            log.debug("Current Sample image set to:\(name)")
-            _currSampleName = name
-            _currSampleImage = UIImage(named: _currSampleName)
-            if _currSampleImage != nil {
-                //_currSampleImageScaled = resizeImage(UIImage(ciImage:getCurrentSampleImage()!), targetSize: _currSampleSize, mode:.scaleAspectFill)
-                _currSampleImageScaled = resizeImage(_currSampleImage, targetSize: _currSampleSize, mode:.scaleAspectFill)
-                if _currSampleImageScaled != nil {
-                    setSampleInput(image: _currSampleImageScaled!)
-                } else {
-                    log.error("Could not resize image for: \(_currSampleName), size:\(_currSampleSize)")
-                }
-                
-            } else {
-                log.error("Could not create image for: \(_currSampleName)")
-            }
-        }
-         ***/
         updateStoredSettings()
     }
     
@@ -486,9 +467,11 @@ class ImageManager {
     private static func checkEditImage(){
         
         // make sure current sample image has been loaded
+        if _currEditName.isEmpty {
+            _currEditName = getDefaultEditImageName()!
+        }
         if (_currEditImage == nil){
-            if _currEditName.isEmpty { _currEditName = getDefaultEditImageName()! }
-            _currEditImage = CIImage(image: getImageFromAssets(assetID:_currEditName, size:_currEditSize)!)
+             _currEditImage = CIImage(image: getImageFromAssets(assetID:_currEditName, size:_currEditSize)!)
         }
         
         // check to see if we have already resized
