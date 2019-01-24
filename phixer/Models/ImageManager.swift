@@ -1009,7 +1009,9 @@ class ImageManager {
     }
     
     
+    // converts from UIImage.Orientation to EXIF/CG Orientation
     static func imageOrientationToExifOrientation(value: UIImage.Orientation) -> Int32 {
+/***
         switch (value) {
         case .up:
             return 1
@@ -1027,6 +1029,17 @@ class ImageManager {
             return 5
         case .rightMirrored:
             return 7
+        }
+ ***/
+        switch (value) {
+        case .up: return Int32(CGImagePropertyOrientation.up.rawValue)
+        case .down: return Int32(CGImagePropertyOrientation.down.rawValue)
+        case .left: return Int32(CGImagePropertyOrientation.left.rawValue)
+        case .right: return Int32(CGImagePropertyOrientation.right.rawValue)
+        case .upMirrored: return Int32(CGImagePropertyOrientation.upMirrored.rawValue)
+        case .downMirrored: return Int32(CGImagePropertyOrientation.downMirrored.rawValue)
+        case .leftMirrored: return Int32(CGImagePropertyOrientation.leftMirrored.rawValue)
+        case .rightMirrored: return Int32(CGImagePropertyOrientation.rightMirrored.rawValue)
         }
     }
 }
