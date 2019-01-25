@@ -149,7 +149,9 @@ class FilterGalleryViewCell: UICollectionViewCell {
             // allocate the RenderView
             self.renderView = FilterGalleryViewCell.filterManager.getRenderView(key: key)
             //self.renderView = renderView
-            
+            //self.renderView?.setImageSize(InputSource.getSize())
+            //self.renderView?.image = FilterGalleryViewCell.sample
+
             // re-size the contents to match the cell
             self.renderView.frame = frame
             
@@ -287,8 +289,13 @@ class FilterGalleryViewCell: UICollectionViewCell {
             return
         }
 
+
+
         renderView?.setImageSize(InputSource.getSize())
-        renderView?.image = self.descriptor?.apply(image: FilterGalleryViewCell.sample, image2: FilterGalleryViewCell.blend)
+        //DispatchQueue.main.async(execute: { () -> Void in
+            renderView?.image = self.descriptor?.apply(image: FilterGalleryViewCell.sample, image2: FilterGalleryViewCell.blend)
+        //})
+
 
         //renderView.isHidden = false
 

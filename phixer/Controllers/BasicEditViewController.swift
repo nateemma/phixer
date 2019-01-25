@@ -571,11 +571,13 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
                     
                 case UISwipeGestureRecognizer.Direction.up:
                     //log.verbose("Swiped Up")
-                    showModalViews()
+                    //showModalViews()
+                    toggleModalViews()
                     break
                     
                 case UISwipeGestureRecognizer.Direction.down:
-                    hideModalViews()
+                    //hideModalViews()
+                    toggleModalViews()
                     //log.verbose("Swiped Down")
                     break
                     
@@ -586,10 +588,9 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             } else {
                 // still allow up/down
                 if let swipeGesture = gesture as? UISwipeGestureRecognizer {
-                    if swipeGesture.direction == UISwipeGestureRecognizer.Direction.up {
-                        showFilterSettings()
-                    } else if swipeGesture.direction == UISwipeGestureRecognizer.Direction.down {
-                        hideFilterSettings()
+                    if (swipeGesture.direction == UISwipeGestureRecognizer.Direction.up) ||
+                        (swipeGesture.direction == UISwipeGestureRecognizer.Direction.down) {
+                        toggleModalViews()
                     }
                 }
             }
@@ -688,6 +689,13 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     }
     
 
+    func toggleModalViews() {
+        if (self.navigationController?.isNavigationBarHidden)! {
+            showModalViews()
+        } else {
+            hideModalViews()
+        }
+    }
     
     //////////////////////////////////////
     // MARK: - Filter Management

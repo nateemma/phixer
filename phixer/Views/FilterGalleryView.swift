@@ -419,8 +419,18 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         }
 
         // run the filter
-        renderview?.image = descriptor?.apply(image:sample, image2: blend)
-        renderview?.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: self.height * 0.8)
+        
+        if self.currCategory != FilterManager.styleTransferCategory {
+            renderview?.image = descriptor?.apply(image:sample, image2: blend)
+            renderview?.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: self.height * 0.8)
+        } else {
+            //renderview?.image = self.sample
+            //renderview?.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: self.height * 0.8)
+          DispatchQueue.main.async(execute: { () -> Void in
+                renderview?.image = descriptor?.apply(image:self.sample, image2: self.blend)
+                renderview?.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: self.height * 0.8)
+           })
+        }
 
         //renderView?.isHidden = false
  

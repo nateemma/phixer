@@ -275,7 +275,7 @@ class FilterParametersView: UIView {
         let currName = EditManager.getPreviewFilter()?.title  ?? "(No Filter)"
         let numApplied = EditManager.getAppliedCount()
         //titleLabel.text = "\(currName)   [\(numApplied)]"
-        titleLabel.text = "\(currName)"
+        titleLabel.text = "Preview: \(currName)"
         titleLabel.textAlignment = .center
         //titleLabel.fitTextToBounds()
         titleLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
