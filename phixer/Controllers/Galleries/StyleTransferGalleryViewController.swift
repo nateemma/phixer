@@ -59,6 +59,11 @@ class StyleTransferGalleryViewController: CoordinatedController, UIImagePickerCo
         return "StyleTransferGallery"
     }
     
+    override public func end() {
+        styleGalleryView = nil // force deallocation
+        self.dismiss()
+    }
+
     /////////////////////////////
     // INIT
     /////////////////////////////

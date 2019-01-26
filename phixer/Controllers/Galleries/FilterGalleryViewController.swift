@@ -59,6 +59,12 @@ class FilterGalleryViewController: CoordinatedController {
         return "FilterGallery"
     }
     
+    
+    override public func end() {
+        filterGalleryView = nil // force deallocation
+        self.dismiss()
+    }
+    
     /////////////////////////////
     // INIT
     /////////////////////////////
@@ -144,15 +150,31 @@ class FilterGalleryViewController: CoordinatedController {
         if (UISettings.showAds){
             adView.frame.size.height = UISettings.panelHeight
             adView.frame.size.width = displayWidth
+            adView.isHidden = false
+
+            adView.layer.borderColor = theme.borderColor.cgColor
+            adView.layer.borderWidth = 1.0
+             view.addSubview(adView)
+        } else {
+            log.debug("Not showing Ads in landscape mode")
+            adView.frame.size.height = 0
+            adView.isHidden = true
         }
         
         
+        categorySelectionView = CategorySelectionView()
+        
+        categorySelectionView.frame.size.height = UISettings.menuHeight + UISettings.titleHeight
+        categorySelectionView.frame.size.width = displayWidth
+        categorySelectionView.backgroundColor = theme.backgroundColor
+        view.addSubview(categorySelectionView)
+
+        
+        
         if (UISettings.showAds){
-            //filterView.frame.size.height = displayHeight - 3.75 * UISettings.panelHeight
-            filterGalleryView.frame.size.height = displayHeight - 4.25 * UISettings.panelHeight
+            filterGalleryView.frame.size.height = displayHeight - adView.frame.size.height - categorySelectionView.frame.size.height
         } else {
-            //filterView.frame.size.height = displayHeight - 2.75 * UISettings.panelHeight
-            filterGalleryView.frame.size.height = displayHeight - 3.25 * UISettings.panelHeight
+             filterGalleryView.frame.size.height = displayHeight - categorySelectionView.frame.size.height
         }
         filterGalleryView.frame.size.width = displayWidth
         filterGalleryView.backgroundColor = theme.backgroundColor
@@ -160,39 +182,18 @@ class FilterGalleryViewController: CoordinatedController {
         filterGalleryView.delegate = self
         view.addSubview(filterGalleryView) // do this before categorySelectionView is assigned
         
-        
-        // Note: need to add subviews before modifying constraints
-        if (UISettings.showAds){
-            adView.isHidden = false
-            view.addSubview(adView)
-            adView.layer.borderColor = theme.borderColor.cgColor
-            adView.layer.borderWidth = 1.0
-        } else {
-            log.debug("Not showing Ads in landscape mode")
-            adView.isHidden = true
-        }
-        
-        
-        categorySelectionView = CategorySelectionView()
-        
-        categorySelectionView.frame.size.height = 1.5 * UISettings.panelHeight
-        categorySelectionView.frame.size.width = displayWidth
-        categorySelectionView.backgroundColor = theme.backgroundColor
-        view.addSubview(categorySelectionView)
-
-
         // layout constraints
-
-        filterGalleryView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: filterGalleryView.frame.size.height)
-        
+       
         if (UISettings.showAds){
             adView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: adView.frame.size.height)
             categorySelectionView.align(.underCentered, relativeTo: adView, padding: 0, width: displayWidth, height: categorySelectionView.frame.size.height)
         } else {
             categorySelectionView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: categorySelectionView.frame.size.height)
-
         }
   
+        filterGalleryView.align(.underCentered, relativeTo: categorySelectionView, padding: 8, width: displayWidth, height: filterGalleryView.frame.size.height)
+        //filterGalleryView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: filterGalleryView.frame.size.height)
+        
         categorySelectionView.delegate = self
 
     }

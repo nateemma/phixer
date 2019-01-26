@@ -33,7 +33,7 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     var categoryViewList: [UILabel] = []
     var currCategory:String = FilterManager.defaultCategory
     var categoryLabel:UILabel = UILabel()
-    var carouselHeight:CGFloat = 80.0
+    var carouselHeight:CGFloat = UISettings.menuHeight
     var currIndex:Int = -1 // forces initialisation
     
     // delegate for handling events

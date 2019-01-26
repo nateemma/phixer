@@ -85,29 +85,36 @@ class FilterGalleryViewCell: UICollectionViewCell {
         renderView.contentMode = .scaleAspectFill
         //renderView.contentMode = .scaleAspectFit
         renderView.clipsToBounds = true
-        renderView.frame.size = CGSize(width:defaultWidth, height:defaultHeight)
+        //renderView.frame.size = CGSize(width:defaultWidth, height:defaultHeight)
+        renderView.frame.size.width = self.width
+        renderView.frame.size.height = self.height
         self.addSubview(renderView)
         
         label.textAlignment = .center
         label.textColor = theme.subtitleTextColor
+        label.frame.size.width = self.width
+        label.frame.size.height = (self.height * 0.2).rounded()
         label.backgroundColor = theme.subtitleColor.withAlphaComponent(0.9)
         label.font = UIFont.boldSystemFont(ofSize: 12.0)
         self.addSubview(label)
         
         //log.verbose("renderView h:\(self.height * 0.7)")
-        renderView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: self.height * 0.8)
-        label.alignAndFill(align: .underCentered, relativeTo: renderView, padding: 0)
+        //renderView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: self.height * 0.8)
+        //label.alignAndFill(align: .underCentered, relativeTo: renderView, padding: 0)
+        renderView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: self.height)
+        label.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: label.frame.height)
 
         adornmentView.backgroundColor = UIColor.clear
         adornmentView.frame.size = renderView.frame.size
         self.addSubview(adornmentView)
         self.bringSubviewToFront(adornmentView)
-        adornmentView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: self.height * 0.8)
+        //adornmentView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: self.height * 0.8)
+        adornmentView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: self.height)
 
         // position icons withing the adornment view
         layoutAdornments()
 
-        //self.bringSubview(toFront: renderView)
+        self.bringSubviewToFront(label)
     }
  
     
@@ -291,6 +298,7 @@ class FilterGalleryViewCell: UICollectionViewCell {
 
 
 
+        log.debug("key: \(key) found in cache: \(ImageCache.contains(key: key))")
         renderView?.setImageSize(InputSource.getSize())
         //DispatchQueue.main.async(execute: { () -> Void in
             renderView?.image = self.descriptor?.apply(image: FilterGalleryViewCell.sample, image2: FilterGalleryViewCell.blend)

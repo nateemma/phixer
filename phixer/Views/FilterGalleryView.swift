@@ -38,9 +38,12 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     
     fileprivate var itemsPerRow: CGFloat = 3
     fileprivate var cellSpacing: CGFloat = 2
+    fileprivate var cellSize: CGSize = CGSize.zero
     fileprivate var indicatorWidth: CGFloat = 41
     fileprivate var indicatorHeight: CGFloat = 8
-    
+    fileprivate var imgSize: CGSize = CGSize.zero // size used for processed image (usually smaller than real size)
+    fileprivate var imgViewSize: CGSize = CGSize.zero
+
     fileprivate let leftOffset: CGFloat = 11
     fileprivate let rightOffset: CGFloat = 7
     fileprivate let height: CGFloat = 34
@@ -74,13 +77,14 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     
     
     convenience init(){
-        self.init(frame: CGRect.zero)
-        doInit()
+        self.init(frame: CGRect(origin: CGPoint.zero, size: UISettings.screenSize))
+       // self.init(frame: CGRect.zero)
     }
     
     
     deinit{
         suspend()
+        unloadCache()
     }
     
     
@@ -98,18 +102,13 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
 
     
     
+    fileprivate  var layoutDone:Bool = false
     
-    fileprivate static var initDone:Bool = false
-    fileprivate static var layoutDone:Bool = false
-    
-    fileprivate func doInit(){
-        
-        if (!FilterGalleryView.initDone){
-            FilterGalleryView.initDone = true
-        }
-    }
     
     fileprivate func doLayout(){
+        
+        self.layoutDone = true
+        
         // get display dimensions
         displayHeight = self.frame.size.height
         displayWidth = self.frame.size.width
@@ -138,6 +137,21 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
                 itemsPerRow = 3
             }
         }
+        
+        // calculate the sizes for the input image and displayed view
+        
+        let paddingSpace = (sectionInsets.left * (itemsPerRow+1)) + (sectionInsets.right * (itemsPerRow+1)) + 2.0
+        let availableWidth = self.frame.width - paddingSpace
+        let widthPerItem = availableWidth / itemsPerRow
+        
+        cellSize = CGSize(width: widthPerItem, height: widthPerItem/aspectRatio) // use same aspect ratio as sample image
+        imgViewSize = cellSize
+
+        // calculate the sizes for processing the input image (typically a downscaled version of the input)
+        // for now, we just use the display size adjusted for the screen points per pixel
+        imgSize = CGSize(width: imgViewSize.width * UISettings.screenScale, height: imgViewSize.height * UISettings.screenScale)
+
+        // set up the gallery/collection view
         
         layout.itemSize = self.frame.size
         //log.debug("Gallery layout.itemSize: \(layout.itemSize)")
@@ -182,6 +196,12 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         self.filterList.sort(by: { (value1: String, value2: String) -> Bool in return value1 < value2 }) // sort ascending
         log.debug ("Loading... \(self.filterList.count) filters for category: \(self.currCategory)")
         
+        // load the input data
+        loadInputs(size: imgSize)
+        
+        // load the cache
+        loadCache()
+
         // pre-load filters. Inefficient, but it avoids multi-thread timing issues when rendering cells
         // ignore compiler warnings, the intent is to pre-load the filters
         if (self.filterList.count > 0){
@@ -208,6 +228,9 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     
     open func setCategory(_ category:String){
         if (currCategory == category) { log.warning("Warning: category was already set to: \(category). Check logic") }
+        
+        // clear the previous cached items (if any)
+        unloadCache()
         
         //if ((currCategory != category) || firstTime){
             log.debug("Category: \(category)")
@@ -268,9 +291,59 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     }
 
     ////////////////////////////////////////////
+    // MARK: - Image cache
+    ////////////////////////////////////////////
+
+    // asynchronusly loads filtered images into the image cache
+    private func loadCache(){
+        guard sample != nil else {
+            log.error("Attempt to load cache before data is loaded")
+            return
+        }
+        
+        if (self.filterList.count > 0){
+            
+            // add an entry for each filter to be displayed
+            for key in filterList {
+                // add the input image for now. It will be replaced by the filtered version
+                ImageCache.add(sample, key: key)
+             }
+            
+            // update images on the background queue
+            DispatchQueue.global(qos: .background).async {
+                for key in self.filterList {
+                    let descriptor = self.filterManager.getFilterDescriptor(key: key)
+                    let image = descriptor?.apply(image:self.sample, image2: self.blend)
+                    ImageCache.add(image, key: key)
+                    DispatchQueue.main.async(execute: { self.reloadImage(key:key) })
+                  }
+                
+/***
+                // request an update on the main thread
+                DispatchQueue.main.async(execute: { () -> Void in
+                    log.verbose("Requesting update")
+                    self.filterGallery?.reloadData()
+                    //self.filterGallery?.setNeedsLayout()
+                })
+ **/
+            }
+        }
+        
+    }
+    
+    // removes images from the cache
+    private func unloadCache() {
+        if (self.filterList.count > 0){
+            for key in filterList {
+                ImageCache.remove(key: key)
+            }
+        }
+    }
+    
+    ////////////////////////////////////////////
     // MARK: - Rating Alert (for showing rating and allowing change)
     ////////////////////////////////////////////
-    
+
     fileprivate var ratingAlert:UIAlertController? = nil
     fileprivate var currRating: Int = 0
     fileprivate var currRatingKey: String = ""
@@ -419,7 +492,12 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         }
 
         // run the filter
+        //log.debug("key: \(key) found in cache: \(ImageCache.contains(key: key))")
+
+        //retrieve image from cache
+        renderview?.image = ImageCache.get(key: key)
         
+/*** without caching:
         if self.currCategory != FilterManager.styleTransferCategory {
             renderview?.image = descriptor?.apply(image:sample, image2: blend)
             renderview?.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: self.height * 0.8)
@@ -431,12 +509,19 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
                 renderview?.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: self.height * 0.8)
            })
         }
-
+***/
         //renderView?.isHidden = false
  
     }
     
     
+    // updates the image associated with the supplied key
+    func reloadImage(key: String){
+        let renderview = self.filterManager.getRenderView(key:key)
+        renderview?.frame.size = self.imgViewSize
+        renderview?.setImageSize(self.imgSize)
+        renderview?.image = ImageCache.get(key: key)
+    }
     
 }
 
@@ -609,16 +694,7 @@ extension FilterGalleryView {
 extension FilterGalleryView {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        //let paddingSpace = sectionInsets.left * (itemsPerRow + 1)
-        //let paddingSpace = sectionInsets.left * (itemsPerRow + 2)
-        let paddingSpace = (sectionInsets.left * (itemsPerRow+1)) + (sectionInsets.right * (itemsPerRow+1)) + 2.0
-        let availableWidth = self.frame.width - paddingSpace
-        let widthPerItem = availableWidth / itemsPerRow
-        
-        //log.debug("view:\(availableWidth) cell: \(widthPerItem)")
-        //return CGSize(width: widthPerItem, height: widthPerItem*1.5) // use 2:3 (4:6) ratio
-        return CGSize(width: widthPerItem, height: widthPerItem/aspectRatio) // use same aspect ratio as sample image
+        return imgViewSize
     }
     
     
