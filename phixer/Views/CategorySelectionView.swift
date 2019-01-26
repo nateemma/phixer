@@ -169,14 +169,14 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         label.textAlignment = .center
         label.textColor = theme.textColor
         label.backgroundColor = theme.backgroundColor
-        label.font = UIFont.boldSystemFont(ofSize: 14.0)
+        label.font = UIFont.boldSystemFont(ofSize: 12.0)
         label.frame.size.height = carouselHeight * 0.95
         label.frame.size.width = label.frame.size.height // square
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
         label.numberOfLines = 0
         
         if (index < categoryList.count){
-            label.text = categoryList[index]
+            label.text = filterManager?.getCategoryTitle(key: categoryList[index])
         }
         
         return label

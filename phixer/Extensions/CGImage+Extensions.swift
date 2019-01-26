@@ -17,7 +17,7 @@ extension CGImage {
         let colorSpace =  CGColorSpaceCreateDeviceRGB()
         let bitmapInfo = CGImageAlphaInfo.premultipliedLast.rawValue
         
-        let context = CGContext(data: nil,
+        var context = CGContext(data: nil,
                                 width: Int(size.width),
                                 height: Int(size.height),
                                 bitsPerComponent: Int(8),
@@ -36,6 +36,7 @@ extension CGImage {
         // create the CGImage
         let cgImage = context!.makeImage()
         
+        context = nil
         return cgImage
     }
 
@@ -47,7 +48,7 @@ extension CGImage {
         let bitmapInfo = self.alphaInfo.rawValue
         //let bitmapInfo = CGImageAlphaInfo.premultipliedLast.rawValue
 
-        let context = CGContext(data: nil,
+        var context = CGContext(data: nil,
                                       width: Int(size.width),
                                       height: Int(size.height),
                                       bitsPerComponent: Int(8),
@@ -72,6 +73,7 @@ extension CGImage {
             return self
         }
 
+        context = nil
         return resizedCGImage
     }
     

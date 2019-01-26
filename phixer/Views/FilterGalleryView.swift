@@ -48,10 +48,8 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     fileprivate let rightOffset: CGFloat = 7
     fileprivate let height: CGFloat = 34
     
-    //fileprivate let sectionInsets = UIEdgeInsets(top: 50.0, left: 20.0, bottom: 50.0, right: 20.0)
-    //fileprivate let sectionInsets = UIEdgeInsets(top: 9.0, left: 10.0, bottom: 9.0, right: 10.0)
-    fileprivate let sectionInsets = UIEdgeInsets(top: 4.0, left: 4.0, bottom: 4.0, right: 4.0) // layout is *really* sensitive to left/right for some reason
-    
+    fileprivate let sectionInsets = UIEdgeInsets(top: 2.0, left: 3.0, bottom: 2.0, right: 3.0) // layout is *really* sensitive to left/right for some reason
+
     
     fileprivate var filterList:[String] = []
     fileprivate var currCategory: String = FilterManager.defaultCategory
@@ -85,7 +83,9 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     deinit{
         suspend()
         unloadCache()
-    }
+        releaseRenderviews()
+        filterList = []
+     }
     
     
     
@@ -156,6 +156,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         layout.itemSize = self.frame.size
         //log.debug("Gallery layout.itemSize: \(layout.itemSize)")
         filterGallery = UICollectionView(frame: self.frame, collectionViewLayout: layout)
+        filterGallery?.isPrefetchingEnabled = true
         filterGallery?.delegate   = self
         filterGallery?.dataSource = self
         reuseId = "FilterGalleryView_" + currCategory
@@ -340,6 +341,17 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         }
     }
     
+    
+    // releaes the renderViews that we used
+    
+    private func releaseRenderviews(){
+        if (self.filterList.count > 0){
+            for key in filterList {
+                filterManager.releaseRenderView(key: key)
+            }
+        }
+    }
+
     ////////////////////////////////////////////
     // MARK: - Rating Alert (for showing rating and allowing change)
     ////////////////////////////////////////////

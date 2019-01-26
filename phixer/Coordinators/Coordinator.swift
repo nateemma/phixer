@@ -123,10 +123,12 @@ class Coordinator: CoordinatorDelegate {
     func endRequest() {
         // we're done with this coordinator, so call the completion handler
 
+        self.mainController = nil
+        
         // not sure if we need this. Should probably notify anything active to stop
-//        if self.completionHandler != nil {
-//            self.completionHandler!()
-//        }
+        if self.completionHandler != nil {
+            self.completionHandler!()
+        }
 
     }
     
@@ -173,7 +175,9 @@ class Coordinator: CoordinatorDelegate {
         
         if id == self.mainControllerId {
             log.verbose("Main Controller finished: \(id.rawValue)")
-            Coordinator.navigationController?.popViewController(animated: false)
+            var vc = Coordinator.navigationController?.popViewController(animated: false)
+            vc = nil
+            self.mainController = nil
         } else {
             log.verbose("Sub-Controller finished: \(id.rawValue)")
             deactivateSubController(id:id)
@@ -341,7 +345,8 @@ class Coordinator: CoordinatorDelegate {
  
         // pop the current subcontroller
         if !subControllerStack.isEmpty {
-            subControllerStack.pop()
+            var vc = subControllerStack.pop()
+            vc = nil
         }
         
         // unhide the next one in the stack (if any)

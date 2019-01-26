@@ -95,7 +95,9 @@ class FilterGalleryViewCell: UICollectionViewCell {
         label.frame.size.width = self.width
         label.frame.size.height = (self.height * 0.2).rounded()
         label.backgroundColor = theme.subtitleColor.withAlphaComponent(0.9)
-        label.font = UIFont.boldSystemFont(ofSize: 12.0)
+        label.font = UIFont.boldSystemFont(ofSize: 10.0)
+        label.lineBreakMode = NSLineBreakMode.byWordWrapping
+        label.numberOfLines = 0
         self.addSubview(label)
         
         //log.verbose("renderView h:\(self.height * 0.7)")
@@ -162,12 +164,13 @@ class FilterGalleryViewCell: UICollectionViewCell {
             // re-size the contents to match the cell
             self.renderView.frame = frame
             
-            //self.renderContainer.label.text = descriptor?.key
-            self.label.text = key
-            
             // get the descriptor and setup adornments etc. accordingly
             self.descriptor = FilterGalleryViewCell.filterManager.getFilterDescriptor(key: key)
             
+            //self.renderContainer.label.text = descriptor?.key
+            //self.label.text = key
+            self.label.text = self.descriptor?.title
+
             // If filter is disabled, show at half intensity
             if (self.descriptor != nil){
                 if (FilterGalleryViewCell.filterManager.isHidden(key: key)){
