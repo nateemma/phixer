@@ -320,19 +320,20 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
             }
             
 
-            DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.15) {
+            let delay = (self.filterList.count < 16) ? 0.0 : 0.15
+            DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + delay) {
                 log.verbose("running filters in background...")
                for key in self.filterList {
                     // update each image separately on the background queue to allow main queue to run
                     DispatchQueue.global(qos: .background).async {
                     //DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.2) {
-                        let renderview = self.filterManager.getRenderView(key: key)
+                        let renderview = self.filterManager.getRenderView(key: key) // this caches the RenderView
                         let descriptor = self.filterManager.getFilterDescriptor(key: key)
                         if self.inputImage != nil {
                             let image = descriptor?.apply(image:self.inputImage, image2: self.blend)
                             if image != nil {
                                 ImageCache.add(image, key: key)
-                                //renderview?.image = image
+                                // update on main thread (needs to do some layout that we can't do in the background)
                                 DispatchQueue.main.async(execute: { self.reloadImage(key:key) })
                             } else {
                                 log.error("Filter returned nil")

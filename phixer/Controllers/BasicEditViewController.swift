@@ -34,7 +34,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     
     // Custom Menu view
     var menuView: AdornmentView! = AdornmentView()
-
+    
     // The filter configuration subview
     var filterParametersView: FilterParametersView! = FilterParametersView()
     
@@ -51,7 +51,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     var displayWidth : CGFloat = 0.0
     var displayHeight : CGFloat = 0.0
     
- 
+    
     // vars related to gestures/touches
     enum touchMode {
         case none
@@ -96,7 +96,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             self.filterParametersView.update()
         })
     }
-
+    
     // handle the menu request. Return true if handled, false otherwise (base controller will handle it)
     override func handleMenu() {
         // if menu is hidden then re-layout and show it, otherwise hide it
@@ -110,9 +110,9 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             //log.debug("Menu active, closing")
             self.menuView.isHidden = true
             self.filterParametersView.isHidden = false
-      }
+        }
     }
-
+    
     // handle the end request. Check to see if there is anything to save before exiting
     override func end() {
         log.debug("Checking applied filters")
@@ -127,7 +127,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     // INIT
     /////////////////////////////
     
-
+    
     
     
     convenience init(){
@@ -182,7 +182,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         
         // common setup
         self.prepController()
-
+        
         // get display dimensions
         displayHeight = view.height
         displayWidth = view.width
@@ -193,45 +193,45 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         doInit()
         
         checkPhotoAuth()
-
+        
         // TMP DBG
         //ImageManager.listAllAlbums()
         //ImageManager.listPhotoAlbum("All Photos")
-  
+        
         // do layout
         
         menuView.frame.size.height = CGFloat(UISettings.panelHeight)
         menuView.frame.size.width = displayWidth
         layoutMenu()
-
+        
         editImageView.frame.size.width = displayWidth
         editImageView.frame.size.height = displayHeight
-
+        
         filterParametersView.frame.size.width = displayWidth
         filterParametersView.frame.size.height = UISettings.panelHeight // will be adjusted based on selected filter
- 
+        
         // Note: need to add subviews before modifying constraints
         view.addSubview(editImageView)
         view.addSubview(menuView)
         view.addSubview(filterParametersView)
-
-
+        
+        
         showModalViews()
-
+        
         // set layout constraints
         
         // top
         menuView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: menuView.frame.size.height)
-
+        
         
         // main window
         //editImageView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: editImageView.frame.size.height)
         editImageView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: editImageView.frame.size.height)
-
+        
         // filter parameters
         //filterParametersView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: filterParametersView.frame.size.height)
         filterParametersView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: filterParametersView.frame.size.height)
-
+        
         // add delegate for image picker
         imagePicker.delegate = self
         
@@ -244,8 +244,8 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         
     }
     
-   
-
+    
+    
     private func checkPhotoAuth() {
         //PHPhotoLibrary.shared().register(self)
         if PHPhotoLibrary.authorizationStatus() != .authorized {
@@ -265,12 +265,12 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     //////////////////////////////////////
     // MARK: - Sub-View layout
     //////////////////////////////////////
-
- 
+    
+    
     // these vars are global scope because they are updated asynchronously
     private var photoThumbnail:UIImage? = nil
     private var blendThumbnail:UIImage? = nil
-
+    
     // layout the menu panel
     private func layoutMenu() {
         
@@ -283,7 +283,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         menuView.delegate = self
         menuView.isHidden = true // start off as hidden
     }
-
+    
     
     
     // set photo image to the last photo in the camera roll
@@ -328,11 +328,11 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     
     
     var itemList:[Adornment] = [ ]
-
+    
     func updateAdornments(){
         
         // hide blend icon if this is not a blend filter
-       let showBlend = (filterManager.getCurrentFilterDescriptor()?.filterOperationType == FilterOperationType.blend) ? false : true
+        let showBlend = (filterManager.getCurrentFilterDescriptor()?.filterOperationType == FilterOperationType.blend) ? false : true
         
         itemList = []
         itemList.append (Adornment(key: "photo", text: "photo", icon: "", view: photoThumbnail, isHidden: false))
@@ -361,11 +361,11 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             log.error("Unknown key: \(key)")
         }
     }
-
+    
     @objc func imageDidPress(){
         self.menuView.isHidden = true
         self.changeImage()
-     }
+    }
     
     @objc func blendDidPress(){
         self.coordinator?.activateRequest(id: .blendGallery)
@@ -374,9 +374,13 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     @objc func saveDidPress(){
         self.menuView.isHidden = true
         DispatchQueue.main.async(execute: { () -> Void in
-            self.saveImage()
-            log.verbose("Image saved")
-            self.showMessage("Image saved to Photos")
+            if EditManager.isPreviewActive() {
+                self.displayPreviewAlert()
+            } else {
+                self.saveImage()
+                log.verbose("Image saved")
+                self.showMessage("Image saved to Photos")
+            }
         })
     }
     
@@ -414,7 +418,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             self.menuView.isHidden = true
         })
     }
-
+    
     @objc func helpDidPress(){
         log.debug("help")
         DispatchQueue.main.async(execute: { () -> Void in
@@ -422,11 +426,11 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             self.menuView.isHidden = true
         })
     }
-
+    
     //////////////////////////////////////
     // MARK: - Volume buttons
     //////////////////////////////////////
-
+    
     
     func setVolumeListener() {
         let audioSession = AVAudioSession.sharedInstance()
@@ -463,18 +467,18 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     //////////////////////////////////////
     // MARK: - Save Applied filters alert processing
     //////////////////////////////////////
-
+    
     
     fileprivate var savePhotoAlert:UIAlertController? = nil
-
+    
     private func displayUnsavedFiltersAlert() {
         
-
+        
         // build the alert if first time
         if (savePhotoAlert == nil){
             savePhotoAlert = UIAlertController(title: "Are You Sure?",
                                                message:"Did you want to save your edited photo before leaving this screen?\n" +
-                                                       "If you leave, the filters will be lost",
+                "If you leave, the filters will be lost",
                                                preferredStyle: .alert)
             
             // add the OK button
@@ -499,7 +503,54 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         
         
     }
-
+    
+    
+    
+    //////////////////////////////////////
+    // MARK: - Apply Preview alert processing
+    //////////////////////////////////////
+    
+    
+    fileprivate var applyPreviewAlert:UIAlertController? = nil
+    
+    private func displayPreviewAlert() {
+        
+        
+        // build the alert if first time
+        if (applyPreviewAlert == nil){
+            applyPreviewAlert = UIAlertController(title: "Preview Not Applied",
+                                                  message:"There is a Preview effect that has not been applied.\n" +
+                "Did you want to include this in the Saved image?",
+                                                  preferredStyle: .alert)
+            
+            // add the OK button
+            let okAction = UIAlertAction(title: "Apply", style: .default) { (action:UIAlertAction) in
+                log.debug("Apply Preview")
+                EditManager.savePreviewFilter()
+                self.editImageView.updateImage()
+                self.saveImage()
+            }
+            applyPreviewAlert?.addAction(okAction)
+            
+            // add the Cancel Button
+            let cancelAction = UIAlertAction(title: "Ignore", style: .default) { (action:UIAlertAction) in
+                log.debug("Ignore")
+                EditManager.removePreviewFilter()
+                self.editImageView.updateImage()
+                self.saveImage()
+            }
+            applyPreviewAlert?.addAction(cancelAction)
+            
+        }
+        
+        // display the dialog
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.present(self.applyPreviewAlert!, animated: true, completion:nil)
+        })
+        
+        
+    }
+    
     
     //////////////////////////////////////
     // MARK: - Gesture Detection
@@ -534,22 +585,22 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(self.swiped))
         swipeUp.direction = .up
         
-
+        
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.swiped))
         swipeRight.direction = .right
         
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.swiped))
-         swipeLeft.direction = .left
- 
+        swipeLeft.direction = .left
+        
         
         // TODO: zoom/pan gestures
-
+        
         for gesture in [swipeDown, swipeUp, swipeRight, swipeLeft] {
             gesture.cancelsTouchesInView = false // allows touch to trickle down to subviews
             view.addGestureRecognizer(gesture)
             gesture.delegate = self
         }
-
+        
     }
     
     
@@ -567,7 +618,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
                 case UISwipeGestureRecognizer.Direction.left:
                     //log.verbose("Swiped Left")
                     self.coordinator?.previousItemRequest()
-                   break
+                    break
                     
                 case UISwipeGestureRecognizer.Direction.up:
                     //log.verbose("Swiped Up")
@@ -596,8 +647,8 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             }
         }
     }
-
-
+    
+    
     
     
     //////////////////////////////////////
@@ -688,7 +739,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         })
     }
     
-
+    
     func toggleModalViews() {
         if (self.navigationController?.isNavigationBarHidden)! {
             showModalViews()
@@ -782,7 +833,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     //////////////////////////////////////////
     // MARK: - Filter Stack
     //////////////////////////////////////////
-
+    
     fileprivate var stackView:EditStackView? = nil
     
     fileprivate func showFilterStack(){
@@ -794,7 +845,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         self.view.addSubview(stackView!)
         stackView?.anchorInCenter(width: (stackView?.frame.size.width)!, height: (stackView?.frame.size.height)!)
     }
-
+    
     fileprivate func closeStackView() {
         stackView?.isHidden = true
         stackView = nil
@@ -812,7 +863,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             self.imagePicker.sourceType = .photoLibrary
             //self.imagePicker.modalPresentationStyle = .popover // required after ios12
             self.imagePicker.delegate = self
-
+            
             self.present(self.imagePicker, animated: true, completion: {})
         })
     }
@@ -820,7 +871,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         log.verbose("Image picked")
-        if let asset = info[UIImagePickerController.InfoKey.phAsset] as? PHAsset { 
+        if let asset = info[UIImagePickerController.InfoKey.phAsset] as? PHAsset {
             let assetResources = PHAssetResource.assetResources(for: asset)
             let name = assetResources.first!.originalFilename
             let id = assetResources.first!.assetLocalIdentifier
@@ -837,7 +888,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         picker.dismiss(animated: false, completion: nil)
     }
     
-
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         log.verbose("Image Picker cancelled")
         picker.dismiss(animated: false)
@@ -925,7 +976,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             enableGestureDetection()
         }
     }
-
+    
     
     //////////////////////////////////////////
     // MARK: - Not yet implemented notifier
@@ -939,7 +990,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         })
     }
     
-
+    
     
 } // BasicEditViewController
 //########################
@@ -958,8 +1009,8 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
 // Interfaces to the FilterParameters view
 
 extension BasicEditViewController: FilterParametersViewDelegate {
- 
-
+    
+    
     func commitChanges(key: String) {
         log.verbose("\(self.getTag()): \(key)")
         // make the change permanent
@@ -970,7 +1021,7 @@ extension BasicEditViewController: FilterParametersViewDelegate {
             self.editImageView.updateImage()
             self.coordinator?.showSubcontrollersRequest()
             self.showModalViews()
-       })
+        })
     }
     
     func cancelChanges(key: String) {
@@ -983,7 +1034,7 @@ extension BasicEditViewController: FilterParametersViewDelegate {
             self.filterParametersView.setFilter(EditManager.getPreviewFilter())
             self.editImageView.updateImage()
             self.coordinator?.showSubcontrollersRequest()
-         })
+        })
     }
     
     

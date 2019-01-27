@@ -108,7 +108,7 @@ class EditManager {
         log.verbose("Removing filter...")
         // if preview set then remove that, otherwise remove last filter
         
-        if (EditManager.previewFilter != nil) && (EditManager.previewFilter?.key != FilterDescriptor.nullFilter) {
+        if isPreviewActive() {
             log.debug("Removed filter:\(String(describing: EditManager.previewFilter?.title))")
             addPreviewFilter(filterManager?.getFilterDescriptor(key: FilterDescriptor.nullFilter))
         } else {
@@ -149,7 +149,7 @@ class EditManager {
 
     // remove preview filter
     public static func removePreviewFilter() {
-        if (EditManager.previewFilter != nil) && (EditManager.previewFilter?.key != FilterDescriptor.nullFilter) {
+        if isPreviewActive() {
             log.debug("Removed filter:\(String(describing: EditManager.previewFilter?.title))")
             addPreviewFilter(filterManager?.getFilterDescriptor(key: FilterDescriptor.nullFilter))
         }
@@ -174,7 +174,10 @@ class EditManager {
         addPreviewFilter(filterManager?.getFilterDescriptor(key: FilterDescriptor.nullFilter))
     }
 
-   
+    // func to see if (non-null) filter is active as a preview
+    public static func isPreviewActive() -> Bool {
+        return (EditManager.previewFilter != nil) && (EditManager.previewFilter?.key != FilterDescriptor.nullFilter)
+    }
     
     // apply all filters in the list to the supplied image, excluding the preview image
     // Done this way so that you can call using any image, not just the static (shared) input image
