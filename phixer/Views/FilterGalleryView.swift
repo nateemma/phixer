@@ -84,14 +84,15 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         //suspend()
         releaseResources()
         filterList = []
-     }
+        inputImage = nil
+        blend = nil
+        filterGallery = nil
+   }
     
     
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
-        self.sample = nil
         
         // only do layout if this was caused by an orientation change
         if (UISettings.isLandscape != ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight))){ // rotation change?
@@ -122,7 +123,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
 
         selectedIndex = -1
 
-        // set items per row. Add 1 if landscape, subtract one if sample is in landscape orientation
+        // set items per row. Add 1 if landscape, subtract one if inputImage is in landscape orientation
         
         if (UISettings.isLandscape){
             if (aspectRatio > 1.0){ // w > h
@@ -144,7 +145,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         let availableWidth = self.frame.width - paddingSpace
         let widthPerItem = availableWidth / itemsPerRow
         
-        cellSize = CGSize(width: widthPerItem, height: widthPerItem/aspectRatio) // use same aspect ratio as sample image
+        cellSize = CGSize(width: widthPerItem, height: widthPerItem/aspectRatio) // use same aspect ratio as inputImage image
         imgViewSize = cellSize
 
         // calculate the sizes for processing the input image (typically a downscaled version of the input)
@@ -304,7 +305,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
 
     // asynchronusly loads filtered images into the image cache
     private func loadCache(){
-        guard sample != nil else {
+        guard inputImage != nil else {
             log.error("Attempt to load cache before data is loaded")
             return
         }
@@ -315,23 +316,37 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
             log.verbose("Init images")
             for key in filterList {
                 // add the input image for now. It will be replaced by the filtered version
-                ImageCache.add(sample, key: key)
+                ImageCache.add(inputImage, key: key)
             }
             
-            log.verbose("running filters in background...")
-           for key in self.filterList {
-                // update images on the background queue
-                DispatchQueue.global(qos: .background).async { [weak self] in
-                    let renderview = self?.filterManager.getRenderView(key: key)
-                    let descriptor = self?.filterManager.getFilterDescriptor(key: key)
-                    let image = descriptor?.apply(image:self?.sample, image2: self?.blend)
-                    ImageCache.add(image, key: key)
-                    //renderview?.image = image
-                    DispatchQueue.main.async(execute: { self?.reloadImage(key:key) })
+
+            DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.15) {
+                log.verbose("running filters in background...")
+               for key in self.filterList {
+                    // update each image separately on the background queue to allow main queue to run
+                    DispatchQueue.global(qos: .background).async {
+                    //DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.2) {
+                        let renderview = self.filterManager.getRenderView(key: key)
+                        let descriptor = self.filterManager.getFilterDescriptor(key: key)
+                        if self.inputImage != nil {
+                            let image = descriptor?.apply(image:self.inputImage, image2: self.blend)
+                            if image != nil {
+                                ImageCache.add(image, key: key)
+                                //renderview?.image = image
+                                DispatchQueue.main.async(execute: { self.reloadImage(key:key) })
+                            } else {
+                                log.error("Filter returned nil")
+                            }
+                        } else {
+                            log.error("Input is NIL")
+                        }
+                        if self.filterList.last == key {
+                            log.verbose("... done running filters")
+                        }
+                    }
                 }
             }
-            log.verbose("... done running filters")
-       }
+        }
         
     }
     
@@ -442,14 +457,14 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     // MARK: - Rendering stuff
     ////////////////////////////////////////////
     
-    fileprivate var sample:CIImage? = nil
+    fileprivate var inputImage:CIImage? = nil
     fileprivate var blend:CIImage? = nil
     
     
     
     fileprivate func loadInputs(size:CGSize){
         
-        if self.sample == nil {
+        if self.inputImage == nil {
             // input image can change, so make sure it's current
             EditManager.setInputImage(InputSource.getCurrentImage())
             
@@ -470,8 +485,11 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
                 let ratio = ldes / lin
                 mysize = CGSize(width: (insize.width*ratio).rounded(), height: (insize.height*ratio).rounded())
             }
-            sample = EditManager.getPreviewImage()?.resize(size: mysize)
-            blend  = ImageManager.getCurrentBlendImage(size:mysize)
+            inputImage = EditManager.getPreviewImage()?.resize(size: mysize)
+            if inputImage == nil {
+                log.error("ERR retrieveing input image")
+            }
+            blend  = ImageManager.getCurrentBlendImage(size:mysize) // OK if nil
         }
     }
     
@@ -490,18 +508,11 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
             log.error("filter NIL for:index:\(index) key:\(String(describing: descriptor?.key))")
             return
         }
-        //log.debug("index:\(index), key:\(key), view:\(Utilities.addressOf(RenderView))")
         
-        
-        //if (sample == nil){
         loadInputs(size:(renderview?.frame.size)!)
-        //}
         
-        
-        //TODO: start rendering in an asynch queue
-        
-        guard (sample != nil) else {
-            log.error("Could not load sample image")
+        guard (inputImage != nil) else {
+            log.error("Could not load inputImage image")
             return
         }
         
@@ -518,13 +529,13 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         
 /*** without caching:
         if self.currCategory != FilterManager.styleTransferCategory {
-            renderview?.image = descriptor?.apply(image:sample, image2: blend)
+            renderview?.image = descriptor?.apply(image:inputImage, image2: blend)
             renderview?.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: self.height * 0.8)
         } else {
-            //renderview?.image = self.sample
+            //renderview?.image = self.inputImage
             //renderview?.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: self.height * 0.8)
           DispatchQueue.main.async(execute: { () -> Void in
-                renderview?.image = descriptor?.apply(image:self.sample, image2: self.blend)
+                renderview?.image = descriptor?.apply(image:self.inputImage, image2: self.blend)
                 renderview?.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: self.height * 0.8)
            })
         }
