@@ -81,9 +81,8 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     
     
     deinit{
-        suspend()
-        unloadCache()
-        releaseRenderviews()
+        //suspend()
+        releaseResources()
         filterList = []
      }
     
@@ -92,6 +91,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     override func layoutSubviews() {
         super.layoutSubviews()
         
+        self.sample = nil
         
         // only do layout if this was caused by an orientation change
         if (UISettings.isLandscape != ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight))){ // rotation change?
@@ -171,7 +171,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         //log.verbose("activated")
         //ignore compiler warnings
         var filter:FilterDescriptor? = nil
-        var renderview:MetalImageView? = nil
+        var renderview:RenderView? = nil
         
         if (self.filterList.count > 0){
             self.filterList = []
@@ -199,22 +199,32 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         
         // load the input data
         loadInputs(size: imgSize)
-        
-        // load the cache
-        loadCache()
+
 
         // pre-load filters. Inefficient, but it avoids multi-thread timing issues when rendering cells
         // ignore compiler warnings, the intent is to pre-load the filters
         if (self.filterList.count > 0){
+            for i in 0..<min(12,  self.filterList.count) {
+                let key = self.filterList[i]
+                filter = filterManager.getFilterDescriptor(key: key)
+                renderview = filterManager.getRenderView(key: key)
+           }
+            /***
             for key in self.filterList{
                 filter = filterManager.getFilterDescriptor(key: key)
                 renderview = filterManager.getRenderView(key: key)
             }
+ ***/
         }
- 
+
         
-        self.filterGallery?.reloadData()
+        //self.filterGallery?.reloadData()
         //self.filterGallery?.setNeedsDisplay()
+        
+        
+        // load the cache in the background
+        loadCache()
+
     }
     
     ////////////////////////////////////////////
@@ -231,17 +241,14 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         if (currCategory == category) { log.warning("Warning: category was already set to: \(category). Check logic") }
         
         // clear the previous cached items (if any)
-        unloadCache()
+        releaseResources()
         
-        //if ((currCategory != category) || firstTime){
-            log.debug("Category: \(category)")
-            currCategory = category
-            firstTime = false
-            doLayout()
-            doLoadData()
-        //} else {
-        //    log.verbose("Ignoring Category change to: \(category)")
-        //}
+        log.debug("Category: \(category)")
+        currCategory = category
+        firstTime = false
+        EditManager.removePreviewFilter()
+        doLayout()
+        doLoadData()
     }
     
     // Suspend all MetalPetal-related operations
@@ -305,30 +312,26 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         if (self.filterList.count > 0){
             
             // add an entry for each filter to be displayed
+            log.verbose("Init images")
             for key in filterList {
                 // add the input image for now. It will be replaced by the filtered version
                 ImageCache.add(sample, key: key)
-             }
-            
-            // update images on the background queue
-            DispatchQueue.global(qos: .background).async {
-                for key in self.filterList {
-                    let descriptor = self.filterManager.getFilterDescriptor(key: key)
-                    let image = descriptor?.apply(image:self.sample, image2: self.blend)
-                    ImageCache.add(image, key: key)
-                    DispatchQueue.main.async(execute: { self.reloadImage(key:key) })
-                  }
-                
-/***
-                // request an update on the main thread
-                DispatchQueue.main.async(execute: { () -> Void in
-                    log.verbose("Requesting update")
-                    self.filterGallery?.reloadData()
-                    //self.filterGallery?.setNeedsLayout()
-                })
- **/
             }
-        }
+            
+            log.verbose("running filters in background...")
+           for key in self.filterList {
+                // update images on the background queue
+                DispatchQueue.global(qos: .background).async { [weak self] in
+                    let renderview = self?.filterManager.getRenderView(key: key)
+                    let descriptor = self?.filterManager.getFilterDescriptor(key: key)
+                    let image = descriptor?.apply(image:self?.sample, image2: self?.blend)
+                    ImageCache.add(image, key: key)
+                    //renderview?.image = image
+                    DispatchQueue.main.async(execute: { self?.reloadImage(key:key) })
+                }
+            }
+            log.verbose("... done running filters")
+       }
         
     }
     
@@ -342,12 +345,14 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     }
     
     
-    // releaes the renderViews that we used
+    // releaes the resources that we used for the gallery items
     
-    private func releaseRenderviews(){
+    private func releaseResources(){
         if (self.filterList.count > 0){
             for key in filterList {
-                filterManager.releaseRenderView(key: key)
+                ImageCache.remove(key: key)
+                RenderViewCache.remove(key: key)
+                FilterDescriptorCache.remove(key: key)
             }
         }
     }
@@ -444,35 +449,37 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     
     fileprivate func loadInputs(size:CGSize){
         
-        // input image can change, so make sure it's current
-        EditManager.setInputImage(InputSource.getCurrentImage())
-
-        // downsize the input image to something based on the requested size. Keep the aspect ratio though, otherwise redndering will be strange
-        // resize so that longest is edge is a multiple of the desired size
-        
-        let lreq = max(size.width, size.height) // longest requested side
-        let insize = EditManager.getImageSize()
-        if insize.width < 0.01 {
-            log.error("Invalid size for input image: \(insize)")
+        if self.sample == nil {
+            // input image can change, so make sure it's current
+            EditManager.setInputImage(InputSource.getCurrentImage())
+            
+            // downsize the input image to something based on the requested size. Keep the aspect ratio though, otherwise redndering will be strange
+            // resize so that longest is edge is a multiple of the desired size
+            
+            let lreq = max(size.width, size.height) // longest requested side
+            let insize = EditManager.getImageSize()
+            if insize.width < 0.01 {
+                log.error("Invalid size for input image: \(insize)")
+            }
+            let lin = max(insize.width, insize.height) // longest side of the input image
+            let ldes = 2 * lreq * UISettings.screenScale // desired size - account for screen scale (dots per pixel) and provide some margin
+            var mysize:CGSize = insize
+            
+            // resize if the input image is bigger than desired (which it should be)
+            if lin > ldes {
+                let ratio = ldes / lin
+                mysize = CGSize(width: (insize.width*ratio).rounded(), height: (insize.height*ratio).rounded())
+            }
+            sample = EditManager.getPreviewImage()?.resize(size: mysize)
+            blend  = ImageManager.getCurrentBlendImage(size:mysize)
         }
-        let lin = max(insize.width, insize.height) // longest side of the input image
-        let ldes = 2 * lreq * UISettings.screenScale // desired size - account for screen scale (dots per pixel) and provide some margin
-        var mysize:CGSize = insize
-        
-        // resize if the input image is bigger than desired (which it should be)
-        if lin > ldes {
-            let ratio = ldes / lin
-            mysize = CGSize(width: (insize.width*ratio).rounded(), height: (insize.height*ratio).rounded())
-        }
-        sample = EditManager.getPreviewImage()?.resize(size: mysize)
-        blend  = ImageManager.getCurrentBlendImage(size:mysize)
     }
     
     
     
     
-    // update the supplied MetalImageView with the supplied filter
-    func updateRenderView(index:Int, key: String, renderview:MetalImageView?){
+    // update the supplied RenderView with the supplied filter
+    func updateRenderView(index:Int, key: String, renderview:RenderView?){
         
         var descriptor: FilterDescriptor?
         
@@ -483,7 +490,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
             log.error("filter NIL for:index:\(index) key:\(String(describing: descriptor?.key))")
             return
         }
-        //log.debug("index:\(index), key:\(key), view:\(Utilities.addressOf(MetalImageView))")
+        //log.debug("index:\(index), key:\(key), view:\(Utilities.addressOf(RenderView))")
         
         
         //if (sample == nil){
@@ -613,7 +620,8 @@ extension FilterGalleryView {
                 //renderview?.contentMode = .scaleAspectFit
                 //renderview?.clipsToBounds = true
                 //renderview?.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: self.height * 0.8)
-                self.updateRenderView(index:index, key: key, renderview: renderview) // doesn't seem to work if we put this into the FilterGalleryViewCell logic (threading?!)
+                //self.updateRenderView(index:index, key: key, renderview: renderview) // doesn't seem to work if we put this into the FilterGalleryViewCell logic (threading?!)
+                renderview?.image = ImageCache.get(key: key)
                 cell.delegate = self
                 cell.configureCell(frame: cell.frame, index:index, key:key)
             })

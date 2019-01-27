@@ -147,7 +147,13 @@ class EditManager {
        log.debug("Added Preview filter:\(String(describing: filter?.title))")
     }
 
-    
+    // remove preview filter
+    public static func removePreviewFilter() {
+        if (EditManager.previewFilter != nil) && (EditManager.previewFilter?.key != FilterDescriptor.nullFilter) {
+            log.debug("Removed filter:\(String(describing: EditManager.previewFilter?.title))")
+            addPreviewFilter(filterManager?.getFilterDescriptor(key: FilterDescriptor.nullFilter))
+        }
+    }
     
     // get the current preview filter
     public static func getPreviewFilter() -> FilterDescriptor? {

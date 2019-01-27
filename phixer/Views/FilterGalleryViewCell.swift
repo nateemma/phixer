@@ -33,7 +33,7 @@ class FilterGalleryViewCell: UICollectionViewCell {
 
     var cellIndex:Int = -1 // used for tracking cell reuse
     
-    var renderView : MetalImageView! // only allocate when needed
+    var renderView : RenderView! // only allocate when needed
     var label : UILabel = UILabel()
     var adornmentView: UIView = UIView()
     var descriptor: FilterDescriptor!
@@ -280,7 +280,7 @@ class FilterGalleryViewCell: UICollectionViewCell {
     
     
     // update the supplied RenderView with the supplied filter
-    public func updateRenderView(key: String, renderView:MetalImageView?){
+    public func updateRenderView(key: String, renderView:RenderView?){
         
         //var descriptor: FilterDescriptor?
         

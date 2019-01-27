@@ -17,7 +17,7 @@ class RenderContainerView: UIView {
     var theme = ThemeManager.currentTheme()
     
     //var renderView : RenderView? = RenderView()
-    var renderView : MetalImageView? = MetalImageView()
+    var renderView : RenderView? = RenderView()
     let label : UILabel = UILabel()
     
     let defaultWidth:CGFloat = 64.0

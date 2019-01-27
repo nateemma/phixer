@@ -33,7 +33,7 @@ class FilterConfiguration{
     public static var categoryList:[String] = []
     
     // Dictionary of FilterDescriptors (key, FilterDescriptor). key is filter name
-    public static var filterDictionary:[String:FilterDescriptor?] = [:]
+    //public static var filterDictionary:[String:FilterDescriptor?] = [:]
     
     // Dictionary of Lookup images (key, image name). key is filter name
     public static var lookupDictionary:[String:String] = [:]
@@ -80,8 +80,6 @@ class FilterConfiguration{
     fileprivate static func initLists(){
         categoryDictionary = [:]
         categoryList = []
-        filterDictionary = [:]
-        lookupDictionary = [:]
         categoryFilters = [:]
         styleTransferList = []
     }
@@ -368,7 +366,7 @@ class FilterConfiguration{
     public static func addFilter(key:String, definition:FilterDefinition){
 
         // just store the mapping. Do lazy allocation as needed because of the potentially large number of filters
-        FilterConfiguration.filterDictionary[key] = nil // just make sure there is an entry to find later
+        //FilterDescriptorCache.get(key:key) = nil // just make sure there is an entry to find later
         FilterFactory.addFilterDefinition(key: key, definition:definition)
         log.verbose("addFilter(\(definition.key): \(definition.title), \(definition.ftype), \(definition.hide), \(definition.rating)), \(definition.parameters)")
     }
@@ -390,10 +388,11 @@ class FilterConfiguration{
         if (FilterConfiguration.lookupDictionary[key] != nil){ // check for duplicate and warn
             log.warning("WARN: Duplicate key:\(key)")
         }
+        FilterConfiguration.lookupDictionary[key] = definition.lookup
         
         var def = definition
         def.title = title
-        FilterConfiguration.filterDictionary[key] = nil
+        //FilterDescriptorCache.get(key:key) = nil
         FilterFactory.addLookupFilter(key: key, definition:def)
         //FilterFactory.addFilterDefinition(key: key, title: key, ftype: "lookup",  hide:hide, rating:rating)
         log.verbose("addLookup(\(definition.key), \(definition.lookup), \(definition.hide), \(definition.rating))")

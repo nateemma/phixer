@@ -48,7 +48,7 @@ class BlendGalleryViewController: CoordinatedController, UIImagePickerController
     fileprivate var blendInput:CIImage? = nil
     
     fileprivate var photosLinkImage:UIImageView! = UIImageView()
-    fileprivate var filteredImage:MetalImageView? = nil
+    fileprivate var filteredImage:RenderView? = nil
     
     // views used to manage layout of subviews
     fileprivate let buttonContainerView: UIView! = UIView()
@@ -172,7 +172,7 @@ class BlendGalleryViewController: CoordinatedController, UIImagePickerController
         //sampleInput = CIImage(image:sampleImage!)
         sampleInput = ImageManager.getCurrentSampleInput()
         //filteredImage = filterManager.getRenderView(key: currFilterKey)
-        if (filteredImage == nil) {  filteredImage = MetalImageView() }
+        if (filteredImage == nil) {  filteredImage = RenderView() }
       
         
         //set up dimensions
@@ -423,7 +423,7 @@ class BlendGalleryViewController: CoordinatedController, UIImagePickerController
         
         currDescriptor = filterManager.getFilterDescriptor(key: currFilterKey)
         //filteredImage = filterManager.getRenderView(key: currFilterKey)
-        if (filteredImage == nil) {  filteredImage = MetalImageView() }
+        if (filteredImage == nil) {  filteredImage = RenderView() }
         filteredImage!.frame.size = imageSize
         
         filterLabel.text = currDescriptor?.title

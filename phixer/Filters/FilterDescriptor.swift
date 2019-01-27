@@ -424,7 +424,7 @@ class  FilterDescriptor {
             self.lookupImage = CIImage(image: image!)
             if let ciimage = self.lookupImage {
                 if self.validParam(FilterDescriptor.lookupArgImage) {
-                    log.debug("Set lookup to: \(name) for filter:\(key)")
+                    //log.debug("Set lookup to: \(name) for filter:\(key)")
                     self.filter?.setValue(ciimage, forKey: FilterDescriptor.lookupArgImage)
                 } else {
                     log.error("Filter: \(key) does not have arg:\(FilterDescriptor.lookupArgImage)")

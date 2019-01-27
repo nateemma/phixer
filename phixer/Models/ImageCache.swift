@@ -27,12 +27,12 @@ class ImageCache {
     // add/replace an image
     public static func add(_ image:CIImage?, key:String){
         guard image != nil, !key.isEmpty else {
-            log.error("Empty parameter. Ignored")
+            log.error("Empty parameter for key:\(key). Ignored")
             return
         }
         
         cache.setObject(image!, forKey: key as NSString)
-        log.verbose("Added: \(key)")
+        //log.verbose("Added: \(key)")
     }
    
     
@@ -44,7 +44,8 @@ class ImageCache {
         }
 
         cache.removeObject(forKey: key as NSString)
-        log.verbose("Removed: \(key)")    }
+        //log.verbose("Removed: \(key)")
+    }
 
     
     // get the image for the supplied key

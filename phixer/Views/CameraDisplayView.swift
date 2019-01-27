@@ -18,7 +18,7 @@ class CameraDisplayView: UIView {
     
 
     //var renderView: RenderView? = RenderView()
-    fileprivate var renderView: MetalImageView? = MetalImageView()
+    fileprivate var renderView: RenderView? = RenderView()
     fileprivate var currFilter: FilterDescriptor? = nil
     fileprivate var cameraImage:CIImage? = nil
     var initDone: Bool = false

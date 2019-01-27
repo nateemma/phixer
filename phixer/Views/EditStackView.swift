@@ -208,7 +208,7 @@ class EditStackView: UIView {
         pview.frame.size.width = self.frame.size.width
         pview.frame.size.height = rowHeight
         
-        let metalView = MetalImageView()
+        let metalView = RenderView()
         metalView.frame.size = CGSize(width: imageHeight, height: imageHeight)
         metalView.setImageSize((image?.extent.size)!)
         metalView.image = image

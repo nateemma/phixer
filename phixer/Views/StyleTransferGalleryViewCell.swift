@@ -23,7 +23,7 @@ class StyleTransferGalleryViewCell: UICollectionViewCell {
     
     var sourceView : UIImageView! = UIImageView()
     var arrowView  : UIImageView! = UIImageView()
-    var styledView : MetalImageView! // only allocate when configured
+    var styledView : RenderView! // only allocate when configured
 
     var descriptor: FilterDescriptor!
     
@@ -175,7 +175,7 @@ class StyleTransferGalleryViewCell: UICollectionViewCell {
         })
     }
     
-    public func configure(index:Int, srcImage:UIImage?, styledImage:MetalImageView?){
+    public func configure(index:Int, srcImage:UIImage?, styledImage:RenderView?){
         DispatchQueue.main.async(execute: { () -> Void in
             //log.debug("index:\(index)")
             

@@ -37,7 +37,7 @@ class EditImageDisplayView: UIView {
     fileprivate var currSplitOffset:CGFloat = 0.0
     fileprivate var currSplitPoint:CGPoint = CGPoint.zero
 
-    fileprivate var renderView: MetalImageView? = MetalImageView()
+    fileprivate var renderView: RenderView? = RenderView()
     fileprivate var imageView: UIImageView! = UIImageView()
     
     fileprivate var initDone: Bool = false

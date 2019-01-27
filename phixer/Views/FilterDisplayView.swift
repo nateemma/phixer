@@ -20,7 +20,7 @@ class FilterDisplayView: UIView {
     
 
 
-    fileprivate var renderView: MetalImageView! = MetalImageView()
+    fileprivate var renderView: RenderView! = RenderView()
     
     fileprivate var initDone: Bool = false
     fileprivate var layoutDone: Bool = false

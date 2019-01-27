@@ -53,7 +53,7 @@ class StyleTransferGalleryView : UIView {
     fileprivate var filterList:[String] = []
     fileprivate var arrowView:UIImageView? = nil
     fileprivate var sourceImageList:[String:UIImage?] = [:]
-    fileprivate var styledImageList:[String:MetalImageView] = [:]
+    fileprivate var styledImageList:[String:RenderView] = [:]
 
     //fileprivate var currCategory: String = FilterManager.defaultCategory
     fileprivate var filterManager:FilterManager = FilterManager.sharedInstance
@@ -84,9 +84,17 @@ class StyleTransferGalleryView : UIView {
     
     deinit{
         suspend()
+        if filterList.count > 0 {
+            for key in filterList {
+                ImageCache.remove(key: key)
+                RenderViewCache.remove(key: key)
+                FilterDescriptorCache.remove(key: key)
+            }
+            filterList = []
+            sourceImageList = [:]
+            styledImageList = [:]
+        }
     }
-    
-    
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -139,6 +147,7 @@ class StyleTransferGalleryView : UIView {
         layout.itemSize = self.frame.size
         //log.debug("Gallery layout.itemSize: \(layout.itemSize)")
         styleTransfer = UICollectionView(frame: self.frame, collectionViewLayout: layout)
+        styleTransfer?.isPrefetchingEnabled = true
         styleTransfer?.delegate   = self
         styleTransfer?.dataSource = self
         reuseId = "StyleTransferGalleryView"
@@ -239,7 +248,7 @@ class StyleTransferGalleryView : UIView {
         
         //DispatchQueue.main.async(execute: { () -> Void in
             var filter:FilterDescriptor? = nil
-            var renderview:MetalImageView? = nil
+            var renderview:RenderView? = nil
  
             // loop through the list of filters and load the source image and init the styled image to the current input
             if (self.filterList.count > 0){
@@ -251,7 +260,7 @@ class StyleTransferGalleryView : UIView {
                     
                     // styled image
                     //renderview = self.filterManager.getRenderView(key: key)
-                    renderview = MetalImageView()
+                    renderview = RenderView()
                     renderview?.setImageSize(self.imgSize) // we may have changed the size
                     renderview?.frame.size = imgViewSize
                     renderview?.image = self.sample
@@ -305,7 +314,7 @@ class StyleTransferGalleryView : UIView {
             
             // resize the pre-calcualted arrays
             if (self.filterList.count > 0){
-                var renderview:MetalImageView? = nil
+                var renderview:RenderView? = nil
                 for key in self.filterList{
                     renderview =  self.styledImageList[key]!
                     renderview?.setImageSize(self.imgSize) // we changed the size
@@ -349,7 +358,7 @@ class StyleTransferGalleryView : UIView {
         DispatchQueue.global(qos: .background).async {
             
             // loop through the list of filters again and load the styled images
-            var renderview:MetalImageView? = nil
+            var renderview:RenderView? = nil
             if (self.filterList.count > 0){
                 log.debug("Loading styled data...")
                 for key in self.filterList{

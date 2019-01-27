@@ -42,7 +42,7 @@ class FilterManager{
 
     // typealias for dictionaries of FilterDescriptors
     
-    fileprivate static var _renderViewDictionary:[String:MetalImageView?] = [:]
+    //fileprivate static var _renderViewDictionary:[String:RenderView?] = [:]
     fileprivate static var _lockList:[String:Int] = [:]
 
     // list of callbacks for change notification
@@ -57,7 +57,6 @@ class FilterManager{
         if (!FilterManager.initDone) {
             FilterManager.initDone = true
             
-            _renderViewDictionary = [:]
             _lockList = [:]
             _categoryChangeCallbackList = []
             _filterChangeCallbackList = []
@@ -84,12 +83,12 @@ class FilterManager{
                     log.verbose("Current filter: \(FilterManager.currFilterKey)")
                 } else {
                     log.error("No filters for category: \(defaultCategory)")
-                    FilterManager.currFilterKey = "NoFilter"
+                    FilterManager.currFilterKey = FilterDescriptor.nullFilter
                 }
-                if (FilterConfiguration.filterDictionary[FilterManager.currFilterKey] == nil){
-                    FilterConfiguration.filterDictionary[FilterManager.currFilterKey] = FilterFactory.createFilter(key: FilterManager.currFilterKey)
+                if (FilterDescriptorCache.get(key:FilterManager.currFilterKey) == nil){
+                    FilterDescriptorCache.add(FilterFactory.createFilter(key: FilterManager.currFilterKey), key:FilterManager.currFilterKey)
                 }
-                FilterManager.currFilterDescriptor = (FilterConfiguration.filterDictionary[FilterManager.currFilterKey])!
+                FilterManager.currFilterDescriptor = (FilterDescriptorCache.get(key:FilterManager.currFilterKey))!
                 //TODO: class-specific init?!
             } else {
                 log.error("Invalid filter list for: \(defaultCategory)")
@@ -129,7 +128,7 @@ class FilterManager{
     
     open func getCategoryTitle(key:String)->String{
         FilterManager.checkSetup()
-        return (FilterConfiguration.categoryDictionary[key])! ?? ""
+        return (FilterConfiguration.categoryDictionary[key])!
     }
 
     func getFilterCount(_ category:String)->Int {
@@ -243,7 +242,7 @@ class FilterManager{
     
     // add a filter to the "Favourites" list
     open func addToFavourites(key: String) {
-        if (FilterConfiguration.filterDictionary[key] != nil){ // filter exists
+        if (FilterDescriptorCache.get(key:key) != nil){ // filter exists
             if (!((FilterConfiguration.categoryFilters[FilterManager.favouriteCategory]?.contains(key))!)){ // not already there
                 FilterConfiguration.categoryFilters[FilterManager.favouriteCategory]?.append(key)
                 FilterConfiguration.commitChanges() // HACK: should update single record
@@ -255,7 +254,7 @@ class FilterManager{
     
     // remove a filter from the "Favourites" list
     open func removeFromFavourites(key: String) {
-        if (FilterConfiguration.filterDictionary[key] != nil){ // filter exists
+        if (FilterDescriptorCache.get(key:key) != nil){ // filter exists
             if ((FilterConfiguration.categoryFilters[FilterManager.favouriteCategory]?.contains(key))!){ // in list?
                 if let index = FilterConfiguration.categoryFilters[FilterManager.favouriteCategory]?.index(of: key) {
                     FilterConfiguration.categoryFilters[FilterManager.favouriteCategory]?.remove(at: index)
@@ -315,7 +314,7 @@ class FilterManager{
         let category = FilterManager.currCategory
         var oldIndex:Int = 0
         var newIndex:Int = 0
-        if (FilterConfiguration.filterDictionary[key] != nil){ // filter exists
+        if (FilterDescriptorCache.get(key:key) != nil){ // filter exists
             if let list = FilterConfiguration.categoryFilters[category]?.sorted() {
                 if list.count > 1 { // 0 or 1, just return current key
                     if list.contains(key) {
@@ -344,7 +343,7 @@ class FilterManager{
         var key = FilterManager.currFilterKey
         let category = FilterManager.currCategory
         
-        if (FilterConfiguration.filterDictionary[key] != nil){ // filter exists
+        if (FilterDescriptorCache.get(key:key) != nil){ // filter exists
             if let list = FilterConfiguration.categoryFilters[category]?.sorted() {
                 if list.count > 1 { // 0 or 1, just return current key
                     if list.contains(key) {
@@ -414,7 +413,7 @@ class FilterManager{
         
         FilterManager.checkSetup()
         
-        if (FilterConfiguration.filterDictionary[key] == nil){    // if not allocatd, try creating it, i.e. only created if requested
+        if (FilterDescriptorCache.get(key:key) == nil){    // if not allocatd, try creating it, i.e. only created if requested
 
             //log.debug("Creating filter object for key:\(key)")
             filterDescr = FilterFactory.createFilter(key: key)
@@ -423,16 +422,16 @@ class FilterManager{
                 log.error("NIL descriptor returned for key:\(key)")
             }
             
-            FilterConfiguration.filterDictionary[key] = filterDescr
+            FilterDescriptorCache.add(filterDescr, key:key)
             
         } else {
-            filterDescr = FilterConfiguration.filterDictionary[key]!
+            filterDescr = FilterDescriptorCache.get(key:key)!
         }
         //log.verbose("Found key:\((filterDescr?.key)!) addr:\(filterAddress(filterDescr))")
         
         // make sure RenderView has been allocated
-        if (FilterManager._renderViewDictionary[key] == nil){
-            FilterManager._renderViewDictionary[key] = MetalImageView()
+        if (!RenderViewCache.contains(key:key)){
+            RenderViewCache.add(RenderView(), key:key)
         }
 
         return filterDescr
@@ -445,14 +444,14 @@ class FilterManager{
         if (!isLocked(key)){
             
             // release the filter descriptor
-            if (FilterConfiguration.filterDictionary[key] != nil){
-                //let descr = (FilterConfiguration.filterDictionary[key])!
-                FilterConfiguration.filterDictionary[key] = nil
+            if (FilterDescriptorCache.get(key:key) != nil){
+                //let descr = (FilterDescriptorCache.get(key:key))!
+                FilterDescriptorCache.remove(key:key)
                 //log.debug("key:\(key)")
             }
             
             // make sure RenderView has been released
-            if (FilterManager._renderViewDictionary[key] != nil){
+            if (RenderViewCache.get(key:key) != nil){
                 releaseRenderView(key: key)
             }
         }
@@ -500,17 +499,17 @@ class FilterManager{
     
     
     // returns the RenderView associated with the supplied filter key
-    func getRenderView(key:String)->MetalImageView?{
+    func getRenderView(key:String)->RenderView?{
         
         FilterManager.checkSetup()
         
-        if (FilterManager._renderViewDictionary[key] == nil){
+        if (!RenderViewCache.contains(key:key)){
             // not an error, just lazy allocation. Create the RenderView and add it to the dictionary
             log.debug("create key:\(key)")
-            FilterManager._renderViewDictionary[key] = MetalImageView()
+            RenderViewCache.add(RenderView(), key:key)
         }
         
-        return (FilterManager._renderViewDictionary[key])!
+        return (RenderViewCache.get(key:key))!
     }
     
     
@@ -548,9 +547,9 @@ class FilterManager{
         
         FilterManager.checkSetup()
         
-        if (FilterManager._renderViewDictionary[key] != nil){
+        if (RenderViewCache.get(key:key) != nil){
             if (!isLocked(key)){
-                FilterManager._renderViewDictionary[key] = nil
+                RenderViewCache.remove(key:key)
                 //log.debug("key:\(key)")
             }
         }
