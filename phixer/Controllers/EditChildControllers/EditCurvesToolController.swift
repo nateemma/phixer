@@ -60,6 +60,7 @@ class EditCurvesToolController: EditBaseToolController {
 
 
     // container views
+    private var graphContainerView:UIView! = UIView()
     private var histogramView:UIView! = UIView()
     private var curveView:UIView! = UIView()
     private var controlView:UIView! = UIView()
@@ -87,13 +88,22 @@ class EditCurvesToolController: EditBaseToolController {
     
     private func buildView(_ toolview: UIView){
         
+        let border:CGFloat = 8
+        
         // set up the view sizes
-        histogramView.frame.size.height = toolview.frame.size.width.rounded()
-        histogramView.frame.size.width = histogramView.frame.size.height
+        
+        graphContainerView.frame.size.height = toolview.frame.size.height
+        graphContainerView.frame.size.width = toolview.frame.size.width
+        graphContainerView.backgroundColor = UIColor.clear
+        
+        let side = min(graphContainerView.frame.size.width, graphContainerView.frame.size.height) - 2.0 * border
+        histogramView.frame.size.height = side
+        histogramView.frame.size.width = side
         histogramView.backgroundColor = UIColor.clear
 
-        curveView.frame.size.height = histogramView.frame.size.height
-        curveView.frame.size.width = histogramView.frame.size.width
+
+        curveView.frame.size.height = side
+        curveView.frame.size.width = side
         curveView.backgroundColor = UIColor.clear // needs to be transparent
         
         /*** for now, leaving control area empty. Later, add controls for chanells, presets etc.
@@ -106,17 +116,24 @@ class EditCurvesToolController: EditBaseToolController {
         controlView.backgroundColor = UIColor.clear
         
         // adjust the overall size to account for the control panel
-        let toolHeight = histogramView.frame.size.height + controlView.frame.size.height + 16
+        let toolHeight = histogramView.frame.size.height + controlView.frame.size.height + 2.0 * border
         resetToolHeight(toolHeight) // calls back to the base class
         
         // layout
-        toolview.addSubview(histogramView)
-        toolview.addSubview(curveView)
+        graphContainerView.addSubview(histogramView)
+        graphContainerView.addSubview(curveView)
+        histogramView.anchorInCenter(width: histogramView.frame.size.width, height: histogramView.frame.size.height)
+        curveView.anchorInCenter(width: curveView.frame.size.width, height: curveView.frame.size.height)
+        //histogramView.anchorToEdge(.top, padding: 0, width: histogramView.frame.size.width, height: histogramView.frame.size.height)
+        //curveView.anchorToEdge(.top, padding: 0, width: curveView.frame.size.width, height: curveView.frame.size.height)
+
+        toolview.addSubview(graphContainerView)
         toolview.addSubview(controlView)
         
-        histogramView.anchorToEdge(.top, padding: 0, width: histogramView.frame.size.width, height: histogramView.frame.size.height)
-        curveView.anchorToEdge(.top, padding: 0, width: curveView.frame.size.width, height: curveView.frame.size.height)
+        graphContainerView.anchorToEdge(.top, padding: 0, width: graphContainerView.frame.size.width, height: graphContainerView.frame.size.height)
         controlView.anchorToEdge(.bottom, padding: 0, width: controlView.frame.size.width, height: controlView.frame.size.height)
+        
+        log.verbose("\ntool: \(toolview.frame)" + "\ngraph: \(graphContainerView.frame)" + "\nhist: \(histogramView.frame)" + "\ncurve: \(curveView.frame)" + "\ncontrol: \(controlView.frame)")
         
         initFilters()
         loadHistogram()

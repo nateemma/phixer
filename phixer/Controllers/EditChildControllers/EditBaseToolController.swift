@@ -118,9 +118,11 @@ class EditBaseToolController: CoordinatedController, SubControllerDelegate {
 
         // make the main view a little smaller than the screen
 
-        displayHeight = view.height - 128
-        displayWidth = view.width - 64
-        
+        //displayHeight = view.height - 128
+        //displayWidth = view.width - 64
+        displayHeight = view.height
+        displayWidth = view.width
+
         //TODO: round the corners and add border?
         
         log.verbose("h:\(displayHeight) w:\(displayWidth)")
@@ -131,8 +133,8 @@ class EditBaseToolController: CoordinatedController, SubControllerDelegate {
         mainView.frame.size.height = displayHeight
         mainView.frame.size.width = displayWidth
         mainView.backgroundColor = theme.backgroundColor.withAlphaComponent(0.6)
-        mainView.layer.cornerRadius = 16.0
-        mainView.layer.borderWidth = 2.0
+        //mainView.layer.cornerRadius = 16.0
+        mainView.layer.borderWidth = 1.0
         mainView.layer.borderColor = theme.borderColor.cgColor
 
 
@@ -140,7 +142,7 @@ class EditBaseToolController: CoordinatedController, SubControllerDelegate {
         titleView.frame.size.height = UISettings.titleHeight
         titleView.backgroundColor = theme.subtitleColor
 
-        toolView.frame.size.height = mainView.frame.size.height - UISettings.panelHeight
+        toolView.frame.size.height = mainView.frame.size.height - titleView.frame.size.height
         toolView.frame.size.width = mainView.frame.size.width
         toolView.backgroundColor = mainView.backgroundColor
 
@@ -150,7 +152,7 @@ class EditBaseToolController: CoordinatedController, SubControllerDelegate {
         
         mainView.addSubview(titleView)
         mainView.addSubview(toolView)
-        titleView.anchorToEdge(.top, padding: 0, width: titleView.frame.size.width, height: UISettings.titleHeight)
+        titleView.anchorToEdge(.top, padding: 0, width: titleView.frame.size.width, height: titleView.frame.size.height)
         toolView.alignAndFillWidth(align: .underCentered, relativeTo: titleView, padding: 0, height: toolView.frame.size.height)
         //toolView.anchorToEdge(.bottom, padding: 0, width: toolView.frame.size.width, height: toolView.frame.size.height)
 
