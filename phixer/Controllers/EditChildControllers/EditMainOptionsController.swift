@@ -117,8 +117,8 @@ class EditMainOptionsController: EditBaseMenuController {
     }
     
     func colorAdjustmentsHandler(){
-        notYetImplemented()
-    }
+        self.coordinator?.activateRequest(id: ControllerIdentifier.hsvTool)
+   }
     
     
     func styleTransferHandler(){

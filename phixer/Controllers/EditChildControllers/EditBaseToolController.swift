@@ -148,7 +148,8 @@ class EditBaseToolController: CoordinatedController, SubControllerDelegate {
 
         // layout
         view.addSubview(mainView)
-        mainView.anchorInCenter(width: mainView.frame.size.width, height: mainView.frame.size.height)
+        //mainView.anchorInCenter(width: mainView.frame.size.width, height: mainView.frame.size.height)
+        mainView.anchorToEdge(.bottom, padding: 0, width: mainView.frame.size.width, height: mainView.frame.size.height)
         
         mainView.addSubview(titleView)
         mainView.addSubview(toolView)
@@ -158,7 +159,9 @@ class EditBaseToolController: CoordinatedController, SubControllerDelegate {
 
         // populate
         setupTitle()
-        loadToolView(toolview: toolView)
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.loadToolView(toolview: self.toolView)
+        })
         
 
     }
@@ -188,7 +191,7 @@ class EditBaseToolController: CoordinatedController, SubControllerDelegate {
         // label
         let label = UILabel()
         label.frame.size.width = (titleView.frame.size.width - cancelButton.frame.size.width - 4).rounded()
-        label.frame.size.height = UISettings.panelHeight
+        label.frame.size.height = titleView.frame.size.height
         label.text = getTitle()
         label.textAlignment = .center
         label.textColor = theme.titleTextColor
@@ -218,7 +221,9 @@ class EditBaseToolController: CoordinatedController, SubControllerDelegate {
             self.view.frame.size.height = mainView.frame.size.height
             //titleView.anchorToEdge(.top, padding: 0, width: titleView.frame.size.width, height: UISettings.panelHeight)
             toolView.alignAndFillWidth(align: .underCentered, relativeTo: titleView, padding: 0, height: toolView.frame.size.height)
-        }
+            mainView.anchorToEdge(.bottom, padding: 0, width: mainView.frame.size.width, height: mainView.frame.size.height)
+            self.view.anchorToEdge(.bottom, padding: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+       }
     }
     
     

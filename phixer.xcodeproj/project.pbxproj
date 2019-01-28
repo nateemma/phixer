@@ -814,6 +814,7 @@
 		25CC3EA921FBBEAC00EB8A0A /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CC3EA821FBBEAC00EB8A0A /* ImageCache.swift */; };
 		25CC3EAB21FD190100EB8A0A /* RenderViewCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CC3EAA21FD190100EB8A0A /* RenderViewCache.swift */; };
 		25CC3EAD21FD198700EB8A0A /* FilterDescriptorCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CC3EAC21FD198700EB8A0A /* FilterDescriptorCache.swift */; };
+		25CC3EAF21FE591B00EB8A0A /* EditHSVToolController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CC3EAE21FE591B00EB8A0A /* EditHSVToolController.swift */; };
 		25CF4BD51D9490C400D779CF /* CameraControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BCF1D9490C400D779CF /* CameraControlsView.swift */; };
 		25CF4BD61D9490C400D779CF /* CameraDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BD01D9490C400D779CF /* CameraDisplayView.swift */; };
 		25CF4BD81D9490C400D779CF /* CameraSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BD21D9490C400D779CF /* CameraSettingsView.swift */; };
@@ -1712,6 +1713,7 @@
 		25CC3EA821FBBEAC00EB8A0A /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		25CC3EAA21FD190100EB8A0A /* RenderViewCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenderViewCache.swift; sourceTree = "<group>"; };
 		25CC3EAC21FD198700EB8A0A /* FilterDescriptorCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterDescriptorCache.swift; sourceTree = "<group>"; };
+		25CC3EAE21FE591B00EB8A0A /* EditHSVToolController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditHSVToolController.swift; sourceTree = "<group>"; };
 		25CF4BCF1D9490C400D779CF /* CameraControlsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraControlsView.swift; sourceTree = "<group>"; };
 		25CF4BD01D9490C400D779CF /* CameraDisplayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraDisplayView.swift; sourceTree = "<group>"; };
 		25CF4BD21D9490C400D779CF /* CameraSettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraSettingsView.swift; sourceTree = "<group>"; };
@@ -1945,6 +1947,7 @@
 				2537A21221E915AD00060DBE /* EditBaseMenuInterface.swift */,
 				2537A21021E90DB500060DBE /* EditBaseToolController.swift */,
 				2537A21421E9A71300060DBE /* EditCurvesToolController.swift */,
+				25CC3EAE21FE591B00EB8A0A /* EditHSVToolController.swift */,
 				2568BDEC21C870D300560287 /* README.md */,
 			);
 			path = EditChildControllers;
@@ -3864,6 +3867,7 @@
 				2537A1C721DC27BC00060DBE /* Adornment.swift in Sources */,
 				2537A22C21EE784000060DBE /* FilterGalleryCoordinator.swift in Sources */,
 				2537A1C121D31F4B00060DBE /* WhiteBalanceFilter.swift in Sources */,
+				25CC3EAF21FE591B00EB8A0A /* EditHSVToolController.swift in Sources */,
 				25CC3EA021F5916200EB8A0A /* KuwaharaFilter.swift in Sources */,
 				2573D1E5217CDCB500E78CAB /* YUCIReflectedTile.m in Sources */,
 				2568BDD721BEC72600560287 /* StyleTransferFilter.swift in Sources */,

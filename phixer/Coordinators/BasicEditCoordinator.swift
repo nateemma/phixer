@@ -40,7 +40,8 @@ class BasicEditCoordinator: Coordinator {
         self.subControllers = [:]
         
         self.mainControllerId = .edit
-        self.validControllers = [.edit, .help, .filterGallery, .styleGallery, .blendGallery,  .editMainMenu, .editBasicAdjustmentsMenu, .curveTool]
+        self.validControllers = [.edit, .help, .filterGallery, .styleGallery, .blendGallery,  .editMainMenu, .editBasicAdjustmentsMenu,
+                                 .curveTool, .hsvTool]
 
         //  mappings for coordinators
         self.coordinatorMap = [:]

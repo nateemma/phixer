@@ -11,27 +11,33 @@ import UIKit
 
 class MultiBandHSV: CIFilter
 {
+    
+    // Colours are public so that you can use them for the UI
+    
+    //public static let red = CGFloat(0) // UIColor(red: 0.901961, green: 0.270588, blue: 0.270588, alpha: 1).hue()
+    public static let red = UIColor(red: 0.901961, green: 0.270588, blue: 0.270588, alpha: 1)
+    public static let orange = UIColor(red: 0.901961, green: 0.584314, blue: 0.270588, alpha: 1)
+    public static let yellow = UIColor(red: 0.901961, green: 0.901961, blue: 0.270588, alpha: 1)
+    public static let green = UIColor(red: 0.270588, green: 0.901961, blue: 0.270588, alpha: 1)
+    public static let aqua = UIColor(red: 0.270588, green: 0.901961, blue: 0.901961, alpha: 1)
+    public static let blue = UIColor(red: 0.270588, green: 0.270588, blue: 0.901961, alpha: 1)
+    public static let purple = UIColor(red: 0.584314, green: 0.270588, blue: 0.901961, alpha: 1)
+    public static let magenta = UIColor(red: 0.901961, green: 0.270588, blue: 0.901961, alpha: 1)
+
     let multiBandHSVKernel: CIColorKernel =
     {
-        let red = CGFloat(0) // UIColor(red: 0.901961, green: 0.270588, blue: 0.270588, alpha: 1).hue()
-        let orange = UIColor(red: 0.901961, green: 0.584314, blue: 0.270588, alpha: 1).hue()
-        let yellow = UIColor(red: 0.901961, green: 0.901961, blue: 0.270588, alpha: 1).hue()
-        let green = UIColor(red: 0.270588, green: 0.901961, blue: 0.270588, alpha: 1).hue()
-        let aqua = UIColor(red: 0.270588, green: 0.901961, blue: 0.901961, alpha: 1).hue()
-        let blue = UIColor(red: 0.270588, green: 0.270588, blue: 0.901961, alpha: 1).hue()
-        let purple = UIColor(red: 0.584314, green: 0.270588, blue: 0.901961, alpha: 1).hue()
-        let magenta = UIColor(red: 0.901961, green: 0.270588, blue: 0.901961, alpha: 1).hue()
         
         var shaderString = ""
         
-        shaderString += "#define red \(red) \n"
-        shaderString += "#define orange \(orange) \n"
-        shaderString += "#define yellow \(yellow) \n"
-        shaderString += "#define green \(green) \n"
-        shaderString += "#define aqua \(aqua) \n"
-        shaderString += "#define blue \(blue) \n"
-        shaderString += "#define purple \(purple) \n"
-        shaderString += "#define magenta \(magenta) \n"
+        // red is zero because that is our reference point (origin) in the hue scale
+        shaderString += "#define red \(CGFloat(0.0)) \n"
+        shaderString += "#define orange \(MultiBandHSV.orange.hue()) \n"
+        shaderString += "#define yellow \(MultiBandHSV.yellow.hue()) \n"
+        shaderString += "#define green \(MultiBandHSV.green.hue()) \n"
+        shaderString += "#define aqua \(MultiBandHSV.aqua.hue()) \n"
+        shaderString += "#define blue \(MultiBandHSV.blue.hue()) \n"
+        shaderString += "#define purple \(MultiBandHSV.purple.hue()) \n"
+        shaderString += "#define magenta \(MultiBandHSV.magenta.hue()) \n"
         
         shaderString += "vec3 rgb2hsv(vec3 c)"
         shaderString += "{"
@@ -183,6 +189,34 @@ class MultiBandHSV: CIFilter
             inputMagentaShift = value as! CIVector
         default:
             log.error("Invalid key: \(key)")
+        }
+    }
+
+    
+    // Note: for CIColor or CIVector params (anything not a float or reference), you need to override the get function:
+    override func value(forKey key: String) -> Any? {
+        switch key {
+        case "inputImage":
+            return inputImage
+        case "inputRedShift":
+            return inputRedShift
+        case "inputOrangeShift":
+            return inputOrangeShift
+        case "inputYellowShift":
+            return inputYellowShift
+        case "inputGreenShift":
+            return inputGreenShift
+        case "inputAquaShift":
+            return inputAquaShift
+        case "inputBlueShift":
+            return inputBlueShift
+        case "inputPurpleShift":
+            return inputPurpleShift
+        case "inputMagentaShift":
+            return inputMagentaShift
+        default:
+            log.error("Invalid key: \(key)")
+            return nil
         }
     }
 

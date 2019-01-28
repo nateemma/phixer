@@ -147,7 +147,7 @@ class HSBSliderView: UIView {
                 s.minimumValue = 0.0
                 s.maximumValue = 1.0
                 s.value = 0.5
-                s.addTarget(self, action: #selector(self.slidehValueDidChange), for: .valueChanged)
+                s.addTarget(self, action: #selector(self.sliderValueDidChange), for: .valueChanged)
                 s.addTarget(self, action: #selector(self.slidersDidEndChange), for: .touchUpInside) // may only need valueChanged ???
                 addSubview(s)
             }
@@ -209,7 +209,7 @@ class HSBSliderView: UIView {
     
     //MARK: - callbacks
     
-    @objc func slidehValueDidChange(_ sender:GradientSlider!){
+    @objc func sliderValueDidChange(_ sender:GradientSlider!){
         updateFromSliders()
         //delegate?.colorChanged(currColor)
     }

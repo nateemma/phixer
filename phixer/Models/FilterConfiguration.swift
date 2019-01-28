@@ -336,6 +336,8 @@ class FilterConfiguration{
             ptype = .image
         case kCIAttributeTypePosition:
             ptype = .position
+        case kCIAttributeTypePosition3:
+            ptype = .position
         case kCIAttributeTypeOffset:
             ptype = .position
         case kCIAttributeTypeRectangle:

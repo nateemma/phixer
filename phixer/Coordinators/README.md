@@ -27,6 +27,8 @@ Key classes are:
 
 - CoordinatedController: base class for all Coordinated ViewControllers
 
+- AppCoordinator: the main Coordinator that performs initialisation and starts the main/root ViewController
+
 - SImpleCoordinator: a Coordinator that can be used for Activities that only involve 1 ViewController, with no sub-states or sub-controllers (it happens a lot)
 
 - *XXX*Coordinator: the Coordinator associated with Activity *XXX*. These essentially just configure the data structures, launch the main activity (and maybe sub-controller), and override any handling of Controller requests that require special attention (i.e. the generic processing isn't right)

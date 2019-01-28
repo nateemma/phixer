@@ -51,6 +51,7 @@ enum ControllerIdentifier: String {
     // Tool (Sub-) Controllers:
     
     case curveTool
+    case hsvTool
 }
 
 
@@ -163,6 +164,10 @@ class ControllerFactory {
             
         case .curveTool:
             instance = EditCurvesToolController()
+            ctype = .tool
+
+        case .hsvTool:
+            instance = EditHSVToolController()
             ctype = .tool
 
         default:

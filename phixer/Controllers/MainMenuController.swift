@@ -162,7 +162,6 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
         // assign gesture handler
         label.isUserInteractionEnabled = true
         label.addGestureRecognizer(handler)
-
     }
     
     /////////////////////////////////
