@@ -53,7 +53,11 @@ class EditCurvesToolController: EditBaseToolController {
         super.cancelChanges()
     }
 
-   
+    
+    override func filterReset(){
+        resetFilter()
+    }
+
     ////////////////////
     // Tool-specific code
     ////////////////////
@@ -147,6 +151,11 @@ class EditCurvesToolController: EditBaseToolController {
         histogramDataFilter = CIFilter(name: "CIAreaHistogram")
         histogramDisplayFilter = CIFilter(name: "CIHistogramDisplayFilter")
         toneCurveFilter = filterManager.getFilterDescriptor(key: "CIToneCurve")
+   }
+
+    private func resetFilter(){
+        self.currToneCurve = ToneCurvePresets.linear
+        loadCurve()
     }
 
     ////////////////////////
@@ -286,11 +295,11 @@ class EditCurvesToolController: EditBaseToolController {
         
         //displayCurve()
         
-        toneCurveFilter?.setPositionParameter("inputPoint0", position: CIVector(cgPoint: currToneCurve[0]))
-        toneCurveFilter?.setPositionParameter("inputPoint1", position: CIVector(cgPoint: currToneCurve[1]))
-        toneCurveFilter?.setPositionParameter("inputPoint2", position: CIVector(cgPoint: currToneCurve[2]))
-        toneCurveFilter?.setPositionParameter("inputPoint3", position: CIVector(cgPoint: currToneCurve[3]))
-        toneCurveFilter?.setPositionParameter("inputPoint4", position: CIVector(cgPoint: currToneCurve[4]))
+        toneCurveFilter?.setVectorParameter("inputPoint0", vector: CIVector(cgPoint: currToneCurve[0]))
+        toneCurveFilter?.setVectorParameter("inputPoint1", vector: CIVector(cgPoint: currToneCurve[1]))
+        toneCurveFilter?.setVectorParameter("inputPoint2", vector: CIVector(cgPoint: currToneCurve[2]))
+        toneCurveFilter?.setVectorParameter("inputPoint3", vector: CIVector(cgPoint: currToneCurve[3]))
+        toneCurveFilter?.setVectorParameter("inputPoint4", vector: CIVector(cgPoint: currToneCurve[4]))
         
         self.coordinator?.updateRequest(id: self.getId())
     }

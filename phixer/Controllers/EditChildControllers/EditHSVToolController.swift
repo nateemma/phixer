@@ -42,7 +42,11 @@ class EditHSVToolController: EditBaseToolController {
         buildView(toolview)
     }
     
-   
+    
+    override func filterReset(){
+        initFilter()
+    }
+
     ////////////////////
     // Tool-specific code
     ////////////////////
@@ -70,15 +74,7 @@ class EditHSVToolController: EditBaseToolController {
     private let colorList:[String] = ["red", "orange", "yellow", "green", "aqua", "blue", "purple", "magenta"]
     private var colorViewList:[UIView] = []
 
-    private var colorMap: [String:ColorParameters] = ["red": ColorParameters(key: "red", vector: CIVector(x: 0.0, y: 1.0, z: 1.0), color:MultiBandHSV.red),
-                                                      "orange": ColorParameters(key: "orange", vector: CIVector(x: 0.0, y: 1.0, z: 1.0), color:MultiBandHSV.orange),
-                                                      "yellow": ColorParameters(key: "yellow", vector: CIVector(x: 0.0, y: 1.0, z: 1.0), color:MultiBandHSV.yellow),
-                                                      "green": ColorParameters(key: "green", vector: CIVector(x: 0.0, y: 1.0, z: 1.0), color:MultiBandHSV.green),
-                                                      "aqua": ColorParameters(key: "aqua", vector: CIVector(x: 0.0, y: 1.0, z: 1.0), color:MultiBandHSV.aqua),
-                                                      "blue": ColorParameters(key: "blue", vector: CIVector(x: 0.0, y: 1.0, z: 1.0), color:MultiBandHSV.blue),
-                                                      "purple": ColorParameters(key: "purple", vector: CIVector(x: 0.0, y: 1.0, z: 1.0), color:MultiBandHSV.purple),
-                                                      "magenta": ColorParameters(key: "magenta", vector: CIVector(x: 0.0, y: 1.0, z: 1.0), color:MultiBandHSV.magenta)
-                                                      ]
+    private var colorMap: [String:ColorParameters] = [:]
     private var currColorKey:String = "red"
     private var currColorIndex:Int = 0
     private var oldColorIndex:Int = 0
@@ -127,19 +123,36 @@ class EditHSVToolController: EditBaseToolController {
     private func initFilter(){
         // allocate filter and initialise values
         hsvFilter = filterManager.getFilterDescriptor(key: "MultiBandHSV")
+        
+        // init values here because they could change
+        colorMap = ["red": ColorParameters(key: "red", vector: CIVector(x: 0.0, y: 1.0, z: 1.0), color:MultiBandHSV.red),
+                    "orange": ColorParameters(key: "orange", vector: CIVector(x: 0.0, y: 1.0, z: 1.0), color:MultiBandHSV.orange),
+                    "yellow": ColorParameters(key: "yellow", vector: CIVector(x: 0.0, y: 1.0, z: 1.0), color:MultiBandHSV.yellow),
+                    "green": ColorParameters(key: "green", vector: CIVector(x: 0.0, y: 1.0, z: 1.0), color:MultiBandHSV.green),
+                    "aqua": ColorParameters(key: "aqua", vector: CIVector(x: 0.0, y: 1.0, z: 1.0), color:MultiBandHSV.aqua),
+                    "blue": ColorParameters(key: "blue", vector: CIVector(x: 0.0, y: 1.0, z: 1.0), color:MultiBandHSV.blue),
+                    "purple": ColorParameters(key: "purple", vector: CIVector(x: 0.0, y: 1.0, z: 1.0), color:MultiBandHSV.purple),
+                    "magenta": ColorParameters(key: "magenta", vector: CIVector(x: 0.0, y: 1.0, z: 1.0), color:MultiBandHSV.magenta)
+        ]
+        
         setFilterParameters()
         EditManager.addPreviewFilter(hsvFilter)
     }
     
     private func setFilterParameters(){
-        hsvFilter?.setPositionParameter("inputRedShift", position: (colorMap["red"]?.vector)!)
-        hsvFilter?.setPositionParameter("inputOrangeShift", position: (colorMap["orange"]?.vector)!)
-        hsvFilter?.setPositionParameter("inputYellowShift", position: (colorMap["yellow"]?.vector)!)
-        hsvFilter?.setPositionParameter("inputGreenShift", position: (colorMap["green"]?.vector)!)
-        hsvFilter?.setPositionParameter("inputAquaShift", position: (colorMap["aqua"]?.vector)!)
-        hsvFilter?.setPositionParameter("inputBlueShift", position: (colorMap["blue"]?.vector)!)
-        hsvFilter?.setPositionParameter("inputPurpleShift", position: (colorMap["purple"]?.vector)!)
-        hsvFilter?.setPositionParameter("inputMagentaShift", position: (colorMap["magenta"]?.vector)!)
+        hsvFilter?.setVectorParameter("inputRedShift", vector: (colorMap["red"]?.vector)!)
+        hsvFilter?.setVectorParameter("inputOrangeShift", vector: (colorMap["orange"]?.vector)!)
+        hsvFilter?.setVectorParameter("inputYellowShift", vector: (colorMap["yellow"]?.vector)!)
+        hsvFilter?.setVectorParameter("inputGreenShift", vector: (colorMap["green"]?.vector)!)
+        hsvFilter?.setVectorParameter("inputAquaShift", vector: (colorMap["aqua"]?.vector)!)
+        hsvFilter?.setVectorParameter("inputBlueShift", vector: (colorMap["blue"]?.vector)!)
+        hsvFilter?.setVectorParameter("inputPurpleShift", vector: (colorMap["purple"]?.vector)!)
+        hsvFilter?.setVectorParameter("inputMagentaShift", vector: (colorMap["magenta"]?.vector)!)
+        
+        // check that filter is active. If not, re-add it (hack)
+        if !EditManager.isPreviewActive() {
+            EditManager.addPreviewFilter(hsvFilter)
+        }
         
         self.coordinator?.updateRequest(id: self.id)
     }
@@ -153,8 +166,8 @@ class EditHSVToolController: EditBaseToolController {
         colorViewList = []
         var cellWidth = (colorView.frame.size.width  / CGFloat(colorList.count)).rounded()
         let cellHeight = colorView.frame.size.height
-        if cellWidth > cellHeight {
-            cellWidth = cellHeight * 0.707 // sqrt(2)
+        if cellWidth > cellHeight * 0.707 {
+            cellWidth = (cellHeight * 0.707).rounded() // 1/sqrt(2)
         }
         
         // build cells for each color
@@ -190,7 +203,7 @@ class EditHSVToolController: EditBaseToolController {
             
             cell.addSubview(swatch)
             cell.addSubview(label)
-            swatch.anchorAndFillEdge(.top, xPad: 1, yPad: 1, otherSize: swatch.frame.size.height)
+            swatch.anchorAndFillEdge(.top, xPad: 2, yPad: 2, otherSize: swatch.frame.size.height)
             label.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: label.frame.size.height)
 
             colorViewList.append(cell)

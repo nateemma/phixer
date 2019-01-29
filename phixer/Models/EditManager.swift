@@ -9,6 +9,14 @@
 import Foundation
 import CoreImage
 
+
+// provides callbacks for changes that might need a controller to do something
+protocol EditManagerDelegate: class {
+    func editPreviewRemoved()
+    func editFilterReset()
+}
+
+
 // static class to handle the editing of an image with multiple filters
 class EditManager {
     
@@ -22,8 +30,27 @@ class EditManager {
     private static var previewFilter:FilterDescriptor? = nil
     static var filterManager: FilterManager? = FilterManager.sharedInstance
 
+    
+    // list of subscribers for callbacks
+    fileprivate static var delegates:MulticastDelegate<EditManagerDelegate> = MulticastDelegate<EditManagerDelegate>()
+
     // make initialiser private to prevent instantiation
     private init(){}
+    
+    
+    // register for callbacks
+    public static func register(_ delegate:EditManagerDelegate, key:String=""){
+        let k = (key.isEmpty) ? #file : key
+        delegates.add(key:k, delegate: delegate)
+    }
+    
+    // deregister callbacks
+    public static func deregister(key:String=""){
+        let k = (key.isEmpty) ? #file : key
+        delegates.remove(key:k)
+    }
+
+    
     
     // reset the filter list
     public static func reset(){
@@ -31,6 +58,8 @@ class EditManager {
         EditManager.filterList = []
         previewFilter = filterManager?.getFilterDescriptor(key: FilterDescriptor.nullFilter)
         filterManager?.setCurrentFilterKey(FilterDescriptor.nullFilter)
+        delegates.invoke { $0.editFilterReset() }
+
     }
     
     // set the input image to be processed
@@ -109,8 +138,7 @@ class EditManager {
         // if preview set then remove that, otherwise remove last filter
         
         if isPreviewActive() {
-            log.debug("Removed filter:\(String(describing: EditManager.previewFilter?.title))")
-            addPreviewFilter(filterManager?.getFilterDescriptor(key: FilterDescriptor.nullFilter))
+            removePreviewFilter()
         } else {
             
             if filterList.count > 0 {
@@ -152,6 +180,8 @@ class EditManager {
         if isPreviewActive() {
             log.debug("Removed filter:\(String(describing: EditManager.previewFilter?.title))")
             addPreviewFilter(filterManager?.getFilterDescriptor(key: FilterDescriptor.nullFilter))
+            
+            delegates.invoke { $0.editPreviewRemoved() }
         }
     }
     

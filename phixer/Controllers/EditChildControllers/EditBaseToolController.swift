@@ -49,7 +49,7 @@ class EditBaseToolController: CoordinatedController, SubControllerDelegate {
     }
     
     ////////////////////
-    // 'Virtual' funcs, these must be overidden by the subclass
+    // 'Virtual' funcs, these should be overidden by the subclass if it needs different behaviour
     ////////////////////
     
     override func getTitle() -> String{
@@ -57,11 +57,12 @@ class EditBaseToolController: CoordinatedController, SubControllerDelegate {
     }
     
     func loadToolView(toolview: UIView){
-        log.warning("Base class called")
+        log.error("Base class called. Should be handled in subclass (\(self.getTag()))")
     }
     
     func commitChanges() {
-        log.warning("Base class called")
+        // this is OK if the only thing needed is to save the current preview filter (this should cover most tools)
+        log.warning("Default handler: saving filter")
         EditManager.savePreviewFilter()
         self.coordinator?.updateRequest(id: self.id)
         dismiss()
@@ -69,16 +70,23 @@ class EditBaseToolController: CoordinatedController, SubControllerDelegate {
     
     func cancelChanges(){
         // this is OK as a default implementation since we inherently don't need to save or commit anything
-        log.debug("default")
+        log.debug("default handler, closing tool (\(self.getTag()))")
         EditManager.addPreviewFilter(nil)
         self.coordinator?.updateRequest(id: self.id)
         dismiss()
     }
     
+    func filterReset(){
+        log.warning("Base class called. Should be handled in subclass (\(self.getTag()))")
+    }
     
- 
+    func filterRemoved(){
+        // default behaviour is to just close the tool
+        self.cancelChanges()
+    }
+    
     ////////////////////
-    // SubController interfaces. Can be ignored for Tools
+    // SubController interfaces. Can be ignored for Tools (just return current key)
     ////////////////////
     
    func getNextFilter() -> String {
@@ -88,6 +96,11 @@ class EditBaseToolController: CoordinatedController, SubControllerDelegate {
     func getPreviousFilter() -> String {
         return self.filterManager.getCurrentFilterKey()
     }
+   
+    
+    ////////////////////
+    // EditManager Callbacks
+    ////////////////////
     
     ////////////////////
     // Everything below here is generic so subclasses can just inherit this functionality as-is
@@ -96,8 +109,12 @@ class EditBaseToolController: CoordinatedController, SubControllerDelegate {
 
     convenience init(){
         self.init(nibName:nil, bundle:nil)
+        EditManager.register(self)
     }
     
+    deinit {
+        EditManager.deregister()
+    }
 
     
     override func viewDidLoad() {
@@ -265,5 +282,21 @@ class EditBaseToolController: CoordinatedController, SubControllerDelegate {
 // MARK: - Delegate functions
 //////////////////////////////////////////
 
+// EditManagerDelegate
+
+extension EditBaseToolController: EditManagerDelegate {
+    func editPreviewRemoved() {
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.filterRemoved()
+        })
+    }
+    
+    func editFilterReset() {
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.filterReset()
+        })
+    }
+}
+    
 
 

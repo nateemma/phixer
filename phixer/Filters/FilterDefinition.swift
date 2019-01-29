@@ -18,9 +18,7 @@ public enum ParameterType {
     case image
     case position
     case rectangle
-    case vector2
-    case vector3
-    case vector4
+    case vector
     case unknown
     
 }

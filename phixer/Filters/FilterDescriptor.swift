@@ -396,6 +396,38 @@ class  FilterDescriptor {
             log.error("Invalid key:\(key) for filter:\(self.key)")
         }
     }
+    
+    // Parameter access for CIVector parameters. The distinction relative to position is that these are not displayed
+    func getVectorParameter(_ key:String)->CIVector? {
+        var vec:CIVector? = nil
+        vec = default_position
+        if let p = parameterConfiguration[key] {
+            if p.type == .vector {
+                vec = self.filter?.value(forKey: key) as? CIVector
+            } else {
+                log.error("Parameter (\(key) is not a Vector")
+            }
+        } else {
+            log.error("Invalid key:\(key) for filter:\(self.key)")
+        }
+        return vec
+    }
+    
+    func setVectorParameter(_ key:String, vector:CIVector) {
+        if let p = parameterConfiguration[key] {
+            if p.type == .vector {
+                if ((self.filter?.inputKeys.contains(p.key))!) {
+                    self.filter?.setValue(vector, forKey: key)
+                } else {
+                    log.error("Invalid parameter:(\(p.key)) for filter:(\(key)")
+                }
+            } else {
+                log.error("Parameter (\(key) is not a Vector")
+            }
+        } else {
+            log.error("Invalid key:\(key) for filter:\(self.key)")
+        }
+    }
 
     
     

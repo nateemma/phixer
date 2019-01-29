@@ -30,7 +30,8 @@ class MultiBandHSV: CIFilter
         var shaderString = ""
         
         // red is zero because that is our reference point (origin) in the hue scale
-        shaderString += "#define red \(CGFloat(0.0)) \n"
+        //shaderString += "#define red \(CGFloat(0.0)) \n"
+        shaderString += "#define red \(MultiBandHSV.red.hue()) \n"
         shaderString += "#define orange \(MultiBandHSV.orange.hue()) \n"
         shaderString += "#define yellow \(MultiBandHSV.yellow.hue()) \n"
         shaderString += "#define green \(MultiBandHSV.green.hue()) \n"

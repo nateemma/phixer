@@ -337,9 +337,9 @@ class FilterConfiguration{
         case kCIAttributeTypePosition:
             ptype = .position
         case kCIAttributeTypePosition3:
-            ptype = .position
+            ptype = .vector
         case kCIAttributeTypeOffset:
-            ptype = .position
+            ptype = .vector
         case kCIAttributeTypeRectangle:
             ptype = .rectangle
         default:
