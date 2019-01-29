@@ -18,6 +18,25 @@ class CausticNoise: CIFilter
   var inputWidth: CGFloat = 640
   var inputHeight: CGFloat = 640
   
+    
+    override func setValue(_ value: Any?, forKey key: String) {
+        switch key {
+        case "inputImage":
+            // for compatibility only, do nothing
+            let x=0
+        case "inputTime":
+            inputTime = value as! CGFloat
+        case "inputTileSize":
+            inputTileSize = value as! CGFloat
+        case "inputWidth":
+            inputWidth = value as! CGFloat
+        case "inputHeight":
+            inputHeight = value as! CGFloat
+        default:
+            log.error("Invalid key: \(key)")
+        }
+    }
+
   override var attributes: [String : Any]
   {
     return [
@@ -109,6 +128,28 @@ class CausticRefraction: CIFilter
     var inputTileSize: CGFloat = 640
     var inputSoftening: CGFloat = 3
     
+    
+    override func setValue(_ value: Any?, forKey key: String) {
+        switch key {
+        case "inputImage":
+            inputImage = value as? CIImage
+        case "inputRefractiveIndex":
+            inputRefractiveIndex = value as! CGFloat
+        case "inputLensScale":
+            inputLensScale = value as! CGFloat
+        case "inputLightingAmount":
+            inputLightingAmount = value as! CGFloat
+        case "inputTime":
+            inputTime = value as! CGFloat
+        case "inputTileSize":
+            inputTileSize = value as! CGFloat
+        case "inputSoftening":
+            inputSoftening = value as! CGFloat
+        default:
+            log.error("Invalid key: \(key)")
+        }
+    }
+
     override var attributes: [String : Any]
     {
         return [
@@ -193,7 +234,7 @@ class CausticRefraction: CIFilter
       
       let refractingImage = CIFilter(
           name: "CausticNoise",
-          withInputParameters: ["inputTime": inputTime, "inputTileSize": inputTileSize])?.outputImage!
+          parameters: ["inputTime": inputTime, "inputTileSize": inputTileSize])?.outputImage!
         .applyingFilter(
             "CIGaussianBlur",
             parameters: [kCIInputRadiusKey: inputSoftening])

@@ -10,13 +10,18 @@ import CoreGraphics
 
 struct Kernel
 {
-    let name: String
-    let weights: [CGFloat]
+    var name: String
+    var weights: [CGFloat]
+    
+    init(name:String, weights:[CGFloat]){
+        self.name = name
+        self.weights = weights
+    }
 }
 
-struct CoreImageConvolutionExplorerModel
+struct ConvolutionPresets
 {
-    let kernels = [
+    var kernels = [
         
         Kernel(name: "3 x 3 Identity", weights: [
             0,0,0,

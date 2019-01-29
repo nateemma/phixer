@@ -103,6 +103,23 @@ class CMYKToneCurves: CIFilter
         inputBlackValues = CIVector(values: [0.0, 0.25, 0.5, 0.75, 1.0], count: 5)
     }
     
+    override func setValue(_ value: Any?, forKey key: String) {
+        switch key {
+        case "inputImage":
+            inputImage = value as? CIImage
+        case "inputCyanValues":
+            inputCyanValues = value as! CIVector
+        case "inputMagentaValues":
+            inputMagentaValues = value as! CIVector
+        case "inputYellowValues":
+            inputYellowValues = value as! CIVector
+        case "inputBlackValues":
+            inputBlackValues = value as! CIVector
+        default:
+            log.error("Invalid key: \(key)")
+        }
+    }
+
     override var attributes: [String : Any]
     {
         return [
@@ -183,6 +200,24 @@ class CMYKLevels: CIFilter
     var inputMagentaMultiplier: CGFloat = 1
     var inputYellowMultiplier: CGFloat = 1
     var inputBlackMultiplier: CGFloat = 1
+    
+    override func setValue(_ value: Any?, forKey key: String) {
+        switch key {
+        case "inputImage":
+            inputImage = value as? CIImage
+        case "inputCyanMultiplier":
+            inputCyanMultiplier = value as! CGFloat
+        case "inputMagentaMultiplier":
+            inputMagentaMultiplier = value as! CGFloat
+        case "inputYellowMultiplier":
+            inputYellowMultiplier = value as! CGFloat
+        case "inputBlackMultiplier":
+            inputBlackMultiplier = value as! CGFloat
+        default:
+            log.error("Invalid key: \(key)")
+        }
+    }
+    
     
     override var attributes: [String : Any]
     {
@@ -291,6 +326,24 @@ class CMYKRegistrationMismatch: CIFilter
     var inputYellowOffset = CIVector(x: 3, y: 4)
     var inputBlackOffset = CIVector(x: 7, y: 2)
     
+    override func setValue(_ value: Any?, forKey key: String) {
+        switch key {
+        case "inputImage":
+            inputImage = value as? CIImage
+        case "inputCyanOffset":
+            inputCyanOffset = value as! CIVector
+        case "inputMagentaOffset":
+            inputMagentaOffset = value as! CIVector
+        case "inputYellowOffset":
+            inputYellowOffset = value as! CIVector
+        case "inputBlackOffset":
+            inputBlackOffset = value as! CIVector
+        default:
+            log.error("Invalid key: \(key)")
+        }
+    }
+    
+
     override var attributes: [String : Any]
     {
         return [

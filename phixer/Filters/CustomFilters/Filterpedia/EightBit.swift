@@ -32,6 +32,20 @@ class EightBit: CIFilter
         inputScale = 8
     }
     
+    override func setValue(_ value: Any?, forKey key: String) {
+        switch key {
+        case "inputImage":
+            inputImage = value as? CIImage
+        case "inputPaletteIndex":
+            inputPaletteIndex = value as! CGFloat
+        case "inputScale":
+            inputScale = value as! CGFloat
+        default:
+            log.error("Invalid key: \(key)")
+        }
+    }
+    
+    
     override var attributes: [String : Any]
     {
         return [
@@ -76,7 +90,7 @@ class EightBit: CIFilter
         
         var kernelString = "kernel vec4 thresholdFilter(__sample image)"
         kernelString += "{ \n"
-        kernelString += "   vec2 uv = samplerCoord(image); \n"
+        //kernelString += "   vec2 uv = samplerCoord(image); \n"
         kernelString += "   float dist = distance(image.rgb, \(palette.first!.toVectorString())); \n"
         kernelString += "   vec3 returnColor = \(palette.first!.toVectorString());\n "
         

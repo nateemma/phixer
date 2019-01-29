@@ -38,6 +38,23 @@ class RGBChannelCompositing: CIFilter
         "}"
     )
     
+    override func setValue(_ value: Any?, forKey key: String) {
+        switch key {
+        case "inputImage":
+            // for compatibility only, do nothing
+            let x=0
+        case "inputRedImage":
+            inputRedImage = value as? CIImage
+        case "inputGreenImage":
+            inputGreenImage = value as? CIImage
+        case "inputBlueImage":
+            inputBlueImage = value as? CIImage
+        default:
+            log.error("Invalid key: \(key)")
+        }
+    }
+    
+
     override var attributes: [String : Any] {
         return [
             kCIAttributeFilterDisplayName: "RGB Compositing",
@@ -98,6 +115,22 @@ class RGBChannelToneCurve: CIFilter {
         inputBlueValues = CIVector(values: [0.0, 0.25, 0.5, 0.75, 1.0], count: 5)
     }
     
+    override func setValue(_ value: Any?, forKey key: String) {
+        switch key {
+        case "inputImage":
+            inputImage = value as? CIImage
+        case "inputRedValues":
+            inputRedValues = value as! CIVector
+        case "inputGreenValues":
+            inputGreenValues = value as! CIVector
+        case "inputBlueValues":
+            inputBlueValues = value as! CIVector
+        default:
+            log.error("Invalid key: \(key)")
+        }
+    }
+    
+
     override var attributes: [String : Any] {
         return [
             kCIAttributeFilterDisplayName: "RGB Tone Curve",
@@ -197,6 +230,28 @@ class RGBChannelBrightnessAndContrast: CIFilter {
         inputBlueContrast = 1
     }
     
+    override func setValue(_ value: Any?, forKey key: String) {
+        switch key {
+        case "inputImage":
+            inputImage = value as? CIImage
+        case "inputRedBrightness":
+            inputRedBrightness = value as! CGFloat
+        case "inputRedContrast":
+            inputRedContrast = value as! CGFloat
+        case "inputGreenBrightness":
+            inputRedBrightness = value as! CGFloat
+        case "inputGreenContrast":
+            inputGreenContrast = value as! CGFloat
+        case "inputBlueBrightness":
+            inputBlueBrightness = value as! CGFloat
+        case "inputBlueContrast":
+            inputBlueContrast = value as! CGFloat
+        default:
+            log.error("Invalid key: \(key)")
+        }
+    }
+    
+
     override var attributes: [String : Any] {
         return [
             kCIAttributeFilterDisplayName: "RGB Brightness And Contrast",
@@ -307,6 +362,19 @@ class ChromaticAberration: CIFilter {
         inputRadius = 2
     }
     
+    override func setValue(_ value: Any?, forKey key: String) {
+        switch key {
+        case "inputImage":
+            inputImage = value as? CIImage
+        case "inputAngle":
+            inputAngle = value as! CGFloat
+        case "inputRadius":
+            inputRadius = value as! CGFloat
+        default:
+            log.error("Invalid key: \(key)")
+        }
+    }
+    
     override var attributes: [String : Any] {
         return [
             kCIAttributeFilterDisplayName: "Chromatic Abberation",
@@ -388,6 +456,22 @@ class RGBChannelGaussianBlur: CIFilter {
         inputBlueRadius = 8
     }
     
+    override func setValue(_ value: Any?, forKey key: String) {
+        switch key {
+        case "inputImage":
+            inputImage = value as? CIImage
+        case "inputRedRadius":
+            inputRedRadius = value as! CGFloat
+        case "inputGreenRadius":
+            inputGreenRadius = value as! CGFloat
+        case "inputBlueRadius":
+            inputBlueRadius = value as! CGFloat
+        default:
+            log.error("Invalid key: \(key)")
+        }
+    }
+    
+
     override var attributes: [String : Any] {
         return [
             kCIAttributeFilterDisplayName: "RGB Channel Gaussian Blur",

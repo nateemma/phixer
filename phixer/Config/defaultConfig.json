@@ -656,7 +656,7 @@
         
         {"key": "sharpen",
             "title": "Sharpen",
-            "filters": ["CISharpenLuminance", "CIUnsharpMask", "UnsharpMaskFilter", "ClarityFilter", "CINoiseReduction" ]
+            "filters": ["CISharpenLuminance", "UnsharpMaskFilter", "ClarityFilter", "CINoiseReduction" ]
         },
         
         {"key": "stylize",
@@ -800,12 +800,21 @@
             ]
         },
         
+        {"key": "filterpedia",
+            "title": "Filterpedia",
+            "filters": [
+                "CRTFilter", "CRTColorFilter", "CRTWarpFilter"
+            ]
+         },
+        
         {"key": "custom",
             "title": "Custom",
             "filters": ["ClarityFilter", "OpacityFilter", "EdgeGlowFilter", "SmoothThresholdFilter", "AdaptiveThresholdFilter", "LumaRangeFilter",
-                        "ColorSobelFilter", "SobelFilter", "Sobel3x3Filter", "Sobel5x5Filter", "LaplacianGaussianFilter",
-                        "ColorSketchFilter", "SketchFilter", "UnsharpMaskFilter",
-                        "CarnivalMirror", "RGBChannelCompositing", "KuwaharaFilter", "LensFlare", "MercurializeFilter"
+                "ColorSobelFilter", "SobelFilter", "Sobel3x3Filter", "Sobel5x5Filter", "LaplacianGaussianFilter",
+                "ColorSketchFilter", "SketchFilter", "UnsharpMaskFilter",
+                "CarnivalMirror", "RGBChannelCompositing", "KuwaharaFilter", "MercurializeFilter",
+                "CMYKLevels", "ChromaticAberration", "ColorDirectedBlur", "CompoundEye", "EightBit", "HomogeneousColorBlur",
+                "RGBChannelBrightnessAndContrast", "RGBChannelGaussianBlur", "TransverseChromaticAberration", "VHSTrackingLines", "CausticRefraction",
             ]
         }
         

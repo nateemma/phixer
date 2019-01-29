@@ -34,6 +34,19 @@ class HomogeneousColorBlur: CIFilter
     var inputColorThreshold: CGFloat = 0.2
     var inputRadius: CGFloat = 10
     
+    override func setValue(_ value: Any?, forKey key: String) {
+        switch key {
+        case "inputImage":
+            inputImage = value as? CIImage
+        case "inputColorThreshold":
+            inputColorThreshold = value as! CGFloat
+        case "inputRadius":
+            inputRadius = value as! CGFloat
+        default:
+            log.error("Invalid key: \(key)")
+        }
+    }
+
     override var attributes: [String : Any]
     {
         return [
@@ -126,6 +139,21 @@ class ColorDirectedBlur: CIFilter
     var inputIterations: CGFloat = 4
     var inputRadius: CGFloat = 10
     
+    override func setValue(_ value: Any?, forKey key: String) {
+        switch key {
+        case "inputImage":
+            inputImage = value as? CIImage
+        case "inputThreshold":
+            inputThreshold = value as! CGFloat
+        case "inputIterations":
+            inputIterations = value as! CGFloat
+        case "inputRadius":
+            inputRadius = value as! CGFloat
+        default:
+            log.error("Invalid key: \(key)")
+        }
+    }
+
     override var attributes: [String : Any]
     {
         return [
@@ -223,7 +251,7 @@ class ColorDirectedBlur: CIFilter
             return nil
         }
         
-        let accumulator = CIImageAccumulator(extent: inputImage.extent, format: kCIFormatARGB8)
+        let accumulator = CIImageAccumulator(extent: inputImage.extent, format: CIFormat.ARGB8)
         
         accumulator?.setImage(inputImage)
         

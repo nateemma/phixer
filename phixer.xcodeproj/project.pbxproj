@@ -815,6 +815,14 @@
 		25CC3EAB21FD190100EB8A0A /* RenderViewCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CC3EAA21FD190100EB8A0A /* RenderViewCache.swift */; };
 		25CC3EAD21FD198700EB8A0A /* FilterDescriptorCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CC3EAC21FD198700EB8A0A /* FilterDescriptorCache.swift */; };
 		25CC3EAF21FE591B00EB8A0A /* EditHSVToolController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CC3EAE21FE591B00EB8A0A /* EditHSVToolController.swift */; };
+		25CC3EBA21FFD59D00EB8A0A /* CRTFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CC3EB021FFD59C00EB8A0A /* CRTFilter.swift */; };
+		25CC3EBB21FFD59D00EB8A0A /* CMYKRegistrationMismatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CC3EB121FFD59C00EB8A0A /* CMYKRegistrationMismatch.swift */; };
+		25CC3EBD21FFD59D00EB8A0A /* DitherBayer.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = 25CC3EB321FFD59C00EB8A0A /* DitherBayer.cikernel */; };
+		25CC3EBE21FFD59D00EB8A0A /* RGBChannelCompositing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CC3EB421FFD59D00EB8A0A /* RGBChannelCompositing.swift */; };
+		25CC3EBF21FFD59D00EB8A0A /* CausticRefraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CC3EB521FFD59D00EB8A0A /* CausticRefraction.swift */; };
+		25CC3EC021FFD59D00EB8A0A /* CompoundEye.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CC3EB621FFD59D00EB8A0A /* CompoundEye.swift */; };
+		25CC3EC121FFD59D00EB8A0A /* ColorDirectedBlur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CC3EB721FFD59D00EB8A0A /* ColorDirectedBlur.swift */; };
+		25CC3EC321FFD59D00EB8A0A /* EightBit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CC3EB921FFD59D00EB8A0A /* EightBit.swift */; };
 		25CF4BD51D9490C400D779CF /* CameraControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BCF1D9490C400D779CF /* CameraControlsView.swift */; };
 		25CF4BD61D9490C400D779CF /* CameraDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BD01D9490C400D779CF /* CameraDisplayView.swift */; };
 		25CF4BD81D9490C400D779CF /* CameraSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BD21D9490C400D779CF /* CameraSettingsView.swift */; };
@@ -1714,6 +1722,14 @@
 		25CC3EAA21FD190100EB8A0A /* RenderViewCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenderViewCache.swift; sourceTree = "<group>"; };
 		25CC3EAC21FD198700EB8A0A /* FilterDescriptorCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterDescriptorCache.swift; sourceTree = "<group>"; };
 		25CC3EAE21FE591B00EB8A0A /* EditHSVToolController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditHSVToolController.swift; sourceTree = "<group>"; };
+		25CC3EB021FFD59C00EB8A0A /* CRTFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CRTFilter.swift; sourceTree = "<group>"; };
+		25CC3EB121FFD59C00EB8A0A /* CMYKRegistrationMismatch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CMYKRegistrationMismatch.swift; sourceTree = "<group>"; };
+		25CC3EB321FFD59C00EB8A0A /* DitherBayer.cikernel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DitherBayer.cikernel; sourceTree = "<group>"; };
+		25CC3EB421FFD59D00EB8A0A /* RGBChannelCompositing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGBChannelCompositing.swift; sourceTree = "<group>"; };
+		25CC3EB521FFD59D00EB8A0A /* CausticRefraction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CausticRefraction.swift; sourceTree = "<group>"; };
+		25CC3EB621FFD59D00EB8A0A /* CompoundEye.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompoundEye.swift; sourceTree = "<group>"; };
+		25CC3EB721FFD59D00EB8A0A /* ColorDirectedBlur.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorDirectedBlur.swift; sourceTree = "<group>"; };
+		25CC3EB921FFD59D00EB8A0A /* EightBit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EightBit.swift; sourceTree = "<group>"; };
 		25CF4BCF1D9490C400D779CF /* CameraControlsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraControlsView.swift; sourceTree = "<group>"; };
 		25CF4BD01D9490C400D779CF /* CameraDisplayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraDisplayView.swift; sourceTree = "<group>"; };
 		25CF4BD21D9490C400D779CF /* CameraSettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraSettingsView.swift; sourceTree = "<group>"; };
@@ -1835,6 +1851,14 @@
 		252745ED21815F8D00AA2DA2 /* Filterpedia */ = {
 			isa = PBXGroup;
 			children = (
+				25CC3EB521FFD59D00EB8A0A /* CausticRefraction.swift */,
+				25CC3EB121FFD59C00EB8A0A /* CMYKRegistrationMismatch.swift */,
+				25CC3EB721FFD59D00EB8A0A /* ColorDirectedBlur.swift */,
+				25CC3EB621FFD59D00EB8A0A /* CompoundEye.swift */,
+				25CC3EB021FFD59C00EB8A0A /* CRTFilter.swift */,
+				25CC3EB321FFD59C00EB8A0A /* DitherBayer.cikernel */,
+				25CC3EB921FFD59D00EB8A0A /* EightBit.swift */,
+				25CC3EB421FFD59D00EB8A0A /* RGBChannelCompositing.swift */,
 				25CC3E9C21F5916200EB8A0A /* KuwaharaFilter.swift */,
 				25CC3E9B21F5916200EB8A0A /* MercurializeFilter.swift */,
 				25CC3E9D21F5916200EB8A0A /* TransverseChromaticAberration.swift */,
@@ -3633,6 +3657,7 @@
 				252B0DF91E30690F005A0C2D /* ur_013_grunge_vignette.jpg in Resources */,
 				252B0F271E30690F005A0C2D /* et_097_made_1.jpg in Resources */,
 				252B0DB81E30690E005A0C2D /* xp_009_mutato_cross2.jpg in Resources */,
+				25CC3EBD21FFD59D00EB8A0A /* DitherBayer.cikernel in Resources */,
 				252B0EBE1E30690F005A0C2D /* fx_053_pastel_2.jpg in Resources */,
 				252B0E041E30690F005A0C2D /* tn_006_tint_brown.jpg in Resources */,
 				252B0F8F1E30690F005A0C2D /* da_007_green_blue_contrast.jpg in Resources */,
@@ -3798,6 +3823,7 @@
 				2568BD2821AC72CB00560287 /* RenderView.swift in Sources */,
 				258F09B9219264C20082FE2A /* SmoothThresholdFilter.swift in Sources */,
 				2537A1E121E01EA900060DBE /* Sobel3x3Filter.swift in Sources */,
+				25CC3EC321FFD59D00EB8A0A /* EightBit.swift in Sources */,
 				2568BDA221AC72CB00560287 /* ISColorWheel.m in Sources */,
 				25CC3EA121F5916200EB8A0A /* TransverseChromaticAberration.swift in Sources */,
 				2515988821A3495C0067AA00 /* ThemeChooserController.swift in Sources */,
@@ -3849,6 +3875,7 @@
 				25934FB11DD4EC1100C3D665 /* BlendGalleryView.swift in Sources */,
 				25CF4BDA1D9490C400D779CF /* SquareButton.swift in Sources */,
 				2537A23221EED2AC00060DBE /* SubControllerDelegate.swift in Sources */,
+				25CC3EC121FFD59D00EB8A0A /* ColorDirectedBlur.swift in Sources */,
 				25F4601E1D99D65F00EDA182 /* CameraISO.swift in Sources */,
 				2568BC0A21AB1BE600560287 /* ImageSelectionView.swift in Sources */,
 				258F09AD218E4AC90082FE2A /* Style_Candy.swift in Sources */,
@@ -3873,6 +3900,7 @@
 				2568BDD721BEC72600560287 /* StyleTransferFilter.swift in Sources */,
 				25AEBB441DBA8AEC00AA6279 /* FilterSelectionView.swift in Sources */,
 				252745E92180FDF600AA2DA2 /* CustomFilterRegistry.swift in Sources */,
+				25CC3EBF21FFD59D00EB8A0A /* CausticRefraction.swift in Sources */,
 				2542DF5D1ED373F800CEB968 /* EditImageDisplayView.swift in Sources */,
 				25CC3EA321F6E67A00EB8A0A /* EditStackView.swift in Sources */,
 				258F09BB2192847F0082FE2A /* AdaptiveThresholdFilter.swift in Sources */,
@@ -3889,6 +3917,7 @@
 				2537A1E721E0305700060DBE /* ColorSobelFilter.swift in Sources */,
 				2573D1DB217CDCB500E78CAB /* YUCIColorLookup.m in Sources */,
 				2537A20521E516AF00060DBE /* CIVector+Extensions.swift in Sources */,
+				25CC3EC021FFD59D00EB8A0A /* CompoundEye.swift in Sources */,
 				25F460181D99CCCE00EDA182 /* UISettings.swift in Sources */,
 				252C17951ECE64EE00039BFC /* Model.xcdatamodeld in Sources */,
 				258EA08E1ED90A7000D5E20E /* SettingsMenuController.swift in Sources */,
@@ -3904,16 +3933,19 @@
 				2537A23B21F1876C00060DBE /* ControllerMenuView.swift in Sources */,
 				250716091DBEC19400CDDF42 /* FilterGalleryViewController.swift in Sources */,
 				25CF4BD91D9490C400D779CF /* ImageContainerView.swift in Sources */,
+				25CC3EBB21FFD59D00EB8A0A /* CMYKRegistrationMismatch.swift in Sources */,
 				25F85CF121CC5125005498C4 /* UILabel+Extensions.swift in Sources */,
 				25172964217A1C6E00D5E946 /* Opacity.swift in Sources */,
 				2542DF531ECFB2ED00CEB968 /* FilterRecord.swift in Sources */,
 				25A702951DC2FE3C009441E2 /* FilterDisplayView.swift in Sources */,
 				2537A20B21E7BC8400060DBE /* UnsharpMaskFilter.swift in Sources */,
 				2573D1E8217CDCB500E78CAB /* YUCIFilterUtilities.m in Sources */,
+				25CC3EBE21FFD59D00EB8A0A /* RGBChannelCompositing.swift in Sources */,
 				2537A21121E90DB500060DBE /* EditBaseToolController.swift in Sources */,
 				2517295E2177FC2400D5E946 /* MuliticastDelegate.swift in Sources */,
 				2537A1C321D4622900060DBE /* DehazeFilter.swift in Sources */,
 				258F09B5218E4BDC0082FE2A /* Style_Mosaic.swift in Sources */,
+				25CC3EBA21FFD59D00EB8A0A /* CRTFilter.swift in Sources */,
 				2542DF651ED6634800CEB968 /* SettingsEntity+CoreDataProperties.swift in Sources */,
 				258F09B7218E67910082FE2A /* TimedAlertView.swift in Sources */,
 				2556731F1DB961F700187F25 /* DisplayMode.swift in Sources */,

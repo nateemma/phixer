@@ -26,21 +26,21 @@ import CoreImage
 class CompoundEye: CIFilter
 {
     var inputImage: CIImage?
-    
+
     var inputWidth: CGFloat = 32
     var inputBend: CGFloat = 4.0
     var inputBackgroundColor = CIColor(red: 0.2, green: 0.2, blue: 0.2)
-    
-    override var attributes: [String : Any]
+
+    override var attributes: [String: Any]
     {
         return [
             kCIAttributeFilterDisplayName: "Compound Eye",
-            
+
             "inputImage": [kCIAttributeIdentity: 0,
                 kCIAttributeClass: "CIImage",
                 kCIAttributeDisplayName: "Image",
                 kCIAttributeType: kCIAttributeTypeImage],
-            
+
             "inputWidth": [kCIAttributeIdentity: 0,
                 kCIAttributeClass: "NSNumber",
                 kCIAttributeDefault: 32,
@@ -49,7 +49,7 @@ class CompoundEye: CIFilter
                 kCIAttributeSliderMin: 10,
                 kCIAttributeSliderMax: 100,
                 kCIAttributeType: kCIAttributeTypeScalar],
-            
+
             "inputBend": [kCIAttributeIdentity: 0,
                 kCIAttributeClass: "NSNumber",
                 kCIAttributeDefault: 4,
@@ -58,7 +58,7 @@ class CompoundEye: CIFilter
                 kCIAttributeSliderMin: 2,
                 kCIAttributeSliderMax: 32,
                 kCIAttributeType: kCIAttributeTypeScalar],
-            
+
             "inputBackgroundColor": [kCIAttributeIdentity: 0,
                 kCIAttributeClass: "CIColor",
                 kCIAttributeDisplayName: "Background Color",
@@ -66,58 +66,89 @@ class CompoundEye: CIFilter
                 kCIAttributeType: kCIAttributeTypeColor]
         ]
     }
-    
+
     override func setDefaults()
     {
         inputWidth = 32
         inputBend = 4
         inputBackgroundColor = CIColor(red: 0.2, green: 0.2, blue: 0.2)
     }
-    
+
+    override func setValue(_ value: Any?, forKey key: String) {
+        switch key {
+        case "inputImage":
+            inputImage = value as? CIImage
+        case "inputWidth":
+            inputWidth = value as! CGFloat
+        case "inputBend":
+            inputBend = value as! CGFloat
+        case "inputBackgroundColor":
+            inputBackgroundColor = value as! CIColor
+        default:
+            log.error("Invalid key: \(key)")
+        }
+    }
+
+    override func value(forKey key: String) -> Any? {
+        switch key {
+        case "inputImage":
+            return inputImage
+        case "inputWidth":
+            return inputWidth
+        case "inputBend":
+            return inputBend
+        case "inputBackgroundColor":
+            return inputBackgroundColor
+        default:
+            log.error("Invalid key: \(key)")
+            return nil
+        }
+    }
+
     let colorKernel = CIColorKernel(source:
-        "kernel vec4 color(float width, float halfWidth, float height, float diameter)" +
-        "{" +
-        " float y = float(int(destCoord().y / height)) * height;  " +
-        
+            "kernel vec4 color(float width, float halfWidth, float height, float diameter)" +
+            "{" +
+            " float y = float(int(destCoord().y / height)) * height;  " +
+
         " int yIndex = int(mod(destCoord().y / height, 2.0)); " +
-        
+
         " float xOffset = (yIndex == 0) ? halfWidth : 0.0; " +
-        
+
         " float x = float(int((destCoord().x + xOffset) / width)) * width;  " +
-        
+
         " float dist = distance(vec2(x + halfWidth, y + (height / 2.0)), vec2(destCoord().x + xOffset, destCoord().y) ); " +
-            
+
         " return dist < diameter  ? vec4(0.0, 0.0, 0.0, 0.0) : vec4(1.0, 1.0, 1.0, 1.0); " +
-        "}"
+            "}"
     )
-    
+
     let warpKernel = CIWarpKernel(source:
-        "kernel vec2 warp(float width, float halfWidth, float height, float diameter, float bend)" +
-        "{ " +
-        
+            "kernel vec2 warp(float width, float halfWidth, float height, float diameter, float bend)" +
+            "{ " +
+
         " float y = float(int(destCoord().y / height)) * height;  " +
-        
+
         " int yIndex = int(mod(destCoord().y / height, 2.0)); " +
-        
+
         " float xOffset = (yIndex == 0) ? halfWidth : 0.0; " +
-        
+
         " float x = float(int((destCoord().x + xOffset) / width)) * width;  " +
-        
+
         " vec2 cellCenter = vec2(x + halfWidth, y + (height / 2.0)); " +
-        " vec2 offsetDestCoord = vec2(destCoord().x + xOffset, destCoord().y);" +
-        
+            " vec2 offsetDestCoord = vec2(destCoord().x + xOffset, destCoord().y);" +
+
         " float dist = distance(cellCenter, offsetDestCoord); " +
-        
+
         " vec2 sphereNormalXY = vec2(offsetDestCoord - cellCenter); " +
-        
+
         " vec3 sphereNormal = vec3(sphereNormalXY, dist / bend); " +
-        " vec3 reflectVector = reflect(vec3(0.0, 0.0, -1.0), sphereNormal); " +
+            " vec3 reflectVector = reflect(vec3(0.0, 0.0, -1.0), sphereNormal); " +
 
         " return offsetDestCoord + reflectVector.xy; " +
-        "}"
+            "}"
     )
-    
-    override var outputImage : CIImage!
+
+    override var outputImage: CIImage!
     {
         if let inputImage = inputImage,
             let warpKernel = warpKernel,
@@ -126,29 +157,29 @@ class CompoundEye: CIFilter
             let halfWidth = inputWidth / 2
             let height = sqrt(3.0) / 2.0 * inputWidth
             let diameter = sqrt(height * height) / 2.0
-            
+
             let extent = inputImage.extent
-            
+
             let warpedImage = warpKernel.apply(extent: extent,
-                                               roiCallback:
-                {
-                    (index, rect) in
-                    return rect
-            },
-                                               image: inputImage,
+                roiCallback:
+                        {
+                        (index, rect) in
+                        return rect
+                },
+                image: inputImage,
                 arguments: [inputWidth, halfWidth, height, diameter, inputBend])!
-            
-            let maskImage =  colorKernel.apply(extent: extent,
+
+            let maskImage = colorKernel.apply(extent: extent,
                 arguments: [inputWidth, halfWidth, height, diameter])!
-            
+
             let backgroundImage = CIImage(color: inputBackgroundColor)
                 .cropped(to: extent)
-            
+
             return CIFilter(name: "CIBlendWithMask",
-                withInputParameters: [
-                kCIInputBackgroundImageKey: warpedImage,
-                kCIInputImageKey: backgroundImage,
-                kCIInputMaskImageKey: maskImage])?.outputImage
+                parameters: [
+                    kCIInputBackgroundImageKey: warpedImage,
+                    kCIInputImageKey: backgroundImage,
+                    kCIInputMaskImageKey: maskImage])?.outputImage
         }
         return nil
     }
