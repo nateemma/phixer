@@ -40,7 +40,7 @@ class CustomFilterRegistry: NSObject, CIFilterConstructor {
                                                 "CausticNoise", "CausticRefraction",
                                                 "CRTFilter", "CRTColorFilter", "CRTWarpFilter",
                                                 "CMYKToneCurves", "CMYKLevels", "CMYKRegistrationMismatch",
-                                                "CompoundEye", "EightBit"
+                                                "CompoundEye", "EightBit", "HighPassFilter"
                                                 ]
     
     

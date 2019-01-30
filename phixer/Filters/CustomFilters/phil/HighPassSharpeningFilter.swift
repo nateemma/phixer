@@ -13,14 +13,12 @@ class HighPassSharpeningFilter: CIFilter {
     let fname = "High-Pass Sharpening"
     var inputImage: CIImage?
     var inputRadius: CGFloat = 4.0
-    var inputThreshold: CGFloat = 0.01
 
 
     // default settings
     override func setDefaults() {
         inputImage = nil
         inputRadius = 4.0
-        inputThreshold = 0.01
     }
 
 
@@ -47,17 +45,7 @@ class HighPassSharpeningFilter: CIFilter {
                             kCIAttributeMin: 0.0,
                             kCIAttributeSliderMin: 0.0,
                             kCIAttributeSliderMax: 50.0,
-                            kCIAttributeType: kCIAttributeTypeScalar],
-            
-            
-            "inputThreshold": [kCIAttributeIdentity: 0,
-                               kCIAttributeClass: "NSNumber",
-                               kCIAttributeDefault: 0.01,
-                               kCIAttributeDisplayName: "Threshold",
-                               kCIAttributeMin: 0,
-                               kCIAttributeSliderMin: 0.001,
-                               kCIAttributeSliderMax: 0.3,
-                               kCIAttributeType: kCIAttributeTypeScalar]
+                            kCIAttributeType: kCIAttributeTypeScalar]
         ]
     }
 
@@ -68,8 +56,6 @@ class HighPassSharpeningFilter: CIFilter {
             inputImage = value as? CIImage
         case "inputRadius":
             inputRadius = value as! CGFloat
-        case "inputThreshold":
-            inputThreshold = value as! CGFloat
         default:
             log.error("Invalid key: \(key)")
         }
@@ -80,45 +66,22 @@ class HighPassSharpeningFilter: CIFilter {
             return nil
         }
 
-        //        Blur (value 10) on image 1.
-        //        High pass filter (value 10) on image 2.
-        //        Set image 2 to 50% opacity.
-        //        Add a contrast layer, set it to legacy and +50 contrast.
-        //        Overlay image 2 and original
-        //        Overlay or Linear Dodge Blend imag1 & image 2 (blend)
-        //
-        //        Luminosity or Hard Light blend with original (optional)
 
-
-        /***
-        let hipassImage = inputImage
-            .applyingFilter("SmoothThresholdFilter", parameters: ["inputThreshold": inputThreshold])
-            .applyingFilter("CIOverlayBlendMode", parameters: [kCIInputBackgroundImageKey:inputImage])
-            //.applyingFilter("OpacityFilter", parameters: ["inputOpacity": 0.5])
-            //.applyingFilter("ContrastFilter", parameters: ["inputContrast": 0.5])
-***/
-        
-        let blurredImage = inputImage
-            .applyingFilter("CIGaussianBlur", parameters: ["inputRadius": inputRadius])
-            .clampedToExtent()
-            .cropped(to: inputImage.extent)
         
         let hipassImage = inputImage
-            .applyingFilter("CISubtractBlendMode", parameters: [kCIInputBackgroundImageKey:blurredImage])
-            .applyingFilter("CIOverlayBlendMode", parameters: [kCIInputBackgroundImageKey:inputImage])
+            .applyingFilter("HighPassFilter", parameters: ["inputRadius": inputRadius])
 
         
         //return hipassImage //tmp
         
-        //let sharpImage = hipassImage.applyingFilter("CIOverlayBlendMode", parameters: [kCIInputBackgroundImageKey:blurredImage])
-        let sharpImage = blurredImage.applyingFilter("CILinearDodgeBlendMode", parameters: [kCIInputBackgroundImageKey:hipassImage])
+        let sharpImage = hipassImage.applyingFilter("CIOverlayBlendMode", parameters: [kCIInputBackgroundImageKey:inputImage])
+        //let sharpImage = hipassImage.applyingFilter("CIHardLightBlendMode", parameters: [kCIInputBackgroundImageKey:inputImage]) // intense, may use this in some other way
 
 
         //return sharpImage // tmp
         
         let finalComposite = sharpImage
             .applyingFilter("CILuminosityBlendMode", parameters: [kCIInputBackgroundImageKey: inputImage])
-            //.applyingFilter("CIMultiplyBlendMode", parameters: [kCIInputBackgroundImageKey: inputImage])
 
         return finalComposite
     }

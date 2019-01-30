@@ -50,7 +50,7 @@ class EditDetailMenuController: EditBaseMenuController {
     
     fileprivate var itemList: [Adornment] = [ Adornment(key: "unsharp",    text: "Unsharp Mask"),
                                               Adornment(key: "luminosity", text: "Luminosity Sharpening"),
-                                              //Adornment(key: "hipass",     text: "High-Pass Sharpening"),
+                                              Adornment(key: "hipass",     text: "High-Pass Sharpening"),
                                               Adornment(key: "clarity",    text: "Clarity"),
                                               Adornment(key: "denoise",    text: "Noise Reduction"),
                                               Adornment(key: "soft",       text: "Preset: Soft Subject"),
