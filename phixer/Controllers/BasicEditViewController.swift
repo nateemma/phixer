@@ -340,7 +340,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         itemList.append (Adornment(key: "reset", text: "reset", icon: "ic_reset", view: nil, isHidden: false))
         itemList.append (Adornment(key: "undo", text: "undo", icon: "ic_undo", view: nil, isHidden: false))
         itemList.append (Adornment(key: "save", text: "save", icon: "ic_save", view: nil, isHidden: false))
-        itemList.append (Adornment(key: "help", text: "help", icon: "ic_help", view: nil, isHidden: false))
+        itemList.append (Adornment(key: "help", text: "help", icon: "ic_info", view: nil, isHidden: false))
     }
     
     func handleSelection(key: String){

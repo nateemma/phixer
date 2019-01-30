@@ -26,8 +26,8 @@ class UISettings{
         return UIApplication.shared.statusBarFrame.size.height + (Coordinator.navigationController?.navigationBar.frame.height ?? 0.0)
     }
     static let panelHeight : CGFloat = 64.0
-    static let menuHeight : CGFloat = 62.0
-    static let titleHeight : CGFloat = 40.0
+    static let menuHeight : CGFloat = 68.0 // empirical
+    static let titleHeight : CGFloat = 38.0
     static let buttonSide : CGFloat = 48.0
     static let buttonSize : CGSize = CGSize(width: 48.0, height: 48.0)
 

@@ -51,6 +51,7 @@ class EditBasicAdjustmentsController: EditBaseMenuController {
                                               Adornment(key: "dehaze",     text: "Dehaze",               icon: "ic_dehaze", view: nil, isHidden: false),
                                               Adornment(key: "vibrance",   text: "Vibrance",             icon: "ic_vibrance", view: nil, isHidden: false),
                                               Adornment(key: "saturation", text: "Saturation",           icon: "ic_saturation", view: nil, isHidden: false),
+                                              Adornment(key: "noise",      text: "De-Noise",             icon: "ic_noise", view: nil, isHidden: false),
                                               Adornment(key: "vignette",   text: "Vignette",             icon: "ic_vignette", view: nil, isHidden: false) ]
 
     // handler for selected adornments:
@@ -66,6 +67,7 @@ class EditBasicAdjustmentsController: EditBaseMenuController {
         case "vibrance": vibranceHandler()
         case "saturation": saturationHandler()
         case "vignette": vignetteHandler()
+        case "noise": noiseHandler()
         default:
             log.error("Unknown key: \(key)")
         }
@@ -113,6 +115,10 @@ class EditBasicAdjustmentsController: EditBaseMenuController {
     
     func saturationHandler(){
         self.coordinator?.selectFilterNotification(key: "SaturationFilter")
+    }
+    
+    func noiseHandler(){
+        self.coordinator?.selectFilterNotification(key: "CINoiseReduction")
     }
 
     

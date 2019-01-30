@@ -29,10 +29,10 @@ class CustomFilterRegistry: NSObject, CIFilterConstructor {
                                               "SketchFilter", "ColorSketchFilter",
                                               "Style_Scream", "Style_Candy", "Style_Mosaic", "Style_Udnie", "Style_LaMuse", "Style_Feathers",
                                               "CarnivalMirror", "KuwaharaFilter", "MercurializeFilter",
-                                               "ColorDirectedBlur", "HomogeneousColorBlur",
-                                               "VHSTrackingLines",
+                                               "ColorDirectedBlur", "HomogeneousColorBlur", "VHSTrackingLines",  "TransverseChromaticAberration" ,
                                               "RGBChannelCompositing", "RGBChannelToneCurve", "RGBChannelBrightnessAndContrast", "ChromaticAberration", "RGBChannelGaussianBlur",
-                                              "TransverseChromaticAberration" ]
+                                              "HighPassSharpeningFilter"
+                                             ]
     
     // any filters that do not need to access any more than 1 pixel can go here:
     private static let colorFilters:[String] = ["SmoothThresholdFilter", "AdaptiveThresholdFilter", "LumaRangeFilter", "DehazeFilter", "UnsharpMaskFilter",

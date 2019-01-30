@@ -36,4 +36,16 @@ struct Adornment {
         self.view = view
         self.isHidden = isHidden
     }
+    
+    // convenience init for text-only adornment
+    init(key: String, text: String){
+        self.key = key
+        if key.isEmpty {
+            log.error("Empty key supplied")
+        }
+        self.text = text
+        self.icon = ""
+        self.view = nil
+        self.isHidden = false
+    }
 }

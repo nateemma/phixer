@@ -224,7 +224,7 @@ class CoordinatedController: UIViewController, ControllerDelegate {
         
         log.verbose("Setting up navBar")
         let backButton = UIBarButtonItem(image: UIImage(named: "ic_back")?.imageScaled(to: size), style: .plain, target: self, action: #selector(navbarBackDidPress))
-        //let helpButton = UIBarButtonItem(image: UIImage(named: "ic_help")?.imageScaled(to: size), style: .plain, target: self, action: #selector(navbarHelpDidPress))
+        //let helpButton = UIBarButtonItem(image: UIImage(named: "ic_info")?.imageScaled(to: size), style: .plain, target: self, action: #selector(navbarHelpDidPress))
         let menuButton = UIBarButtonItem(image: UIImage(named: "ic_menu")?.imageScaled(to: size), style: .plain, target: self, action: #selector(navbarMenuDidPress))
         
 

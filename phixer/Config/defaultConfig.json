@@ -800,12 +800,6 @@
             ]
         },
         
-        {"key": "filterpedia",
-            "title": "Filterpedia",
-            "filters": [
-                "CRTFilter", "CRTColorFilter", "CRTWarpFilter"
-            ]
-         },
         
         {"key": "custom",
             "title": "Custom",

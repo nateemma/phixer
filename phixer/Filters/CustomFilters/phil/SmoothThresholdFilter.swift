@@ -13,16 +13,20 @@ class SmoothThresholdFilter: CIFilter {
     var inputImage: CIImage?
     //var inputEdgeO: CGFloat = 0.025
     //var inputEdge1: CGFloat = 0.075
-    var inputThreshold:CGFloat = 0.05
+    var inputThreshold:CGFloat = 0.1
     
     let kernel = CIColorKernel(source:
         "kernel vec4 crtColor(__sample image, float threshold) \n" +
             "{ \n" +
-            "    float luma = dot(image.rgb, vec3(0.2126, 0.7152, 0.0722));" +
-            "    float t = smoothstep(threshold-0.001, threshold+0.001, luma);" +
-            "    return vec4(t, t, t, 1.0);" +
+            //"    float luma = dot(image.rgb, vec3(0.2126, 0.7152, 0.0722));" +
+            "    float luma = dot(image, vec4(0.299,0.587,0.114,0.0));" +
+            //"    float t = smoothstep(threshold-0.025, threshold+0.025, luma);" +
+            "    float t = smoothstep(threshold, threshold+0.025, luma);" +
+            //"    return vec4(t, t, t, 1.0);" +
+            "    return vec4(t, t, t, t);" +
     "}"
     )
+    
     
     // default settings
     override func setDefaults() {
@@ -52,8 +56,8 @@ class SmoothThresholdFilter: CIFilter {
                              kCIAttributeDefault: 0.05,
                              kCIAttributeDisplayName: "Threshold",
                              kCIAttributeMin: 0,
-                             kCIAttributeSliderMin: 0,
-                             kCIAttributeSliderMax: 0.1,
+                             kCIAttributeSliderMin: 0.001,
+                             kCIAttributeSliderMax: 1.0,
                              kCIAttributeType: kCIAttributeTypeScalar]
         ]
     }

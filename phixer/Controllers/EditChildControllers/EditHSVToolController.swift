@@ -12,9 +12,6 @@ import CoreImage
 
 
 
-private var filterList: [String] = []
-private var filterCount: Int = 0
-
 // This View Controller is a Tool Subcontroller that provides the ability to set Hue, Saturation and Value (Lightness) adjustments to
 // various colour channels - similar to Photoshop/Lightroom
 

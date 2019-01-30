@@ -147,7 +147,8 @@ class AppCoordinator: Coordinator {
 
         ControllerFactory.setFrame(.fullscreen, frame: fullFrame)
         ControllerFactory.setFrame(.menu, frame: menuFrame)
-        ControllerFactory.setFrame(.tool, frame: toolFrame)
+        ControllerFactory.setFrame(.paneltool, frame: toolFrame)
+        ControllerFactory.setFrame(.fulltool, frame: fullFrame)
 
         log.debug("screen: (\(w),\(h)), top bar h: \(UISettings.topBarHeight)")
     }

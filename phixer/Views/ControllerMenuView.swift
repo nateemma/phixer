@@ -50,7 +50,7 @@ class DefaultControllerMenuView: UIView {
         
         // build the list of adornments
         self.defaultMenuItems = []
-        self.defaultMenuItems.append (Adornment(key: "help", text: "help", icon: "ic_help", view: nil, isHidden: false))
+        self.defaultMenuItems.append (Adornment(key: "help", text: "help", icon: "ic_info", view: nil, isHidden: false))
         
         // populate the menu
         menuView.addAdornments(self.defaultMenuItems)

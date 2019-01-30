@@ -52,6 +52,7 @@ enum ControllerIdentifier: String {
     
     case curveTool
     case hsvTool
+    case detailTool
 }
 
 
@@ -59,7 +60,8 @@ enum ControllerIdentifier: String {
 enum ControllerType: String {
     case fullscreen
     case menu
-    case tool
+    case paneltool
+    case fulltool
 }
 
 // Factory class to create instances of the requested Controller
@@ -164,11 +166,15 @@ class ControllerFactory {
             
         case .curveTool:
             instance = EditCurvesToolController()
-            ctype = .tool
+            ctype = .paneltool
 
         case .hsvTool:
             instance = EditHSVToolController()
-            ctype = .tool
+            ctype = .paneltool
+
+        case .detailTool:
+            instance = EditDetailMenuController()
+            ctype = .menu
 
         default:
             instance = nil

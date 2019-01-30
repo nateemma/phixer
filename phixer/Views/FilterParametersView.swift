@@ -159,6 +159,17 @@ class FilterParametersView: UIView {
         layoutUI()
     }
  
+    private var iconsHidden: Bool = false
+    public func hideIcons(){
+        iconsHidden = true
+    }
+ 
+    private var titleHidden: Bool = false
+
+    public func hideTitle(){
+        titleHidden = true
+    }
+    
     //////////////////////////////
     // Layout
     //////////////////////////////
@@ -289,7 +300,12 @@ class FilterParametersView: UIView {
         titleView.backgroundColor = titleBackgroundColor
         
         
-        self.addSubview(titleView)
+        if !titleHidden {
+            self.addSubview(titleView)
+        } else {
+            self.frame.size.height = self.frame.size.height -  titleView.frame.size.height
+            titleView.frame.size.height = 0
+        }
 
         acceptButton?.anchorToEdge(.left, padding: 2, width: (acceptButton?.frame.size.width)!, height: (acceptButton?.frame.size.height)!)
         cancelButton?.anchorToEdge(.right, padding: 0, width: (cancelButton?.frame.size.width)!, height: (cancelButton?.frame.size.height)!)
@@ -303,6 +319,12 @@ class FilterParametersView: UIView {
             stackButton?.isHidden = true
         }
 
+        if iconsHidden {
+            for v in [acceptButton, cancelButton, screenModeButton, filterModeButton, stackButton] {
+                v?.isHidden = true
+            }
+        }
+        
         log.verbose("Filter Title: \(titleLabel.text) h:\(titleLabel.frame.size.height) w:\(titleLabel.frame.size.width)")
     }
   
@@ -498,6 +520,9 @@ class FilterParametersView: UIView {
         if numVisibleParams > 0 {
             scrollView?.addSubview(parameterView)
             self.addSubview(scrollView!)
+            scrollView?.isHidden = false
+       } else {
+            scrollView?.isHidden = true
         }
         
     }
@@ -539,7 +564,7 @@ class FilterParametersView: UIView {
         var height:CGFloat = 0.0
         
         // calculate sizes (need to this before setting constraints)
-        height = UISettings.panelHeight
+        height = titleView.frame.size.height
         if ((currFilterDesc?.getNumDisplayableParameters())! > 0){
             let n:CGFloat = CGFloat(numVisibleParams)
             let h:CGFloat =  (CGFloat(sliderHeight) * n*1.3).rounded() + 16 // empirical
@@ -556,7 +581,7 @@ class FilterParametersView: UIView {
             scrollView?.frame.size.height = 0
             scrollView?.contentSize = CGSize.zero
             scrollView?.isHidden = true
-            //self.backgroundColor = UIColor.clear
+            self.backgroundColor = UIColor.clear
             scrollView?.backgroundColor = UIColor.clear
         }
 
@@ -567,7 +592,7 @@ class FilterParametersView: UIView {
         // layout sub-views
         
         // Place the tile at the top, buttons at the bottom and parameterRow distributed in between
-        titleView.anchorAndFillEdge(.top, xPad: 1.0, yPad: 1.0, otherSize: UISettings.titleHeight)
+        titleView.anchorAndFillEdge(.top, xPad: 1.0, yPad: 1.0, otherSize: titleView.frame.size.height)
 
         if ((currFilterDesc?.getNumDisplayableParameters())! > 0){
             parameterView.groupAndFill(group: .vertical, views: parameterRow, padding: 1.0)

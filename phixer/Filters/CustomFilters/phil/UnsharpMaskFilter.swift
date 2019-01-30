@@ -102,7 +102,7 @@ class UnsharpMaskFilter: CIFilter {
                                kCIAttributeDisplayName: "Threshold",
                                kCIAttributeMin: 0.0,
                                kCIAttributeSliderMin: 0.0,
-                               kCIAttributeSliderMax: 16.0,
+                               kCIAttributeSliderMax: 40.0,
                                kCIAttributeType: kCIAttributeTypeScalar],
         ]
     }

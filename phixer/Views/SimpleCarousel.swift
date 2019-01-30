@@ -268,6 +268,10 @@ class SimpleCarousel: UIView {
             return
         }
         
+        if itemViewList.count <= 0 {
+            buildItemViews()
+        }
+        
         if (index != currIndex){
             
             log.debug("Highlight: \(itemList[index].text) (\(currIndex)->\(index))")
@@ -279,7 +283,7 @@ class SimpleCarousel: UIView {
                 //oldView.label.textColor = theme.textColor
                 if (oldView != nil){
                     oldView?.backgroundColor = theme.backgroundColor
-                   oldView?.tintColor = theme.textColor
+                   oldView?.tintColor = theme.tintColor
                     oldView?.layer.cornerRadius = 4.0
                     oldView?.layer.borderWidth = 0.5
                     oldView?.layer.borderColor = theme.borderColor.withAlphaComponent(0.5).cgColor

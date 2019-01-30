@@ -125,7 +125,7 @@ class EditBaseToolController: CoordinatedController, SubControllerDelegate {
 
        
         //HACK: resize view based on type
-        self.view.frame = ControllerFactory.getFrame(ControllerType.tool)
+        self.view.frame = ControllerFactory.getFrame(ControllerType.paneltool)
 
         // load theme here in case it changed
         theme = ThemeManager.currentTheme()
@@ -191,7 +191,7 @@ class EditBaseToolController: CoordinatedController, SubControllerDelegate {
         // commit button
         let commitButton = SquareButton(bsize: (UISettings.titleHeight*0.6).rounded())
         commitButton.setImageAsset("ic_yes")
-        commitButton.backgroundColor = theme.titleColor.withAlphaComponent(0.5)
+        commitButton.backgroundColor = theme.subtitleColor.withAlphaComponent(0.5)
         commitButton.setTintable(true)
         commitButton.highlightOnSelection(true)
         commitButton.addTarget(self, action: #selector(self.commitDidPress), for: .touchUpInside)
@@ -199,7 +199,7 @@ class EditBaseToolController: CoordinatedController, SubControllerDelegate {
         // cancel button
         let cancelButton = SquareButton(bsize: (UISettings.titleHeight*0.6).rounded())
         cancelButton.setImageAsset("ic_no")
-        cancelButton.backgroundColor = theme.titleColor.withAlphaComponent(0.5)
+        cancelButton.backgroundColor = theme.subtitleColor.withAlphaComponent(0.5)
         cancelButton.setTintable(true)
         cancelButton.highlightOnSelection(true)
         cancelButton.addTarget(self, action: #selector(self.cancelDidPress), for: .touchUpInside)
@@ -212,7 +212,7 @@ class EditBaseToolController: CoordinatedController, SubControllerDelegate {
         label.text = getTitle()
         label.textAlignment = .center
         label.textColor = theme.titleTextColor
-        label.backgroundColor = theme.titleColor
+        label.backgroundColor = theme.subtitleColor
         label.font = UIFont.systemFont(ofSize: 16)
         label.adjustsFontSizeToFitWidth = true
         //label.fitTextToBounds()

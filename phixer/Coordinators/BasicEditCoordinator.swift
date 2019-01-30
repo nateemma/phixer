@@ -41,7 +41,7 @@ class BasicEditCoordinator: Coordinator {
         
         self.mainControllerId = .edit
         self.validControllers = [.edit, .help, .filterGallery, .styleGallery, .blendGallery,  .editMainMenu, .editBasicAdjustmentsMenu,
-                                 .curveTool, .hsvTool]
+                                 .curveTool, .hsvTool, .detailTool]
 
         //  mappings for coordinators
         self.coordinatorMap = [:]
