@@ -23,13 +23,13 @@ class RenderView: MTKView
     var theme = ThemeManager.currentTheme()
     var angle:CGFloat = 0.0 // rotation of used displayed image relative to original image
     var imageSize:CGSize = CGSize.zero // size of original image (some filters use infinite or zero extent)
-
-
+    
+    
     /// The image to display. The image will be rendered when this is set
     public var image: CIImage? {
         didSet { renderImage() }
     }
-
+    
     
     let colorSpace = CGColorSpaceCreateDeviceRGB()
     
@@ -80,7 +80,7 @@ class RenderView: MTKView
         }
     }
     
-
+    
     // returns a point in (CI) image coordinates based on a position in UI coordinates relative to the displayed view
     public func getImagePosition(viewPos:CGPoint) -> CIVector{
         //Notes:
@@ -146,7 +146,6 @@ class RenderView: MTKView
             return
         }
         
-        //TODO: move calculations to a func and only recalculate if image or size changes
         
         if let srcImg = image {
             
@@ -154,98 +153,23 @@ class RenderView: MTKView
                 
                 if let commandBuffer = RenderView.commandQueue?.makeCommandBuffer() {
                     
+                   calculateTransforms()
+                    
+                    guard let rotation = rotationTransform, let scale = scaleTransform, let translation = translationTransform else {
+                        log.error("NIL Transforms")
+                        return
+                    }
+                    
+                    let scaledImage = srcImg
+                        .transformed(by: rotation)
+                        .transformed(by: scale)
+                        .transformed(by: translation)
+                    
+                    
+                    
                     let bounds = CGRect(origin: CGPoint.zero, size: drawableSize)
-      
-                    // vars that control how the input image is transformed to match the view in which it is displayed
-                     var scale:CGFloat = 1.0
-                    var originX:CGFloat = 0.0
-                    var originY:CGFloat = 0.0
                     
-                    /***  not working, still having issues with upside down images (selfies)
-                    var transform:CGAffineTransform
-                    if srcImg.extent.size.height > srcImg.extent.size.width {
-                        transform = srcImg.orientationTransform(for: .up)
-                    } else {
-                        transform = srcImg.orientationTransform(for: .right)
-                    }
-                    let image = srcImg.transformed(by:transform)
-                     ***/
-                    let image = srcImg
-
-                    // test: orient image to match view
-                    
-                    //let orientation = UIDeviceOrientation.portrait
-                    var isize:CGSize = image.extent.size
-                    let dsize:CGSize = drawableSize
-
-                    let iAR = isize.height / isize.width
-                    let dAR = dsize.height / dsize.width
-                    
-                    if (dAR<1.0) && (iAR>1.0) { // drawable is landscape, image is portrait
-                        //log.debug("portrait->landscape")
-                        angle = .pi / 2.0
-                        isize.height = image.extent.size.width
-                        isize.width = image.extent.size.height
-
-                    } else if (dAR>1.0) && (iAR<1.0) { // drawable is portrait, image is landscape
-                        //log.debug("landscape->portrait")
-                        angle = -(.pi / 2.0)
-                        isize.height = image.extent.size.width
-                        isize.width = image.extent.size.height
-                  }
-                    //log.debug("(\(image.extent.width),\(image.extent.height))->(\(isize.width),\(isize.height))")
-                    
-                    var targetRect:CGRect
-                    var scaleX:CGFloat = 1.0
-                    var scaleY:CGFloat = 1.0
-
-                    // if the view and the image are the same orientation then fill, otherwise fit
-                   if ((dsize.width>=dsize.height) && (isize.width>=isize.height)) ||
-                        ((dsize.width<dsize.height) && (isize.width<isize.height)) {
-                        targetRect = Geometry.aspectFillToRect(aspectRatio: isize, minimumRect: bounds)
-                        scaleX = targetRect.width / isize.width
-                        scaleY = targetRect.height / isize.height
-                        scale = max(scaleX, scaleY)
-                   } else {
-                        targetRect = Geometry.aspectFitToRect(aspectRatio: isize, boundingRect: bounds)
-                        scaleX = targetRect.width / isize.width
-                        scaleY = targetRect.height / isize.height
-                        scale = min(scaleX, scaleY)
-                    }
-
-                    
-
-                    originX = targetRect.origin.x
-                    originY = targetRect.origin.y
-                    
-                    if isize.width > isize.height {
-                        // if landscape then move the image up to the top of the drawable
-                        originY = fabs(dsize.height - targetRect.size.height)
-                        //log.debug("Landscape image:(\(isize.width),\(isize.height)) " +
-                        //    "rect:(\(targetRect.size.width),\(targetRect.size.height)) " +
-                        //    "drawable:(\(dsize.width), \(dsize.height)) o:(\(originX), \(originY)) scale:\(scale) angle:\(angle)")
-                   } else {
-                        // portrait, centre horizontally
-
-                        originX = (dsize.width - targetRect.size.width)/2.0
-                        if abs(angle) > 0.01 { // if image was rotated, coordinate system id different
-                            originY = dsize.height
-                        }
-                       //DBG
-                        //log.debug("Portrait image:(\(isize.width),\(isize.height)) " +
-                        //    "rect:(\(targetRect.size.width),\(targetRect.size.height)) " +
-                        //    "drawable:(\(dsize.width), \(dsize.height)) o:(\(originX), \(originY)) scale:\(scale) angle:\(angle)")
-                    }
-
-                    //let scaledImage = image.transformed(by: CGAffineTransform(scaleX: scale, y: scale))
-                     //   .transformed(by: CGAffineTransform(translationX: originX, y: originY))
-                    let scaledImage = image
-                        .transformed(by:CGAffineTransform(rotationAngle: angle))
-                        .transformed(by: CGAffineTransform(scaleX: scale, y: scale))
-                        .transformed(by: CGAffineTransform(translationX: originX, y: originY))
-
-                    
-                    ciContext.render(scaledImage,
+                   ciContext.render(scaledImage,
                                      to: targetTexture,
                                      commandBuffer: commandBuffer,
                                      bounds: bounds,
@@ -267,6 +191,119 @@ class RenderView: MTKView
             }
         } else {
             log.error("No image")
+        }
+    }
+    
+    ///////////////////////
+    // MARK: Transform utilities
+    ///////////////////////
+    
+    // the trasnforms to be applied
+    private var rotationTransform: CGAffineTransform? = nil
+    private var scaleTransform: CGAffineTransform? = nil
+    private var translationTransform: CGAffineTransform? = nil
+    
+    // the current (really, previous) size of the input image and display buffer
+    private var currImgSize:CGSize = CGSize.zero
+    private var currDrawSize:CGSize = CGSize.zero
+    
+    private func calculateTransforms(){
+        
+        // if the sizes of both the input image and the drawing buffer have not changed, then the transforms can be re-used. Otherwise, re-calculate
+        // we do this because most of the time, the sizes will not change for a particular instance
+        
+        let change: Bool = ( !currImgSize.width.approxEqual((self.image?.extent.size.width)!) ) ||
+            ( !currImgSize.height.approxEqual((self.image?.extent.size.height)!) ) ||
+            ( !currDrawSize.width.approxEqual(self.drawableSize.width) ) ||
+            ( !currDrawSize.height.approxEqual(self.drawableSize.height) )
+        
+        if change {
+            
+            //log.verbose("Calculating transforms")
+            let bounds = CGRect(origin: CGPoint.zero, size: drawableSize)
+            
+            // vars that control how the input image is transformed to match the view in which it is displayed
+            var scale:CGFloat = 1.0
+            var originX:CGFloat = 0.0
+            var originY:CGFloat = 0.0
+            
+            if let image = self.image {
+                
+                // test: orient image to match view
+                
+                //let orientation = UIDeviceOrientation.portrait
+                var isize:CGSize = image.extent.size
+                let dsize:CGSize = drawableSize
+                
+                let iAR = isize.height / isize.width
+                let dAR = dsize.height / dsize.width
+                
+                if (dAR<1.0) && (iAR>1.0) { // drawable is landscape, image is portrait
+                    //log.debug("portrait->landscape")
+                    angle = .pi / 2.0
+                    isize.height = image.extent.size.width
+                    isize.width = image.extent.size.height
+                    
+                } else if (dAR>1.0) && (iAR<1.0) { // drawable is portrait, image is landscape
+                    //log.debug("landscape->portrait")
+                    angle = -(.pi / 2.0)
+                    isize.height = image.extent.size.width
+                    isize.width = image.extent.size.height
+                }
+                //log.debug("(\(image.extent.width),\(image.extent.height))->(\(isize.width),\(isize.height))")
+                
+                var targetRect:CGRect
+                var scaleX:CGFloat = 1.0
+                var scaleY:CGFloat = 1.0
+                
+                // if the view and the image are the same orientation then fill, otherwise fit
+                if ((dsize.width>=dsize.height) && (isize.width>=isize.height)) ||
+                    ((dsize.width<dsize.height) && (isize.width<isize.height)) {
+                    targetRect = Geometry.aspectFillToRect(aspectRatio: isize, minimumRect: bounds)
+                    scaleX = targetRect.width / isize.width
+                    scaleY = targetRect.height / isize.height
+                    scale = max(scaleX, scaleY)
+                } else {
+                    targetRect = Geometry.aspectFitToRect(aspectRatio: isize, boundingRect: bounds)
+                    scaleX = targetRect.width / isize.width
+                    scaleY = targetRect.height / isize.height
+                    scale = min(scaleX, scaleY)
+                }
+                
+                
+                
+                originX = targetRect.origin.x
+                originY = targetRect.origin.y
+                
+                if isize.width > isize.height {
+                    // landscape, move the image up to the top of the drawable
+                    originY = abs(dsize.height - targetRect.size.height)
+                    //log.debug("Landscape image:(\(isize.width),\(isize.height)) " +
+                    //    "rect:(\(targetRect.size.width),\(targetRect.size.height)) " +
+                    //    "drawable:(\(dsize.width), \(dsize.height)) o:(\(originX), \(originY)) scale:\(scale) angle:\(angle)")
+                } else {
+                    // portrait, centre horizontally
+                    
+                    originX = (dsize.width - targetRect.size.width)/2.0
+                    if abs(angle) > 0.01 { // if image was rotated, coordinate system is different
+                        originY = dsize.height
+                    }
+                    //DBG
+                    //log.debug("Portrait image:(\(isize.width),\(isize.height)) " +
+                    //    "rect:(\(targetRect.size.width),\(targetRect.size.height)) " +
+                    //    "drawable:(\(dsize.width), \(dsize.height)) o:(\(originX), \(originY)) scale:\(scale) angle:\(angle)")
+                }
+                
+                // save the transforms
+                rotationTransform =  CGAffineTransform(rotationAngle: angle)
+                scaleTransform = CGAffineTransform(scaleX: scale, y: scale)
+                translationTransform = CGAffineTransform(translationX: originX, y: originY)
+                
+            }
+            
+            // save the sizes for next time through
+            currImgSize = (self.image?.extent.size)!
+            currDrawSize = self.drawableSize
         }
     }
 }

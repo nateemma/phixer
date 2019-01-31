@@ -286,7 +286,8 @@ class FilterParametersView: UIView {
         let currName = EditManager.getPreviewFilter()?.title  ?? "(No Filter)"
         let numApplied = EditManager.getAppliedCount()
         //titleLabel.text = "\(currName)   [\(numApplied)]"
-        titleLabel.text = "Preview: \(currName)"
+        //titleLabel.text = "Preview: \(currName)"
+        setTitle()
         titleLabel.textAlignment = .center
         //titleLabel.fitTextToBounds()
         titleLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
@@ -329,6 +330,14 @@ class FilterParametersView: UIView {
     }
   
    
+    private func setTitle(){
+        if showFiltersEnabled {
+            let currName = EditManager.getPreviewFilter()?.title  ?? "(No Filter)"
+            titleLabel.text = "Preview: \(currName)"
+        } else {
+            titleLabel.text = "Original"
+       }
+    }
 
     fileprivate var gsliders: [GradientSlider?] = []
 
@@ -592,7 +601,7 @@ class FilterParametersView: UIView {
         // layout sub-views
         
         // Place the tile at the top, buttons at the bottom and parameterRow distributed in between
-        titleView.anchorAndFillEdge(.top, xPad: 1.0, yPad: 1.0, otherSize: titleView.frame.size.height)
+        titleView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: titleView.frame.size.height)
 
         if ((currFilterDesc?.getNumDisplayableParameters())! > 0){
             parameterView.groupAndFill(group: .vertical, views: parameterRow, padding: 1.0)
@@ -707,7 +716,8 @@ class FilterParametersView: UIView {
             showFiltersEnabled = true
             delegate?.showFiltersRequested()
         }
-    }
+        setTitle()
+   }
     
     @objc func stackDidPress() {
         if delegate == nil { log.warning("No delegate") }

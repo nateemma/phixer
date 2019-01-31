@@ -9,6 +9,8 @@
 import Foundation
 import CoreImage
 
+
+// implements a high pass filter. Note that the output is grey toned, and intended for use with filters such as OverlayBlend and the "LightBlend" family (mid grey is ignored)
 class HighPassFilter: CIFilter {
     var inputImage: CIImage?
     var inputRadius: CGFloat = 10.0

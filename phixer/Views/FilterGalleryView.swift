@@ -327,7 +327,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
                     // update each image separately on the background queue to allow main queue to run
                     DispatchQueue.global(qos: .background).async {
                     //DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.2) {
-                        let renderview = self.filterManager.getRenderView(key: key) // this caches the RenderView
+                        //let renderview = self.filterManager.getRenderView(key: key) // this caches the RenderView
                         let descriptor = self.filterManager.getFilterDescriptor(key: key)
                         if self.inputImage != nil {
                             let image = descriptor?.apply(image:self.inputImage, image2: self.blend)
