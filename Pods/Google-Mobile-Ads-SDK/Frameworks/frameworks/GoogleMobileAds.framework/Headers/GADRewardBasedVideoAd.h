@@ -15,7 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// The GADRewardBasedVideoAd class is used for requesting and presenting a reward based video ad.
 /// This class isn't thread safe.
-GAD_SUBCLASSING_RESTRICTED
 @interface GADRewardBasedVideoAd : NSObject
 
 /// Delegate for receiving video notifications.

@@ -36,6 +36,10 @@ target 'phixer' do
   #Picture carousekl
   pod 'iCarousel'
   
+  # Crop/Rotate ViewController
+  # pod 'IGRPhotoTweaks'
+  pod 'AKImageCropperView'
+  
   # AirBnBs AloeStackView
   #pod 'AloeStackView'
 

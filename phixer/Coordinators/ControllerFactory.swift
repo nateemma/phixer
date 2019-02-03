@@ -53,6 +53,7 @@ enum ControllerIdentifier: String {
     case curveTool
     case hsvTool
     case detailTool
+    case cropTool
 }
 
 
@@ -175,6 +176,10 @@ class ControllerFactory {
         case .detailTool:
             instance = EditDetailMenuController()
             ctype = .menu
+
+        case .cropTool:
+            instance = EditCropToolController()
+            ctype = .fulltool
 
         default:
             instance = nil

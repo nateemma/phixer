@@ -65,6 +65,7 @@ class EditManager {
     // set the input image to be processed
     public static func setInputImage(_ image:CIImage?){
         EditManager._input = image
+        //log.verbose("extent: \(image?.extent)")
     }
     
     // get the size of the image (any of them, they are the same size)

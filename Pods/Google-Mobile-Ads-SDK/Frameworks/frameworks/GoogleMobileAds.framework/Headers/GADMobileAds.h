@@ -14,7 +14,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /// Google Mobile Ads SDK settings.
-GAD_SUBCLASSING_RESTRICTED
 @interface GADMobileAds : NSObject
 
 /// Returns the shared GADMobileAds instance.

@@ -18,7 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// content of the ad rendered by the Google Mobile Ads SDK. You don't need to create an instance of
 /// this class. When the ad rendered by the Google Mobile Ads SDK loads video content, you may be
 /// able to get an instance of this class from the rendered ad object.
-GAD_SUBCLASSING_RESTRICTED
 @interface GADVideoController : NSObject
 
 /// Delegate for receiving video notifications.

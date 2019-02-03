@@ -383,9 +383,9 @@ class ImageManager {
         if _currEditImage != nil {
             _currEditName = ename
             //_currEditInput = CIImage(image:_currEditImage!)
-            _currEditSize = _currEditImage!.extent.size
-            log.verbose("Image set to:\(ename)")
-            updateStoredSettings()
+            _currEditSize = (_currEditImage?.extent.size)!
+            log.verbose("Image set to:\(name), frame:\(_currEditImage?.extent)")
+           updateStoredSettings()
         } else {
             log.error("Could not find image: \(ename)")
         }
@@ -402,7 +402,7 @@ class ImageManager {
         _currEditImageScaled = image
         _currEditSize = (image?.extent.size)!
         //_currEditImageScaled = resizeImage(_currEditImage, targetSize: _currEditSize, mode:.scaleAspectFill) // don't know size
-        log.verbose("Image set to:\(name)")
+        log.verbose("Image set to:\(name), frame:\(image?.extent)")
     }
     
     
@@ -640,22 +640,24 @@ class ImageManager {
             if asset != nil {
                 let options = PHImageRequestOptions()
                 //        options.deliveryMode = PHImageRequestOptionsDeliveryMode.Opportunistic
-                options.resizeMode = PHImageRequestOptionsResizeMode.fast
+                //options.resizeMode = PHImageRequestOptionsResizeMode.fast
+                options.resizeMode = PHImageRequestOptionsResizeMode.exact
                 options.isSynchronous = true // need to set this to get the full size image
                 options.isNetworkAccessAllowed = false
                 options.version = .current
                 
-                /***
+                /***/
                  PHImageManager.default().requestImageData(for: asset!, options: options, resultHandler: { data, _, _, _ in
                  image = data.flatMap { UIImage(data: $0) }
                  })
-                 ***/
+                 /***/
                 
                 
-                PHImageManager.default().requestImage(for: asset!, targetSize: UIScreen.main.bounds.size, contentMode: .aspectFit, options: options,
+/***
+               PHImageManager.default().requestImage(for: asset!, targetSize: UIScreen.main.bounds.size, contentMode: .aspectFit, options: options,
                                                       resultHandler: { img, _ in
                                                         image = img })
-                
+***/
             } else {
                 log.error("Invalid asset: \(assetID)")
             }

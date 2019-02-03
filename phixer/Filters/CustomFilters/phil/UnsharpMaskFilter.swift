@@ -134,7 +134,8 @@ class UnsharpMaskFilter: CIFilter {
         
 
         // create a blurred version of the input image
-        let blurredImg = inputImage.applyingFilter("CIGaussianBlur", parameters: ["inputRadius": inputRadius]).clampedToExtent()
+        let blurredImg = inputImage.applyingFilter("CIGaussianBlur", parameters: ["inputRadius": inputRadius])
+            .clampedToExtent()
             .cropped(to: inputImage.extent)
         
         // combine the original and blurred version
