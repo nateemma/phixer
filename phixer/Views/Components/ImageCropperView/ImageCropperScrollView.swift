@@ -93,6 +93,7 @@ final class ImageCropperScrollView: UIScrollView {
 
 extension ImageCropperScrollView: UIGestureRecognizerDelegate {
     
+    // allow multiple gestures
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         return true
     }

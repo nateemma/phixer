@@ -605,43 +605,45 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     
     
     @objc func swiped(_ gesture: UIGestureRecognizer) {
-        // if gesturesEnabled {
-        if currTouchMode == .gestures {
-            if let swipeGesture = gesture as? UISwipeGestureRecognizer {
-                switch swipeGesture.direction {
-                    
-                case UISwipeGestureRecognizer.Direction.right:
-                    //log.verbose("Swiped Right")
-                    self.coordinator?.nextItemRequest()
-                    break
-                    
-                case UISwipeGestureRecognizer.Direction.left:
-                    //log.verbose("Swiped Left")
-                    self.coordinator?.previousItemRequest()
-                    break
-                    
-                case UISwipeGestureRecognizer.Direction.up:
-                    //log.verbose("Swiped Up")
-                    //showModalViews()
-                    toggleModalViews()
-                    break
-                    
-                case UISwipeGestureRecognizer.Direction.down:
-                    //hideModalViews()
-                    toggleModalViews()
-                    //log.verbose("Swiped Down")
-                    break
-                    
-                default:
-                    log.debug("Unhandled gesture direction: \(swipeGesture.direction)")
-                    break
-                }
-            } else {
-                // still allow up/down
+        if !self.editImageView.isZoomed() {
+            // if gesturesEnabled {
+            if currTouchMode == .gestures {
                 if let swipeGesture = gesture as? UISwipeGestureRecognizer {
-                    if (swipeGesture.direction == UISwipeGestureRecognizer.Direction.up) ||
-                        (swipeGesture.direction == UISwipeGestureRecognizer.Direction.down) {
+                    switch swipeGesture.direction {
+                        
+                    case UISwipeGestureRecognizer.Direction.right:
+                        //log.verbose("Swiped Right")
+                        self.coordinator?.nextItemRequest()
+                        break
+                        
+                    case UISwipeGestureRecognizer.Direction.left:
+                        //log.verbose("Swiped Left")
+                        self.coordinator?.previousItemRequest()
+                        break
+                        
+                    case UISwipeGestureRecognizer.Direction.up:
+                        //log.verbose("Swiped Up")
+                        //showModalViews()
                         toggleModalViews()
+                        break
+                        
+                    case UISwipeGestureRecognizer.Direction.down:
+                        //hideModalViews()
+                        toggleModalViews()
+                        //log.verbose("Swiped Down")
+                        break
+                        
+                    default:
+                        log.debug("Unhandled gesture direction: \(swipeGesture.direction)")
+                        break
+                    }
+                } else {
+                    // still allow up/down
+                    if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+                        if (swipeGesture.direction == UISwipeGestureRecognizer.Direction.up) ||
+                            (swipeGesture.direction == UISwipeGestureRecognizer.Direction.down) {
+                            toggleModalViews()
+                        }
                     }
                 }
             }
@@ -1117,7 +1119,7 @@ extension BasicEditViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
                            shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer)
         -> Bool {
-            // If the gesture recognizer's view isn't one of the squares, do not allow simultaneous recognition.
+            // If the gesture recognizer's view isn't the main edit view, do not allow multiple gestures
             if gestureRecognizer.view != self.editImageView {
                 return false
             }

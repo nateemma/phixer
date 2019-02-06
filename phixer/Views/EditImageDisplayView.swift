@@ -37,7 +37,8 @@ class EditImageDisplayView: UIView {
     fileprivate var currSplitOffset:CGFloat = 0.0
     fileprivate var currSplitPoint:CGPoint = CGPoint.zero
 
-    fileprivate var renderView: RenderView? = RenderView()
+    //fileprivate var renderView: RenderView? = RenderView()
+    fileprivate var renderView: ScrollableRenderView? = ScrollableRenderView()
     fileprivate var imageView: UIImageView! = UIImageView()
     
     fileprivate var initDone: Bool = false
@@ -76,18 +77,21 @@ class EditImageDisplayView: UIView {
         //log.debug("layout")
         self.currInput = InputSource.getCurrentImage() // this can change
         renderView?.frame = self.frame
-        renderView?.image = self.currInput
-        let imgSize = InputSource.getSize()
-        renderView?.setImageSize(imgSize)
-        renderView?.frame = self.frame
         renderView?.backgroundColor = theme.backgroundColor
-        
-        self.currSplitPoint = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2) // middle of view
-        self.setSplitPosition(self.currSplitPoint)
         
         self.addSubview(renderView!)
         renderView?.fillSuperview()
         // self.bringSubview(toFront: renderView!)
+        
+        // this must come after sizing
+        renderView?.image = self.currInput
+        let imgSize = InputSource.getSize()
+        renderView?.setImageSize(imgSize)
+        
+        // must come after RenderView is initialised
+        self.currSplitPoint = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2) // middle of view
+        self.setSplitPosition(self.currSplitPoint)
+
         
         layoutDone = true
         
@@ -201,6 +205,9 @@ class EditImageDisplayView: UIView {
     }
     
     
+    public func isZoomed() -> Bool {
+        return !((self.renderView?.zoomScale.approxEqual(1.0))!)
+    }
    
     ///////////////////////////////////
     // MARK: filter execution

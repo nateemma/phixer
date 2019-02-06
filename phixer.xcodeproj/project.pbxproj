@@ -853,6 +853,7 @@
 		25F21FDD2208B078005C449F /* ImageCropperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F21FCE2208B078005C449F /* ImageCropperView.swift */; };
 		25F21FDE2208B078005C449F /* IC_CGFloatExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F21FCF2208B078005C449F /* IC_CGFloatExtension.swift */; };
 		25F21FE1220B37C5005C449F /* CropRotateFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F21FE0220B37C5005C449F /* CropRotateFilter.swift */; };
+		25F21FE3220B45F2005C449F /* ScrollableRenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F21FE2220B45F2005C449F /* ScrollableRenderView.swift */; };
 		25F460181D99CCCE00EDA182 /* UISettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F460171D99CCCE00EDA182 /* UISettings.swift */; };
 		25F4601E1D99D65F00EDA182 /* CameraISO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F4601D1D99D65F00EDA182 /* CameraISO.swift */; };
 		25F460201D99D79B00EDA182 /* AspectRatio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F4601F1D99D79B00EDA182 /* AspectRatio.swift */; };
@@ -1783,6 +1784,7 @@
 		25F21FCF2208B078005C449F /* IC_CGFloatExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IC_CGFloatExtension.swift; sourceTree = "<group>"; };
 		25F21FDF220A95CB005C449F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		25F21FE0220B37C5005C449F /* CropRotateFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CropRotateFilter.swift; sourceTree = "<group>"; };
+		25F21FE2220B45F2005C449F /* ScrollableRenderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollableRenderView.swift; sourceTree = "<group>"; };
 		25F460171D99CCCE00EDA182 /* UISettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UISettings.swift; sourceTree = "<group>"; };
 		25F4601D1D99D65F00EDA182 /* CameraISO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraISO.swift; sourceTree = "<group>"; };
 		25F4601F1D99D79B00EDA182 /* AspectRatio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AspectRatio.swift; sourceTree = "<group>"; };
@@ -2322,7 +2324,6 @@
 		25F21F822203B326005C449F /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				25F21FBE2208B00E005C449F /* ImageCropperView */,
 				2537A1C621DC27BC00060DBE /* Adornment.swift */,
 				252745F62182A1D500AA2DA2 /* BorderedButton.swift */,
 				255591E42187A1A9001B4452 /* ColorWheelView.swift */,
@@ -2333,11 +2334,13 @@
 				2568BC3B21AC72C900560287 /* iCarousel.h */,
 				2568BCCF21AC72CA00560287 /* iCarousel.m */,
 				25CF4BD31D9490C400D779CF /* ImageContainerView.swift */,
+				25F21FBE2208B00E005C449F /* ImageCropperView */,
 				2568BCFF21AC72CB00560287 /* ISColorWheel.h */,
 				2568BCD021AC72CA00560287 /* ISColorWheel.m */,
 				25910B1A1DB7D61A007EC926 /* RenderContainerView.swift */,
 				2568BC3C21AC72C900560287 /* RenderView.swift */,
 				252745FC21851C6300AA2DA2 /* RGBSliderView.swift */,
+				25F21FE2220B45F2005C449F /* ScrollableRenderView.swift */,
 				25F85CE521C9650F005498C4 /* SimpleCarousel.swift */,
 				25CF4BD41D9490C400D779CF /* SquareButton.swift */,
 				258F09B6218E67910082FE2A /* TimedAlertView.swift */,
@@ -3974,6 +3977,7 @@
 				25F460201D99D79B00EDA182 /* AspectRatio.swift in Sources */,
 				2537A1E921E030A700060DBE /* ColorSketchFilter.swift in Sources */,
 				2517295C2175410B00D5E946 /* UserChangesEntity+CoreDataProperties.swift in Sources */,
+				25F21FE3220B45F2005C449F /* ScrollableRenderView.swift in Sources */,
 				2573D1DF217CDCB500E78CAB /* YUCIReflectedTileROICalculator.m in Sources */,
 				252745F521826DBC00AA2DA2 /* ColorSchemeViewController.swift in Sources */,
 				258F099F218CBFC30082FE2A /* FNS-Udnie.mlmodel in Sources */,

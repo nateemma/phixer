@@ -21,12 +21,13 @@ One day, I'll get around to adding screenshots, but the basic set of functionali
 - choose a blend image, for those filters that combine multple images. There are some built-in blend images, or you can use any photo
 - there is a limited set of Style Transfer filters available - the usual group that is freely available (The Scream etc). I will be working on generating new ones, but that takes a lot of time and the tools are a bit lacking right now
 - edit an image from your photo albums. 
-  - I also added help text everywhere (very basic though) 
-  - added features to preview effects and toggle between the original and the filtered image. You can also undo filters and reset the editing stack completely
 - there is a simple and limited theme manager that lets you choose between a few themes (light, dark, red, blue). I plan on making this configurable eventually
 - the editing feature is actually fairly good now. It currently has support for:
     - applying multiple filters and viewing the filter stack
     - undo the last filter
+    - toggle between original/current images
+    - split screen preview of original/current image
+    - contextual help text everywhere (very basic though) 
     - Basic Adjustments (exposure, contrast etc.)
     - Color filters (all of them)
     - Style Transfer
