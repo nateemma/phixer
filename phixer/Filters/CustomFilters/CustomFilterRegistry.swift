@@ -31,7 +31,7 @@ class CustomFilterRegistry: NSObject, CIFilterConstructor {
                                               "CarnivalMirror", "KuwaharaFilter", "MercurializeFilter",
                                                "ColorDirectedBlur", "HomogeneousColorBlur", "VHSTrackingLines",  "TransverseChromaticAberration" ,
                                               "RGBChannelCompositing", "RGBChannelToneCurve", "RGBChannelBrightnessAndContrast", "ChromaticAberration", "RGBChannelGaussianBlur",
-                                              "HighPassSharpeningFilter"
+                                              "HighPassSharpeningFilter", "CropRotateFilter"
                                              ]
     
     // any filters that do not need to access any more than 1 pixel can go here:
@@ -271,7 +271,8 @@ class CustomFilterRegistry: NSObject, CIFilterConstructor {
         case kCIAttributeTypePosition:
             ptype = .position
         case kCIAttributeTypeRectangle:
-            ptype = .rectangle
+            //ptype = .rectangle
+            ptype = .vector
         default:
             // anything else is too difficult to handle automatically
             // anything that needs to use such filters will need to understand these types anyway (vectors, curves, masks etc.)

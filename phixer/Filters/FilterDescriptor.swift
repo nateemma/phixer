@@ -291,6 +291,7 @@ class FilterDescriptor {
         }
     }
 
+    // TODO: add function that handles type "Any" ?
 
     // Parameter access for Float parameters (covers most parameters)
     func getParameter(_ key: String) -> Float {
@@ -412,7 +413,7 @@ class FilterDescriptor {
         }
         return vec
     }
-
+    
     func setVectorParameter(_ key: String, vector: CIVector) {
         if let p = parameterConfiguration[key] {
             if p.type == .vector {
@@ -428,7 +429,7 @@ class FilterDescriptor {
             log.error("Invalid key:\(key) for filter:\(self.key)")
         }
     }
-
+  
 
 
 

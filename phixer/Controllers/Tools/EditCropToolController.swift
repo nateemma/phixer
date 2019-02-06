@@ -53,6 +53,11 @@ class EditCropToolController: EditBaseToolController {
         dismiss()
     }
     
+    override func commitChanges() {
+        saveFilter()
+        self.coordinator?.updateRequest(id: self.id)
+        end()
+    }
     ////////////////////
     // Tool-specific code
     ////////////////////
@@ -118,6 +123,20 @@ class EditCropToolController: EditBaseToolController {
             log.verbose("Rotate Ended")
         }
     }
+    
+    
+    private func saveFilter() {
+        log.verbose("saving crop/rotate filter")
+        let angle = cropView.getAngle()
+        let rect = cropView.getCropArea()
+        let vec = CIVector(x: rect.origin.x, y: rect.origin.y, z: rect.size.width, w: rect.size.height)
+        let filter = filterManager.getFilterDescriptor(key: "CropRotateFilter")
+        filter?.setParameter("inputAngle", value: Float(angle))
+        filter?.setVectorParameter("inputRectangle", vector: vec)
+        EditManager.addPreviewFilter(filter)
+        EditManager.savePreviewFilter()
+    }
+
 }
 //////////////////////////////////////////
 // MARK: - Delegate functions
@@ -129,6 +148,7 @@ extension EditCropToolController: ImageCropperViewDelegate {
     }
 }
 
+// allow multiple gestures (rotate and resize)
 extension EditCropToolController: UIGestureRecognizerDelegate {
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
@@ -136,8 +156,7 @@ extension EditCropToolController: UIGestureRecognizerDelegate {
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
-                           shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer)
-        -> Bool {
+                           shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
             return true
     }
 }

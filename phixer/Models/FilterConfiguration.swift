@@ -341,7 +341,8 @@ class FilterConfiguration{
         case kCIAttributeTypeOffset:
             ptype = .vector
         case kCIAttributeTypeRectangle:
-            ptype = .rectangle
+            //ptype = .rectangle
+            ptype = .vector
         default:
             // anything else is too difficult to handle automatically
             ptype = .unknown
