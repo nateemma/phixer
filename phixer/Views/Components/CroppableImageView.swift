@@ -111,6 +111,8 @@ class CroppableImageView: UIView {
         self.addSubview(gridView)
         gridView.fillSuperview()
         
+        setupGestures()
+        
         layoutDone = true
         
         if image != nil {
@@ -132,7 +134,7 @@ class CroppableImageView: UIView {
             DispatchQueue.main.async {
                 
                 self.backgroundRenderView.setImageSize((self.originalImage?.extent.size)!)
-                self.backgroundRenderView.image = self.originalImage
+                //self.backgroundRenderView.image = self.originalImage
 
                 // setup the grid overlay
                 self.gridFrame = self.makeFrame(self.frame) // creates frame with curent aspect ratio
@@ -189,6 +191,71 @@ class CroppableImageView: UIView {
             log.warning("Layout not done yet")
         }
     }
+    
+    //////////////////////
+    // MARK: Gesture Handling
+    //////////////////////
+    
+
+    private func setupGestures(){
+        // tap gesture for dragging
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapAction(sender:)))
+        tapGesture.numberOfTapsRequired = 1
+        tapGesture.numberOfTouchesRequired = 1
+        gridView.addGestureRecognizer(tapGesture)
+        
+        // pinch gesture for pan/zoom
+        let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(pinchAction(sender:)))
+        gridView.addGestureRecognizer(pinchGesture)
+        
+
+        // rotate gesture for rotation
+        let rotateGesture = UIRotationGestureRecognizer(target: self, action: #selector(rotateAction(sender:)))
+        gridView.addGestureRecognizer(rotateGesture)
+        
+
+    }
+    
+    
+    @objc func tapAction(sender:UITapGestureRecognizer){
+        
+        if sender.state == .began {
+            log.verbose("Drag started")
+        } else {
+            log.verbose("New pos: \(sender.location(in: self.gridView))")
+        }
+    }
+    
+    
+    @objc func pinchAction(sender:UIPinchGestureRecognizer){
+        if sender.state == .began{
+            log.verbose("Pinch Began")
+        }
+        if sender.state == .changed{
+            log.verbose(String(format:"Pinch scale: %1.3f",sender.scale))
+        }
+        if sender.state == .ended{
+            log.verbose("Pinch Ended")
+        }
+    }
+    
+    
+    private var initialAngle: CGFloat = 0.0
+    
+    @objc func rotateAction(sender:UIRotationGestureRecognizer){
+        if sender.state == .began{
+            log.verbose("Rotate Began")
+            initialAngle = self.angle
+        }
+        if sender.state == .changed{
+            log.verbose(String(format:"rotation: %1.3f",sender.rotation))
+            self.angle = initialAngle + sender.rotation
+        }
+        if sender.state == .ended{
+            log.verbose("Rotate Ended")
+        }
+    }
+    
     
     //////////////////////
     // MARK: Utilities

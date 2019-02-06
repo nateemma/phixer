@@ -1,5 +1,4 @@
 PODS:
-  - AKImageCropperView (2.0.0)
   - ChameleonFramework/Default (2.1.0)
   - ChameleonFramework/Swift (2.1.0):
     - ChameleonFramework/Default
@@ -63,7 +62,6 @@ PODS:
   - SwiftyJSON (4.2.0)
 
 DEPENDENCIES:
-  - AKImageCropperView
   - ChameleonFramework/Swift (from `https://github.com/ViccAlexander/Chameleon.git`)
   - Cosmos
   - Firebase/AdMob
@@ -75,7 +73,6 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
-    - AKImageCropperView
     - Cosmos
     - Firebase
     - FirebaseAnalytics
@@ -100,7 +97,6 @@ CHECKOUT OPTIONS:
     :git: https://github.com/ViccAlexander/Chameleon.git
 
 SPEC CHECKSUMS:
-  AKImageCropperView: 9c80fd45512daa69426161ad51c248655c1b5182
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
   Cosmos: 7dfaa3f52584ca5f94ab74b5c2e264019cc9f7f5
   Firebase: 749a8ff4962f9d8c79dda1966de20f6f77583d67
@@ -116,6 +112,6 @@ SPEC CHECKSUMS:
   SwiftyBeaver: ccfcdf85a04d429f1633f668650b0ce8020bda3a
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
 
-PODFILE CHECKSUM: 1a309d3a96c5b59188e7692e2019cd571ae8bf1d
+PODFILE CHECKSUM: 38baa774267628e93c2e1c2241c1f4e599d54fb1
 
 COCOAPODS: 1.5.3

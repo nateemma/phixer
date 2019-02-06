@@ -835,10 +835,23 @@
 		25F21F7A22022EF7005C449F /* HighPassFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F21F7922022EF7005C449F /* HighPassFilter.swift */; };
 		25F21F7D220382F7005C449F /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 25F21F7C220382F7005C449F /* README.md */; };
 		25F21F7F220384C0005C449F /* EditCropToolController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F21F7E220384C0005C449F /* EditCropToolController.swift */; };
-		25F21FB72203BAEA005C449F /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 25F21FB62203BAEA005C449F /* LICENSE.txt */; };
+		25F21FB72203BAEA005C449F /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 25F21FB62203BAEA005C449F /* LICENSE */; };
 		25F21FB92204CFA3005C449F /* ZoomableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F21FB82204CFA3005C449F /* ZoomableScrollView.swift */; };
 		25F21FBB2204D12F005C449F /* GridOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F21FBA2204D12F005C449F /* GridOverlayView.swift */; };
 		25F21FBD2204FBBB005C449F /* CroppableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F21FBC2204FBBB005C449F /* CroppableImageView.swift */; };
+		25F21FD02208B078005C449F /* ImageCropperOverlayViewConfigurationEdge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F21FC12208B078005C449F /* ImageCropperOverlayViewConfigurationEdge.swift */; };
+		25F21FD12208B078005C449F /* ImageCropperOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F21FC22208B078005C449F /* ImageCropperOverlayView.swift */; };
+		25F21FD22208B078005C449F /* ImageCropperOverlayViewConfigurationOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F21FC32208B078005C449F /* ImageCropperOverlayViewConfigurationOverlay.swift */; };
+		25F21FD32208B078005C449F /* ImageCropperScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F21FC42208B078005C449F /* ImageCropperScrollView.swift */; };
+		25F21FD42208B078005C449F /* ImageCropperOverlayViewTouchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F21FC52208B078005C449F /* ImageCropperOverlayViewTouchState.swift */; };
+		25F21FD62208B078005C449F /* ImageCropperOverlayViewConfigurationGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F21FC72208B078005C449F /* ImageCropperOverlayViewConfigurationGrid.swift */; };
+		25F21FD72208B078005C449F /* ImageCropperOverlayViewConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F21FC82208B078005C449F /* ImageCropperOverlayViewConfiguration.swift */; };
+		25F21FD82208B078005C449F /* IC_CGSizeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F21FC92208B078005C449F /* IC_CGSizeExtensions.swift */; };
+		25F21FD92208B078005C449F /* IC_CGPointExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F21FCA2208B078005C449F /* IC_CGPointExtension.swift */; };
+		25F21FDA2208B078005C449F /* IC_UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F21FCB2208B078005C449F /* IC_UIImageExtensions.swift */; };
+		25F21FDC2208B078005C449F /* ImageCropperOverlayViewConfigurationCorner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F21FCD2208B078005C449F /* ImageCropperOverlayViewConfigurationCorner.swift */; };
+		25F21FDD2208B078005C449F /* ImageCropperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F21FCE2208B078005C449F /* ImageCropperView.swift */; };
+		25F21FDE2208B078005C449F /* IC_CGFloatExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F21FCF2208B078005C449F /* IC_CGFloatExtension.swift */; };
 		25F460181D99CCCE00EDA182 /* UISettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F460171D99CCCE00EDA182 /* UISettings.swift */; };
 		25F4601E1D99D65F00EDA182 /* CameraISO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F4601D1D99D65F00EDA182 /* CameraISO.swift */; };
 		25F460201D99D79B00EDA182 /* AspectRatio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F4601F1D99D79B00EDA182 /* AspectRatio.swift */; };
@@ -1750,10 +1763,24 @@
 		25F21F7922022EF7005C449F /* HighPassFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HighPassFilter.swift; sourceTree = "<group>"; };
 		25F21F7C220382F7005C449F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		25F21F7E220384C0005C449F /* EditCropToolController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditCropToolController.swift; sourceTree = "<group>"; };
-		25F21FB62203BAEA005C449F /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		25F21FB62203BAEA005C449F /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		25F21FB82204CFA3005C449F /* ZoomableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableScrollView.swift; sourceTree = "<group>"; };
 		25F21FBA2204D12F005C449F /* GridOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridOverlayView.swift; sourceTree = "<group>"; };
 		25F21FBC2204FBBB005C449F /* CroppableImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CroppableImageView.swift; sourceTree = "<group>"; };
+		25F21FC12208B078005C449F /* ImageCropperOverlayViewConfigurationEdge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCropperOverlayViewConfigurationEdge.swift; sourceTree = "<group>"; };
+		25F21FC22208B078005C449F /* ImageCropperOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCropperOverlayView.swift; sourceTree = "<group>"; };
+		25F21FC32208B078005C449F /* ImageCropperOverlayViewConfigurationOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCropperOverlayViewConfigurationOverlay.swift; sourceTree = "<group>"; };
+		25F21FC42208B078005C449F /* ImageCropperScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCropperScrollView.swift; sourceTree = "<group>"; };
+		25F21FC52208B078005C449F /* ImageCropperOverlayViewTouchState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCropperOverlayViewTouchState.swift; sourceTree = "<group>"; };
+		25F21FC72208B078005C449F /* ImageCropperOverlayViewConfigurationGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCropperOverlayViewConfigurationGrid.swift; sourceTree = "<group>"; };
+		25F21FC82208B078005C449F /* ImageCropperOverlayViewConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCropperOverlayViewConfiguration.swift; sourceTree = "<group>"; };
+		25F21FC92208B078005C449F /* IC_CGSizeExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IC_CGSizeExtensions.swift; sourceTree = "<group>"; };
+		25F21FCA2208B078005C449F /* IC_CGPointExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IC_CGPointExtension.swift; sourceTree = "<group>"; };
+		25F21FCB2208B078005C449F /* IC_UIImageExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IC_UIImageExtensions.swift; sourceTree = "<group>"; };
+		25F21FCD2208B078005C449F /* ImageCropperOverlayViewConfigurationCorner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCropperOverlayViewConfigurationCorner.swift; sourceTree = "<group>"; };
+		25F21FCE2208B078005C449F /* ImageCropperView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCropperView.swift; sourceTree = "<group>"; };
+		25F21FCF2208B078005C449F /* IC_CGFloatExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IC_CGFloatExtension.swift; sourceTree = "<group>"; };
+		25F21FDF220A95CB005C449F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		25F460171D99CCCE00EDA182 /* UISettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UISettings.swift; sourceTree = "<group>"; };
 		25F4601D1D99D65F00EDA182 /* CameraISO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraISO.swift; sourceTree = "<group>"; };
 		25F4601F1D99D79B00EDA182 /* AspectRatio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AspectRatio.swift; sourceTree = "<group>"; };
@@ -2116,7 +2143,7 @@
 		257F49D31D9448920083B1E4 = {
 			isa = PBXGroup;
 			children = (
-				25F21FB62203BAEA005C449F /* LICENSE.txt */,
+				25F21FB62203BAEA005C449F /* LICENSE */,
 				2517295F2179448500D5E946 /* README.md */,
 				257F4A131D947CF80083B1E4 /* Podfile */,
 				257F49DE1D9448920083B1E4 /* phixer */,
@@ -2292,6 +2319,7 @@
 		25F21F822203B326005C449F /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				25F21FBE2208B00E005C449F /* ImageCropperView */,
 				2537A1C621DC27BC00060DBE /* Adornment.swift */,
 				252745F62182A1D500AA2DA2 /* BorderedButton.swift */,
 				255591E42187A1A9001B4452 /* ColorWheelView.swift */,
@@ -2313,6 +2341,27 @@
 				25F21FB82204CFA3005C449F /* ZoomableScrollView.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		25F21FBE2208B00E005C449F /* ImageCropperView */ = {
+			isa = PBXGroup;
+			children = (
+				25F21FC12208B078005C449F /* ImageCropperOverlayViewConfigurationEdge.swift */,
+				25F21FC22208B078005C449F /* ImageCropperOverlayView.swift */,
+				25F21FC32208B078005C449F /* ImageCropperOverlayViewConfigurationOverlay.swift */,
+				25F21FC42208B078005C449F /* ImageCropperScrollView.swift */,
+				25F21FC52208B078005C449F /* ImageCropperOverlayViewTouchState.swift */,
+				25F21FC72208B078005C449F /* ImageCropperOverlayViewConfigurationGrid.swift */,
+				25F21FC82208B078005C449F /* ImageCropperOverlayViewConfiguration.swift */,
+				25F21FC92208B078005C449F /* IC_CGSizeExtensions.swift */,
+				25F21FCA2208B078005C449F /* IC_CGPointExtension.swift */,
+				25F21FCB2208B078005C449F /* IC_UIImageExtensions.swift */,
+				25F21FCD2208B078005C449F /* ImageCropperOverlayViewConfigurationCorner.swift */,
+				25F21FCE2208B078005C449F /* ImageCropperView.swift */,
+				25F21FCF2208B078005C449F /* IC_CGFloatExtension.swift */,
+				25F21FDF220A95CB005C449F /* README.md */,
+			);
+			path = ImageCropperView;
 			sourceTree = "<group>";
 		};
 		25F563FD1DD146D100DFB125 /* Images */ = {
@@ -3715,7 +3764,7 @@
 				252B0F271E30690F005A0C2D /* et_097_made_1.jpg in Resources */,
 				252B0DB81E30690E005A0C2D /* xp_009_mutato_cross2.jpg in Resources */,
 				25CC3EBD21FFD59D00EB8A0A /* DitherBayer.cikernel in Resources */,
-				25F21FB72203BAEA005C449F /* LICENSE.txt in Resources */,
+				25F21FB72203BAEA005C449F /* LICENSE in Resources */,
 				252B0EBE1E30690F005A0C2D /* fx_053_pastel_2.jpg in Resources */,
 				252B0E041E30690F005A0C2D /* tn_006_tint_brown.jpg in Resources */,
 				252B0F8F1E30690F005A0C2D /* da_007_green_blue_contrast.jpg in Resources */,
@@ -3794,7 +3843,6 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-phixer/Pods-phixer-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/AKImageCropperView/AKImageCropperView.framework",
 				"${BUILT_PRODUCTS_DIR}/ChameleonFramework/ChameleonFramework.framework",
 				"${BUILT_PRODUCTS_DIR}/Cosmos/Cosmos.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
@@ -3806,7 +3854,6 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AKImageCropperView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChameleonFramework.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cosmos.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
@@ -3900,17 +3947,20 @@
 				255459B921681294008A9F55 /* CameraCaptureHelper.swift in Sources */,
 				258F09A1218CBFC30082FE2A /* FNS-Mosaic.mlmodel in Sources */,
 				2517295A217540C300D5E946 /* UserChangesEntity+CoreDataClass.swift in Sources */,
+				25F21FD92208B078005C449F /* IC_CGPointExtension.swift in Sources */,
 				25B24D121DAEE1B5008CD38A /* GradientSlider.swift in Sources */,
 				258F099E218CBFC30082FE2A /* FNS-La-Muse.mlmodel in Sources */,
 				2568BDA021AC72CB00560287 /* EditControlsView.swift in Sources */,
 				2537A20321E5150800060DBE /* MultiBandHSV.swift in Sources */,
 				25CC3EA921FBBEAC00EB8A0A /* ImageCache.swift in Sources */,
 				25F85CED21CC2631005498C4 /* EditBaseMenuController.swift in Sources */,
+				25F21FD42208B078005C449F /* ImageCropperOverlayViewTouchState.swift in Sources */,
 				253B23771DA4BB7800203ECB /* ClosestFraction.swift in Sources */,
 				2537A1BB21D1873400060DBE /* ContrastFilter.swift in Sources */,
 				252745EF21815FB700AA2DA2 /* CarnivalMirror.swift in Sources */,
 				25F21F762200B4FB005C449F /* EditDetailMenuController.swift in Sources */,
 				2537A1F921E484AA00060DBE /* EditCurvesController.swift in Sources */,
+				25F21FDC2208B078005C449F /* ImageCropperOverlayViewConfigurationCorner.swift in Sources */,
 				258F09A7218CDEFD0082FE2A /* Geometry.swift in Sources */,
 				2568BDCD21B9DE3600560287 /* InputSource.swift in Sources */,
 				2573D1EA217CDCB500E78CAB /* YUCIFXAA.m in Sources */,
@@ -3937,6 +3987,7 @@
 				25934FB11DD4EC1100C3D665 /* BlendGalleryView.swift in Sources */,
 				25CF4BDA1D9490C400D779CF /* SquareButton.swift in Sources */,
 				2537A23221EED2AC00060DBE /* SubControllerDelegate.swift in Sources */,
+				25F21FD82208B078005C449F /* IC_CGSizeExtensions.swift in Sources */,
 				25CC3EC121FFD59D00EB8A0A /* ColorDirectedBlur.swift in Sources */,
 				25F4601E1D99D65F00EDA182 /* CameraISO.swift in Sources */,
 				2568BC0A21AB1BE600560287 /* ImageSelectionView.swift in Sources */,
@@ -3949,6 +4000,7 @@
 				2537A22621EE4EAA00060DBE /* SimpleCoordinator.swift in Sources */,
 				25910B1B1DB7D61A007EC926 /* RenderContainerView.swift in Sources */,
 				25CC3E9F21F5916200EB8A0A /* MercurializeFilter.swift in Sources */,
+				25F21FD32208B078005C449F /* ImageCropperScrollView.swift in Sources */,
 				2537A1E521E02D7800060DBE /* SketchFilter.swift in Sources */,
 				2573D1D8217CDCB500E78CAB /* YUCIFilterConstructor.m in Sources */,
 				258F099D218CBFC30082FE2A /* FNS-Feathers.mlmodel in Sources */,
@@ -3957,6 +4009,7 @@
 				2537A22C21EE784000060DBE /* FilterGalleryCoordinator.swift in Sources */,
 				2537A1C121D31F4B00060DBE /* WhiteBalanceFilter.swift in Sources */,
 				25CC3EAF21FE591B00EB8A0A /* EditHSVToolController.swift in Sources */,
+				25F21FDD2208B078005C449F /* ImageCropperView.swift in Sources */,
 				25CC3EA021F5916200EB8A0A /* KuwaharaFilter.swift in Sources */,
 				2573D1E5217CDCB500E78CAB /* YUCIReflectedTile.m in Sources */,
 				2568BDD721BEC72600560287 /* StyleTransferFilter.swift in Sources */,
@@ -3965,10 +4018,13 @@
 				25CC3EBF21FFD59D00EB8A0A /* CausticRefraction.swift in Sources */,
 				2542DF5D1ED373F800CEB968 /* EditImageDisplayView.swift in Sources */,
 				25CC3EA321F6E67A00EB8A0A /* EditStackView.swift in Sources */,
+				25F21FD12208B078005C449F /* ImageCropperOverlayView.swift in Sources */,
+				25F21FDE2208B078005C449F /* IC_CGFloatExtension.swift in Sources */,
 				258F09BB2192847F0082FE2A /* AdaptiveThresholdFilter.swift in Sources */,
 				25934FB31DD5109C00C3D665 /* BlendGalleryViewController.swift in Sources */,
 				2507160B1DBECDF200CDDF42 /* Admob.swift in Sources */,
 				2568BDD121BB3ECD00560287 /* StyleTransferGalleryView.swift in Sources */,
+				25F21FD62208B078005C449F /* ImageCropperOverlayViewConfigurationGrid.swift in Sources */,
 				252C17A51ECE75FC00039BFC /* CategoryEntity+CoreDataProperties.swift in Sources */,
 				2537A22421EE461900060DBE /* CoordinatorFactory.swift in Sources */,
 				251598802194B97E0067AA00 /* ClarityFilter.swift in Sources */,
@@ -3977,9 +4033,11 @@
 				25D24AB71DC7DCDB001F65B9 /* FilterGalleryViewCell.swift in Sources */,
 				2537A1E321E0220F00060DBE /* LaplacianGaussianFilter.swift in Sources */,
 				2537A22E21EE78AC00060DBE /* SettingsCoordinator.swift in Sources */,
+				25F21FD22208B078005C449F /* ImageCropperOverlayViewConfigurationOverlay.swift in Sources */,
 				2537A1E721E0305700060DBE /* ColorSobelFilter.swift in Sources */,
 				2573D1DB217CDCB500E78CAB /* YUCIColorLookup.m in Sources */,
 				2537A20521E516AF00060DBE /* CIVector+Extensions.swift in Sources */,
+				25F21FDA2208B078005C449F /* IC_UIImageExtensions.swift in Sources */,
 				25CC3EC021FFD59D00EB8A0A /* CompoundEye.swift in Sources */,
 				25F460181D99CCCE00EDA182 /* UISettings.swift in Sources */,
 				252C17951ECE64EE00039BFC /* Model.xcdatamodeld in Sources */,
@@ -3989,6 +4047,7 @@
 				25F21F7822016ED3005C449F /* HighPassSharpeningFilter.swift in Sources */,
 				2568BDD321BB3F2800560287 /* StyleTransferGalleryViewCell.swift in Sources */,
 				2537A21521E9A71300060DBE /* EditCurvesToolController.swift in Sources */,
+				25F21FD72208B078005C449F /* ImageCropperOverlayViewConfiguration.swift in Sources */,
 				255673231DB9BF0F00187F25 /* FilterControlsView.swift in Sources */,
 				252745F12182295100AA2DA2 /* EdgeGlowFilter.swift in Sources */,
 				25CF4BD51D9490C400D779CF /* CameraControlsView.swift in Sources */,
@@ -4020,6 +4079,7 @@
 				2537A21821ED383E00060DBE /* CoordinatorDelegate.swift in Sources */,
 				2537A1EB21E271E400060DBE /* Sobel5x5Filter.swift in Sources */,
 				25F21FBD2204FBBB005C449F /* CroppableImageView.swift in Sources */,
+				25F21FD02208B078005C449F /* ImageCropperOverlayViewConfigurationEdge.swift in Sources */,
 				86DD9D951E9C5A7000A5D855 /* MainMenuController.swift in Sources */,
 				2537A21321E915AD00060DBE /* EditBaseMenuInterface.swift in Sources */,
 				2573D1EC217CDCB500E78CAB /* YUCIBilateralFilter.m in Sources */,

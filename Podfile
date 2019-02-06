@@ -38,7 +38,7 @@ target 'phixer' do
   
   # Crop/Rotate ViewController
   # pod 'IGRPhotoTweaks'
-  pod 'AKImageCropperView'
+  #pod 'ImageCropperView'
   
   # AirBnBs AloeStackView
   #pod 'AloeStackView'

@@ -11,11 +11,10 @@ import Neon
 import CoreImage
 
 import Photos
-import AKImageCropperView
 
 
 // This View Controller is a Tool Subcontroller that provides the basic ability to crop & rotate an image
-// This uses the AKImageCropperView pod because that lets me use just a view, not a whole ViewController
+// This uses the ImageCropperView pod because that lets me use just a view, not a whole ViewController
 
 
 class EditCropToolController: EditBaseToolController {
@@ -64,8 +63,12 @@ class EditCropToolController: EditBaseToolController {
     ////////////////////////
     
     var optionsView:UIView! = UIView()
-    var cropView: CroppableImageView! = CroppableImageView()
+    //var cropView: CroppableImageView! = CroppableImageView()
+    var cropView: ImageCropperView! = ImageCropperView()
     
+    
+    var angle: CGFloat = 0.0
+
     private func buildView(_ toolview: UIView){
         
         self.navigationController?.setNavigationBarHidden(true, animated: true)
@@ -83,15 +86,59 @@ class EditCropToolController: EditBaseToolController {
         optionsView.anchorToEdge(.bottom, padding: 0, width: optionsView.frame.size.width, height: optionsView.frame.size.height)
         cropView.align(.aboveCentered, relativeTo: optionsView, padding: 0, width: cropView.frame.size.width, height: cropView.frame.size.height)
         
-        cropView.image = EditManager.getPreviewImage()
-        cropView.aspectRatio = .ratio_1_1
-        cropView.angle = CGFloat(Double.pi / 4.0)
+        cropView.delegate = self
+        cropView.image = UIImage(ciImage: (EditManager.getPreviewImage())!)
+        cropView.showOverlayView(animationDuration: 0.3)
+
+        //cropView.aspectRatio = .ratio_1_1
+        //cropView.angle = CGFloat(Double.pi / 4.0)
         
+        // rotate gesture for rotation
+        let rotateGesture = UIRotationGestureRecognizer(target: self, action: #selector(rotateAction(sender:)))
+        cropView.isUserInteractionEnabled = true
+        cropView.addGestureRecognizer(rotateGesture)
 
     }
     
+    
+    
+    private var initialAngle: CGFloat = 0.0
+    
+    @objc func rotateAction(sender:UIRotationGestureRecognizer){
+        if sender.state == .began{
+            log.verbose("Rotate Began")
+            initialAngle = self.angle
+        } else if sender.state == .changed{
+            log.verbose(String(format:"rotation: %1.3f angle:%1.3f", sender.rotation, self.angle))
+            self.angle = self.initialAngle - sender.rotation
+            DispatchQueue.main.async {
+                self.cropView.rotate(Double(self.angle))
+            }
+        } else if sender.state == .ended{
+            log.verbose("Rotate Ended")
+        }
+    }
 }
 //////////////////////////////////////////
 // MARK: - Delegate functions
 //////////////////////////////////////////
+
+extension EditCropToolController: ImageCropperViewDelegate {
+    func imageCropperViewDidChangeCropRect(view: ImageCropperView, cropRect rect: CGRect){
+        log.verbose("croprect:\(rect)")
+    }
+}
+
+extension EditCropToolController: UIGestureRecognizerDelegate {
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        return true
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+                           shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer)
+        -> Bool {
+            return true
+    }
+}
 
