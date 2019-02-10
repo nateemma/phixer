@@ -191,6 +191,14 @@ class EditImageDisplayView: UIView {
         }
     }
     
+    public func getViewPosition(imagePos:CGPoint) -> CGPoint {
+        if renderView != nil {
+            return (renderView?.getViewPosition(imagePos: imagePos))!
+        } else {
+            return CGPoint.zero
+        }
+    }
+
     open func updateImage(){
         DispatchQueue.main.async(execute: { () -> Void in
             //log.verbose("Updating edit image")
@@ -206,6 +214,7 @@ class EditImageDisplayView: UIView {
     
     
     public func isZoomed() -> Bool {
+        log.verbose("zoomScale:\(self.renderView?.zoomScale)")
         return !((self.renderView?.zoomScale.approxEqual(1.0))!)
     }
    

@@ -785,7 +785,7 @@
         
         {"key": "yu",
             "title": "Yu",
-            "filters": ["YUCICLAHE",  "YUCIFXAA",  "YUCIHighPass",  "YUCIHighPassSkinSmoothing",
+            "filters": ["CLAHEFilter",  "YUCIFXAA",  "YUCIHighPass",  "SkinSmoothingFilter",
                 "YUCIHistogramEqualization",  "YUCIReflectedTile"
             ]
         },

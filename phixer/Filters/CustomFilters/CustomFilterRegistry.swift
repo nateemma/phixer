@@ -31,16 +31,16 @@ class CustomFilterRegistry: NSObject, CIFilterConstructor {
                                               "CarnivalMirror", "KuwaharaFilter", "MercurializeFilter",
                                                "ColorDirectedBlur", "HomogeneousColorBlur", "VHSTrackingLines",  "TransverseChromaticAberration" ,
                                               "RGBChannelCompositing", "RGBChannelToneCurve", "RGBChannelBrightnessAndContrast", "ChromaticAberration", "RGBChannelGaussianBlur",
-                                              "HighPassSharpeningFilter", "CropRotateFilter"
+                                              "HighPassSharpeningFilter", "CropRotateFilter", "AutoAdjustFilter"
                                              ]
     
     // any filters that do not need to access any more than 1 pixel can go here:
     private static let colorFilters:[String] = ["SmoothThresholdFilter", "AdaptiveThresholdFilter", "LumaRangeFilter", "DehazeFilter", "UnsharpMaskFilter",
-                                                "MultiBandHSV", "YUCIHighPassSkinSmoothing",
+                                                "MultiBandHSV", 
                                                 "CausticNoise", "CausticRefraction",
                                                 "CRTFilter", "CRTColorFilter", "CRTWarpFilter",
                                                 "CMYKToneCurves", "CMYKLevels", "CMYKRegistrationMismatch",
-                                                "CompoundEye", "EightBit", "HighPassFilter"
+                                                "CompoundEye", "EightBit", "HighPassFilter", "SkinSmoothingFilter", "CLAHEFilter"
                                                 ]
     
     
@@ -77,7 +77,7 @@ class CustomFilterRegistry: NSObject, CIFilterConstructor {
             filterInstance = CustomFilterRegistry.filterCache[name]!
         } else {
             log.verbose("Creating custom filter:\(name)")
-
+            
             // not in cache, create an instance from the classname
             let ns = Bundle.main.infoDictionary!["CFBundleExecutable"] as! String
             let className = ns + "." + name

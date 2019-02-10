@@ -647,6 +647,8 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
                     }
                 }
             }
+        } else {
+            log.verbose("Image zoomed, ignoring swipe gesture")
         }
     }
     

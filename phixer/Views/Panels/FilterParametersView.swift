@@ -122,7 +122,7 @@ class FilterParametersView: UIView {
                 self.scrollView?.canCancelContentTouches = false
             }
         } else {
-            log.error("ERRR: init not done")
+            log.error("ERR: init not done")
         }
     }
     

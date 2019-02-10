@@ -163,6 +163,11 @@ class InputSource {
         return ratio
     }
 
+    // returns the current CG Orientation
+    public static func getOrientation() -> CGImagePropertyOrientation {
+        return ImageManager.getEditImageOrientation()
+    }
+    
     // register for callbacks
     public func register(delegate:InputSourceDelegate, key:String){
         delegates.add(key:key, delegate: delegate)

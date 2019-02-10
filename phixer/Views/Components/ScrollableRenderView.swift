@@ -22,7 +22,7 @@ import UIKit
 
 class ScrollableRenderView: UIScrollView, UIScrollViewDelegate {
 	
-	var zoomView: RenderView!
+	var zoomView: RenderView! = nil
 	
 	lazy var zoomingTap: UITapGestureRecognizer = {
 		let zoomingTap = UITapGestureRecognizer(target: self, action: #selector(handleZoomingTap(_:)))
@@ -59,19 +59,29 @@ class ScrollableRenderView: UIScrollView, UIScrollViewDelegate {
                 return
             }
             
-            //1. clear the previous image
-            zoomView?.removeFromSuperview()
-            zoomView = nil
-            
-            //2. make a new view for the new image
-            zoomView = RenderView()
-            zoomView.frame = self.frame
-            zoomView.image = image
-
-            
-            self.addSubview(zoomView)
-            
-            self.configureFor(image!.extent.size)
+            // check that image changed
+            if (zoomView == nil) ||
+                !((image?.extent.size.width.approxEqual(self.contentSize.width))!) ||
+                !((image?.extent.size.height.approxEqual(self.contentSize.height))!) {
+                
+                //1. clear the previous image
+                zoomView?.removeFromSuperview()
+                zoomView = nil
+                
+                //2. make a new view for the new image
+                zoomView = RenderView()
+                zoomView.frame = self.frame
+                zoomView.image = image
+                self.zoomScale = 1.0
+                
+                
+                self.addSubview(zoomView)
+                
+                self.configureFor(image!.extent.size)
+            } else {
+                // there are several scenarios where multiple versions of the image can be displayed (preview/origonal etc.)
+                zoomView.image = image
+            }
         }
     }
     
@@ -85,6 +95,10 @@ class ScrollableRenderView: UIScrollView, UIScrollViewDelegate {
         return self.zoomView.getImagePosition(viewPos: viewPos)
     }
     
+    public func getViewPosition(imagePos:CGPoint) -> CGPoint {
+        return self.zoomView.getViewPosition(imagePos: imagePos)
+    }
+    
     
     // the scrollable/zoomable/tappable parts:
     
@@ -93,7 +107,6 @@ class ScrollableRenderView: UIScrollView, UIScrollViewDelegate {
 		self.contentSize = imageSize
 		self.setMaxMinZoomScaleForCurrentBounds()
         //self.zoomScale = self.minimumZoomScale
-        self.zoomScale = 1.0
 
 		//Enable zoom tap
 		self.zoomView.addGestureRecognizer(self.zoomingTap)
@@ -107,7 +120,7 @@ class ScrollableRenderView: UIScrollView, UIScrollViewDelegate {
         //let imageSize = zoomView.bounds.size
         let imageSize = self.contentSize
 
-        log.verbose("boundsSize:\(boundsSize) imageSize:\(imageSize)")
+        //log.verbose("boundsSize:\(boundsSize) imageSize:\(imageSize)")
         
 		//1. calculate minimumZoomscale
 		let xScale =  UISettings.screenScale * boundsSize.width  / imageSize.width    // the scale needed to perfectly fit the image width-wise
@@ -134,13 +147,15 @@ class ScrollableRenderView: UIScrollView, UIScrollViewDelegate {
 		***/
 		
         
-        minScale = imageSize.width / imageSize.height // this fits the image
-        maxScale = UISettings.screenScale
+        //minScale = imageSize.width / imageSize.height // this fits the image
+        //minScale = (imageSize.width < imageSize.height) ? (imageSize.width / imageSize.height) : (imageSize.height / imageSize.width)
+        minScale = 1.0
+        maxScale = max(5.0, UISettings.screenScale)
         
 		self.maximumZoomScale = maxScale
 		self.minimumZoomScale = minScale
         
-        log.verbose("minScale:\(minScale) maxScale:\(maxScale)")
+        //log.verbose("minScale:\(minScale) maxScale:\(maxScale)")
 	}
 	
 	func centerImage() {
@@ -236,9 +251,12 @@ class ScrollableRenderView: UIScrollView, UIScrollViewDelegate {
 //        let location = sender.location(in: sender.view)
 //        self.zoom(to: location, animated: true)
 		
-        // double tapp just restores the 'normal' zoom
+        // double tap just restores the 'normal' zoom
+        log.verbose("restoring")
         self.zoomScale = 1.0
         self.centerImage()
+        self.setZoomScale(0.0, animated: true)
+        log.verbose("zoomScale:\(self.zoomScale)")
 	}
 	
 	func zoom(to point: CGPoint, animated: Bool) {

@@ -135,7 +135,7 @@ class EditMainOptionsController: EditBaseMenuController {
     }
     
     func detailHandler(){
-        self.coordinator?.activateRequest(id: ControllerIdentifier.detailTool)
+        self.coordinator?.activateRequest(id: ControllerIdentifier.editDetailMenu)
     }
     
     func curvesHandler(){
@@ -147,7 +147,7 @@ class EditMainOptionsController: EditBaseMenuController {
     }
     
     func facesHandler(){
-        notYetImplemented()
+        self.coordinator?.activateRequest(id: ControllerIdentifier.editFacesTool)
     }
     
     func presetsHandler(){

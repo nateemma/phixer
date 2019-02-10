@@ -47,13 +47,14 @@ enum ControllerIdentifier: String {
     
     case editMainMenu
     case editBasicAdjustmentsMenu
-    
+    case editDetailMenu
+
     // Tool (Sub-) Controllers:
     
     case curveTool
     case hsvTool
-    case detailTool
     case cropTool
+    case editFacesTool
 }
 
 
@@ -161,7 +162,11 @@ class ControllerFactory {
         case .editBasicAdjustmentsMenu:
             instance = EditBasicAdjustmentsController()
             ctype = .menu
-            
+ 
+        case .editDetailMenu:
+            instance = EditDetailMenuController()
+            ctype = .menu
+
             
             // Tools:
             
@@ -173,12 +178,12 @@ class ControllerFactory {
             instance = EditHSVToolController()
             ctype = .paneltool
 
-        case .detailTool:
-            instance = EditDetailMenuController()
-            ctype = .menu
-
         case .cropTool:
             instance = EditCropToolController()
+            ctype = .fulltool
+
+        case .editFacesTool:
+            instance = EditFacesToolController()
             ctype = .fulltool
 
         default:

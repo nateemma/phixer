@@ -71,7 +71,8 @@ class ImageManager {
         let image = getImageFromAssets(assetID:name)
         if image != nil {
             //_currBlendImage = CIImage(image: image!)
-            _currBlendImage = CIImage(image: image!)?.oriented(forExifOrientation: imageOrientationToExifOrientation(value: image!.imageOrientation))
+            let orientation = imageOrientationToExifOrientation(value: image!.imageOrientation)
+            _currBlendImage = CIImage(image: image!)?.oriented(forExifOrientation: Int32(orientation.rawValue))
             _currBlendName = name
             //_currBlendInput = CIImage(image:_currBlendImage!)
             _currBlendImageScaled = _currBlendImage
@@ -225,7 +226,8 @@ class ImageManager {
         let image = getImageFromAssets(assetID:sname)
         if image != nil {
             //_currSampleImage = CIImage(image: image!)
-            _currSampleImage = CIImage(image: image!)?.oriented(forExifOrientation: imageOrientationToExifOrientation(value: image!.imageOrientation))
+            let orientation = imageOrientationToExifOrientation(value: image!.imageOrientation)
+            _currSampleImage = CIImage(image: image!)?.oriented(forExifOrientation: Int32(orientation.rawValue))
 
              _currSampleName = sname
             //_currSampleInput = CIImage(image:_currSampleImage!)
@@ -351,6 +353,9 @@ class ImageManager {
     
     private static var _currEditImageScaled: CIImage? = nil
     private static var _currEditSize: CGSize = CGSize(width: 0.0, height: 0.0)
+    
+    private static var _currEditImageOrientation: CGImagePropertyOrientation = .up
+    
 
     
     public static func getCurrentEditImageName()->String {
@@ -375,7 +380,10 @@ class ImageManager {
         if image != nil {
             //_currEditImage = CIImage(image: image!)
             //_currEditImage = CIImage(image: image!, options: [kCIImageApplyOrientationProperty:true])?.oriented(.up)
-            _currEditImage = CIImage(image: image!)?.oriented(forExifOrientation: imageOrientationToExifOrientation(value: image!.imageOrientation))
+            
+            _currEditImageOrientation = imageOrientationToExifOrientation(value: image!.imageOrientation)
+            log.debug("orientation: UI:\(image!.imageOrientation.rawValue) CG:\(_currEditImageOrientation)")
+            _currEditImage = CIImage(image: image!)?.oriented(forExifOrientation: Int32(_currEditImageOrientation.rawValue))
         } else {
             log.error("NIL image returned for: \(ename)")
         }
@@ -512,6 +520,11 @@ class ImageManager {
     }
     
     
+    public static func getEditImageOrientation() -> CGImagePropertyOrientation {
+        return _currEditImageOrientation
+    }
+    
+
     
     //////////////////////////////////
     // MARK: - Persistent Storage Utilities
@@ -644,8 +657,9 @@ class ImageManager {
                 options.resizeMode = PHImageRequestOptionsResizeMode.exact
                 options.isSynchronous = true // need to set this to get the full size image
                 options.isNetworkAccessAllowed = false
-                options.version = .current
-                
+                //options.version = .current
+                options.version = .original
+
                 /***/
                  PHImageManager.default().requestImageData(for: asset!, options: options, resultHandler: { data, _, _, _ in
                  image = data.flatMap { UIImage(data: $0) }
@@ -666,7 +680,9 @@ class ImageManager {
             image = UIImage(named:assetID)
         }
         
-        return image
+        //return image
+        // OK, don't know why, but the orientation is lost when retrieving, so force it to be always up. This is how everything is displayed anyway, but it's still a hack
+        return forceUpOrientation(img: image!)!
     }
     
     
@@ -718,7 +734,6 @@ class ImageManager {
 
         return image
     }
-
 
     
     public static func resizeImage(_ image: UIImage?, targetSize: CGSize, mode:UIView.ContentMode) -> UIImage? {
@@ -993,9 +1008,30 @@ class ImageManager {
         }
     }
     
+    public static func forceUpOrientation(img: UIImage) -> UIImage? {
+        
+        let result: UIImage?
+        if img.imageOrientation == .up {
+            result = img
+        } else {
+            
+            result = autoreleasepool { () -> UIImage? in
+                UIGraphicsBeginImageContextWithOptions(img.size, false, img.scale)
+                let rect = CGRect(x: 0, y: 0, width: img.size.width, height: img.size.height)
+                img.draw(in: rect)
+                
+                let normalizedImage = UIGraphicsGetImageFromCurrentImageContext()
+                UIGraphicsEndImageContext()
+                
+                return normalizedImage
+            }
+        }
+        
+        return result
+    }
     
     // converts from UIImage.Orientation to EXIF/CG Orientation
-    static func imageOrientationToExifOrientation(value: UIImage.Orientation) -> Int32 {
+    static func imageOrientationToExifOrientation(value: UIImage.Orientation) -> CGImagePropertyOrientation {
 /***
         switch (value) {
         case .up:
@@ -1017,14 +1053,14 @@ class ImageManager {
         }
  ***/
         switch (value) {
-        case .up: return Int32(CGImagePropertyOrientation.up.rawValue)
-        case .down: return Int32(CGImagePropertyOrientation.down.rawValue)
-        case .left: return Int32(CGImagePropertyOrientation.left.rawValue)
-        case .right: return Int32(CGImagePropertyOrientation.right.rawValue)
-        case .upMirrored: return Int32(CGImagePropertyOrientation.upMirrored.rawValue)
-        case .downMirrored: return Int32(CGImagePropertyOrientation.downMirrored.rawValue)
-        case .leftMirrored: return Int32(CGImagePropertyOrientation.leftMirrored.rawValue)
-        case .rightMirrored: return Int32(CGImagePropertyOrientation.rightMirrored.rawValue)
+        case .up: return CGImagePropertyOrientation.up
+        case .down: return CGImagePropertyOrientation.down
+        case .left: return CGImagePropertyOrientation.left
+        case .right: return CGImagePropertyOrientation.right
+        case .upMirrored: return CGImagePropertyOrientation.upMirrored
+        case .downMirrored: return CGImagePropertyOrientation.downMirrored
+        case .leftMirrored: return CGImagePropertyOrientation.leftMirrored
+        case .rightMirrored: return CGImagePropertyOrientation.rightMirrored
         }
     }
 }

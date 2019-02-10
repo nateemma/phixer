@@ -96,11 +96,13 @@ class RenderView: MTKView
                     imageSize = image.extent.size
                 } else {
                     // invalid extent, try setting to size of current input (bad coupling, I know)
+                    // this usually means a filter added an infinite extent and should have been cropped
                     imageSize = InputSource.getSize()
+                    log.warning("Unusable extent. Maybe crop image???")
                 }
             }
             var isize = imageSize
-            if (abs(angle) > 0.01){
+            if (abs(angle) > 0.01){ // rotated? Flip width/height
                 isize.height = imageSize.width
                 isize.width = imageSize.height
             }
@@ -135,6 +137,84 @@ class RenderView: MTKView
         return CIVector(cgPoint: imgPos)
     }
     
+    // return the equivalent (CI-)Image-based position in view coordinates (the view here being 'self')
+    public func getViewPosition(imagePos:CGPoint) -> CGPoint {
+        var viewpos: CGPoint = CGPoint.zero
+        
+        
+        if let image = image {
+            if (imageSize.width < 1.0) || (imageSize.height < 1.0) {
+                // image size not set. Try setting to image.extent.size if not too big
+                if (image.extent.size.width > 1.0) && (image.extent.size.width < 10000.0) {
+                    imageSize = image.extent.size
+                } else {
+                    // this usually means a filter added an infinite extent and should have been cropped
+                    imageSize = InputSource.getSize()
+                    log.warning("Unusable extent. Maybe crop image???")
+                }
+            }
+            var isize = imageSize
+            if (abs(angle) > 0.01){ // rotated? Flip width/height
+                isize.height = imageSize.width
+                isize.width = imageSize.height
+            }
+            
+            var x: CGFloat
+            var y: CGFloat
+            //let x = ((isize.width / drawableSize.width) * (viewPos.x)).clamped(0.0, isize.width)
+            //let y = ((isize.height / drawableSize.height) * (isize.height - viewPos.y)).clamped(0.0, isize.height)
+            
+            var scaleX = drawableSize.width / isize.width
+            var scaleY = drawableSize.height / isize.height
+            let bounds = CGRect(origin: CGPoint.zero, size: drawableSize)
+            let dsize:CGSize = drawableSize
+            var targetRect: CGRect = CGRect.zero
+
+            // Calculate zoom/crop effect. If the view and the image are the same orientation then fill, otherwise fit
+            if ((dsize.width>=dsize.height) && (isize.width>=isize.height)) ||
+                ((dsize.width<dsize.height) && (isize.width<isize.height)) {
+                targetRect = Geometry.aspectFillToRect(aspectRatio: isize, minimumRect: bounds)
+                scaleX = targetRect.width / isize.width
+                scaleY = targetRect.height / isize.height
+                scale = max(scaleX, scaleY)
+            } else {
+                targetRect = Geometry.aspectFitToRect(aspectRatio: isize, boundingRect: bounds)
+                scaleX = targetRect.width / isize.width
+                scaleY = targetRect.height / isize.height
+                scale = min(scaleX, scaleY)
+            }
+
+            let offsetX = targetRect.origin.x
+            let offsetY = targetRect.origin.y
+            
+            let ix = imagePos.x
+            let iy = imagePos.y
+            
+            if (angle > 0.01){ // drawable is landscape, image is portrait
+                x = (isize.width - iy) * scaleX + offsetX
+                y = (isize.height - ix) * scaleY + offsetY
+                
+            } else if (angle < -0.01){ // drawable is portrait , image is landscape
+                x = (iy) * scaleX + offsetY
+                y = (ix) * scaleY + offsetX
+                
+            } else { // no rotation
+                x = (ix) * scaleX + offsetX
+                y = (isize.height - iy) * scaleY + offsetY
+            }
+
+            // divide by the screen scale so that we now have pixel values
+            x /= UIScreen.main.scale
+            y /= UIScreen.main.scale
+ 
+
+            viewpos = CGPoint(x: x.rounded(), y: y.rounded())
+//            log.verbose("\nisize:\(isize) dsize:\(drawableSize) self:\(self.frame.size)\n viewPos:\(viewpos) imgPos: \(imagePos)\n" +
+//                " scaleX:\(scaleX) scaleY:\(scaleY)\n" +
+//                " offsetX:\(offsetX) offsetY:\(offsetY) targetRect:\(targetRect)")
+        }
+        return viewpos
+    }
     
     func setImageSize(_ size:CGSize){
         self.imageSize = size

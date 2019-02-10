@@ -93,7 +93,7 @@ class EditBaseToolController: CoordinatedController, SubControllerDelegate {
     }
     
     ////////////////////
-    // SubController interfaces. Can be ignored for Tools (just return current key)
+    // SubController interfaces. Can be ignored for most Tools (just return current key)
     ////////////////////
     
    func getNextFilter() -> String {
