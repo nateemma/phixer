@@ -75,7 +75,8 @@ class EditImageDisplayView: UIView {
        doInit()
 
         //log.debug("layout")
-        self.currInput = InputSource.getCurrentImage() // this can change
+        //self.currInput = InputSource.getCurrentImage() // this can change
+        self.currInput = EditManager.getPreviewImage() // this can change
         renderView?.frame = self.frame
         renderView?.backgroundColor = theme.backgroundColor
         
@@ -153,8 +154,14 @@ class EditImageDisplayView: UIView {
         if (!key.isEmpty){
             currFilterKey = key
 
+            renderView?.isScrollEnabled = false
             EditManager.addPreviewFilter(filterManager.getFilterDescriptor(key: key))
             update()
+            renderView?.zoomScale = 1.0
+            renderView?.centerImage()
+            renderView?.setZoomScale(0.0, animated: false)
+            renderView?.isScrollEnabled = true
+
         } else {
             log.error("Empty key specified")
         }
@@ -203,7 +210,7 @@ class EditImageDisplayView: UIView {
         DispatchQueue.main.async(execute: { () -> Void in
             //log.verbose("Updating edit image")
             EditManager.setInputImage(InputSource.getCurrentImage())
-            self.currInput = EditManager.previewImage
+            self.currInput = EditManager.getPreviewImage()
             if self.currInput == nil {
                 log.warning("Edit image not set, using Sample")
                 self.currInput = ImageManager.getCurrentSampleInput() // no edit image set, so make sure there is something

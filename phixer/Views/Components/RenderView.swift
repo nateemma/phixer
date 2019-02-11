@@ -112,28 +112,51 @@ class RenderView: MTKView
             //let x = ((isize.width / drawableSize.width) * (viewPos.x)).clamped(0.0, isize.width)
             //let y = ((isize.height / drawableSize.height) * (isize.height - viewPos.y)).clamped(0.0, isize.height)
             
-            let scaleX = isize.width / drawableSize.width
-            let scaleY = isize.height / drawableSize.height
+            var scaleX = isize.width / drawableSize.width
+            var scaleY = isize.height / drawableSize.height
+ 
+            let bounds = CGRect(origin: CGPoint.zero, size: drawableSize)
+            let dsize:CGSize = drawableSize
+            var targetRect: CGRect = CGRect.zero
             
+            // Calculate zoom/crop effect. If the view and the image are the same orientation then fill, otherwise fit
+            if ((dsize.width>=dsize.height) && (isize.width>=isize.height)) ||
+                ((dsize.width<dsize.height) && (isize.width<isize.height)) {
+                targetRect = Geometry.aspectFillToRect(aspectRatio: isize, minimumRect: bounds)
+                scaleX = isize.width / targetRect.width
+                scaleY = isize.width / targetRect.height
+                scale = max(scaleX, scaleY)
+            } else {
+                targetRect = Geometry.aspectFitToRect(aspectRatio: isize, boundingRect: bounds)
+                scaleX = isize.width / targetRect.width
+                scaleY = isize.width / targetRect.height
+                scale = min(scaleX, scaleY)
+            }
+
+            let offsetX = targetRect.origin.x
+            let offsetY = targetRect.origin.y
+
             // have to convert view-based position to device-based position
-            let vx = viewPos.x * UIScreen.main.scale
-            let vy = viewPos.y * UIScreen.main.scale
+            let vx = viewPos.x * UIScreen.main.scale - offsetX
+            let vy = viewPos.y * UIScreen.main.scale - offsetY
             
             if (angle > 0.01){ // drawable is landscape, image is portrait
-                x = scaleY * (drawableSize.width - vy)
-                y = scaleX * (drawableSize.height - vx)
+                x = scale * (targetRect.width - vy)
+                y = scale * (targetRect.height - vx)
                 
             } else if (angle < -0.01){ // drawable is portrait , image is landscape
-                x = scaleY * (vy)
-                y = scaleX * (vx)
+                x = scale * (vy)
+                y = scale * (vx)
                 
             } else { // no rotation
-                x = scaleX * (vx)
-                y = scaleY * (drawableSize.height - vy)
+                x = scale * (vx)
+                y = scale * (targetRect.height - vy)
             }
             imgPos = CGPoint(x: x.rounded(), y: y.rounded())
-            //log.verbose("isize:\(isize) dsize:\(drawableSize) viewPos:\(viewPos) imgPos: \(imgPos)")
-        }
+//            log.verbose("\nisize:\(isize) dsize:\(drawableSize) self:\(self.frame.size)\n viewPos:\(viewPos) imgPos: \(imgPos)\n" +
+//                " scaleX:\(scaleX) scaleY:\(scaleY) angle:\(angle)\n" +
+//                " offsetX:\(offsetX) offsetY:\(offsetY) targetRect:\(targetRect)")
+       }
         return CIVector(cgPoint: imgPos)
     }
     
@@ -195,8 +218,8 @@ class RenderView: MTKView
                 y = (isize.height - ix) * scaleY + offsetY
                 
             } else if (angle < -0.01){ // drawable is portrait , image is landscape
-                x = (iy) * scaleX + offsetY
-                y = (ix) * scaleY + offsetX
+                x = (iy) * scaleY + offsetX
+                y = (ix) * scaleX + offsetY
                 
             } else { // no rotation
                 x = (ix) * scaleX + offsetX
@@ -210,7 +233,7 @@ class RenderView: MTKView
 
             viewpos = CGPoint(x: x.rounded(), y: y.rounded())
 //            log.verbose("\nisize:\(isize) dsize:\(drawableSize) self:\(self.frame.size)\n viewPos:\(viewpos) imgPos: \(imagePos)\n" +
-//                " scaleX:\(scaleX) scaleY:\(scaleY)\n" +
+//                " scaleX:\(scaleX) scaleY:\(scaleY) angle:\(angle)\n" +
 //                " offsetX:\(offsetX) offsetY:\(offsetY) targetRect:\(targetRect)")
         }
         return viewpos

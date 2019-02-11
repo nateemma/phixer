@@ -302,6 +302,9 @@ extension ScrollableRenderView: UIGestureRecognizerDelegate {
     
     // allow multiple gestures
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if (gestureRecognizer.view != self) && (self.zoomScale.approxEqual(1.0)) {
+            return false
+        }
         return true
     }
     

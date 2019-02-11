@@ -187,7 +187,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         displayHeight = view.height
         displayWidth = view.width
         
-        log.verbose("h:\(displayHeight) w:\(displayWidth)")
+        log.verbose("h:\(displayHeight) w:\(displayWidth) frame:\(self.view.frame)")
         
         //filterManager.reset()
         doInit()
@@ -226,7 +226,8 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         
         // main window
         //editImageView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: editImageView.frame.size.height)
-        editImageView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: editImageView.frame.size.height)
+        //editImageView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: editImageView.frame.size.height)
+        editImageView.fillSuperview()
         
         // filter parameters
         //filterParametersView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: filterParametersView.frame.size.height)
@@ -962,20 +963,20 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if self.currTouchMode != .gestures {
-            if let touch = touches.first {
-                let position = touch.location(in: editImageView)
-                let imgPos = editImageView.getImagePosition(viewPos:position)
-                if currTouchMode == .filter {
-                    currFilterDescriptor?.setPositionParameter(touchKey, position:imgPos!)
-                } else if currTouchMode == .preview {
-                    editImageView.setSplitPosition(position)
-                }
-                //log.verbose("Touches ended. Final pos:\(position) vec:\(imgPos)")
-                editImageView.runFilter()
-                
-                touchKey = ""
-            }
+//            if let touch = touches.first {
+//                let position = touch.location(in: editImageView)
+//                let imgPos = editImageView.getImagePosition(viewPos:position)
+//                if currTouchMode == .filter {
+//                    currFilterDescriptor?.setPositionParameter(touchKey, position:imgPos!)
+//                } else if currTouchMode == .preview {
+//                    editImageView.setSplitPosition(position)
+//                }
+//                //log.verbose("Touches ended. Final pos:\(position) vec:\(imgPos)")
+//                editImageView.runFilter()
+//                
+//            }
             
+            touchKey = ""
             showModalViews()
             enableGestureDetection()
         }
@@ -1111,10 +1112,10 @@ extension BasicEditViewController: UIGestureRecognizerDelegate {
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         
+        // give priority to sliders
         if let touchedView = touch.view, touchedView.isKind(of: UISlider.self) {
             return false
         }
-        
         return true
     }
     
@@ -1135,6 +1136,10 @@ extension BasicEditViewController: UIGestureRecognizerDelegate {
                 return false
             }
             
+            if (gestureRecognizer.view == self.editImageView) && (!self.editImageView.isZoomed()) {
+                return false
+            }
+
             return true
     }
 }
