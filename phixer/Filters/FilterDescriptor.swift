@@ -254,6 +254,28 @@ class FilterDescriptor {
     // Accessors
     ///////////////////////////////////////////
 
+    // get the corresponding FilterDefinition. This is intended as a way to 'save' a filter
+    func getFilterDefinition() -> FilterDefinition {
+        var fd: FilterDefinition = FilterDefinition()
+        
+        // copy the easy stuff
+        fd.key = self.key
+        fd.title = self.title
+        fd.hide = !(self.show)
+        fd.rating = self.rating
+        fd.slow = self.slow
+        fd.lookup = self.lookupImageName
+        fd.ftype = self.filterOperationType.rawValue
+        
+        // (deep) copy the parameters
+        fd.parameters = []
+        for key in parameterConfiguration.keys {
+            if let p = self.parameterConfiguration[key] {
+                fd.parameters.append(ParameterSettings(key: p.key, title: p.title, min: p.min, max: p.max, value: p.value, type: p.type))
+            }
+        }
+        return fd
+    }
 
     // get number of parameters
     func getNumParameters() -> Int {

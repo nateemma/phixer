@@ -570,11 +570,12 @@ class FilterParametersView: UIView {
     fileprivate func finishLayout(){
         // add the views to the list in the order of display
 
+        
         var height:CGFloat = 0.0
         
         // calculate sizes (need to this before setting constraints)
         height = titleView.frame.size.height
-        if ((currFilterDesc?.getNumDisplayableParameters())! > 0){
+        if (currFilterDesc != nil) && ((currFilterDesc?.getNumDisplayableParameters())! > 0){
             let n:CGFloat = CGFloat(numVisibleParams)
             let h:CGFloat =  (CGFloat(sliderHeight) * n*1.3).rounded() + 16 // empirical
             parameterView.frame.size.width = titleView.frame.size.width
@@ -603,7 +604,7 @@ class FilterParametersView: UIView {
         // Place the tile at the top, buttons at the bottom and parameterRow distributed in between
         titleView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: titleView.frame.size.height)
 
-        if ((currFilterDesc?.getNumDisplayableParameters())! > 0){
+        if (currFilterDesc != nil) && ((currFilterDesc?.getNumDisplayableParameters())! > 0){
             parameterView.groupAndFill(group: .vertical, views: parameterRow, padding: 1.0)
             scrollView?.alignAndFill(align: .underCentered, relativeTo: titleView, padding: 0, offset: 0)
         }

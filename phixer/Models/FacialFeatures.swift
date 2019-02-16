@@ -18,9 +18,6 @@ class FacialFeatures {
     // a rectangle that defines the bounds of the face (can be useful for sampling, passing to filters etc.)
     public var faceBounds: CGRect
     
-    // The region containing all face landmark points.
-    public var allPoints: [CGPoint]
-    
     // The region containing points that trace the face contour from the left cheek, over the chin, to the right cheek.
     public var faceContour: [CGPoint]
     
@@ -57,10 +54,11 @@ class FacialFeatures {
     // The region containing the point where the right pupil is located.
     public var rightPupil: [CGPoint]
 
+    // The skin color - this is sample from somewhere in the middle of the face
+    public var skinColor: CIColor
     
     init (){
         self.faceBounds = CGRect.zero
-        self.allPoints = []
         self.faceContour = []
         self.leftEye = []
         self.rightEye = []
@@ -73,6 +71,7 @@ class FacialFeatures {
         self.innerLips = []
         self.leftPupil = []
         self.rightPupil = []
+        self.skinColor = CIColor(red: 1.0, green: 206/255, blue: 180/255, alpha: 1.0) // generic Caucasian skin
     }
     
 }

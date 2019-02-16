@@ -8,7 +8,8 @@
 
 import Foundation
 
-class SkinSmoothingFilter: YUCIHighPassSkinSmoothing {
+// this is just a Swift 'wrapper' class that provides access to the underlying Objective C filter
+class HighPassSkinSmoothingFilter: YUCIHighPassSkinSmoothing {
     
     // filter display name
     func displayName() -> String {

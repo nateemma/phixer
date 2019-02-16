@@ -179,4 +179,23 @@ extension CGImage {
         return cgimage
     }
 
+    
+    // get the colour at the specified position (in CG Coordinates)
+    public func getColor(x: Int, y: Int) -> CGColor {
+        let c:CGColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [0.5, 0.5, 0.5, 1.0])!
+        
+        guard let pixelData = self.dataProvider?.data else {
+            return c
+        }
+        let data: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
+        
+        let bytesPerPixel = self.bitsPerPixel / 8
+        let pixelInfo = ((Int(self.width) * Int(y)) + Int(x)) * bytesPerPixel
+        
+        let b = CGFloat(data[pixelInfo]) / CGFloat(255.0)
+        let g = CGFloat(data[pixelInfo+1]) / CGFloat(255.0)
+        let r = CGFloat(data[pixelInfo+2]) / CGFloat(255.0)
+        let a = CGFloat(data[pixelInfo+3]) / CGFloat(255.0)
+        return CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [r, g, b, a])!
+    }
 }

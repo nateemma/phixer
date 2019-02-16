@@ -23,7 +23,8 @@ import UIKit
 class ScrollableRenderView: UIScrollView, UIScrollViewDelegate {
 	
 	var zoomView: RenderView! = nil
-	
+    var shapeLayer: CAShapeLayer! = nil
+
 	lazy var zoomingTap: UITapGestureRecognizer = {
 		let zoomingTap = UITapGestureRecognizer(target: self, action: #selector(handleZoomingTap(_:)))
 		zoomingTap.numberOfTapsRequired = 2
@@ -73,18 +74,27 @@ class ScrollableRenderView: UIScrollView, UIScrollViewDelegate {
                 zoomView.frame = self.frame
                 zoomView.image = image
                 self.zoomScale = 1.0
-                
-                
                 self.addSubview(zoomView)
+
+                shapeLayer = nil
+                shapeLayer = CAShapeLayer()
+                zoomView.layer.addSublayer(shapeLayer)
+                //shapeLayer.fillSuperview()
+                shapeLayer.frame = self.frame
+
                 
                 self.configureFor(image!.extent.size)
             } else {
-                // there are several scenarios where multiple versions of the image can be displayed (preview/origonal etc.)
+                // there are several scenarios where multiple versions of the image can be displayed (preview/original etc.), so we do not want to reset the zoom level
                 zoomView.image = image
             }
         }
     }
     
+    // get the shape layer for drawing
+    public func getShapeLayer() -> CAShapeLayer? {
+        return self.shapeLayer
+    }
     
     // passthrough funcs to maintian RenderView interface
     public func setImageSize(_ size: CGSize){

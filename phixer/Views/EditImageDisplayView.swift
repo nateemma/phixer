@@ -224,7 +224,16 @@ class EditImageDisplayView: UIView {
         log.verbose("zoomScale:\(self.renderView?.zoomScale)")
         return !((self.renderView?.zoomScale.approxEqual(1.0))!)
     }
+    
+    public func zoom(to: CGRect){
+        self.renderView?.zoom(to: to, animated: true)
+    }
    
+    public func getShapeLayer() -> CAShapeLayer? {
+        return self.renderView?.getShapeLayer()
+    }
+    
+    
     ///////////////////////////////////
     // MARK: filter execution
     ///////////////////////////////////
