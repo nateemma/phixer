@@ -16,10 +16,20 @@ class PathMaskView: UIView {
     // the collection of paths to be drawn
     var paths: UIBezierPath = UIBezierPath()
     
+    // add a set of coordinates to the paths (rather than BezierPath). The resulting paths is 'smoothed'
+    public func addPoints(_ points: [CGPoint]) {
+        if points.count > 0 {
+            let path = UIBezierPath()
+            path.interpolatePointsWithHermite(interpolationPoints: points)
+            paths.append(path)
+        }
+    }
     
     // add a path to the existing set of paths
     public func addPath(_ path: UIBezierPath) {
-        paths.append(path)
+        if !path.isEmpty {
+            paths.append(path)
+        }
     }
     
     public func clear() {
@@ -27,9 +37,10 @@ class PathMaskView: UIView {
     }
     
     
-    // override the draw(0 function and draw the bezier paths
+    // override the draw() function and draw the bezier paths
     override func draw(_ rect: CGRect) {
         if !paths.isEmpty {
+            log.verbose("Drawing paths")
             UIColor.white.setFill()
             UIColor.white.setStroke()
             paths.fill()

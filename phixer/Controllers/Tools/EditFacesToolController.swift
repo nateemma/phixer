@@ -667,6 +667,7 @@ class EditFacesToolController: EditBaseToolController {
     // create a Bezier path from an array of (image) points. Bezier path is in View coordinates (doesn't make sense in image coords)
     func createPath(points: [CGPoint]) -> UIBezierPath {
         let path = UIBezierPath()
+        /***
         let start = cgToViewPoint(points[0])
         path.move(to: start)
         for i in 1..<points.count {
@@ -675,6 +676,8 @@ class EditFacesToolController: EditBaseToolController {
             path.move(to: point)
         }
         path.addLine(to: start)
+         ***/
+        path.interpolatePointsWithHermite(interpolationPoints: points) // create a smooth curve from the points
         path.close()
         return path
     }
