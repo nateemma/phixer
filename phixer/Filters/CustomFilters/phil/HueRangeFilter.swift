@@ -92,6 +92,8 @@ class HueRangeFilter: CIFilter {
         switch key {
         case "inputImage":
             return inputImage
+        case "outputImage":
+            return outputImage
         case "inputColor":
             return inputColor
         case "inputVariance":

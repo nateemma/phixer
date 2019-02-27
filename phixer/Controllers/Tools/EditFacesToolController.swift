@@ -110,12 +110,12 @@ class EditFacesToolController: EditBaseToolController {
         toolView.addSubview(maskView)
         maskView.fillSuperview()
 
-        maskView.backgroundColor = UIColor.gray
+        maskView.backgroundColor = UIColor.black // explicitly black for masking
         maskView.isHidden = true
 
         maskShapeLayer = CAShapeLayer()
-        maskShapeLayer.strokeColor = UIColor.yellow.cgColor
-        maskShapeLayer.fillColor = UIColor.blue.cgColor
+        maskShapeLayer.strokeColor = UIColor.white.cgColor
+        maskShapeLayer.fillColor = UIColor.white.cgColor
         maskShapeLayer.fillRule = CAShapeLayerFillRule.nonZero // we want all paths to be filled, whether or not they overlap
         maskShapeLayer.lineWidth = 1.0
         maskShapeLayer.lineJoin = CAShapeLayerLineJoin.round
@@ -196,7 +196,9 @@ class EditFacesToolController: EditBaseToolController {
     // handler for selected adornments:
     func handleSelection(key:String){
         DispatchQueue.main.async {
+            self.clearMask()
             self.hideMask()
+            self.maskShapeLayer.fillRule = CAShapeLayerFillRule.nonZero // by default, we want all paths to be filled, whether or not they overlap
             switch (key){
             case "lips": self.lipsHandler()
             case "skin": self.skinHandler()
@@ -208,34 +210,40 @@ class EditFacesToolController: EditBaseToolController {
             default:
                 log.error("Unknown key: \(key)")
             }
+            
+            self.editView.updateImage()
         }
     }
 
     func lipsHandler(){
         if faceList.count > 0 {
+            self.maskShapeLayer.fillRule = CAShapeLayerFillRule.evenOdd // for lips, we want the area between inner & outer
+
             // generate a mask of the teeth
             var paths: [UIBezierPath] = []
-//            for face in faceList {
-//                paths.append(createPath(points: face.outerLips))
-//            }
-            
-            // test code
-            testMask3()
-
-//            self.maskView.image = createMask(from: paths, size: toolView.frame.size)
-//            let cgimage = EditManager.getPreviewImage()?.getCGImage(size: EditManager.getImageSize())
-//            let img = UIImage(cgImage: cgimage!)
-//            self.maskView.image = img.imageFromPaths(paths: paths)
+            for face in faceList {
+                paths.append(createPath(points: face.outerLips))
+                paths.append(createPath(points: face.innerLips))
+            }
+ 
+            self.maskView.image = createMask(from: paths, size: toolView.frame.size)
+            //let cgimage = EditManager.getPreviewImage()?.getCGImage(size: EditManager.getImageSize())
+            //let img = UIImage(cgImage: cgimage!)
+            //self.maskView.image = img.imageFromPaths(paths: paths)
             showMask()
         }
     }
     
     func skinHandler(){
         // funky interface so set defaults
-        let descriptor = filterManager.getFilterDescriptor(key: "HighPassSkinSmoothingFilter")
-        descriptor?.reset()
+        let descriptor = filterManager.getFilterDescriptor(key: "MaskedSkinSmoothingFilter")
         if descriptor != nil {
+            descriptor?.reset()
+            //descriptor?.setParameter("inputAmount", value: 1.0)
+            //descriptor?.setParameter("inputRadius", value: 16.0)
             EditManager.addPreviewFilter(descriptor)
+        } else {
+            log.error("Error creating skin filter")
         }
     }
     
@@ -284,7 +292,7 @@ class EditFacesToolController: EditBaseToolController {
         if descriptor != nil {
             EditManager.addPreviewFilter(descriptor)
         }
-       skinHandler()
+       //skinHandler()
     }
 
     func eyebrowsHandler(){
@@ -317,6 +325,10 @@ class EditFacesToolController: EditBaseToolController {
     private func hideMask(){
         self.maskView.isHidden = true
         self.editView.isHidden = false
+    }
+    
+    private func clearMask() {
+        pathView.clear()
     }
     
     //////////////////////////////////////////
@@ -585,6 +597,7 @@ class EditFacesToolController: EditBaseToolController {
         
         // create the corresponding Bezier path
         let path = UIBezierPath()
+        /***
         //let start = cgToViewPoint(square[0])
         let start = square[0]
         path.move(to: start)
@@ -595,6 +608,8 @@ class EditFacesToolController: EditBaseToolController {
             path.move(to: point)
         }
         path.addLine(to: start)
+         ***/
+        path.interpolatePointsWithHermite(interpolationPoints: square)
         path.close()
 
         pathView.addPath(path)
@@ -667,6 +682,7 @@ class EditFacesToolController: EditBaseToolController {
     // create a Bezier path from an array of (image) points. Bezier path is in View coordinates (doesn't make sense in image coords)
     func createPath(points: [CGPoint]) -> UIBezierPath {
         let path = UIBezierPath()
+        var vpoints:[CGPoint] = []
         /***
         let start = cgToViewPoint(points[0])
         path.move(to: start)
@@ -677,7 +693,18 @@ class EditFacesToolController: EditBaseToolController {
         }
         path.addLine(to: start)
          ***/
-        path.interpolatePointsWithHermite(interpolationPoints: points) // create a smooth curve from the points
+        // convert to view coordinates
+        let start = cgToViewPoint(points[0])
+        vpoints.append(start)
+        for i in 1..<points.count {
+            vpoints.append(cgToViewPoint(points[i]))
+        }
+        vpoints.append(start)
+        
+        // smooth the curve
+        path.interpolatePointsWithHermite(interpolationPoints: vpoints) // create a smooth curve from the points
+        
+        // close the path and return it
         path.close()
         return path
     }

@@ -1,5 +1,5 @@
 //
-//  SkinSmoothingFilter.swift
+//  HighPassSkinSmoothingFilter.swift
 //  phixer
 //
 //  Created by Philip Price on 2/6/19.
@@ -29,7 +29,7 @@ class HighPassSkinSmoothingFilter: YUCIHighPassSkinSmoothing {
             
             "inputAmount": [kCIAttributeIdentity: 0,
                             kCIAttributeClass: "NSNumber",
-                            kCIAttributeDefault: 0.75,
+                            kCIAttributeDefault: 1.0,
                             kCIAttributeDisplayName: "Amount",
                             kCIAttributeMin: 0,
                             kCIAttributeSliderMin: 0,
@@ -38,7 +38,7 @@ class HighPassSkinSmoothingFilter: YUCIHighPassSkinSmoothing {
             
             "inputRadius": [kCIAttributeIdentity: 0,
                             kCIAttributeClass: "NSNumber",
-                            kCIAttributeDefault: 8,
+                            kCIAttributeDefault: 16,
                             kCIAttributeDisplayName: "Radius",
                             kCIAttributeMin: 0,
                             kCIAttributeSliderMin: 0,

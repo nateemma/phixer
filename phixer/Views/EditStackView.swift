@@ -210,8 +210,12 @@ class EditStackView: UIView {
         
         let metalView = RenderView()
         metalView.frame.size = CGSize(width: imageHeight, height: imageHeight)
-        metalView.setImageSize((image?.extent.size)!)
-        metalView.image = image
+        if image != nil { // usually means there was an error somewhere while creating the image
+            metalView.setImageSize((image?.extent.size)!)
+            metalView.image = image
+        } else {
+            log.error("NIL image")
+        }
 
         
         let label = UILabel()

@@ -241,7 +241,7 @@ class EditImageDisplayView: UIView {
     // Sets up the filter pipeline. Call when filter, orientation or camera changes
     open func runFilter(){
         
-        if !self.currFilterKey.isEmpty && layoutDone {
+//        if !self.currFilterKey.isEmpty && layoutDone {
             DispatchQueue.main.async(execute: { () -> Void in
                 if self.currDisplayMode == .full {
                     //log.verbose("Running filter: \(self.currFilterKey)")
@@ -259,15 +259,15 @@ class EditImageDisplayView: UIView {
                     self.renderView?.image = EditManager.getSplitPreviewImage(offset: self.currSplitOffset)
                 }
             })
-        } else {
-            if self.currFilterKey.isEmpty { // this can happen if no filters have been applied yet
-                log.warning("Filter not set")
-                DispatchQueue.main.async(execute: { () -> Void in
-                    self.renderView?.image = EditManager.getOriginalImage()
-                })
-            }
-            if !layoutDone { log.warning("Layout not yet done") }
-        }
+//        } else {
+//            if self.currFilterKey.isEmpty { // this can happen if no filters have been applied yet
+//                log.warning("Filter not set")
+//                DispatchQueue.main.async(execute: { () -> Void in
+//                    self.renderView?.image = EditManager.getOriginalImage()
+//                })
+//            }
+//            if !layoutDone { log.warning("Layout not yet done") }
+//        }
     }
     
     
