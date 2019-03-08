@@ -146,7 +146,7 @@ class EditBaseMenuController: CoordinatedController, SubControllerDelegate, Edit
         // cancel button
         cancelButton = SquareButton(bsize: (UISettings.titleHeight*0.6).rounded())
         cancelButton?.setImageAsset("ic_no")
-        cancelButton?.backgroundColor = theme.titleColor.withAlphaComponent(0.5)
+        cancelButton?.backgroundColor = theme.subtitleColor.withAlphaComponent(0.5)
         cancelButton?.setTintable(true)
         cancelButton?.highlightOnSelection(true)
         cancelButton?.addTarget(self, action: #selector(self.cancelDidPress), for: .touchUpInside)
@@ -159,8 +159,8 @@ class EditBaseMenuController: CoordinatedController, SubControllerDelegate, Edit
         label.frame.size.height = UISettings.titleHeight - 2
         label.text = getTitle()
         label.textAlignment = .center
-        label.textColor = theme.titleTextColor
-        label.backgroundColor = theme.titleColor
+        label.textColor = theme.subtitleTextColor
+        label.backgroundColor = theme.subtitleColor
         label.font = UIFont.systemFont(ofSize: 16)
         label.adjustsFontSizeToFitWidth = true
         //label.fitTextToBounds()

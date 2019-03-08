@@ -92,7 +92,9 @@ class MercurializeFilter: CIFilter
         switch key {
         case "inputImage":
             return inputImage
-        case "inputEdgeThickness":
+        case "outputImage":
+            return outputImage
+       case "inputEdgeThickness":
             return inputEdgeThickness
         case "inputLightColor":
             return inputLightColor

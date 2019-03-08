@@ -22,11 +22,17 @@ class EditFacesToolController: EditBaseToolController {
     
     let menu: SimpleCarousel! = SimpleCarousel()
     var editView: EditImageDisplayView! = EditImageDisplayView()
+    var inputImage: CIImage? = nil
+    var inputSize: CGSize = CGSize.zero
+    
     //var overlayView: UIView! = UIView()
     var shapeLayer:CAShapeLayer! = nil
     var maskView: UIImageView! = UIImageView() // this is for debugging the masking operations
     var maskShapeLayer:CAShapeLayer! = nil
     var pathView: PathMaskView! = PathMaskView()
+    
+    let maskBackground = UIColor.black
+    let maskForeground = UIColor.white
     
     var faceList: [FacialFeatures] = []
     var currFaceIndex: Int = -1
@@ -36,7 +42,7 @@ class EditFacesToolController: EditBaseToolController {
     //////////////////////////////////////////
     // MARK: - Init
     //////////////////////////////////////////
-
+    
     
     convenience init(){
         self.init(nibName:nil, bundle:nil)
@@ -83,44 +89,44 @@ class EditFacesToolController: EditBaseToolController {
         log.verbose("Ignoring...")
         // should probably do something here
     }
-
+    
     
     override func end() {
         log.verbose("Restoring navbar")
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         dismiss()
     }
-
+    
     //////////////////////////////////////////
     // MARK: - Main View Layout
     //////////////////////////////////////////
-
+    
     private func buildView(_ view: UIView){
         
         // hide the navbar
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         
         toolView.backgroundColor = theme.backgroundColor
-
+        
         // Edit view automatically loads te current edit image
         editView.frame.size = toolView.frame.size
         toolView.addSubview(editView)
         editView.fillSuperview()
-
+        
         toolView.addSubview(maskView)
         maskView.fillSuperview()
-
-        maskView.backgroundColor = UIColor.black // explicitly black for masking
+        
+        maskView.backgroundColor = maskBackground // set explicitly for masking (i.e. don't use theme colour)
         maskView.isHidden = true
-
+        
         maskShapeLayer = CAShapeLayer()
-        maskShapeLayer.strokeColor = UIColor.white.cgColor
-        maskShapeLayer.fillColor = UIColor.white.cgColor
+        maskShapeLayer.strokeColor = maskForeground.cgColor
+        maskShapeLayer.fillColor = maskForeground.cgColor
         maskShapeLayer.fillRule = CAShapeLayerFillRule.nonZero // we want all paths to be filled, whether or not they overlap
         maskShapeLayer.lineWidth = 1.0
         maskShapeLayer.lineJoin = CAShapeLayerLineJoin.round
         maskShapeLayer.lineCap = CAShapeLayerLineCap.round
-
+        
         //maskView.layer.addSublayer(maskShapeLayer)
         
         toolView.layer.addSublayer(maskShapeLayer)
@@ -129,19 +135,20 @@ class EditFacesToolController: EditBaseToolController {
         toolView.addSubview(pathView)
         pathView.fillSuperview()
         
-//        DispatchQueue.main.async {
-//            self.testMask()
-//            //self.test2()
-//        }
-
-
+        //        DispatchQueue.main.async {
+        //            self.testMask()
+        //            //self.test2()
+        //        }
+        
+        
         setupMenu()
         
-        let image = EditManager.getPreviewImage()
+        inputImage = EditManager.getPreviewImage()
+        inputSize = EditManager.getImageSize()
         let orientation = InputSource.getOrientation()
         
         editView.setNeedsDisplay()
-
+        
         DispatchQueue.main.async {
             
             // set up shape layer within async block so that editView has some time to get set up
@@ -156,9 +163,9 @@ class EditFacesToolController: EditBaseToolController {
             self.shapeLayer.strokeColor = self.theme.highlightColor.cgColor
             self.shapeLayer.lineWidth = 1.0
             
-            self.detectFaces(on: image!, orientation: orientation)
+            self.detectFaces(on: self.inputImage!, orientation: orientation)
         }
-
+        
     }
     
     //////////////////////////////////////////
@@ -175,10 +182,10 @@ class EditFacesToolController: EditBaseToolController {
         
         toolView.addSubview(menu)
         menu.anchorToEdge(.bottom, padding: 0, width: menu.frame.size.width, height: menu.frame.size.height)
-//        log.verbose("menu: w:\(menu.frame.size.width) h:\(menu.frame.size.height)")
+        //        log.verbose("menu: w:\(menu.frame.size.width) h:\(menu.frame.size.height)")
         
     }
-
+    
     // Adornment list
     fileprivate var itemList: [Adornment] = [ Adornment(key: "lips",       text: "Lips",          icon: "ic_lips", view: nil, isHidden: false),
                                               Adornment(key: "skin",       text: "Skin",          icon: "ic_acne", view: nil, isHidden: false),
@@ -187,45 +194,49 @@ class EditFacesToolController: EditBaseToolController {
                                               Adornment(key: "eyebrows",   text: "Eyebrows",      icon: "ic_eyebrow", view: nil, isHidden: false),
                                               Adornment(key: "select",     text: "Select Face",   icon: "ic_face_select", view: nil, isHidden: false),
                                               Adornment(key: "auto",       text: "Auto Adjust",   icon: "ic_magic", view: nil, isHidden: false) ]
-
+    
     // returns the list of titles for each item
     func getItemList() -> [Adornment] {
         return itemList
     }
-
+    
     // handler for selected adornments:
     func handleSelection(key:String){
-        DispatchQueue.main.async {
-            self.clearMask()
-            self.hideMask()
-            self.maskShapeLayer.fillRule = CAShapeLayerFillRule.nonZero // by default, we want all paths to be filled, whether or not they overlap
-            switch (key){
-            case "lips": self.lipsHandler()
-            case "skin": self.skinHandler()
-            case "teeth": self.teethHandler()
-            case "eyes": self.eyesHandler()
-            case "eyebrows": self.eyebrowsHandler()
-            case "select": self.selectHandler()
-            case "auto": self.autoHandler()
-            default:
-                log.error("Unknown key: \(key)")
+        if faceList.count > 0 {
+            DispatchQueue.main.async {
+                self.clearMask()
+                self.hideMask()
+                self.maskShapeLayer.fillRule = CAShapeLayerFillRule.nonZero // by default, we want all paths to be filled, whether or not they overlap
+                switch (key){
+                case "lips": self.lipsHandler()
+                case "skin": self.skinHandler()
+                case "teeth": self.teethHandler()
+                case "eyes": self.eyesHandler()
+                case "eyebrows": self.eyebrowsHandler()
+                case "select": self.selectHandler()
+                case "auto": self.autoHandler()
+                default:
+                    log.error("Unknown key: \(key)")
+                }
+                
+                self.editView.updateImage()
             }
-            
-            self.editView.updateImage()
+        } else {
+            log.warning("No faces detected. Ignoring request: \(key)")
         }
     }
-
+    
     func lipsHandler(){
         if faceList.count > 0 {
             self.maskShapeLayer.fillRule = CAShapeLayerFillRule.evenOdd // for lips, we want the area between inner & outer
-
+            
             // generate a mask of the teeth
             var paths: [UIBezierPath] = []
             for face in faceList {
                 paths.append(createPath(points: face.outerLips))
                 paths.append(createPath(points: face.innerLips))
             }
- 
+            
             self.maskView.image = createMask(from: paths, size: toolView.frame.size)
             //let cgimage = EditManager.getPreviewImage()?.getCGImage(size: EditManager.getImageSize())
             //let img = UIImage(cgImage: cgimage!)
@@ -239,8 +250,8 @@ class EditFacesToolController: EditBaseToolController {
         let descriptor = filterManager.getFilterDescriptor(key: "MaskedSkinSmoothingFilter")
         if descriptor != nil {
             descriptor?.reset()
-            //descriptor?.setParameter("inputAmount", value: 1.0)
-            //descriptor?.setParameter("inputRadius", value: 16.0)
+            descriptor?.setParameter("inputAmount", value: 1.0)
+            descriptor?.setParameter("inputRadius", value: 16.0)
             EditManager.addPreviewFilter(descriptor)
         } else {
             log.error("Error creating skin filter")
@@ -250,18 +261,38 @@ class EditFacesToolController: EditBaseToolController {
     func teethHandler(){
         
         if faceList.count > 0 {
+            clearMask()
+            hideMask()
+            self.maskView.isHidden = false
+            
             // generate a mask of the teeth
             var paths: [UIBezierPath] = []
             for face in faceList {
                 paths.append(createPath(points: face.innerLips))
             }
             
-            self.maskView.image = createMask(from: paths, size: toolView.frame.size)
-            //let img = UIImage(ciImage: EditManager.getPreviewImage()!)
-            //self.maskView.image = img.imageFromPaths(paths: paths)
-            showMask()
+
+           // de-saturate yellow, brighten the teeth
+            let yVector = CIVector(x: 0.0, y: 0.1, z: 1.0) // set saturation to low value (but not 0.0)
+            let teethImg = inputImage?
+                .applyingFilter("MultiBandHSV", parameters: ["inputYellowShift": yVector, "inputOrangeShift": yVector])
+                //.applyingFilter("CIExposureAdjust", parameters: ["inputEV": 0.3]) // tmp  value for debug
+                .applyingFilter("BrightnessFilter", parameters: ["inputBrightness": 0.03]) // tmp  value for debug
+            
+            // create a mask
+            let mask = createMask(from: paths, size: self.toolView.frame.size)
+            let teethMask = CIImage(image: mask!)?
+                .applyingFilter("CIPhotoEffectMono") // mask must be greyscale
+                .resize(size: inputSize)
+            
+            // modify the original using the mask
+            let maskedImg =  teethImg?
+                .applyingFilter("CIBlendWithMask", parameters: [kCIInputMaskImageKey: teethMask!, kCIInputBackgroundImageKey:inputImage!])
+ 
+            self.maskView.image = UIImage(ciImage: maskedImg!) // tmp dbg
         }
     }
+    
     
     func eyesHandler(){
         //self.coordinator?.selectFilterNotification(key: "ContrastFilter")
@@ -278,23 +309,21 @@ class EditFacesToolController: EditBaseToolController {
             }
             
             self.maskView.image = createMask(from: paths, size: toolView.frame.size)
-            //let img = UIImage(ciImage: EditManager.getPreviewImage()!)
-            //self.maskView.image = img.imageFromPaths(paths: paths)
             showMask()
         }
-
+        
     }
     
     func autoHandler(){
         let descriptor = filterManager.getFilterDescriptor(key: "AutoAdjustFilter")
         
-        // TODO: figure out how to add a bunch of filters as a group
+        // TODO: figure out how to add a bunch of filters as a group, then run all of the filters along with AutoAdjust
         if descriptor != nil {
             EditManager.addPreviewFilter(descriptor)
         }
-       //skinHandler()
+        //skinHandler()
     }
-
+    
     func eyebrowsHandler(){
         if faceList.count > 0 {
             // generate a mask of the teeth
@@ -310,39 +339,42 @@ class EditFacesToolController: EditBaseToolController {
             showMask()
         }
     }
-
+    
     func selectHandler(){
         self.selectNextFace()
     }
-
+    
     
     // debug:
     private func showMask(){
         self.maskView.isHidden = false
         self.editView.isHidden = true
+        self.maskShapeLayer.isHidden = false
     }
     
     private func hideMask(){
         self.maskView.isHidden = true
         self.editView.isHidden = false
+        self.maskShapeLayer.isHidden = true
     }
     
     private func clearMask() {
-        pathView.clear()
+        self.pathView.clear()
+        self.maskShapeLayer.sublayers?.removeAll()
     }
     
     //////////////////////////////////////////
     // MARK: - Face Detection
     //////////////////////////////////////////
-
-
+    
+    
     
     var faceDetection = VNDetectFaceRectanglesRequest()
     var faceLandmarks = VNDetectFaceLandmarksRequest()
     var faceLandmarksDetectionRequest = VNSequenceRequestHandler()
     var faceDetectionHandler = VNSequenceRequestHandler()
-
-
+    
+    
     
     private func drawOutline(_ rect: CGRect) {
         let faceBox = UIView(frame: rect)
@@ -422,8 +454,8 @@ class EditFacesToolController: EditBaseToolController {
                 }
             }
         }
-
-
+        
+        
     }
     
     // convert landmarks into CGPoint arrays
@@ -438,9 +470,9 @@ class EditFacesToolController: EditBaseToolController {
                     let pointY = point.y * boundingBox.height + boundingBox.origin.y
                     let point = CGPoint(x: pointX, y: pointY)
                     faceLandmarkPoints.append(point)
-//                    if !(boundingBox.contains(point)){
-//                        log.error("Point [\(pointX),\(pointY)] not in rect:\(boundingBox)")
-//                    }
+                    //                    if !(boundingBox.contains(point)){
+                    //                        log.error("Point [\(pointX),\(pointY)] not in rect:\(boundingBox)")
+                    //                    }
                     //log.verbose("norm:[\(point.x),\(point.y)] => CG:[\(pointX),\(pointY)]")
                 }
                 
@@ -494,7 +526,7 @@ class EditFacesToolController: EditBaseToolController {
             box.append(CGPoint(x: face.faceBounds.origin.x, y: face.faceBounds.origin.y + h))
             box.append(CGPoint(x: face.faceBounds.origin.x + w, y: face.faceBounds.origin.y + h))
             box.append(CGPoint(x: face.faceBounds.origin.x + w, y: face.faceBounds.origin.y))
-
+            
             self.draw(points: box)
             self.draw(points: face.faceContour)
             self.draw(points: face.leftEye)
@@ -508,9 +540,9 @@ class EditFacesToolController: EditBaseToolController {
             self.draw(points: face.innerLips)
             self.draw(points: face.leftPupil)
             self.draw(points: face.rightPupil)
-
+            
         }
-
+        
     }
     
     func selectNextFace() {
@@ -545,10 +577,10 @@ class EditFacesToolController: EditBaseToolController {
         let cy:CGFloat = toolView.frame.size.height/2.0
         let w: CGFloat = 32.0
         let square = [CGPoint(x: cx-w, y: cy-w), CGPoint(x: cx+w, y: cy-w), CGPoint(x: cx+w, y: cy+w), CGPoint(x: cx-w, y: cy+w)]
-
+        
         maskView.isHidden = false
         self.maskShapeLayer.sublayers?.removeAll()
-
+        
         
         // create the corresponding Bezier path
         let path = UIBezierPath()
@@ -566,9 +598,9 @@ class EditFacesToolController: EditBaseToolController {
         
         maskShapeLayer.path = path.cgPath
         toolView.setNeedsDisplay()
-
+        
     }
-
+    
     private func test2(){
         let path = self.createRectangle()
         
@@ -589,7 +621,7 @@ class EditFacesToolController: EditBaseToolController {
         pathView.clear()
         
         // create a test shape
-        let imgsize = EditManager.getImageSize()
+        _ = EditManager.getImageSize()
         let cx:CGFloat = toolView.frame.size.width/2.0
         let cy:CGFloat = toolView.frame.size.height/2.0
         let w: CGFloat = 32.0
@@ -598,20 +630,20 @@ class EditFacesToolController: EditBaseToolController {
         // create the corresponding Bezier path
         let path = UIBezierPath()
         /***
-        //let start = cgToViewPoint(square[0])
-        let start = square[0]
-        path.move(to: start)
-        for i in 1..<square.count {
-            //let point = cgToViewPoint(square[i])
-            let point = square[i]
-            path.addLine(to: point)
-            path.move(to: point)
-        }
-        path.addLine(to: start)
+         //let start = cgToViewPoint(square[0])
+         let start = square[0]
+         path.move(to: start)
+         for i in 1..<square.count {
+         //let point = cgToViewPoint(square[i])
+         let point = square[i]
+         path.addLine(to: point)
+         path.move(to: point)
+         }
+         path.addLine(to: start)
          ***/
         path.interpolatePointsWithHermite(interpolationPoints: square)
         path.close()
-
+        
         pathView.addPath(path)
         pathView.setNeedsDisplay()
     }
@@ -647,32 +679,76 @@ class EditFacesToolController: EditBaseToolController {
         }
         
         self.maskShapeLayer.sublayers?.removeAll()
+        self.maskShapeLayer.backgroundColor = maskBackground.cgColor
+        self.maskShapeLayer.strokeColor = maskForeground.cgColor
+        self.maskShapeLayer.fillColor = maskForeground.cgColor
 
-
+        
         UIGraphicsBeginImageContextWithOptions(size, false, 0)
         let context = UIGraphicsGetCurrentContext()
         context?.saveGState()
-        
+        context?.setFillColor(maskForeground.cgColor)
+        context?.setStrokeColor(maskForeground.cgColor)
+
         for path in paths {
             let newLayer = CAShapeLayer()
-            newLayer.strokeColor = UIColor.white.cgColor
-            newLayer.fillColor = UIColor.white.cgColor
+            newLayer.backgroundColor = maskBackground.cgColor
+            newLayer.strokeColor = maskForeground.cgColor
+            newLayer.fillColor = maskForeground.cgColor
             //newLayer.lineWidth = 1.0
-
+            
             path.close()
             path.stroke()
             path.fill()
-           //log.verbose("path: \(path)")
-            //context!.addPath(path.cgPath)
+            //log.verbose("path: \(path)")
+            context?.addPath(path.cgPath)
             newLayer.path = path.cgPath
             maskShapeLayer.addSublayer(newLayer)
         }
-        //context?.drawPath(using: .eoFill)
+        context?.drawPath(using: .eoFill)
         //context?.drawPath(using: .fill)
+        
+        maskShapeLayer.render(in: context!)
 
         let image = UIGraphicsGetImageFromCurrentImageContext()
+        
+//        let renderer = UIGraphicsImageRenderer(size: size)
+//        let image = renderer.image { ctx in
+//            ctx.cgContext.setFillColor(self.maskForeground.cgColor)
+//            ctx.cgContext.setStrokeColor(self.maskForeground.cgColor)
+//            return maskShapeLayer.render(in: ctx.cgContext)
+//        }
+        
         UIGraphicsEndImageContext()
+
         return image
+    }
+    
+    
+    // mask the input image withe supplied mask image
+    private func maskedImage(image: CGImage?, mask: CGImage?) -> CGImage? {
+        guard (image != nil), (mask != nil) else {
+            log.error("NIL input image(s)")
+            return image
+        }
+        
+        //let imageMask = image?.masking(mask!)
+        
+        /***/
+        let imageMask = CGImage(maskWidth: (mask?.width)!,
+                                height: (mask?.height)!,
+                                bitsPerComponent: (mask?.bitsPerComponent)!,
+                                bitsPerPixel: (mask?.bitsPerPixel)!,
+                                bytesPerRow: (mask?.bytesPerRow)!,
+                                provider: (mask?.dataProvider)!, decode: nil, shouldInterpolate: true)
+        /***/
+
+        if imageMask != nil {
+            return image?.masking(imageMask!)
+        } else {
+            log.error("Error masking image")
+            return image
+        }
     }
     
     ///////////////////////////
@@ -684,14 +760,14 @@ class EditFacesToolController: EditBaseToolController {
         let path = UIBezierPath()
         var vpoints:[CGPoint] = []
         /***
-        let start = cgToViewPoint(points[0])
-        path.move(to: start)
-        for i in 1..<points.count {
-            let point = cgToViewPoint(points[i])
-            path.addLine(to: point)
-            path.move(to: point)
-        }
-        path.addLine(to: start)
+         let start = cgToViewPoint(points[0])
+         path.move(to: start)
+         for i in 1..<points.count {
+         let point = cgToViewPoint(points[i])
+         path.addLine(to: point)
+         path.move(to: point)
+         }
+         path.addLine(to: start)
          ***/
         // convert to view coordinates
         let start = cgToViewPoint(points[0])
@@ -745,7 +821,7 @@ class EditFacesToolController: EditBaseToolController {
         var vrect: CGRect = CGRect.zero
         
         vrect.origin = self.editView.getViewPosition(imagePos: rect.origin)
-
+        
         let topright = CGPoint(x: rect.origin.x + rect.size.width, y: rect.origin.y + rect.size.height)
         let vtopright = self.editView.getViewPosition(imagePos: topright)
         vrect.size.width = vtopright.x - vrect.origin.x
@@ -755,17 +831,17 @@ class EditFacesToolController: EditBaseToolController {
         return vrect
     }
     
-
+    
     // convert normalised, CG-based point to view-based point. It is assumed that the normalised point is specified relative to the supplied view
     private func normalToViewPoint(_ point: CGPoint, view: UIView) -> CGPoint {
         let pointX = point.x * view.frame.size.width + view.frame.origin.x
         let pointY = point.y * view.frame.size.height + view.frame.origin.y
-
+        
         let vpoint = CGPoint(x: pointX, y: view.frame.size.height - pointY)
         return vpoint
     }
-
-
+    
+    
     // convert CG-based point coordinate to UI-based coordinate for specified view
     // It is assumed that the CG-based point has already been appropriately scaled (i.e. is not in image-based coordinates)
     private func cgToViewPoint(_ point: CGPoint) -> CGPoint {

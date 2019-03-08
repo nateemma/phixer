@@ -86,6 +86,8 @@ class DehazeFilter: CIFilter {
         switch key {
         case "inputImage":
             return inputImage
+        case "outputImage":
+            return outputImage
         case "inputDistance":
             return inputDistance
         case "inputSlope":

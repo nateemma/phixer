@@ -199,6 +199,8 @@ class MultiBandHSV: CIFilter
         switch key {
         case "inputImage":
             return inputImage
+        case "outputImage":
+            return outputImage
         case "inputRedShift":
             return inputRedShift
         case "inputOrangeShift":

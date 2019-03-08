@@ -93,6 +93,8 @@ class CompoundEye: CIFilter
         switch key {
         case "inputImage":
             return inputImage
+        case "outputImage":
+            return outputImage
         case "inputWidth":
             return inputWidth
         case "inputBend":

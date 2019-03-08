@@ -137,6 +137,8 @@ class MaskedSkinSmoothingFilter: CIFilter {
         switch key {
         case "inputImage":
             return inputImage
+        case "outputImage":
+            return outputImage
         case "inputAmount":
             return inputAmount
         case "inputRadius":
