@@ -829,6 +829,13 @@
 		25CF4BDA1D9490C400D779CF /* SquareButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BD41D9490C400D779CF /* SquareButton.swift */; };
 		25CF4BDC1D94D93700D779CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BDB1D94D93700D779CF /* AppDelegate.swift */; };
 		25D24AB71DC7DCDB001F65B9 /* FilterGalleryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D24AB61DC7DCDB001F65B9 /* FilterGalleryViewCell.swift */; };
+		25E36AA222414807009D2727 /* FaceDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E36AA122414807009D2727 /* FaceDetection.swift */; };
+		25E36AA42241AC28009D2727 /* EditFacesMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E36AA32241AC28009D2727 /* EditFacesMenuController.swift */; };
+		25E36AA622440924009D2727 /* EnhanceLipsFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E36AA522440924009D2727 /* EnhanceLipsFilter.swift */; };
+		25E36AA822444BCD009D2727 /* EnhanceEyesFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E36AA722444BCD009D2727 /* EnhanceEyesFilter.swift */; };
+		25E36AAA22444DEC009D2727 /* EnhanceTeethFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E36AA922444DEC009D2727 /* EnhanceTeethFilter.swift */; };
+		25E36AAC2244507A009D2727 /* EnhanceEyebrowsFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E36AAB2244507A009D2727 /* EnhanceEyebrowsFilter.swift */; };
+		25E36AAE2244513A009D2727 /* EnhanceFaceFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E36AAD2244513A009D2727 /* EnhanceFaceFilter.swift */; };
 		25E80EA7216D62F100EBE8E6 /* testFilterConfig.json in Resources */ = {isa = PBXBuildFile; fileRef = 25E80EA6216D62F100EBE8E6 /* testFilterConfig.json */; };
 		25F21F762200B4FB005C449F /* EditDetailMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F21F752200B4FB005C449F /* EditDetailMenuController.swift */; };
 		25F21F7822016ED3005C449F /* HighPassSharpeningFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F21F7722016ED3005C449F /* HighPassSharpeningFilter.swift */; };
@@ -1770,6 +1777,13 @@
 		25CF4BD41D9490C400D779CF /* SquareButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SquareButton.swift; sourceTree = "<group>"; };
 		25CF4BDB1D94D93700D779CF /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		25D24AB61DC7DCDB001F65B9 /* FilterGalleryViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterGalleryViewCell.swift; sourceTree = "<group>"; };
+		25E36AA122414807009D2727 /* FaceDetection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceDetection.swift; sourceTree = "<group>"; };
+		25E36AA32241AC28009D2727 /* EditFacesMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditFacesMenuController.swift; sourceTree = "<group>"; };
+		25E36AA522440924009D2727 /* EnhanceLipsFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnhanceLipsFilter.swift; sourceTree = "<group>"; };
+		25E36AA722444BCD009D2727 /* EnhanceEyesFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnhanceEyesFilter.swift; sourceTree = "<group>"; };
+		25E36AA922444DEC009D2727 /* EnhanceTeethFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnhanceTeethFilter.swift; sourceTree = "<group>"; };
+		25E36AAB2244507A009D2727 /* EnhanceEyebrowsFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnhanceEyebrowsFilter.swift; sourceTree = "<group>"; };
+		25E36AAD2244513A009D2727 /* EnhanceFaceFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnhanceFaceFilter.swift; sourceTree = "<group>"; };
 		25E80EA6216D62F100EBE8E6 /* testFilterConfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testFilterConfig.json; sourceTree = "<group>"; };
 		25F21F752200B4FB005C449F /* EditDetailMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditDetailMenuController.swift; sourceTree = "<group>"; };
 		25F21F7722016ED3005C449F /* HighPassSharpeningFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HighPassSharpeningFilter.swift; sourceTree = "<group>"; };
@@ -1897,6 +1911,11 @@
 				25F21FE0220B37C5005C449F /* CropRotateFilter.swift */,
 				2537A1C221D4622900060DBE /* DehazeFilter.swift */,
 				252745F02182295100AA2DA2 /* EdgeGlowFilter.swift */,
+				25E36AA522440924009D2727 /* EnhanceLipsFilter.swift */,
+				25E36AA722444BCD009D2727 /* EnhanceEyesFilter.swift */,
+				25E36AA922444DEC009D2727 /* EnhanceTeethFilter.swift */,
+				25E36AAB2244507A009D2727 /* EnhanceEyebrowsFilter.swift */,
+				25E36AAD2244513A009D2727 /* EnhanceFaceFilter.swift */,
 				25F21F7922022EF7005C449F /* HighPassFilter.swift */,
 				25F21F7722016ED3005C449F /* HighPassSharpeningFilter.swift */,
 				25F21FE8220B8482005C449F /* HighPassSkinSmoothingFilter.swift */,
@@ -2046,6 +2065,7 @@
 				25F85CEC21CC2631005498C4 /* EditBaseMenuController.swift */,
 				2537A21221E915AD00060DBE /* EditBaseMenuInterface.swift */,
 				25F85CE721C97593005498C4 /* EditBasicAdjustmentsController.swift */,
+				25E36AA32241AC28009D2727 /* EditFacesMenuController.swift */,
 				2537A1F821E484AA00060DBE /* EditCurvesController.swift */,
 				25F21F752200B4FB005C449F /* EditDetailMenuController.swift */,
 				2568BDEE21C870F800560287 /* EditMainOptionsController.swift */,
@@ -2079,6 +2099,7 @@
 				253B23761DA4BB7800203ECB /* ClosestFraction.swift */,
 				2556731E1DB961F700187F25 /* DisplayMode.swift */,
 				2568BDCA21AC731100560287 /* EditManager.swift */,
+				25E36AA122414807009D2727 /* FaceDetection.swift */,
 				25F21FF2220FB233005C449F /* FacialFeatures.swift */,
 				253F54CC1DF24702007CCDEF /* FilterConfiguration.swift */,
 				25CC3EAC21FD198700EB8A0A /* FilterDescriptorCache.swift */,
@@ -4001,6 +4022,7 @@
 				252745EF21815FB700AA2DA2 /* CarnivalMirror.swift in Sources */,
 				25F21F762200B4FB005C449F /* EditDetailMenuController.swift in Sources */,
 				2537A1F921E484AA00060DBE /* EditCurvesController.swift in Sources */,
+				25E36AAE2244513A009D2727 /* EnhanceFaceFilter.swift in Sources */,
 				25F21FDC2208B078005C449F /* ImageCropperOverlayViewConfigurationCorner.swift in Sources */,
 				258F09A7218CDEFD0082FE2A /* Geometry.swift in Sources */,
 				2568BDCD21B9DE3600560287 /* InputSource.swift in Sources */,
@@ -4009,10 +4031,12 @@
 				252C17A01ECE75FC00039BFC /* SettingsEntity+CoreDataClass.swift in Sources */,
 				25CC3EA521F80AE400EB8A0A /* FilterDetailsViewController.swift in Sources */,
 				25F21FED220CA7F9005C449F /* CGRect+Extensions.swift in Sources */,
+				25E36AA42241AC28009D2727 /* EditFacesMenuController.swift in Sources */,
 				252745F72182A1D500AA2DA2 /* BorderedButton.swift in Sources */,
 				25F460201D99D79B00EDA182 /* AspectRatio.swift in Sources */,
 				2537A1E921E030A700060DBE /* ColorSketchFilter.swift in Sources */,
 				2517295C2175410B00D5E946 /* UserChangesEntity+CoreDataProperties.swift in Sources */,
+				25E36AA822444BCD009D2727 /* EnhanceEyesFilter.swift in Sources */,
 				25F21FE3220B45F2005C449F /* ScrollableRenderView.swift in Sources */,
 				2573D1DF217CDCB500E78CAB /* YUCIReflectedTileROICalculator.m in Sources */,
 				252745F521826DBC00AA2DA2 /* ColorSchemeViewController.swift in Sources */,
@@ -4049,6 +4073,7 @@
 				2573D1D8217CDCB500E78CAB /* YUCIFilterConstructor.m in Sources */,
 				258F099D218CBFC30082FE2A /* FNS-Feathers.mlmodel in Sources */,
 				25F21FE7220B75EF005C449F /* AutoAdjustFilter.swift in Sources */,
+				25E36AA222414807009D2727 /* FaceDetection.swift in Sources */,
 				252746042187653500AA2DA2 /* UIColor+Extensions.swift in Sources */,
 				2537A1C721DC27BC00060DBE /* Adornment.swift in Sources */,
 				2537A22C21EE784000060DBE /* FilterGalleryCoordinator.swift in Sources */,
@@ -4091,6 +4116,7 @@
 				25F21FB92204CFA3005C449F /* ZoomableScrollView.swift in Sources */,
 				258EA08E1ED90A7000D5E20E /* SettingsMenuController.swift in Sources */,
 				2537A22821EE510200060DBE /* BasicEditCoordinator.swift in Sources */,
+				25E36AA622440924009D2727 /* EnhanceLipsFilter.swift in Sources */,
 				25F21F7822016ED3005C449F /* HighPassSharpeningFilter.swift in Sources */,
 				2568BDD321BB3F2800560287 /* StyleTransferGalleryViewCell.swift in Sources */,
 				2537A21521E9A71300060DBE /* EditCurvesToolController.swift in Sources */,
@@ -4118,6 +4144,7 @@
 				258F09B5218E4BDC0082FE2A /* Style_Mosaic.swift in Sources */,
 				25CC3EBA21FFD59D00EB8A0A /* CRTFilter.swift in Sources */,
 				2542DF651ED6634800CEB968 /* SettingsEntity+CoreDataProperties.swift in Sources */,
+				25E36AAA22444DEC009D2727 /* EnhanceTeethFilter.swift in Sources */,
 				25F21FF3220FB233005C449F /* FacialFeatures.swift in Sources */,
 				258F09B7218E67910082FE2A /* TimedAlertView.swift in Sources */,
 				25F21F7F220384C0005C449F /* EditCropToolController.swift in Sources */,
@@ -4133,6 +4160,7 @@
 				2573D1EC217CDCB500E78CAB /* YUCIBilateralFilter.m in Sources */,
 				2573D1E9217CDCB500E78CAB /* YUCIHistogramEqualization.m in Sources */,
 				2537A21A21ED3E7F00060DBE /* ControllerFactory.swift in Sources */,
+				25E36AAC2244507A009D2727 /* EnhanceEyebrowsFilter.swift in Sources */,
 				2537A1BD21D28E5600060DBE /* SaturationFilter.swift in Sources */,
 				25F21FF9221738DB005C449F /* PathMaskView.swift in Sources */,
 				252C17A61ECE75FC00039BFC /* AssignmentEntity+CoreDataClass.swift in Sources */,

@@ -52,7 +52,7 @@ class ScrollableRenderView: UIScrollView, UIScrollViewDelegate {
 	}
 	
     //MARK: - Configure scrollView to display new image
-    var image: CIImage? = nil {
+    weak var image: CIImage? = nil {
         didSet {
             
             guard image != nil else {
@@ -98,15 +98,15 @@ class ScrollableRenderView: UIScrollView, UIScrollViewDelegate {
     
     // passthrough funcs to maintian RenderView interface
     public func setImageSize(_ size: CGSize){
-        self.zoomView.setImageSize(size)
+        self.zoomView?.setImageSize(size)
     }
     
     public func getImagePosition(viewPos:CGPoint) -> CIVector {
-        return self.zoomView.getImagePosition(viewPos: viewPos)
+        return self.zoomView?.getImagePosition(viewPos: viewPos) ?? CIVector(cgPoint: CGPoint(x: 0, y: 0))
     }
     
     public func getViewPosition(imagePos:CGPoint) -> CGPoint {
-        return self.zoomView.getViewPosition(imagePos: imagePos)
+        return self.zoomView?.getViewPosition(imagePos: imagePos) ?? CGPoint(x: 0, y: 0)
     }
     
     
@@ -119,8 +119,8 @@ class ScrollableRenderView: UIScrollView, UIScrollViewDelegate {
         //self.zoomScale = self.minimumZoomScale
 
 		//Enable zoom tap
-		self.zoomView.addGestureRecognizer(self.zoomingTap)
-		self.zoomView.isUserInteractionEnabled = true
+		self.zoomView?.addGestureRecognizer(self.zoomingTap)
+		self.zoomView?.isUserInteractionEnabled = true
 	}
 	
     

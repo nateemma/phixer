@@ -6,9 +6,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-
 #import <GoogleMobileAds/GoogleMobileAdsDefines.h>
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,9 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// Optional delegate to receive state change notifications.
 @property(nonatomic, weak, nullable) id<GADNativeAdDelegate> delegate;
 
-/// Reference to the root view controller for the native ad. This is the view controller the ad will
-/// present from if necessary (for example, presenting a landing page after a user click). Most
-/// commonly, this is the view controller the ad is displayed in.
+/// Reference to a root view controller that is used by the ad to present full screen content after
+/// the user interacts with the ad. The root view controller is most commonly the view controller
+/// displaying the ad.
 @property(nonatomic, weak, nullable) UIViewController *rootViewController;
 
 /// Dictionary of assets which aren't processed by the receiver.

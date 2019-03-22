@@ -168,6 +168,8 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             filterParametersView.collapse()
             filterParametersView.isHidden = false
             
+            FaceDetection.reset()
+
         }
     }
     
@@ -243,6 +245,12 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         // listen to key press events
         setVolumeListener()
         
+        // bit of a hack, but reset face detection if image changes. This allows results to be re-used across filters, which is a very expensive operation
+        DispatchQueue.main.async(execute: { () -> Void in
+            FaceDetection.reset()
+            FaceDetection.detectFaces(on: EditManager.getPreviewImage()!, orientation: ImageManager.getEditImageOrientation(), completion: {})
+        })
+
     }
     
     
@@ -883,10 +891,17 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             
             log.verbose("Picked image:\(name) id:\(id)")
             ImageManager.setCurrentEditImageName(id)
+
             //InputSource.setCurrent(source: .edit)
             DispatchQueue.main.async(execute: { () -> Void in
                 self.updateDisplays()
             })
+            
+            // bit of a hack, but reset face detection if image changes. This allows results to be re-used across filters, which is a very expensive operation
+            DispatchQueue.main.async(execute: { () -> Void in
+                FaceDetection.reset()
+                FaceDetection.detectFaces(on: EditManager.getPreviewImage()!, orientation: ImageManager.getEditImageOrientation(), completion: {})
+           })
         } else {
             log.error("Error accessing image data")
         }
@@ -1136,6 +1151,7 @@ extension BasicEditViewController: UIGestureRecognizerDelegate {
                 return false
             }
             
+            // don't propagate if image is not zoomed (otherwise swipe becomes a pan etc.)
             if (gestureRecognizer.view == self.editImageView) && (!self.editImageView.isZoomed()) {
                 return false
             }

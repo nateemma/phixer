@@ -16,7 +16,7 @@
 /// GADMAdNetworkConnector protocol. The connector object can be used to obtain necessary
 /// information for ad requests, and to call back to the mediation SDK on ad request returns and
 /// user interactions.
-@protocol GADMAdNetworkConnector<GADMediationAdRequest>
+@protocol GADMAdNetworkConnector <GADMediationAdRequest>
 
 /// When you need to show a landing page or any other modal view, such as when a user clicks or when
 /// your Ads SDK needs to show an interstitial, use this method to obtain a UIViewController that

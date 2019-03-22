@@ -49,14 +49,14 @@ extension CIImage {
         // double-check that CGImage was created
         guard cgimage != nil else {
             log.error("Could not generate CGImage")
-            return nil
+            return self
         }
         
         // resize the CGImage and check result
         let cgimage2 = cgimage?.resize(size)
         guard cgimage2 != nil else {
             log.error("Could not resize CGImage")
-            return nil
+            return self
         }
         
         return CIImage(cgImage: cgimage2!)

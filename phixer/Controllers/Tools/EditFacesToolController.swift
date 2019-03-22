@@ -227,21 +227,40 @@ class EditFacesToolController: EditBaseToolController {
     }
     
     func lipsHandler(){
+
         if faceList.count > 0 {
-            self.maskShapeLayer.fillRule = CAShapeLayerFillRule.evenOdd // for lips, we want the area between inner & outer
-            
-            // generate a mask of the teeth
-            var paths: [UIBezierPath] = []
+            // generate a mask
+            var fullpath: UIBezierPath! = UIBezierPath()
             for face in faceList {
-                paths.append(createPath(points: face.outerLips))
-                paths.append(createPath(points: face.innerLips))
+                fullpath.append(createCGPath(points: face.outerLips))
+                fullpath.append(createCGPath(points: face.innerLips))
             }
             
-            self.maskView.image = createMask(from: paths, size: toolView.frame.size)
-            //let cgimage = EditManager.getPreviewImage()?.getCGImage(size: EditManager.getImageSize())
-            //let img = UIImage(cgImage: cgimage!)
-            //self.maskView.image = img.imageFromPaths(paths: paths)
-            showMask()
+            // increase saturation and sharpen
+            let adjustedImg = inputImage?
+                .applyingFilter("CIVibrance", parameters: ["inputAmount": 0.6])
+                //.applyingFilter("SaturationFilter", parameters: ["inputSaturation": 1.0])
+                .applyingFilter("ClarityFilter", parameters: ["inputClarity": 0.5])
+                .applyingFilter("CISharpenLuminance", parameters: ["inputRadius": 1.6, "inputSharpness": 0.4])
+            guard adjustedImg != nil else {
+                log.error("NIL adjustedImg")
+                return
+            }
+            
+            let mpath = fullpath.cgPath as! CGMutablePath
+            let mask = createmask(cgpath: mpath, size: self.inputSize)
+            guard mask != nil else {
+                log.error("NIL Mask")
+                return
+            }
+            
+            // blend the original and the adjusted version using the mask
+            let maskedImg =  adjustedImg?
+                .applyingFilter("CIBlendWithMask", parameters: [kCIInputMaskImageKey: mask!, kCIInputBackgroundImageKey:inputImage!])
+            
+            self.maskView.image = UIImage(ciImage: maskedImg!) // tmp dbg
+            
+            showMask() // tmp dbg
         }
     }
     
@@ -260,56 +279,99 @@ class EditFacesToolController: EditBaseToolController {
     
     func teethHandler(){
         
+        guard inputImage != nil else {
+            log.error("NIL inputImage")
+            return
+        }
+
         if faceList.count > 0 {
             clearMask()
             hideMask()
             self.maskView.isHidden = false
             
             // generate a mask of the teeth
-            var paths: [UIBezierPath] = []
+            //var paths: [UIBezierPath] = []
+            var fullpath: UIBezierPath! = UIBezierPath()
             for face in faceList {
-                paths.append(createPath(points: face.innerLips))
+                //                paths.append(createPath(points: face.innerLips))
+                fullpath.append(createCGPath(points: face.innerLips))
             }
             
-
-           // de-saturate yellow, brighten the teeth
+            
+            // de-saturate yellow, brighten the teeth
             let yVector = CIVector(x: 0.0, y: 0.1, z: 1.0) // set saturation to low value (but not 0.0)
-            let teethImg = inputImage?
+            let adjustedImg = inputImage?
                 .applyingFilter("MultiBandHSV", parameters: ["inputYellowShift": yVector, "inputOrangeShift": yVector])
                 //.applyingFilter("CIExposureAdjust", parameters: ["inputEV": 0.3]) // tmp  value for debug
-                .applyingFilter("BrightnessFilter", parameters: ["inputBrightness": 0.03]) // tmp  value for debug
+                .applyingFilter("BrightnessFilter", parameters: ["inputBrightness": 0.01]) // tmp  value for debug
             
             // create a mask
-            let mask = createMask(from: paths, size: self.toolView.frame.size)
-            let teethMask = CIImage(image: mask!)?
-                .applyingFilter("CIPhotoEffectMono") // mask must be greyscale
-                .resize(size: inputSize)
+            //            let mask = createMask(from: paths, size: self.toolView.frame.size)
+            //            let teethMask = CIImage(image: mask!)?
+            //                .applyingFilter("CIPhotoEffectMono") // mask must be greyscale
+            //                .resize(size: inputSize)
             
-            // modify the original using the mask
-            let maskedImg =  teethImg?
+            let mpath = fullpath.cgPath as! CGMutablePath
+            let mask = createmask(cgpath: mpath, size: self.inputSize)
+            guard mask != nil else {
+                log.error("NIL Mask")
+                return
+            }
+            
+            let teethMask = mask //?
+                //.applyingFilter("CIPhotoEffectMono") // mask must be greyscale
+                //.resize(size: inputSize)
+            guard teethMask != nil else {
+                log.error("NIL teethMask")
+                return
+            }
+
+            // TODO: figure out transform to take orientation into account
+            
+            // blend the original and the adjusted version using the mask
+            let maskedImg =  adjustedImg?
                 .applyingFilter("CIBlendWithMask", parameters: [kCIInputMaskImageKey: teethMask!, kCIInputBackgroundImageKey:inputImage!])
- 
+            
             self.maskView.image = UIImage(ciImage: maskedImg!) // tmp dbg
         }
     }
     
     
     func eyesHandler(){
-        //self.coordinator?.selectFilterNotification(key: "ContrastFilter")
-        let descriptor = filterManager.getFilterDescriptor(key: "CIRedEyeCorrection")
-        if descriptor != nil {
-            EditManager.addPreviewFilter(descriptor)
-        }
+
         if faceList.count > 0 {
-            // generate a mask of the teeth
-            var paths: [UIBezierPath] = []
+            // generate a mask
+            var fullpath: UIBezierPath! = UIBezierPath()
             for face in faceList {
-                paths.append(createPath(points: face.leftEye))
-                paths.append(createPath(points: face.rightEye))
+                fullpath.append(createCGPath(points: face.leftEye))
+                fullpath.append(createCGPath(points: face.rightEye))
+            }
+ 
+            // de-saturate red, brighten, increase vibrance and sharpen
+            let yVector = CIVector(x: 0.0, y: 0.1, z: 1.0) // set saturation to low value (but not 0.0)
+            let adjustedImg = inputImage?
+                .applyingFilter("MultiBandHSV", parameters: ["inputRedShift": yVector])
+                //.applyingFilter("CIExposureAdjust", parameters: ["inputEV": 0.3])
+                .applyingFilter("BrightnessFilter", parameters: ["inputBrightness": 0.01])
+                .applyingFilter("CIVibrance", parameters: ["inputAmount": 0.6])
+                .applyingFilter("ClarityFilter", parameters: ["inputClarity": 0.5])
+                .applyingFilter("CISharpenLuminance", parameters: ["inputRadius": 1.6, "inputSharpness": 0.4])
+
+            
+            let mpath = fullpath.cgPath as! CGMutablePath
+            let mask = createmask(cgpath: mpath, size: self.inputSize)
+            guard mask != nil else {
+                log.error("NIL Mask")
+                return
             }
             
-            self.maskView.image = createMask(from: paths, size: toolView.frame.size)
-            showMask()
+            // blend the original and the adjusted version using the mask
+            let maskedImg =  adjustedImg?
+                .applyingFilter("CIBlendWithMask", parameters: [kCIInputMaskImageKey: mask!, kCIInputBackgroundImageKey:inputImage!])
+            
+            self.maskView.image = UIImage(ciImage: maskedImg!) // tmp dbg
+
+            showMask() // tmp dbg
         }
         
     }
@@ -325,18 +387,35 @@ class EditFacesToolController: EditBaseToolController {
     }
     
     func eyebrowsHandler(){
+
         if faceList.count > 0 {
-            // generate a mask of the teeth
-            var paths: [UIBezierPath] = []
+            // generate a mask
+            var fullpath: UIBezierPath! = UIBezierPath()
             for face in faceList {
-                paths.append(createPath(points: face.leftEyebrow))
-                paths.append(createPath(points: face.rightEyebrow))
+                fullpath.append(createCGPath(points: face.leftEyebrow))
+                fullpath.append(createCGPath(points: face.rightEyebrow))
             }
             
-            self.maskView.image = createMask(from: paths, size: toolView.frame.size)
-            //let img = UIImage(ciImage: EditManager.getPreviewImage()!)
-            //self.maskView.image = img.imageFromPaths(paths: paths)
-            showMask()
+            // add some clarity and sharpen
+            let adjustedImg = inputImage?
+                .applyingFilter("ClarityFilter", parameters: ["inputClarity": 0.5])
+                .applyingFilter("CISharpenLuminance", parameters: ["inputRadius": 1.6, "inputSharpness": 0.4])
+            
+            
+            let mpath = fullpath.cgPath as! CGMutablePath
+            let mask = createmask(cgpath: mpath, size: self.inputSize)
+            guard mask != nil else {
+                log.error("NIL Mask")
+                return
+            }
+            
+            // blend the original and the adjusted version using the mask
+            let maskedImg =  adjustedImg?
+                .applyingFilter("CIBlendWithMask", parameters: [kCIInputMaskImageKey: mask!, kCIInputBackgroundImageKey:inputImage!])
+            
+            self.maskView.image = UIImage(ciImage: maskedImg!) // tmp dbg
+            
+            showMask() // tmp dbg
         }
     }
     
@@ -724,7 +803,62 @@ class EditFacesToolController: EditBaseToolController {
         return image
     }
     
-    
+    // alternate func to create a mask from a CGPath and return the corresponding CIImage. This version is intended for use in filters eventually (i.e. no use of UIKit)
+    private func createmask(cgpath: CGMutablePath, size: CGSize) -> CIImage? {
+        
+        var img:CIImage? = nil
+        
+        let colorspace = CGColorSpaceCreateDeviceRGB()
+        let bitmapinfo =  CGImageAlphaInfo.premultipliedLast.rawValue
+        
+        let context = CGContext(data: nil,
+                                width: Int(size.width),
+                                height: Int(size.height),
+                                bitsPerComponent: Int(8),
+                                bytesPerRow: Int(0),
+                                space: colorspace,
+                                bitmapInfo:  bitmapinfo)
+        
+        guard context != nil else {
+            log.error("Could not create CG context")
+            return nil
+        }
+        
+        // don't need high quality here
+        context?.interpolationQuality = .low
+        
+
+//        let black = CGColor(colorSpace: colorspace, components: [0, 0, 0, 1])
+//        guard (black != nil) else {
+//            log.error("Could not create black")
+//            return nil
+//        }
+
+        let white = CGColor(colorSpace: colorspace, components: [1, 1, 1, 1])
+        guard (white != nil) else {
+            log.error("Could not create white")
+            return nil
+        }
+        
+        context?.setFillColor(white!)
+        context?.addPath(cgpath)
+        context?.fillPath()
+        
+        // create the CGImage
+        let cgImage = context?.makeImage()
+        
+        guard cgImage != nil else {
+            log.error("Could not create CGImage")
+            return nil
+        }
+        
+        img = CIImage(cgImage: cgImage!)
+        
+        log.verbose("image size: \(img?.extent.size)\n Path:\(cgpath)")
+        return img
+    }
+
+
     // mask the input image withe supplied mask image
     private func maskedImage(image: CGImage?, mask: CGImage?) -> CGImage? {
         guard (image != nil), (mask != nil) else {
@@ -755,7 +889,7 @@ class EditFacesToolController: EditBaseToolController {
     // MARK: - Utilities
     ///////////////////////////
     
-    // create a Bezier path from an array of (image) points. Bezier path is in View coordinates (doesn't make sense in image coords)
+    // create a Bezier path from an array of (image) points. Bezier path is in View coordinates 
     func createPath(points: [CGPoint]) -> UIBezierPath {
         let path = UIBezierPath()
         var vpoints:[CGPoint] = []
@@ -785,6 +919,27 @@ class EditFacesToolController: EditBaseToolController {
         return path
     }
     
+    // create a CG path from an array of (image) points. In (CG) image coordinates, not UI coordinates
+    func createCGPath(points: [CGPoint]) -> UIBezierPath {
+        let path = UIBezierPath()
+        var vpoints:[CGPoint] = []
+
+        let start = points[0]
+        vpoints.append(start)
+        for i in 1..<points.count {
+            vpoints.append(points[i])
+        }
+        vpoints.append(start)
+        
+        // smooth the curve
+        path.interpolatePointsWithHermite(interpolationPoints: vpoints) // create a smooth curve from the points
+        
+        // close the path and return it
+        path.close()
+
+        return path
+    }
+
     // draw the points. Note that we convert from CG- to UI-based points here
     func draw(points: [CGPoint]) {
         if points.count > 0 {
@@ -868,14 +1023,14 @@ extension UIImage {
         
         UIGraphicsBeginImageContextWithOptions(self.size, false, 0.0)
         let context = UIGraphicsGetCurrentContext()
-        context!.saveGState()
+        context?.saveGState()
         for path in paths {
             path.addClip()
         }
         self.draw(in: frame)
         
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        context!.restoreGState()
+        context?.restoreGState()
         UIGraphicsEndImageContext()
         return newImage
     }

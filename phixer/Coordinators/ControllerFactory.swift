@@ -48,6 +48,7 @@ enum ControllerIdentifier: String {
     case editMainMenu
     case editBasicAdjustmentsMenu
     case editDetailMenu
+    case editFacesMenu
 
     // Tool (Sub-) Controllers:
     
@@ -165,6 +166,10 @@ class ControllerFactory {
  
         case .editDetailMenu:
             instance = EditDetailMenuController()
+            ctype = .menu
+
+        case .editFacesMenu:
+            instance = EditFacesMenuController()
             ctype = .menu
 
             

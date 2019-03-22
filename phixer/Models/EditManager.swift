@@ -297,7 +297,7 @@ class EditManager {
     private static func createPreviewMask(size: CGSize, offset: CGFloat) -> CIImage? {
         var img:CIImage? = nil
         
-        // OK, so we want the split to oriented along the longest side
+        // OK, so we want the split to be oriented to the longest side
         // This is a bit of a hack since we are assuming that landscape photos are rotated
         
         var leftRect:CGRect

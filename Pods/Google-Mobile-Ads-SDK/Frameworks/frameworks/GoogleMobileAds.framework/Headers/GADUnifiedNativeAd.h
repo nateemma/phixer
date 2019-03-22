@@ -6,8 +6,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-
 #import <GoogleMobileAds/GADAdChoicesView.h>
 #import <GoogleMobileAds/GADAdLoaderDelegate.h>
 #import <GoogleMobileAds/GADMediaContent.h>
@@ -18,6 +16,7 @@
 #import <GoogleMobileAds/GADUnifiedNativeAdDelegate.h>
 #import <GoogleMobileAds/GADVideoController.h>
 #import <GoogleMobileAds/GoogleMobileAdsDefines.h>
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -56,9 +55,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// Optional delegate to receive state change notifications.
 @property(nonatomic, weak, nullable) id<GADUnifiedNativeAdDelegate> delegate;
 
-/// Reference to the root view controller for the native ad. This is the view controller the ad will
-/// present from if necessary (for example, presenting a landing page after a user click). Most
-/// Most commonly, this is the view controller the ad is displayed in.
+/// Reference to a root view controller that is used by the ad to present full screen content after
+/// the user interacts with the ad. The root view controller is most commonly the view controller
+/// displaying the ad.
 @property(nonatomic, weak, nullable) UIViewController *rootViewController;
 
 /// Dictionary of assets which aren't processed by the receiver.
@@ -104,7 +103,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Protocol and constants
 
 /// The delegate of a GADAdLoader object implements this protocol to receive GADUnifiedNativeAd ads.
-@protocol GADUnifiedNativeAdLoaderDelegate<GADAdLoaderDelegate>
+@protocol GADUnifiedNativeAdLoaderDelegate <GADAdLoaderDelegate>
 /// Called when a unified native ad is received.
 - (void)adLoader:(GADAdLoader *)adLoader didReceiveUnifiedNativeAd:(GADUnifiedNativeAd *)nativeAd;
 @end

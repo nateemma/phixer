@@ -147,7 +147,7 @@ class EditMainOptionsController: EditBaseMenuController {
     }
     
     func facesHandler(){
-        self.coordinator?.activateRequest(id: ControllerIdentifier.editFacesTool)
+        self.coordinator?.activateRequest(id: ControllerIdentifier.editFacesMenu)
     }
     
     func presetsHandler(){

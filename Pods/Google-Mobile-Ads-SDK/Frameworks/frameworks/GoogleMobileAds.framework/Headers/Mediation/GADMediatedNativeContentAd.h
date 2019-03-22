@@ -6,7 +6,6 @@
 //
 
 #import <Foundation/Foundation.h>
-
 #import <GoogleMobileAds/GADNativeAdImage.h>
 #import <GoogleMobileAds/GoogleMobileAdsDefines.h>
 #import <GoogleMobileAds/Mediation/GADMediatedNativeAd.h>
@@ -15,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Provides methods used for constructing native content ads.
 GAD_DEPRECATED_MSG_ATTRIBUTE("Use GADMediatedUnifiedNativeAd instead.")
-@protocol GADMediatedNativeContentAd<GADMediatedNativeAd>
+@protocol GADMediatedNativeContentAd <GADMediatedNativeAd>
 
 /// Primary text headline.
 - (nullable NSString *)headline;
@@ -43,7 +42,7 @@ GAD_DEPRECATED_MSG_ATTRIBUTE("Use GADMediatedUnifiedNativeAd instead.")
 /// Media view.
 - (nullable UIView *)mediaView;
 
-/// Returns YES if the ad has video content.
+/// Indicates whether the ad has video content.
 - (BOOL)hasVideoContent;
 
 @end

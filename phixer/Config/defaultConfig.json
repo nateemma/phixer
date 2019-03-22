@@ -1,7 +1,9 @@
 {
     "version": { "id": 3.0, "overwrite": false },
     
-    "slow": [ "KuwaharaFilter", "SketchFilter", "Style_Scream", "Style_Candy", "Style_Mosaic", "Style_Udnie", "Style_LaMuse", "Style_Feathers" ],
+    "slow": [ "KuwaharaFilter", "SketchFilter",
+        "EnhanceLipsFilter", "EnhanceEyesFilter", "EnhanceTeethFilter", "EnhanceEyebrowsFilter", "EnhanceFaceFilter",
+        "Style_Scream", "Style_Candy", "Style_Mosaic", "Style_Udnie", "Style_LaMuse", "Style_Feathers" ],
     
     
     "settings": {

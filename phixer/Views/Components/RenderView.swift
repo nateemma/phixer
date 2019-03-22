@@ -26,7 +26,7 @@ class RenderView: MTKView
     var scale: CGFloat = 1.0
     
     /// The image to display. The image will be rendered when this is set
-    public var image: CIImage? {
+    public weak var image: CIImage? {
         didSet { renderImage() }
     }
     

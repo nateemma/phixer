@@ -55,13 +55,13 @@ class FilterDescriptor {
 
     // private vars
     private var stashedParameters: [String: ParameterSettings] = [:]
-    private var filter: CIFilter? = nil
+    private weak var filter: CIFilter? = nil
     private var lookupImageName: String = ""
-    private var lookupImage: CIImage? = nil
+    private weak var lookupImage: CIImage? = nil
 
     let defaultColor = CIColor(red: 0, green: 0, blue: 0)
 
-    private var default_image: CIImage? = nil
+    private weak var default_image: CIImage? = nil
     private var default_position: CIVector? = CIVector(x: 0, y: 0)
     //private var default_rect: CGRect = CGRect.zero
     private var default_rect: CIVector? = CIVector(cgRect: CGRect.zero)

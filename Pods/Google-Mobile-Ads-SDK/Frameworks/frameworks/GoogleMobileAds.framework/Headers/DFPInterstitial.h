@@ -32,8 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, weak, nullable) id<GADAppEventDelegate> appEventDelegate;
 
 /// Optional delegate object for custom rendered ads.
-@property(nonatomic, weak, nullable)
-    id<DFPCustomRenderedInterstitialDelegate> customRenderedInterstitialDelegate;
+@property(nonatomic, weak, nullable) id<DFPCustomRenderedInterstitialDelegate>
+    customRenderedInterstitialDelegate;
 
 @end
 

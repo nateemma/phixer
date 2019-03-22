@@ -279,6 +279,8 @@ class FilterConfiguration{
             log.error("*** lookup error: \(String(describing: parsedConfig["lookup"].error))")
             log.error("*** assign error: \(String(describing: parsedConfig["assign"].error))")
         }
+        
+        parsedConfig = JSON.null
     }
 
 

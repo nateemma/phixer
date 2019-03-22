@@ -5,8 +5,6 @@
 //  Copyright 2011 Google Inc. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
 #import <GoogleMobileAds/GADAdSize.h>
 #import <GoogleMobileAds/GADAdSizeDelegate.h>
 #import <GoogleMobileAds/GADBannerViewDelegate.h>
@@ -14,6 +12,7 @@
 #import <GoogleMobileAds/GADRequest.h>
 #import <GoogleMobileAds/GADRequestError.h>
 #import <GoogleMobileAds/GoogleMobileAdsDefines.h>
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -51,13 +50,13 @@ NS_ASSUME_NONNULL_BEGIN
 /// Example AdMob ad unit ID: @"ca-app-pub-0123456789012345/0123456789"
 @property(nonatomic, copy, nullable) IBInspectable NSString *adUnitID;
 
-/// Required reference to the root view controller for the banner view. This is the view controller
-/// the banner will present from if necessary (for example, presenting a landing page after a user
-/// click). Most commonly, this is the view controller the banner is displayed in.
+/// Required reference to a root view controller that is used by the banner to present full screen
+/// content after the user interacts with the ad. The root view controller is most commonly the view
+/// controller displaying the banner.
 @property(nonatomic, weak, nullable) IBOutlet UIViewController *rootViewController;
 
-/// Required to set this banner view to a proper size. Never create your own GADAdSize directly. Use
-/// one of the predefined standard ad sizes (such as kGADAdSizeBanner), or create one using the
+/// Required to set this banner view to a proper size. Never create your own GADAdSize directly.
+/// Use one of the predefined standard ad sizes (such as kGADAdSizeBanner), or create one using the
 /// GADAdSizeFromCGSize method. If not using mediation, then changing the adSize after an ad has
 /// been shown will cause a new request (for an ad of the new size) to be sent. If using mediation,
 /// then a new request may not be sent.
@@ -72,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Making an Ad Request
 
-/// Makes an ad request. The request object supplies targeting information.
+/// Requests an ad. The request object supplies targeting information.
 - (void)loadRequest:(nullable GADRequest *)request;
 
 /// A Boolean value that determines whether autoloading of ads in the receiver is enabled. If
@@ -89,13 +88,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Deprecated
 
-/// Indicates if the currently displayed ad (or most recent failure) was a result of auto refreshing
-/// as specified on server. This property is set to NO after each loadRequest: method.
+/// Indicates whether the currently displayed ad (or most recent failure) was a result of auto
+/// refreshing as specified on server. This property is set to NO after each loadRequest: method.
 @property(nonatomic, readonly, assign) BOOL hasAutoRefreshed GAD_DEPRECATED_ATTRIBUTE;
 
-/// Deprecated delegate. GADInAppPurchase has been deprecated.
-@property(nonatomic, weak, nullable)
-    IBOutlet id<GADInAppPurchaseDelegate> inAppPurchaseDelegate GAD_DEPRECATED_ATTRIBUTE;
+/// Deprecated delegate. GADInAppPurchase is deprecated.
+@property(nonatomic, weak, nullable) IBOutlet id<GADInAppPurchaseDelegate> inAppPurchaseDelegate
+    GAD_DEPRECATED_ATTRIBUTE;
 
 /// The mediated ad network's underlying ad view. You may use this property to read the ad's actual
 /// size and adjust this banner view's frame origin. However, modifying the banner view's frame size

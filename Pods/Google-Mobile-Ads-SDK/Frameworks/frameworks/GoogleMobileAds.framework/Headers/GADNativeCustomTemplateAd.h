@@ -6,14 +6,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-
 #import <GoogleMobileAds/GADAdLoaderDelegate.h>
 #import <GoogleMobileAds/GADMediaView.h>
 #import <GoogleMobileAds/GADNativeAd.h>
 #import <GoogleMobileAds/GADNativeAdImage.h>
 #import <GoogleMobileAds/GADVideoController.h>
 #import <GoogleMobileAds/GoogleMobileAdsDefines.h>
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -24,9 +23,9 @@ typedef void (^GADNativeAdCustomClickHandler)(NSString *assetID);
 GAD_EXTERN NSString *const GADNativeCustomTemplateAdMediaViewKey;
 
 /// Native custom template ad. To request this ad type, you need to pass
-/// kGADAdLoaderAdTypeNativeCustomTemplate (see GADAdLoaderAdTypes.h) to the |adTypes| parameter in
-/// GADAdLoader's initializer method. If you request this ad type, your delegate must conform to the
-/// GADNativeCustomTemplateAdLoaderDelegate protocol.
+/// kGADAdLoaderAdTypeNativeCustomTemplate (see GADAdLoaderAdTypes.h) to the |adTypes| parameter
+/// in GADAdLoader's initializer method. If you request this ad type, your delegate must conform to
+/// the GADNativeCustomTemplateAdLoaderDelegate protocol.
 @interface GADNativeCustomTemplateAd : GADNativeAd
 
 /// The ad's custom template ID.
@@ -35,11 +34,11 @@ GAD_EXTERN NSString *const GADNativeCustomTemplateAdMediaViewKey;
 /// Array of available asset keys.
 @property(nonatomic, readonly) NSArray<NSString *> *availableAssetKeys;
 
-/// Video controller for controlling the ad's video content.
+/// Returns video controller for controlling receiver's video.
 @property(nonatomic, readonly, strong) GADVideoController *videoController;
 
-/// Media view for rendering the ad's video content. This property is nil if the ad doesn't have
-/// video content.
+/// Returns media view for rendering video loaded by the receiver. Returns nil if receiver doesn't
+/// has a video.
 @property(nonatomic, readonly, strong, nullable) GADMediaView *mediaView;
 
 /// Custom click handler. Set this property only if this template ad is configured with a custom
@@ -80,7 +79,7 @@ GAD_EXTERN NSString *const GADNativeCustomTemplateAdMediaViewKey;
 
 /// The delegate of a GADAdLoader object implements this protocol to receive
 /// GADNativeCustomTemplateAd ads.
-@protocol GADNativeCustomTemplateAdLoaderDelegate<GADAdLoaderDelegate>
+@protocol GADNativeCustomTemplateAdLoaderDelegate <GADAdLoaderDelegate>
 
 /// Called when requesting an ad. Asks the delegate for an array of custom template ID strings.
 - (NSArray<NSString *> *)nativeCustomTemplateIDsForAdLoader:(GADAdLoader *)adLoader;

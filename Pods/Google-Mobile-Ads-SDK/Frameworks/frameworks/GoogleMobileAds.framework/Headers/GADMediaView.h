@@ -5,17 +5,17 @@
 //  Copyright 2019 Google Inc. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
 #import <GoogleMobileAds/GADMediaContent.h>
+#import <GoogleMobileAds/GoogleMobileAdsDefines.h>
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 /// Displays native ad media content.
 ///
-/// To display media content in GADUnifiedNativeAdView instances, add a GADMediaView subview, assign
-/// the native ad view's mediaView property, and set the native ad's mediaContent property to the
-/// media view.
+/// To display media content in GADUnifiedNativeAdView instances, add a GADMediaView subview,
+/// assign the native ad view's mediaView property, and set the native ad's mediaContent property to
+/// the media view.
 ///
 /// If the native ad contains video content, the media view displays the video content.
 ///
