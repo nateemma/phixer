@@ -75,8 +75,8 @@ class EditImageDisplayView: UIView {
        doInit()
 
         //log.debug("layout")
-        //self.currInput = InputSource.getCurrentImage() // this can change
-        self.currInput = EditManager.getPreviewImage() // this can change
+        self.currInput = InputSource.getCurrentImage() // this can change
+        //self.currInput = EditManager.getPreviewImage() // this can change
         renderView?.frame = self.frame
         renderView?.backgroundColor = theme.backgroundColor
         
@@ -210,11 +210,11 @@ class EditImageDisplayView: UIView {
         DispatchQueue.main.async(execute: { () -> Void in
             //log.verbose("Updating edit image")
             EditManager.setInputImage(InputSource.getCurrentImage())
-            self.currInput = EditManager.getPreviewImage()
-            if self.currInput == nil {
-                log.warning("Edit image not set, using Sample")
-                self.currInput = ImageManager.getCurrentSampleInput() // no edit image set, so make sure there is something
-            }
+//            self.currInput = EditManager.getPreviewImage()
+//            if self.currInput == nil {
+//                log.warning("Edit image not set, using Sample")
+//                self.currInput = ImageManager.getCurrentSampleInput() // no edit image set, so make sure there is something
+//            }
             self.update()
         })
     }
@@ -242,6 +242,7 @@ class EditImageDisplayView: UIView {
     open func runFilter(){
         
 //        if !self.currFilterKey.isEmpty && layoutDone {
+        /***
             DispatchQueue.main.async(execute: { () -> Void in
                 if self.currDisplayMode == .full {
                     //log.verbose("Running filter: \(self.currFilterKey)")
@@ -259,6 +260,26 @@ class EditImageDisplayView: UIView {
                     self.renderView?.image = EditManager.getSplitPreviewImage(offset: self.currSplitOffset)
                 }
             })
+         ***/
+        
+        DispatchQueue.main.async(execute: { () -> Void in
+            if self.currDisplayMode == .full {
+                //log.verbose("Running filter: \(self.currFilterKey)")
+                switch self.currFilterMode {
+                case .preview:
+                    EditManager.getPreviewImageAsync(completion: self.filterCompletion)
+                case .saved:
+                    EditManager.getFilteredImageAsync(completion: self.filterCompletion)
+                case .original:
+                    self.renderView?.image = EditManager.getOriginalImage()
+                default:
+                    log.error("Uknown mode")
+                }
+            } else {
+                EditManager.getSplitPreviewImageAsync(offset: self.currSplitOffset, completion: self.filterCompletion)
+            }
+        })
+
 //        } else {
 //            if self.currFilterKey.isEmpty { // this can happen if no filters have been applied yet
 //                log.warning("Filter not set")
@@ -270,6 +291,13 @@ class EditImageDisplayView: UIView {
 //        }
     }
     
+    
+    // callback for async filter processing
+    private func filterCompletion(_ image: CIImage?){
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.renderView?.image = image
+        })
+    }
     
     func suspend(){
 

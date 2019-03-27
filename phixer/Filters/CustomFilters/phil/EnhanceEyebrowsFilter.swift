@@ -22,7 +22,7 @@ class EnhanceEyebrowsFilter: CIFilter {
 
     // default settings
     override func setDefaults() {
-        log.verbose("Setting defaults")
+        //log.verbose("Setting defaults")
         inputImage = nil
         processedImage = nil
         inputClarity = 0.5

@@ -77,6 +77,9 @@ class EditManager {
         }
     }
     
+    
+    // Synchronous image get functions
+    
     // get the filtered version of the input image, including the preview filter
     public static func getPreviewImage() -> CIImage? {
         return EditManager.previewImage
@@ -107,7 +110,42 @@ class EditManager {
             return nil
         }
     }
+    
+    
+    // Asynchronous image get functions - use trhese for larger images (i.e. full screen) or slower filters
 
+    public static func getPreviewImageAsync(completion: @escaping (CIImage?)->()) {
+        //DispatchQueue.main.async {
+        DispatchQueue.global(qos: .default).async {
+            completion (EditManager.previewImage)
+        }
+    }
+    
+    // get the filtered version of the input image, without the preview image
+    public static func getFilteredImageAsync(completion: @escaping (CIImage?)->()) {
+        //DispatchQueue.main.async {
+        DispatchQueue.global(qos: .default).async {
+            completion (EditManager.filteredImage)
+        }
+    }
+    
+    // get a subset of the filters applied
+    public static func getFilteredImageAtAsync(position:Int, completion: @escaping (CIImage?)->()) {
+        //DispatchQueue.main.async {
+        DispatchQueue.global(qos: .default).async {
+            completion (EditManager.applyFilterSubset(image: EditManager._input, count: position))
+        }
+    }
+    
+    
+    // get a 'split preview' image, with the preview filtered image on the left and the filtered image (sans preview) on the right
+    // Note that x is specifed in image coordinates, not screen/view coordinates
+    public static func getSplitPreviewImageAsync(offset:CGFloat, completion: @escaping (CIImage?)->()) {
+        //DispatchQueue.main.async {
+        DispatchQueue.global(qos: .default).async {
+            completion (EditManager.getSplitPreviewImage(offset: offset))
+        }
+    }
     
     // get the original (input) image
     public static func getOriginalImage() -> CIImage? {

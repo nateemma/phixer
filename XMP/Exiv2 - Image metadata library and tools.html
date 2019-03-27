@@ -1,0 +1,1962 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"> <!--*- sgml -*-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta name="author" content="Exiv2 contributors">
+  <meta name="description" content="Open Source Exif, IPTC and XMP metadata library and tools with Exif MakerNote and read/write support">
+  <meta name="keywords" content="exif, iptc, xmp, metadata, makernote, manipulation, manipulate, read and write, write, change, update, jpeg, jpg, ifd, image file directory, thumbnail, thumbnails, tag, tags, canon, fujifilm, sigma/foveon, nikon, open source, opensource">
+
+  <link rel="apple-touch-icon" sizes="57x57" href="/icons/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icons/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icons/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icons/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icons/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icons/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icons/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icons/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="/icons/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/icons/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+  <link rel="manifest" href="/icons/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/icons/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+  <title>Exiv2 - Image metadata library and tools</title>
+
+  <!-- Doxygen styles -->
+  <link href="doc/doxygen.css" rel="stylesheet" type="text/css">
+  <link href="doc/customdoxygen.css" rel="stylesheet" type="text/css">
+
+  <!-- Bootstrap core CSS -->
+  <link href="dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap theme -->
+  <link href="dist/css/bootstrap-theme.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="include/exiv2.css" rel="stylesheet">
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">
+        <img alt="Exiv2" src="include/exiv2-logo-small.png">
+      </a>
+    </div>
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="getting-started.html">Getting started</a></li>
+        <li><a href="download.html">Download</a></li>
+        <li><a href="whatsnew.html">What's New</a></li>
+        <li><a href="metadata.html">Metadata</a></li>
+        <li><a href="makernote.html">Makernote</a></li>
+        <li><a href="doc/index.html">API</a></li>
+        <li><a href="manpage.html">Manual</a></li>
+	    <li><a href="https://github.com/exiv2/exiv2" target="_blank">GitHub</a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</nav>
+
+
+<div class="container">
+  <div class="page-header">
+    <h1>Metadata reference tables</h1>
+  </div>
+
+<div><h2>Camera Raw Schema</h2></div>
+<p>This schema specifies XMP properties associated with image files produced in camera raw mode.
+ <ul>
+  <li>Exiv2 keys are <code>Xmp.crs.&lt;Property&gt;</code>
+  <li>The schema namespace URI is <code>http://ns.adobe.com/camera-raw-settings/1.0/</code></li>
+  <li>The preferred schema namespace prefix is <code>crs</code></li>
+ </ul>
+Reference: <a href="http://www.adobe.com/devnet/xmp.html" title="XMP specification">XMP Specification and Documentation</a>
+</p>
+
+<table class="table table-striped">
+<thead><tr>
+<th>Property</th>
+<th>Label</th>
+<th>Value type</th>
+<th>Exiv2 type</th>
+<th>Category</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>AutoBrightness</td>
+<td>Auto Brightness</td>
+<td>Boolean</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>When true, "Brightness" is automatically adjusted.</td>
+</tr>
+<tr>
+<td>AutoContrast</td>
+<td>Auto Contrast</td>
+<td>Boolean</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>When true, "Contrast" is automatically adjusted.</td>
+</tr>
+<tr>
+<td>AutoExposure</td>
+<td>Auto Exposure</td>
+<td>Boolean</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>When true, "Exposure" is automatically adjusted.</td>
+</tr>
+<tr>
+<td>AutoShadows</td>
+<td>Auto Shadows</td>
+<td>Boolean</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>When true,"Shadows" is automatically adjusted.</td>
+</tr>
+<tr>
+<td>BlueHue</td>
+<td>Blue Hue</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>"Blue Hue" setting. Range -100 to 100.</td>
+</tr>
+<tr>
+<td>BlueSaturation</td>
+<td>Blue Saturation</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>"Blue Saturation" setting. Range -100 to +100.</td>
+</tr>
+<tr>
+<td>Brightness</td>
+<td>Brightness</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>"Brightness" setting. Range 0 to +150.</td>
+</tr>
+<tr>
+<td>CameraProfile</td>
+<td>Camera Profile</td>
+<td>Text</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>"Camera Profile" setting.</td>
+</tr>
+<tr>
+<td>ChromaticAberrationB</td>
+<td>Chromatic Aberration Blue</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>"Chromatic Aberration, Fix Blue/Yellow Fringe" setting. Range -100 to +100.</td>
+</tr>
+<tr>
+<td>ChromaticAberrationR</td>
+<td>Chromatic Aberration Red</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>"Chromatic Aberration, Fix Red/Cyan Fringe" setting. Range -100 to +100.</td>
+</tr>
+<tr>
+<td>ColorNoiseReduction</td>
+<td>Color Noise Reduction</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>"Color Noise Reduction" setting. Range 0 to +100.</td>
+</tr>
+<tr>
+<td>Contrast</td>
+<td>Contrast</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>"Contrast" setting. Range -50 to +100.</td>
+</tr>
+<tr>
+<td>CropTop</td>
+<td>Crop Top</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>When "Has Crop" is true, top of crop rectangle</td>
+</tr>
+<tr>
+<td>CropLeft</td>
+<td>Crop Left</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>When "Has Crop" is true, left of crop rectangle.</td>
+</tr>
+<tr>
+<td>CropBottom</td>
+<td>Crop Bottom</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>When "Has Crop" is true, bottom of crop rectangle.</td>
+</tr>
+<tr>
+<td>CropRight</td>
+<td>Crop Right</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>When "Has Crop" is true, right of crop rectangle.</td>
+</tr>
+<tr>
+<td>CropAngle</td>
+<td>Crop Angle</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>When "Has Crop" is true, angle of crop rectangle.</td>
+</tr>
+<tr>
+<td>CropWidth</td>
+<td>Crop Width</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Width of resulting cropped image in CropUnits units.</td>
+</tr>
+<tr>
+<td>CropHeight</td>
+<td>Crop Height</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Height of resulting cropped image in CropUnits units.</td>
+</tr>
+<tr>
+<td>CropUnits</td>
+<td>Crop Units</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Units for CropWidth and CropHeight. 0=pixels, 1=inches, 2=cm</td>
+</tr>
+<tr>
+<td>Exposure</td>
+<td>Exposure</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>"Exposure" setting. Range -4.0 to +4.0.</td>
+</tr>
+<tr>
+<td>GreenHue</td>
+<td>Green Hue</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>"Green Hue" setting. Range -100 to +100.</td>
+</tr>
+<tr>
+<td>GreenSaturation</td>
+<td>Green Saturation</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>"Green Saturation" setting. Range -100 to +100.</td>
+</tr>
+<tr>
+<td>HasCrop</td>
+<td>Has Crop</td>
+<td>Boolean</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>When true, image has a cropping rectangle.</td>
+</tr>
+<tr>
+<td>HasSettings</td>
+<td>Has Settings</td>
+<td>Boolean</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>When true, non-default camera raw settings.</td>
+</tr>
+<tr>
+<td>LuminanceSmoothing</td>
+<td>Luminance Smoothing</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>"Luminance Smoothing" setting. Range 0 to +100.</td>
+</tr>
+<tr>
+<td>RawFileName</td>
+<td>Raw File Name</td>
+<td>Text</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>File name of raw file (not a complete path).</td>
+</tr>
+<tr>
+<td>RedHue</td>
+<td>Red Hue</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>"Red Hue" setting. Range -100 to +100.</td>
+</tr>
+<tr>
+<td>RedSaturation</td>
+<td>Red Saturation</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>"Red Saturation" setting. Range -100 to +100.</td>
+</tr>
+<tr>
+<td>Saturation</td>
+<td>Saturation</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>"Saturation" setting. Range -100 to +100.</td>
+</tr>
+<tr>
+<td>Shadows</td>
+<td>Shadows</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>"Shadows" setting. Range 0 to +100.</td>
+</tr>
+<tr>
+<td>ShadowTint</td>
+<td>Shadow Tint</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>"Shadow Tint" setting. Range -100 to +100.</td>
+</tr>
+<tr>
+<td>Sharpness</td>
+<td>Sharpness</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>"Sharpness" setting. Range 0 to +100.</td>
+</tr>
+<tr>
+<td>Temperature</td>
+<td>Temperature</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>"Temperature" setting. Range 2000 to 50000.</td>
+</tr>
+<tr>
+<td>Tint</td>
+<td>Tint</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>"Tint" setting. Range -150 to +150.</td>
+</tr>
+<tr>
+<td>ToneCurve</td>
+<td>Tone Curve</td>
+<td>Seq of points (Integer, Integer)</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Array of points (Integer, Integer) defining a "Tone Curve".</td>
+</tr>
+<tr>
+<td>ToneCurveName</td>
+<td>Tone Curve Name</td>
+<td>Choice Text</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>The name of the Tone Curve described by ToneCurve. One of: Linear, Medium Contrast, Strong Contrast, Custom or a user-defined preset name.</td>
+</tr>
+<tr>
+<td>Version</td>
+<td>Version</td>
+<td>Text</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Version of Camera Raw plugin.</td>
+</tr>
+<tr>
+<td>VignetteAmount</td>
+<td>Vignette Amount</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>"Vignetting Amount" setting. Range -100 to +100.</td>
+</tr>
+<tr>
+<td>VignetteMidpoint</td>
+<td>Vignette Midpoint</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>"Vignetting Midpoint" setting. Range 0 to +100.</td>
+</tr>
+<tr>
+<td>WhiteBalance</td>
+<td>White Balance</td>
+<td>Closed Choice Text</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>"White Balance" setting. One of: As Shot, Auto, Daylight, Cloudy, Shade, Tungsten, Fluorescent, Flash, Custom</td>
+</tr>
+<tr>
+<td>AlreadyApplied</td>
+<td>Already Applied</td>
+<td>Boolean</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>Converter</td>
+<td>Converter</td>
+<td>Text</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>MoireFilter</td>
+<td>Moire Filter</td>
+<td>Text</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>Smoothness</td>
+<td>Smoothness</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>CameraProfileDigest</td>
+<td>Camera Profile Digest</td>
+<td>Text</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>Clarity</td>
+<td>Clarity</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>ConvertToGrayscale</td>
+<td>Convert To Grayscale</td>
+<td>Boolean</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>Defringe</td>
+<td>Defringe</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>FillLight</td>
+<td>Fill Light</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>HighlightRecovery</td>
+<td>Highlight Recovery</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>HueAdjustmentAqua</td>
+<td>Hue Adjustment Aqua</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>HueAdjustmentBlue</td>
+<td>Hue Adjustment Blue</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>HueAdjustmentGreen</td>
+<td>Hue Adjustment Green</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>HueAdjustmentMagenta</td>
+<td>Hue Adjustment Magenta</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>HueAdjustmentOrange</td>
+<td>Hue Adjustment Orange</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>HueAdjustmentPurple</td>
+<td>Hue Adjustment Purple</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>HueAdjustmentRed</td>
+<td>Hue Adjustment Red</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>HueAdjustmentYellow</td>
+<td>Hue Adjustment Yellow</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>IncrementalTemperature</td>
+<td>Incremental Temperature</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>IncrementalTint</td>
+<td>Incremental Tint</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>LuminanceAdjustmentAqua</td>
+<td>Luminance Adjustment Aqua</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>LuminanceAdjustmentBlue</td>
+<td>Luminance Adjustment Blue</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>LuminanceAdjustmentGreen</td>
+<td>Luminance Adjustment Green</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>LuminanceAdjustmentMagenta</td>
+<td>Luminance Adjustment Magenta</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>LuminanceAdjustmentOrange</td>
+<td>Luminance Adjustment Orange</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>LuminanceAdjustmentPurple</td>
+<td>Luminance Adjustment Purple</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>LuminanceAdjustmentRed</td>
+<td>Luminance Adjustment Red</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>LuminanceAdjustmentYellow</td>
+<td>Luminance Adjustment Yellow</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>ParametricDarks</td>
+<td>Parametric Darks</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>ParametricHighlights</td>
+<td>Parametric Highlights</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>ParametricHighlightSplit</td>
+<td>Parametric Highlight Split</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>ParametricLights</td>
+<td>Parametric Lights</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>ParametricMidtoneSplit</td>
+<td>Parametric Midtone Split</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>ParametricShadows</td>
+<td>Parametric Shadows</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>ParametricShadowSplit</td>
+<td>Parametric Shadow Split</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>SaturationAdjustmentAqua</td>
+<td>Saturation Adjustment Aqua</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>SaturationAdjustmentBlue</td>
+<td>Saturation Adjustment Blue</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>SaturationAdjustmentGreen</td>
+<td>Saturation Adjustment Green</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>SaturationAdjustmentMagenta</td>
+<td>Saturation Adjustment Magenta</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>SaturationAdjustmentOrange</td>
+<td>Saturation Adjustment Orange</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>SaturationAdjustmentPurple</td>
+<td>Saturation Adjustment Purple</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>SaturationAdjustmentRed</td>
+<td>Saturation Adjustment Red</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>SaturationAdjustmentYellow</td>
+<td>Saturation Adjustment Yellow</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>SharpenDetail</td>
+<td>Sharpen Detail</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>SharpenEdgeMasking</td>
+<td>Sharpen Edge Masking</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>SharpenRadius</td>
+<td>Sharpen Radius</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>SplitToningBalance</td>
+<td>Split Toning Balance</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>SplitToningHighlightHue</td>
+<td>Split Toning Highlight Hue</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>SplitToningHighlightSaturation</td>
+<td>Split Toning Highlight Saturation</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>SplitToningShadowHue</td>
+<td>Split Toning Shadow Hue</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>SplitToningShadowSaturation</td>
+<td>Split Toning Shadow Saturation</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>Vibrance</td>
+<td>Vibrance</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>GrayMixerRed</td>
+<td>Gray Mixer Red</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>GrayMixerOrange</td>
+<td>Gray Mixer Orange</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>GrayMixerYellow</td>
+<td>Gray Mixer Yellow</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>GrayMixerGreen</td>
+<td>Gray Mixer Green</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>GrayMixerAqua</td>
+<td>Gray Mixer Aqua</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>GrayMixerBlue</td>
+<td>Gray Mixer Blue</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>GrayMixerPurple</td>
+<td>Gray Mixer Purple</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>GrayMixerMagenta</td>
+<td>Gray Mixer Magenta</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>RetouchInfo</td>
+<td>Retouch Info</td>
+<td>bag Text</td>
+<td>XmpBag</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>RedEyeInfo</td>
+<td>Red Eye Info</td>
+<td>bag Text</td>
+<td>XmpBag</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>CropUnit</td>
+<td>Crop Unit</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>PostCropVignetteAmount</td>
+<td>Post Crop Vignette Amount</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>PostCropVignetteMidpoint</td>
+<td>Post Crop Vignette Midpoint</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>PostCropVignetteFeather</td>
+<td>Post Crop Vignette Feather</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>PostCropVignetteRoundness</td>
+<td>Post Crop Vignette Roundness</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>PostCropVignetteStyle</td>
+<td>Post Crop Vignette Style</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>ProcessVersion</td>
+<td>Process Version</td>
+<td>Text</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>LensProfileEnable</td>
+<td>Lens Profile Enable</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>LensProfileSetup</td>
+<td>Lens Profile Setup</td>
+<td>Text</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>LensProfileName</td>
+<td>Lens Profile Name</td>
+<td>Text</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>LensProfileFilename</td>
+<td>Lens Profile Filename</td>
+<td>Text</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>LensProfileDigest</td>
+<td>Lens Profile Digest</td>
+<td>Text</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>LensProfileDistortionScale</td>
+<td>Lens Profile Distortion Scale</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>LensProfileChromaticAberrationScale</td>
+<td>Lens Profile Chromatic Aberration Scale</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>LensProfileVignettingScale</td>
+<td>Lens Profile Vignetting Scale</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>LensManualDistortionAmount</td>
+<td>Lens Manual Distortion Amount</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>PerspectiveVertical</td>
+<td>Perspective Vertical</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>PerspectiveHorizontal</td>
+<td>Perspective Horizontal</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>PerspectiveRotate</td>
+<td>Perspective Rotate</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>PerspectiveScale</td>
+<td>Perspective Scale</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>CropConstrainToWarp</td>
+<td>Crop Constrain To Warp</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>LuminanceNoiseReductionDetail</td>
+<td>Luminance Noise Reduction Detail</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>LuminanceNoiseReductionContrast</td>
+<td>Luminance Noise Reduction Contrast</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>ColorNoiseReductionDetail</td>
+<td>Color Noise Reduction Detail</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>GrainAmount</td>
+<td>Grain Amount</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>GrainSize</td>
+<td>Grain Size</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>GrainFrequency</td>
+<td>GrainFrequency</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>AutoLateralCA</td>
+<td>Auto Lateral CA</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>Exposure2012</td>
+<td>Exposure 2012</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>Contrast2012</td>
+<td>Contrast 2012</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>Highlights2012</td>
+<td>Highlights 2012</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>Shadows2012</td>
+<td>Shadows 2012</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>Whites2012</td>
+<td>Whites 2012</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>Blacks2012</td>
+<td>Blacks 2012</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>Clarity2012</td>
+<td>Clarity 2012</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>PostCropVignetteHighlightContrast</td>
+<td>Post Crop Vignette Highlight Contrast</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>ToneCurveName2012</td>
+<td>Tone Curve Name 2012</td>
+<td>Text</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Values: Linear, Medium Contrast, Strong Contrast, Custom. Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>ToneCurveRed</td>
+<td>Tone Curve Red</td>
+<td>Seq of points (Integer, Integer)</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Array of points (Integer, Integer) defining a "Tone Curve".</td>
+</tr>
+<tr>
+<td>ToneCurveGreen</td>
+<td>Tone Curve Green</td>
+<td>Seq of points (Integer, Integer)</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Array of points (Integer, Integer) defining a "Tone Curve".</td>
+</tr>
+<tr>
+<td>ToneCurveBlue</td>
+<td>Tone Curve Blue</td>
+<td>Seq of points (Integer, Integer)</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Array of points (Integer, Integer) defining a "Tone Curve".</td>
+</tr>
+<tr>
+<td>ToneCurvePV2012</td>
+<td>Tone Curve PV 2012</td>
+<td>Seq of points (Integer, Integer)</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Array of points (Integer, Integer) defining a "Tone Curve".</td>
+</tr>
+<tr>
+<td>ToneCurvePV2012Red</td>
+<td>Tone Curve PV 2012 Red</td>
+<td>Seq of points (Integer, Integer)</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Array of points (Integer, Integer) defining a "Tone Curve".</td>
+</tr>
+<tr>
+<td>ToneCurvePV2012Green</td>
+<td>Tone Curve PV 2012 Green</td>
+<td>Seq of points (Integer, Integer)</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Array of points (Integer, Integer) defining a "Tone Curve".</td>
+</tr>
+<tr>
+<td>ToneCurvePV2012Blue</td>
+<td>Tone Curve PV 2012 Blue</td>
+<td>Seq of points (Integer, Integer)</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Array of points (Integer, Integer) defining a "Tone Curve".</td>
+</tr>
+<tr>
+<td>DefringePurpleAmount</td>
+<td>Defringe Purple Amount</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>DefringePurpleHueLo</td>
+<td>Defringe Purple Hue Lo</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>DefringePurpleHueHi</td>
+<td>Defringe Purple Hue Hi</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>DefringeGreenAmount</td>
+<td>Defringe Green Amount</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>DefringeGreenHueLo</td>
+<td>Defringe Green Hue Lo</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>DefringeGreenHueHi</td>
+<td>Defringe Green Hue Hi</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>AutoWhiteVersion</td>
+<td>Defringe Green Hue Hi</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>ColorNoiseReductionSmoothness</td>
+<td>Color Noise Reduction Smoothness</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>PerspectiveAspect</td>
+<td>Perspective Aspect</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>PerspectiveUpright</td>
+<td>Perspective Upright</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>UprightVersion</td>
+<td>Upright Version</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>UprightCenterMode</td>
+<td>Upright Center Mode</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>UprightCenterNormX</td>
+<td>Upright Center Norm X</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>UprightCenterNormY</td>
+<td>Upright Center Norm Y</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>UprightFocalMode</td>
+<td>Upright Focal Mode</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>UprightFocalLength35mm</td>
+<td>Upright Focal Length 35mm</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>UprightPreview</td>
+<td>Upright Preview</td>
+<td>Boolean</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>UprightTransformCount</td>
+<td>Upright TransformCount</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>UprightDependentDigest</td>
+<td>Upright DependentDigest</td>
+<td>Text</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>UprightTransform_0</td>
+<td>Upright Transform_0</td>
+<td>Text</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>UprightTransform_1</td>
+<td>Upright Transform_1</td>
+<td>Text</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>UprightTransform_2</td>
+<td>Upright Transform_2</td>
+<td>Text</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>UprightTransform_3</td>
+<td>Upright Transform_3</td>
+<td>Text</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>UprightTransform_4</td>
+<td>Upright Transform_4</td>
+<td>Text</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>LensProfileMatchKeyExifMake</td>
+<td>Lens Profile Match Key Exif Make</td>
+<td>Text</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>LensProfileMatchKeyExifModel</td>
+<td>Lens Profile Match Key Exif Model</td>
+<td>Text</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>LensProfileMatchKeyCameraModelName</td>
+<td>Lens Profile Match Key Camera Model Name</td>
+<td>Text</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>LensProfileMatchKeyLensInfo</td>
+<td>Lens Profile Match Key Lens Info</td>
+<td>Text</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>LensProfileMatchKeyLensID</td>
+<td>Lens Profile Match Key Lens ID</td>
+<td>Text</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>LensProfileMatchKeyLensName</td>
+<td>Lens Profile Match Key Lens Name</td>
+<td>Text</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>LensProfileMatchKeyIsRaw</td>
+<td>Lens Profile Match Key Is Raw</td>
+<td>Boolean</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>LensProfileMatchKeySensorFormatFactor</td>
+<td>Lens Profile Match Key Sensor Format Factor</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>DefaultAutoTone</td>
+<td>Default Auto Tone</td>
+<td>Boolean</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>DefaultAutoGray</td>
+<td>DefaultAuto Gray</td>
+<td>Boolean</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>DefaultsSpecificToSerial</td>
+<td>Defaults Specific To Serial</td>
+<td>Boolean</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>DefaultsSpecificToISO</td>
+<td>Defaults Specific To ISO</td>
+<td>Boolean</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>DNGIgnoreSidecars</td>
+<td>DNG IgnoreSidecars</td>
+<td>Boolean</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>NegativeCachePath</td>
+<td>Negative Cache Path</td>
+<td>Text</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>NegativeCacheMaximumSize</td>
+<td>Negative Cache Maximum Size</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>NegativeCacheLargePreviewSize</td>
+<td>Negative Cache Large Preview Size</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>JPEGHandling</td>
+<td>JPEG Handling</td>
+<td>Text</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>TIFFHandling</td>
+<td>TIFF Handling</td>
+<td>Text</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>CircularGradientBasedCorrections</td>
+<td>CircularGradientBasedCorrections</td>
+<td>CircularGradientBasedCorrections</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>*Root structure* </td>
+</tr>
+<tr>
+<td>PaintBasedCorrections</td>
+<td>PaintBasedCorrections</td>
+<td>PaintBasedCorrections</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>*Root structure* </td>
+</tr>
+<tr>
+<td>CorrectionMasks</td>
+<td>CorrectionMasks</td>
+<td>CorrectionMasks</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>*sub Root structure* </td>
+</tr>
+<tr>
+<td>What</td>
+<td>What</td>
+<td>Text</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>MaskValue</td>
+<td>Mask Value</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>Radius</td>
+<td>Radius</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>Flow</td>
+<td>Flow</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>CenterWeight</td>
+<td>Center Weight</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>Dabs</td>
+<td>Dabs</td>
+<td>Seq of points (Integer, Integer)</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>Array of points (Integer, Integer).</td>
+</tr>
+<tr>
+<td>ZeroX</td>
+<td>Zero X</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>ZeroY</td>
+<td>Zero Y</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>FullX</td>
+<td>Full X</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>FullY</td>
+<td>Full Y</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>Top</td>
+<td>Top</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>Left</td>
+<td>Left</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>Bottom</td>
+<td>Bottom</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>Right</td>
+<td>Right</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>Angle</td>
+<td>Angle</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>Midpoint</td>
+<td>Midpoint</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>Roundness</td>
+<td>Roundness</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>Feather</td>
+<td>Feather</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>Flipped</td>
+<td>Flipped</td>
+<td>Boolean</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>Version</td>
+<td>Version</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>SizeX</td>
+<td>Size X</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>SizeY</td>
+<td>Size Y</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>X</td>
+<td>X</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>Y</td>
+<td>Y</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>Alpha</td>
+<td>Alpha</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>CenterValue</td>
+<td>Center Value</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>PerimeterValue</td>
+<td>Perimeter Value</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>RetouchAreas</td>
+<td>RetouchAreas</td>
+<td>RetouchAreas</td>
+<td>XmpText</td>
+<td>Internal</td>
+<td>*Root structure* </td>
+</tr>
+<tr>
+<td>SpotType</td>
+<td>Spot Type</td>
+<td>Text</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>SourceState</td>
+<td>Source State</td>
+<td>Text</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>Method</td>
+<td>Method</td>
+<td>Text</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>SourceX</td>
+<td>Source X</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>OffsetY</td>
+<td>Offset Y</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>Opacity</td>
+<td>Opacity</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>Feather</td>
+<td>Feather</td>
+<td>Real</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+<tr>
+<td>Seed</td>
+<td>Seed</td>
+<td>Integer</td>
+<td>XmpText</td>
+<td>External</td>
+<td>Not in XMP Specification. Found in sample files.</td>
+</tr>
+</tbody>
+</table>
+
+
+</div><!-- /.container -->
+<div id="footer">
+  <footer>
+    <div class="container">
+      <div class="row">
+       <div class="page-footer">
+        <div class="col-sm-5">
+          Exiv2 v0.27.0
+        </div><!-- /.col-sm-5 -->
+        <div class="col-sm-2"></div><!-- /.col-sm-2 -->
+        <div class="col-sm-5">
+          <span class="visible-xs-block text-center"><p>Last modified 2018-12-20 14:24 GMT</p></span>
+          <span class="hidden-xs pull-right"><p>Last modified 2018-12-20 14:24 GMT</p></span>
+        </div><!-- /.col-sm-5 -->
+       </div>
+      </div><!-- /.row -->
+    </div><!-- /.container -->
+  </footer>
+</div><!-- closes footer -->
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="dist/js/bootstrap.min.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="dist/assets/js/ie10-viewport-bug-workaround.js"></script>
+
+</body>
+</html>

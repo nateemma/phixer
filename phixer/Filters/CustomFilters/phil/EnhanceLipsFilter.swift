@@ -24,7 +24,7 @@ class EnhanceLipsFilter: CIFilter {
 
     // default settings
     override func setDefaults() {
-        log.verbose("Setting defaults")
+        //log.verbose("Setting defaults")
         inputImage = nil
         processedImage = nil
         inputVibrance = 0.6

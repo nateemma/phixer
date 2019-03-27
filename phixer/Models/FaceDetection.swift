@@ -148,7 +148,7 @@ class FaceDetection {
         let colorspace = CGColorSpaceCreateDeviceRGB()
         let bitmapinfo =  CGImageAlphaInfo.premultipliedLast.rawValue
         
-        let context = CGContext(data: nil,
+        var context = CGContext(data: nil,
                                 width: Int(size.width),
                                 height: Int(size.height),
                                 bitsPerComponent: Int(8),
@@ -183,6 +183,8 @@ class FaceDetection {
         }
         
         img = CIImage(cgImage: cgImage!)
+        
+        context = nil
                 
         //log.verbose("image size: \(img?.extent.size)\n Path:\(cgpath)")
         return img
@@ -262,7 +264,7 @@ class FaceDetection {
                 }
             }
         }
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { 
             completion()
             FaceDetection.faceDetection = nil
             FaceDetection.faceLandmarks = nil

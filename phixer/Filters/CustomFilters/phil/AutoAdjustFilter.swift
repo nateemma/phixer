@@ -59,8 +59,8 @@ class AutoAdjustFilter: CIFilter {
         var image: CIImage? = inputImage
         
         for filter: CIFilter in filters {
-            log.verbose("Applying filter: \(filter)")
             filter.setValue(image, forKey: kCIInputImageKey)
+            //log.verbose("Applying filter: \(filter)")
             image =  filter.outputImage
         }
         return image

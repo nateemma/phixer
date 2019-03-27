@@ -1,0 +1,23 @@
+# Processing XMP Sidecar Files
+
+There are thousands of effects available for Phtooshop and Lightroom in the form of XMP files. This directory contains scripts for parsing the XMP files to create filter configurations that can be used with phixer. For now, I will leave the source XMP files here as well for reference
+
+## Installing
+
+pip install python-xmp-toolkit
+brew install libxmp
+brew install exempi
+
+NOTE: I encountered brew issues. Run this to reset:
+
+brew update-reset
+
+## Running
+
+python convertXMP.py <file>
+
+## Reference
+
+http://www.exiv2.org/tags-xmp-crs.html
+
+

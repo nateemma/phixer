@@ -130,7 +130,7 @@ class UnsharpMaskFilter: CIFilter {
             return nil
         }
         
-        log.debug("amount:\(inputAmount), radius:\(inputRadius), threshold:\(inputThreshold)")
+        //log.debug("amount:\(inputAmount), radius:\(inputRadius), threshold:\(inputThreshold)")
         
 
         // create a blurred version of the input image

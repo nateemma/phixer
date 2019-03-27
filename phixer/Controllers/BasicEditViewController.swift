@@ -81,31 +81,31 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     // do something if a filter was selected
     override func selectFilter(key: String){
         log.verbose("Change filter to: \(key)")
-        DispatchQueue.main.async(execute: { () -> Void in
-            //self.currFilterKey = ""
-            self.changeFilterTo (key)
-            self.editImageView.updateImage()
-        })
+        DispatchQueue.main.async { [weak self] in
+            //self?.currFilterKey = ""
+            self?.changeFilterTo (key)
+            self?.editImageView.updateImage()
+        }
     }
     
     // handle update of the UI
     override func updateDisplays() {
         log.verbose("updating")
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.editImageView.updateImage()
-            self.filterParametersView.update()
-        })
+        DispatchQueue.main.async { [weak self] in
+            self?.editImageView.updateImage()
+            self?.filterParametersView.update()
+        }
     }
     
     // handle the menu request. Return true if handled, false otherwise (base controller will handle it)
     override func handleMenu() {
         // if menu is hidden then re-layout and show it, otherwise hide it
         if self.menuView.isHidden == true {
-            DispatchQueue.main.async(execute: { () -> Void in
-                self.layoutMenu()
-                self.menuView.isHidden = false
-                self.filterParametersView.isHidden = true
-            })
+            DispatchQueue.main.async { [weak self] in
+                self?.layoutMenu()
+                self?.menuView.isHidden = false
+                self?.filterParametersView.isHidden = true
+            }
         } else {
             //log.debug("Menu active, closing")
             self.menuView.isHidden = true
@@ -246,10 +246,10 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         setVolumeListener()
         
         // bit of a hack, but reset face detection if image changes. This allows results to be re-used across filters, which is a very expensive operation
-        DispatchQueue.main.async(execute: { () -> Void in
+        DispatchQueue.main.async {
             FaceDetection.reset()
             FaceDetection.detectFaces(on: EditManager.getPreviewImage()!, orientation: ImageManager.getEditImageOrientation(), completion: {})
-        })
+        }
 
     }
     
@@ -382,15 +382,15 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     
     @objc func saveDidPress(){
         self.menuView.isHidden = true
-        DispatchQueue.main.async(execute: { () -> Void in
+        DispatchQueue.main.async { [weak self] in
             if EditManager.isPreviewActive() {
-                self.displayPreviewAlert()
+                self?.displayPreviewAlert()
             } else {
-                self.saveImage()
+                self?.saveImage()
                 log.verbose("Image saved")
-                self.showMessage("Image saved to Photos")
+                self?.showMessage("Image saved to Photos")
             }
-        })
+        }
     }
     
     @objc func resetDidPress(){
@@ -399,21 +399,21 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         currFilterDescriptor?.reset()
         EditManager.reset()
         EditManager.addPreviewFilter(currFilterDescriptor)
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.editImageView.updateImage()
-            self.filterParametersView.update()
-            self.menuView.isHidden = true
-        })
+        DispatchQueue.main.async { [weak self] in
+            self?.editImageView.updateImage()
+            self?.filterParametersView.update()
+            self?.menuView.isHidden = true
+        }
     }
     
     @objc func defaultDidPress(){
         self.menuView.isHidden = true
         currFilterDescriptor?.reset()
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.editImageView.updateImage()
-            self.filterParametersView.update()
-            self.menuView.isHidden = true
-        })
+        DispatchQueue.main.async { [weak self] in
+            self?.editImageView.updateImage()
+            self?.filterParametersView.update()
+            self?.menuView.isHidden = true
+        }
     }
     
     @objc func undoDidPress(){
@@ -421,19 +421,19 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         // restore saved parameters
         currFilterDescriptor?.restoreParameters()
         EditManager.popFilter()
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.editImageView.updateImage()
-            self.filterParametersView.update()
-            self.menuView.isHidden = true
-        })
+        DispatchQueue.main.async { [weak self] in
+            self?.editImageView.updateImage()
+            self?.filterParametersView.update()
+            self?.menuView.isHidden = true
+        }
     }
     
     @objc func helpDidPress(){
         log.debug("help")
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.coordinator?.helpRequest()
-            self.menuView.isHidden = true
-        })
+        DispatchQueue.main.async { [weak self] in
+            self?.coordinator?.helpRequest()
+            self?.menuView.isHidden = true
+        }
     }
     
     //////////////////////////////////////
@@ -506,9 +506,9 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         }
         
         // display the dialog
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.present(self.savePhotoAlert!, animated: true, completion:nil)
-        })
+        DispatchQueue.main.async { [weak self] in
+            self?.present((self?.savePhotoAlert)!, animated: true, completion:nil)
+        }
         
         
     }
@@ -553,9 +553,9 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         }
         
         // display the dialog
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.present(self.applyPreviewAlert!, animated: true, completion:nil)
-        })
+        DispatchQueue.main.async { [weak self] in
+            self?.present((self?.applyPreviewAlert)!, animated: true, completion:nil)
+        }
         
         
     }
@@ -679,11 +679,11 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     
     func showMessage(_ msg:String, time:TimeInterval=1.0){
         if !msg.isEmpty {
-            DispatchQueue.main.async(execute: { () -> Void in
+            DispatchQueue.main.async { [weak self] in
                 let alert = UIAlertController(title: "", message: msg, preferredStyle: .alert)
-                self.present(alert, animated: true, completion: nil)
+                self?.present(alert, animated: true, completion: nil)
                 Timer.scheduledTimer(withTimeInterval: time, repeats: false, block: { _ in alert.dismiss(animated: true, completion: nil)} )
-            })
+            }
         }
     }
     
@@ -697,59 +697,59 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     
     // convenience function to hide all modal views
     func hideModalViews(){
-        DispatchQueue.main.async(execute: { () -> Void in
+        DispatchQueue.main.async { [weak self] in
             
-            self.coordinator?.hideSubcontrollersRequest()
-            self.navigationController?.setNavigationBarHidden(true, animated: false)
+            self?.coordinator?.hideSubcontrollersRequest()
+            self?.navigationController?.setNavigationBarHidden(true, animated: false)
             
             // go through the modal views and hide them if they are not already hidden
             // NOTE: if any more modal views are added, remmber to add them this list
-            for view in [ self.menuView ] {
+            for view in [ self?.menuView ] {
                 if let v = view {
                     if !v.isHidden {
                         // add to the list so that they will be restored later
-                        self.hiddenViewList.append(v)
+                        self?.hiddenViewList.append(v)
                         v.isHidden = true
                     }
                 }
             }
             
             // collapse filter pamaeters and move to top of screen
-            self.filterParametersView.collapse()
-            self.filterParametersView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: self.filterParametersView.frame.size.height)
-        })
+            self?.filterParametersView.collapse()
+            self?.filterParametersView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: (self?.filterParametersView.frame.size.height)!)
+        }
     }
     
     
     // function to restore all modal views that were previously hidden
     func showModalViews() {
         
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.coordinator?.showSubcontrollersRequest()
-            self.navigationController?.setNavigationBarHidden(false, animated: false)
+        DispatchQueue.main.async { [weak self] in
+            self?.coordinator?.showSubcontrollersRequest()
+            self?.navigationController?.setNavigationBarHidden(false, animated: false)
             
             // for other views, use the hidden list
-            if self.hiddenViewList.count > 0 {
-                for view in self.hiddenViewList {
+            if (self?.hiddenViewList.count)! > 0 {
+                for view in (self?.hiddenViewList)! {
                     if let v = view {
                         v.isHidden = false
                     }
-                    self.hiddenViewList = []
+                    self?.hiddenViewList = []
                 }
             }
             
             //if filterParametersView.numVisibleParams > 0 {
-            self.filterParametersView.isHidden = false
-            self.filterParametersView.expand()
-            //self.view.bringSubviewToFront(filterParametersView)
-            self.filterParametersView.setNeedsDisplay()
-            self.filterParametersView.setNeedsLayout()
+            self?.filterParametersView.isHidden = false
+            self?.filterParametersView.expand()
+            //self?.view.bringSubviewToFront(filterParametersView)
+            self?.filterParametersView.setNeedsDisplay()
+            self?.filterParametersView.setNeedsLayout()
             //}
-            self.filterParametersView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: self.filterParametersView.frame.size.height)
-            //self.filterParametersView.logSizes()//debug
+            self?.filterParametersView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: (self?.filterParametersView.frame.size.height)!)
+            //self?.filterParametersView.logSizes()//debug
             
-            self.view.sendSubviewToBack(self.editImageView)
-        })
+            self?.view.sendSubviewToBack((self?.editImageView)!)
+        }
     }
     
     
@@ -768,22 +768,22 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     
     
     func changeFilterTo(_ key:String){
-        DispatchQueue.main.async(execute: { () -> Void in
+        DispatchQueue.main.async { [weak self] in
             //TODO: make user accept changes before applying? (Add buttons to parameter display)
             // setup the filter descriptor
             //if (key != filterManager.getCurrentFilterKey()){
-            if (key != self.currFilterKey){
+            if (key != self?.currFilterKey){
                 log.debug("Filter Selected: \(key)")
-                self.currFilterKey = key
-                self.filterManager.setCurrentFilterKey(key)
-                self.currFilterDescriptor = self.filterManager.getFilterDescriptor(key:key)
-                self.updateCurrentFilter()
+                self?.currFilterKey = key
+                self?.filterManager.setCurrentFilterKey(key)
+                self?.currFilterDescriptor = self?.filterManager.getFilterDescriptor(key:key)
+                self?.updateCurrentFilter()
             } else {
                 // something other than the filter changed
-                self.editImageView.updateImage()
+                self?.editImageView.updateImage()
             }
-            self.showFilterSettings()
-        })
+            self?.showFilterSettings()
+        }
     }
     
     
@@ -794,11 +794,11 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     // retrive current settings from FilterManager and store locally
     func updateCurrentFilter(){
         if (currFilterKey != nil) {
-            DispatchQueue.main.async(execute: { () -> Void in
-                self.editImageView.setFilter(key:self.currFilterKey!)
-                self.filterParametersView.setFilter(self.currFilterDescriptor)
-                self.filterParametersView.delegate = self
-            })
+            DispatchQueue.main.async { [weak self] in
+                self?.editImageView.setFilter(key:(self?.currFilterKey)!)
+                self?.filterParametersView.setFilter(self?.currFilterDescriptor)
+                self?.filterParametersView.delegate = self
+            }
         }
     }
     
@@ -809,22 +809,22 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     fileprivate var filterSettingsShown: Bool = false
     
     fileprivate func showFilterSettings(){
-        //self.coordinator?.hideSubcontrollersRequest()
+        //self?.coordinator?.hideSubcontrollersRequest()
         if (currFilterDescriptor != nil) {
-            DispatchQueue.main.async(execute: { () -> Void in
-                self.filterParametersView.isHidden = false
-                self.filterParametersView.expand()
-            })
+            DispatchQueue.main.async { [weak self] in
+                self?.filterParametersView.isHidden = false
+                self?.filterParametersView.expand()
+            }
         }
     }
     
     fileprivate func hideFilterSettings(){
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.coordinator?.showSubcontrollersRequest()
+        DispatchQueue.main.async { [weak self] in
+            self?.coordinator?.showSubcontrollersRequest()
             //filterParametersView.isHidden = true
-            self.filterSettingsShown = false
-            self.filterParametersView.collapse()
-        })
+            self?.filterSettingsShown = false
+            self?.filterParametersView.collapse()
+        }
     }
     
     func toggleFilterSettings(){
@@ -869,16 +869,16 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     //////////////////////////////////////////
     
     func changeImage(){
-        DispatchQueue.main.async(execute: { () -> Void in
+        DispatchQueue.main.async { [weak self] in
             log.debug("imagePreview pressed - launching ImagePicker...")
             // launch an ImagePicker
-            self.imagePicker.allowsEditing = false
-            self.imagePicker.sourceType = .photoLibrary
-            //self.imagePicker.modalPresentationStyle = .popover // required after ios12
-            self.imagePicker.delegate = self
+            self?.imagePicker.allowsEditing = false
+            self?.imagePicker.sourceType = .photoLibrary
+            //self?.imagePicker.modalPresentationStyle = .popover // required after ios12
+            self?.imagePicker.delegate = self
             
-            self.present(self.imagePicker, animated: true, completion: {})
-        })
+            self?.present((self?.imagePicker)!, animated: true, completion: {})
+        }
     }
     
     
@@ -893,15 +893,15 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             ImageManager.setCurrentEditImageName(id)
 
             //InputSource.setCurrent(source: .edit)
-            DispatchQueue.main.async(execute: { () -> Void in
-                self.updateDisplays()
-            })
+            DispatchQueue.main.async { [weak self] in
+                self?.updateDisplays()
+            }
             
             // bit of a hack, but reset face detection if image changes. This allows results to be re-used across filters, which is a very expensive operation
-            DispatchQueue.main.async(execute: { () -> Void in
+            DispatchQueue.main.async {
                 FaceDetection.reset()
                 FaceDetection.detectFaces(on: EditManager.getPreviewImage()!, orientation: ImageManager.getEditImageOrientation(), completion: {})
-           })
+            }
         } else {
             log.error("Error accessing image data")
         }
@@ -1003,11 +1003,11 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     //////////////////////////////////////////
     
     func notYetImplemented(){
-        DispatchQueue.main.async(execute: { () -> Void in
+        DispatchQueue.main.async { [weak self] in
             let alert = UIAlertController(title: "Oops!", message: "Not yet implemented. Sorry!", preferredStyle: .alert)
-            self.present(alert, animated: true, completion: nil)
+            self?.present(alert, animated: true, completion: nil)
             Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: { _ in alert.dismiss(animated: true, completion: nil)} )
-        })
+        }
     }
     
     
@@ -1034,14 +1034,14 @@ extension BasicEditViewController: FilterParametersViewDelegate {
     func commitChanges(key: String) {
         log.verbose("\(self.getTag()): \(key)")
         // make the change permanent
-        DispatchQueue.main.async(execute: { () -> Void in
+        DispatchQueue.main.async { [weak self] in
             EditManager.savePreviewFilter()
-            self.showMessage("Effect applied", time:0.5)
-            self.filterParametersView.setFilter(EditManager.getPreviewFilter())
-            self.editImageView.updateImage()
-            self.coordinator?.showSubcontrollersRequest()
-            self.showModalViews()
-        })
+            self?.showMessage("Effect applied", time:0.5)
+            self?.filterParametersView.setFilter(EditManager.getPreviewFilter())
+            self?.editImageView.updateImage()
+            self?.coordinator?.showSubcontrollersRequest()
+            self?.showModalViews()
+        }
     }
     
     func cancelChanges(key: String) {
@@ -1049,12 +1049,12 @@ extension BasicEditViewController: FilterParametersViewDelegate {
         // restore saved parameters
         currFilterDescriptor?.restoreParameters()
         EditManager.popFilter()
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.showModalViews()
-            self.filterParametersView.setFilter(EditManager.getPreviewFilter())
-            self.editImageView.updateImage()
-            self.coordinator?.showSubcontrollersRequest()
-        })
+        DispatchQueue.main.async { [weak self] in
+            self?.showModalViews()
+            self?.filterParametersView.setFilter(EditManager.getPreviewFilter())
+            self?.editImageView.updateImage()
+            self?.coordinator?.showSubcontrollersRequest()
+        }
     }
     
     
@@ -1064,47 +1064,47 @@ extension BasicEditViewController: FilterParametersViewDelegate {
     }
     
     func positionRequested(key: String) {
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.setTouchMode(.filter)
-            self.handlePositionRequest(key:key)
-        })
+        DispatchQueue.main.async { [weak self] in
+            self?.setTouchMode(.filter)
+            self?.handlePositionRequest(key:key)
+        }
     }
     
     func fullScreenRequested() {
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.editImageView.setDisplayMode(.full)
-            self.editImageView.updateImage()
-            self.setTouchMode(.gestures)
-        })
+        DispatchQueue.main.async { [weak self] in
+            self?.editImageView.setDisplayMode(.full)
+            self?.editImageView.updateImage()
+            self?.setTouchMode(.gestures)
+        }
     }
     
     func splitScreenrequested() {
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.editImageView.setDisplayMode(.split)
-            self.editImageView.updateImage()
-            self.setTouchMode(.preview)
-        })
+        DispatchQueue.main.async { [weak self] in
+            self?.editImageView.setDisplayMode(.split)
+            self?.editImageView.updateImage()
+            self?.setTouchMode(.preview)
+        }
     }
     
     func showStackRequested() {
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.showFilterStack()
-        })
+        DispatchQueue.main.async { [weak self] in
+            self?.showFilterStack()
+        }
     }
     
     func showFiltersRequested() {
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.editImageView.setFilterMode(.preview)
-            self.editImageView.updateImage()
-        })
+        DispatchQueue.main.async { [weak self] in
+            self?.editImageView.setFilterMode(.preview)
+            self?.editImageView.updateImage()
+        }
     }
     
     func showOriginalRequested() {
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.editImageView.setFilterMode(.original)
-            self.editImageView.updateImage()
-            self.setTouchMode(.gestures)
-        })
+        DispatchQueue.main.async { [weak self] in
+            self?.editImageView.setFilterMode(.original)
+            self?.editImageView.updateImage()
+            self?.setTouchMode(.gestures)
+        }
     }
     
 }
@@ -1115,9 +1115,9 @@ extension BasicEditViewController: FilterParametersViewDelegate {
 
 extension BasicEditViewController: AdornmentDelegate {
     func adornmentItemSelected(key: String) {
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.handleSelection(key: key)
-        })
+        DispatchQueue.main.async { [weak self] in
+            self?.handleSelection(key: key)
+        }
     }
 }
 
@@ -1162,9 +1162,9 @@ extension BasicEditViewController: UIGestureRecognizerDelegate {
 
 extension BasicEditViewController: EditStackViewDelegate {
     func editStackDismiss() {
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.closeStackView()
-        })
+        DispatchQueue.main.async { [weak self] in
+            self?.closeStackView()
+        }
     }
     
     

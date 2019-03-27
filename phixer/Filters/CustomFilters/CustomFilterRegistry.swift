@@ -74,8 +74,8 @@ class CustomFilterRegistry: NSObject, CIFilterConstructor {
         
         var filterInstance:CIFilter? = nil
         
-        // check cache to see if the filter has already been created
-        if CustomFilterRegistry.filterCache[name] != nil {
+        // check cache to see if the filter has already been created (but only if on main thread)
+        if (CustomFilterRegistry.filterCache[name] != nil) && Thread.current.isMainThread {
             filterInstance = CustomFilterRegistry.filterCache[name]!
         } else {
             log.verbose("Creating custom filter:\(name)")
@@ -89,7 +89,9 @@ class CustomFilterRegistry: NSObject, CIFilterConstructor {
             if (filterInstance == nil){
                 log.error ("ERR: Could not create class: \(name)")
             } else {
-                CustomFilterRegistry.filterCache[name] = filterInstance
+                if Thread.current.isMainThread {
+                    CustomFilterRegistry.filterCache[name] = filterInstance
+                }
             }
         }
         return filterInstance

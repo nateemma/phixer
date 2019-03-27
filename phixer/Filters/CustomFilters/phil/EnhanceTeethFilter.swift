@@ -22,7 +22,7 @@ class EnhanceTeethFilter: CIFilter {
 
     // default settings
     override func setDefaults() {
-        log.verbose("Setting defaults")
+        //log.verbose("Setting defaults")
         inputImage = nil
         processedImage = nil
         inputBrightness = 0.01
