@@ -68,20 +68,24 @@ class ImageManager {
             return
         }
         
-        let image = getImageFromAssets(assetID:name)
+        _currBlendName = name
+        log.verbose("Image set to:\(name)")
+        updateStoredSettings()
+
+        /*** delay loading until requested
+        var image = getImageFromAssets(assetID:name)
         if image != nil {
-            //_currBlendImage = CIImage(image: image!)
             let orientation = imageOrientationToExifOrientation(value: image!.imageOrientation)
             _currBlendImage = CIImage(image: image!)?.oriented(forExifOrientation: Int32(orientation.rawValue))
-            _currBlendName = name
-            //_currBlendInput = CIImage(image:_currBlendImage!)
+            //_currBlendName = name
             _currBlendImageScaled = _currBlendImage
             _currBlendSize = _currBlendImage!.extent.size
-            log.verbose("Image set to:\(name)")
-            updateStoredSettings()
+            //updateStoredSettings()
+            image = nil
         } else {
             log.error("Could not find image: \(name)")
         }
+        ***/
 
     }
     
@@ -143,9 +147,21 @@ class ImageManager {
         // make sure current blend image has been loaded
         if (_currBlendImage == nil){
             if _currBlendName.isEmpty { _currBlendName = getDefaultBlendImageName()! }
-            _currBlendImage = CIImage(image: getImageFromAssets(assetID:_currBlendName, size:_currBlendSize)!)
-            _currBlendImageScaled = _currBlendImage
-            //setBlendInput(image: _currBlendImageScaled!)
+            //_currBlendImage = CIImage(image: getImageFromAssets(assetID:_currBlendName, size:_currBlendSize)!)
+            //_currBlendImageScaled = _currBlendImage
+
+            
+            var image = getImageFromAssets(assetID:_currBlendName)
+            if image != nil {
+                let orientation = imageOrientationToExifOrientation(value: image!.imageOrientation)
+                _currBlendImage = CIImage(image: image!)?.oriented(forExifOrientation: Int32(orientation.rawValue))
+                _currBlendImageScaled = _currBlendImage
+                _currBlendSize = _currBlendImage!.extent.size
+                //updateStoredSettings()
+                image = nil
+            } else {
+                log.error("Could not find image: \(_currBlendName)")
+            }
         }
         
         // check to see if we have already resized
@@ -181,7 +197,7 @@ class ImageManager {
     //////////////////////////////////
     
     private static var _sampleNameList:[String] = [ ]
-    private static var _currSampleName:String = "sample_9989.png"
+    private static var _currSampleName:String = "sample_beach_1678.png"
 
     private static var _currSampleImage: CIImage? = nil
     
@@ -223,7 +239,8 @@ class ImageManager {
             sname = getCurrentEditImageName()
         }
         
-        let image = getImageFromAssets(assetID:sname)
+/*** try 2: don't load image until it is requested
+        var image = getImageFromAssets(assetID:sname)
         if image != nil {
             //_currSampleImage = CIImage(image: image!)
             let orientation = imageOrientationToExifOrientation(value: image!.imageOrientation)
@@ -235,9 +252,13 @@ class ImageManager {
             _currSampleSize = (image?.size)!
             log.verbose("Image set to:\(sname)")
             updateStoredSettings()
+            
+            image = nil // free memory
+            
         } else {
             log.error("Could not find image: \(sname)")
         }
+ ***/
         updateStoredSettings()
     }
     
@@ -305,8 +326,23 @@ class ImageManager {
         // make sure current sample image has been loaded
         if (_currSampleImage == nil){
             if _currSampleName.isEmpty { _currSampleName = getDefaultSampleImageName()! }
-            _currSampleImage = CIImage(image: getImageFromAssets(assetID:_currSampleName, size:_currSampleSize)!)
+            //_currSampleImage = CIImage(image: getImageFromAssets(assetID:_currSampleName, size:_currSampleSize)!)
             //setSampleInput(image: _currSampleImage!)
+            
+            var image = getImageFromAssets(assetID:_currSampleName)
+            if image != nil {
+                let orientation = imageOrientationToExifOrientation(value: image!.imageOrientation)
+                _currSampleImage = CIImage(image: image!)?.oriented(forExifOrientation: Int32(orientation.rawValue))
+                
+                _currSampleImageScaled = _currSampleImage
+                _currSampleSize = (image?.size)!
+                log.verbose("Retrieved image:\(_currSampleName)")
+                
+                image = nil // free memory
+                
+            } else {
+                log.error("Could not find image: \(_currSampleName)")
+            }
         }
         
         // check to see if we have already resized
@@ -333,7 +369,7 @@ class ImageManager {
             if (_sampleNameList.count>0) {
                 _currSampleName = _sampleNameList[0]
             } else {
-                _currSampleName = "sample_1149.png" // desperation, hard-code the name
+                _currSampleName = "sample_beach_1678.png" // desperation, hard-code the name
             }
         }
         return _currSampleName
@@ -682,7 +718,12 @@ class ImageManager {
         
         //return image
         // OK, don't know why, but the orientation is lost when retrieving, so force it to be always up. This is how everything is displayed anyway, but it's still a hack
-        return forceUpOrientation(img: image!)!
+        if image != nil {
+            return forceUpOrientation(img: image!)!
+        } else {
+            log.error("Error loading asset: \(assetID)")
+            return nil
+        }
     }
     
     
@@ -728,8 +769,9 @@ class ImageManager {
             }
         } else {
             // not a managed asset, load via 'regular' method
-            let tmpimage2 = UIImage(named:assetID)
+            var tmpimage2 = UIImage(named:assetID)
             image = resizeImage(tmpimage2, targetSize: tsize, mode:.scaleAspectFill)
+            tmpimage2 = nil
         }
 
         return image

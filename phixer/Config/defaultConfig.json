@@ -1,5 +1,5 @@
 {
-    "version": { "id": 3.0, "overwrite": false },
+    "version": { "id": 3.0, "overwrite": true },
     
     "slow": [ "KuwaharaFilter", "SketchFilter",
         "EnhanceLipsFilter", "EnhanceEyesFilter", "EnhanceTeethFilter", "EnhanceEyebrowsFilter", "EnhanceFaceFilter",
@@ -40,8 +40,9 @@
     ],
     
     "samples": [
-        "sample_0846.png", "sample_1149.png", "sample_1151.png", "sample_1412.png", "sample_1504.png", "sample_1533.png", "sample_1629.png",
-        "sample_1687.png", "sample_1748.png", "sample_1902.png", "sample_2143.png", "sample_2216.png", "sample_9989.png"
+        "sample_gnocchi_2273.png", "sample_tree_1149.png", "sample_hugger_1151.png", "sample_bagels_1986.png", "sample_glasses_1975.png",
+        "sample_parents_1758.png", "sample_beach_1678.png", "sample_nate_1429.png", "sample_emma_1427.png", 
+        "sample_girls_2143.png", "sample_pisa_2216.png", "sample_kids_9989.png"
     ],
     
     
