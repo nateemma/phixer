@@ -116,7 +116,7 @@ class EditManager {
 
     public static func getPreviewImageAsync(completion: @escaping (CIImage?)->()) {
         //DispatchQueue.main.async {
-        DispatchQueue.global(qos: .default).async {
+        DispatchQueue.global(qos: .default).async { 
             completion (EditManager.previewImage)
         }
     }

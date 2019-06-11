@@ -492,6 +492,9 @@ class FilterParametersView: UIView {
 
                             
                             var p = self.currFilterDesc?.getPositionParameter(key)?.cgPointValue
+                            if p == nil {
+                                p = CGPoint(x: 0, y: 0)
+                            }
                             // if position is not set, default to the middle of the image
                             if ((p?.x)! < CGFloat(0.01)) && ((p?.y)! < CGFloat(0.01)) { // approximately (0, 0)
                                 let size = InputSource.getSize()

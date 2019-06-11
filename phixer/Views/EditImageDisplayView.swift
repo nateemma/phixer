@@ -294,8 +294,8 @@ class EditImageDisplayView: UIView {
     
     // callback for async filter processing
     private func filterCompletion(_ image: CIImage?){
-        DispatchQueue.main.async(execute: { () -> Void in
-            self.renderView?.image = image
+        DispatchQueue.main.async(execute: { [weak self] () -> Void in
+            self?.renderView?.image = image
         })
     }
     

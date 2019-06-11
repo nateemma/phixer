@@ -246,7 +246,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         setVolumeListener()
         
         // bit of a hack, but reset face detection if image changes. This allows results to be re-used across filters, which is a very expensive operation
-        DispatchQueue.main.async {
+        DispatchQueue.main.async {  [weak self] in
             FaceDetection.reset()
             FaceDetection.detectFaces(on: EditManager.getPreviewImage()!, orientation: ImageManager.getEditImageOrientation(), completion: {})
         }
@@ -898,7 +898,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             }
             
             // bit of a hack, but reset face detection if image changes. This allows results to be re-used across filters, which is a very expensive operation
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
                 FaceDetection.reset()
                 FaceDetection.detectFaces(on: EditManager.getPreviewImage()!, orientation: ImageManager.getEditImageOrientation(), completion: {})
             }

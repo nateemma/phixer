@@ -25,7 +25,7 @@ protocol ColorPickerControllerDelegate: class {
 
 class ColorPickerController: CoordinatedController {
     
-    var delegate: ColorPickerControllerDelegate? = nil
+   weak var delegate: ColorPickerControllerDelegate? = nil
     
     // Main Views
     var adView: GADBannerView! = GADBannerView()

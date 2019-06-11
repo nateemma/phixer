@@ -37,31 +37,39 @@ class AppCoordinator: Coordinator {
     // MARK:  Delegate Functions
     /////////////////////////////
     
+    var initDone: Bool = false
+    
     override func startRequest(completion: @escaping ()->()){
-        // Logging nicety, show that controller has changed:
-        print ("\n========== \(String(describing: type(of: self))) ==========\n")
         
-        guard let window = window else {
-            return
+        if !initDone {
+            initDone = true
+            
+            // Logging nicety, show that controller has changed:
+            print ("\n========== \(String(describing: type(of: self))) ==========\n")
+            
+            guard let window = window else {
+                return
+            }
+            
+            
+            window.rootViewController = Coordinator.navigationController
+            window.makeKeyAndVisible()
+            
+            
+            // reset controller/coordinator vars
+            self.completionHandler = completion
+            self.subCoordinators = [:]
+            self.mainController = nil
+            self.subControllers = [:]
+            self.validControllers = []
+            
+            //TODO: display transition screen while the App is being prepared???
+            DispatchQueue.main.async(execute: { [weak self] in
+                self?.prepareApp()
+                self?.startMainController()
+            })
         }
         
-
-        window.rootViewController = Coordinator.navigationController
-        window.makeKeyAndVisible()
-        
-        
-        // reset controller/coordinator vars
-        self.completionHandler = completion
-        self.subCoordinators = [:]
-        self.mainController = nil
-        self.subControllers = [:]
-        self.validControllers = []
-
-        //TODO: display transition screen while the App is being prepared???
-        DispatchQueue.main.async(execute: {
-            self.prepareApp()
-            self.startMainController()
-        })
     }
     
 
@@ -172,6 +180,7 @@ class AppCoordinator: Coordinator {
         
         // Create an instance of FilterManager (in a different queue entry). This will take care of reading the configuration file etc.
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {
+            [weak self] in
             Coordinator.filterManager = FilterManager.sharedInstance
         }
 

@@ -2,7 +2,7 @@
 //  GADMobileAds.h
 //  Google Mobile Ads SDK
 //
-//  Copyright 2015 Google Inc. All rights reserved.
+//  Copyright 2015 Google LLC. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -16,6 +16,7 @@
 /// completes or times out.
 typedef void (^GADInitializationCompletionHandler)(GADInitializationStatus *_Nonnull status);
 
+/// Google Mobile Ads SDK settings.
 @interface GADMobileAds : NSObject
 
 /// Returns the shared GADMobileAds instance.
@@ -51,6 +52,13 @@ typedef void (^GADInitializationCompletionHandler)(GADInitializationStatus *_Non
 /// Initialization status of the ad networks available to the Google Mobile Ads SDK.
 @property(nonatomic, nonnull, readonly) GADInitializationStatus *initializationStatus;
 
+/// Returns YES if the current SDK version is at least |major|.|minor|.|patch|. This method can be
+/// used by libraries that depend on a specific minimum version of the Google Mobile Ads SDK to warn
+/// developers if they have an incompatible version.
+///
+/// Available in Google Mobile Ads SDK 7.10 and onwards. Before calling this method check if the
+/// GADMobileAds's shared instance responds to this method. Calling this method on a Google Mobile
+/// Ads SDK lower than 7.10 can crash the app.
 - (BOOL)isSDKVersionAtLeastMajor:(NSInteger)major minor:(NSInteger)minor patch:(NSInteger)patch;
 
 /// Starts the Google Mobile Ads SDK. Call this method as early as possible to reduce latency on the

@@ -91,8 +91,8 @@ class EnhanceEyebrowsFilter: CIFilter {
 
         // if no faces, then run facial detection
         if FaceDetection.count() <= 0 {
-            FaceDetection.detectFaces(on: self.inputImage!, orientation: InputSource.getOrientation(), completion: {
-                self.processImage()
+            FaceDetection.detectFaces(on: self.inputImage!, orientation: InputSource.getOrientation(), completion: { [weak self] in
+                self?.processImage()
             })
         } else {
             processImage()

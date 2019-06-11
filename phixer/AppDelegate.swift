@@ -35,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          to fail.
          */
         let container = NSPersistentContainer(name: "")
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+        container.loadPersistentStores(completionHandler: { [weak self] (storeDescription, error) in
             if let error = error as NSError? {
                 /*
                  Typical reasons for an error here include:
@@ -80,7 +80,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // set up the window and start the coordinator
         window = UIWindow(frame: UIScreen.main.bounds)
         appCoordinator = AppCoordinator(window: window)
-        appCoordinator.startRequest(completion: { log.info("AppCoordinator finished") } )
+        appCoordinator.startRequest(completion: { [weak self] in
+            log.info("AppCoordinator finished")
+        } )
         
         return true
     }

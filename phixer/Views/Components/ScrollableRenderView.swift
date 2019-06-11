@@ -52,7 +52,8 @@ class ScrollableRenderView: UIScrollView, UIScrollViewDelegate {
 	}
 	
     //MARK: - Configure scrollView to display new image
-    weak var image: CIImage? = nil {
+    //weak var image: CIImage? = nil {
+    var image: CIImage? = nil {
         didSet {
             
             guard image != nil else {

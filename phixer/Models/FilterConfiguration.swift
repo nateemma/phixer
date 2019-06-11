@@ -124,7 +124,7 @@ class FilterConfiguration{
     fileprivate static let configFile = "defaultConfig"
     //fileprivate static let configFile = "testFilterConfig"
 
-    fileprivate static var parsedConfig:JSON = JSON.null
+//    fileprivate static var parsedConfig:JSON = JSON.null
     
     
     fileprivate  static func loadFilterConfig(){
@@ -132,6 +132,7 @@ class FilterConfiguration{
         var version:Float
         
         var key:String, title:String
+        var parsedConfig:JSON = JSON.null
 
         print ("======================== Loading Config File ========================")
         initLists()
@@ -482,12 +483,13 @@ class FilterConfiguration{
     // convert the definition of the filter into FilterDescriptor form
     static func makeFilterDefinition(_ name:String) -> FilterDefinition? {
         var def:FilterDefinition? = nil
+        //var filter: CIFilter? = nil
         
-        if let filter = CIFilter(name: name){
-            
+        if let filter = CIFilter(name: name) {
+        
             def = FilterDefinition()
             
-            let inputNames = (filter.inputKeys as [String]).filter { (parameterName) -> Bool in
+            let inputNames = (filter.inputKeys as! [String]).filter { (parameterName) -> Bool in
                 return (parameterName as String) != "inputImage" // everything has inputImage so don't return that
             }
             

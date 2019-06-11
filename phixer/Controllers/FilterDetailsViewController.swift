@@ -577,7 +577,9 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
         
         // launch the Alert. Need to get the Controller to do this though, since we are calling from a View
         DispatchQueue.main.async(execute: { () -> Void in
-            self.present(self.ratingAlert!, animated: true, completion:{ self.update() })
+            self.present(self.ratingAlert!, animated: true, completion:{ [weak self] in
+                self?.update()
+            })
         })
     }
 

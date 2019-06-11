@@ -49,14 +49,14 @@ class AdornmentView: UIView {
 
     // clear any highlighting that might have been done
     public func clearHighlights(){
-        DispatchQueue.main.async(execute: { () -> Void in
-            if self.adornmentViewList.count > 0 {
-                for v in self.adornmentViewList {
-                    v.backgroundColor = self.theme.backgroundColor
-                    v.tintColor = self.theme.textColor
+        DispatchQueue.main.async(execute: { [weak self] () -> Void  in
+            if self?.adornmentViewList.count ?? 0 > 0 {
+                for v in (self?.adornmentViewList)! {
+                    v.backgroundColor = self?.theme.backgroundColor
+                    v.tintColor = self?.theme.textColor
                     v.layer.cornerRadius = 4.0
                     v.layer.borderWidth = 1.0
-                    v.layer.borderColor = self.theme.backgroundColor.cgColor
+                    v.layer.borderColor = self?.theme.backgroundColor.cgColor
                 }
             }
         })
@@ -120,8 +120,8 @@ class AdornmentView: UIView {
     public func update(){
         log.debug("update requested")
         if self.layoutDone {
-            DispatchQueue.main.async(execute: { () -> Void in
-                self.buildAdornmentViews()
+            DispatchQueue.main.async(execute: { [weak self] () -> Void in
+                self?.buildAdornmentViews()
             })
         }
     }
@@ -184,8 +184,8 @@ class AdornmentView: UIView {
         log.debug("index:\(index) (\(self.adornmentList[index].key))")
         highlightItem(index: index)
         if delegate != nil {
-            DispatchQueue.main.async(execute: { () -> Void in
-                self.delegate?.adornmentItemSelected(key: self.adornmentList[index].key)
+            DispatchQueue.main.async(execute: { [weak self] () -> Void in
+                self?.delegate?.adornmentItemSelected(key: self?.adornmentList[index].key ?? "")
             })
         }
     }

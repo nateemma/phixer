@@ -2,15 +2,13 @@
 //  DFPBannerViewOptions.h
 //  Google Mobile Ads SDK
 //
-//  Copyright © 2016 Google Inc. All rights reserved.
+//  Copyright 2016 Google LLC. All rights reserved.
 //
 
 #import <GoogleMobileAds/GADAdLoader.h>
 #import <GoogleMobileAds/GADAdSize.h>
 #import <GoogleMobileAds/GADAdSizeDelegate.h>
 #import <GoogleMobileAds/GADAppEventDelegate.h>
-
-NS_ASSUME_NONNULL_BEGIN
 
 /// Ad loader options for banner ads.
 @interface DFPBannerViewOptions : GADAdLoaderOptions
@@ -25,5 +23,3 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, assign) BOOL enableManualImpressions;
 
 @end
-
-NS_ASSUME_NONNULL_END

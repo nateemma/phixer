@@ -106,7 +106,9 @@ class Coordinator: CoordinatorDelegate {
     // default selection. Pass on to the main controller. Intercept this in the subclass if you need to do something different, e.g. launch another screen
     func selectFilterNotification(key: String) {
         log.debug("default action")
-        DispatchQueue.main.async(execute: { self.mainController?.selectFilter(key: key) })
+        DispatchQueue.main.async(execute: { [weak self] in
+            self?.mainController?.selectFilter(key: key)
+        })
     }
 
     
@@ -231,7 +233,9 @@ class Coordinator: CoordinatorDelegate {
     
     // default requestUpdate: pass on to main controller
     func updateRequest(id: ControllerIdentifier) {
-        DispatchQueue.main.async(execute: { self.mainController?.updateDisplays() })
+        DispatchQueue.main.async(execute: { [weak self] in
+            self?.mainController?.updateDisplays()
+        })
     }
     
     

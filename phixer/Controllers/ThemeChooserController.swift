@@ -367,7 +367,7 @@ class ThemeChooserController: CoordinatedController {
         // NOTE: in this case, back is the same as cancel
         guard navigationController?.popViewController(animated: true) != nil else { //modal
             //log.debug("Not a navigation Controller")
-            dismiss(animated: true, completion:  {
+            dismiss(animated: true, completion:  { [weak self] in
                 log.verbose("Leaving...")
             })
             return
@@ -377,7 +377,7 @@ class ThemeChooserController: CoordinatedController {
     @objc func cancelDidPress(){
         guard navigationController?.popViewController(animated: true) != nil else { //modal
             //log.debug("Not a navigation Controller")
-            dismiss(animated: true, completion: {
+            dismiss(animated: true, completion: { [weak self] in
                 log.verbose("Cancelling...")
             })
             return
@@ -392,8 +392,8 @@ class ThemeChooserController: CoordinatedController {
         }
         guard navigationController?.popViewController(animated: true) != nil else { //modal
             //log.debug("Not a navigation Controller")
-            dismiss(animated: true, completion:  {
-                log.verbose("Saving theme \(self.selectedThemeKey)...")
+            dismiss(animated: true, completion:  { [weak self] in
+                log.verbose("Saving theme \(self?.selectedThemeKey)...")
             })
             return
         }
