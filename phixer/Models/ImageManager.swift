@@ -420,6 +420,8 @@ class ImageManager {
             _currEditImageOrientation = imageOrientationToExifOrientation(value: image!.imageOrientation)
             log.debug("orientation: UI:\(image!.imageOrientation.rawValue) CG:\(_currEditImageOrientation)")
             _currEditImage = CIImage(image: image!)?.oriented(forExifOrientation: Int32(_currEditImageOrientation.rawValue))
+            
+            // TODO: resize to smaller image? (Use full size only on save ???)
         } else {
             log.error("NIL image returned for: \(ename)")
         }

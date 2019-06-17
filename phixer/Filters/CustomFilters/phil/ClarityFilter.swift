@@ -42,8 +42,8 @@ class ClarityFilter: CIFilter {
                              kCIAttributeClass: "NSNumber",
                              kCIAttributeDefault: 0.2,
                              kCIAttributeDisplayName: "Clarity",
-                             kCIAttributeMin: 0,
-                             kCIAttributeSliderMin: 0,
+                             kCIAttributeMin: -1,
+                             kCIAttributeSliderMin: -1,
                              kCIAttributeSliderMax: 1,
                              kCIAttributeType: kCIAttributeTypeScalar]
         ]

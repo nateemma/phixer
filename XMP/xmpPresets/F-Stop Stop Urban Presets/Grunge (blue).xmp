@@ -4,7 +4,7 @@
     xmlns:crs="http://ns.adobe.com/camera-raw-settings/1.0/"
    crs:PresetType="Normal"
    crs:Cluster=""
-   crs:UUID="22B439095865AE04350AD75042264C40"
+   crs:UUID="6AAD1BE7355B9AB6066CF2E937030A14"
    crs:SupportsAmount="False"
    crs:SupportsColor="True"
    crs:SupportsMonochrome="True"
@@ -17,10 +17,10 @@
    crs:ContactInfo=""
    crs:Version="10.4"
    crs:ProcessVersion="6.7"
-   crs:WhiteBalance="Daylight"
-   crs:Saturation="-75"
-   crs:Sharpness="0"
-   crs:Vibrance="0"
+   crs:Saturation="-40"
+   crs:Sharpness="110"
+   crs:VignetteAmount="0"
+   crs:Vibrance="+100"
    crs:HueAdjustmentRed="0"
    crs:HueAdjustmentOrange="0"
    crs:HueAdjustmentYellow="0"
@@ -45,38 +45,42 @@
    crs:LuminanceAdjustmentBlue="0"
    crs:LuminanceAdjustmentPurple="0"
    crs:LuminanceAdjustmentMagenta="0"
-   crs:SplitToningShadowHue="50"
-   crs:SplitToningShadowSaturation="50"
-   crs:SplitToningHighlightHue="60"
-   crs:SplitToningHighlightSaturation="50"
-   crs:SplitToningBalance="0"
+   crs:SplitToningShadowHue="237"
+   crs:SplitToningShadowSaturation="24"
+   crs:SplitToningHighlightHue="237"
+   crs:SplitToningHighlightSaturation="35"
+   crs:SplitToningBalance="-68"
    crs:ParametricShadows="0"
-   crs:ParametricDarks="0"
-   crs:ParametricLights="+24"
-   crs:ParametricHighlights="-7"
+   crs:ParametricDarks="+56"
+   crs:ParametricLights="0"
+   crs:ParametricHighlights="0"
    crs:ParametricShadowSplit="25"
    crs:ParametricMidtoneSplit="50"
    crs:ParametricHighlightSplit="75"
-   crs:SharpenRadius="+1.0"
-   crs:SharpenDetail="25"
+   crs:SharpenRadius="+2.5"
+   crs:SharpenDetail="65"
    crs:SharpenEdgeMasking="0"
-   crs:PostCropVignetteAmount="0"
-   crs:GrainAmount="0"
+   crs:LensProfileEnable="1"
+   crs:LensManualDistortionAmount="0"
+   crs:PerspectiveVertical="0"
+   crs:PerspectiveHorizontal="0"
+   crs:PerspectiveRotate="0.0"
+   crs:PerspectiveScale="100"
+   crs:AutoLateralCA="1"
    crs:Exposure2012="0.00"
-   crs:Contrast2012="+89"
-   crs:Highlights2012="0"
-   crs:Shadows2012="0"
-   crs:Whites2012="0"
-   crs:Blacks2012="0"
-   crs:Clarity2012="-50"
+   crs:Contrast2012="+20"
+   crs:Highlights2012="+100"
+   crs:Shadows2012="+90"
+   crs:Blacks2012="-20"
+   crs:Clarity2012="+100"
    crs:ConvertToGrayscale="False"
-   crs:OverrideLookVignette="False"
-   crs:ToneCurveName2012="Medium Contrast"
+   crs:ToneCurveName2012="Linear"
    crs:CameraProfile="Default Profile"
+   crs:LensProfileSetup="LensDefaults"
    crs:HasSettings="True">
    <crs:Name>
     <rdf:Alt>
-     <rdf:li xml:lang="x-default">Tijuana</rdf:li>
+     <rdf:li xml:lang="x-default">Grunge (blue)</rdf:li>
     </rdf:Alt>
    </crs:Name>
    <crs:ShortName>
@@ -91,7 +95,7 @@
    </crs:SortName>
    <crs:Group>
     <rdf:Alt>
-     <rdf:li xml:lang="x-default">onOne Movie Looks LR5</rdf:li>
+     <rdf:li xml:lang="x-default">F-Stop Stop Urban Presets</rdf:li>
     </rdf:Alt>
    </crs:Group>
    <crs:Description>
@@ -102,10 +106,6 @@
    <crs:ToneCurvePV2012>
     <rdf:Seq>
      <rdf:li>0, 0</rdf:li>
-     <rdf:li>32, 22</rdf:li>
-     <rdf:li>64, 56</rdf:li>
-     <rdf:li>128, 128</rdf:li>
-     <rdf:li>192, 196</rdf:li>
      <rdf:li>255, 255</rdf:li>
     </rdf:Seq>
    </crs:ToneCurvePV2012>

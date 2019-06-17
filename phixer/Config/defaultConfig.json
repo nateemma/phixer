@@ -812,7 +812,7 @@
                 "CarnivalMirror", "RGBChannelCompositing", "KuwaharaFilter", "MercurializeFilter",
                 "CMYKLevels", "ChromaticAberration", "ColorDirectedBlur", "CompoundEye", "EightBit", "HomogeneousColorBlur",
                 "RGBChannelBrightnessAndContrast", "RGBChannelGaussianBlur", "TransverseChromaticAberration", "VHSTrackingLines", "CausticRefraction",
-                "HighPassFilter", "HighPassSharpeningFilter", "HueRangeFilter"
+                "HighPassFilter", "HighPassSharpeningFilter", "HueRangeFilter", "SplitToningFilter"
             ]
         }
         

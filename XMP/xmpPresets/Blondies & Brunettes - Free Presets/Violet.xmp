@@ -4,7 +4,7 @@
     xmlns:crs="http://ns.adobe.com/camera-raw-settings/1.0/"
    crs:PresetType="Normal"
    crs:Cluster=""
-   crs:UUID="22B439095865AE04350AD75042264C40"
+   crs:UUID="E47FEF15B09C3F95A75FA5D3DAA0215E"
    crs:SupportsAmount="False"
    crs:SupportsColor="True"
    crs:SupportsMonochrome="True"
@@ -16,11 +16,31 @@
    crs:Copyright=""
    crs:ContactInfo=""
    crs:Version="10.4"
-   crs:ProcessVersion="6.7"
-   crs:WhiteBalance="Daylight"
-   crs:Saturation="-75"
+   crs:ProcessVersion="5.7"
+   crs:WhiteBalance="Custom"
+   crs:Temperature="5519"
+   crs:Tint="-37"
+   crs:Exposure="0.00"
+   crs:Shadows="13"
+   crs:Brightness="0"
+   crs:Contrast="0"
+   crs:Saturation="0"
    crs:Sharpness="0"
+   crs:LuminanceSmoothing="0"
+   crs:ColorNoiseReduction="0"
+   crs:VignetteAmount="-49"
+   crs:VignetteMidpoint="50"
+   crs:ShadowTint="0"
+   crs:RedHue="0"
+   crs:RedSaturation="-68"
+   crs:GreenHue="0"
+   crs:GreenSaturation="+38"
+   crs:BlueHue="-52"
+   crs:BlueSaturation="+56"
+   crs:FillLight="0"
    crs:Vibrance="0"
+   crs:HighlightRecovery="0"
+   crs:Clarity="0"
    crs:HueAdjustmentRed="0"
    crs:HueAdjustmentOrange="0"
    crs:HueAdjustmentYellow="0"
@@ -45,15 +65,15 @@
    crs:LuminanceAdjustmentBlue="0"
    crs:LuminanceAdjustmentPurple="0"
    crs:LuminanceAdjustmentMagenta="0"
-   crs:SplitToningShadowHue="50"
-   crs:SplitToningShadowSaturation="50"
-   crs:SplitToningHighlightHue="60"
-   crs:SplitToningHighlightSaturation="50"
+   crs:SplitToningShadowHue="216"
+   crs:SplitToningShadowSaturation="45"
+   crs:SplitToningHighlightHue="26"
+   crs:SplitToningHighlightSaturation="22"
    crs:SplitToningBalance="0"
    crs:ParametricShadows="0"
-   crs:ParametricDarks="0"
-   crs:ParametricLights="+24"
-   crs:ParametricHighlights="-7"
+   crs:ParametricDarks="+16"
+   crs:ParametricLights="-18"
+   crs:ParametricHighlights="0"
    crs:ParametricShadowSplit="25"
    crs:ParametricMidtoneSplit="50"
    crs:ParametricHighlightSplit="75"
@@ -62,21 +82,14 @@
    crs:SharpenEdgeMasking="0"
    crs:PostCropVignetteAmount="0"
    crs:GrainAmount="0"
-   crs:Exposure2012="0.00"
-   crs:Contrast2012="+89"
-   crs:Highlights2012="0"
-   crs:Shadows2012="0"
-   crs:Whites2012="0"
-   crs:Blacks2012="0"
-   crs:Clarity2012="-50"
    crs:ConvertToGrayscale="False"
    crs:OverrideLookVignette="False"
-   crs:ToneCurveName2012="Medium Contrast"
-   crs:CameraProfile="Default Profile"
+   crs:ToneCurveName="Custom"
+   crs:CameraProfile="Embedded"
    crs:HasSettings="True">
    <crs:Name>
     <rdf:Alt>
-     <rdf:li xml:lang="x-default">Tijuana</rdf:li>
+     <rdf:li xml:lang="x-default">Violet</rdf:li>
     </rdf:Alt>
    </crs:Name>
    <crs:ShortName>
@@ -91,7 +104,7 @@
    </crs:SortName>
    <crs:Group>
     <rdf:Alt>
-     <rdf:li xml:lang="x-default">onOne Movie Looks LR5</rdf:li>
+     <rdf:li xml:lang="x-default">Blondies &amp; Brunettes - Free Presets</rdf:li>
     </rdf:Alt>
    </crs:Group>
    <crs:Description>
@@ -99,7 +112,7 @@
      <rdf:li xml:lang="x-default"/>
     </rdf:Alt>
    </crs:Description>
-   <crs:ToneCurvePV2012>
+   <crs:ToneCurve>
     <rdf:Seq>
      <rdf:li>0, 0</rdf:li>
      <rdf:li>32, 22</rdf:li>
@@ -108,25 +121,7 @@
      <rdf:li>192, 196</rdf:li>
      <rdf:li>255, 255</rdf:li>
     </rdf:Seq>
-   </crs:ToneCurvePV2012>
-   <crs:ToneCurvePV2012Red>
-    <rdf:Seq>
-     <rdf:li>0, 0</rdf:li>
-     <rdf:li>255, 255</rdf:li>
-    </rdf:Seq>
-   </crs:ToneCurvePV2012Red>
-   <crs:ToneCurvePV2012Green>
-    <rdf:Seq>
-     <rdf:li>0, 0</rdf:li>
-     <rdf:li>255, 255</rdf:li>
-    </rdf:Seq>
-   </crs:ToneCurvePV2012Green>
-   <crs:ToneCurvePV2012Blue>
-    <rdf:Seq>
-     <rdf:li>0, 0</rdf:li>
-     <rdf:li>255, 255</rdf:li>
-    </rdf:Seq>
-   </crs:ToneCurvePV2012Blue>
+   </crs:ToneCurve>
    <crs:Look
     crs:Name=""/>
   </rdf:Description>

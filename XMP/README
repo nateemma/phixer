@@ -1,6 +1,6 @@
 # Processing XMP Sidecar Files
 
-There are thousands of effects available for Phtooshop and Lightroom in the form of XMP files. This directory contains scripts for parsing the XMP files to create filter configurations that can be used with phixer. For now, I will leave the source XMP files here as well for reference
+There are thousands of effects available for Photoshop and Lightroom in the form of XMP files. This directory contains scripts for parsing the XMP files to create filter configurations that can be used with phixer. For now, I will leave the source XMP files here as well for reference
 
 ## Installing
 
@@ -18,6 +18,12 @@ python convertXMP.py <file>
 
 ## Reference
 
+EXIV2 XML tags:
 http://www.exiv2.org/tags-xmp-crs.html
 
+A little info on using libxmp:
+https://medium.com/@gullevek/reading-xmp-sidecar-files-with-python-and-libxmp-a4c52e9955bb
+
+List of APIs for the XMPMeta object:
+https://www.spacetelescope.org/static/projects/python-xmp-toolkit/docs/reference.html
 
