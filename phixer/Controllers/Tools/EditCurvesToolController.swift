@@ -295,6 +295,7 @@ class EditCurvesToolController: EditBaseToolController {
         
         //displayCurve()
         
+        log.verbose("Tone Curve: \(currToneCurve)")
         toneCurveFilter?.setVectorParameter("inputPoint0", vector: CIVector(cgPoint: currToneCurve[0]))
         toneCurveFilter?.setVectorParameter("inputPoint1", vector: CIVector(cgPoint: currToneCurve[1]))
         toneCurveFilter?.setVectorParameter("inputPoint2", vector: CIVector(cgPoint: currToneCurve[2]))

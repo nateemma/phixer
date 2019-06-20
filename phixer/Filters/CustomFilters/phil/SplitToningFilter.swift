@@ -10,6 +10,8 @@
 
 import Foundation
 import CoreImage
+import UIKit
+
 
 class SplitToningFilter: CIFilter {
     var inputImage: CIImage?
@@ -110,15 +112,28 @@ class SplitToningFilter: CIFilter {
         // for now, apply CIFalseFilter and Screen Blend to emulate the effect
         //  TODO: combine these into a kernel so that we can take the luminace value of the source pixel
         
-        let color1 = CIColor(h: inputHighlightHue, s: inputHighlightSaturation, v: 0.8)
-        let color2 = CIColor(h: inputShadowHue, s: inputShadowSaturation, v: 0.8)
+        // Original idea taken from: https://stackoverflow.com/questions/7961929/split-tone-effect-using-core-image-filters/8092453#8092453
+        // Values are the result of playing around. Value/Brightness is low because that's what Lightroom/Photoshop seem to use
 
-        log.verbose("Color1: \(color1), Color2: \(color2)")
+        let color1 = CIColor(h: inputShadowHue, s: inputShadowSaturation, v: 0.3, alpha:0.5)
+        let color2 = CIColor(h: inputHighlightHue, s: inputHighlightSaturation, v: 0.3, alpha:0.5)
+        //log.verbose("CIColor1: \(color1), CIColor2: \(color2)")
+
+        // DBG: UIColor much more user friendly, so check colour conversion with that
+        //let uicolor1 = UIColor(hue: inputHighlightHue, saturation: inputHighlightSaturation, brightness: 0.5, alpha: 1.0)
+        //let uicolor2 = UIColor(hue: inputShadowHue, saturation: inputShadowSaturation, brightness: 0.5, alpha: 1.0)
+        //log.verbose("UIColor1: \(uicolor1), UIColor2: \(uicolor2)")
         
         let falseImg = inputImage.applyingFilter("CIFalseColor", parameters: ["inputColor0": color1, "inputColor1": color2])
+
+        let screenImg = falseImg.applyingFilter("CIScreenBlendMode", parameters: ["inputBackgroundImage": inputImage])
+        return screenImg
         
-        return falseImg.applyingFilter("CIScreenBlendMode", parameters: ["inputBackgroundImage": inputImage])
-        //return inputImage.applyingFilter("CIScreenBlendMode", parameters: ["inputBackgroundImage": falseImg])
+        //return screenImg.applyingFilter("CIHueBlendMode", parameters: ["inputBackgroundImage": inputImage])
+        return screenImg.applyingFilter("CIColorBlendMode", parameters: ["inputBackgroundImage": inputImage])
+        //return falseImg.applyingFilter("CIColorBlendMode", parameters: ["inputBackgroundImage": inputImage])
+        //return falseImg.applyingFilter("CIHueBlendMode", parameters: ["inputBackgroundImage": inputImage])
+        //return screenImg.applyingFilter("CIHueBlendMode", parameters: ["inputBackgroundImage": inputImage])
 
     }
 }

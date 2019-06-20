@@ -31,6 +31,10 @@ xmp = XMPMeta()
 # map holding the various filter parameters
 filterMap = {}
 
+# flag to indicate that ToneCurve shoud be added (modified by several different processes)
+toneCurveChanged = False
+
+
 '''
     Note that the format of a preset setup is similar the syntax used in the phixer config file (without the UI stuff).
     Syntax is a bit different because it's driven by the Python syntax, not JSON, and we have to deal with position and vector types
@@ -39,10 +43,10 @@ filterMap = {}
 
     { "key": "presetfile.xmp",
     "info": { "name": "Example Preset", "group": "Example Presets" },
-    "filters":  [ { "WhiteBalanceFilter": { "inputTemperature": { val: 0.1, type: "CIAttributeTypeScalar"},
-                                            "inputTint": { val: 0.0, type: "CIAttributeTypeScalar"} }
+    "filters":  [ { "key": "WhiteBalanceFilter", "parameters": [ { "key": "inputTemperature", "val": 0.1, "type": "CIAttributeTypeScalar"},
+                                                                   "key": "inputTint", val: 0.0, type: "CIAttributeTypeScalar"} } ]
                   },
-                  { "CIVibrance":  {"inputAmount": {"val": 0.4, "type": "CIAttributeTypeScalar"} }
+                  { "key": "CIVibrance", "parameters":  [ {"key": "inputAmount", "val": 0.4, "type": "CIAttributeTypeScalar"} ] }
                   }
                 ]
 
@@ -57,6 +61,9 @@ toneCurve = [ [0.0, 0.0], [25.0, 25.0], [50.0, 50.0], [75.0, 75.0], [100.0, 100.
 
 def main():
 
+    global infile
+    global outfile
+    
     # parse the command line args
     parser = argparse.ArgumentParser()
     parser.add_argument("input", help="the name of the input XML file")
@@ -79,16 +86,21 @@ def main():
     processWhiteBalance()
     processExposure()
     processContrast()
-    processShadowsHighlights()
+    processToneCurve()
+    #processShadowsHighlights()
     processClarity()
     processVibrance()
     processSaturation()
     processParametricCurve()
-    processToneCurve()
     processHSV()
     processSplitToning()
     processSharpening()
     processVignette()
+    processCalibration()
+    
+    addToneCurve()
+    
+    processGrayscale() # do this last
 
     # print the final preset
     #printPreset()
@@ -120,14 +132,14 @@ def initPreset(f):
 def printPreset():
     #print ("Raw map: " + str(filterMap))
     print ("\n\n")
-    print ("JSON: " + json.dumps(filterMap))
+    print ("JSON: " + json.dumps(filterMap, indent=4))
 
 
 #----------------------------
 
 def savePreset(f):
     with safe_open_w(f) as outf:
-        json.dump(filterMap, outf)
+        json.dump(filterMap, outf, indent=2)
         print("\nSaved to: " + f + "\n")
 
 def mkdir_p(path):
@@ -174,7 +186,7 @@ def processAuto():
     elif xmp.does_property_exist(XMP_NS_CAMERA_RAW, "AutoShadows"):
         auto = True
     if auto:
-        filterMap["filters"].append( {"AutoAdjustFilter":{} } )
+        filterMap["filters"].append( { 'key':"AutoAdjustFilter", "parameters":[{}] } )
         print ("...Auto Adjust")
 
 
@@ -196,62 +208,66 @@ def processWhiteBalance():
         if preset in wbPresets:
             temp = min(wbPresets[preset]['temp'], 10000.0)
             tint = max(min(wbPresets[preset]['tint'], 100.0), -100.0)
-            filterMap["filters"].append( {"WhiteBalanceFilter": { "inputTemperature": { 'val':temp, 'type':"CIAttributeTypeScalar"},
-                                                                  "inputTint": { 'val': tint, 'type': "CIAttributeTypeScalar"}
-                                                                } } )
+            filterMap["filters"].append( { 'key':"WhiteBalanceFilter", "parameters":[ { 'key':"inputTemperature", 'val':temp, 'type':"CIAttributeTypeScalar"},
+                                                                                      {'key':"inputTint", 'val': tint, 'type': "CIAttributeTypeScalar"} ]
+                                                                 } )
+            print ("...Preset White Balance")
         elif preset == "Auto": # for Auto, just run auto correct
-            filterMap["filters"].append( {"AutoAdjustFilter":{} } )
+            filterMap["filters"].append( { 'key':"AutoAdjustFilter", "parameters":[{}] } )
 
-    # look for Temperature and/or Tint settings (can be applied on top of preset)
-    
-    # build dictionary of parameters
-    argDict = {}
-    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Temperature"):
-        # keys: Temperature. Range 2000..50000 -> 2000..10000
-        value = min(xmp.get_property_float(XMP_NS_CAMERA_RAW, "Temperature"), 10000.0)
-        argDict["inputTemperature"] = { 'val': value, 'type': "CIAttributeTypeScalar"}
+        elif preset == "Custom":
+            temp = 5500.0
+            tint = 0.0
+            if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Temperature"):
+                temp = min(xmp.get_property_float(XMP_NS_CAMERA_RAW, "Temperature"), 10000.0)
 
-    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Tint"):
-        # keys: Tint. Range -150..+150 -> -100..+100
-        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Tint")
-        #value = max(min(value, 100.0), -100.0)
-        value = clamp(value, -100.0, 100.0)
-        argDict["inputTint"] = { 'val': value, 'type': "CIAttributeTypeScalar"}
+            if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Tint"):
+                tint = clamp(xmp.get_property_float(XMP_NS_CAMERA_RAW, "Tint"), -100.0, 100.0)
 
-    # if args were found then add them to the filter map
-    if bool(argDict):
-        filterMap["filters"].append( {"WhiteBalanceFilter": argDict} )
-        print ("...White Balance")
+            filterMap["filters"].append( { 'key':"WhiteBalanceFilter", "parameters":[ { 'key':"inputTemperature", 'val':temp, 'type':"CIAttributeTypeScalar"},
+                                                                                 {'key':"inputTint", 'val': tint, 'type': "CIAttributeTypeScalar"} ]
+                                    } )
+            print ("...Custom White Balance")
 
 
 #----------------------------
 
 def processExposure():
-    # keys: Exposure or Exposure2012. Range -4.0 .. +4.0 -> -10.0 ... +10.0
+    # keys: Exposure or Exposure2012. Range -5.0 .. +5.0 -> -10.0 ... +10.0 (but same scale)
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Exposure"):
-        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Exposure") * 10.0 / 4.0
-        filterMap["filters"].append( {"CIExposureAdjust": { "inputEV": { 'val': value, 'type': "CIAttributeTypeScalar"} } } )
-        print ("...Exposure")
+        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Exposure")
+        if abs(value)>0.01:
+            filterMap["filters"].append( { 'key':"CIExposureAdjust", "parameters":[{ 'key':"inputEV", 'val': value, 'type': "CIAttributeTypeScalar"} ] } )
+            print ("...Exposure")
     elif xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Exposure2012"):
-        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Exposure2012") * 10.0 / 4.0
-        filterMap["filters"].append( {"CIExposureAdjust": { "inputEV": { 'val': value, 'type': "CIAttributeTypeScalar"} } } )
-        print ("...Exposure2012")
+        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Exposure2012")
+        if abs(value)>0.01:
+            filterMap["filters"].append( { 'key':"CIExposureAdjust", "parameters":[{ 'key':"inputEV", 'val': value, 'type': "CIAttributeTypeScalar"} ] } )
+            print ("...Exposure2012")
 
 
 #----------------------------
 
 def processContrast():
-    # keys: Contrast or Contrast2012. Range -50..+100 -> -0.25..4.0
+    # keys: Contrast or Contrast2012. Range -50..+100 -> 0.25..4.0
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Contrast"):
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Contrast")
-        value = ((value+50)/150) * 4.25 - 0.25
-        filterMap["filters"].append( {"ContrastFilter": { "inputContrast": { 'val': value, 'type': "CIAttributeTypeScalar"} } } )
-        print ("...Contrast")
+        if (value<0.0):
+            value = 1.0 + value * 0.75 / 50.0
+        else:
+            value = 1.0 + value * 3.0 / 100.0
+        if abs(value)>0.01:
+            filterMap["filters"].append( { 'key':"ContrastFilter", "parameters":[{ 'key':"inputContrast", 'val': value, 'type': "CIAttributeTypeScalar"} ] } )
+            print ("...Contrast")
     elif xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Contrast2012"):
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Contrast2012")
-        value = ((value+50)/150) * 4.25 - 0.25
-        filterMap["filters"].append( {"ContrastFilter": { "inputContrast": { 'val': value, 'type': "CIAttributeTypeScalar"} } } )
-        print ("...Contrast2012")
+        if (value<0.0):
+            value = 1.0 + value * 0.75 / 50.0
+        else:
+            value = 1.0 + value * 3.0 / 100.0
+        if abs(value)>0.01:
+            filterMap["filters"].append( { 'key':"ContrastFilter", "parameters":[{ 'key':"inputContrast", 'val': value, 'type': "CIAttributeTypeScalar"} ] } )
+            print ("...Contrast2012")
 
 
 #----------------------------
@@ -260,73 +276,130 @@ def processShadowsHighlights():
     # Highlights, Shadows, Whites, Blacks or: Highlights2012, Shadows2012, Whites2012, Blacks2012
     # maybe not the right way to do it, but we will just modify the input values of the tone curve
     # [0]=Blacks [1]=Shadows [2]=??? [3]=Highlights [4]=Whites
+    
+    global toneCurve
+    global toneCurveChanged
+
     found = False
     
     # look for specific settings of each point and apply them on top of the current curve
     # if the value is (approx) 0 then just ignore it
+    
+    # not quite sure how this works
+    # for Black/White point, adjust the tone curve input value
+    # for highlight/shadows, adjust output point, and treat as a percentage rather than an absoulte value
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Blacks"):
-        found = True
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Blacks")
-        if abs(value)<0.01:
-            found = False
-        else:
-            toneCurve[0][0] = clamp ((toneCurve[0][0] - value), 0.0, toneCurve[1][0])
+        if abs(value)>0.01:
+            found = True
+            value = toneCurve[1][0] * value / 100.0
+            toneCurve[0][0] = clamp ((toneCurve[0][0] - value), 0.0, toneCurve[1][0] - 1.0 )
+            #toneCurve[0][1] = clamp ((toneCurve[0][1] + value), 0.0, 100.0 )
     elif xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Blacks2012"):
-        found = True
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Blacks2012")
-        if abs(value)<0.01:
-            found = False
-        else:
-            toneCurve[0][0] = clamp ((toneCurve[0][0] - value), 0.0, toneCurve[1][0])
+        if abs(value)>0.01:
+            found = True
+            value = toneCurve[1][0] * value / 100.0
+            toneCurve[0][0] = clamp ((toneCurve[0][0] - value), 0.0, toneCurve[1][0] - 1.0 )
+            #toneCurve[0][1] = clamp ((toneCurve[0][1] + value), 0.0, 100.0 )
 
-    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Shadows"):
-        found = True
-        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Shadows")
-        if abs(value)<0.01:
-            found = False
-        else:
-            toneCurve[1][0] = clamp ((toneCurve[0][0] - value), toneCurve[0][0], toneCurve[2][0])
-    elif xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Shadows2012"):
-        found = True
-        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Shadows2012")
-        if abs(value)<0.01:
-            found = False
-        else:
-            toneCurve[1][0] = clamp ((toneCurve[0][0] - value), toneCurve[0][0], toneCurve[2][0])
-
-    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Highlights"):
-        found = True
-        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Highlights")
-        if abs(value)<0.01:
-            found = False
-        else:
-            toneCurve[3][0] = clamp ((toneCurve[3][0] - value), toneCurve[2][0], toneCurve[4][0])
-    elif xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Highlights2012"):
-        found = True
-        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Highlights2012")
-        if abs(value)<0.01:
-            found = False
-        else:
-            toneCurve[3][0] = clamp ((toneCurve[3][0] - value), toneCurve[2][0], toneCurve[4][0])
 
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Whites"):
-        found = True
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Whites")
-        if abs(value)<0.01:
-            found = False
-        else:
-            toneCurve[5][0] = clamp ((toneCurve[5][0] - value), toneCurve[4][0], 100.0)
+        if abs(value)>0.01:
+            found = True
+            toneCurve[4][0] = clamp ((toneCurve[4][0] + value), toneCurve[3][0]+1.0, 100.0)
+            #toneCurve[4][1] = clamp ((toneCurve[0][1] + value), 0.0, 100.0 )
     elif xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Whites2012"):
-        found = True
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Whites2012")
-        if abs(value)<0.01:
-            found = False
-        else:
-            toneCurve[5][0] = clamp ((toneCurve[5][0] - value), toneCurve[4][0], 100.0)
+        if abs(value)>0.01:
+            found = True
+            toneCurve[4][0] = clamp ((toneCurve[4][0] + value), toneCurve[3][0]+1.0, 100.0)
+            #toneCurve[4][1] = clamp ((toneCurve[0][1] + value), 0.0, 100.0 )
 
+    '''
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Shadows"):
+        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Shadows")
+        if abs(value)>0.01:
+            found = True
+            if value < 0.0:
+                value = toneCurve[1][1] * value / 100.0
+            else:
+                value = (100.0 - toneCurve[1][1]) * value / 100.0
+            #toneCurve[1][0] = clamp ((toneCurve[1][0] - value), toneCurve[0][0] + 0.01, toneCurve[2][0] - 0.01)
+            toneCurve[1][1] = clamp ((toneCurve[1][1] + value), 1.0, 99.0 )
+    elif xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Shadows2012"):
+        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Shadows2012")
+        if abs(value)>0.01:
+            found = True
+            if value < 0.0:
+                value = toneCurve[1][1] * value / 100.0
+            else:
+                value = (100.0 - toneCurve[1][1]) * value / 100.0
+            #toneCurve[1][0] = clamp ((toneCurve[0][0] - value), toneCurve[0][0] + 0.01, toneCurve[2][0] - 0.01)
+            toneCurve[1][1] = clamp ((toneCurve[1][1] + value), 1.0, 99.0 )
+
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Highlights"):
+        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Highlights")
+        if abs(value)>0.01:
+            found = True
+            if value < 0.0:
+                value = toneCurve[3][1] * value / 100.0
+            else:
+                value = (100.0 - toneCurve[3][1]) * value / 100.0
+            #toneCurve[3][0] = clamp ((toneCurve[3][0] - value), toneCurve[2][0] + 0.01, toneCurve[4][0] - 0.01)
+            toneCurve[3][1] = clamp ((toneCurve[3][1] + value), 1.0, 99.0 )
+    elif xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Highlights2012"):
+        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Highlights2012")
+        if abs(value)>0.01:
+            found = True
+            if value < 0.0:
+                value = toneCurve[3][1] * value / 100.0
+            else:
+                value = (100.0 - toneCurve[3][1]) * value / 100.0
+            #toneCurve[3][0] = clamp ((toneCurve[3][0] - value), toneCurve[2][0], toneCurve[4][0])
+            toneCurve[3][1] = clamp ((toneCurve[3][1] + value), 1.0, 99.0 )
+    '''
+    
     if found:
-        addToneCurve()
+        toneCurveChanged = True
+        #addToneCurve()
+        print ("...Blacks/Whites")
+
+    # try the HighlightShadows filter instead of adjusting the tone curve
+    found2 = False
+    h = 1.0
+    s = 0.0
+
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Shadows"):
+        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Shadows")
+        if abs(value)>0.01:
+            found2 = True
+            s = clamp (value/100.0, -1.0, 1.0)
+    elif xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Shadows2012"):
+        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Shadows2012")
+        if abs(value)>0.01:
+            found2 = True
+            s = clamp (value/100.0, -1.0, 1.0)
+
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Highlights"):
+        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Highlights")
+        if abs(value)>0.01:
+            found2 = True
+            h = clamp (value/100.0, 0.3, 1.0) # check range
+    elif xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Highlights2012"):
+        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Highlights2012")
+        if abs(value)>0.01:
+            found2 = True
+            h = clamp (value/100.0, 0.3, 1.0)
+
+    if found2:
+        filterMap["filters"].append( { 'key':"CIHighlightShadowAdjust", "parameters":[{ 'key':"inputRadius", 'val': 0.0, 'type': "CIAttributeTypeScalar"},
+                                                                                      { 'key':"inputShadowAmount", 'val': s, 'type': "CIAttributeTypeScalar"},
+                                                                                      { 'key':"inputHighlightAmount", 'val': h, 'type': "CIAttributeTypeScalar"}
+                                                                                      ] } )
         print ("...Shadows/Highlights")
+
 
 #----------------------------
 
@@ -334,12 +407,14 @@ def processClarity():
     # keys: Clarity or Clarity2012. Range -100.0 .. +100.0 -> -1.0 ... +1.0
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Clarity"):
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Clarity") / 100.0
-        filterMap["filters"].append( {"ClarityFilter": { "inputClarity": { 'val': value, 'type': "CIAttributeTypeScalar"} } } )
-        print ("...Clarity")
+        if abs(value)>0.01:
+            filterMap["filters"].append( { 'key':"ClarityFilter", "parameters":[{ 'key':"inputClarity", 'val': value, 'type': "CIAttributeTypeScalar"} ] } )
+            print ("...Clarity")
     elif xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Clarity2012"):
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Clarity2012") / 100.0
-        filterMap["filters"].append( {"ClarityFilter": { "inputClarity": { 'val': value, 'type': "CIAttributeTypeScalar"} } } )
-        print ("...Clarity2012")
+        if abs(value)>0.01:
+            filterMap["filters"].append( { 'key':"ClarityFilter", "parameters":[{ 'key':"inputClarity", 'val': value, 'type': "CIAttributeTypeScalar"} ] } )
+            print ("...Clarity2012")
 
 
 #----------------------------
@@ -348,19 +423,21 @@ def processVibrance():
     # key: Vibrance. Range -100..+100 -> -1.0..+1.0
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Vibrance"):
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Vibrance") / 100.0
-        filterMap["filters"].append( {"CIVibrance": { "inputAmount": { 'val': value, 'type': "CIAttributeTypeScalar"} } } )
-        print ("...Vibrance")
+        if abs(value)>0.01:
+            filterMap["filters"].append( { 'key':"CIVibrance", "parameters":[{ 'key':"inputAmount", 'val': value, 'type': "CIAttributeTypeScalar"} ] } )
+            print ("...Vibrance")
 
 
 
 #----------------------------
 
 def processSaturation():
-    # key: Saturation. Range -100..+100 -> -1.0..+1.0
+    # key: Saturation. Range -100..+100 -> 0.0..+2.0
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Saturation"):
-        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Saturation") / 100.0
-        filterMap["filters"].append( {"SaturationFilter": { "inputSaturation": {'val': value, 'type': "CIAttributeTypeScalar"} } } )
-        print ("...Saturation")
+        value = (xmp.get_property_float(XMP_NS_CAMERA_RAW, "Saturation") / 100.0) + 1.0
+        if abs(value)>0.01:
+            filterMap["filters"].append( { 'key':"SaturationFilter", "parameters":[{ 'key':"inputSaturation", 'val': value, 'type': "CIAttributeTypeScalar"} ] } )
+            print ("...Saturation")
 
 
 #----------------------------
@@ -375,35 +452,35 @@ def processParametricCurve():
     # final conversion is to the range used in the CIToneCurve Filter, which is 0.0..1.0
 
     global toneCurve
-
+    global toneCurveChanged
+    
     found = False
     
 
     # look for specific settings of each point and apply them on top of the current curve
-    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricShadows"):
-        found = True
-        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricShadows")
-        toneCurve[0][1] = clamp ((toneCurve[0][1] + value), 0.0, 100.0)
-
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricDarks"):
+        #found = True
+        #value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricDarks")
+        #toneCurve[0][1] = clamp ((toneCurve[0][1] + value), 0.0, 100.0)
+        print("WARNING: ignoring ParametricDarks")
+    
+    
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricShadowSplit"):
         found = True
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricShadowSplit")
         toneCurve[1][0] = value
 
-    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricDarks"):
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricShadows"):
         found = True
-        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricDarks")
+        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricShadows")
         toneCurve[1][1] = clamp ((toneCurve[1][1] + value), 0.0, 100.0)
-    
+
+
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricMidtoneSplit"):
         found = True
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricMidtoneSplit")
         toneCurve[2][0] = value
 
-    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricLights"):
-        found = True
-        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricLights")
-        toneCurve[3][1] = clamp ((toneCurve[3][1] + value), 0.0, 100.0)
 
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricHighlightSplit"):
         found = True
@@ -413,11 +490,17 @@ def processParametricCurve():
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricHighlights"):
         found = True
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricHighlights")
-        toneCurve[4][1] = clamp ((toneCurve[4][1] + value), 0.0, 100.0)
-    
+        toneCurve[3][1] = clamp ((toneCurve[3][1] + value), 0.0, 100.0)
+
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricLights"):
+        found = True
+        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricLights")
+        toneCurve[4][1] = clamp ((toneCurve[4][1]+ value), 0.0, 100.0)
+
 
     if found:
-        addToneCurve()
+        toneCurveChanged = True
+        #addToneCurve()
         print ("...Parametric Curve")
 
 
@@ -427,6 +510,7 @@ def processToneCurve():
     # this is the Photoshop version of a Tone Curve. Note, will overwrite any previous Tone Curve or Parametric curve
 
     global toneCurve
+    global toneCurveChanged
     found = False
     
 
@@ -465,21 +549,25 @@ def processToneCurve():
             #print("\nPoints: "+str(points)+"\n")
 
             # if we have exactly 5 points then we can use them directly, otherwise we need to interpolate to get those 5 points
-            if count == 5:
+            if (count == 5):
                 toneCurve = points
+            elif (count <2):
+                print("ERROR: too few points(" + count + ")")
+            #elif (count <= 3):
             else:
                 #print("Need to interpolate Tone Curve")
                 # split into 2 arrays, convert to 0..100 scale, create spline, interpolate and update the curve
                 x, y = zip(*points)
                 x2 = [100.0 * f / 255 for f in x]
                 y2 = [100.0 * f / 255 for f in y]
-                spline = UnivariateSpline(x2, y2, s=0)
+                spline = UnivariateSpline(x2, y2, s=0, k=min(5,(count-1)))
                 xcurve = [0.0, 25.0, 50.0, 75.0, 100.0]
                 for i in range(0, len(xcurve)):
                     toneCurve[i] = [xcurve[i], clamp(spline(xcurve[i]), 0.0, 100.0)]
 
     if found:
-        addToneCurve()
+        toneCurveChanged = True
+        #addToneCurve()
         print ("...Tone Curve")
 
 #----------------------------
@@ -487,12 +575,14 @@ def processToneCurve():
 def addToneCurve():
     
     global toneCurve
-
-    filterMap["filters"].append( {"CIToneCurve": { "inputPoint0": {'val': [(toneCurve[0][0]/100.0), (toneCurve[0][1]/100.0)], 'type': "CIAttributeTypeOffset"},
-                                                   "inputPoint1": {'val': [(toneCurve[1][0]/100.0), (toneCurve[1][1]/100.0)], 'type': "CIAttributeTypeOffset"},
-                                                   "inputPoint2": {'val': [(toneCurve[2][0]/100.0), (toneCurve[2][1]/100.0)], 'type': "CIAttributeTypeOffset"},
-                                                   "inputPoint3": {'val': [(toneCurve[3][0]/100.0), (toneCurve[3][1]/100.0)], 'type': "CIAttributeTypeOffset"},
-                                                   "inputPoint4": {'val': [(toneCurve[4][0]/100.0), (toneCurve[4][1]/100.0)], 'type': "CIAttributeTypeOffset"} }
+    global toneCurveChanged
+    
+    if toneCurveChanged:
+        filterMap["filters"].append( { 'key':"CIToneCurve", "parameters":[{ 'key':"inputPoint0", 'val': [(toneCurve[0][0]/100.0), (toneCurve[0][1]/100.0)], 'type': "CIAttributeTypeOffset"},
+                                                                          { 'key':"inputPoint1", 'val': [(toneCurve[1][0]/100.0), (toneCurve[1][1]/100.0)], 'type': "CIAttributeTypeOffset"},
+                                                                          { 'key':"inputPoint2", 'val': [(toneCurve[2][0]/100.0), (toneCurve[2][1]/100.0)], 'type': "CIAttributeTypeOffset"},
+                                                                          { 'key':"inputPoint3", 'val': [(toneCurve[3][0]/100.0), (toneCurve[3][1]/100.0)], 'type': "CIAttributeTypeOffset"},
+                                                                          { 'key':"inputPoint4", 'val': [(toneCurve[4][0]/100.0), (toneCurve[4][1]/100.0)], 'type': "CIAttributeTypeOffset"} ]
                                   } )
 
     # print ("Curve: " + str(curve))
@@ -512,34 +602,41 @@ def processHSV():
     
     # update colour vectors
     found = False
+    sum = 0.0 # check to see if anything changed
     for key in colourVectors.keys():
         tag = key.capitalize()
         if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "HueAdjustment"+tag):
             found = True
             # Hue is a little different in that 0 represents no shift and the value 'wraps' rather than clamps
-            value = colourVectors[key][0] + (xmp.get_property_float(XMP_NS_CAMERA_RAW, "HueAdjustment"+tag) / 100.0)
+            h = xmp.get_property_float(XMP_NS_CAMERA_RAW, "HueAdjustment"+tag)
+            value = colourVectors[key][0] + h / 100.0
+            sum = sum + abs(h)
             if value < 0.0:
                 value = 1.0 + value
             colourVectors[key][0] = value
         if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "SaturationAdjustment"+tag):
             found = True
-            value = colourVectors[key][1] + (xmp.get_property_float(XMP_NS_CAMERA_RAW, "SaturationAdjustment"+tag) / 100.0)
+            s = xmp.get_property_float(XMP_NS_CAMERA_RAW, "SaturationAdjustment"+tag)
+            value = colourVectors[key][1] + s / 100.0
+            sum = sum + abs(s)
             colourVectors[key][1] = value
         if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "LuminanceAdjustment"+tag):
             found = True
-            value = colourVectors[key][2] + (xmp.get_property_float(XMP_NS_CAMERA_RAW, "LuminanceAdjustment"+tag) / 100.0)
+            v = xmp.get_property_float(XMP_NS_CAMERA_RAW, "LuminanceAdjustment"+tag)
+            value = colourVectors[key][2] + v / 100.0
+            sum = sum + abs(v)
             colourVectors[key][2] = value
 
-    if found:
-        filterMap["filters"].append( {"MultiBandHSV": { "inputRedShift":     {'val': colourVectors["red"], 'type': "CIAttributeTypePosition3"},
-                                                                "inputOrangeShift":  {'val': colourVectors["orange"], 'type': "CIAttributeTypePosition3"},
-                                                                "inputYellowShift":  {'val': colourVectors["yellow"], 'type': "CIAttributeTypePosition3"},
-                                                                "inputGreenShift":   {'val': colourVectors["green"], 'type': "CIAttributeTypePosition3"},
-                                                                "inputAquaShift":    {'val': colourVectors["aqua"], 'type': "CIAttributeTypePosition3"},
-                                                                "inputBlueShift":    {'val': colourVectors["blue"], 'type': "CIAttributeTypePosition3"},
-                                                                "inputPurpleShift":  {'val': colourVectors["purple"], 'type': "CIAttributeTypePosition3"},
-                                                                "inputMagentaShift": {'val': colourVectors["magenta"], 'type': "CIAttributeTypePosition3"} }
-                                              } )
+    if found and (sum > 0.01):
+        filterMap["filters"].append( { 'key':"MultiBandHSV", "parameters":[{ 'key':"inputRedShift", 'val': colourVectors["red"], 'type': "CIAttributeTypePosition3"},
+                                                                           { 'key':"inputOrangeShift", 'val': colourVectors["orange"], 'type': "CIAttributeTypePosition3"},
+                                                                           { 'key':"inputYellowShift", 'val': colourVectors["yellow"], 'type': "CIAttributeTypePosition3"},
+                                                                           { 'key':"inputGreenShift", 'val': colourVectors["green"], 'type': "CIAttributeTypePosition3"},
+                                                                           { 'key':"inputAquaShift", 'val': colourVectors["aqua"], 'type': "CIAttributeTypePosition3"},
+                                                                           { 'key':"inputBlueShift", 'val': colourVectors["blue"], 'type': "CIAttributeTypePosition3"},
+                                                                           { 'key':"inputPurpleShift", 'val': colourVectors["purple"], 'type': "CIAttributeTypePosition3"},
+                                                                           { 'key':"inputMagentaShift", 'val': colourVectors["magenta"], 'type': "CIAttributeTypePosition3"} ]
+                                    } )
 
         print ("...HSV")
         #print ("\nvectors: " + str(colourVectors) + "\n")
@@ -557,7 +654,7 @@ def processSplitToning():
     # straightforward conversion here, just convert range 0..100 to 0.0..1.0
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "SplitToningHighlightHue"):
         found = True
-        highlightHue = xmp.get_property_float(XMP_NS_CAMERA_RAW, "SplitToningHighlightHue") / 100.0
+        highlightHue = xmp.get_property_float(XMP_NS_CAMERA_RAW, "SplitToningHighlightHue") / 360.0
 
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "SplitToningHighlightSaturation"):
         found = True
@@ -565,17 +662,17 @@ def processSplitToning():
 
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "SplitToningShadowHue"):
         found = True
-        shadowHue = xmp.get_property_float(XMP_NS_CAMERA_RAW, "SplitToningShadowHue") / 100.0
+        shadowHue = xmp.get_property_float(XMP_NS_CAMERA_RAW, "SplitToningShadowHue") / 360.0
 
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "SplitToningShadowSaturation"):
         found = True
         shadowSaturation = xmp.get_property_float(XMP_NS_CAMERA_RAW, "SplitToningShadowSaturation") / 100.0
     
     if found:
-        filterMap["filters"].append( {"SplitToningFilter": { "inputHighlightHue":         {'val': highlightHue, 'type': "CIAttributeTypeScalar"},
-                                                             "inputHighlightSaturation":  {'val': highlightSaturation, 'type': "CIAttributeTypeScalar"},
-                                                             "inputShadowHue":            {'val': shadowHue, 'type': "CIAttributeTypeScalar"},
-                                                             "inputShadowSaturation":     {'val': shadowSaturation, 'type': "CIAttributeTypeScalar"} }
+        filterMap["filters"].append( { 'key':"SplitToningFilter", "parameters":[{ 'key':"inputHighlightHue", 'val': highlightHue, 'type': "CIAttributeTypeScalar"},
+                                                                                { 'key':"inputHighlightSaturation", 'val': highlightSaturation, 'type': "CIAttributeTypeScalar"},
+                                                                                { 'key':"inputShadowHue", 'val': shadowHue, 'type': "CIAttributeTypeScalar"},
+                                                                                { 'key':"inputShadowSaturation", 'val': shadowSaturation, 'type': "CIAttributeTypeScalar"} ]
                                     } )
         print ("...Split Toning")
 
@@ -586,10 +683,10 @@ def processSharpening():
 
     # general sharpening, use Luminosity Sharpening
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Sharpness"):
-        found = True
-        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Sharpness")
-        filterMap["filters"].append( {"CISharpenLuminance": { "inputSharpness": { 'val': value, 'type': "CIAttributeTypeScalar"} } } )
-        print ("...Sharpening")
+        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Sharpness") / 50.0
+        if abs(value)>0.01:
+            filterMap["filters"].append( { 'key':"CISharpenLuminance", "parameters":[{ 'key':"inputSharpness", 'val': value, 'type': "CIAttributeTypeScalar"} ] } )
+            print ("...Sharpening")
 
     # unsharp mask
     found = False
@@ -610,10 +707,10 @@ def processSharpening():
         threshold = xmp.get_property_float(XMP_NS_CAMERA_RAW, "SharpenThreshold")
 
     if found:
-        filterMap["filters"].append( {"UnsharpMaskFilter": { "inputAmount": {'val': amount, 'type': "CIAttributeTypeOffset"},
-                                                             "inputRadius": {'val': radius, 'type': "CIAttributeTypeOffset"},
-                                                             "inputThreshold": {'val': threshold, 'type': "CIAttributeTypeOffset"} }
-                                     } )
+        filterMap["filters"].append( { 'key':"UnsharpMaskFilter", "parameters":[{ 'key':"inputAmount", 'val': amount, 'type': "CIAttributeTypeScalar"},
+                                                                                { 'key':"inputRadius", 'val': radius, 'type': "CIAttributeTypeScalar"},
+                                                                                { 'key':"inputThreshold", 'val': threshold, 'type': "CIAttributeTypeScalar"} ]
+                                    } )
         print ("...Unsharp Mask")
 
 #----------------------------
@@ -643,15 +740,97 @@ def processVignette():
             # leave center as [0,0], which will then default to the center of the image
 
     if found:
-        filterMap["filters"].append( {"CIVignetteEffect": {
-                                                           "inputCenter": { "val": 0.0, "type": "CIAttributeTypePosition" },
-                                                           "inputRadius": { "val": 512.0, "type": "CIAttributeTypeDistance"},
-                                                           "inputIntensity": { "val": 0.5, "type": "CIAttributeTypeScalar"},
-                                                           "inputFalloff": { "val": 0.5, "type": "CIAttributeTypeScalar"} }
+        filterMap["filters"].append( { 'key':"CIVignetteEffect", "parameters":[{ 'key':"inputCenter", "val": 0.0, "type": "CIAttributeTypePosition" },
+                                                                               { 'key':"inputRadius", "val": 512.0, "type": "CIAttributeTypeDistance"},
+                                                                               { 'key':"inputIntensity", "val": 0.5, "type": "CIAttributeTypeScalar"},
+                                                                               { 'key':"inputFalloff", "val": 0.5, "type": "CIAttributeTypeScalar"} ]
                                     } )
         print ("...Vignette")
 
 
+#----------------------------
+
+def processCalibration():
+    # This is an 'older' way to change hue and saturation. Range is -100..+100 and represents % change
+
+    found = False
+
+    # set up default vectors
+    colourVectors = {"red": [0.0,1.0,1.0], "orange": [0.0,1.0,1.0], "yellow": [0.0,1.0,1.0], "green": [0.0,1.0,1.0],
+        "aqua": [0.0,1.0,1.0], "blue": [0.0,1.0,1.0], "purple": [0.0,1.0,1.0], "magenta": [0.0,1.0,1.0] }
+
+    # update colour vectors
+    found = False
+    sum = 0.0 # check to see if anything changed
+
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "RedHue"):
+        found = True
+        # Hue is a little different in that 0 represents no shift and the value 'wraps' rather than clamps
+        h = xmp.get_property_float(XMP_NS_CAMERA_RAW, "RedHue")
+        value = colourVectors["red"][0] + h / 100.0
+        sum = sum + abs(h)
+        if value < 0.0:
+            value = 1.0 + value
+        colourVectors["red"][0] = value
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "RedSaturation"):
+        found = True
+        s = xmp.get_property_float(XMP_NS_CAMERA_RAW, "RedSaturation")
+        value = colourVectors["red"][1] + s / 100.0
+        sum = sum + abs(s)
+        colourVectors["red"][1] = value
+
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "GreenHue"):
+        found = True
+        # Hue is a little different in that 0 represents no shift and the value 'wraps' rather than clamps
+        h = xmp.get_property_float(XMP_NS_CAMERA_RAW, "GreenHue")
+        value = colourVectors["green"][0] + h / 100.0
+        sum = sum + abs(h)
+        if value < 0.0:
+            value = 1.0 + value
+        colourVectors["green"][0] = value
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "GreenSaturation"):
+        found = True
+        s = xmp.get_property_float(XMP_NS_CAMERA_RAW, "GreenSaturation")
+        value = colourVectors["green"][1] + s / 100.0
+        sum = sum + abs(s)
+        colourVectors["green"][1] = value
+
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "BlueHue"):
+        found = True
+        # Hue is a little different in that 0 represents no shift and the value 'wraps' rather than clamps
+        h = xmp.get_property_float(XMP_NS_CAMERA_RAW, "BlueHue")
+        value = colourVectors["blue"][0] + h / 100.0
+        sum = sum + abs(h)
+        if value < 0.0:
+            value = 1.0 + value
+        colourVectors["blue"][0] = value
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "BlueSaturation"):
+        found = True
+        s = xmp.get_property_float(XMP_NS_CAMERA_RAW, "BlueSaturation")
+        value = colourVectors["blue"][1] + s / 100.0
+        sum = sum + abs(s)
+        colourVectors["blue"][1] = value
+
+    if found and (sum > 0.01):
+        filterMap["filters"].append( { 'key':"MultiBandHSV", "parameters":[{ 'key':"inputRedShift", 'val': colourVectors["red"], 'type': "CIAttributeTypePosition3"},
+                                                                       { 'key':"inputOrangeShift", 'val': colourVectors["orange"], 'type': "CIAttributeTypePosition3"},
+                                                                       { 'key':"inputYellowShift", 'val': colourVectors["yellow"], 'type': "CIAttributeTypePosition3"},
+                                                                       { 'key':"inputGreenShift", 'val': colourVectors["green"], 'type': "CIAttributeTypePosition3"},
+                                                                       { 'key':"inputAquaShift", 'val': colourVectors["aqua"], 'type': "CIAttributeTypePosition3"},
+                                                                       { 'key':"inputBlueShift", 'val': colourVectors["blue"], 'type': "CIAttributeTypePosition3"},
+                                                                       { 'key':"inputPurpleShift", 'val': colourVectors["purple"], 'type': "CIAttributeTypePosition3"},
+                                                                       { 'key':"inputMagentaShift", 'val': colourVectors["magenta"], 'type': "CIAttributeTypePosition3"} ]
+                                } )
+        print ("...Calibration")
+
+#----------------------------
+
+def processGrayscale():
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ConvertToGrayscale"):
+        flag = xmp.get_property_bool(XMP_NS_CAMERA_RAW, "ConvertToGrayscale")
+        if flag:
+            filterMap["filters"].append( { 'key':"CIPhotoEffectMono", "parameters":[{}] } )
+            print ("...ConvertToGrayscale")
 
 #----------------------------
 

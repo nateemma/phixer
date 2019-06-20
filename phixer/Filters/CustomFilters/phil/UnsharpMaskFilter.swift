@@ -144,6 +144,6 @@ class UnsharpMaskFilter: CIFilter {
         return sharpImg
         
         // use luminance blending to create the final image
-        return sharpImg?.applyingFilter("CILuminosityBlendMode", parameters: [kCIInputBackgroundImageKey:inputImage])
+        //return sharpImg?.applyingFilter("CILuminosityBlendMode", parameters: [kCIInputBackgroundImageKey:inputImage])
     }
 }

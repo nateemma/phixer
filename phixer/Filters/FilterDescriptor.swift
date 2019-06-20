@@ -42,12 +42,16 @@ class FilterDescriptor {
     public static let parameterNotSet: Float = -1000.00
 
     // name of CIFilter used to create Lookup filters
-    //private static let lookupFilterName:String = "CIColorMap"
     private static let lookupFilterName: String = "YUCIColorLookup"
     private static let lookupArgImage: String = "inputColorLookupTable"
     private static let lookupArgIntensity: String = "inputIntensity"
-
+    
+    // name of CIFilter used to create Preset filters
+    private static let presetFilterName: String = "PresetFilter"
+    private static let presetArgIntensity: String = "inputIntensity"
+    
     private static let blendArgIntensity: String = "inputIntensity"
+    
     private static let opacityFilter = Opacity()
 
     public static let nullFilter = "NoFilter"
@@ -58,6 +62,8 @@ class FilterDescriptor {
     private var filter: CIFilter? = nil
     private var lookupImageName: String = ""
     private var lookupImage: CIImage? = nil
+    private var presetName: String = ""
+
 
     let defaultColor = CIColor(red: 0, green: 0, blue: 0)
 
@@ -65,6 +71,7 @@ class FilterDescriptor {
     private var default_position: CIVector? = CIVector(x: 0, y: 0)
     //private var default_rect: CGRect = CGRect.zero
     private var default_rect: CIVector? = CIVector(cgRect: CGRect.zero)
+    private var default_distance: CGFloat = 0.0
 
     ///////////////////////////////////////////
     // Constructors
@@ -83,6 +90,7 @@ class FilterDescriptor {
         self.numParameters = 0
         self.lookupImage = nil
         self.lookupImageName = ""
+        self.presetName = ""
         self.filter = nil
     }
 
@@ -100,6 +108,7 @@ class FilterDescriptor {
         self.numParameters = 0
         self.lookupImage = nil
         self.lookupImageName = definition.lookup
+        self.presetName = definition.preset
 
         if definition.ftype.isEmpty { // not an error
             //log.error("NIL Operation Type for filter: \(key)")
@@ -129,6 +138,7 @@ class FilterDescriptor {
         self.numParameters = 0
         self.lookupImage = nil
         self.lookupImageName = ""
+        self.presetName = ""
 
         // check for null filter (i.e. no operation is applied)
         if self.key == FilterDescriptor.nullFilter {
@@ -147,6 +157,8 @@ class FilterDescriptor {
             initSingleInputFilter(key: key, title: title, parameters: parameters)
         case .lookup:
             initLookupFilter(key: key, title: title, parameters: parameters)
+        case .preset:
+            initPresetFilter(key: key, title: title, parameters: parameters)
         case .blend:
             initBlendFilter(key: key, title: title, parameters: parameters)
         case .custom:
@@ -169,10 +181,12 @@ class FilterDescriptor {
                     default_rect = CIVector(cgRect: UIScreen.main.bounds)
                     //default_position = CIVector(cgPoint: CGPoint(x: UIScreen.main.bounds.width/2, y: UIScreen.main.bounds.height/2))
                     default_position = CIVector(cgPoint: CGPoint(x: 0, y: 0))
+                    default_distance = min(UIScreen.main.bounds.width, UIScreen.main.bounds.height) / 2.0
                 } else {
                     default_rect = CIVector(cgRect: CGRect(x: 0, y: 0, width: 256, height: 256))
                     //default_position = CIVector(cgPoint: CGPoint(x: 256, y: 256))
                     default_position = CIVector(cgPoint: CGPoint(x: 0, y: 0))
+                    default_distance = 0.0
                 }
                 //log.verbose("default pos:\(default_position)")
             }
@@ -190,7 +204,7 @@ class FilterDescriptor {
             // set the name of the lookup image and default intensity
             self.setLookupImage(name: name)
             self.filter?.setValue(1.0, forKey: FilterDescriptor.lookupArgIntensity)
-
+            
             // manually add the intensity parameter to the parameter list (so that it will be displayed)
             let p = ParameterSettings(key: FilterDescriptor.lookupArgIntensity, title: "intensity", min: 0.0, max: 1.0, value: 1.0, type: .float)
             self.parameterConfiguration[FilterDescriptor.lookupArgIntensity] = p
@@ -198,6 +212,32 @@ class FilterDescriptor {
         } else {
             log.error("Could not find lookup image for filter: \(key)")
         }
+    }
+
+    private func initPresetFilter(key: String, title: String, parameters: [ParameterSettings]) {
+        
+        guard Bundle.main.path(forResource: key, ofType: "json") != nil else {
+            print("Preset file not found: \(key).json")
+            return
+        }
+        
+        self.filter = CIFilter(name: FilterDescriptor.presetFilterName)
+        guard self.filter != nil else {
+            log.error("Error creating preset filter:\(key)")
+            return
+        }
+
+        self.presetName = key + ".json"
+        
+        self.filter?.setDefaults()
+        
+       // set the default intensity
+        self.filter?.setValue(1.0, forKey: FilterDescriptor.lookupArgIntensity)
+        
+        // manually add the intensity parameter to the parameter list (so that it will be displayed)
+        let p = ParameterSettings(key: FilterDescriptor.presetArgIntensity, title: "intensity", min: 0.0, max: 1.0, value: 1.0, type: .float)
+        self.parameterConfiguration[FilterDescriptor.presetArgIntensity] = p
+        self.numParameters += 1
     }
 
     private func initBlendFilter(key: String, title: String, parameters: [ParameterSettings]) {
@@ -238,6 +278,9 @@ class FilterDescriptor {
                 case .position:
                     log.verbose("\(p.key) Using default pos:\(default_position)")
                     self.filter?.setValue(default_position, forKey: p.key)
+                case .distance:
+                    log.verbose("\(p.key) Using default distance:\(default_distance)")
+                    self.filter?.setValue(default_distance, forKey: p.key)
                 case .rectangle:
                     self.filter?.setValue(default_rect, forKey: p.key)
                 default:
@@ -265,6 +308,7 @@ class FilterDescriptor {
         fd.rating = self.rating
         fd.slow = self.slow
         fd.lookup = self.lookupImageName
+        fd.preset = self.presetName
         fd.ftype = self.filterOperationType.rawValue
         
         // (deep) copy the parameters
@@ -289,7 +333,7 @@ class FilterDescriptor {
         count = 0
         for k in parameterConfiguration.keys {
             if let p = parameterConfiguration[k] {
-                if (p.type == .float) || (p.type == .color) || (p.type == .position) {
+                if (p.type == .float) || (p.type == .color) || (p.type == .position) || (p.type == .distance) {
                     count = count + 1
                 }
             }
@@ -320,7 +364,7 @@ class FilterDescriptor {
         var pval: Float
         pval = FilterDescriptor.parameterNotSet
         if let p = parameterConfiguration[key] {
-            if p.type == .float {
+            if p.type == .float || p.type == .distance {
                 pval = p.value
             } else {
                 log.error("Parameter (\(key) is not a Float")
@@ -333,7 +377,7 @@ class FilterDescriptor {
 
     func setParameter(_ key: String, value: Float) {
         if let p = parameterConfiguration[key] {
-            if p.type == .float {
+            if p.type == .float || p.type == .distance {
                 parameterConfiguration[key]!.value = value
                 if (self.filter != nil) {
                     if ((self.filter?.inputKeys.contains(p.key))!) { // OK if not true
@@ -565,6 +609,14 @@ class FilterDescriptor {
             case .singleInput:
                 if validParam(kCIInputImageKey) { filter.setValue(image, forKey: kCIInputImageKey) }
                 return filter.outputImage?.clampedToExtent().cropped(to: (image?.extent)!)
+
+            case .preset:
+                // need to use specific interface here so cast to PresetFilter
+                let preset = filter as! PresetFilter
+ 
+                if validParam(kCIInputImageKey) { preset.setValue(image, forKey: kCIInputImageKey) }
+                preset.setPreset(name: self.key)
+                return preset.outputImage?.clampedToExtent().cropped(to: (image?.extent)!)
 
             case .blend:
                 //log.debug("Using BLEND mode for filter: \(String(describing: self.key))")

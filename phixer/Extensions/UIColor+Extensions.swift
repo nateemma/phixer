@@ -15,7 +15,7 @@ public extension UIColor {
     // Easy way to get at the rgba or hsba values of a colour:
     // Usage: <color>.rgba.red or <color>.hsba.h
     
-    public var rgba: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) {
+    var rgba: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) {
         var r: CGFloat = 0
         var g: CGFloat = 0
         var b: CGFloat = 0
@@ -24,7 +24,7 @@ public extension UIColor {
         return (r, g, b, a)
     }
     
-    public var hsba: (hue: CGFloat, saturation: CGFloat, brightness: CGFloat, alpha: CGFloat) {
+    var hsba: (hue: CGFloat, saturation: CGFloat, brightness: CGFloat, alpha: CGFloat) {
         var h: CGFloat = 0
         var s: CGFloat = 0
         var b: CGFloat = 0
@@ -51,7 +51,7 @@ public extension UIColor {
     // ways to create a colour using a hex string (like CSS), or get the hex string of a colour:
     
     
-    public convenience init(hex: Int, alpha: CGFloat = 1.0) {
+    convenience init(hex: Int, alpha: CGFloat = 1.0) {
         let red = CGFloat((hex & 0xFF0000) >> 16) / 255.0
         let green = CGFloat((hex & 0xFF00) >> 8) / 255.0
         let blue = CGFloat((hex & 0xFF)) / 255.0
@@ -60,7 +60,7 @@ public extension UIColor {
     }
     
     
-    public convenience init(hex string: String, alpha: CGFloat = 1.0) {
+    convenience init(hex string: String, alpha: CGFloat = 1.0) {
         var hex = string.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
         
         if hex.hasPrefix("#") {
@@ -114,7 +114,7 @@ public extension UIColor {
     
 
     // Hex String Representation
-    public var hexString: String {
+    var hexString: String {
         var color = self
         
         if color.cgColor.numberOfComponents < 4 {
@@ -130,7 +130,7 @@ public extension UIColor {
     
     
     // RGB String Representation
-    public var rgbString: String {
+    var rgbString: String {
         var color = self
         var r:CGFloat=0.75, g:CGFloat=0.75, b:CGFloat=0.75, a:CGFloat=1.0
         color.getRed(&r, green: &g, blue: &b, alpha: &a)
@@ -139,7 +139,7 @@ public extension UIColor {
     
     
     // HSB String Representation
-    public var hsbString: String {
+    var hsbString: String {
         var color = self
         var h:CGFloat=0.0, s:CGFloat=0.75, b:CGFloat=0.75, a:CGFloat=1.0
         color.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
@@ -156,7 +156,7 @@ public extension UIColor {
 
     // Generate a random colour:
     
-    public static var random: UIColor {
+    static var random: UIColor {
         let max = CGFloat(UInt32.max)
         let red = CGFloat(arc4random()) / max
         let green = CGFloat(arc4random()) / max
@@ -171,7 +171,7 @@ public extension UIColor {
 
     // check whether a colour is approximately the same
     
-    public func matches(_ color:UIColor)->Bool {
+    func matches(_ color:UIColor)->Bool {
         var r1:CGFloat=0, g1:CGFloat=0, b1:CGFloat=0, a1:CGFloat=0
         var r2:CGFloat=0, g2:CGFloat=0, b2:CGFloat=0, a2:CGFloat=0
         

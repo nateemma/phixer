@@ -426,6 +426,38 @@ class FilterParametersView: UIView {
                             
                             pView.groupAndFill(group: .vertical, views: [textView, slider!], padding: 4.0)
                             
+                        case  ParameterType.distance:
+
+                            // distance is a special case of float, but represents a pixel-based value.
+                            // If 0.0 or not set, then set it to half the shortest side of the image
+                            slider = UISlider()
+                            let size = InputSource.getSize()
+                            slider?.minimumValue = 0.01
+                            slider?.maximumValue = Float(max (size.width, size.height) / 2.0)
+                            
+                            var value = currFilterDesc?.getParameter(key)
+                            if (value == FilterDescriptor.parameterNotSet){ value = 0.0 }
+                            if (abs(value!) < 0.001){
+                                value = Float(min (size.width, size.height) / 2.0)
+                            }
+                            
+                            slider?.value = value!
+                            //log.verbose("value: \(value!)")
+                            log.verbose("...\(pConfig.title): (\(pConfig.min)..\(pConfig.max), def:\(pConfig.value)) curr: \(value!)")
+                            slider?.tag = i // let slider know the parameter order
+                            //pKey[i] = key
+                            pKey.append(key)
+                            slider?.isHidden = false
+                            slider?.setNeedsUpdateConstraints()
+                            slider?.frame.size.width = self.frame.size.width
+                            slider?.frame.size.height = CGFloat(sliderHeight*0.8).rounded()
+                            
+                            attachSliderAction(slider!)
+                            pView.addSubview(slider!)
+                            //TODO: add labels for: min, max, current value (?)
+                            
+                            pView.groupAndFill(group: .vertical, views: [textView, slider!], padding: 4.0)
+                            
                         case ParameterType.color:
                             // RGB Slider, need to deal with colors
                             //log.debug("Gradient Slider requested")

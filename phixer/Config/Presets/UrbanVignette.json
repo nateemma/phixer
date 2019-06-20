@@ -1,0 +1,34 @@
+{
+  "info": {
+    "group": "F-Stop Stop Urban Presets", 
+    "name": "Urban Vignette"
+  }, 
+  "filters": [
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypePosition", 
+          "val": 0.0, 
+          "key": "inputCenter"
+        }, 
+        {
+          "type": "CIAttributeTypeDistance", 
+          "val": 512.0, 
+          "key": "inputRadius"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.5, 
+          "key": "inputIntensity"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.5, 
+          "key": "inputFalloff"
+        }
+      ], 
+      "key": "CIVignetteEffect"
+    }
+  ], 
+  "key": "jsonPresets//F-StopUrban/UrbanVignette.json"
+}

@@ -138,7 +138,7 @@ class CameraSettingsView: UIView {
             // figure out vertical padding (6 button means 7 spaces)
             vpad = ((self.frame.size.height - 6.0*(UISettings.buttonSide+2.0*hpad)) / 7.0)
             
-            pad = fmin(fabs(hpad), fabs(vpad))
+            pad = fmin(abs(hpad), abs(vpad))
             
             spacer = SquareButton(bsize: vpad)
             
@@ -162,7 +162,7 @@ class CameraSettingsView: UIView {
             spacer = SquareButton(bsize: hpad)
             
             //pad = (self.frame.size.width - 6.0*UISettings.buttonSide) / 7.0
-            pad = fmin(fabs(hpad), fabs(vpad))
+            pad = fmin(abs(hpad), abs(vpad))
             
             print("Laying out CameraSettings (Portrait). vpad:\(vpad) hpad:\(hpad)")
             

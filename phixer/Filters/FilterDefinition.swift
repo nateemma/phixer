@@ -19,6 +19,7 @@ public enum ParameterType {
     case position
     case rectangle
     case vector
+    case distance
     case unknown
     
 }
@@ -49,6 +50,7 @@ public enum FilterOperationType: String {
     case singleInput
     case blend
     case lookup
+    case preset
     case custom
 }
 
@@ -63,4 +65,5 @@ public struct FilterDefinition{
     var rating: Int = 0
     var parameters: [ParameterSettings] = []
     var lookup: String = ""
+    var preset: String = ""
 }

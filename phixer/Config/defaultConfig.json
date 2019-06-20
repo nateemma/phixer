@@ -44,8 +44,7 @@
         "sample_parents_1758.png", "sample_beach_1678.png", "sample_nate_1429.png", "sample_emma_1427.png", 
         "sample_girls_2143.png", "sample_pisa_2216.png", "sample_kids_9989.png"
     ],
-    
-    
+
     "lookup": [
         { "key": "bw_000", "image": "bw_000_neutral.JPG", "slow": false, "show": true, "rating": 0 },
         { "key": "bw_001", "image": "bw_001_underexposed.JPG", "slow": false, "show": true, "rating": 0 },
@@ -597,6 +596,39 @@
     ],
     
     
+    "preset": [
+        { "key": "Grunge", "title": "Grunge", "slow": false, "show": true, "rating": 0 },
+        { "key": "GrungeBlue", "title": "Grunge (Blue)", "slow": false, "show": true, "rating": 0 },
+        { "key": "GrungeBW", "title": "Grunge (B&W)", "slow": false, "show": true, "rating": 0 },
+        { "key": "GrungeGreen", "title": "Grunge (Green)", "slow": false, "show": true, "rating": 0 },
+        { "key": "GrungeMuted", "title": "Grunge (Muted)", "slow": false, "show": true, "rating": 0 },
+        { "key": "GrungeRed", "title": "Grunge (Red)", "slow": false, "show": true, "rating": 0 },
+        { "key": "GrungeSepia", "title": "Grunge (Sepia)", "slow": false, "show": true, "rating": 0 },
+        { "key": "GrungeSmooth", "title": "Grunge (Smooth)", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "Adeline", "title": "Adeline", "slow": false, "show": true, "rating": 0 },
+        { "key": "Amber", "title": "Amber", "slow": false, "show": true, "rating": 0 },
+        { "key": "Clarisse", "title": "Clarisse", "slow": false, "show": true, "rating": 0 },
+        { "key": "Emily", "title": "Emily", "slow": false, "show": true, "rating": 0 },
+        { "key": "Gwendolyn", "title": "Gwendolyn", "slow": false, "show": true, "rating": 0 },
+        { "key": "Juliet", "title": "Juliet", "slow": false, "show": true, "rating": 0 },
+        { "key": "Marianne", "title": "Marianne", "slow": false, "show": true, "rating": 0 },
+        { "key": "Summer", "title": "Summer", "slow": false, "show": true, "rating": 0 },
+        { "key": "Taylor", "title": "Taylor", "slow": false, "show": true, "rating": 0 },
+        { "key": "Vicky", "title": "Vicky", "slow": false, "show": true, "rating": 0 },
+        { "key": "Violet", "title": "Violet", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "BeautifulRelease", "title": "A Beautiful Release", "slow": false, "show": true, "rating": 0 },
+        { "key": "CarefullyShavenTurk", "title": "Carefully Shaven Turk", "slow": false, "show": true, "rating": 0 },
+        { "key": "MarshmallowHappysmell", "title": "Marshmallow Happysmell", "slow": false, "show": true, "rating": 0 },
+        { "key": "SteampunkAfternoon", "title": "Steampunk Afternoon", "slow": false, "show": true, "rating": 0 },
+        { "key": "OnRecreationalDrugs", "title": "On Recreational Drugs", "slow": false, "show": true, "rating": 0 },
+        { "key": "TurkishBlast", "title": "Turkish Blast", "slow": false, "show": true, "rating": 0 },
+        { "key": "ThankHeavenForLittleGirls", "title": "Thank Heaven For Little Girls", "slow": false, "show": true, "rating": 0 },
+        { "key": "SundayAloneTime", "title": "Sunday Alone Time", "slow": false, "show": true, "rating": 0 }
+        
+    ],
+
     
     "categories": [
         {"key": "none",
@@ -610,6 +642,16 @@
                 "ps_004", "ps_009", "bw_031", "bw_037" ]
         },
         
+        {"key": "presets",
+            "title": "Presets",
+            "filters": [
+                "Grunge", "GrungeBlue", "GrungeBW", "GrungeGreen", "GrungeMuted", "GrungeRed", "GrungeSepia", "GrungeSmooth",
+                "Adeline", "Amber", "Clarisse", "Emily", "Gwendolyn", "Juliet", "Marianne", "Summer", "Taylor", "Vicky", "Violet",
+                "BeautifulRelease", "CarefullyShavenTurk", "MarshmallowHappysmell", "SteampunkAfternoon", "OnRecreationalDrugs", "TurkishBlast",
+                "ThankHeavenForLittleGirls", "SundayAloneTime"
+            ]
+        },
+
         {"key": "styletransfer",
             "title": "Style Transfer",
             "filters": ["Style_Scream", "Style_Candy",  "Style_Feathers",  "Style_LaMuse",  "Style_Udnie",  "Style_Mosaic"
@@ -782,7 +824,7 @@
         {"key": "urban",
             "title": "Urban",
             "filters": ["ur_001", "ur_002", "ur_003", "ur_004", "ur_005", "ur_006", "ur_007", "ur_008", "ur_009", "ur_010",
-                "ur_011", "ur_012", "ur_013", "ur_014", "ur_015"
+                "ur_011", "ur_012", "ur_013", "ur_014", "ur_015", "Grunge"
             ]
         },
         
@@ -803,7 +845,7 @@
             ]
         },
         
-        
+
         {"key": "custom",
             "title": "Custom",
             "filters": ["ClarityFilter", "OpacityFilter", "EdgeGlowFilter", "SmoothThresholdFilter", "AdaptiveThresholdFilter", "LumaRangeFilter",
@@ -812,7 +854,7 @@
                 "CarnivalMirror", "RGBChannelCompositing", "KuwaharaFilter", "MercurializeFilter",
                 "CMYKLevels", "ChromaticAberration", "ColorDirectedBlur", "CompoundEye", "EightBit", "HomogeneousColorBlur",
                 "RGBChannelBrightnessAndContrast", "RGBChannelGaussianBlur", "TransverseChromaticAberration", "VHSTrackingLines", "CausticRefraction",
-                "HighPassFilter", "HighPassSharpeningFilter", "HueRangeFilter", "SplitToningFilter"
+                "HighPassFilter", "HighPassSharpeningFilter", "HueRangeFilter", "SplitToningFilter", "CIFalseColor"
             ]
         }
         

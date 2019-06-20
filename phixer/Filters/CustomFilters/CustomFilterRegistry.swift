@@ -31,7 +31,8 @@ class CustomFilterRegistry: NSObject, CIFilterConstructor {
                                               "CarnivalMirror", "KuwaharaFilter", "MercurializeFilter",
                                                "ColorDirectedBlur", "HomogeneousColorBlur", "VHSTrackingLines",  "TransverseChromaticAberration" ,
                                               "RGBChannelCompositing", "RGBChannelToneCurve", "RGBChannelBrightnessAndContrast", "ChromaticAberration", "RGBChannelGaussianBlur",
-                                              "HighPassSharpeningFilter", "CropRotateFilter", "AutoAdjustFilter", "SplitToningFilter"
+                                              "HighPassSharpeningFilter", "CropRotateFilter", "AutoAdjustFilter", "SplitToningFilter",
+                                              "PresetFilter"
                                              ]
     
     // any filters that do not need to access any more than 1 pixel can go here:
@@ -257,7 +258,7 @@ class CustomFilterRegistry: NSObject, CIFilterConstructor {
         case kCIAttributeTypeScalar:
             ptype = .float
         case kCIAttributeTypeDistance:
-            ptype = .float
+            ptype = .distance
         case kCIAttributeTypeAngle:
             ptype = .float
         case kCIAttributeTypeBoolean:

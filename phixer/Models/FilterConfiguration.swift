@@ -224,6 +224,21 @@ class FilterConfiguration{
                     }
                     log.verbose ("\(count) Lookup Images found")
                     
+                    // Presets
+                    count = 0
+                    for item in parsedConfig["preset"].arrayValue {
+                        count = count + 1
+                        def.key = item["key"].stringValue
+                        def.preset = def.key
+                        def.title = item["title"].stringValue
+                        def.ftype = "preset"
+                        def.slow = item["slow"].boolValue
+                        def.hide = item["hide"].boolValue
+                        def.rating = item["rating"].intValue
+                        addPreset(key:def.key, definition:def)
+                    }
+                    log.verbose ("\(count) Presets found")
+                    
                     
                     // only do these if the database has not already been set up
                     // TODO: check version number
@@ -315,7 +330,7 @@ class FilterConfiguration{
     }
     
     // function to convert from CIFilter Attribute Type string to simpler internal parameter type. Note that there is NOT a 1:1 mapping
-    private static func attributeToParameterType(_ atype:String) -> ParameterType {
+    public static func attributeToParameterType(_ atype:String) -> ParameterType {
         var ptype: ParameterType
         ptype = .unknown
         switch (atype){
@@ -370,13 +385,21 @@ class FilterConfiguration{
     
     
     public static func addFilter(key:String, definition:FilterDefinition){
-
+        
         // just store the mapping. Do lazy allocation as needed because of the potentially large number of filters
         //FilterDescriptorCache.get(key:key) = nil // just make sure there is an entry to find later
         FilterFactory.addFilterDefinition(key: key, definition:definition)
         log.verbose("addFilter(\(definition.key): \(definition.title), \(definition.ftype), \(definition.hide), \(definition.rating)), \(definition.parameters)")
     }
     
+    
+    
+    public static func addPreset(key:String, definition:FilterDefinition){
+        
+        FilterFactory.addFilterDefinition(key: key, definition:definition)
+        log.verbose("addPreset(\(definition.key): \(definition.title), \(definition.ftype), \(definition.hide), \(definition.rating)), \(definition.parameters)")
+    }
+
     
     
     public static func addLookup(key:String, definition:FilterDefinition){
