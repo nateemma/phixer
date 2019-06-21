@@ -605,7 +605,8 @@
         { "key": "GrungeRed", "title": "Grunge (Red)", "slow": false, "show": true, "rating": 0 },
         { "key": "GrungeSepia", "title": "Grunge (Sepia)", "slow": false, "show": true, "rating": 0 },
         { "key": "GrungeSmooth", "title": "Grunge (Smooth)", "slow": false, "show": true, "rating": 0 },
-        
+        { "key": "UrbanVignette", "title": "Urban Vignette", "slow": false, "show": true, "rating": 0 },
+
         { "key": "Adeline", "title": "Adeline", "slow": false, "show": true, "rating": 0 },
         { "key": "Amber", "title": "Amber", "slow": false, "show": true, "rating": 0 },
         { "key": "Clarisse", "title": "Clarisse", "slow": false, "show": true, "rating": 0 },
@@ -625,8 +626,10 @@
         { "key": "OnRecreationalDrugs", "title": "On Recreational Drugs", "slow": false, "show": true, "rating": 0 },
         { "key": "TurkishBlast", "title": "Turkish Blast", "slow": false, "show": true, "rating": 0 },
         { "key": "ThankHeavenForLittleGirls", "title": "Thank Heaven For Little Girls", "slow": false, "show": true, "rating": 0 },
+        { "key": "Navigator", "title": "The Navigator", "slow": false, "show": true, "rating": 0 },
+        { "key": "Relic", "title": "Relic", "slow": false, "show": true, "rating": 0 },
         { "key": "SundayAloneTime", "title": "Sunday Alone Time", "slow": false, "show": true, "rating": 0 }
-        
+  
     ],
 
     
@@ -645,10 +648,10 @@
         {"key": "presets",
             "title": "Presets",
             "filters": [
-                "Grunge", "GrungeBlue", "GrungeBW", "GrungeGreen", "GrungeMuted", "GrungeRed", "GrungeSepia", "GrungeSmooth",
+                "Grunge", "GrungeBlue", "GrungeBW", "GrungeGreen", "GrungeMuted", "GrungeRed", "GrungeSepia", "GrungeSmooth",  "UrbanVignette",
                 "Adeline", "Amber", "Clarisse", "Emily", "Gwendolyn", "Juliet", "Marianne", "Summer", "Taylor", "Vicky", "Violet",
                 "BeautifulRelease", "CarefullyShavenTurk", "MarshmallowHappysmell", "SteampunkAfternoon", "OnRecreationalDrugs", "TurkishBlast",
-                "ThankHeavenForLittleGirls", "SundayAloneTime"
+                "ThankHeavenForLittleGirls", "SundayAloneTime", "Navigator", "Relic"
             ]
         },
 

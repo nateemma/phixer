@@ -339,7 +339,7 @@ class FilterConfiguration{
         case kCIAttributeTypeScalar:
             ptype = .float
         case kCIAttributeTypeDistance:
-            ptype = .float
+            ptype = .distance
         case kCIAttributeTypeAngle:
             ptype = .float
         case kCIAttributeTypeBoolean:

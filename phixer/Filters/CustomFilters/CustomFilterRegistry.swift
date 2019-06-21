@@ -225,7 +225,7 @@ class CustomFilterRegistry: NSObject, CIFilterConstructor {
                     } else {
                         if let tmp = a[kCIAttributeClass]   { atype = tmp as! String } else { atype = "???" }
                     }
-                    let p = ParameterSettings(key: inp, title: aname, min: amin, max: amax, value: aval, type: toParameterType(atype))
+                    let p = ParameterSettings(key: inp, title: aname, min: amin, max: amax, value: aval, type: FilterConfiguration.attributeToParameterType(atype))
                     def?.parameters.append(p)
                     
                     // If we find a background image parameter, then change filter type to blend
@@ -247,7 +247,7 @@ class CustomFilterRegistry: NSObject, CIFilterConstructor {
         return fval
     }
 
-    
+/*** use version in FilterConfiguration to avoid mismatches
     // converts from CIFilter Attribute Type to internal ParameterType
     static func toParameterType(_ atype:String)->ParameterType{
         
@@ -285,6 +285,6 @@ class CustomFilterRegistry: NSObject, CIFilterConstructor {
         }
         return ptype
     }
-
+***/
 
 }

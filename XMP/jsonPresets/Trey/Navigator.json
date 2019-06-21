@@ -108,17 +108,20 @@
       "parameters": [
         {
           "type": "CIAttributeTypePosition", 
-          "val": 0.0, 
+          "val": [
+            0.0, 
+            0.0
+          ], 
           "key": "inputCenter"
         }, 
         {
           "type": "CIAttributeTypeDistance", 
-          "val": 512.0, 
+          "val": 0.0, 
           "key": "inputRadius"
         }, 
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 0.5, 
+          "val": 0.18, 
           "key": "inputIntensity"
         }, 
         {

@@ -86,6 +86,15 @@ class PresetFilter: CIFilter {
         
         let count = parsedConfig["filters"].count
         if (count > 0) {
+            if (abs(imgRadius) < 0.01) {
+                imgRect = CIVector(cgRect: inputImage.extent)
+                imgCentre = CIVector(cgPoint: CGPoint(x: inputImage.extent.width/2.0, y: inputImage.extent.height/2.0))
+                imgRadius = min(inputImage.extent.width, inputImage.extent.height) / 2.0
+                if (abs(imgRadius) < 0.01){
+                    log.error("WARNING: image extent not set")
+                }
+            }
+
             log.verbose("Running preset: \(self.presetFile) (\(count) filters)")
             for i in 0...(count - 1) {
                 let fdesc = parsedConfig["filters"][i] // entry for a filter

@@ -720,7 +720,7 @@ def processVignette():
     # new: PostCropVignetteAmount, PostCropVignetteFeather, PostCropVignetteMidpoint, PostCropVignetteRoundness, PostCropVignetteStyle
 
     # default values
-    radius = 512.0
+    radius = 0.0
     intensity = 0.5
     center = [0.0, 0.0]
     falloff = 0.5
@@ -740,10 +740,10 @@ def processVignette():
             # leave center as [0,0], which will then default to the center of the image
 
     if found:
-        filterMap["filters"].append( { 'key':"CIVignetteEffect", "parameters":[{ 'key':"inputCenter", "val": 0.0, "type": "CIAttributeTypePosition" },
-                                                                               { 'key':"inputRadius", "val": 512.0, "type": "CIAttributeTypeDistance"},
-                                                                               { 'key':"inputIntensity", "val": 0.5, "type": "CIAttributeTypeScalar"},
-                                                                               { 'key':"inputFalloff", "val": 0.5, "type": "CIAttributeTypeScalar"} ]
+        filterMap["filters"].append( { 'key':"CIVignetteEffect", "parameters":[{ 'key':"inputCenter", "val": center, "type": "CIAttributeTypePosition" },
+                                                                               { 'key':"inputRadius", "val": radius, "type": "CIAttributeTypeDistance"},
+                                                                               { 'key':"inputIntensity", "val": intensity, "type": "CIAttributeTypeScalar"},
+                                                                               { 'key':"inputFalloff", "val": falloff, "type": "CIAttributeTypeScalar"} ]
                                     } )
         print ("...Vignette")
 

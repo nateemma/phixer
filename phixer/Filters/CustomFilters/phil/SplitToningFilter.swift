@@ -126,7 +126,9 @@ class SplitToningFilter: CIFilter {
         
         let falseImg = inputImage.applyingFilter("CIFalseColor", parameters: ["inputColor0": color1, "inputColor1": color2])
 
-        let screenImg = falseImg.applyingFilter("CIScreenBlendMode", parameters: ["inputBackgroundImage": inputImage])
+        //let screenImg = falseImg.applyingFilter("CIScreenBlendMode", parameters: ["inputBackgroundImage": inputImage])
+        //let screenImg = falseImg.applyingFilter("CIColorBlendMode", parameters: ["inputBackgroundImage": inputImage])
+        let screenImg = falseImg.applyingFilter("CIHueBlendMode", parameters: ["inputBackgroundImage": inputImage])
         return screenImg
         
         //return screenImg.applyingFilter("CIHueBlendMode", parameters: ["inputBackgroundImage": inputImage])

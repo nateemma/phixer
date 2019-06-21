@@ -51,8 +51,7 @@ class FilterDescriptor {
     private static let presetArgIntensity: String = "inputIntensity"
     
     private static let blendArgIntensity: String = "inputIntensity"
-    
-    private static let opacityFilter = Opacity()
+ 
 
     public static let nullFilter = "NoFilter"
 
@@ -64,7 +63,9 @@ class FilterDescriptor {
     private var lookupImage: CIImage? = nil
     private var presetName: String = ""
 
-
+    
+    private var opacityFilter:CIFilter? = CIFilter(name: "OpacityFilter")
+    
     let defaultColor = CIColor(red: 0, green: 0, blue: 0)
 
     private var default_image: CIImage? = nil
@@ -268,7 +269,7 @@ class FilterDescriptor {
             //self.parameterConfiguration[p.key] = p
             self.stashedParameters[p.key] = ParameterSettings(key: p.key, title: p.title, min: p.min, max: p.max, value: p.value, type: p.type)
             self.parameterConfiguration[p.key] = ParameterSettings(key: p.key, title: p.title, min: p.min, max: p.max, value: p.value, type: p.type)
-            if p.type == .float { // any other types must be set by the app
+            if p.type == .float || p.type == .distance { // any other types must be set by the app
                 self.filter?.setValue(p.value, forKey: p.key)
             } else {
                 // there are some other types that we handle with default values:
@@ -616,7 +617,23 @@ class FilterDescriptor {
  
                 if validParam(kCIInputImageKey) { preset.setValue(image, forKey: kCIInputImageKey) }
                 preset.setPreset(name: self.key)
-                return preset.outputImage?.clampedToExtent().cropped(to: (image?.extent)!)
+                let presetImg = preset.outputImage?.clampedToExtent().cropped(to: (image?.extent)!)
+                
+                // blend with orignial if Intensity is < 1.0
+                var alpha = self.getParameter(FilterDescriptor.presetArgIntensity)
+                if (alpha < 0.0) { alpha = 1.0 }
+                if (alpha < 0.99){
+                    log.verbose("alpha: \(alpha)")
+                    if (self.opacityFilter == nil) {
+                        self.opacityFilter = CIFilter(name: "OpacityFilter")
+                    }
+                    self.opacityFilter?.setValue(alpha, forKey: "inputOpacity")
+                    self.opacityFilter?.setValue(presetImg, forKey: "inputImage")
+                    self.opacityFilter?.setValue(image, forKey: "inputBackgroundImage")
+                    return self.opacityFilter?.outputImage
+                } else {
+                    return presetImg
+                }
 
             case .blend:
                 //log.debug("Using BLEND mode for filter: \(String(describing: self.key))")

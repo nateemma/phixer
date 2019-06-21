@@ -373,6 +373,7 @@ class FilterParametersView: UIView {
                     pConfig = (currFilterDesc?.getParameterSettings(key))!
                     if (pConfig.type == ParameterType.float) ||
                         (pConfig.type == ParameterType.color) ||
+                        (pConfig.type == ParameterType.distance) ||
                         (pConfig.type == ParameterType.position) {
                         
                         
