@@ -171,14 +171,18 @@ class EditImageDisplayView: UIView {
     
     // saves the filtered image to the camera roll
     public func saveImage(){
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+            
+            guard self != nil else {
+                log.error("NIL self")
+                return
+            }
+            
             // use the full sized input image
             EditManager.setInputImage(InputSource.getCurrentImage(), fullsize: true)
-            self.runFilter()
-            
-            let ciimage = self.renderView?.image
+            let ciimage = EditManager.getPreviewImage()
             if (ciimage != nil){
-                let cgimage = ciimage?.generateCGImage(size:(self.renderView?.image?.extent.size)!)
+                let cgimage = ciimage?.generateCGImage(size:(ciimage?.extent.size)!)
                 let image = UIImage(cgImage: cgimage!)
                 UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
             } else {
