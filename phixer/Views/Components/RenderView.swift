@@ -256,7 +256,7 @@ class RenderView: MTKView
             
             if let targetTexture = currentDrawable?.texture {
                 
-                if let commandBuffer = RenderView.commandQueue?.makeCommandBuffer() {
+                if let commandBuffer = RenderView.commandQueue?.makeCommandBuffer() { 
                     
                    calculateTransforms()
                     

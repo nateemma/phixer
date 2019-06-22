@@ -306,7 +306,10 @@ class Database {
             print("clearSettings() - ERR: Could not fetch. \(error), \(error.userInfo)")
         }
         
-        
+        // free memory
+        settingList = []
+        settingsEntity = nil
+        context?.reset()
     }
     
     

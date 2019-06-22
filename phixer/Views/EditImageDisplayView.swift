@@ -75,7 +75,7 @@ class EditImageDisplayView: UIView {
        doInit()
 
         //log.debug("layout")
-        self.currInput = InputSource.getCurrentImage() // this can change
+        //self.currInput = InputSource.getCurrentImage() // this can change
         //self.currInput = EditManager.getPreviewImage() // this can change
         renderView?.frame = self.frame
         renderView?.backgroundColor = theme.backgroundColor
@@ -85,7 +85,9 @@ class EditImageDisplayView: UIView {
         // self.bringSubview(toFront: renderView!)
         
         // this must come after sizing
-        renderView?.image = self.currInput
+        //renderView?.image = self.currInput
+        // TODO: resize image based on view size (save memory)
+        renderView?.image = InputSource.getCurrentImage()
         let imgSize = InputSource.getSize()
         renderView?.setImageSize(imgSize)
         
@@ -170,6 +172,10 @@ class EditImageDisplayView: UIView {
     // saves the filtered image to the camera roll
     public func saveImage(){
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            // use the full sized input image
+            EditManager.setInputImage(InputSource.getCurrentImage(), fullsize: true)
+            self.runFilter()
+            
             let ciimage = self.renderView?.image
             if (ciimage != nil){
                 let cgimage = ciimage?.generateCGImage(size:(self.renderView?.image?.extent.size)!)

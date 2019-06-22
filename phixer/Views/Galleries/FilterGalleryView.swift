@@ -319,32 +319,42 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
                 ImageCache.add(inputImage, key: key)
             }
             
+            self.blend = nil // big, so only allocate when needed
 
             let delay = (self.filterList.count < 16) ? 0.0 : 0.15
-            DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + delay) {
-                log.verbose("running filters in background...")
-               for key in self.filterList {
-                    // update each image separately on the background queue to allow main queue to run
-                    DispatchQueue.global(qos: .background).async {
-                    //DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.2) {
-                        //let renderview = self.filterManager.getRenderView(key: key) // this caches the RenderView
-                        let descriptor = self.filterManager.getFilterDescriptor(key: key)
-                        if self.inputImage != nil {
-                            let image = descriptor?.apply(image:self.inputImage, image2: self.blend)
-                            if image != nil {
-                                ImageCache.add(image, key: key)
-                                // update on main thread (needs to do some layout that we can't do in the background)
-                                DispatchQueue.main.async(execute: { self.reloadImage(key:key) })
+            DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + delay) { [weak self] in
+                if self != nil {
+                    log.verbose("running filters in background...")
+                    for key in self?.filterList ?? [] {
+                        // update each image separately on the background queue to allow main queue to run
+                        DispatchQueue.global(qos: .background).async {
+                            //DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.2) {
+                            //let renderview = self.filterManager.getRenderView(key: key) // this caches the RenderView
+                            let descriptor = self?.filterManager.getFilterDescriptor(key: key)
+                            if self?.inputImage != nil {
+                                if descriptor?.filterOperationType == FilterOperationType.blend {
+                                    if self?.blend == nil {
+                                        self?.blend = ImageManager.getCurrentBlendImage()
+                                    }
+                                }
+                                let image = descriptor?.apply(image:self?.inputImage, image2: self?.blend)
+                                if image != nil {
+                                    ImageCache.add(image, key: key)
+                                    // update on main thread (needs to do some layout that we can't do in the background)
+                                    DispatchQueue.main.async(execute: { self?.reloadImage(key:key) })
+                                } else {
+                                    log.error("Filter returned nil")
+                                }
                             } else {
-                                log.error("Filter returned nil")
+                                log.error("Input is NIL")
                             }
-                        } else {
-                            log.error("Input is NIL")
-                        }
-                        if self.filterList.last == key {
-                            log.verbose("... done running filters")
+                            if self?.filterList.last == key {
+                                log.verbose("... done running filters")
+                            }
                         }
                     }
+                } else {
+                    log.error("SELF not defined")
                 }
             }
         }
@@ -490,6 +500,8 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
             if inputImage == nil {
                 log.error("ERR retrieveing input image")
             }
+            
+            // don't load until needed
             blend  = ImageManager.getCurrentBlendImage(size:mysize) // OK if nil
         }
     }

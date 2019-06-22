@@ -63,9 +63,21 @@ class EditManager {
     }
     
     // set the input image to be processed
-    public static func setInputImage(_ image:CIImage?){
-        EditManager._input = image
+    // if 'fullsize' is not true then we resize the image to match the screen (saves lots of memory)
+    public static func setInputImage(_ image:CIImage?, fullsize:Bool=false){
+        //EditManager._input = image
         //log.verbose("extent: \(image?.extent)")
+        
+        // resize to something close to the screen resolution
+        if (image != nil) {
+            if fullsize {
+                EditManager._input = image
+            } else {
+                EditManager._input = image?.resize(size: getScreenBasedSize(image: image))
+            }
+        } else {
+            EditManager._input = nil
+        }
     }
     
     // get the size of the image (any of them, they are the same size)
@@ -406,5 +418,34 @@ class EditManager {
         // create the CIImage
         img = CIImage(cgImage: cgImage!)
         return img
+    }
+    
+    // utility to calculate a 'practical' size to use for an image for screen-based processing.
+    // The intent is to avoid dealing with the full sized image everywhere when that is probably unnecessary
+    public static func getScreenBasedSize(image: CIImage?) -> CGSize {
+        
+        // the goal is to get the size to roughly the same as the screen resolution, but keeping the image aspect ratio
+        var mysize = UISettings.screenResolution
+        
+        if let image = image {
+            let insize = image.extent.size
+            if (insize.width < 0.01) || (insize.height < 0.01) {
+                log.error("Invalid size for input image: \(insize)")
+            } else {
+                let lscr = max(UISettings.screenResolution.width, UISettings.screenResolution.height) // longest  side of screen
+                let lin = max(insize.width, insize.height) // longest side of the input image
+                
+                // resize if the input image is bigger than the screen (which it should be)
+                if lin > lscr {
+                    let ratio = lscr / lin
+                    mysize = CGSize(width: (insize.width*ratio).rounded(), height: (insize.height*ratio).rounded())
+                } else {
+                    mysize = insize // small image, leave size alone
+                }
+            }
+        } else {
+            log.error("NIL image supplied")
+        }
+        return mysize
     }
 }

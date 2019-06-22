@@ -14,67 +14,74 @@ extension CGImage {
     
     // crate a CGImage of specified size, filled with specified (CG) color. Useful for masking etc.
     public static func create(size:CGSize, fillcolor:CGColor) -> CGImage? {
-        let colorSpace =  CGColorSpaceCreateDeviceRGB()
-        let bitmapInfo = CGImageAlphaInfo.premultipliedLast.rawValue
-        
-        var context = CGContext(data: nil,
-                                width: Int(size.width),
-                                height: Int(size.height),
-                                bitsPerComponent: Int(8),
-                                bytesPerRow: Int(0),
-                                space: colorSpace,
-                                bitmapInfo: bitmapInfo)
 
-        guard context != nil else {
-            log.error("Could not create CG context")
-            return nil
+        let result = autoreleasepool { () -> CGImage? in
+            let colorSpace =  CGColorSpaceCreateDeviceRGB()
+            let bitmapInfo = CGImageAlphaInfo.premultipliedLast.rawValue
+            
+            var context = CGContext(data: nil,
+                                    width: Int(size.width),
+                                    height: Int(size.height),
+                                    bitsPerComponent: Int(8),
+                                    bytesPerRow: Int(0),
+                                    space: colorSpace,
+                                    bitmapInfo: bitmapInfo)
+            
+            guard context != nil else {
+                log.error("Could not create CG context")
+                return nil
+            }
+            
+            context?.setFillColor(fillcolor)
+            context?.fill(CGRect(origin: CGPoint.zero, size: size))
+            
+            // create the CGImage
+            let cgImage = context!.makeImage()
+            
+            context = nil
+            return cgImage
         }
-        
-        context?.setFillColor(fillcolor)
-        context?.fill(CGRect(origin: CGPoint.zero, size: size))
-        
-        // create the CGImage
-        let cgImage = context!.makeImage()
-        
-        context = nil
-        return cgImage
+        return result
     }
 
     
     // resizes a CGImage to the requested size. Returns nil if the operation failed
     public func resize (_ size:CGSize) -> CGImage? {
         
-        let colorSpace = (self.colorSpace != nil) ? self.colorSpace! : CGColorSpaceCreateDeviceRGB()
-        let bitmapInfo = self.alphaInfo.rawValue
-        //let bitmapInfo = CGImageAlphaInfo.premultipliedLast.rawValue
-
-        var context = CGContext(data: nil,
-                                      width: Int(size.width),
-                                      height: Int(size.height),
-                                      bitsPerComponent: Int(8),
-                                      bytesPerRow: Int(0),
-                                      space: colorSpace,
-                                      bitmapInfo: bitmapInfo)
-        /* This crashes:
-        let context = CGContext(data: nil, width: Int(size.width), height: Int(size.height), bitsPerComponent: self.bitsPerComponent, bytesPerRow: self.bytesPerRow,
-                                space: colorSpace, bitmapInfo: bitmapInfo)
-        */
-        guard context != nil else {
-            log.error("Could not create CG context. size:\(size)")
-            return self
+        let result = autoreleasepool { () -> CGImage? in
+            let colorSpace = (self.colorSpace != nil) ? self.colorSpace! : CGColorSpaceCreateDeviceRGB()
+            let bitmapInfo = self.alphaInfo.rawValue
+            //let bitmapInfo = CGImageAlphaInfo.premultipliedLast.rawValue
+            
+            var context = CGContext(data: nil,
+                                    width: Int(size.width),
+                                    height: Int(size.height),
+                                    bitsPerComponent: Int(8),
+                                    bytesPerRow: Int(0),
+                                    space: colorSpace,
+                                    bitmapInfo: bitmapInfo)
+            /* This crashes:
+             let context = CGContext(data: nil, width: Int(size.width), height: Int(size.height), bitsPerComponent: self.bitsPerComponent, bytesPerRow: self.bytesPerRow,
+             space: colorSpace, bitmapInfo: bitmapInfo)
+             */
+            guard context != nil else {
+                log.error("Could not create CG context. size:\(size)")
+                return self
+            }
+            
+            // draw the 'old' CGImage into the new one at the calculation place
+            context?.interpolationQuality = .high
+            context?.draw(self, in: CGRect(origin: CGPoint.zero, size: size))
+            let resizedCGImage = context!.makeImage()
+            guard resizedCGImage != nil else {
+                log.error("Could not create CGImage")
+                return self
+            }
+            
+            context = nil
+            return resizedCGImage
         }
-        
-        // draw the 'old' CGImage into the new one at the calculation place
-        context?.interpolationQuality = .high
-        context?.draw(self, in: CGRect(origin: CGPoint.zero, size: size))
-        let resizedCGImage = context!.makeImage()
-        guard resizedCGImage != nil else {
-            log.error("Could not create CGImage")
-            return self
-        }
-
-        context = nil
-        return resizedCGImage
+        return result
     }
     
     
