@@ -628,7 +628,18 @@
         { "key": "ThankHeavenForLittleGirls", "title": "Thank Heaven For Little Girls", "slow": false, "show": true, "rating": 0 },
         { "key": "Navigator", "title": "The Navigator", "slow": false, "show": true, "rating": 0 },
         { "key": "Relic", "title": "Relic", "slow": false, "show": true, "rating": 0 },
-        { "key": "SundayAloneTime", "title": "Sunday Alone Time", "slow": false, "show": true, "rating": 0 }
+        { "key": "SundayAloneTime", "title": "Sunday Alone Time", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "Fuji400H", "title": "Fuji 400H", "slow": false, "show": true, "rating": 0 },
+        { "key": "FujiSuperia1600", "title": "Fuji Superia 1600", "slow": false, "show": true, "rating": 0 },
+        { "key": "FujiSuperia400", "title": "FujiSuperia400", "slow": false, "show": true, "rating": 0 },
+        { "key": "FujiVelvia100", "title": "FujiVelvia100", "slow": false, "show": true, "rating": 0 },
+        { "key": "FujiVelvia50", "title": "FujiVelvia50", "slow": false, "show": true, "rating": 0 },
+        { "key": "KodakEktar100", "title": "KodakEktar100", "slow": false, "show": true, "rating": 0 },
+        { "key": "KodakPortra400", "title": "KodakPortra400", "slow": false, "show": true, "rating": 0 },
+        { "key": "KodakPortra800", "title": "KodakPortra800", "slow": false, "show": true, "rating": 0 },
+        { "key": "KodakTMAX3200", "title": "KodakTMAX3200", "slow": false, "show": true, "rating": 0 },
+        { "key": "KodakTriX400", "title": "KodakTriX400", "slow": false, "show": true, "rating": 0 }
   
     ],
 
@@ -654,13 +665,21 @@
                 "ThankHeavenForLittleGirls", "SundayAloneTime", "Navigator", "Relic"
             ]
         },
+        
+        {"key": "film",
+            "title": "Analog Film",
+            "filters": [ "Fuji400H", "FujiSuperia1600", "FujiSuperia400", "FujiVelvia100", "FujiVelvia50",
+                "KodakEktar100", "KodakPortra400", "KodakPortra800", "KodakTMAX3200", "KodakTriX400"
+            ]
+        },
+
 
         {"key": "styletransfer",
             "title": "Style Transfer",
             "filters": ["Style_Scream", "Style_Candy",  "Style_Feathers",  "Style_LaMuse",  "Style_Udnie",  "Style_Mosaic"
             ]
         },
-        
+
         
         {"key": "blends",
             "title": "Blend Effects",

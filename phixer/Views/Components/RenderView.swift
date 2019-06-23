@@ -98,7 +98,8 @@ class RenderView: MTKView
                 } else {
                     // invalid extent, try setting to size of current input (bad coupling, I know)
                     // this usually means a filter added an infinite extent and should have been cropped
-                    imageSize = InputSource.getSize()
+                    //imageSize = InputSource.getSize()
+                    imageSize = EditManager.getImageSize()
                     log.warning("Unusable extent. Maybe crop image???")
                 }
             }
@@ -173,7 +174,8 @@ class RenderView: MTKView
                     imageSize = image.extent.size
                 } else {
                     // this usually means a filter added an infinite extent and should have been cropped
-                    imageSize = InputSource.getSize()
+                    //imageSize = InputSource.getSize()
+                    imageSize = EditManager.getImageSize()
                     log.warning("Unusable extent. Maybe crop image???")
                 }
             }

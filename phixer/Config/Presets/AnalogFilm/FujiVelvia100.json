@@ -1,0 +1,329 @@
+{
+  "info": {
+    "group": "N Fujifilm Stocks", 
+    "name": "N - Fuji Velvia 100"
+  }, 
+  "filters": [
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 1.0, 
+          "key": "inputContrast"
+        }
+      ], 
+      "key": "ContrastFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 1.05, 
+          "key": "inputSaturation"
+        }
+      ], 
+      "key": "SaturationFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.1, 
+            0.95, 
+            0.7
+          ], 
+          "key": "inputRedShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.01, 
+            1.0, 
+            0.9
+          ], 
+          "key": "inputOrangeShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.9, 
+            1.0, 
+            0.85
+          ], 
+          "key": "inputYellowShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            0.9, 
+            0.9
+          ], 
+          "key": "inputGreenShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.05, 
+            1.0, 
+            0.95
+          ], 
+          "key": "inputAquaShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.15, 
+            1.05, 
+            0.8
+          ], 
+          "key": "inputBlueShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.15, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputPurpleShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.15, 
+            0.7, 
+            0.75
+          ], 
+          "key": "inputMagentaShift"
+        }
+      ], 
+      "key": "MultiBandHSV"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.8, 
+          "key": "inputSharpness"
+        }
+      ], 
+      "key": "CISharpenLuminance"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.25, 
+          "key": "inputAmount"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 1.2, 
+          "key": "inputRadius"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.4, 
+          "key": "inputThreshold"
+        }
+      ], 
+      "key": "UnsharpMaskFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.1, 
+            1.1, 
+            1.0
+          ], 
+          "key": "inputRedShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputOrangeShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputYellowShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.05, 
+            1.05, 
+            1.0
+          ], 
+          "key": "inputGreenShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputAquaShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.05, 
+            1.3, 
+            1.0
+          ], 
+          "key": "inputBlueShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputPurpleShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputMagentaShift"
+        }
+      ], 
+      "key": "MultiBandHSV"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeVector", 
+          "val": [
+            0.0, 
+            0.25, 
+            0.5, 
+            0.75, 
+            1.0
+          ], 
+          "key": "inputRedXvalues"
+        }, 
+        {
+          "type": "CIAttributeTypeVector", 
+          "val": [
+            0.0, 
+            0.09803921568627451, 
+            0.49019607843137253, 
+            0.7843137254901961, 
+            1.0
+          ], 
+          "key": "inputRedYvalues"
+        }, 
+        {
+          "type": "CIAttributeTypeVector", 
+          "val": [
+            0.0, 
+            0.25, 
+            0.5, 
+            0.75, 
+            1.0
+          ], 
+          "key": "inputGreenXvalues"
+        }, 
+        {
+          "type": "CIAttributeTypeVector", 
+          "val": [
+            0.0, 
+            0.09803921568627451, 
+            0.47058823529411764, 
+            0.7843137254901961, 
+            1.0
+          ], 
+          "key": "inputGreenYvalues"
+        }, 
+        {
+          "type": "CIAttributeTypeVector", 
+          "val": [
+            0.0, 
+            0.25, 
+            0.5, 
+            0.75, 
+            1.0
+          ], 
+          "key": "inputBlueXvalues"
+        }, 
+        {
+          "type": "CIAttributeTypeVector", 
+          "val": [
+            0.0, 
+            0.09803921568627451, 
+            0.49019607843137253, 
+            0.803921568627451, 
+            1.0
+          ], 
+          "key": "inputBlueYvalues"
+        }
+      ], 
+      "key": "RGBChannelToneCurve"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.0, 
+            0.0
+          ], 
+          "key": "inputPoint0"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.15, 
+            0.25
+          ], 
+          "key": "inputPoint1"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.6, 
+            0.5
+          ], 
+          "key": "inputPoint2"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.75, 
+            0.75
+          ], 
+          "key": "inputPoint3"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            1.0, 
+            1.0
+          ], 
+          "key": "inputPoint4"
+        }
+      ], 
+      "key": "CIToneCurve"
+    }
+  ], 
+  "key": "../phixer/Config/Presets/AnalogFilm/FujiVelvia100.json"
+}

@@ -1,0 +1,346 @@
+{
+  "info": {
+    "group": "Trey's Lightroom Presets - Free Pack for OnOne", 
+    "name": "Turkish Blast"
+  }, 
+  "filters": [
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 6214.0, 
+          "key": "inputTemperature"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 8.0, 
+          "key": "inputTint"
+        }
+      ], 
+      "key": "WhiteBalanceFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.8, 
+          "key": "inputEV"
+        }
+      ], 
+      "key": "CIExposureAdjust"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.32499999999999996, 
+          "key": "inputContrast"
+        }
+      ], 
+      "key": "ContrastFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.05, 
+          "key": "inputClarity"
+        }
+      ], 
+      "key": "ClarityFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 1.0, 
+          "key": "inputSaturation"
+        }
+      ], 
+      "key": "SaturationFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            2.0
+          ], 
+          "key": "inputRedShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.31
+          ], 
+          "key": "inputOrangeShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputYellowShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputGreenShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            0.94
+          ], 
+          "key": "inputAquaShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            0.27
+          ], 
+          "key": "inputBlueShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.13
+          ], 
+          "key": "inputPurpleShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputMagentaShift"
+        }
+      ], 
+      "key": "MultiBandHSV"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.15, 
+          "key": "inputHighlightHue"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 1.0, 
+          "key": "inputHighlightSaturation"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.11388888888888889, 
+          "key": "inputShadowHue"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.9, 
+          "key": "inputShadowSaturation"
+        }
+      ], 
+      "key": "SplitToningFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.5, 
+          "key": "inputSharpness"
+        }
+      ], 
+      "key": "CISharpenLuminance"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.25, 
+          "key": "inputAmount"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 1.0, 
+          "key": "inputRadius"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.4, 
+          "key": "inputThreshold"
+        }
+      ], 
+      "key": "UnsharpMaskFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypePosition", 
+          "val": [
+            0.0, 
+            0.0
+          ], 
+          "key": "inputCenter"
+        }, 
+        {
+          "type": "CIAttributeTypeDistance", 
+          "val": 0.0, 
+          "key": "inputRadius"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.56, 
+          "key": "inputIntensity"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.49, 
+          "key": "inputFalloff"
+        }
+      ], 
+      "key": "CIVignetteEffect"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.91, 
+            0.84, 
+            1.0
+          ], 
+          "key": "inputRedShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputOrangeShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputYellowShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.07, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputGreenShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputAquaShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputBlueShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputPurpleShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputMagentaShift"
+        }
+      ], 
+      "key": "MultiBandHSV"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.0, 
+            0.0
+          ], 
+          "key": "inputPoint0"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.25, 
+            0.21843009692832527
+          ], 
+          "key": "inputPoint1"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.5, 
+            0.5339789487709334
+          ], 
+          "key": "inputPoint2"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.75, 
+            0.7665353126683171
+          ], 
+          "key": "inputPoint3"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            1.0, 
+            1.0
+          ], 
+          "key": "inputPoint4"
+        }
+      ], 
+      "key": "CIToneCurve"
+    }
+  ], 
+  "key": "../phixer/Config/Presets/Trey/TurkishBlast.json"
+}

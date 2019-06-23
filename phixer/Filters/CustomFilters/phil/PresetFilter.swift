@@ -141,7 +141,7 @@ class PresetFilter: CIFilter {
                                 filter?.setValue(imgRect, forKey: pkey)
                             default:
                                 // just ignore
-                                log.warning("Ignoring parameter:\(pkey) for filter:\(fkey)")
+                                log.warning("Ignoring parameter:\(pkey), type:\(ptype) for filter:\(fkey)")
                                 break
                             }
                             

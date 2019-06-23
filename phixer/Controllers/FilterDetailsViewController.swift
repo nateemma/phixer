@@ -423,6 +423,7 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
     
     // go to the next filter
     func gotoNextFilter(){
+        releaseCurrentFilter()
         currFilterIndex = (currFilterIndex + 1) % currFilterCount
         let key = filterManager.getFilterKey(category: currCategory, index: currFilterIndex)
         loadFilterInfo(category: currCategory, key: key)
@@ -430,13 +431,24 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
     
     // go to the previous filter
     func gotoPreviousFilter(){
+        releaseCurrentFilter()
         currFilterIndex = (currFilterIndex - 1)
         if (currFilterIndex < 0) { currFilterIndex = currFilterCount - 1 }
         let key = filterManager.getFilterKey(category: currCategory, index: currFilterIndex)
         loadFilterInfo(category: currCategory, key: key)
     }
-
     
+    
+    func releaseCurrentFilter() {
+        if currFilterDescriptor != nil {
+            if !currFilterKey.isEmpty {
+                log.verbose("Release: \(currFilterKey)")
+                filterManager.releaseFilterDescriptor(key: currFilterKey)
+                filterManager.releaseRenderView(key: currFilterKey)
+            }
+        }
+    }
+
     /////////////////////////////
     // MARK: - Touch Handler(s)
     /////////////////////////////

@@ -61,6 +61,7 @@ class FilterGalleryViewController: CoordinatedController {
     
     
     override public func end() {
+        filterGalleryView.suspend()
         filterGalleryView = nil // force deallocation
         self.dismiss()
     }

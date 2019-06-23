@@ -682,101 +682,111 @@ class ImageManager {
     
     // return the requested asset with the original asset size
     private static func getImageFromAssets(assetID: String)->UIImage? {
-        var image:UIImage? = nil
         
-        if isAssetID(assetID) { // Asset?
-            let assets = PHAsset.fetchAssets(withLocalIdentifiers: [assetID], options:nil)
+        let result = autoreleasepool { () -> UIImage? in
             
-            let asset = assets.firstObject
-            if asset != nil {
-                let options = PHImageRequestOptions()
-                //        options.deliveryMode = PHImageRequestOptionsDeliveryMode.Opportunistic
-                //options.resizeMode = PHImageRequestOptionsResizeMode.fast
-                options.resizeMode = PHImageRequestOptionsResizeMode.exact
-                options.isSynchronous = true // need to set this to get the full size image
-                options.isNetworkAccessAllowed = false
-                //options.version = .current
-                options.version = .original
-
-                /***/
-                 PHImageManager.default().requestImageData(for: asset!, options: options, resultHandler: { data, _, _, _ in
-                 image = data.flatMap { UIImage(data: $0) }
-                 })
-                 /***/
+            var image:UIImage? = nil
+            
+            if isAssetID(assetID) { // Asset?
+                let assets = PHAsset.fetchAssets(withLocalIdentifiers: [assetID], options:nil)
                 
-                
-/***
-               PHImageManager.default().requestImage(for: asset!, targetSize: UIScreen.main.bounds.size, contentMode: .aspectFit, options: options,
-                                                      resultHandler: { img, _ in
-                                                        image = img })
-***/
+                let asset = assets.firstObject
+                if asset != nil {
+                    let options = PHImageRequestOptions()
+                    //        options.deliveryMode = PHImageRequestOptionsDeliveryMode.Opportunistic
+                    //options.resizeMode = PHImageRequestOptionsResizeMode.fast
+                    options.resizeMode = PHImageRequestOptionsResizeMode.exact
+                    options.isSynchronous = true // need to set this to get the full size image
+                    options.isNetworkAccessAllowed = false
+                    //options.version = .current
+                    options.version = .original
+                    
+                    /***/
+                    PHImageManager.default().requestImageData(for: asset!, options: options, resultHandler: { data, _, _, _ in
+                        image = data.flatMap { UIImage(data: $0) }
+                    })
+                    /***/
+                    
+                    
+                    /***
+                     PHImageManager.default().requestImage(for: asset!, targetSize: UIScreen.main.bounds.size, contentMode: .aspectFit, options: options,
+                     resultHandler: { img, _ in
+                     image = img })
+                     ***/
+                } else {
+                    log.error("Invalid asset: \(assetID)")
+                }
             } else {
-                log.error("Invalid asset: \(assetID)")
+                // not a managed asset, load via 'regular' method
+                image = UIImage(named:assetID)
             }
-        } else {
-            // not a managed asset, load via 'regular' method
-            image = UIImage(named:assetID)
+            
+            //return image
+            // OK, don't know why, but the orientation is lost when retrieving, so force it to be always up. This is how everything is displayed anyway, but it's still a hack
+            if image != nil {
+                return forceUpOrientation(img: image!)!
+            } else {
+                log.error("Error loading asset: \(assetID)")
+                return nil
+            }
         }
-        
-        //return image
-        // OK, don't know why, but the orientation is lost when retrieving, so force it to be always up. This is how everything is displayed anyway, but it's still a hack
-        if image != nil {
-            return forceUpOrientation(img: image!)!
-        } else {
-            log.error("Error loading asset: \(assetID)")
-            return nil
-        }
+        return result
     }
     
     
     // return the requested asset with the specified size
     private static func getImageFromAssets(assetID: String, size:CGSize)->UIImage? {
-        var image:UIImage? = nil
-        var tsize:CGSize
         
-        tsize = size
-        if (tsize.width < 0.01) || (tsize.height < 0.01) {
-            tsize = UIScreen.main.bounds.size
-            // set to screen resolution, don't know what other size to use
-            tsize.width = UIScreen.main.bounds.size.width * UIScreen.main.scale
-            tsize.height = UIScreen.main.bounds.size.height * UIScreen.main.scale
-        }
-        log.debug("tsize: \(tsize)")
-        
-        if isAssetID(assetID) { // Asset?
-            let assets = PHAsset.fetchAssets(withLocalIdentifiers: [assetID], options:nil)
+        let result = autoreleasepool { () -> UIImage? in
             
-            if let asset = assets.firstObject {
-                do {
-                    log.debug("asset: \(asset)")
-                    let options = PHImageRequestOptions()
-                    //        options.deliveryMode = PHImageRequestOptionsDeliveryMode.Opportunistic
-                    //options.resizeMode = PHImageRequestOptionsResizeMode.exact
-                    options.resizeMode = PHImageRequestOptionsResizeMode.fast
-                    options.isNetworkAccessAllowed = false
-                    options.version = .current
-                    options.isSynchronous = true // need to set this to get the full size image
-                    try PHImageManager.default().requestImage(for: asset, targetSize: tsize, contentMode: .aspectFit, options: options, resultHandler: { img, info in
-                        if img != nil {
-                            image = img
-                        } else {
-                            log.error("NIL image. info: \(info)")
-                        }
-                    })
-                } catch {
-                    log.error("ERROR retrieveing image: \(asset)")
+            var image:UIImage? = nil
+            var tsize:CGSize
+            
+            tsize = size
+            if (tsize.width < 0.01) || (tsize.height < 0.01) {
+                tsize = UIScreen.main.bounds.size
+                // set to screen resolution, don't know what other size to use
+                tsize.width = UIScreen.main.bounds.size.width * UIScreen.main.scale
+                tsize.height = UIScreen.main.bounds.size.height * UIScreen.main.scale
+            }
+            log.debug("tsize: \(tsize)")
+            
+            if isAssetID(assetID) { // Asset?
+                let assets = PHAsset.fetchAssets(withLocalIdentifiers: [assetID], options:nil)
+                
+                if let asset = assets.firstObject {
+                    do {
+                        log.debug("asset: \(asset)")
+                        let options = PHImageRequestOptions()
+                        //        options.deliveryMode = PHImageRequestOptionsDeliveryMode.Opportunistic
+                        //options.resizeMode = PHImageRequestOptionsResizeMode.exact
+                        options.resizeMode = PHImageRequestOptionsResizeMode.fast
+                        options.isNetworkAccessAllowed = false
+                        options.version = .current
+                        options.isSynchronous = true // need to set this to get the full size image
+                        try PHImageManager.default().requestImage(for: asset, targetSize: tsize, contentMode: .aspectFit, options: options, resultHandler: { img, info in
+                            if img != nil {
+                                image = img
+                            } else {
+                                log.error("NIL image. info: \(info)")
+                            }
+                        })
+                    } catch {
+                        log.error("ERROR retrieveing image: \(asset)")
+                    }
+                } else {
+                    log.error("Invalid asset: \(assetID)")
                 }
             } else {
-                log.error("Invalid asset: \(assetID)")
+                // not a managed asset, load via 'regular' method
+                var tmpimage2 = UIImage(named:assetID)
+                image = resizeImage(tmpimage2, targetSize: tsize, mode:.scaleAspectFill)
+                tmpimage2 = nil
             }
-        } else {
-            // not a managed asset, load via 'regular' method
-            var tmpimage2 = UIImage(named:assetID)
-            image = resizeImage(tmpimage2, targetSize: tsize, mode:.scaleAspectFill)
-            tmpimage2 = nil
+            
+            return image
         }
-
-        return image
+        return result
     }
 
     
@@ -786,46 +796,50 @@ class ImageManager {
             return nil
         }
         
-        let size = (image?.size)!
-        var tsize = targetSize
-        if (targetSize.width<0.01) && (targetSize.height<0.01) { tsize = size }
-        
-        // figure out if we need to rotate the image to match the target
-        let srcIsLandscape:Bool = (size.width > size.height)
-        let tgtIsLandscape:Bool = (tsize.width > tsize.height)
-        let tgtIsSquare:Bool =  (abs(Float(tsize.width - tsize.height)) < 0.001)
-        
-        var srcImage:UIImage? = image
-        var srcSize:CGSize = CGSize.zero
-        
-        // rotate if the target is not square (why rotate?) and the aspect ratios are not the same
-        if (!tgtIsSquare && (srcIsLandscape != tgtIsLandscape)){
-            //log.warning("Need to rotate src image")
-            if (srcIsLandscape) {
-                srcImage = rotateImage(image, degrees: -90.0)
+        let result = autoreleasepool { () -> UIImage? in
+            
+            let size = (image?.size)!
+            var tsize = targetSize
+            if (targetSize.width<0.01) && (targetSize.height<0.01) { tsize = size }
+            
+            // figure out if we need to rotate the image to match the target
+            let srcIsLandscape:Bool = (size.width > size.height)
+            let tgtIsLandscape:Bool = (tsize.width > tsize.height)
+            let tgtIsSquare:Bool =  (abs(Float(tsize.width - tsize.height)) < 0.001)
+            
+            var srcImage:UIImage? = image
+            var srcSize:CGSize = CGSize.zero
+            
+            // rotate if the target is not square (why rotate?) and the aspect ratios are not the same
+            if (!tgtIsSquare && (srcIsLandscape != tgtIsLandscape)){
+                //log.warning("Need to rotate src image")
+                if (srcIsLandscape) {
+                    srcImage = rotateImage(image, degrees: -90.0)
+                } else {
+                    srcImage = rotateImage(image, degrees: 90.0)
+                }
+                srcSize.width = (image?.size.height)!
+                srcSize.height = (image?.size.width)!
             } else {
-                srcImage = rotateImage(image, degrees: 90.0)
+                srcImage = image
+                srcSize = size
             }
-            srcSize.width = (image?.size.height)!
-            srcSize.height = (image?.size.width)!
-        } else {
-            srcImage = image
-            srcSize = size
+            
+            
+            // crop the image to match the aspect ratio of the target size (resize doesn't seem to work)
+            let bounds = CGRect(x:0, y:0, width:srcSize.width, height:srcSize.height)
+            let rect = AVMakeRect(aspectRatio: tsize, insideRect: bounds)
+            //let rect = fitIntoRect(srcSize: srcSize, targetRect: bounds, withContentMode: .scaleAspectFill)
+            
+            let cropSize = CGSize(width:rect.width, height:rect.height)
+            let croppedImage = cropImage(srcImage, to:cropSize)
+            
+            // resize to match the target
+            let newImage = scaleImage(croppedImage, targetSize:tsize)
+            
+            return newImage
         }
-        
-        
-        // crop the image to match the aspect ratio of the target size (resize doesn't seem to work)
-        let bounds = CGRect(x:0, y:0, width:srcSize.width, height:srcSize.height)
-        let rect = AVMakeRect(aspectRatio: tsize, insideRect: bounds)
-        //let rect = fitIntoRect(srcSize: srcSize, targetRect: bounds, withContentMode: .scaleAspectFill)
-        
-        let cropSize = CGSize(width:rect.width, height:rect.height)
-        let croppedImage = cropImage(srcImage, to:cropSize)
-        
-        // resize to match the target
-        let newImage = scaleImage(croppedImage, targetSize:tsize)
-        
-        return newImage
+        return result
     }
     
     
@@ -835,30 +849,34 @@ class ImageManager {
             log.error("NIL image provided for scaling")
             return nil
         }
-        
-        let size = (image?.size)!
-        
-        let widthRatio  = targetSize.width  / size.width
-        let heightRatio = targetSize.height / size.height
-        
-        // Figure out what our orientation is, and use that to form the rectangle
-        var newSize: CGSize
-        if(widthRatio > heightRatio) {
-            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
-        } else {
-            newSize = CGSize(width: size.width * widthRatio,  height: size.height * widthRatio)
+     
+        let result = autoreleasepool { () -> UIImage? in
+            
+            let size = (image?.size)!
+            
+            let widthRatio  = targetSize.width  / size.width
+            let heightRatio = targetSize.height / size.height
+            
+            // Figure out what our orientation is, and use that to form the rectangle
+            var newSize: CGSize
+            if(widthRatio > heightRatio) {
+                newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
+            } else {
+                newSize = CGSize(width: size.width * widthRatio,  height: size.height * widthRatio)
+            }
+            
+            // This is the rect that we've calculated out and this is what is actually used below
+            let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
+            
+            // Actually do the resizing to the rect using the ImageContext stuff
+            UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+            image?.draw(in: rect)
+            let newImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            
+            return newImage
         }
-        
-        // This is the rect that we've calculated out and this is what is actually used below
-        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
-        
-        // Actually do the resizing to the rect using the ImageContext stuff
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
-        image?.draw(in: rect)
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return newImage
+        return result
     }
     
     
@@ -869,17 +887,21 @@ class ImageManager {
             return nil
         }
         
-        let size = (image?.size.applying(CGAffineTransform(scaleX: widthRatio, y: heightRatio)))!
-        
-        let hasAlpha = false
-        let scale: CGFloat = 0.0 // Automatically use scale factor of main screen
-        
-        UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, scale)
-        image?.draw(in: CGRect(origin: CGPoint.zero, size: size))
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        
-        return newImage
+        let result = autoreleasepool { () -> UIImage? in
+            
+            let size = (image?.size.applying(CGAffineTransform(scaleX: widthRatio, y: heightRatio)))!
+            
+            let hasAlpha = false
+            let scale: CGFloat = 0.0 // Automatically use scale factor of main screen
+            
+            UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, scale)
+            image?.draw(in: CGRect(origin: CGPoint.zero, size: size))
+            let newImage = UIGraphicsGetImageFromCurrentImageContext()!
+            UIGraphicsEndImageContext()
+            
+            return newImage
+        }
+        return result
     }
     
     
@@ -890,19 +912,23 @@ class ImageManager {
             return nil
         }
         
-        let radians = CGFloat(degrees*Double.pi)/180.0 as CGFloat
-        let size = (image?.size)!
-        
-        UIGraphicsBeginImageContextWithOptions(size, false, 1.0)
-        let bitmap = UIGraphicsGetCurrentContext()
-        bitmap!.translateBy(x: size.width / 2, y: size.height / 2)
-        bitmap!.rotate(by: radians)
-        bitmap!.scaleBy(x: 1.0, y: -1.0)
-        let rect = CGRect(x:-size.width / 2, y:-size.height / 2, width:size.width, height:size.height)
-        bitmap!.draw((image?.cgImage)!, in: rect, byTiling: false)
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        
-        return newImage
+        let result = autoreleasepool { () -> UIImage? in
+            
+            let radians = CGFloat(degrees*Double.pi)/180.0 as CGFloat
+            let size = (image?.size)!
+            
+            UIGraphicsBeginImageContextWithOptions(size, false, 1.0)
+            let bitmap = UIGraphicsGetCurrentContext()
+            bitmap!.translateBy(x: size.width / 2, y: size.height / 2)
+            bitmap!.rotate(by: radians)
+            bitmap!.scaleBy(x: 1.0, y: -1.0)
+            let rect = CGRect(x:-size.width / 2, y:-size.height / 2, width:size.width, height:size.height)
+            bitmap!.draw((image?.cgImage)!, in: rect, byTiling: false)
+            let newImage = UIGraphicsGetImageFromCurrentImageContext()
+            
+            return newImage
+        }
+        return result
     }
     
     
@@ -913,61 +939,64 @@ class ImageManager {
             return nil
         }
         
-        
-        let contextSize: CGSize = (image?.size)!
-        var resized:UIImage?
-        
-        //Set to square
-        var posX: CGFloat = 0.0
-        var posY: CGFloat = 0.0
-        let cropAspect: CGFloat = to.width / to.height
-        
-        var cropWidth: CGFloat = to.width
-        var cropHeight: CGFloat = to.height
-        
-        if to.width > to.height { //Landscape
-            cropWidth = contextSize.width
-            cropHeight = contextSize.width / cropAspect
-            posY = (contextSize.height - cropHeight) / 2
-        } else if to.width < to.height { //Portrait
-            cropHeight = contextSize.height
-            cropWidth = contextSize.height * cropAspect
-            posX = (contextSize.width - cropWidth) / 2
-        } else { //Square
-            if contextSize.width >= contextSize.height { //Square on landscape (or square)
-                cropHeight = contextSize.height
-                cropWidth = contextSize.height * cropAspect
-                posX = (contextSize.width - cropWidth) / 2
-            }else{ //Square on portrait
+        let result = autoreleasepool { () -> UIImage? in
+            
+            let contextSize: CGSize = (image?.size)!
+            var resized:UIImage?
+            
+            //Set to square
+            var posX: CGFloat = 0.0
+            var posY: CGFloat = 0.0
+            let cropAspect: CGFloat = to.width / to.height
+            
+            var cropWidth: CGFloat = to.width
+            var cropHeight: CGFloat = to.height
+            
+            if to.width > to.height { //Landscape
                 cropWidth = contextSize.width
                 cropHeight = contextSize.width / cropAspect
                 posY = (contextSize.height - cropHeight) / 2
+            } else if to.width < to.height { //Portrait
+                cropHeight = contextSize.height
+                cropWidth = contextSize.height * cropAspect
+                posX = (contextSize.width - cropWidth) / 2
+            } else { //Square
+                if contextSize.width >= contextSize.height { //Square on landscape (or square)
+                    cropHeight = contextSize.height
+                    cropWidth = contextSize.height * cropAspect
+                    posX = (contextSize.width - cropWidth) / 2
+                }else{ //Square on portrait
+                    cropWidth = contextSize.width
+                    cropHeight = contextSize.width / cropAspect
+                    posY = (contextSize.height - cropHeight) / 2
+                }
             }
+            
+            let rect: CGRect = CGRect(x:posX, y:posY, width:cropWidth, height:cropHeight)
+            
+            // Create bitmap image from context using the rect
+            let inCGImage = (image?.cgImage)
+            if inCGImage != nil {
+                
+                let imageRef: CGImage = inCGImage!.cropping(to: rect)!
+                
+                // Create a new image based on the imageRef and rotate back to the original orientation
+                let cropped: UIImage = UIImage(cgImage: imageRef, scale: (image?.scale)!, orientation: (image?.imageOrientation)!)
+                
+                UIGraphicsBeginImageContextWithOptions(to, true, (image?.scale)!)
+                cropped.draw(in: CGRect(x:0, y:0, width:to.width, height:to.height))
+                resized = UIGraphicsGetImageFromCurrentImageContext()
+                UIGraphicsEndImageContext()
+                // could not get CGImage from CIImage, so try to re-create
+                
+            } else {
+                resized = image // what else?
+                log.error("Could not extract CGImage from UIImage")
+            }
+            
+            return resized
         }
-        
-        let rect: CGRect = CGRect(x:posX, y:posY, width:cropWidth, height:cropHeight)
-        
-        // Create bitmap image from context using the rect
-        let inCGImage = (image?.cgImage)
-        if inCGImage != nil {
-
-            let imageRef: CGImage = inCGImage!.cropping(to: rect)!
-            
-            // Create a new image based on the imageRef and rotate back to the original orientation
-            let cropped: UIImage = UIImage(cgImage: imageRef, scale: (image?.scale)!, orientation: (image?.imageOrientation)!)
-            
-            UIGraphicsBeginImageContextWithOptions(to, true, (image?.scale)!)
-            cropped.draw(in: CGRect(x:0, y:0, width:to.width, height:to.height))
-            resized = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            // could not get CGImage from CIImage, so try to re-create
-            
-        } else {
-            resized = image // what else?
-            log.error("Could not extract CGImage from UIImage")
-        }
-        
-        return resized
+        return result
     }
     
     

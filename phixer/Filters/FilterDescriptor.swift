@@ -177,7 +177,8 @@ class FilterDescriptor {
             // set up default params
             if (default_image == nil) {
                 //default_image = ImageManager.getCurrentSampleImage()
-                default_image = InputSource.getCurrentImage()
+                //default_image = InputSource.getCurrentImage()
+                default_image = EditManager.getPreviewImage()
                 if UIScreen.main.bounds.width > 1.0 {
                     default_rect = CIVector(cgRect: UIScreen.main.bounds)
                     //default_position = CIVector(cgPoint: CGPoint(x: UIScreen.main.bounds.width/2, y: UIScreen.main.bounds.height/2))
@@ -236,7 +237,7 @@ class FilterDescriptor {
         self.filter?.setValue(1.0, forKey: FilterDescriptor.lookupArgIntensity)
         
         // manually add the intensity parameter to the parameter list (so that it will be displayed)
-        let p = ParameterSettings(key: FilterDescriptor.presetArgIntensity, title: "intensity", min: 0.0, max: 1.0, value: 1.0, type: .float)
+        let p = ParameterSettings(key: FilterDescriptor.presetArgIntensity, title: "intensity", min: 0.0, max: 1.0, value: 0.8, type: .float)
         self.parameterConfiguration[FilterDescriptor.presetArgIntensity] = p
         self.numParameters += 1
     }

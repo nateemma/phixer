@@ -1,0 +1,211 @@
+{
+  "info": {
+    "group": "Blondies & Brunettes - Free Presets", 
+    "name": "Gwendolyn"
+  }, 
+  "filters": [
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 5889.0, 
+          "key": "inputTemperature"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 46.0, 
+          "key": "inputTint"
+        }
+      ], 
+      "key": "WhiteBalanceFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 1.0, 
+          "key": "inputContrast"
+        }
+      ], 
+      "key": "ContrastFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 1.0, 
+          "key": "inputSaturation"
+        }
+      ], 
+      "key": "SaturationFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.12222222222222222, 
+          "key": "inputHighlightHue"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.19, 
+          "key": "inputHighlightSaturation"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.35555555555555557, 
+          "key": "inputShadowHue"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.35, 
+          "key": "inputShadowSaturation"
+        }
+      ], 
+      "key": "SplitToningFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.25, 
+          "key": "inputAmount"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 1.0, 
+          "key": "inputRadius"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.4, 
+          "key": "inputThreshold"
+        }
+      ], 
+      "key": "UnsharpMaskFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputRedShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputOrangeShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputYellowShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputGreenShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputAquaShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.39, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputBlueShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputPurpleShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputMagentaShift"
+        }
+      ], 
+      "key": "MultiBandHSV"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.0, 
+            0.0
+          ], 
+          "key": "inputPoint0"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.25, 
+            0.21849674711061884
+          ], 
+          "key": "inputPoint1"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.5, 
+            0.4998332678553635
+          ], 
+          "key": "inputPoint2"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.75, 
+            0.7655402310016218
+          ], 
+          "key": "inputPoint3"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            1.0, 
+            1.0
+          ], 
+          "key": "inputPoint4"
+        }
+      ], 
+      "key": "CIToneCurve"
+    }
+  ], 
+  "key": "../phixer/Config/Presets/BlondiesBrunettes/Gwendolyn.json"
+}

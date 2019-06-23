@@ -55,13 +55,22 @@ class FilterDisplayView: UIView {
         super.layoutSubviews()
         
         log.debug("layout")
+        /***
         self.currImageInput = InputSource.getCurrentImage() // this can change
         renderView?.frame = self.frame
         renderView?.image = self.currImageInput
         renderView?.setImageSize(InputSource.getSize())
         renderView?.frame = self.frame
         renderView?.backgroundColor = theme.backgroundColor
-        
+        ***/
+        self.currImageInput = EditManager.getPreviewImage() // this can change
+        renderView?.frame = self.frame
+        renderView?.image = self.currImageInput
+        renderView?.setImageSize(EditManager.getImageSize())
+        renderView?.frame = self.frame
+        renderView?.backgroundColor = theme.backgroundColor
+
+
         self.addSubview(renderView!)
         renderView?.fillSuperview()
        // self.bringSubview(toFront: renderView!)
@@ -150,9 +159,11 @@ class FilterDisplayView: UIView {
                 log.debug("Running filter: \(self.currFilterKey)")
                 
                 //self.currImageInput = ImageManager.getCurrentSampleImage()!
-                self.currImageInput = InputSource.getCurrentImage()
-                self.renderView?.setImageSize(InputSource.getSize())
-                
+                //self.currImageInput = InputSource.getCurrentImage()
+                //self.renderView?.setImageSize(InputSource.getSize())
+                self.currImageInput = EditManager.getPreviewImage()
+                self.renderView?.setImageSize(EditManager.getImageSize())
+
                 // get current filter
                 //self.currFilterDescriptor = self.filterManager.getFilterDescriptor(key: self.currFilterKey)
                 

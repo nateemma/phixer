@@ -432,7 +432,9 @@ class FilterParametersView: UIView {
                             // distance is a special case of float, but represents a pixel-based value.
                             // If 0.0 or not set, then set it to half the shortest side of the image
                             slider = UISlider()
-                            let size = InputSource.getSize()
+                            //let size = InputSource.getSize()
+                            let size = EditManager.getImageSize()
+
                             slider?.minimumValue = 0.01
                             slider?.maximumValue = Float(max (size.width, size.height) / 2.0)
                             
@@ -530,7 +532,8 @@ class FilterParametersView: UIView {
                             }
                             // if position is not set, default to the middle of the image
                             if ((p?.x)! < CGFloat(0.01)) && ((p?.y)! < CGFloat(0.01)) { // approximately (0, 0)
-                                let size = InputSource.getSize()
+                                //let size = InputSource.getSize()
+                                let size = EditManager.getImageSize()
                                 p?.x = min (size.width, size.height) / 2
                                 p?.y = max (size.width, size.height) / 2
                                 self.currFilterDesc?.setPositionParameter(key, position: CIVector(cgPoint: p!))

@@ -3,6 +3,7 @@
 //  Filterpedia
 //
 //  Created by Simon Gladman on 20/01/2016.
+//  Modified by Phil Price, 06/22/19
 //  Copyright © 2016 Simon Gladman. All rights reserved.
 //
 //  This program is free software: you can redistribute it and/or modify
@@ -91,40 +92,52 @@ class RGBChannelCompositing: CIFilter
     }
 }
 
+
+
+
 /// `RGBChannelToneCurve` allows individual tone curves to be applied to each channel.
-/// The `x` values of each tone curve are locked to `[0.0, 0.25, 0.5, 0.75, 1.0]`, the
-/// supplied vector for each channel defines the `y` positions.
-///
-/// For example, if the `redValues` vector is `[0.2, 0.4, 0.6, 0.8, 0.9]`, the points
-/// passed to the `CIToneCurve` filter will be:
-/// ```
-/// [(0.0, 0.2), (0.25, 0.4), (0.5, 0.6), (0.75, 0.8), (1.0, 0.9)]
+/// The X (input intensity) and y (output intensity) are supplied the R, G and B channels
+/// If not specified, all curves default to linear tone curves
 /// ```
 class RGBChannelToneCurve: CIFilter {
     var inputImage: CIImage?
     
-    var inputRedValues = CIVector(values: [0.0, 0.25, 0.5, 0.75, 1.0], count: 5)
-    var inputGreenValues = CIVector(values: [0.0, 0.25, 0.5, 0.75, 1.0], count: 5)
-    var inputBlueValues = CIVector(values: [0.0, 0.25, 0.5, 0.75, 1.0], count: 5)
+    var inputRedXvalues = CIVector(values: [0.0, 0.25, 0.5, 0.75, 1.0], count: 5)
+    var inputGreenXvalues = CIVector(values: [0.0, 0.25, 0.5, 0.75, 1.0], count: 5)
+    var inputBlueXvalues = CIVector(values: [0.0, 0.25, 0.5, 0.75, 1.0], count: 5)
     
+    var inputRedYvalues = CIVector(values: [0.0, 0.25, 0.5, 0.75, 1.0], count: 5)
+    var inputGreenYvalues = CIVector(values: [0.0, 0.25, 0.5, 0.75, 1.0], count: 5)
+    var inputBlueYvalues = CIVector(values: [0.0, 0.25, 0.5, 0.75, 1.0], count: 5)
+
     let rgbChannelCompositing = RGBChannelCompositing()
     
     override func setDefaults() {
-        inputRedValues = CIVector(values: [0.0, 0.25, 0.5, 0.75, 1.0], count: 5)
-        inputGreenValues = CIVector(values: [0.0, 0.25, 0.5, 0.75, 1.0], count: 5)
-        inputBlueValues = CIVector(values: [0.0, 0.25, 0.5, 0.75, 1.0], count: 5)
+        inputRedXvalues = CIVector(values: [0.0, 0.25, 0.5, 0.75, 1.0], count: 5)
+        inputGreenXvalues = CIVector(values: [0.0, 0.25, 0.5, 0.75, 1.0], count: 5)
+        inputBlueXvalues = CIVector(values: [0.0, 0.25, 0.5, 0.75, 1.0], count: 5)
+        
+        inputRedYvalues = CIVector(values: [0.0, 0.25, 0.5, 0.75, 1.0], count: 5)
+        inputGreenYvalues = CIVector(values: [0.0, 0.25, 0.5, 0.75, 1.0], count: 5)
+        inputBlueYvalues = CIVector(values: [0.0, 0.25, 0.5, 0.75, 1.0], count: 5)
     }
     
     override func setValue(_ value: Any?, forKey key: String) {
         switch key {
         case "inputImage":
             inputImage = value as? CIImage
-        case "inputRedValues":
-            inputRedValues = value as! CIVector
-        case "inputGreenValues":
-            inputGreenValues = value as! CIVector
-        case "inputBlueValues":
-            inputBlueValues = value as! CIVector
+        case "inputRedXvalues":
+            inputRedXvalues = value as! CIVector
+        case "inputGreenXvalues":
+            inputGreenXvalues = value as! CIVector
+        case "inputBlueXvalues":
+            inputBlueXvalues = value as! CIVector
+        case "inputRedYvalues":
+            inputRedYvalues = value as! CIVector
+        case "inputGreenYvalues":
+            inputGreenYvalues = value as! CIVector
+        case "inputBlueYvalues":
+            inputBlueYvalues = value as! CIVector
         default:
             log.error("Invalid key: \(key)")
         }
@@ -140,26 +153,47 @@ class RGBChannelToneCurve: CIFilter {
                 kCIAttributeDisplayName: "Image",
                 kCIAttributeType: kCIAttributeTypeImage],
             
-            "inputRedValues": [kCIAttributeIdentity: 0,
-                kCIAttributeClass: "CIVector",
-                kCIAttributeDefault: CIVector(values: [0.0, 0.25, 0.5, 0.75, 1.0], count: 5),
-                kCIAttributeDisplayName: "Red 'y' Values",
-                kCIAttributeDescription: "Red tone curve 'y' values at 'x' positions [0.0, 0.25, 0.5, 0.75, 1.0].",
-                kCIAttributeType: kCIAttributeTypeOffset],
-
-            "inputGreenValues": [kCIAttributeIdentity: 0,
-                kCIAttributeClass: "CIVector",
-                kCIAttributeDefault: CIVector(values: [0.0, 0.25, 0.5, 0.75, 1.0], count: 5),
-                kCIAttributeDisplayName: "Green 'y' Values",
-                kCIAttributeDescription: "Green tone curve 'y' values at 'x' positions [0.0, 0.25, 0.5, 0.75, 1.0].",
-                kCIAttributeType: kCIAttributeTypeOffset],
+            "inputRedXvalues": [kCIAttributeIdentity: 0,
+                                kCIAttributeClass: "CIVector",
+                                kCIAttributeDefault: CIVector(values: [0.0, 0.25, 0.5, 0.75, 1.0], count: 5),
+                                kCIAttributeDisplayName: "Red 'x' values",
+                                kCIAttributeDescription: "Red tone curve 'x' values",
+                                kCIAttributeType: kCIAttributeTypeOffset],
             
-            "inputBlueValues": [kCIAttributeIdentity: 0,
-                kCIAttributeClass: "CIVector",
-                kCIAttributeDefault: CIVector(values: [0.0, 0.25, 0.5, 0.75, 1.0], count: 5),
-                kCIAttributeDisplayName: "Blue 'y' Values",
-                kCIAttributeDescription: "Blue tone curve 'y' values at 'x' positions [0.0, 0.25, 0.5, 0.75, 1.0].",
-                kCIAttributeType: kCIAttributeTypeOffset]
+            "inputRedYvalues": [kCIAttributeIdentity: 0,
+                                kCIAttributeClass: "CIVector",
+                                kCIAttributeDefault: CIVector(values: [0.0, 0.25, 0.5, 0.75, 1.0], count: 5),
+                                kCIAttributeDisplayName: "Red 'y' values",
+                                kCIAttributeDescription: "Red tone curve 'y' values",
+                                kCIAttributeType: kCIAttributeTypeOffset],
+
+            "inputGreenXvalues": [kCIAttributeIdentity: 0,
+                                  kCIAttributeClass: "CIVector",
+                                  kCIAttributeDefault: CIVector(values: [0.0, 0.25, 0.5, 0.75, 1.0], count: 5),
+                                  kCIAttributeDisplayName: "Green 'x' values",
+                                  kCIAttributeDescription: "Green tone curve 'x' values",
+                                  kCIAttributeType: kCIAttributeTypeOffset],
+
+            "inputGreenYvalues": [kCIAttributeIdentity: 0,
+                                  kCIAttributeClass: "CIVector",
+                                  kCIAttributeDefault: CIVector(values: [0.0, 0.25, 0.5, 0.75, 1.0], count: 5),
+                                  kCIAttributeDisplayName: "Green 'y' values",
+                                  kCIAttributeDescription: "Green tone curve 'y' values",
+                                  kCIAttributeType: kCIAttributeTypeOffset],
+
+            "inputBlueXvalues": [kCIAttributeIdentity: 0,
+                                 kCIAttributeClass: "CIVector",
+                                 kCIAttributeDefault: CIVector(values: [0.0, 0.25, 0.5, 0.75, 1.0], count: 5),
+                                 kCIAttributeDisplayName: "Blue 'x' values",
+                                 kCIAttributeDescription: "Blue tone curve 'x' values",
+                                 kCIAttributeType: kCIAttributeTypeOffset],
+
+            "inputBlueYvalues": [kCIAttributeIdentity: 0,
+                                 kCIAttributeClass: "CIVector",
+                                 kCIAttributeDefault: CIVector(values: [0.0, 0.25, 0.5, 0.75, 1.0], count: 5),
+                                 kCIAttributeDisplayName: "Blue 'y' values",
+                                 kCIAttributeDescription: "Blue tone curve 'y' values",
+                                 kCIAttributeType: kCIAttributeTypeOffset]
         ]
     }
     
@@ -167,32 +201,32 @@ class RGBChannelToneCurve: CIFilter {
         guard let inputImage = inputImage else {
             return nil
         }
-
+        
         let red = inputImage.applyingFilter("CIToneCurve",
                                             parameters: [
-                "inputPoint0": CIVector(x: 0.0, y: inputRedValues.value(at: 0)),
-                "inputPoint1": CIVector(x: 0.25, y: inputRedValues.value(at: 1)),
-                "inputPoint2": CIVector(x: 0.5, y: inputRedValues.value(at: 2)),
-                "inputPoint3": CIVector(x: 0.75, y: inputRedValues.value(at: 3)),
-                "inputPoint4": CIVector(x: 1.0, y: inputRedValues.value(at: 4))
+                                                "inputPoint0": CIVector(x: inputRedXvalues.value(at: 0), y: inputRedYvalues.value(at: 0)),
+                                                "inputPoint1": CIVector(x: inputRedXvalues.value(at: 1), y: inputRedYvalues.value(at: 1)),
+                                                "inputPoint2": CIVector(x: inputRedXvalues.value(at: 2), y: inputRedYvalues.value(at: 2)),
+                                                "inputPoint3": CIVector(x: inputRedXvalues.value(at: 3), y: inputRedYvalues.value(at: 3)),
+                                                "inputPoint4": CIVector(x: inputRedXvalues.value(at: 4), y: inputRedYvalues.value(at: 4))
             ])
         
         let green = inputImage.applyingFilter("CIToneCurve",
                                               parameters: [
-                                                "inputPoint0": CIVector(x: 0.0, y: inputGreenValues.value(at: 0)),
-                "inputPoint1": CIVector(x: 0.25, y: inputGreenValues.value(at: 1)),
-                "inputPoint2": CIVector(x: 0.5, y: inputGreenValues.value(at: 2)),
-                "inputPoint3": CIVector(x: 0.75, y: inputGreenValues.value(at: 3)),
-                "inputPoint4": CIVector(x: 1.0, y: inputGreenValues.value(at: 4))
+                                                "inputPoint0": CIVector(x: inputGreenXvalues.value(at: 0), y: inputGreenYvalues.value(at: 0)),
+                                                "inputPoint1": CIVector(x: inputGreenXvalues.value(at: 1), y: inputGreenYvalues.value(at: 1)),
+                                                "inputPoint2": CIVector(x: inputGreenXvalues.value(at: 2), y: inputGreenYvalues.value(at: 2)),
+                                                "inputPoint3": CIVector(x: inputGreenXvalues.value(at: 3), y: inputGreenYvalues.value(at: 3)),
+                                                "inputPoint4": CIVector(x: inputGreenXvalues.value(at: 4), y: inputGreenYvalues.value(at: 4))
             ])
         
         let blue = inputImage.applyingFilter("CIToneCurve",
                                              parameters: [
-                "inputPoint0": CIVector(x: 0.0, y: inputBlueValues.value(at: 0)),
-                "inputPoint1": CIVector(x: 0.25, y: inputBlueValues.value(at: 1)),
-                "inputPoint2": CIVector(x: 0.5, y: inputBlueValues.value(at: 2)),
-                "inputPoint3": CIVector(x: 0.75, y: inputBlueValues.value(at: 3)),
-                "inputPoint4": CIVector(x: 1.0, y: inputBlueValues.value(at: 4))
+                                                "inputPoint0": CIVector(x: inputBlueXvalues.value(at: 0), y: inputBlueYvalues.value(at: 0)),
+                                                "inputPoint1": CIVector(x: inputBlueXvalues.value(at: 1), y: inputBlueYvalues.value(at: 1)),
+                                                "inputPoint2": CIVector(x: inputBlueXvalues.value(at: 2), y: inputBlueYvalues.value(at: 2)),
+                                                "inputPoint3": CIVector(x: inputBlueXvalues.value(at: 3), y: inputBlueYvalues.value(at: 3)),
+                                                "inputPoint4": CIVector(x: inputBlueXvalues.value(at: 4), y: inputBlueYvalues.value(at: 4))
             ])
         
         rgbChannelCompositing.inputRedImage = red
@@ -202,6 +236,9 @@ class RGBChannelToneCurve: CIFilter {
         return rgbChannelCompositing.outputImage
     }
 }
+
+
+
 
 /// `RGBChannelBrightnessAndContrast` controls brightness & contrast per color channel
 

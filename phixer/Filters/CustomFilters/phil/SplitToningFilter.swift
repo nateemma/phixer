@@ -109,6 +109,12 @@ class SplitToningFilter: CIFilter {
             return nil
         }
         
+        // check that there is something to apply (some presets specify split toning with no values)
+        guard (abs(inputShadowHue) + abs(inputShadowSaturation) + abs(inputHighlightHue) + abs(inputHighlightSaturation)) > 0.001 else {
+            log.verbose("Null split toning. Ignoring")
+            return inputImage
+        }
+        
         // for now, apply CIFalseFilter and Screen Blend to emulate the effect
         //  TODO: combine these into a kernel so that we can take the luminace value of the source pixel
         

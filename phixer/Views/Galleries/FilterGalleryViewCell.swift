@@ -302,7 +302,9 @@ class FilterGalleryViewCell: UICollectionViewCell {
 
 
         log.debug("key: \(key) found in cache: \(ImageCache.contains(key: key))")
-        renderView?.setImageSize(InputSource.getSize())
+        //renderView?.setImageSize(InputSource.getSize())
+        renderView?.setImageSize(EditManager.getImageSize())
+
         //DispatchQueue.main.async(execute: { () -> Void in
             renderView?.image = self.descriptor?.apply(image: FilterGalleryViewCell.sample, image2: FilterGalleryViewCell.blend)
         //})

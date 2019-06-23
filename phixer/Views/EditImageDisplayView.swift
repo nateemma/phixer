@@ -46,7 +46,7 @@ class EditImageDisplayView: UIView {
     fileprivate var filterManager = FilterManager.sharedInstance
     
     
-    fileprivate var currInput:CIImage? = nil
+    //fileprivate var currInput:CIImage? = nil
     fileprivate var currBlendInput:CIImage? = nil
     
     fileprivate var currFilterKey:String = ""
@@ -87,8 +87,11 @@ class EditImageDisplayView: UIView {
         // this must come after sizing
         //renderView?.image = self.currInput
         // TODO: resize image based on view size (save memory)
-        renderView?.image = InputSource.getCurrentImage()
-        let imgSize = InputSource.getSize()
+        //renderView?.image = InputSource.getCurrentImage()
+        //let imgSize = InputSource.getSize()
+        
+        renderView?.image = EditManager.getPreviewImage()
+        let imgSize = EditManager.getImageSize()
         renderView?.setImageSize(imgSize)
         
         // must come after RenderView is initialised
@@ -117,8 +120,8 @@ class EditImageDisplayView: UIView {
             
             //EditManager.reset()
             //self.currInput = ImageManager.getCurrentEditImage()
-            self.currInput = InputSource.getCurrentImage()
-            EditManager.setInputImage(self.currInput)
+            //self.currInput = InputSource.getCurrentImage()
+            EditManager.setInputImage(InputSource.getCurrentImage())
 
             self.layoutDone = false
             initDone = true
@@ -154,6 +157,7 @@ class EditImageDisplayView: UIView {
     public func setFilter(key:String){
         //currFilterKey = filterManager.getCurrentFilter()
         if (!key.isEmpty){
+            let prevKey = currFilterKey
             currFilterKey = key
 
             renderView?.isScrollEnabled = false
@@ -163,6 +167,11 @@ class EditImageDisplayView: UIView {
             renderView?.centerImage()
             renderView?.setZoomScale(0.0, animated: false)
             renderView?.isScrollEnabled = true
+            
+            if (!prevKey.isEmpty) {
+                filterManager.releaseRenderView(key: prevKey)
+                filterManager.releaseFilterDescriptor(key: key)
+            }
 
         } else {
             log.error("Empty key specified")
@@ -326,8 +335,9 @@ class EditImageDisplayView: UIView {
         let imgOffset = renderView?.getImagePosition(viewPos: position).cgPointValue
         
         // adjust based on the image orientation. This assumes landscape images are rotated
-        let imgSize = InputSource.getSize()
-        
+        //let imgSize = InputSource.getSize()
+        let imgSize = EditManager.getImageSize()
+
         if imgOffset != nil {
             if imgSize.height > imgSize.width { // portrait
                 offset = (imgOffset?.x)!

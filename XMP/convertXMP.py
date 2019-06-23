@@ -98,6 +98,7 @@ def main():
     processVignette()
     processCalibration()
     
+    processRGBToneCurves()
     addToneCurve()
     
     processGrayscale() # do this last
@@ -186,7 +187,7 @@ def processAuto():
     elif xmp.does_property_exist(XMP_NS_CAMERA_RAW, "AutoShadows"):
         auto = True
     if auto:
-        filterMap["filters"].append( { 'key':"AutoAdjustFilter", "parameters":[{}] } )
+        filterMap["filters"].append( { 'key':"AutoAdjustFilter", "parameters":[] } )
         print ("...Auto Adjust")
 
 
@@ -213,7 +214,7 @@ def processWhiteBalance():
                                                                  } )
             print ("...Preset White Balance")
         elif preset == "Auto": # for Auto, just run auto correct
-            filterMap["filters"].append( { 'key':"AutoAdjustFilter", "parameters":[{}] } )
+            filterMap["filters"].append( { 'key':"AutoAdjustFilter", "parameters":[] } )
 
         elif preset == "Custom":
             temp = 5500.0
@@ -256,6 +257,7 @@ def processContrast():
             value = 1.0 + value * 0.75 / 50.0
         else:
             value = 1.0 + value * 3.0 / 100.0
+        value = clamp(value, 0.25, 4.0)
         if abs(value)>0.01:
             filterMap["filters"].append( { 'key':"ContrastFilter", "parameters":[{ 'key':"inputContrast", 'val': value, 'type': "CIAttributeTypeScalar"} ] } )
             print ("...Contrast")
@@ -265,6 +267,7 @@ def processContrast():
             value = 1.0 + value * 0.75 / 50.0
         else:
             value = 1.0 + value * 3.0 / 100.0
+        value = clamp(value, 0.25, 4.0)
         if abs(value)>0.01:
             filterMap["filters"].append( { 'key':"ContrastFilter", "parameters":[{ 'key':"inputContrast", 'val': value, 'type': "CIAttributeTypeScalar"} ] } )
             print ("...Contrast2012")
@@ -288,6 +291,9 @@ def processShadowsHighlights():
     # not quite sure how this works
     # for Black/White point, adjust the tone curve input value
     # for highlight/shadows, adjust output point, and treat as a percentage rather than an absoulte value
+    
+    # TODO: treat change as a %age of distance to max/min?
+    
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Blacks"):
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Blacks")
         if abs(value)>0.01:
@@ -562,8 +568,14 @@ def processToneCurve():
                 y2 = [100.0 * f / 255 for f in y]
                 spline = UnivariateSpline(x2, y2, s=0, k=min(5,(count-1)))
                 xcurve = [0.0, 25.0, 50.0, 75.0, 100.0]
+                tmp1 = 0.0
+                tmp2 = 0.0
                 for i in range(0, len(xcurve)):
-                    toneCurve[i] = [xcurve[i], clamp(spline(xcurve[i]), 0.0, 100.0)]
+                    tmp1 = clamp(spline(xcurve[i]), 0.0, 100.0)
+                    tmp2 = float(tmp1)
+                    if tmp2 < 0.001: # small numbers case issues with JSON
+                        tmp2 = 0.0
+                    toneCurve[i] = [xcurve[i], tmp2]
 
     if found:
         toneCurveChanged = True
@@ -578,14 +590,184 @@ def addToneCurve():
     global toneCurveChanged
     
     if toneCurveChanged:
-        filterMap["filters"].append( { 'key':"CIToneCurve", "parameters":[{ 'key':"inputPoint0", 'val': [(toneCurve[0][0]/100.0), (toneCurve[0][1]/100.0)], 'type': "CIAttributeTypeOffset"},
-                                                                          { 'key':"inputPoint1", 'val': [(toneCurve[1][0]/100.0), (toneCurve[1][1]/100.0)], 'type': "CIAttributeTypeOffset"},
-                                                                          { 'key':"inputPoint2", 'val': [(toneCurve[2][0]/100.0), (toneCurve[2][1]/100.0)], 'type': "CIAttributeTypeOffset"},
-                                                                          { 'key':"inputPoint3", 'val': [(toneCurve[3][0]/100.0), (toneCurve[3][1]/100.0)], 'type': "CIAttributeTypeOffset"},
-                                                                          { 'key':"inputPoint4", 'val': [(toneCurve[4][0]/100.0), (toneCurve[4][1]/100.0)], 'type': "CIAttributeTypeOffset"} ]
-                                  } )
+        filterMap["filters"].append( { 'key':"CIToneCurve",
+                                    "parameters":[{ 'key':"inputPoint0", 'val': [(toneCurve[0][0]/100.0), (toneCurve[0][1]/100.0)], 'type': "CIAttributeTypeOffset"},
+                                                  { 'key':"inputPoint1", 'val': [(toneCurve[1][0]/100.0), (toneCurve[1][1]/100.0)], 'type': "CIAttributeTypeOffset"},
+                                                  { 'key':"inputPoint2", 'val': [(toneCurve[2][0]/100.0), (toneCurve[2][1]/100.0)], 'type': "CIAttributeTypeOffset"},
+                                                  { 'key':"inputPoint3", 'val': [(toneCurve[3][0]/100.0), (toneCurve[3][1]/100.0)], 'type': "CIAttributeTypeOffset"},
+                                                  { 'key':"inputPoint4", 'val': [(toneCurve[4][0]/100.0), (toneCurve[4][1]/100.0)], 'type': "CIAttributeTypeOffset"} ]
+                                    } )
 
-    # print ("Curve: " + str(curve))
+        print ("Curve: " + str(toneCurve))
+
+
+
+#----------------------------
+
+def processRGBToneCurves():
+
+    # handles individual RGB Tone Curves
+
+    # Note: do *not* use global tone curve array
+
+    # default tone curves, split into X and Y vectors. Note the 0..1.0 scale
+    redX = [ 0.0, 0.25, 0.50, 0.75, 1.00 ]
+    redY = [ 0.0, 0.25, 0.50, 0.75, 1.00 ]
+    greenX = [ 0.0, 0.25, 0.50, 0.75, 1.00 ]
+    greenY = [ 0.0, 0.25, 0.50, 0.75, 1.00 ]
+    blueX = [ 0.0, 0.25, 0.50, 0.75, 1.00 ]
+    blueY = [ 0.0, 0.25, 0.50, 0.75, 1.00 ]
+
+    found = False
+    linearCount = 0
+    
+    # RED
+    curveName = ""
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ToneCurvePVRed"):
+        curveName = "ToneCurvePVRed"
+    elif xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ToneCurvePV2012Red"):
+        curveName = "ToneCurvePV2012Red"
+    
+    if len(curveName) > 0:
+        #found = True
+        count = xmp.count_array_items(XMP_NS_CAMERA_RAW, curveName)
+        if count > 0:
+            found = True
+            points = []
+            for i in range(1, (count+1)):
+                item = xmp.get_array_item(XMP_NS_CAMERA_RAW, curveName, i)
+                point = map(float, item.split(","))
+                points.append(point)
+            print("\nInput Red Curve: "+str(points)+"\n")
+            
+            # if we have exactly 5 points then we can use them directly, otherwise we need to interpolate to get those 5 points
+            if (count == 5):
+                x, y = zip(*points)
+                redY = [f / 255 for f in y]
+
+            elif (count <= 2):
+                print("WARN: too few points(" + str(count) + "). Using Linear Curve")
+                linearCount += 1
+            #elif (count <= 3):
+            else:
+                #print("Need to interpolate Tone Curve")
+                # split into 2 arrays, convert to 0..1.0 scale, create spline, interpolate and update the curve
+                x, y = zip(*points)
+                x2 = [f / 255 for f in x]
+                y2 = [f / 255 for f in y]
+                spline = UnivariateSpline(x2, y2, s=0, k=min(5,(count-1)))
+                tmp = 0.0
+                for i in range(0, len(redX)):
+                    tmp = clamp(spline(redX[i]), 0.0, 1.0)
+                    redY[i] = float(tmp)
+                    if redY[i] < 0.001: # small numbers case issues with JSON
+                        redY[i] = 0.0
+
+
+    # GREEN
+    curveName = ""
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ToneCurvePVGreen"):
+        curveName = "ToneCurvePVGreen"
+    elif xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ToneCurvePV2012Green"):
+        curveName = "ToneCurvePV2012Green"
+    
+    if len(curveName) > 0:
+        #found = True
+        count = xmp.count_array_items(XMP_NS_CAMERA_RAW, curveName)
+        if count > 0:
+            found = True
+            points = []
+            for i in range(1, (count+1)):
+                item = xmp.get_array_item(XMP_NS_CAMERA_RAW, curveName, i)
+                point = map(float, item.split(","))
+                points.append(point)
+            print("\nInput Green Curve: "+str(points)+"\n")
+            
+            # if we have exactly 5 points then we can use them directly, otherwise we need to interpolate to get those 5 points
+            if (count == 5):
+                x, y = zip(*points)
+                greenY = [f / 255 for f in y]
+
+            elif (count <= 2):
+                print("WARN: too few points(" + str(count) + "). Using Linear Curve")
+                linearCount += 1
+            #elif (count <= 3):
+            else:
+                #print("Need to interpolate Tone Curve")
+                # split into 2 arrays, convert to 0..1.0 scale, create spline, interpolate and update the curve
+                x, y = zip(*points)
+                x2 = [f / 255 for f in x]
+                y2 = [f / 255 for f in y]
+                spline = UnivariateSpline(x2, y2, s=0, k=min(5,(count-1)))
+                tmp = 0.0
+                for i in range(0, len(greenX)):
+                    tmp = clamp(spline(greenX[i]), 0.0, 1.0)
+                    greenY[i] = float(tmp)
+                    if greenY[i] < 0.001: # small numbers case issues with JSON
+                        greenY[i] = 0.0
+
+
+    # BLUE
+    curveName = ""
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ToneCurvePVBlue"):
+        curveName = "ToneCurvePVBlue"
+    elif xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ToneCurvePV2012Blue"):
+        curveName = "ToneCurvePV2012Blue"
+    
+    if len(curveName) > 0:
+        #found = True
+        count = xmp.count_array_items(XMP_NS_CAMERA_RAW, curveName)
+        if count > 0:
+            found = True
+            points = []
+            for i in range(1, (count+1)):
+                item = xmp.get_array_item(XMP_NS_CAMERA_RAW, curveName, i)
+                point = map(float, item.split(","))
+                points.append(point)
+            print("\nInput Blue Curve: "+str(points)+"\n")
+            
+            # if we have exactly 5 points then we can use them directly, otherwise we need to interpolate to get those 5 points
+            if (count == 5):
+                x, y = zip(*points)
+                blueY = [f / 255 for f in y]
+
+            elif (count <= 2):
+                print("WARN: too few points(" + str(count) + "). Using Linear Curve")
+                linearCount += 1
+            #elif (count <= 3):
+            else:
+                #print("Need to interpolate Tone Curve")
+                # split into 2 arrays, convert to 0..1.0 scale, create spline, interpolate and update the curve
+                x, y = zip(*points)
+                x2 = [f / 255 for f in x]
+                y2 = [f / 255 for f in y]
+                spline = UnivariateSpline(x2, y2, s=0, k=min(5,(count-1)))
+                tmp = 0.0
+                for i in range(0, len(blueX)):
+                    tmp = clamp(spline(blueX[i]), 0.0, 1.0)
+                    blueY[i] = float(tmp)
+                    if blueY[i] < 0.001: # small numbers case issues with JSON
+                        blueY[i] = 0.0
+
+
+
+    if linearCount == 3:
+        found = False
+        print("WARNING: ignoring RGB Tone Curve")
+
+    if found:
+        print("\nOutput Red Curve:\n    X:"+str(redX)+"\n    Y:"+str(redY))
+        print("\nOutput Green Curve:\n    X:"+str(greenX)+"\n    Y:"+str(greenY))
+        print("\nOutput Blue Curve:\n    X:"+str(blueX)+"\n    Y:"+str(blueY)+"\n")
+        filterMap["filters"].append( { 'key':"RGBChannelToneCurve",
+                                    "parameters":[{ 'key':"inputRedXvalues",   'val': redX, 'type': "CIAttributeTypeVector"},
+                                                  { 'key':"inputRedYvalues",   'val': redY, 'type': "CIAttributeTypeVector"},
+                                                  { 'key':"inputGreenXvalues", 'val': greenX, 'type': "CIAttributeTypeVector"},
+                                                  { 'key':"inputGreenYvalues", 'val': greenY, 'type': "CIAttributeTypeVector"},
+                                                  { 'key':"inputBlueXvalues",  'val': blueX, 'type': "CIAttributeTypeVector"},
+                                                  { 'key':"inputBlueYvalues",  'val': blueY, 'type': "CIAttributeTypeVector"} ]
+                                    } )
+        print ("...RGB Tone Curves")
 
 #----------------------------
 
@@ -667,7 +849,11 @@ def processSplitToning():
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "SplitToningShadowSaturation"):
         found = True
         shadowSaturation = xmp.get_property_float(XMP_NS_CAMERA_RAW, "SplitToningShadowSaturation") / 100.0
-    
+
+    if (abs(highlightHue) + abs(highlightSaturation) + abs(shadowHue) + abs(shadowSaturation)) < 0.001:
+        print("Ignoring Split Toning")
+        found = False
+
     if found:
         filterMap["filters"].append( { 'key':"SplitToningFilter", "parameters":[{ 'key':"inputHighlightHue", 'val': highlightHue, 'type': "CIAttributeTypeScalar"},
                                                                                 { 'key':"inputHighlightSaturation", 'val': highlightSaturation, 'type': "CIAttributeTypeScalar"},
@@ -829,7 +1015,7 @@ def processGrayscale():
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ConvertToGrayscale"):
         flag = xmp.get_property_bool(XMP_NS_CAMERA_RAW, "ConvertToGrayscale")
         if flag:
-            filterMap["filters"].append( { 'key':"CIPhotoEffectMono", "parameters":[{}] } )
+            filterMap["filters"].append( { 'key':"CIPhotoEffectMono", "parameters":[] } )
             print ("...ConvertToGrayscale")
 
 #----------------------------

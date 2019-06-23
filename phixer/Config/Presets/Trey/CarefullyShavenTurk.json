@@ -1,0 +1,335 @@
+{
+  "info": {
+    "group": "Trey's Lightroom Presets - Free Pack for OnOne", 
+    "name": "Carefully Shaven Turk"
+  }, 
+  "filters": [
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 1.45, 
+          "key": "inputEV"
+        }
+      ], 
+      "key": "CIExposureAdjust"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.73, 
+          "key": "inputContrast"
+        }
+      ], 
+      "key": "ContrastFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.36, 
+          "key": "inputClarity"
+        }
+      ], 
+      "key": "ClarityFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.27, 
+          "key": "inputAmount"
+        }
+      ], 
+      "key": "CIVibrance"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 1.0, 
+          "key": "inputSaturation"
+        }
+      ], 
+      "key": "SaturationFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.29, 
+            1.0
+          ], 
+          "key": "inputRedShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputOrangeShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputYellowShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputGreenShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            0.54
+          ], 
+          "key": "inputAquaShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            0.6699999999999999
+          ], 
+          "key": "inputBlueShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputPurpleShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputMagentaShift"
+        }
+      ], 
+      "key": "MultiBandHSV"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.0, 
+          "key": "inputHighlightHue"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.0, 
+          "key": "inputHighlightSaturation"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.16944444444444445, 
+          "key": "inputShadowHue"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.27, 
+          "key": "inputShadowSaturation"
+        }
+      ], 
+      "key": "SplitToningFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.34, 
+          "key": "inputSharpness"
+        }
+      ], 
+      "key": "CISharpenLuminance"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.42, 
+          "key": "inputAmount"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 1.0, 
+          "key": "inputRadius"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.4, 
+          "key": "inputThreshold"
+        }
+      ], 
+      "key": "UnsharpMaskFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypePosition", 
+          "val": [
+            0.0, 
+            0.0
+          ], 
+          "key": "inputCenter"
+        }, 
+        {
+          "type": "CIAttributeTypeDistance", 
+          "val": 0.0, 
+          "key": "inputRadius"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.07, 
+          "key": "inputIntensity"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.5, 
+          "key": "inputFalloff"
+        }
+      ], 
+      "key": "CIVignetteEffect"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeVector", 
+          "val": [
+            0.0, 
+            0.25, 
+            0.5, 
+            0.75, 
+            1.0
+          ], 
+          "key": "inputRedXvalues"
+        }, 
+        {
+          "type": "CIAttributeTypeVector", 
+          "val": [
+            0.0, 
+            0.25, 
+            0.5, 
+            0.75, 
+            1.0
+          ], 
+          "key": "inputRedYvalues"
+        }, 
+        {
+          "type": "CIAttributeTypeVector", 
+          "val": [
+            0.0, 
+            0.25, 
+            0.5, 
+            0.75, 
+            1.0
+          ], 
+          "key": "inputGreenXvalues"
+        }, 
+        {
+          "type": "CIAttributeTypeVector", 
+          "val": [
+            0.0, 
+            0.25, 
+            0.5, 
+            0.75, 
+            1.0
+          ], 
+          "key": "inputGreenYvalues"
+        }, 
+        {
+          "type": "CIAttributeTypeVector", 
+          "val": [
+            0.0, 
+            0.25, 
+            0.5, 
+            0.75, 
+            1.0
+          ], 
+          "key": "inputBlueXvalues"
+        }, 
+        {
+          "type": "CIAttributeTypeVector", 
+          "val": [
+            0.0, 
+            0.19616773930298517, 
+            0.4760658199182789, 
+            0.7702676904521166, 
+            1.0
+          ], 
+          "key": "inputBlueYvalues"
+        }
+      ], 
+      "key": "RGBChannelToneCurve"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.0, 
+            0.0
+          ], 
+          "key": "inputPoint0"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.25, 
+            0.25
+          ], 
+          "key": "inputPoint1"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.5, 
+            0.5
+          ], 
+          "key": "inputPoint2"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.75, 
+            0.75
+          ], 
+          "key": "inputPoint3"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            1.0, 
+            1.0
+          ], 
+          "key": "inputPoint4"
+        }
+      ], 
+      "key": "CIToneCurve"
+    }
+  ], 
+  "key": "../phixer/Config/Presets/Trey/CarefullyShavenTurk.json"
+}

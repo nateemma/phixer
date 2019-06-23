@@ -1,0 +1,354 @@
+{
+  "info": {
+    "group": "N Kodak Film Stocks", 
+    "name": "N - Kodak Portra 800"
+  }, 
+  "filters": [
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 1.0, 
+          "key": "inputContrast"
+        }
+      ], 
+      "key": "ContrastFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 1.05, 
+          "key": "inputSaturation"
+        }
+      ], 
+      "key": "SaturationFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.15, 
+            1.05, 
+            1.1
+          ], 
+          "key": "inputRedShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.05, 
+            1.0, 
+            1.05
+          ], 
+          "key": "inputOrangeShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            0.95, 
+            1.0
+          ], 
+          "key": "inputYellowShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.15, 
+            0.65, 
+            0.8
+          ], 
+          "key": "inputGreenShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.05, 
+            0.65, 
+            1.0
+          ], 
+          "key": "inputAquaShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            0.9, 
+            0.9
+          ], 
+          "key": "inputBlueShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.1, 
+            0.9, 
+            1.1
+          ], 
+          "key": "inputPurpleShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.1, 
+            1.05, 
+            1.1
+          ], 
+          "key": "inputMagentaShift"
+        }
+      ], 
+      "key": "MultiBandHSV"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.4722222222222222, 
+          "key": "inputHighlightHue"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.1, 
+          "key": "inputHighlightSaturation"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.0, 
+          "key": "inputShadowHue"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.0, 
+          "key": "inputShadowSaturation"
+        }
+      ], 
+      "key": "SplitToningFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.5, 
+          "key": "inputSharpness"
+        }
+      ], 
+      "key": "CISharpenLuminance"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.25, 
+          "key": "inputAmount"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 1.0, 
+          "key": "inputRadius"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.4, 
+          "key": "inputThreshold"
+        }
+      ], 
+      "key": "UnsharpMaskFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.05, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputRedShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputOrangeShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputYellowShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.05, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputGreenShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputAquaShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.95, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputBlueShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputPurpleShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputMagentaShift"
+        }
+      ], 
+      "key": "MultiBandHSV"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeVector", 
+          "val": [
+            0.0, 
+            0.25, 
+            0.5, 
+            0.75, 
+            1.0
+          ], 
+          "key": "inputRedXvalues"
+        }, 
+        {
+          "type": "CIAttributeTypeVector", 
+          "val": [
+            0.0, 
+            0.19363714488808823, 
+            0.5323008631336047, 
+            0.823065583880736, 
+            1.0
+          ], 
+          "key": "inputRedYvalues"
+        }, 
+        {
+          "type": "CIAttributeTypeVector", 
+          "val": [
+            0.0, 
+            0.25, 
+            0.5, 
+            0.75, 
+            1.0
+          ], 
+          "key": "inputGreenXvalues"
+        }, 
+        {
+          "type": "CIAttributeTypeVector", 
+          "val": [
+            0.0, 
+            0.17647058823529413, 
+            0.5098039215686274, 
+            0.7647058823529411, 
+            1.0
+          ], 
+          "key": "inputGreenYvalues"
+        }, 
+        {
+          "type": "CIAttributeTypeVector", 
+          "val": [
+            0.0, 
+            0.25, 
+            0.5, 
+            0.75, 
+            1.0
+          ], 
+          "key": "inputBlueXvalues"
+        }, 
+        {
+          "type": "CIAttributeTypeVector", 
+          "val": [
+            0.0, 
+            0.17647058823529413, 
+            0.5098039215686274, 
+            0.8431372549019608, 
+            1.0
+          ], 
+          "key": "inputBlueYvalues"
+        }
+      ], 
+      "key": "RGBChannelToneCurve"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.0, 
+            0.0392156862745098
+          ], 
+          "key": "inputPoint0"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.25, 
+            0.27941176470588236
+          ], 
+          "key": "inputPoint1"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.5, 
+            0.5196078431372549
+          ], 
+          "key": "inputPoint2"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.75, 
+            0.7598039215686275
+          ], 
+          "key": "inputPoint3"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            1.0, 
+            1.0
+          ], 
+          "key": "inputPoint4"
+        }
+      ], 
+      "key": "CIToneCurve"
+    }
+  ], 
+  "key": "../phixer/Config/Presets/AnalogFilm/KodakPortra800.json"
+}
