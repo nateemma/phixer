@@ -43,7 +43,7 @@ class FilterGalleryViewCell: UICollectionViewCell {
     
     // static vars (shared across all instances)
     fileprivate static var filterManager:FilterManager = FilterManager.sharedInstance
-    fileprivate static var sample:CIImage? = nil
+    //fileprivate static var sample:CIImage? = nil
     fileprivate static var blend:CIImage? = nil
 
     fileprivate var initDone:Bool = false
@@ -126,13 +126,16 @@ class FilterGalleryViewCell: UICollectionViewCell {
         //let size = (renderView?.frame.size)!
         let size = CGSize(width: (renderView?.frame.size.width)! * 6, height: (renderView?.frame.size.height)! * 6)
 
+        //TODO: get images from cache (already downsized and filtered)
+        
+        /***
         // downsize input images since we really only need thumbnails
         //sample = ImageManager.getCurrentSampleImage(size:size)
         if FilterGalleryViewCell.sample == nil {
-            //FilterGalleryViewCell.sample = InputSource.getCurrentImage()?.resize(size: size)
             FilterGalleryViewCell.sample = EditManager.getPreviewImage()?.resize(size: size)
             FilterGalleryViewCell.blend = ImageManager.getCurrentBlendImage(size:size)
         }
+        ***/
     }
     
     
@@ -154,18 +157,21 @@ class FilterGalleryViewCell: UICollectionViewCell {
         DispatchQueue.main.async(execute: { () -> Void in
             //log.debug("index:\(index), key:\(key)")
             self.cellIndex = index
-            
+    
             // allocate the RenderView
             self.renderView = FilterGalleryViewCell.filterManager.getRenderView(key: key)
-            //self.renderView = renderView
-            //self.renderView?.setImageSize(InputSource.getSize())
-            //self.renderView?.image = FilterGalleryViewCell.sample
 
+            /***
+            //FilterGalleryViewCell.sample = ImageCache.get(key: key)
+            
             // re-size the contents to match the cell
             self.renderView.frame = frame
+            self.renderView.image = ImageCache.get(key: key)
+             ***/
             
             // get the descriptor and setup adornments etc. accordingly
             self.descriptor = FilterGalleryViewCell.filterManager.getFilterDescriptor(key: key)
+
             
             //self.renderContainer.label.text = descriptor?.key
             //self.label.text = key
@@ -286,27 +292,30 @@ class FilterGalleryViewCell: UICollectionViewCell {
         
         self.descriptor = FilterGalleryViewCell.filterManager.getFilterDescriptor(key: key)
  
+        /***
         if (FilterGalleryViewCell.sample == nil){
             loadInputs()
         }
-        
+        **/
         
         //TODO: start rendering in an asynch queue
         //TODO: render to UIImage, no need for RenderView since image is static
         
-        guard (FilterGalleryViewCell.sample != nil) else {
-            log.error("Could not load sample image")
-            return
-        }
+       // guard (FilterGalleryViewCell.sample != nil) else {
+       //     log.error("Could not load sample image")
+        //    return
+        //}
 
 
 
         log.debug("key: \(key) found in cache: \(ImageCache.contains(key: key))")
         //renderView?.setImageSize(InputSource.getSize())
         renderView?.setImageSize(EditManager.getImageSize())
+        renderView?.image = ImageCache.get(key: key)
+
 
         //DispatchQueue.main.async(execute: { () -> Void in
-            renderView?.image = self.descriptor?.apply(image: FilterGalleryViewCell.sample, image2: FilterGalleryViewCell.blend)
+            //renderView?.image = self.descriptor?.apply(image: FilterGalleryViewCell.sample, image2: FilterGalleryViewCell.blend)
         //})
 
 

@@ -239,10 +239,12 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     }
     
     open func setCategory(_ category:String){
-        if (currCategory == category) { log.warning("Warning: category was already set to: \(category). Check logic") }
-        
-        // clear the previous cached items (if any)
-        releaseResources()
+        if (currCategory != category) {
+            // clear the previous cached items (if any)
+            releaseResources()
+       } else {
+            log.warning("Warning: category was already set to: \(category). Check logic")
+        }
         
         log.debug("Category: \(category)")
         currCategory = category
@@ -303,12 +305,19 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     // MARK: - Image cache
     ////////////////////////////////////////////
 
+    fileprivate  var cacheLoaded:Bool = false
+
     // asynchronusly loads filtered images into the image cache
     private func loadCache(){
         guard inputImage != nil else {
             log.error("Attempt to load cache before data is loaded")
             return
         }
+        
+        guard cacheLoaded != true else { // not an error
+            return
+        }
+        
         
         if (self.filterList.count > 0){
             
@@ -325,9 +334,9 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
             DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + delay) { [weak self] in
                 if self != nil {
                     log.verbose("running filters in background...")
-                    for key in self?.filterList ?? [] {
+                   for key in self?.filterList ?? [] {
                         // update each image separately on the background queue to allow main queue to run
-                        DispatchQueue.global(qos: .background).async {
+                        //DispatchQueue.global(qos: .background).async {
                             //DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.2) {
                             //let renderview = self.filterManager.getRenderView(key: key) // this caches the RenderView
                             let descriptor = self?.filterManager.getFilterDescriptor(key: key)
@@ -337,11 +346,15 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
                                         self?.blend = ImageManager.getCurrentBlendImage()
                                     }
                                 }
-                                let image = descriptor?.apply(image:self?.inputImage, image2: self?.blend)
+                                //let image = descriptor?.apply(image:self?.inputImage, image2: self?.blend)
+                                var image = ImageCache.get(key: key)
+                                image = descriptor?.apply(image:self?.inputImage, image2: self?.blend)
                                 if image != nil {
                                     ImageCache.add(image, key: key)
                                     // update on main thread (needs to do some layout that we can't do in the background)
-                                    DispatchQueue.main.async(execute: { self?.reloadImage(key:key) })
+                                    DispatchQueue.main.async(execute: { [weak self] in
+                                        self?.reloadImage(key:key)
+                                    })
                                 } else {
                                     log.error("Filter returned nil")
                                 }
@@ -350,8 +363,12 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
                             }
                             if self?.filterList.last == key {
                                 log.verbose("... done running filters")
-                            }
-                        }
+                                self?.cacheLoaded = true
+//                                DispatchQueue.main.async(execute: { [weak self] in
+//                                    self?.update()
+//                                })
+                           }
+                        //}
                     }
                 } else {
                     log.error("SELF not defined")
@@ -368,7 +385,8 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
                 ImageCache.remove(key: key)
             }
         }
-    }
+        cacheLoaded = false
+   }
     
     
     // releaes the resources that we used for the gallery items
@@ -380,6 +398,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
                 RenderViewCache.remove(key: key)
                 FilterDescriptorCache.remove(key: key)
             }
+            cacheLoaded = false
         }
     }
 
@@ -522,7 +541,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
             return
         }
         
-        loadInputs(size:(renderview?.frame.size)!)
+        //loadInputs(size:(renderview?.frame.size)!)
         
         guard (inputImage != nil) else {
             log.error("Could not load inputImage image")
