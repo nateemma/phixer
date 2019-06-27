@@ -122,7 +122,7 @@ class SplitToningFilter: CIFilter {
         // Values are the result of playing around. Value/Brightness is low because that's what Lightroom/Photoshop seem to use
 
         let color1 = CIColor(h: inputShadowHue, s: inputShadowSaturation, v: 0.3, alpha:0.5)
-        let color2 = CIColor(h: inputHighlightHue, s: inputHighlightSaturation, v: 0.3, alpha:0.5)
+        let color2 = CIColor(h: inputHighlightHue, s: inputHighlightSaturation, v: 0.9, alpha:0.5)
         //log.verbose("CIColor1: \(color1), CIColor2: \(color2)")
 
         // DBG: UIColor much more user friendly, so check colour conversion with that
@@ -133,12 +133,12 @@ class SplitToningFilter: CIFilter {
         let falseImg = inputImage.applyingFilter("CIFalseColor", parameters: ["inputColor0": color1, "inputColor1": color2])
 
         //let screenImg = falseImg.applyingFilter("CIScreenBlendMode", parameters: ["inputBackgroundImage": inputImage])
-        //let screenImg = falseImg.applyingFilter("CIColorBlendMode", parameters: ["inputBackgroundImage": inputImage])
-        let screenImg = falseImg.applyingFilter("CIHueBlendMode", parameters: ["inputBackgroundImage": inputImage])
+        let screenImg = falseImg.applyingFilter("CIColorBlendMode", parameters: ["inputBackgroundImage": inputImage])
+        //let screenImg = falseImg.applyingFilter("CIHueBlendMode", parameters: ["inputBackgroundImage": inputImage])
         return screenImg
         
         //return screenImg.applyingFilter("CIHueBlendMode", parameters: ["inputBackgroundImage": inputImage])
-        return screenImg.applyingFilter("CIColorBlendMode", parameters: ["inputBackgroundImage": inputImage])
+        //return screenImg.applyingFilter("CIColorBlendMode", parameters: ["inputBackgroundImage": inputImage])
         //return falseImg.applyingFilter("CIColorBlendMode", parameters: ["inputBackgroundImage": inputImage])
         //return falseImg.applyingFilter("CIHueBlendMode", parameters: ["inputBackgroundImage": inputImage])
         //return screenImg.applyingFilter("CIHueBlendMode", parameters: ["inputBackgroundImage": inputImage])

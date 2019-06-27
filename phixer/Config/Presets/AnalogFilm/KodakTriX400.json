@@ -8,7 +8,7 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 1.0, 
+          "val": 1.03, 
           "key": "inputContrast"
         }
       ], 

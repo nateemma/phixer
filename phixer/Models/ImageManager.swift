@@ -704,6 +704,7 @@ class ImageManager {
                     /***/
                     PHImageManager.default().requestImageData(for: asset!, options: options, resultHandler: { data, _, _, _ in
                         image = data.flatMap { UIImage(data: $0) }
+                        //data?.removeAll()
                     })
                     /***/
                     
@@ -717,16 +718,20 @@ class ImageManager {
                     log.error("Invalid asset: \(assetID)")
                 }
             } else {
-                // not a managed asset, load via 'regular' method
+                // not a managed asset (e.g. could be an image in the app bundle), load via 'regular' method
                 image = UIImage(named:assetID)
             }
             
             //return image
             // OK, don't know why, but the orientation is lost when retrieving, so force it to be always up. This is how everything is displayed anyway, but it's still a hack
             if image != nil {
-                return forceUpOrientation(img: image!)!
+                var tmp = image
+                image = forceUpOrientation(img: tmp!)!
+                tmp = nil
+                return image
             } else {
                 log.error("Error loading asset: \(assetID)")
+                image = nil
                 return nil
             }
         }
@@ -744,10 +749,10 @@ class ImageManager {
             
             tsize = size
             if (tsize.width < 0.01) || (tsize.height < 0.01) {
-                tsize = UIScreen.main.bounds.size
                 // set to screen resolution, don't know what other size to use
-                tsize.width = UIScreen.main.bounds.size.width * UIScreen.main.scale
-                tsize.height = UIScreen.main.bounds.size.height * UIScreen.main.scale
+                tsize = UISettings.screenResolution
+                //tsize.width = UIScreen.main.bounds.size.width * UIScreen.main.scale
+                //tsize.height = UIScreen.main.bounds.size.height * UIScreen.main.scale
             }
             log.debug("tsize: \(tsize)")
             

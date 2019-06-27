@@ -128,6 +128,7 @@ class PresetFilter: CIFilter {
                                } else {
                                     vec = CIVector(values: farray, count: farray.count)
                                 }
+                                //log.verbose("...arg: \(p["key"]) farray:\(farray) val:\(vec) type:\(p["type"])")
                                 log.verbose("...arg: \(p["key"]) val:\(vec) type:\(p["type"])")
                                 filter?.setValue(vec, forKey: pkey)
                             case .position:

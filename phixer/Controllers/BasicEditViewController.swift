@@ -90,7 +90,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     
     // handle update of the UI
     override func updateDisplays() {
-        log.verbose("updating")
+        //log.verbose("updating")
         DispatchQueue.main.async { [weak self] in
             self?.editImageView.updateImage()
             self?.filterParametersView.update()

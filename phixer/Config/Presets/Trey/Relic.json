@@ -33,7 +33,7 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 2.2, 
+          "val": 1.066, 
           "key": "inputContrast"
         }
       ], 
@@ -107,6 +107,55 @@
     {
       "parameters": [
         {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.0, 
+            0.0
+          ], 
+          "key": "inputPoint0"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.25, 
+            0.1726026807765791
+          ], 
+          "key": "inputPoint1"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.5, 
+            0.45236438603934026
+          ], 
+          "key": "inputPoint2"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.75, 
+            0.7825666345450801
+          ], 
+          "key": "inputPoint3"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            1.0, 
+            1.0
+          ], 
+          "key": "inputPoint4"
+        }
+      ], 
+      "key": "CIToneCurve"
+    }, 
+    {
+      "parameters": [], 
+      "key": "CIPhotoEffectMono"
+    }, 
+    {
+      "parameters": [
+        {
           "type": "CIAttributeTypePosition", 
           "val": [
             0.0, 
@@ -131,55 +180,6 @@
         }
       ], 
       "key": "CIVignetteEffect"
-    }, 
-    {
-      "parameters": [
-        {
-          "type": "CIAttributeTypeOffset", 
-          "val": [
-            0.0, 
-            0.0
-          ], 
-          "key": "inputPoint0"
-        }, 
-        {
-          "type": "CIAttributeTypeOffset", 
-          "val": [
-            0.25, 
-            0.47
-          ], 
-          "key": "inputPoint1"
-        }, 
-        {
-          "type": "CIAttributeTypeOffset", 
-          "val": [
-            0.5, 
-            1.16
-          ], 
-          "key": "inputPoint2"
-        }, 
-        {
-          "type": "CIAttributeTypeOffset", 
-          "val": [
-            0.75, 
-            1.0
-          ], 
-          "key": "inputPoint3"
-        }, 
-        {
-          "type": "CIAttributeTypeOffset", 
-          "val": [
-            2.55, 
-            1.0
-          ], 
-          "key": "inputPoint4"
-        }
-      ], 
-      "key": "CIToneCurve"
-    }, 
-    {
-      "parameters": [], 
-      "key": "CIPhotoEffectMono"
     }
   ], 
   "key": "../phixer/Config/Presets/Trey/Relic.json"

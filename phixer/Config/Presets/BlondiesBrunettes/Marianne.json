@@ -33,6 +33,16 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
+          "val": 1.03, 
+          "key": "inputContrast"
+        }
+      ], 
+      "key": "ContrastFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
           "val": 1.0, 
           "key": "inputSaturation"
         }
@@ -87,9 +97,54 @@
     {
       "parameters": [
         {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.0, 
+            0.0
+          ], 
+          "key": "inputPoint0"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.25, 
+            0.25
+          ], 
+          "key": "inputPoint1"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.5, 
+            0.5
+          ], 
+          "key": "inputPoint2"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.75, 
+            0.75
+          ], 
+          "key": "inputPoint3"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            1.0, 
+            1.0
+          ], 
+          "key": "inputPoint4"
+        }
+      ], 
+      "key": "CIToneCurve"
+    }, 
+    {
+      "parameters": [
+        {
           "type": "CIAttributeTypePosition3", 
           "val": [
-            0.14, 
+            -0.1075, 
             1.0, 
             1.0
           ], 
@@ -134,7 +189,7 @@
         {
           "type": "CIAttributeTypePosition3", 
           "val": [
-            0.29, 
+            0.03625, 
             1.0, 
             1.0
           ], 
@@ -160,51 +215,6 @@
         }
       ], 
       "key": "MultiBandHSV"
-    }, 
-    {
-      "parameters": [
-        {
-          "type": "CIAttributeTypeOffset", 
-          "val": [
-            0.0, 
-            0.0
-          ], 
-          "key": "inputPoint0"
-        }, 
-        {
-          "type": "CIAttributeTypeOffset", 
-          "val": [
-            0.25, 
-            0.25
-          ], 
-          "key": "inputPoint1"
-        }, 
-        {
-          "type": "CIAttributeTypeOffset", 
-          "val": [
-            0.5, 
-            0.5
-          ], 
-          "key": "inputPoint2"
-        }, 
-        {
-          "type": "CIAttributeTypeOffset", 
-          "val": [
-            0.75, 
-            0.75
-          ], 
-          "key": "inputPoint3"
-        }, 
-        {
-          "type": "CIAttributeTypeOffset", 
-          "val": [
-            1.0, 
-            1.0
-          ], 
-          "key": "inputPoint4"
-        }
-      ], 
-      "key": "CIToneCurve"
     }
   ], 
   "key": "../phixer/Config/Presets/BlondiesBrunettes/Marianne.json"

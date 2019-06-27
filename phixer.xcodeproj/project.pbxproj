@@ -56,6 +56,7 @@
 		250C5F9A22BFFB1A00DE0DDF /* FujiVelvia50.json in Resources */ = {isa = PBXBuildFile; fileRef = 250C5F7122BFFB1A00DE0DDF /* FujiVelvia50.json */; };
 		250C5F9B22BFFB1A00DE0DDF /* KodakTriX400.json in Resources */ = {isa = PBXBuildFile; fileRef = 250C5F7222BFFB1A00DE0DDF /* KodakTriX400.json */; };
 		250C5F9C22BFFB1A00DE0DDF /* Fuji400H.json in Resources */ = {isa = PBXBuildFile; fileRef = 250C5F7322BFFB1A00DE0DDF /* Fuji400H.json */; };
+		250C5F9F22C26C4400DE0DDF /* Test00.json in Resources */ = {isa = PBXBuildFile; fileRef = 250C5F9E22C26C4400DE0DDF /* Test00.json */; };
 		251375511DB6AD6200A319DC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 251375501DB6AD6200A319DC /* GoogleService-Info.plist */; };
 		2515987E2193CD490067AA00 /* LumaRangeFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2515987D2193CD490067AA00 /* LumaRangeFilter.swift */; };
 		251598802194B97E0067AA00 /* ClarityFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2515987F2194B97E0067AA00 /* ClarityFilter.swift */; };
@@ -995,6 +996,7 @@
 		250C5F7122BFFB1A00DE0DDF /* FujiVelvia50.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = FujiVelvia50.json; sourceTree = "<group>"; };
 		250C5F7222BFFB1A00DE0DDF /* KodakTriX400.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = KodakTriX400.json; sourceTree = "<group>"; };
 		250C5F7322BFFB1A00DE0DDF /* Fuji400H.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Fuji400H.json; sourceTree = "<group>"; };
+		250C5F9E22C26C4400DE0DDF /* Test00.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Test00.json; sourceTree = "<group>"; };
 		251375501DB6AD6200A319DC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2515987D2193CD490067AA00 /* LumaRangeFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LumaRangeFilter.swift; sourceTree = "<group>"; };
 		2515987F2194B97E0067AA00 /* ClarityFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClarityFilter.swift; sourceTree = "<group>"; };
@@ -1962,9 +1964,10 @@
 		250C5F0222B863B200DE0DDF /* Presets */ = {
 			isa = PBXGroup;
 			children = (
+				250C5F6922BFFB1A00DE0DDF /* AnalogFilm */,
 				250C5F5D22BFFB1A00DE0DDF /* BlondiesBrunettes */,
 				250C5F5222BFFB1A00DE0DDF /* F-StopUrban */,
-				250C5F6922BFFB1A00DE0DDF /* AnalogFilm */,
+				250C5F9D22C26BC300DE0DDF /* Test */,
 				250C5F4722BFFB1A00DE0DDF /* Trey */,
 			);
 			path = Presets;
@@ -1973,16 +1976,16 @@
 		250C5F4722BFFB1A00DE0DDF /* Trey */ = {
 			isa = PBXGroup;
 			children = (
-				250C5F4822BFFB1A00DE0DDF /* Relic.json */,
-				250C5F4922BFFB1A00DE0DDF /* OnRecreationalDrugs.json */,
-				250C5F4A22BFFB1A00DE0DDF /* TurkishBlast.json */,
-				250C5F4B22BFFB1A00DE0DDF /* CarefullyShavenTurk.json */,
-				250C5F4C22BFFB1A00DE0DDF /* SteampunkAfternoon.json */,
-				250C5F4D22BFFB1A00DE0DDF /* ThankHeavenForLittleGirls.json */,
-				250C5F4E22BFFB1A00DE0DDF /* SundayAloneTime.json */,
-				250C5F4F22BFFB1A00DE0DDF /* Navigator.json */,
 				250C5F5022BFFB1A00DE0DDF /* BeautifulRelease.json */,
+				250C5F4B22BFFB1A00DE0DDF /* CarefullyShavenTurk.json */,
 				250C5F5122BFFB1A00DE0DDF /* MarshmallowHappysmell.json */,
+				250C5F4F22BFFB1A00DE0DDF /* Navigator.json */,
+				250C5F4922BFFB1A00DE0DDF /* OnRecreationalDrugs.json */,
+				250C5F4822BFFB1A00DE0DDF /* Relic.json */,
+				250C5F4C22BFFB1A00DE0DDF /* SteampunkAfternoon.json */,
+				250C5F4E22BFFB1A00DE0DDF /* SundayAloneTime.json */,
+				250C5F4D22BFFB1A00DE0DDF /* ThankHeavenForLittleGirls.json */,
+				250C5F4A22BFFB1A00DE0DDF /* TurkishBlast.json */,
 			);
 			path = Trey;
 			sourceTree = "<group>";
@@ -2037,6 +2040,14 @@
 				250C5F7322BFFB1A00DE0DDF /* Fuji400H.json */,
 			);
 			path = AnalogFilm;
+			sourceTree = "<group>";
+		};
+		250C5F9D22C26BC300DE0DDF /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				250C5F9E22C26C4400DE0DDF /* Test00.json */,
+			);
+			path = Test;
 			sourceTree = "<group>";
 		};
 		25172972217B821C00D5E946 /* phil */ = {
@@ -3413,6 +3424,7 @@
 				252B0E0B1E30690F005A0C2D /* ur_002_grunge_bw.jpg in Resources */,
 				252B0EDF1E30690F005A0C2D /* fx_018_ink_1.jpg in Resources */,
 				252B0E901E30690F005A0C2D /* mo_042_contrast_desat_3.jpg in Resources */,
+				250C5F9F22C26C4400DE0DDF /* Test00.json in Resources */,
 				252B0EF01E30690F005A0C2D /* fd_09h_wash_warm_faded.jpg in Resources */,
 				2537A1F121E2EDBF00060DBE /* tx_pencil_2.jpg in Resources */,
 				252B0DBD1E30690E005A0C2D /* xp_014_another.jpg in Resources */,

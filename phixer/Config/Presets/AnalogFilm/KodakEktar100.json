@@ -8,7 +8,7 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 1.0, 
+          "val": 1.03, 
           "key": "inputContrast"
         }
       ], 
@@ -23,83 +23,6 @@
         }
       ], 
       "key": "SaturationFilter"
-    }, 
-    {
-      "parameters": [
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            0.9, 
-            0.9
-          ], 
-          "key": "inputRedShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.05, 
-            0.95
-          ], 
-          "key": "inputOrangeShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.0, 
-            1.1
-          ], 
-          "key": "inputYellowShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.01, 
-            0.8, 
-            1.0
-          ], 
-          "key": "inputGreenShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            0.8, 
-            1.1
-          ], 
-          "key": "inputAquaShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            0.85, 
-            1.0
-          ], 
-          "key": "inputBlueShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.1, 
-            0.55, 
-            1.05
-          ], 
-          "key": "inputPurpleShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.15, 
-            0.6, 
-            1.05
-          ], 
-          "key": "inputMagentaShift"
-        }
-      ], 
-      "key": "MultiBandHSV"
     }, 
     {
       "parameters": [
@@ -120,83 +43,6 @@
         }
       ], 
       "key": "UnsharpMaskFilter"
-    }, 
-    {
-      "parameters": [
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.3, 
-            1.05, 
-            1.0
-          ], 
-          "key": "inputRedShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.0, 
-            1.0
-          ], 
-          "key": "inputOrangeShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.0, 
-            1.0
-          ], 
-          "key": "inputYellowShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.55, 
-            1.05, 
-            1.0
-          ], 
-          "key": "inputGreenShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.0, 
-            1.0
-          ], 
-          "key": "inputAquaShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.95, 
-            0.9, 
-            1.0
-          ], 
-          "key": "inputBlueShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.0, 
-            1.0
-          ], 
-          "key": "inputPurpleShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.0, 
-            1.0
-          ], 
-          "key": "inputMagentaShift"
-        }
-      ], 
-      "key": "MultiBandHSV"
     }, 
     {
       "parameters": [
@@ -313,6 +159,83 @@
         }
       ], 
       "key": "CIToneCurve"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0375, 
+            0.8500000000000001, 
+            1.0
+          ], 
+          "key": "inputRedShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputOrangeShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.1, 
+            1.0
+          ], 
+          "key": "inputYellowShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.07, 
+            0.8500000000000001, 
+            1.0
+          ], 
+          "key": "inputGreenShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            0.9, 
+            1.0
+          ], 
+          "key": "inputAquaShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            -0.00625, 
+            0.75, 
+            1.0
+          ], 
+          "key": "inputBlueShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0125, 
+            0.6000000000000001, 
+            1.0
+          ], 
+          "key": "inputPurpleShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.01875, 
+            0.65, 
+            1.0
+          ], 
+          "key": "inputMagentaShift"
+        }
+      ], 
+      "key": "MultiBandHSV"
     }
   ], 
   "key": "../phixer/Config/Presets/AnalogFilm/KodakEktar100.json"

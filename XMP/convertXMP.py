@@ -31,9 +31,48 @@ xmp = XMPMeta()
 # map holding the various filter parameters
 filterMap = {}
 
+# there are several ways to change the tone curve, so make it global and have each method build on any previous changes
+# default is a linear tomne curve:
+toneCurve = [ [0.0, 0.0], [25.0, 25.0], [50.0, 50.0], [75.0, 75.0], [100.0, 100.0]]
+
 # flag to indicate that ToneCurve shoud be added (modified by several different processes)
 toneCurveChanged = False
 
+
+'''
+    red = UIColor(red: 0.901961, green: 0.270588, blue: 0.270588, alpha: 1) hsv: [0.0, 0.7, 0.886806]
+    orange = UIColor(red: 0.901961, green: 0.584314, blue: 0.270588, alpha: 1) hsv: [30.0/360.0, 0.7, 0.886806]
+    yellow = UIColor(red: 0.901961, green: 0.901961, blue: 0.270588, alpha: 1) hsv: [60.0/360.0, 0.7, 0.901961]
+    green = UIColor(red: 0.270588, green: 0.901961, blue: 0.270588, alpha: 1) hsv: [120.0/360.0, 0.7, 0.901961]
+    aqua = UIColor(red: 0.270588, green: 0.901961, blue: 0.901961, alpha: 1) hsv: [180.0/360.0, 0.7, 0.901961]
+    blue = UIColor(red: 0.270588, green: 0.270588, blue: 0.901961, alpha: 1) hsv: [240.0/360.0, 0.7, 0.901961]
+    purple = UIColor(red: 0.584314, green: 0.270588, blue: 0.901961, alpha: 1) hsv: [270.0/360.0, 0.7, 0.901961]
+    magenta = UIColor(red: 0.901961, green: 0.270588, blue: 0.901961, alpha: 1) hsv: [300.0/360.0, 0.7, 0.901961]
+'''
+
+# the set of reference colours
+refColour = {"red": [0.0, 0.7, 0.886806], "orange": [0.083333, 0.7, 0.901961], "yellow": [0.166666, 0.7, 0.901961], "green": [0.333333, 0.7, 0.901961],
+             "aqua": [0.5, 0.7, 0.901961], "blue": [0.666666, 0.7, 0.901961], "purple": [0.75, 0.7, 0.901961], "magenta": [0.833333, 0.7, 0.901961] }
+'''
+# the HSV colour vectors. This can change
+colourVectors = {"red": [0.0, 0.7, 0.886806], "orange": [0.083333, 0.7, 0.901961], "yellow": [0.166666, 0.7, 0.901961], "green": [0.333333, 0.7, 0.901961],
+                 "aqua": [0.5, 0.7, 0.901961], "blue": [0.666666, 0.7, 0.901961], "purple": [0.75, 0.7, 0.901961], "magenta": [0.833333, 0.7, 0.901961] }
+'''
+'''
+colourVectors = {"red": [0.0, 0.7, 0.886806], "orange": [0.0, 0.7, 0.901961], "yellow": [0.0, 0.7, 0.901961], "green": [0.0, 0.7, 0.901961],
+    "aqua": [0.0, 0.7, 0.901961], "blue": [0.0, 0.7, 0.901961], "purple": [0.0, 0.7, 0.901961], "magenta": [0.0, 0.7, 0.901961] }
+'''
+
+# 'no-op' values - 0 degree hue shift and 1x multipliers for saturation and value
+colourVectors = {"red": [0.0,1.0,1.0], "orange": [0.0,1.0,1.0], "yellow": [0.0,1.0,1.0], "green": [0.0,1.0,1.0],
+    "aqua": [0.0,1.0,1.0], "blue": [0.0,1.0,1.0], "purple": [0.0,1.0,1.0], "magenta": [0.0,1.0,1.0] }
+
+
+# flag inficating that colour vectors have been modified
+coloursChanged = False
+
+# width of a colour band (used for calculating hue changes)
+hueWidth = (360.0 / 8.0) / 100.0
 
 '''
     Note that the format of a preset setup is similar the syntax used in the phixer config file (without the UI stuff).
@@ -52,10 +91,6 @@ toneCurveChanged = False
 
     Also note that we use an array (rather than a dictionary) for the list of filters so that we can maintain the order of the filters
 '''
-
-# there are several ways to change the tone curve, so make it global and have each method build on any previous changes
-# default is a linear tomne curve:
-toneCurve = [ [0.0, 0.0], [25.0, 25.0], [50.0, 50.0], [75.0, 75.0], [100.0, 100.0]]
 
 #----------------------------
 
@@ -95,13 +130,15 @@ def main():
     processHSV()
     processSplitToning()
     processSharpening()
-    processVignette()
     processCalibration()
-    
     processRGBToneCurves()
-    addToneCurve()
     
+    addToneCurve()
+    addHSV()
+    
+    # process these last
     processGrayscale() # do this last
+    processVignette()
 
     # print the final preset
     #printPreset()
@@ -250,28 +287,49 @@ def processExposure():
 #----------------------------
 
 def processContrast():
+    
+    global toneCurve
+    global toneCurveChanged
+
+    minClarity = 1.0
+    found = False
     # keys: Contrast or Contrast2012. Range -50..+100 -> 0.25..4.0
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Contrast"):
+        found = True
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Contrast")
         if (value<0.0):
             value = 1.0 + value * 0.75 / 50.0
         else:
             value = 1.0 + value * 3.0 / 100.0
-        value = clamp(value, 0.25, 4.0)
+        if (value < minClarity):
+            print ("WARNING: Contrast too low, setting to: "+str(minClarity))
+        value = clamp(value, minClarity, 4.0)
         if abs(value)>0.01:
             filterMap["filters"].append( { 'key':"ContrastFilter", "parameters":[{ 'key':"inputContrast", 'val': value, 'type': "CIAttributeTypeScalar"} ] } )
             print ("...Contrast")
     elif xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Contrast2012"):
+        found = True
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Contrast2012")
         if (value<0.0):
             value = 1.0 + value * 0.75 / 50.0
         else:
             value = 1.0 + value * 3.0 / 100.0
-        value = clamp(value, 0.25, 4.0)
-        if abs(value)>0.01:
-            filterMap["filters"].append( { 'key':"ContrastFilter", "parameters":[{ 'key':"inputContrast", 'val': value, 'type': "CIAttributeTypeScalar"} ] } )
-            print ("...Contrast2012")
+        if (value < minClarity):
+            print ("WARNING: Contrast too low, setting to: "+str(minClarity))
+        value = clamp(value, minClarity, 4.0)
+        print ("...Contrast2012")
 
+    if found and abs(value)>0.001:
+        # if the value is +ve we can use the built in Contrast Filter
+        if value>=0.0:
+            value = 1.0 + value * 3.0 / 100.0 # 0..100 -> 1..4
+            value = clamp(value, minClarity, 4.0)
+            filterMap["filters"].append( { 'key':"ContrastFilter", "parameters":[{ 'key':"inputContrast", 'val': value, 'type': "CIAttributeTypeScalar"} ] } )
+        else:
+            # -ve contrast, the built in filter sucks with this, so adjust the tone curve instead
+            shadowVal = toneCurve[1][1] * (1.0 + value/100.0)
+            toneCurve[1][1] = clamp (shadowVal, 1.0, 99.0 )
+            toneCurveChanged = True
 
 #----------------------------
 
@@ -288,89 +346,72 @@ def processShadowsHighlights():
     # look for specific settings of each point and apply them on top of the current curve
     # if the value is (approx) 0 then just ignore it
     
-    # not quite sure how this works
-    # for Black/White point, adjust the tone curve input value
-    # for highlight/shadows, adjust output point, and treat as a percentage rather than an absoulte value
+    # not quite sure how this works, e.g what does +100 mean?
     
-    # TODO: treat change as a %age of distance to max/min?
-    
+    b = 0.0
+    w = 0.0
+    s = 0.0
+    h = 0.0
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Blacks"):
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Blacks")
         if abs(value)>0.01:
             found = True
-            value = toneCurve[1][0] * value / 100.0
-            toneCurve[0][0] = clamp ((toneCurve[0][0] - value), 0.0, toneCurve[1][0] - 1.0 )
-            #toneCurve[0][1] = clamp ((toneCurve[0][1] + value), 0.0, 100.0 )
+            b = calculateCurveChange(toneCurve[0][1], value, 100.0)
+            toneCurve[0][1] = b
     elif xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Blacks2012"):
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Blacks2012")
         if abs(value)>0.01:
             found = True
-            value = toneCurve[1][0] * value / 100.0
-            toneCurve[0][0] = clamp ((toneCurve[0][0] - value), 0.0, toneCurve[1][0] - 1.0 )
-            #toneCurve[0][1] = clamp ((toneCurve[0][1] + value), 0.0, 100.0 )
+            b = calculateCurveChange(toneCurve[0][1], value, 100.0)
+            toneCurve[0][1] = b
 
 
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Whites"):
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Whites")
         if abs(value)>0.01:
             found = True
-            toneCurve[4][0] = clamp ((toneCurve[4][0] + value), toneCurve[3][0]+1.0, 100.0)
-            #toneCurve[4][1] = clamp ((toneCurve[0][1] + value), 0.0, 100.0 )
+            w = calculateCurveChange(toneCurve[4][1], value, 100.0)
+            toneCurve[4][1] = w
     elif xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Whites2012"):
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Whites2012")
         if abs(value)>0.01:
             found = True
-            toneCurve[4][0] = clamp ((toneCurve[4][0] + value), toneCurve[3][0]+1.0, 100.0)
-            #toneCurve[4][1] = clamp ((toneCurve[0][1] + value), 0.0, 100.0 )
+            w = calculateCurveChange(toneCurve[4][1], value, 100.0)
+            toneCurve[4][1] = w
 
-    '''
+
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Shadows"):
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Shadows")
         if abs(value)>0.01:
             found = True
-            if value < 0.0:
-                value = toneCurve[1][1] * value / 100.0
-            else:
-                value = (100.0 - toneCurve[1][1]) * value / 100.0
-            #toneCurve[1][0] = clamp ((toneCurve[1][0] - value), toneCurve[0][0] + 0.01, toneCurve[2][0] - 0.01)
-            toneCurve[1][1] = clamp ((toneCurve[1][1] + value), 1.0, 99.0 )
+            s = calculateCurveChange(toneCurve[1][1], value, 100.0)
+            toneCurve[1][1] = s
     elif xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Shadows2012"):
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Shadows2012")
         if abs(value)>0.01:
             found = True
-            if value < 0.0:
-                value = toneCurve[1][1] * value / 100.0
-            else:
-                value = (100.0 - toneCurve[1][1]) * value / 100.0
-            #toneCurve[1][0] = clamp ((toneCurve[0][0] - value), toneCurve[0][0] + 0.01, toneCurve[2][0] - 0.01)
-            toneCurve[1][1] = clamp ((toneCurve[1][1] + value), 1.0, 99.0 )
+            s = calculateCurveChange(toneCurve[1][1], value, 100.0)
+            toneCurve[1][1] = s
 
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Highlights"):
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Highlights")
         if abs(value)>0.01:
             found = True
-            if value < 0.0:
-                value = toneCurve[3][1] * value / 100.0
-            else:
-                value = (100.0 - toneCurve[3][1]) * value / 100.0
-            #toneCurve[3][0] = clamp ((toneCurve[3][0] - value), toneCurve[2][0] + 0.01, toneCurve[4][0] - 0.01)
-            toneCurve[3][1] = clamp ((toneCurve[3][1] + value), 1.0, 99.0 )
+            h = calculateCurveChange(toneCurve[3][1], value, 100.0)
+            toneCurve[3][1] = h
     elif xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Highlights2012"):
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Highlights2012")
         if abs(value)>0.01:
             found = True
-            if value < 0.0:
-                value = toneCurve[3][1] * value / 100.0
-            else:
-                value = (100.0 - toneCurve[3][1]) * value / 100.0
-            #toneCurve[3][0] = clamp ((toneCurve[3][0] - value), toneCurve[2][0], toneCurve[4][0])
-            toneCurve[3][1] = clamp ((toneCurve[3][1] + value), 1.0, 99.0 )
-    '''
-    
+            h = calculateCurveChange(toneCurve[3][1], value, 100.0)
+            toneCurve[3][1] = h
+
     if found:
         toneCurveChanged = True
         #addToneCurve()
-        print ("...Blacks/Whites")
+        print("Blacks: " + str(b) + " Shadows:" +str(s) + " Highlights:" + str(h) + " Whites:" + str(w))
+        print ("...Blacks/Shadows/Highlights/Whites")
+'''
 
     # try the HighlightShadows filter instead of adjusting the tone curve
     found2 = False
@@ -405,7 +446,7 @@ def processShadowsHighlights():
                                                                                       { 'key':"inputHighlightAmount", 'val': h, 'type': "CIAttributeTypeScalar"}
                                                                                       ] } )
         print ("...Shadows/Highlights")
-
+    '''
 
 #----------------------------
 
@@ -438,9 +479,10 @@ def processVibrance():
 #----------------------------
 
 def processSaturation():
-    # key: Saturation. Range -100..+100 -> 0.0..+2.0
+    # key: Saturation. Range -100..+100 -> 0.0..+2.0 (1.0 is neutral)
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Saturation"):
         value = (xmp.get_property_float(XMP_NS_CAMERA_RAW, "Saturation") / 100.0) + 1.0
+        value = clamp(value, 0.0, 2.0)
         if abs(value)>0.01:
             filterMap["filters"].append( { 'key':"SaturationFilter", "parameters":[{ 'key':"inputSaturation", 'val': value, 'type': "CIAttributeTypeScalar"} ] } )
             print ("...Saturation")
@@ -479,7 +521,7 @@ def processParametricCurve():
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricShadows"):
         found = True
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricShadows")
-        toneCurve[1][1] = clamp ((toneCurve[1][1] + value), 0.0, 100.0)
+        toneCurve[1][1] = calculateCurveChange(toneCurve[1][1], value, 100.0)
 
 
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricMidtoneSplit"):
@@ -496,12 +538,13 @@ def processParametricCurve():
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricHighlights"):
         found = True
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricHighlights")
-        toneCurve[3][1] = clamp ((toneCurve[3][1] + value), 0.0, 100.0)
+        toneCurve[3][1] = calculateCurveChange(toneCurve[3][1], value, 100.0)
+
 
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricLights"):
         found = True
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricLights")
-        toneCurve[4][1] = clamp ((toneCurve[4][1]+ value), 0.0, 100.0)
+        toneCurve[4][1] = calculateCurveChange(toneCurve[4][1], value, 100.0)
 
 
     if found:
@@ -552,12 +595,10 @@ def processToneCurve():
                 item = xmp.get_array_item(XMP_NS_CAMERA_RAW, curveName, i)
                 point = map(float, item.split(","))
                 points.append(point)
-            #print("\nPoints: "+str(points)+"\n")
+            print("\Input Curve: "+str(points)+"\n")
 
-            # if we have exactly 5 points then we can use them directly, otherwise we need to interpolate to get those 5 points
-            if (count == 5):
-                toneCurve = points
-            elif (count <2):
+            # if 2 or less points then ignore (linear anyway), otherwise interpolate
+            if (count <2):
                 print("ERROR: too few points(" + count + ")")
             #elif (count <= 3):
             else:
@@ -567,19 +608,19 @@ def processToneCurve():
                 x2 = [100.0 * f / 255 for f in x]
                 y2 = [100.0 * f / 255 for f in y]
                 spline = UnivariateSpline(x2, y2, s=0, k=min(5,(count-1)))
-                xcurve = [0.0, 25.0, 50.0, 75.0, 100.0]
+                xcurve = [ 0.0, 25.0, 50.0, 75.0, 100.0 ]
                 tmp1 = 0.0
                 tmp2 = 0.0
                 for i in range(0, len(xcurve)):
                     tmp1 = clamp(spline(xcurve[i]), 0.0, 100.0)
                     tmp2 = float(tmp1)
-                    if tmp2 < 0.001: # small numbers case issues with JSON
+                    if tmp2 < 0.001: # small numbers cause issues with JSON
                         tmp2 = 0.0
                     toneCurve[i] = [xcurve[i], tmp2]
 
     if found:
         toneCurveChanged = True
-        #addToneCurve()
+        print ("Curve: " + str(toneCurve))
         print ("...Tone Curve")
 
 #----------------------------
@@ -772,44 +813,196 @@ def processRGBToneCurves():
 #----------------------------
 
 def processHSV():
+    
+    global colourVectors
+    global coloursChanged
+    
     '''
         vector is [hue, saturation, brightness]
         range of input is -100..+100
         range of output is 0.0..+1.0
         attribute type CIAttributeTypePosition3 (CIVector)
         '''
-    # set up default vectors
-    colourVectors = {"red": [0.0,1.0,1.0], "orange": [0.0,1.0,1.0], "yellow": [0.0,1.0,1.0], "green": [0.0,1.0,1.0],
-                     "aqua": [0.0,1.0,1.0], "blue": [0.0,1.0,1.0], "purple": [0.0,1.0,1.0], "magenta": [0.0,1.0,1.0] }
     
     # update colour vectors
     found = False
     sum = 0.0 # check to see if anything changed
     for key in colourVectors.keys():
+        h = 0.0
+        s = 0.0
+        v = 0.0
         tag = key.capitalize()
         if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "HueAdjustment"+tag):
             found = True
-            # Hue is a little different in that 0 represents no shift and the value 'wraps' rather than clamps
             h = xmp.get_property_float(XMP_NS_CAMERA_RAW, "HueAdjustment"+tag)
-            value = colourVectors[key][0] + h / 100.0
+
             sum = sum + abs(h)
-            if value < 0.0:
-                value = 1.0 + value
-            colourVectors[key][0] = value
+            if abs(h)>0.01:
+                #value = colourVectors[key][0] * (1.0 + h / 100.0)
+                #value = (h / 100.0) * hueWidth
+                value = (h / 100.0) / 8.0 # treat as a %age of the colour band
+                #value = 1.0 + value
+                colourVectors[key][0] = colourVectors[key][0] + value
         if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "SaturationAdjustment"+tag):
             found = True
             s = xmp.get_property_float(XMP_NS_CAMERA_RAW, "SaturationAdjustment"+tag)
-            value = colourVectors[key][1] + s / 100.0
+            if abs(s)>0.01:
+                value = (s / 100.0) # treat as a %age change
+                colourVectors[key][1] = colourVectors[key][1] + value
+                #colourVectors[key][1] = calculateCurveChange(colourVectors[key][1], value, 1.0)
             sum = sum + abs(s)
-            colourVectors[key][1] = value
         if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "LuminanceAdjustment"+tag):
             found = True
             v = xmp.get_property_float(XMP_NS_CAMERA_RAW, "LuminanceAdjustment"+tag)
-            value = colourVectors[key][2] + v / 100.0
+            if abs(v)>0.01:
+                value = (v / 100.0) # treat as a %age change
+                colourVectors[key][1] = colourVectors[key][1] + value
+            #colourVectors[key][2] = calculateCurveChange(colourVectors[key][2], value, 1.0)
             sum = sum + abs(v)
-            colourVectors[key][2] = value
+        
+        # if hue, saturation and value are all 0 then set to noop values [0, 1, 1]
+        if (abs(h) + abs(s) + abs(v)) < 0.01:
+            colourVectors[key] = [0.0, 1.0, 1.0]
+
+        print (str(tag) + ": h:" + str(h) + ": s:" + str(s) + ": v:" + str(v))
+
+    if found:
+        if (sum > 0.01): # check that something was specified, not all 0s
+            coloursChanged = True
+            print ("...HSV")
+            print ("Colours: " + str(colourVectors) + "\n")
+        else:
+            print ("Ignoring HSV")
+
+
+
+#----------------------------
+
+def processCalibration():
+    # This is an 'older' way to change hue and saturation. Range is -100..+100 and represents % change
+    
+    
+    global colourVectors
+    global coloursChanged
+    
+    found = False
+    
+    # update colour vectors
+    found = False
+    sum = 0.0 # check to see if anything changed
+    h = 0.0
+    s = 1.0
+    v = 1.0
+
+    for key in ["red", "green", "blue"]:
+        tag = key.capitalize()
+        if xmp.does_property_exist(XMP_NS_CAMERA_RAW, tag+"Hue"):
+            found = True
+            h = xmp.get_property_float(XMP_NS_CAMERA_RAW, tag+"Hue")
+            sum = sum + abs(h)
+            if abs(h)>0.01:
+                print(tag+" Hue: "+str(h))
+                # if noop values in use([0, 1, 1]), then replace with reference colour
+                #if (approxEqual(colourVectors[key][0],0.0) and approxEqual(colourVectors[key][1],1.0) and approxEqual(colourVectors[key][2],1.0)):
+                #    colourVectors[key] = refColour[key]
+                #value = (h / 100.0) * hueWidth # treat as a %age of the hue band (not the entire hue range)
+                value = (h / 100.0)  / 8.0 # treat as a %age of the colour band
+                #value = colourVectors[key][0] + value
+                colourVectors[key][0] = colourVectors[key][0] + value
+        if xmp.does_property_exist(XMP_NS_CAMERA_RAW, tag+"Saturation"):
+            found = True
+            s = xmp.get_property_float(XMP_NS_CAMERA_RAW, tag+"Saturation")
+            sum = sum + abs(s)
+            if abs(s)>0.01:
+                print(tag+" Sat: "+str(s))
+                # if noop values in use([0, 1, 1]), then replace with reference colour
+                #if (approxEqual(colourVectors[key][0],0.0) and approxEqual(colourVectors[key][1],1.0) and approxEqual(colourVectors[key][2],1.0)):
+                #    colourVectors[key] = refColour[key]
+                value = s / 100.0
+                colourVectors[key][1] = colourVectors[key][1] + value
+                #colourVectors[key][1] = calculateCurveChange(colourVectors[key][1], value, 1.0)
 
     if found and (sum > 0.01):
+        coloursChanged = True
+        print ("Colours: " + str(colourVectors) + "\n")
+        print ("...Calibration")
+
+'''
+    # yes, I know I could compress this, but it was an easy cut & paste and I was lazy
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "RedHue"):
+        found = True
+        # Hue is a little different in that 0 represents no shift and the value 'wraps' rather than clamps
+        h = xmp.get_property_float(XMP_NS_CAMERA_RAW, "RedHue")
+        #value = colourVectors["red"][0] * (1.0 + h / 100.0)
+        value = (h / 100.0) * hueWidth
+        sum = sum + abs(h)
+        #if value < 0.0:
+        #    value = 1.0 + value
+        if abs(h)>0.01:
+            print("Red Hue: "+str(h))
+            value = colourVectors["red"][0] + value
+            colourVectors["red"][0] = clamp(value, 0.0, 1.0)
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "RedSaturation"):
+        found = True
+        s = xmp.get_property_float(XMP_NS_CAMERA_RAW, "RedSaturation")
+        if abs(s)>0.01:
+            print("Red Sat: "+str(s))
+            value = colourVectors["red"][0] + value
+            colourVectors["red"][1] = calculateCurveChange(colourVectors["red"][1], value, 1.0)
+        sum = sum + abs(s)
+    
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "GreenHue"):
+        found = True
+        # Hue is a little different in that 0 represents no shift and the value 'wraps' rather than clamps
+        h = xmp.get_property_float(XMP_NS_CAMERA_RAW, "GreenHue")
+        #value = colourVectors["green"][0] * (1.0 + h / 100.0)
+        value = (h / 100.0) * hueWidth
+        sum = sum + abs(h)
+        #if value < 0.0:
+        #    value = 1.0 + value
+        if abs(h)>0.01:
+            print("Green Hue: "+str(h))
+            value = colourVectors["red"][0] + value
+            colourVectors["green"][0] = clamp(value, 0.0, 1.0)
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "GreenSaturation"):
+        found = True
+        s = xmp.get_property_float(XMP_NS_CAMERA_RAW, "GreenSaturation")
+        if abs(s)>0.01:
+            print("green Sat: "+str(s))
+            value = colourVectors["green"][0] + value
+            colourVectors["green"][1] = calculateCurveChange(colourVectors["green"][1], value, 1.0)
+            colourVectors["green"][1] = clamp(value, 0.0, 1.0)
+        sum = sum + abs(s)
+    
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "BlueHue"):
+        found = True
+        # Hue is a little different in that 0 represents no shift and the value 'wraps' rather than clamps
+        h = xmp.get_property_float(XMP_NS_CAMERA_RAW, "BlueHue")
+        #value = colourVectors["blue"][0] * (1.0 + h / 100.0)
+        value = (h / 100.0) * hueWidth
+        sum = sum + abs(h)
+        #if value < 0.0:
+        #    value = 1.0 + value
+        if abs(h)>0.01:
+            print("Blue Hue: "+str(h))
+            value = colourVectors["red"][0] + value
+            colourVectors["blue"][0] = clamp(value, 0.0, 1.0)
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "BlueSaturation"):
+        found = True
+        s = xmp.get_property_float(XMP_NS_CAMERA_RAW, "BlueSaturation")
+        if abs(s)>0.01:
+            print("Blue Sat: "+str(s))
+            value = colourVectors["blue"][0] + value
+            colourVectors["blue"][1] = calculateCurveChange(colourVectors["blue"][1], value, 1.0)
+            colourVectors["blue"][1] = clamp(value, 0.0, 1.0)
+        sum = sum + abs(s)
+'''
+    
+
+#----------------------------
+
+def addHSV():
+    if coloursChanged:
         filterMap["filters"].append( { 'key':"MultiBandHSV", "parameters":[{ 'key':"inputRedShift", 'val': colourVectors["red"], 'type': "CIAttributeTypePosition3"},
                                                                            { 'key':"inputOrangeShift", 'val': colourVectors["orange"], 'type': "CIAttributeTypePosition3"},
                                                                            { 'key':"inputYellowShift", 'val': colourVectors["yellow"], 'type': "CIAttributeTypePosition3"},
@@ -819,9 +1012,7 @@ def processHSV():
                                                                            { 'key':"inputPurpleShift", 'val': colourVectors["purple"], 'type': "CIAttributeTypePosition3"},
                                                                            { 'key':"inputMagentaShift", 'val': colourVectors["magenta"], 'type': "CIAttributeTypePosition3"} ]
                                     } )
-
-        print ("...HSV")
-        #print ("\nvectors: " + str(colourVectors) + "\n")
+        print ("Colours: " + str(colourVectors) + "\n")
 
 #----------------------------
 
@@ -855,6 +1046,8 @@ def processSplitToning():
         found = False
 
     if found:
+        # TODO: bump up the saturation???
+        
         filterMap["filters"].append( { 'key':"SplitToningFilter", "parameters":[{ 'key':"inputHighlightHue", 'val': highlightHue, 'type': "CIAttributeTypeScalar"},
                                                                                 { 'key':"inputHighlightSaturation", 'val': highlightSaturation, 'type': "CIAttributeTypeScalar"},
                                                                                 { 'key':"inputShadowHue", 'val': shadowHue, 'type': "CIAttributeTypeScalar"},
@@ -870,6 +1063,7 @@ def processSharpening():
     # general sharpening, use Luminosity Sharpening
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Sharpness"):
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Sharpness") / 50.0
+        value = clamp(value, 0.0, 2.0)
         if abs(value)>0.01:
             filterMap["filters"].append( { 'key':"CISharpenLuminance", "parameters":[{ 'key':"inputSharpness", 'val': value, 'type': "CIAttributeTypeScalar"} ] } )
             print ("...Sharpening")
@@ -936,81 +1130,6 @@ def processVignette():
 
 #----------------------------
 
-def processCalibration():
-    # This is an 'older' way to change hue and saturation. Range is -100..+100 and represents % change
-
-    found = False
-
-    # set up default vectors
-    colourVectors = {"red": [0.0,1.0,1.0], "orange": [0.0,1.0,1.0], "yellow": [0.0,1.0,1.0], "green": [0.0,1.0,1.0],
-        "aqua": [0.0,1.0,1.0], "blue": [0.0,1.0,1.0], "purple": [0.0,1.0,1.0], "magenta": [0.0,1.0,1.0] }
-
-    # update colour vectors
-    found = False
-    sum = 0.0 # check to see if anything changed
-
-    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "RedHue"):
-        found = True
-        # Hue is a little different in that 0 represents no shift and the value 'wraps' rather than clamps
-        h = xmp.get_property_float(XMP_NS_CAMERA_RAW, "RedHue")
-        value = colourVectors["red"][0] + h / 100.0
-        sum = sum + abs(h)
-        if value < 0.0:
-            value = 1.0 + value
-        colourVectors["red"][0] = value
-    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "RedSaturation"):
-        found = True
-        s = xmp.get_property_float(XMP_NS_CAMERA_RAW, "RedSaturation")
-        value = colourVectors["red"][1] + s / 100.0
-        sum = sum + abs(s)
-        colourVectors["red"][1] = value
-
-    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "GreenHue"):
-        found = True
-        # Hue is a little different in that 0 represents no shift and the value 'wraps' rather than clamps
-        h = xmp.get_property_float(XMP_NS_CAMERA_RAW, "GreenHue")
-        value = colourVectors["green"][0] + h / 100.0
-        sum = sum + abs(h)
-        if value < 0.0:
-            value = 1.0 + value
-        colourVectors["green"][0] = value
-    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "GreenSaturation"):
-        found = True
-        s = xmp.get_property_float(XMP_NS_CAMERA_RAW, "GreenSaturation")
-        value = colourVectors["green"][1] + s / 100.0
-        sum = sum + abs(s)
-        colourVectors["green"][1] = value
-
-    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "BlueHue"):
-        found = True
-        # Hue is a little different in that 0 represents no shift and the value 'wraps' rather than clamps
-        h = xmp.get_property_float(XMP_NS_CAMERA_RAW, "BlueHue")
-        value = colourVectors["blue"][0] + h / 100.0
-        sum = sum + abs(h)
-        if value < 0.0:
-            value = 1.0 + value
-        colourVectors["blue"][0] = value
-    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "BlueSaturation"):
-        found = True
-        s = xmp.get_property_float(XMP_NS_CAMERA_RAW, "BlueSaturation")
-        value = colourVectors["blue"][1] + s / 100.0
-        sum = sum + abs(s)
-        colourVectors["blue"][1] = value
-
-    if found and (sum > 0.01):
-        filterMap["filters"].append( { 'key':"MultiBandHSV", "parameters":[{ 'key':"inputRedShift", 'val': colourVectors["red"], 'type': "CIAttributeTypePosition3"},
-                                                                       { 'key':"inputOrangeShift", 'val': colourVectors["orange"], 'type': "CIAttributeTypePosition3"},
-                                                                       { 'key':"inputYellowShift", 'val': colourVectors["yellow"], 'type': "CIAttributeTypePosition3"},
-                                                                       { 'key':"inputGreenShift", 'val': colourVectors["green"], 'type': "CIAttributeTypePosition3"},
-                                                                       { 'key':"inputAquaShift", 'val': colourVectors["aqua"], 'type': "CIAttributeTypePosition3"},
-                                                                       { 'key':"inputBlueShift", 'val': colourVectors["blue"], 'type': "CIAttributeTypePosition3"},
-                                                                       { 'key':"inputPurpleShift", 'val': colourVectors["purple"], 'type': "CIAttributeTypePosition3"},
-                                                                       { 'key':"inputMagentaShift", 'val': colourVectors["magenta"], 'type': "CIAttributeTypePosition3"} ]
-                                } )
-        print ("...Calibration")
-
-#----------------------------
-
 def processGrayscale():
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ConvertToGrayscale"):
         flag = xmp.get_property_bool(XMP_NS_CAMERA_RAW, "ConvertToGrayscale")
@@ -1018,11 +1137,35 @@ def processGrayscale():
             filterMap["filters"].append( { 'key':"CIPhotoEffectMono", "parameters":[] } )
             print ("...ConvertToGrayscale")
 
+
+#----------------------------
+# calculates the change to a "curve". We assume the change is a percentage of the remaining distance above/below the curve
+# change is -100..+100 and emulates Photoshop/Lightroom controls
+# scale is the maximum value of the curve (typically 1.0 or 100.0 here)
+def calculateCurveChange(currval, change, scale):
+    value = currval
+    if change>0.0:
+        value = currval + (scale - currval) * change / 100.0 # %age of remaining 'room'
+    else:
+        value = currval + (scale * change / 100.0)
+
+    return clamp(value, 0.0, scale)
+
+
 #----------------------------
 
 # utility function to clamp a value between the suppied min and max values
 def clamp(value, minv, maxv):
     return max(min(value, maxv), minv)
+
+#----------------------------
+
+# utility function to check if a (float) var is approximately equal to the supplied number
+def approxEqual(var, value):
+    if abs(var - value) < 0.001:
+        return True
+    else:
+        return False
 
 #----------------------------
 

@@ -33,7 +33,7 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 1.8399999999999999, 
+          "val": 1.0552, 
           "key": "inputContrast"
         }
       ], 
@@ -68,83 +68,6 @@
         }
       ], 
       "key": "SaturationFilter"
-    }, 
-    {
-      "parameters": [
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.17, 
-            1.0
-          ], 
-          "key": "inputRedShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.19, 
-            1.0
-          ], 
-          "key": "inputOrangeShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.0, 
-            1.0
-          ], 
-          "key": "inputYellowShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.0, 
-            1.0
-          ], 
-          "key": "inputGreenShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            0.79, 
-            0.81
-          ], 
-          "key": "inputAquaShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.72, 
-            1.1400000000000001, 
-            0.42000000000000004
-          ], 
-          "key": "inputBlueShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.22, 
-            1.0
-          ], 
-          "key": "inputPurpleShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.08, 
-            1.0
-          ], 
-          "key": "inputMagentaShift"
-        }
-      ], 
-      "key": "MultiBandHSV"
     }, 
     {
       "parameters": [
@@ -245,6 +168,83 @@
         }
       ], 
       "key": "CIToneCurve"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.17, 
+            1.0
+          ], 
+          "key": "inputRedShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.19, 
+            1.0
+          ], 
+          "key": "inputOrangeShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputYellowShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputGreenShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            0.6000000000000001, 
+            1.0
+          ], 
+          "key": "inputAquaShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            -0.035, 
+            0.5600000000000002, 
+            1.0
+          ], 
+          "key": "inputBlueShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.22, 
+            1.0
+          ], 
+          "key": "inputPurpleShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.08, 
+            1.0
+          ], 
+          "key": "inputMagentaShift"
+        }
+      ], 
+      "key": "MultiBandHSV"
     }
   ], 
   "key": "../phixer/Config/Presets/Trey/ThankHeavenForLittleGirls.json"

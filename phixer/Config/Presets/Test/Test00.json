@@ -1,0 +1,186 @@
+{
+    "info": {
+        "group": "Test Presets",
+        "name": "Test 00"
+    },
+    "filters": [
+        {
+            "parameters": [
+                {
+                    "type": "CIAttributeTypeScalar",
+                    "val": 0.15,
+                    "key": "inputHighlightHue"
+                },
+                {
+                    "type": "CIAttributeTypeScalar",
+                    "val": 1.0,
+                    "key": "inputHighlightSaturation"
+                },
+                {
+                    "type": "CIAttributeTypeScalar",
+                    "val": 0.11388888888888889,
+                    "key": "inputShadowHue"
+                },
+                {
+                    "type": "CIAttributeTypeScalar",
+                    "val": 0.9,
+                    "key": "inputShadowSaturation"
+                }
+            ],
+            "key": "SplitToningFilter"
+        },
+        {
+            "parameters": [
+                {
+                    "type": "CIAttributeTypeScalar",
+                    "val": 0.5,
+                    "key": "inputSharpness"
+                }
+            ],
+            "key": "CISharpenLuminance"
+        },
+        {
+            "parameters": [
+                {
+                    "type": "CIAttributeTypeScalar",
+                    "val": 0.25,
+                    "key": "inputAmount"
+                },
+                {
+                    "type": "CIAttributeTypeScalar",
+                    "val": 1.0,
+                    "key": "inputRadius"
+                },
+                {
+                    "type": "CIAttributeTypeScalar",
+                    "val": 0.4,
+                    "key": "inputThreshold"
+                }
+            ],
+            "key": "UnsharpMaskFilter"
+        },
+        {
+            "parameters": [
+                {
+                    "type": "CIAttributeTypeOffset",
+                    "val": [
+                        0.0,
+                        0.0
+                    ],
+                    "key": "inputPoint0"
+                },
+                {
+                    "type": "CIAttributeTypeOffset",
+                    "val": [
+                        0.25,
+                        0.3210922424846382
+                    ],
+                    "key": "inputPoint1"
+                },
+                {
+                    "type": "CIAttributeTypeOffset",
+                    "val": [
+                        0.5,
+                        0.5339789487709334
+                    ],
+                    "key": "inputPoint2"
+                },
+                {
+                    "type": "CIAttributeTypeOffset",
+                    "val": [
+                        0.75,
+                        0.99
+                    ],
+                    "key": "inputPoint3"
+                },
+                {
+                    "type": "CIAttributeTypeOffset",
+                    "val": [
+                        1.0,
+                        0.76
+                    ],
+                    "key": "inputPoint4"
+                }
+            ],
+            "key": "CIToneCurve"
+        },
+        {
+            "parameters": [
+                {
+                    "type": "CIAttributeTypePosition3",
+                    "val": [
+                        0.0,
+                        0.588,
+                        1.0
+                    ],
+                    "key": "inputRedShift"
+                },
+                {
+                    "type": "CIAttributeTypePosition3",
+                    "val": [
+                        0.0,
+                        0.7,
+                        0.93235309
+                    ],
+                    "key": "inputOrangeShift"
+                },
+                {
+                    "type": "CIAttributeTypePosition3",
+                    "val": [
+                        0.0,
+                        0.7,
+                        0.901961
+                    ],
+                    "key": "inputYellowShift"
+                },
+                {
+                    "type": "CIAttributeTypePosition3",
+                    "val": [
+                        0.00875,
+                        0.00875,
+                        0.901961
+                    ],
+                    "key": "inputGreenShift"
+                },
+                {
+                    "type": "CIAttributeTypePosition3",
+                    "val": [
+                        0.0,
+                        0.7,
+                        0.84784334
+                    ],
+                    "key": "inputAquaShift"
+                },
+                {
+                    "type": "CIAttributeTypePosition3",
+                    "val": [
+                        0.0,
+                        0.0,
+                        0.24352947000000003
+                    ],
+                    "key": "inputBlueShift"
+                },
+                {
+                    "type": "CIAttributeTypePosition3",
+                    "val": [
+                        0.0,
+                        0.7,
+                        0.91470607
+                    ],
+                    "key": "inputPurpleShift"
+                },
+                {
+                    "type": "CIAttributeTypePosition3",
+                    "val": [
+                        0.0,
+                        0.7,
+                        0.901961
+                    ],
+                    "key": "inputMagentaShift"
+                }
+            ],
+            "key": "MultiBandHSV"
+        }
+    ],
+    "key": "Test00"
+}

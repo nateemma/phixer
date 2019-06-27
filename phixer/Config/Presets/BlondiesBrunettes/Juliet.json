@@ -33,6 +33,16 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
+          "val": 1.03, 
+          "key": "inputContrast"
+        }
+      ], 
+      "key": "ContrastFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
           "val": 1.0, 
           "key": "inputSaturation"
         }
@@ -87,83 +97,6 @@
     {
       "parameters": [
         {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.78, 
-            1.3599999999999999, 
-            1.0
-          ], 
-          "key": "inputRedShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.0, 
-            1.0
-          ], 
-          "key": "inputOrangeShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.0, 
-            1.0
-          ], 
-          "key": "inputYellowShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.54, 
-            0.5700000000000001, 
-            1.0
-          ], 
-          "key": "inputGreenShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.0, 
-            1.0
-          ], 
-          "key": "inputAquaShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.76, 
-            0.41000000000000003, 
-            1.0
-          ], 
-          "key": "inputBlueShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.0, 
-            1.0
-          ], 
-          "key": "inputPurpleShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.0, 
-            1.0
-          ], 
-          "key": "inputMagentaShift"
-        }
-      ], 
-      "key": "MultiBandHSV"
-    }, 
-    {
-      "parameters": [
-        {
           "type": "CIAttributeTypeOffset", 
           "val": [
             0.0, 
@@ -205,6 +138,83 @@
         }
       ], 
       "key": "CIToneCurve"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            -0.0275, 
+            1.3599999999999999, 
+            1.0
+          ], 
+          "key": "inputRedShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputOrangeShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputYellowShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0675, 
+            0.5700000000000001, 
+            1.0
+          ], 
+          "key": "inputGreenShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputAquaShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            -0.03, 
+            0.41000000000000003, 
+            1.0
+          ], 
+          "key": "inputBlueShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputPurpleShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputMagentaShift"
+        }
+      ], 
+      "key": "MultiBandHSV"
     }
   ], 
   "key": "../phixer/Config/Presets/BlondiesBrunettes/Juliet.json"

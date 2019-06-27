@@ -326,7 +326,7 @@ class FilterParametersView: UIView {
             }
         }
         
-        log.verbose("Filter Title: \(titleLabel.text) h:\(titleLabel.frame.size.height) w:\(titleLabel.frame.size.width)")
+        //log.verbose("Filter Title: \(titleLabel.text) h:\(titleLabel.frame.size.height) w:\(titleLabel.frame.size.width)")
     }
   
    
@@ -354,7 +354,7 @@ class FilterParametersView: UIView {
         var pView: UIView
         var currColor: UIColor = UIColor.blue
         
-        log.verbose("Laying out parameters...")
+        //log.verbose("Laying out parameters...")
         parameterView.backgroundColor = UIColor.clear
         scrollView?.backgroundColor = UIColor.clear
         parameterRow = []

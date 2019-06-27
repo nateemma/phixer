@@ -49,7 +49,8 @@ class FilterDescriptor {
     // name of CIFilter used to create Preset filters
     private static let presetFilterName: String = "PresetFilter"
     private static let presetArgIntensity: String = "inputIntensity"
-    
+    private static let presetIntensityDefault: Float = 1.0
+
     private static let blendArgIntensity: String = "inputIntensity"
  
 
@@ -237,7 +238,7 @@ class FilterDescriptor {
         self.filter?.setValue(1.0, forKey: FilterDescriptor.lookupArgIntensity)
         
         // manually add the intensity parameter to the parameter list (so that it will be displayed)
-        let p = ParameterSettings(key: FilterDescriptor.presetArgIntensity, title: "intensity", min: 0.0, max: 1.0, value: 0.8, type: .float)
+        let p = ParameterSettings(key: FilterDescriptor.presetArgIntensity, title: "intensity", min: 0.0, max: 1.0, value: FilterDescriptor.presetIntensityDefault, type: .float)
         self.parameterConfiguration[FilterDescriptor.presetArgIntensity] = p
         self.numParameters += 1
     }

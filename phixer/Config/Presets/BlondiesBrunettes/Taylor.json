@@ -33,88 +33,21 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
+          "val": 1.03, 
+          "key": "inputContrast"
+        }
+      ], 
+      "key": "ContrastFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
           "val": 0.94, 
           "key": "inputSaturation"
         }
       ], 
       "key": "SaturationFilter"
-    }, 
-    {
-      "parameters": [
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.0, 
-            1.0
-          ], 
-          "key": "inputRedShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.0, 
-            1.0
-          ], 
-          "key": "inputOrangeShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.0, 
-            1.0
-          ], 
-          "key": "inputYellowShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.86, 
-            1.5699999999999998, 
-            0.7
-          ], 
-          "key": "inputGreenShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.6599999999999999, 
-            1.0, 
-            1.0
-          ], 
-          "key": "inputAquaShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.0, 
-            1.0
-          ], 
-          "key": "inputBlueShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.0, 
-            1.0
-          ], 
-          "key": "inputPurpleShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.0, 
-            1.0
-          ], 
-          "key": "inputMagentaShift"
-        }
-      ], 
-      "key": "MultiBandHSV"
     }, 
     {
       "parameters": [
@@ -164,83 +97,6 @@
     {
       "parameters": [
         {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.69, 
-            1.17, 
-            1.0
-          ], 
-          "key": "inputRedShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.0, 
-            1.0
-          ], 
-          "key": "inputOrangeShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.0, 
-            1.0
-          ], 
-          "key": "inputYellowShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.20999999999999996, 
-            1.26, 
-            1.0
-          ], 
-          "key": "inputGreenShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.0, 
-            1.0
-          ], 
-          "key": "inputAquaShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.22999999999999998, 
-            1.26, 
-            1.0
-          ], 
-          "key": "inputBlueShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.0, 
-            1.0
-          ], 
-          "key": "inputPurpleShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.0, 
-            1.0
-          ], 
-          "key": "inputMagentaShift"
-        }
-      ], 
-      "key": "MultiBandHSV"
-    }, 
-    {
-      "parameters": [
-        {
           "type": "CIAttributeTypeOffset", 
           "val": [
             0.0, 
@@ -282,6 +138,83 @@
         }
       ], 
       "key": "CIToneCurve"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            -0.03875, 
+            1.17, 
+            1.0
+          ], 
+          "key": "inputRedShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputOrangeShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputYellowShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.008749999999999994, 
+            1.5299999999999998, 
+            1.0
+          ], 
+          "key": "inputGreenShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            -0.0425, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputAquaShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            -0.09625, 
+            1.26, 
+            1.0
+          ], 
+          "key": "inputBlueShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputPurpleShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputMagentaShift"
+        }
+      ], 
+      "key": "MultiBandHSV"
     }
   ], 
   "key": "../phixer/Config/Presets/BlondiesBrunettes/Taylor.json"

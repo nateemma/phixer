@@ -639,7 +639,10 @@
         { "key": "KodakPortra400", "title": "KodakPortra400", "slow": false, "show": true, "rating": 0 },
         { "key": "KodakPortra800", "title": "KodakPortra800", "slow": false, "show": true, "rating": 0 },
         { "key": "KodakTMAX3200", "title": "KodakTMAX3200", "slow": false, "show": true, "rating": 0 },
-        { "key": "KodakTriX400", "title": "KodakTriX400", "slow": false, "show": true, "rating": 0 }
+        { "key": "KodakTriX400", "title": "KodakTriX400", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "Test00", "title": "Test 00", "slow": false, "show": true, "rating": 0 }
+
   
     ],
 
@@ -669,7 +672,7 @@
         {"key": "film",
             "title": "Analog Film",
             "filters": [ "Fuji400H", "FujiSuperia1600", "FujiSuperia400", "FujiVelvia100", "FujiVelvia50",
-                "KodakEktar100", "KodakPortra400", "KodakPortra800", "KodakTMAX3200", "KodakTriX400"
+                "KodakEktar100", "KodakPortra400", "KodakPortra800", "KodakTMAX3200", "KodakTriX400", "Test00"
             ]
         },
 

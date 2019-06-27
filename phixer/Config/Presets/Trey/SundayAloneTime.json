@@ -33,7 +33,7 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 1.6600000000000001, 
+          "val": 1.0498, 
           "key": "inputContrast"
         }
       ], 
@@ -68,83 +68,6 @@
         }
       ], 
       "key": "SaturationFilter"
-    }, 
-    {
-      "parameters": [
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.17, 
-            1.0
-          ], 
-          "key": "inputRedShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.19, 
-            1.0
-          ], 
-          "key": "inputOrangeShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.0, 
-            1.0
-          ], 
-          "key": "inputYellowShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.0, 
-            1.0
-          ], 
-          "key": "inputGreenShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.0, 
-            0.81
-          ], 
-          "key": "inputAquaShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.62, 
-            1.0, 
-            0.8
-          ], 
-          "key": "inputBlueShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.0, 
-            1.0
-          ], 
-          "key": "inputPurpleShift"
-        }, 
-        {
-          "type": "CIAttributeTypePosition3", 
-          "val": [
-            0.0, 
-            1.0, 
-            1.0
-          ], 
-          "key": "inputMagentaShift"
-        }
-      ], 
-      "key": "MultiBandHSV"
     }, 
     {
       "parameters": [
@@ -204,34 +127,6 @@
     {
       "parameters": [
         {
-          "type": "CIAttributeTypePosition", 
-          "val": [
-            0.0, 
-            0.0
-          ], 
-          "key": "inputCenter"
-        }, 
-        {
-          "type": "CIAttributeTypeDistance", 
-          "val": 0.0, 
-          "key": "inputRadius"
-        }, 
-        {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.08, 
-          "key": "inputIntensity"
-        }, 
-        {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.52, 
-          "key": "inputFalloff"
-        }
-      ], 
-      "key": "CIVignetteEffect"
-    }, 
-    {
-      "parameters": [
-        {
           "type": "CIAttributeTypeOffset", 
           "val": [
             0.0, 
@@ -273,6 +168,111 @@
         }
       ], 
       "key": "CIToneCurve"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.17, 
+            1.0
+          ], 
+          "key": "inputRedShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.19, 
+            1.0
+          ], 
+          "key": "inputOrangeShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputYellowShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputGreenShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            0.81, 
+            1.0
+          ], 
+          "key": "inputAquaShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            -0.0475, 
+            0.8, 
+            1.0
+          ], 
+          "key": "inputBlueShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputPurpleShift"
+        }, 
+        {
+          "type": "CIAttributeTypePosition3", 
+          "val": [
+            0.0, 
+            1.0, 
+            1.0
+          ], 
+          "key": "inputMagentaShift"
+        }
+      ], 
+      "key": "MultiBandHSV"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypePosition", 
+          "val": [
+            0.0, 
+            0.0
+          ], 
+          "key": "inputCenter"
+        }, 
+        {
+          "type": "CIAttributeTypeDistance", 
+          "val": 0.0, 
+          "key": "inputRadius"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.08, 
+          "key": "inputIntensity"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.52, 
+          "key": "inputFalloff"
+        }
+      ], 
+      "key": "CIVignetteEffect"
     }
   ], 
   "key": "../phixer/Config/Presets/Trey/SundayAloneTime.json"
