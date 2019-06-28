@@ -153,51 +153,6 @@
     {
       "parameters": [
         {
-          "type": "CIAttributeTypeOffset", 
-          "val": [
-            0.0, 
-            0.0392156862745098
-          ], 
-          "key": "inputPoint0"
-        }, 
-        {
-          "type": "CIAttributeTypeOffset", 
-          "val": [
-            0.25, 
-            0.27941176470588236
-          ], 
-          "key": "inputPoint1"
-        }, 
-        {
-          "type": "CIAttributeTypeOffset", 
-          "val": [
-            0.5, 
-            0.5196078431372549
-          ], 
-          "key": "inputPoint2"
-        }, 
-        {
-          "type": "CIAttributeTypeOffset", 
-          "val": [
-            0.75, 
-            0.7598039215686275
-          ], 
-          "key": "inputPoint3"
-        }, 
-        {
-          "type": "CIAttributeTypeOffset", 
-          "val": [
-            1.0, 
-            1.0
-          ], 
-          "key": "inputPoint4"
-        }
-      ], 
-      "key": "CIToneCurve"
-    }, 
-    {
-      "parameters": [
-        {
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.025, 
@@ -271,6 +226,71 @@
         }
       ], 
       "key": "MultiBandHSV"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.0, 
+          "key": "inputRadius"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.15, 
+          "key": "inputShadowAmount"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.3, 
+          "key": "inputHighlightAmount"
+        }
+      ], 
+      "key": "CIHighlightShadowAdjust"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.0, 
+            0.0392156862745098
+          ], 
+          "key": "inputPoint0"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.25, 
+            0.27941176470588236
+          ], 
+          "key": "inputPoint1"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.5, 
+            0.5196078431372549
+          ], 
+          "key": "inputPoint2"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.75, 
+            0.7598039215686275
+          ], 
+          "key": "inputPoint3"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            1.0, 
+            1.0
+          ], 
+          "key": "inputPoint4"
+        }
+      ], 
+      "key": "CIToneCurve"
     }
   ], 
   "key": "../phixer/Config/Presets/AnalogFilm/KodakPortra800.json"

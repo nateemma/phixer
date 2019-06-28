@@ -97,51 +97,6 @@
     {
       "parameters": [
         {
-          "type": "CIAttributeTypeOffset", 
-          "val": [
-            0.0, 
-            0.0
-          ], 
-          "key": "inputPoint0"
-        }, 
-        {
-          "type": "CIAttributeTypeOffset", 
-          "val": [
-            0.25, 
-            0.21849674711061884
-          ], 
-          "key": "inputPoint1"
-        }, 
-        {
-          "type": "CIAttributeTypeOffset", 
-          "val": [
-            0.5, 
-            0.4998332678553635
-          ], 
-          "key": "inputPoint2"
-        }, 
-        {
-          "type": "CIAttributeTypeOffset", 
-          "val": [
-            0.75, 
-            0.7655402310016218
-          ], 
-          "key": "inputPoint3"
-        }, 
-        {
-          "type": "CIAttributeTypeOffset", 
-          "val": [
-            1.0, 
-            1.0
-          ], 
-          "key": "inputPoint4"
-        }
-      ], 
-      "key": "CIToneCurve"
-    }, 
-    {
-      "parameters": [
-        {
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.065, 
@@ -215,6 +170,79 @@
         }
       ], 
       "key": "MultiBandHSV"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.0, 
+            0.0
+          ], 
+          "key": "inputPoint0"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.25, 
+            0.21849674711061884
+          ], 
+          "key": "inputPoint1"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.5, 
+            0.4998332678553635
+          ], 
+          "key": "inputPoint2"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.75, 
+            0.7655402310016218
+          ], 
+          "key": "inputPoint3"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            1.0, 
+            1.0
+          ], 
+          "key": "inputPoint4"
+        }
+      ], 
+      "key": "CIToneCurve"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypePosition", 
+          "val": [
+            0.0, 
+            0.0
+          ], 
+          "key": "inputCenter"
+        }, 
+        {
+          "type": "CIAttributeTypeDistance", 
+          "val": 0.0, 
+          "key": "inputRadius"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.86, 
+          "key": "inputIntensity"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.5, 
+          "key": "inputFalloff"
+        }
+      ], 
+      "key": "CIVignetteEffect"
     }
   ], 
   "key": "../phixer/Config/Presets/BlondiesBrunettes/Amber.json"

@@ -119,10 +119,10 @@ class SplitToningFilter: CIFilter {
         //  TODO: combine these into a kernel so that we can take the luminace value of the source pixel
         
         // Original idea taken from: https://stackoverflow.com/questions/7961929/split-tone-effect-using-core-image-filters/8092453#8092453
-        // Values are the result of playing around. Value/Brightness is low because that's what Lightroom/Photoshop seem to use
+        // Values are the result of playing around. Taken from reference colours used in HSV filter
 
-        let color1 = CIColor(h: inputShadowHue, s: inputShadowSaturation, v: 0.3, alpha:0.5)
-        let color2 = CIColor(h: inputHighlightHue, s: inputHighlightSaturation, v: 0.9, alpha:0.5)
+        let color1 = CIColor(h: inputShadowHue, s: inputShadowSaturation, v: 0.270588, alpha:0.5)
+        let color2 = CIColor(h: inputHighlightHue, s: inputHighlightSaturation, v: 0.901961, alpha:0.5)
         //log.verbose("CIColor1: \(color1), CIColor2: \(color2)")
 
         // DBG: UIColor much more user friendly, so check colour conversion with that

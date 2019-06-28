@@ -122,7 +122,6 @@ def main():
     processExposure()
     processContrast()
     processToneCurve()
-    #processShadowsHighlights()
     processClarity()
     processVibrance()
     processSaturation()
@@ -133,9 +132,12 @@ def main():
     processCalibration()
     processRGBToneCurves()
     
-    addToneCurve()
     addHSV()
-    
+ 
+    processShadowsHighlights() # do this after colour adjustments
+
+    addToneCurve()
+
     # process these last
     processGrayscale() # do this last
     processVignette()
@@ -352,6 +354,8 @@ def processShadowsHighlights():
     w = 0.0
     s = 0.0
     h = 0.0
+    
+    '''
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Blacks"):
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Blacks")
         if abs(value)>0.01:
@@ -411,11 +415,12 @@ def processShadowsHighlights():
         #addToneCurve()
         print("Blacks: " + str(b) + " Shadows:" +str(s) + " Highlights:" + str(h) + " Whites:" + str(w))
         print ("...Blacks/Shadows/Highlights/Whites")
-'''
+    '''
+
 
     # try the HighlightShadows filter instead of adjusting the tone curve
     found2 = False
-    h = 1.0
+    h = 0.3
     s = 0.0
 
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Shadows"):
@@ -423,22 +428,32 @@ def processShadowsHighlights():
         if abs(value)>0.01:
             found2 = True
             s = clamp (value/100.0, -1.0, 1.0)
+            print("Shadows: " + str(value) + " -> " + str(s))
     elif xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Shadows2012"):
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Shadows2012")
         if abs(value)>0.01:
             found2 = True
             s = clamp (value/100.0, -1.0, 1.0)
+            print("Shadows: " + str(value) + " -> " + str(s))
 
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Highlights"):
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Highlights")
-        if abs(value)>0.01:
+        # only process -ve values (reduce highligts) because that's all the internal filter supports
+        #if abs(value)>0.01:
+        if value<0.0:
             found2 = True
-            h = clamp (value/100.0, 0.3, 1.0) # check range
+            h = clamp (-value/100.0, 0.3, 1.0) # check range
+            #h = clamp (-value/100.0, 0.0, 1.0) # check range
+            print("Highlights: " + str(value) + " -> " + str(h))
     elif xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Highlights2012"):
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Highlights2012")
-        if abs(value)>0.01:
+        # only process -ve values (reduce highligts) because that's all the internal filter supports
+        #if abs(value)>0.01:
+        if value<0.0:
             found2 = True
-            h = clamp (value/100.0, 0.3, 1.0)
+            h = clamp (-value/100.0, 0.3, 1.0)
+            #h = clamp (-value/100.0, 0.0, 1.0)
+            print("Highlights: " + str(value) + " -> " + str(h))
 
     if found2:
         filterMap["filters"].append( { 'key':"CIHighlightShadowAdjust", "parameters":[{ 'key':"inputRadius", 'val': 0.0, 'type': "CIAttributeTypeScalar"},
@@ -446,7 +461,7 @@ def processShadowsHighlights():
                                                                                       { 'key':"inputHighlightAmount", 'val': h, 'type': "CIAttributeTypeScalar"}
                                                                                       ] } )
         print ("...Shadows/Highlights")
-    '''
+
 
 #----------------------------
 
@@ -1104,22 +1119,34 @@ def processVignette():
     intensity = 0.5
     center = [0.0, 0.0]
     falloff = 0.5
-    found = False
-    
-    # only processing the new form here. Amount must be non-zero to proceed
+    found1 = False
+    found2 = False
+
+    # Newest form. Amount must be non-zero to proceed
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "PostCropVignetteAmount"):
-        found = True
+        found1 = True
         intensity = -xmp.get_property_float(XMP_NS_CAMERA_RAW, "PostCropVignetteAmount") / 100.0  # flip polarity
         if abs(intensity) < 0.01:
-            found = False
+            found1 = False
         else:
-            if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "PostCropVignetteMidpoint"):
-                falloff = xmp.get_property_float(XMP_NS_CAMERA_RAW, "PostCropVignetteMidpoint") * 10.0 # % to pixels, so unkown transform, guess at 10x
+            #if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "PostCropVignetteMidpoint"):
+            #    falloff = xmp.get_property_float(XMP_NS_CAMERA_RAW, "PostCropVignetteMidpoint") * 10.0 # % to pixels, so unkown transform, guess at 10x
             if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "PostCropVignetteFeather"):
                 falloff = xmp.get_property_float(XMP_NS_CAMERA_RAW, "PostCropVignetteFeather") / 100.0
             # leave center as [0,0], which will then default to the center of the image
 
-    if found:
+    # older form:
+    if (not found1) and xmp.does_property_exist(XMP_NS_CAMERA_RAW, "VignetteAmount"):
+        found2 = True
+        intensity = -xmp.get_property_float(XMP_NS_CAMERA_RAW, "VignetteAmount") / 100.0  # flip polarity
+        if abs(intensity) < 0.01:
+            found2 = False
+        #else:
+        #if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "VignetteMidpoint"):
+        #falloff = xmp.get_property_float(XMP_NS_CAMERA_RAW, "VignetteMidpoint") * 10.0 # % to pixels, so unkown transform, guess at 10x
+
+
+    if found1 or found2:
         filterMap["filters"].append( { 'key':"CIVignetteEffect", "parameters":[{ 'key':"inputCenter", "val": center, "type": "CIAttributeTypePosition" },
                                                                                { 'key':"inputRadius", "val": radius, "type": "CIAttributeTypeDistance"},
                                                                                { 'key':"inputIntensity", "val": intensity, "type": "CIAttributeTypeScalar"},

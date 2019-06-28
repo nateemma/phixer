@@ -57,6 +57,9 @@
 		250C5F9B22BFFB1A00DE0DDF /* KodakTriX400.json in Resources */ = {isa = PBXBuildFile; fileRef = 250C5F7222BFFB1A00DE0DDF /* KodakTriX400.json */; };
 		250C5F9C22BFFB1A00DE0DDF /* Fuji400H.json in Resources */ = {isa = PBXBuildFile; fileRef = 250C5F7322BFFB1A00DE0DDF /* Fuji400H.json */; };
 		250C5F9F22C26C4400DE0DDF /* Test00.json in Resources */ = {isa = PBXBuildFile; fileRef = 250C5F9E22C26C4400DE0DDF /* Test00.json */; };
+		250C5FA322C6734900DE0DDF /* VoronoiNoise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250C5FA022C6734900DE0DDF /* VoronoiNoise.swift */; };
+		250C5FA422C6734900DE0DDF /* Scatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250C5FA122C6734900DE0DDF /* Scatter.swift */; };
+		250C5FA522C6734900DE0DDF /* Voronoi.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = 250C5FA222C6734900DE0DDF /* Voronoi.cikernel */; };
 		251375511DB6AD6200A319DC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 251375501DB6AD6200A319DC /* GoogleService-Info.plist */; };
 		2515987E2193CD490067AA00 /* LumaRangeFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2515987D2193CD490067AA00 /* LumaRangeFilter.swift */; };
 		251598802194B97E0067AA00 /* ClarityFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2515987F2194B97E0067AA00 /* ClarityFilter.swift */; };
@@ -997,6 +1000,9 @@
 		250C5F7222BFFB1A00DE0DDF /* KodakTriX400.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = KodakTriX400.json; sourceTree = "<group>"; };
 		250C5F7322BFFB1A00DE0DDF /* Fuji400H.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Fuji400H.json; sourceTree = "<group>"; };
 		250C5F9E22C26C4400DE0DDF /* Test00.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Test00.json; sourceTree = "<group>"; };
+		250C5FA022C6734900DE0DDF /* VoronoiNoise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoronoiNoise.swift; sourceTree = "<group>"; };
+		250C5FA122C6734900DE0DDF /* Scatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scatter.swift; sourceTree = "<group>"; };
+		250C5FA222C6734900DE0DDF /* Voronoi.cikernel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Voronoi.cikernel; sourceTree = "<group>"; };
 		251375501DB6AD6200A319DC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2515987D2193CD490067AA00 /* LumaRangeFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LumaRangeFilter.swift; sourceTree = "<group>"; };
 		2515987F2194B97E0067AA00 /* ClarityFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClarityFilter.swift; sourceTree = "<group>"; };
@@ -2102,6 +2108,9 @@
 		252745ED21815F8D00AA2DA2 /* Filterpedia */ = {
 			isa = PBXGroup;
 			children = (
+				250C5FA122C6734900DE0DDF /* Scatter.swift */,
+				250C5FA222C6734900DE0DDF /* Voronoi.cikernel */,
+				250C5FA022C6734900DE0DDF /* VoronoiNoise.swift */,
 				25CC3EB521FFD59D00EB8A0A /* CausticRefraction.swift */,
 				25CC3EB121FFD59C00EB8A0A /* CMYKRegistrationMismatch.swift */,
 				25CC3EB721FFD59D00EB8A0A /* ColorDirectedBlur.swift */,
@@ -3521,6 +3530,7 @@
 				252B0F6B1E30690F005A0C2D /* et_028_a09_6.jpg in Resources */,
 				252B10061E306920005A0C2D /* lightning_splits_by_dazzle_textures.jpg in Resources */,
 				252B0F371E30690F005A0C2D /* et_072_a31_3.jpg in Resources */,
+				250C5FA522C6734900DE0DDF /* Voronoi.cikernel in Resources */,
 				252B0E381E30690F005A0C2D /* ps_021_gold_blue.jpg in Resources */,
 				257E29CA216D505B00F438C6 /* oldPresetList.json in Resources */,
 				252B0DDA1E30690E005A0C2D /* vn_024_daisy.jpg in Resources */,
@@ -4126,6 +4136,7 @@
 			files = (
 				258F09A5218CD6770082FE2A /* MLModelHelper.swift in Sources */,
 				258F09A0218CBFC30082FE2A /* FNS-The-Scream.mlmodel in Sources */,
+				250C5FA322C6734900DE0DDF /* VoronoiNoise.swift in Sources */,
 				2568BDA121AC72CB00560287 /* iCarousel.m in Sources */,
 				25CF4BDC1D94D93700D779CF /* AppDelegate.swift in Sources */,
 				2542DF5B1ED372BF00CEB968 /* BasicEditViewController.swift in Sources */,
@@ -4305,6 +4316,7 @@
 				258F09B7218E67910082FE2A /* TimedAlertView.swift in Sources */,
 				25F21F7F220384C0005C449F /* EditCropToolController.swift in Sources */,
 				2556731F1DB961F700187F25 /* DisplayMode.swift in Sources */,
+				250C5FA422C6734900DE0DDF /* Scatter.swift in Sources */,
 				2568BDE821C86BDC00560287 /* UIViewController+Extensions.swift in Sources */,
 				2542DF551ECFB37400CEB968 /* CategoryRecord.swift in Sources */,
 				2537A21821ED383E00060DBE /* CoordinatorDelegate.swift in Sources */,

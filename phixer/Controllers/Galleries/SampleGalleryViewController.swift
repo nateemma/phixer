@@ -386,7 +386,7 @@ class SampleGalleryViewController: CoordinatedController, UIImagePickerControlle
     
     
     @objc func acceptDidPress(){
-        log.verbose("Accept pressed")
+        log.verbose("Accept pressed. Sample: \(selectedSampleImageName)")
         ImageManager.setCurrentSampleImageName(selectedSampleImageName)
         exitScreen()
     }

@@ -259,7 +259,12 @@ class ImageManager {
             log.error("Could not find image: \(sname)")
         }
  ***/
+        let oldname = _currSampleName
+        _currSampleName = sname
         updateStoredSettings()
+        if !oldname.isEmpty {
+            _currSampleImage = nil // force reload when accessed
+        }
     }
     
     
@@ -366,10 +371,14 @@ class ImageManager {
         //checkSampleImage()
         
         if (_currSampleName.isEmpty){
-            if (_sampleNameList.count>0) {
-                _currSampleName = _sampleNameList[0]
+            if !_currEditName.isEmpty {
+                _currSampleName = _currEditName
             } else {
-                _currSampleName = "sample_beach_1678.png" // desperation, hard-code the name
+                if (_sampleNameList.count>0) {
+                    _currSampleName = _sampleNameList[0]
+                } else {
+                    _currSampleName = "sample_beach_1678.png" // desperation, hard-code the name
+                }
             }
         }
         return _currSampleName

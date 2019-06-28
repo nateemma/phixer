@@ -118,51 +118,6 @@
     {
       "parameters": [
         {
-          "type": "CIAttributeTypeOffset", 
-          "val": [
-            0.0, 
-            0.0196078431372549
-          ], 
-          "key": "inputPoint0"
-        }, 
-        {
-          "type": "CIAttributeTypeOffset", 
-          "val": [
-            0.25, 
-            0.2627450980392157
-          ], 
-          "key": "inputPoint1"
-        }, 
-        {
-          "type": "CIAttributeTypeOffset", 
-          "val": [
-            0.5, 
-            0.5058823529411764
-          ], 
-          "key": "inputPoint2"
-        }, 
-        {
-          "type": "CIAttributeTypeOffset", 
-          "val": [
-            0.75, 
-            0.7490196078431371
-          ], 
-          "key": "inputPoint3"
-        }, 
-        {
-          "type": "CIAttributeTypeOffset", 
-          "val": [
-            1.0, 
-            0.9921568627450981
-          ], 
-          "key": "inputPoint4"
-        }
-      ], 
-      "key": "CIToneCurve"
-    }, 
-    {
-      "parameters": [
-        {
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.0375, 
@@ -236,6 +191,71 @@
         }
       ], 
       "key": "MultiBandHSV"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.0, 
+          "key": "inputRadius"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.3, 
+          "key": "inputShadowAmount"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.35, 
+          "key": "inputHighlightAmount"
+        }
+      ], 
+      "key": "CIHighlightShadowAdjust"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.0, 
+            0.0196078431372549
+          ], 
+          "key": "inputPoint0"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.25, 
+            0.2627450980392157
+          ], 
+          "key": "inputPoint1"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.5, 
+            0.5058823529411764
+          ], 
+          "key": "inputPoint2"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.75, 
+            0.7490196078431371
+          ], 
+          "key": "inputPoint3"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            1.0, 
+            0.9921568627450981
+          ], 
+          "key": "inputPoint4"
+        }
+      ], 
+      "key": "CIToneCurve"
     }
   ], 
   "key": "../phixer/Config/Presets/AnalogFilm/KodakEktar100.json"
