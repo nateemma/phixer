@@ -28,21 +28,16 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 0.25, 
+          "val": 1.0, 
           "key": "inputAmount"
         }, 
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 1.0, 
-          "key": "inputRadius"
-        }, 
-        {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.4, 
-          "key": "inputThreshold"
+          "val": 0.2, 
+          "key": "inputSize"
         }
       ], 
-      "key": "UnsharpMaskFilter"
+      "key": "GrainFilter"
     }, 
     {
       "parameters": [

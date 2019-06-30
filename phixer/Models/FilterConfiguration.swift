@@ -558,7 +558,7 @@ class FilterConfiguration{
                             def?.ftype = FilterOperationType.blend.rawValue
                         }
                     } else {
-                        log.error("NIL attributes for: \(inp)")
+                        log.error("NIL attributes for: \(inp). Filter: \(name)")
                     }
                 }
             }

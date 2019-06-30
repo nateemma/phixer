@@ -267,28 +267,32 @@ class FilterDescriptor {
     func copyParameters(_ parameters: [ParameterSettings]) {
         // (deep) copy the parameters and set up the filter
         for p in parameters {
-            //self.stashedParameters[p.key] = p
-            //self.parameterConfiguration[p.key] = p
-            self.stashedParameters[p.key] = ParameterSettings(key: p.key, title: p.title, min: p.min, max: p.max, value: p.value, type: p.type)
-            self.parameterConfiguration[p.key] = ParameterSettings(key: p.key, title: p.title, min: p.min, max: p.max, value: p.value, type: p.type)
-            if p.type == .float || p.type == .distance { // any other types must be set by the app
-                self.filter?.setValue(p.value, forKey: p.key)
+            if (self.filter?.inputKeys.contains(p.key))! == false {
+                log.error("Invalid key: \(p.key) for filter: \(self.key)")
             } else {
-                // there are some other types that we handle with default values:
-                switch (p.type) {
-                case .image:
-                    self.filter?.setValue(default_image, forKey: p.key)
-                case .position:
-                    log.verbose("\(p.key) Using default pos:\(default_position)")
-                    self.filter?.setValue(default_position, forKey: p.key)
-                case .distance:
-                    log.verbose("\(p.key) Using default distance:\(default_distance)")
-                    self.filter?.setValue(default_distance, forKey: p.key)
-                case .rectangle:
-                    self.filter?.setValue(default_rect, forKey: p.key)
-                default:
-                    // just ignore
-                    break
+                //self.stashedParameters[p.key] = p
+                //self.parameterConfiguration[p.key] = p
+                self.stashedParameters[p.key] = ParameterSettings(key: p.key, title: p.title, min: p.min, max: p.max, value: p.value, type: p.type)
+                self.parameterConfiguration[p.key] = ParameterSettings(key: p.key, title: p.title, min: p.min, max: p.max, value: p.value, type: p.type)
+                if p.type == .float || p.type == .distance { // any other types must be set by the app
+                    self.filter?.setValue(p.value, forKey: p.key)
+                } else {
+                    // there are some other types that we handle with default values:
+                    switch (p.type) {
+                    case .image:
+                        self.filter?.setValue(default_image, forKey: p.key)
+                    case .position:
+                        log.verbose("\(p.key) Using default pos:\(default_position)")
+                        self.filter?.setValue(default_position, forKey: p.key)
+                    case .distance:
+                        log.verbose("\(p.key) Using default distance:\(default_distance)")
+                        self.filter?.setValue(default_distance, forKey: p.key)
+                    case .rectangle:
+                        self.filter?.setValue(default_rect, forKey: p.key)
+                    default:
+                        // just ignore
+                        break
+                    }
                 }
             }
         }

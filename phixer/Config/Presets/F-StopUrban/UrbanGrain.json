@@ -3,6 +3,22 @@
     "group": "F-Stop Stop Urban Presets", 
     "name": "Urban Grain"
   }, 
-  "filters": [], 
+  "filters": [
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 1.0, 
+          "key": "inputAmount"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.9, 
+          "key": "inputSize"
+        }
+      ], 
+      "key": "GrainFilter"
+    }
+  ], 
   "key": "../phixer/Config/Presets/F-StopUrban/UrbanGrain.json"
 }

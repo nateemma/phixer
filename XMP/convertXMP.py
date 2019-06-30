@@ -6,6 +6,8 @@
 #                  https://www.spacetelescope.org/static/projects/python-xmp-toolkit/docs/reference.html for XMPMeta APIs
 
 # Also note that the preset keys changed in 2012 so sometimes you have to check for both the old (they have "2012" in the name) and the new
+# Many preset XMP files include settings with zero values, so we gnerally check for that and don't apply the corresponding filter if no changes are made
+# - this is because creating and running a filter takes a lot of memory and sometimes they have an effect even with 'zero' parameters
 
 import os, os.path
 import errno
@@ -76,7 +78,7 @@ hueWidth = (360.0 / 8.0) / 100.0
 
 '''
     Note that the format of a preset setup is similar the syntax used in the phixer config file (without the UI stuff).
-    Syntax is a bit different because it's driven by the Python syntax, not JSON, and we have to deal with position and vector types
+    Syntax is a bit different because it's driven by the Python, not JSON, and we have to deal with position and vector types
     It is essentially the name of the preset with a list of filters to apply, and the parameters to pass to those filters
     For example, a preset might look like:
 
@@ -132,6 +134,7 @@ def main():
     processCalibration()
     processRGBToneCurves()
     
+    processGrain()
     addHSV()
  
     processShadowsHighlights() # do this after colour adjustments
@@ -141,6 +144,7 @@ def main():
     # process these last
     processGrayscale() # do this last
     processVignette()
+
 
     # print the final preset
     #printPreset()
@@ -422,15 +426,18 @@ def processShadowsHighlights():
     found2 = False
     h = 0.3
     s = 0.0
+    sum = 0.0
 
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Shadows"):
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Shadows")
+        sum = sum + abs(value)
         if abs(value)>0.01:
             found2 = True
             s = clamp (value/100.0, -1.0, 1.0)
             print("Shadows: " + str(value) + " -> " + str(s))
     elif xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Shadows2012"):
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Shadows2012")
+        sum = sum + abs(value)
         if abs(value)>0.01:
             found2 = True
             s = clamp (value/100.0, -1.0, 1.0)
@@ -438,6 +445,7 @@ def processShadowsHighlights():
 
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Highlights"):
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Highlights")
+        sum = sum + abs(value)
         # only process -ve values (reduce highligts) because that's all the internal filter supports
         #if abs(value)>0.01:
         if value<0.0:
@@ -447,6 +455,7 @@ def processShadowsHighlights():
             print("Highlights: " + str(value) + " -> " + str(h))
     elif xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Highlights2012"):
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Highlights2012")
+        sum = sum + abs(value)
         # only process -ve values (reduce highligts) because that's all the internal filter supports
         #if abs(value)>0.01:
         if value<0.0:
@@ -455,7 +464,7 @@ def processShadowsHighlights():
             #h = clamp (-value/100.0, 0.0, 1.0)
             print("Highlights: " + str(value) + " -> " + str(h))
 
-    if found2:
+    if found2 and abs(sum)>0.01:
         filterMap["filters"].append( { 'key':"CIHighlightShadowAdjust", "parameters":[{ 'key':"inputRadius", 'val': 0.0, 'type': "CIAttributeTypeScalar"},
                                                                                       { 'key':"inputShadowAmount", 'val': s, 'type': "CIAttributeTypeScalar"},
                                                                                       { 'key':"inputHighlightAmount", 'val': h, 'type': "CIAttributeTypeScalar"}
@@ -518,6 +527,7 @@ def processParametricCurve():
     global toneCurveChanged
     
     found = False
+    sum = 0.0
     
 
     # look for specific settings of each point and apply them on top of the current curve
@@ -532,37 +542,43 @@ def processParametricCurve():
         found = True
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricShadowSplit")
         toneCurve[1][0] = value
+        sum = sum + abs(value)
 
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricShadows"):
         found = True
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricShadows")
         toneCurve[1][1] = calculateCurveChange(toneCurve[1][1], value, 100.0)
+        sum = sum + abs(value)
 
 
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricMidtoneSplit"):
         found = True
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricMidtoneSplit")
         toneCurve[2][0] = value
+        sum = sum + abs(value)
 
 
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricHighlightSplit"):
         found = True
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricHighlightSplit")
         toneCurve[3][0] = value
-    
+        sum = sum + abs(value)
+
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricHighlights"):
         found = True
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricHighlights")
         toneCurve[3][1] = calculateCurveChange(toneCurve[3][1], value, 100.0)
+        sum = sum + abs(value)
 
 
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricLights"):
         found = True
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricLights")
         toneCurve[4][1] = calculateCurveChange(toneCurve[4][1], value, 100.0)
+        sum = sum + abs(value)
 
 
-    if found:
+    if found and abs(sum)>0.01:
         toneCurveChanged = True
         #addToneCurve()
         print ("...Parametric Curve")
@@ -1038,31 +1054,30 @@ def processSplitToning():
     highlightSaturation = 0.5
     shadowHue = 0.1
     shadowSaturation = 0.5
+    sum = 0.0
 
     # straightforward conversion here, just convert range 0..100 to 0.0..1.0
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "SplitToningHighlightHue"):
         found = True
         highlightHue = xmp.get_property_float(XMP_NS_CAMERA_RAW, "SplitToningHighlightHue") / 360.0
+        sum = sum + abs(highlightHue)
 
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "SplitToningHighlightSaturation"):
         found = True
         highlightSaturation = xmp.get_property_float(XMP_NS_CAMERA_RAW, "SplitToningHighlightSaturation") / 100.0
+        sum = sum + abs(highlightSaturation)
 
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "SplitToningShadowHue"):
         found = True
         shadowHue = xmp.get_property_float(XMP_NS_CAMERA_RAW, "SplitToningShadowHue") / 360.0
+        sum = sum + abs(shadowHue)
 
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "SplitToningShadowSaturation"):
         found = True
         shadowSaturation = xmp.get_property_float(XMP_NS_CAMERA_RAW, "SplitToningShadowSaturation") / 100.0
+        sum = sum + abs(shadowSaturation)
 
-    if (abs(highlightHue) + abs(highlightSaturation) + abs(shadowHue) + abs(shadowSaturation)) < 0.001:
-        print("Ignoring Split Toning")
-        found = False
-
-    if found:
-        # TODO: bump up the saturation???
-        
+    if found and abs(sum)>0.01:
         filterMap["filters"].append( { 'key':"SplitToningFilter", "parameters":[{ 'key':"inputHighlightHue", 'val': highlightHue, 'type': "CIAttributeTypeScalar"},
                                                                                 { 'key':"inputHighlightSaturation", 'val': highlightSaturation, 'type': "CIAttributeTypeScalar"},
                                                                                 { 'key':"inputShadowHue", 'val': shadowHue, 'type': "CIAttributeTypeScalar"},
@@ -1101,7 +1116,7 @@ def processSharpening():
         found = True
         threshold = xmp.get_property_float(XMP_NS_CAMERA_RAW, "SharpenThreshold")
 
-    if found:
+    if found and approxEqual(amount, 0.0):
         filterMap["filters"].append( { 'key':"UnsharpMaskFilter", "parameters":[{ 'key':"inputAmount", 'val': amount, 'type': "CIAttributeTypeScalar"},
                                                                                 { 'key':"inputRadius", 'val': radius, 'type': "CIAttributeTypeScalar"},
                                                                                 { 'key':"inputThreshold", 'val': threshold, 'type': "CIAttributeTypeScalar"} ]
@@ -1164,6 +1179,33 @@ def processGrayscale():
             filterMap["filters"].append( { 'key':"CIPhotoEffectMono", "parameters":[] } )
             print ("...ConvertToGrayscale")
 
+
+
+#----------------------------
+
+def processGrain():
+    '''
+        GrainAmount 0..100 -> 0.0..1.0
+        GrainSize 0..100 -> 0.0..1.0
+        GrainFrequency 0..100 (not used)
+    '''
+    found = False
+    size = 0.0
+    
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "GrainAmount"):
+        found = True
+        amount = xmp.get_property_float(XMP_NS_CAMERA_RAW, "GrainAmount") / 100.0
+    
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "GrainSize"):
+        found = True
+        size = xmp.get_property_float(XMP_NS_CAMERA_RAW, "GrainSize") / 100.0
+    
+
+    if found and not approxEqual(amount, 0.0):
+        filterMap["filters"].append( { 'key':"GrainFilter", "parameters":[{ 'key':"inputAmount", 'val': amount, 'type': "CIAttributeTypeScalar"},
+                                                                          { 'key':"inputSize", 'val': size, 'type': "CIAttributeTypeScalar"} ]
+                                    } )
+        print ("...Film Grain")
 
 #----------------------------
 # calculates the change to a "curve". We assume the change is a percentage of the remaining distance above/below the curve

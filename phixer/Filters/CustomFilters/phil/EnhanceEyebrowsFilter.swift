@@ -16,7 +16,7 @@ class EnhanceEyebrowsFilter: CIFilter {
 
     var inputImage: CIImage? = nil
     var processedImage: CIImage? = nil
-    var inputBrightness: CGFloat = 0.01
+    //var inputBrightness: CGFloat = 0.01
     var inputClarity: CGFloat = 0.5
 
 

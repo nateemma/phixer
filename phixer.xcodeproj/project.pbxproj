@@ -60,6 +60,7 @@
 		250C5FA322C6734900DE0DDF /* VoronoiNoise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250C5FA022C6734900DE0DDF /* VoronoiNoise.swift */; };
 		250C5FA422C6734900DE0DDF /* Scatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250C5FA122C6734900DE0DDF /* Scatter.swift */; };
 		250C5FA522C6734900DE0DDF /* Voronoi.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = 250C5FA222C6734900DE0DDF /* Voronoi.cikernel */; };
+		250C5FA722C8168200DE0DDF /* GrainFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250C5FA622C8168200DE0DDF /* GrainFilter.swift */; };
 		251375511DB6AD6200A319DC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 251375501DB6AD6200A319DC /* GoogleService-Info.plist */; };
 		2515987E2193CD490067AA00 /* LumaRangeFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2515987D2193CD490067AA00 /* LumaRangeFilter.swift */; };
 		251598802194B97E0067AA00 /* ClarityFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2515987F2194B97E0067AA00 /* ClarityFilter.swift */; };
@@ -1003,6 +1004,7 @@
 		250C5FA022C6734900DE0DDF /* VoronoiNoise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoronoiNoise.swift; sourceTree = "<group>"; };
 		250C5FA122C6734900DE0DDF /* Scatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scatter.swift; sourceTree = "<group>"; };
 		250C5FA222C6734900DE0DDF /* Voronoi.cikernel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Voronoi.cikernel; sourceTree = "<group>"; };
+		250C5FA622C8168200DE0DDF /* GrainFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GrainFilter.swift; sourceTree = "<group>"; };
 		251375501DB6AD6200A319DC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2515987D2193CD490067AA00 /* LumaRangeFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LumaRangeFilter.swift; sourceTree = "<group>"; };
 		2515987F2194B97E0067AA00 /* ClarityFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClarityFilter.swift; sourceTree = "<group>"; };
@@ -2075,6 +2077,7 @@
 				25E36AAD2244513A009D2727 /* EnhanceFaceFilter.swift */,
 				25E36AA522440924009D2727 /* EnhanceLipsFilter.swift */,
 				25E36AA922444DEC009D2727 /* EnhanceTeethFilter.swift */,
+				250C5FA622C8168200DE0DDF /* GrainFilter.swift */,
 				25F21F7922022EF7005C449F /* HighPassFilter.swift */,
 				25F21F7722016ED3005C449F /* HighPassSharpeningFilter.swift */,
 				25F21FE8220B8482005C449F /* HighPassSkinSmoothingFilter.swift */,
@@ -3306,7 +3309,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = Nateemma;
 				TargetAttributes = {
 					257F49DB1D9448920083B1E4 = {
@@ -4229,6 +4232,7 @@
 				252745E5217FE2EF00AA2DA2 /* StartupViewController.swift in Sources */,
 				252C17A71ECE75FC00039BFC /* AssignmentEntity+CoreDataProperties.swift in Sources */,
 				2537A23021EEC99000060DBE /* ControllerDelegate.swift in Sources */,
+				250C5FA722C8168200DE0DDF /* GrainFilter.swift in Sources */,
 				258F09B1218E4B810082FE2A /* Style_LaMuse.swift in Sources */,
 				252745FB21851AEB00AA2DA2 /* ColorPickerController.swift in Sources */,
 				2537A22621EE4EAA00060DBE /* SimpleCoordinator.swift in Sources */,
@@ -4424,6 +4428,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -4484,6 +4489,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -4552,6 +4558,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -4573,6 +4580,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "phixer/phixer-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
