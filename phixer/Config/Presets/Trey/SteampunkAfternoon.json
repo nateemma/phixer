@@ -43,16 +43,6 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 1.0, 
-          "key": "inputSaturation"
-        }
-      ], 
-      "key": "SaturationFilter"
-    }, 
-    {
-      "parameters": [
-        {
-          "type": "CIAttributeTypeScalar", 
           "val": 0.15, 
           "key": "inputHighlightHue"
         }, 

@@ -48,16 +48,6 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 1.0, 
-          "key": "inputSaturation"
-        }
-      ], 
-      "key": "SaturationFilter"
-    }, 
-    {
-      "parameters": [
-        {
-          "type": "CIAttributeTypeScalar", 
           "val": 0.0, 
           "key": "inputHighlightHue"
         }, 
@@ -262,7 +252,7 @@
         {
           "type": "CIAttributeTypeOffset", 
           "val": [
-            0.0, 
+            0.0375, 
             0.0
           ], 
           "key": "inputPoint0"
@@ -294,7 +284,7 @@
         {
           "type": "CIAttributeTypeOffset", 
           "val": [
-            1.0, 
+            0.9595, 
             1.0
           ], 
           "key": "inputPoint4"

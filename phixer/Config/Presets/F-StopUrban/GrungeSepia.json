@@ -119,7 +119,7 @@
         {
           "type": "CIAttributeTypeOffset", 
           "val": [
-            0.0, 
+            0.03, 
             0.0
           ], 
           "key": "inputPoint0"

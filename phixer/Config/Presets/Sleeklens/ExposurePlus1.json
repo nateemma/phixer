@@ -1,0 +1,19 @@
+{
+  "info": {
+    "group": "Sleeklens Starter Presets", 
+    "name": "Sleeklens Starter | 2-Exposure - Exposure +1"
+  }, 
+  "filters": [
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 1.0, 
+          "key": "inputEV"
+        }
+      ], 
+      "key": "CIExposureAdjust"
+    }
+  ], 
+  "key": "../phixer/Config/Presets/Sleeklens/ExposurePlus1.json"
+}

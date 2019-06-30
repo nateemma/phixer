@@ -605,6 +605,7 @@
         { "key": "GrungeRed", "title": "Grunge (Red)", "slow": false, "show": true, "rating": 0 },
         { "key": "GrungeSepia", "title": "Grunge (Sepia)", "slow": false, "show": true, "rating": 0 },
         { "key": "GrungeSmooth", "title": "Grunge (Smooth)", "slow": false, "show": true, "rating": 0 },
+        { "key": "UrbanGrain", "title": "Urban Grain", "slow": false, "show": true, "rating": 0 },
         { "key": "UrbanVignette", "title": "Urban Vignette", "slow": false, "show": true, "rating": 0 },
 
         { "key": "Adeline", "title": "Adeline", "slow": false, "show": true, "rating": 0 },
@@ -632,14 +633,75 @@
         
         { "key": "Fuji400H", "title": "Fuji 400H", "slow": false, "show": true, "rating": 0 },
         { "key": "FujiSuperia1600", "title": "Fuji Superia 1600", "slow": false, "show": true, "rating": 0 },
-        { "key": "FujiSuperia400", "title": "FujiSuperia400", "slow": false, "show": true, "rating": 0 },
-        { "key": "FujiVelvia100", "title": "FujiVelvia100", "slow": false, "show": true, "rating": 0 },
-        { "key": "FujiVelvia50", "title": "FujiVelvia50", "slow": false, "show": true, "rating": 0 },
-        { "key": "KodakEktar100", "title": "KodakEktar100", "slow": false, "show": true, "rating": 0 },
-        { "key": "KodakPortra400", "title": "KodakPortra400", "slow": false, "show": true, "rating": 0 },
-        { "key": "KodakPortra800", "title": "KodakPortra800", "slow": false, "show": true, "rating": 0 },
-        { "key": "KodakTMAX3200", "title": "KodakTMAX3200", "slow": false, "show": true, "rating": 0 },
-        { "key": "KodakTriX400", "title": "KodakTriX400", "slow": false, "show": true, "rating": 0 },
+        { "key": "FujiSuperia400", "title": "Fuji Superia 400", "slow": false, "show": true, "rating": 0 },
+        { "key": "FujiVelvia100", "title": "Fuji Velvia 100", "slow": false, "show": true, "rating": 0 },
+        { "key": "FujiVelvia50", "title": "Fuji Velvia 50", "slow": false, "show": true, "rating": 0 },
+        { "key": "KodakEktar100", "title": "Kodak Ektar 100", "slow": false, "show": true, "rating": 0 },
+        { "key": "KodakPortra400", "title": "Kodak Portra 400", "slow": false, "show": true, "rating": 0 },
+        { "key": "KodakPortra800", "title": "Kodak Portra 800", "slow": false, "show": true, "rating": 0 },
+        { "key": "KodakTMAX3200", "title": "Kodak TMAX 3200", "slow": false, "show": true, "rating": 0 },
+        { "key": "KodakTriX400", "title": "Kodak Tri X400", "slow": false, "show": true, "rating": 0 },
+        
+        
+        { "key": "CrossProcessGreen", "title": "Cross Process Green", "slow": false, "show": true, "rating": 0 },
+        { "key": "CrossProcessBlue", "title": "Cross Process Blue", "slow": false, "show": true, "rating": 0 },
+        { "key": "CrossProcessYellow", "title": "Cross Process Yellow", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "NiceGreens", "title": "Nice Greens", "slow": false, "show": true, "rating": 0 },
+        { "key": "FreshLime", "title": "Fresh Lime", "slow": false, "show": true, "rating": 0 },
+        { "key": "HighContrast", "title": "High Contrast", "slow": false, "show": true, "rating": 0 },
+        { "key": "OpenShadows", "title": "Open Shadows", "slow": false, "show": true, "rating": 0 },
+        { "key": "VelvetFreedom", "title": "Velvet Freedom", "slow": false, "show": true, "rating": 0 },
+        { "key": "LowContrast", "title": "Low Contrast", "slow": false, "show": true, "rating": 0 },
+        { "key": "VintageBlack", "title": "Vintage Black", "slow": false, "show": true, "rating": 0 },
+        { "key": "SubtleWhite", "title": "Subtle White", "slow": false, "show": true, "rating": 0 },
+        { "key": "HappyMeadow", "title": "Happy Meadow", "slow": false, "show": true, "rating": 0 },
+        { "key": "AfternoonPlay", "title": "Afternoon Play", "slow": false, "show": true, "rating": 0 },
+        { "key": "SunnyVibe", "title": "Sunny Vibe", "slow": false, "show": true, "rating": 0 },
+        { "key": "CloseHighlights", "title": "Close Highlights", "slow": false, "show": true, "rating": 0 },
+        { "key": "RainyDays", "title": "Rainy Days", "slow": false, "show": true, "rating": 0 },
+        { "key": "GreenCotton", "title": "Green Cotton", "slow": false, "show": true, "rating": 0 },
+        { "key": "HawaiColor", "title": "Hawaii Color", "slow": false, "show": true, "rating": 0 },
+        { "key": "DreamyFeeling", "title": "Dreamy Feeling", "slow": false, "show": true, "rating": 0 },
+        { "key": "OpenHighlights", "title": "Open Highlights", "slow": false, "show": true, "rating": 0 },
+        { "key": "ExposurePlus1", "title": "Exposure +1", "slow": false, "show": true, "rating": 0 },
+        { "key": "ColorPop", "title": "Color Pop", "slow": false, "show": true, "rating": 0 },
+        { "key": "CleanBlack", "title": "Clean Black", "slow": false, "show": true, "rating": 0 },
+        { "key": "SubtleBlack", "title": "Subtle Black", "slow": false, "show": true, "rating": 0 },
+        { "key": "Startrails", "title": "Startrails", "slow": false, "show": true, "rating": 0 },
+        { "key": "GreyWorld", "title": "Grey World", "slow": false, "show": true, "rating": 0 },
+        { "key": "TravelWish", "title": "Travel Wish", "slow": false, "show": true, "rating": 0 },
+        { "key": "SummerBloom", "title": "Summer Bloom", "slow": false, "show": true, "rating": 0 },
+        { "key": "WarmShadows", "title": "Warm Shadows", "slow": false, "show": true, "rating": 0 },
+        { "key": "CloseShadows", "title": "Close Shadows", "slow": false, "show": true, "rating": 0 },
+        { "key": "Kasper", "title": "Kasper", "slow": false, "show": true, "rating": 0 },
+        { "key": "ExposureMinus1", "title": "Exposure -1", "slow": false, "show": true, "rating": 0 },
+        { "key": "WalkOnABeach", "title": "Walk On A Beach", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "VintageCool", "title": "Vintage Cool", "slow": false, "show": true, "rating": 0 },
+        { "key": "VintageRedCyan", "title": "Vintage Red Cyan", "slow": false, "show": true, "rating": 0 },
+        { "key": "VintageRed", "title": "Vintage Red", "slow": false, "show": true, "rating": 0 },
+        { "key": "VintageBlueYellow", "title": "Vintage Blue Yellow", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "Wonka", "title": "Wonka", "slow": false, "show": true, "rating": 0 },
+        { "key": "Blue Dawn", "title": "Blue Dawn", "slow": false, "show": true, "rating": 0 },
+        { "key": "Arkham", "title": "Arkham", "slow": false, "show": true, "rating": 0 },
+        { "key": "OmahaBeach", "title": "Omaha Beach", "slow": false, "show": true, "rating": 0 },
+        { "key": "Tijuana", "title": "Tijuana", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "Daisy", "title": "Daisy", "slow": false, "show": true, "rating": 0 },
+        { "key": "Robin", "title": "Robin", "slow": false, "show": true, "rating": 0 },
+        { "key": "Inky", "title": "Inky", "slow": false, "show": true, "rating": 0 },
+        { "key": "Roaster", "title": "Roaster", "slow": false, "show": true, "rating": 0 },
+        { "key": "1975", "title": "1975", "slow": false, "show": true, "rating": 0 },
+        { "key": "ElHefe", "title": "El Hefe", "slow": false, "show": true, "rating": 0 },
+        { "key": "Crossify", "title": "Crossify", "slow": false, "show": true, "rating": 0 },
+        { "key": "WaldenPond", "title": "Walden Pond", "slow": false, "show": true, "rating": 0 },
+        { "key": "XPro", "title": "XPro", "slow": false, "show": true, "rating": 0 },
+        { "key": "Brandenburg", "title": "Brandenburg", "slow": false, "show": true, "rating": 0 },
+        { "key": "LordKelvin", "title": "Lord Kelvin", "slow": false, "show": true, "rating": 0 },
+        { "key": "PopFlash", "title": "Pop Flash", "slow": false, "show": true, "rating": 0 },
+        { "key": "Mayor", "title": "Mayor", "slow": false, "show": true, "rating": 0 },
         
         { "key": "Test00", "title": "Test 00", "slow": false, "show": true, "rating": 0 }
 
@@ -659,30 +721,84 @@
                 "ps_004", "ps_009", "bw_031", "bw_037" ]
         },
         
-        {"key": "presets",
-            "title": "Presets",
+        {"key": "pr_trey",
+            "title": "Presets: Trey",
             "filters": [
-                "Grunge", "GrungeBlue", "GrungeBW", "GrungeGreen", "GrungeMuted", "GrungeRed", "GrungeSepia", "GrungeSmooth",  "UrbanVignette",
-                "Adeline", "Amber", "Clarisse", "Emily", "Gwendolyn", "Juliet", "Marianne", "Summer", "Taylor", "Vicky", "Violet",
                 "BeautifulRelease", "CarefullyShavenTurk", "MarshmallowHappysmell", "SteampunkAfternoon", "OnRecreationalDrugs", "TurkishBlast",
                 "ThankHeavenForLittleGirls", "SundayAloneTime", "Navigator", "Relic"
             ]
         },
         
-        {"key": "film",
-            "title": "Analog Film",
-            "filters": [ "Fuji400H", "FujiSuperia1600", "FujiSuperia400", "FujiVelvia100", "FujiVelvia50",
-                "KodakEktar100", "KodakPortra400", "KodakPortra800", "KodakTMAX3200", "KodakTriX400", "Test00"
+        {"key": "pr_fstopurban",
+            "title": "Presets: F-Stop Urban",
+            "filters": [
+                "Grunge", "GrungeBlue", "GrungeBW", "GrungeGreen", "GrungeMuted", "GrungeRed", "GrungeSepia", "GrungeSmooth",  "UrbanGrain",  "UrbanVignette"
             ]
         },
-
-
+        
+        {"key": "pr_blondies",
+            "title": "Presets: Blondies & Brunettes",
+            "filters": [
+                "Adeline", "Amber", "Clarisse", "Emily", "Gwendolyn", "Juliet", "Marianne", "Summer", "Taylor", "Vicky", "Violet"
+            ]
+        },
+        
+        {"key": "pr_film",
+            "title": "Presets: Analog Film",
+            "filters": [ "Fuji400H", "FujiSuperia1600", "FujiSuperia400", "FujiVelvia100", "FujiVelvia50",
+                "KodakEktar100", "KodakPortra400", "KodakPortra800", "KodakTMAX3200", "KodakTriX400"
+            ]
+        },
+        
+        
+        {"key": "pr_sleeklens",
+            "title": "Presets: Sleeklens Starter",
+            "filters": [
+                "NiceGreens", "FreshLime", "HighContrast", "OpenShadows", "VelvetFreedom", "LowContrast",
+                "VintageBlack", "SubtleWhite", "HappyMeadow", "AfternoonPlay", "SunnyVibe", "CloseHighlights",
+                "RainyDays", "GreenCotton", "HawaiColor", "DreamyFeeling", "OpenHighlights", "ExposurePlus1",
+                "ColorPop", "CleanBlack", "SubtleBlack", "Startrails", "GreyWorld", "TravelWish", "SummerBloom", "WarmShadows",
+                "CloseShadows", "Kasper", "ExposureMinus1", "WalkOnABeach"
+            ]
+        },
+        
+        {"key": "pr_oxprocess",
+            "title": "Presets: onOne Cross Process",
+            "filters": [
+                "CrossProcessGreen", "CrossProcessBlue", "CrossProcessYellow"
+            ]
+        },
+        
+        {"key": "pr_ovintage",
+            "title": "Presets: onOne Vintage",
+            "filters": [
+                "VintageCool", "VintageRedCyan", "VintageRed", "VintageBlueYellow"
+            ]
+        },
+        
+        {"key": "pr_omovie",
+            "title": "Presets: onOne Movie Looks",
+            "filters": [
+                "Wonka", "Blue Dawn", "Arkham", "OmahaBeach", "Tijuana"
+            ]
+        },
+        
+        {"key": "pr_oinsta",
+            "title": "Presets: onOne Instatastic",
+            "filters": [
+                "Daisy", "Robin", "Inky", "Roaster", "1975", "ElHefe", "Crossify", "WaldenPond", "XPro", "Brandenburg",
+                "LordKelvin", "PopFlash", "Mayor"
+            ]
+        },
+        
+        
+        
         {"key": "styletransfer",
             "title": "Style Transfer",
             "filters": ["Style_Scream", "Style_Candy",  "Style_Feathers",  "Style_LaMuse",  "Style_Udnie",  "Style_Mosaic"
             ]
         },
-
+        
         
         {"key": "blends",
             "title": "Blend Effects",
