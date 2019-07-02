@@ -8,21 +8,21 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 1.03, 
-          "key": "inputContrast"
-        }
-      ], 
-      "key": "ContrastFilter"
-    }, 
-    {
-      "parameters": [
-        {
-          "type": "CIAttributeTypeScalar", 
           "val": 1.05, 
           "key": "inputSaturation"
         }
       ], 
       "key": "SaturationFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.5, 
+          "key": "inputSharpness"
+        }
+      ], 
+      "key": "CISharpenLuminance"
     }, 
     {
       "parameters": [
@@ -53,11 +53,31 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 0.5, 
-          "key": "inputSharpness"
+          "val": 0.4, 
+          "key": "inputAmount"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.25, 
+          "key": "inputSize"
         }
       ], 
-      "key": "CISharpenLuminance"
+      "key": "GrainFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.15, 
+          "key": "inputShadowAmount"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.9, 
+          "key": "inputHighlightAmount"
+        }
+      ], 
+      "key": "CIHighlightShadowAdjust"
     }, 
     {
       "parameters": [
@@ -133,26 +153,11 @@
     {
       "parameters": [
         {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.4, 
-          "key": "inputAmount"
-        }, 
-        {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.25, 
-          "key": "inputSize"
-        }
-      ], 
-      "key": "GrainFilter"
-    }, 
-    {
-      "parameters": [
-        {
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.025, 
-            1.1500000000000001, 
-            1.0
+            1.05, 
+            1.1
           ], 
           "key": "inputRedShift"
         }, 
@@ -160,8 +165,8 @@
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.00625, 
-            1.05, 
-            1.0
+            1.0, 
+            1.05
           ], 
           "key": "inputOrangeShift"
         }, 
@@ -178,8 +183,8 @@
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.025, 
-            0.45, 
-            1.0
+            0.65, 
+            0.8
           ], 
           "key": "inputGreenShift"
         }, 
@@ -196,8 +201,8 @@
           "type": "CIAttributeTypePosition3", 
           "val": [
             -0.00625, 
-            0.8, 
-            1.0
+            0.9, 
+            0.9
           ], 
           "key": "inputBlueShift"
         }, 
@@ -205,8 +210,8 @@
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.0125, 
-            1.0, 
-            1.0
+            0.9, 
+            1.1
           ], 
           "key": "inputPurpleShift"
         }, 
@@ -214,33 +219,13 @@
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.0125, 
-            1.1500000000000001, 
-            1.0
+            1.05, 
+            1.1
           ], 
           "key": "inputMagentaShift"
         }
       ], 
       "key": "MultiBandHSV"
-    }, 
-    {
-      "parameters": [
-        {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.0, 
-          "key": "inputRadius"
-        }, 
-        {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.15, 
-          "key": "inputShadowAmount"
-        }, 
-        {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.3, 
-          "key": "inputHighlightAmount"
-        }
-      ], 
-      "key": "CIHighlightShadowAdjust"
     }, 
     {
       "parameters": [

@@ -7,6 +7,21 @@
     {
       "parameters": [
         {
+          "type": "CIAttributeTypeScalar", 
+          "val": -0.24, 
+          "key": "inputShadowAmount"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 1.0, 
+          "key": "inputHighlightAmount"
+        }
+      ], 
+      "key": "CIHighlightShadowAdjust"
+    }, 
+    {
+      "parameters": [
+        {
           "type": "CIAttributeTypeOffset", 
           "val": [
             0.0, 
@@ -18,7 +33,7 @@
           "type": "CIAttributeTypeOffset", 
           "val": [
             0.25, 
-            0.214
+            0.25
           ], 
           "key": "inputPoint1"
         }, 

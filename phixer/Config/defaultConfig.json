@@ -1,5 +1,5 @@
 {
-    "version": { "id": 3.0, "overwrite": true },
+    "version": { "id": 3.0, "overwrite": false },
     
     "slow": [ "KuwaharaFilter", "SketchFilter",
         "EnhanceLipsFilter", "EnhanceEyesFilter", "EnhanceTeethFilter", "EnhanceEyebrowsFilter", "EnhanceFaceFilter",
@@ -717,8 +717,7 @@
         
         {"key": "favorites",
             "title": "Favorites",
-            "filters": ["CISRGBToneCurveToLinear",  "YUCIHighPassSkinSmoothing", "CITwirlDistortion", "CIColorPosterize", "CIColorInvert",
-                "ps_004", "ps_009", "bw_031", "bw_037" ]
+            "filters": [ "CIHighlightShadowAdjust",  "CINoiseReduction", "ClarityFilter", "Navigator", "Tijuana", "Grunge",  "TurkishBlast", "FreshLime" ]
         },
         
         {"key": "pr_trey",

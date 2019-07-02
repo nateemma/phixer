@@ -123,26 +123,27 @@ def main():
     processWhiteBalance()
     processExposure()
     processContrast()
-    processToneCurve()
     processClarity()
     processVibrance()
     processSaturation()
-    processParametricCurve()
-    processHSV()
-    processSplitToning()
     processSharpening()
+
+    processSplitToning()
+    processGrain()
+    processShadowsHighlights()
+
+    processHSV()
     processCalibration()
     processRGBToneCurves()
     
-    processGrain()
-    addHSV()
- 
-    processShadowsHighlights() # do this after colour adjustments
+    processToneCurve()
+    processParametricCurve()
 
+    addHSV()
     addToneCurve()
 
     # process these last
-    processGrayscale() # do this last
+    processGrayscale()
     processVignette()
 
 
@@ -160,6 +161,7 @@ def parseInput(f):
     with open(f, 'r') as inf:
         strbuffer = inf.read()
     xmp.parse_from_str(strbuffer)
+    print("--------------------------------")
     print("\nProcessing: " + infile + "...")
 
 
@@ -176,7 +178,7 @@ def initPreset(f):
 def printPreset():
     #print ("Raw map: " + str(filterMap))
     print ("\n\n")
-    print ("JSON: " + json.dumps(filterMap, indent=4))
+    print ("JSON: " + json.dumps(filterMap, indent=2))
 
 
 #----------------------------
@@ -237,6 +239,9 @@ def processAuto():
 #----------------------------
 
 def processWhiteBalance():
+    temp = 0.0
+    tint = 0.0
+    
     # keys: either WhiteBalance (preset) and/or Temperature and Tint
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "WhiteBalance"):
         # preset is one of: As Shot, Auto, Daylight, Cloudy, Shade, Tungsten, Fluorescent, Flash, Custom
@@ -271,23 +276,28 @@ def processWhiteBalance():
             filterMap["filters"].append( { 'key':"WhiteBalanceFilter", "parameters":[ { 'key':"inputTemperature", 'val':temp, 'type':"CIAttributeTypeScalar"},
                                                                                  {'key':"inputTint", 'val': tint, 'type': "CIAttributeTypeScalar"} ]
                                     } )
+            print("Temp: " + str(temp) + " Tint: " + str(tint))
             print ("...Custom White Balance")
 
 
 #----------------------------
 
 def processExposure():
+    value = 0.0
     # keys: Exposure or Exposure2012. Range -5.0 .. +5.0 -> -10.0 ... +10.0 (but same scale)
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Exposure"):
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Exposure")
         if abs(value)>0.01:
             filterMap["filters"].append( { 'key':"CIExposureAdjust", "parameters":[{ 'key':"inputEV", 'val': value, 'type': "CIAttributeTypeScalar"} ] } )
+            print("Exposure: " + str(value))
             print ("...Exposure")
     elif xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Exposure2012"):
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Exposure2012")
         if abs(value)>0.01:
             filterMap["filters"].append( { 'key':"CIExposureAdjust", "parameters":[{ 'key':"inputEV", 'val': value, 'type': "CIAttributeTypeScalar"} ] } )
+            print("Exposure: " + str(value))
             print ("...Exposure2012")
+
 
 
 #----------------------------
@@ -297,45 +307,41 @@ def processContrast():
     global toneCurve
     global toneCurveChanged
 
-    minClarity = 1.0
+    minContrast = 1.0
     found = False
-    # keys: Contrast or Contrast2012. Range -50..+100 -> 0.25..4.0
+    value = 0.0
+    
+    # keys: Contrast or Contrast2012. Range -50..+100 -> 0.25..4.0 (1.0 is neutral)
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Contrast"):
         found = True
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Contrast")
-        if (value<0.0):
-            value = 1.0 + value * 0.75 / 50.0
-        else:
-            value = 1.0 + value * 3.0 / 100.0
-        if (value < minClarity):
-            print ("WARNING: Contrast too low, setting to: "+str(minClarity))
-        value = clamp(value, minClarity, 4.0)
-        if abs(value)>0.01:
-            filterMap["filters"].append( { 'key':"ContrastFilter", "parameters":[{ 'key':"inputContrast", 'val': value, 'type': "CIAttributeTypeScalar"} ] } )
-            print ("...Contrast")
     elif xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Contrast2012"):
         found = True
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Contrast2012")
-        if (value<0.0):
-            value = 1.0 + value * 0.75 / 50.0
-        else:
-            value = 1.0 + value * 3.0 / 100.0
-        if (value < minClarity):
-            print ("WARNING: Contrast too low, setting to: "+str(minClarity))
-        value = clamp(value, minClarity, 4.0)
-        print ("...Contrast2012")
 
     if found and abs(value)>0.001:
         # if the value is +ve we can use the built in Contrast Filter
         if value>=0.0:
-            value = 1.0 + value * 3.0 / 100.0 # 0..100 -> 1..4
-            value = clamp(value, minClarity, 4.0)
+            #value = 1.0 + value * 3.0 / 100.0 # 0..100 -> 1..4
+            value = 1.0 + value / 100.0 # 0..100 -> 1..2
+            value = clamp(value, minContrast, 4.0)
             filterMap["filters"].append( { 'key':"ContrastFilter", "parameters":[{ 'key':"inputContrast", 'val': value, 'type': "CIAttributeTypeScalar"} ] } )
+            print("Contrast: " + str(value))
         else:
+            print("Negative Contrast not really supported")
             # -ve contrast, the built in filter sucks with this, so adjust the tone curve instead
-            shadowVal = toneCurve[1][1] * (1.0 + value/100.0)
-            toneCurve[1][1] = clamp (shadowVal, 1.0, 99.0 )
+            b = calculateCurveChangeConstrained(toneCurve[1][1], -value, toneCurve[2][1]-10.0, toneCurve[0][1]+10.0)
+            toneCurve[1][1] = b
             toneCurveChanged = True
+            print("Updated Curve: " + str(toneCurve))
+            '''
+            value = 1.0 + value / 100.0 # 0..100 -> 1..2
+            value = clamp(value, 0.25, 1.0)
+            filterMap["filters"].append( { 'key':"ContrastFilter", "parameters":[{ 'key':"inputContrast", 'val': value, 'type': "CIAttributeTypeScalar"} ] } )
+            print("Contrast: " + str(value))
+            '''
+
+        print ("...Contrast")
 
 #----------------------------
 
@@ -358,12 +364,13 @@ def processShadowsHighlights():
     w = 0.0
     s = 0.0
     h = 0.0
-    
+    value = 0.0
+
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Blacks"):
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Blacks")
         if abs(value)>0.01:
             found = True
-            b = calculateCurveChangeConstrained(toneCurve[0][0], toneCurve[1][0]-10.0, -value, 0.0)
+            b = calculateCurveChangeConstrained(toneCurve[0][0], -value, toneCurve[1][0]-10.0, 0.0)
             toneCurve[0][0] = b
     elif xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Blacks2012"):
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Blacks2012")
@@ -418,79 +425,192 @@ def processShadowsHighlights():
     if found:
         toneCurveChanged = True
         #addToneCurve()
-        print("Blacks: " + str(b) + " Shadows:" +str(s) + " Highlights:" + str(h) + " Whites:" + str(w))
-        print ("...Blacks/Shadows/Highlights/Whites")
+        print("Blacks: " + str(b) + " Whites:" + str(w))
+        print ("...Blacks/Whites")
 
 
     # try the HighlightShadows filter instead of adjusting the tone curve
     found2 = False
-    h = 0.3
+    h = 0.0
     s = 0.0
     sum = 0.0
 
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Shadows"):
-        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Shadows")
-        sum = sum + abs(value)
-        if abs(value)>0.01:
+        s = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Shadows")
+        sum = sum + abs(s)
+        if abs(s)>0.01:
             found2 = True
-            s = clamp (value/100.0, -1.0, 1.0)
-            print("Shadows: " + str(value) + " -> " + str(s))
+            print("Shadows: " + str(s))
     elif xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Shadows2012"):
-        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Shadows2012")
+        s = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Shadows2012")
         sum = sum + abs(value)
-        if abs(value)>0.01:
+        if abs(s)>0.01:
             found2 = True
-            s = clamp (value/100.0, -1.0, 1.0)
-            print("Shadows: " + str(value) + " -> " + str(s))
+            print("Shadows: " + str(s))
 
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Highlights"):
-        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Highlights")
-        sum = sum + abs(value)
-        # only process -ve values (reduce highligts) because that's all the internal filter supports
-        #if abs(value)>0.01:
-        if value<0.0:
+        h = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Highlights")
+        sum = sum + abs(h)
+        if abs(h)>0.01:
             found2 = True
-            h = clamp (-value/100.0, 0.3, 1.0) # check range
-            #h = clamp (-value/100.0, 0.0, 1.0) # check range
-            print("Highlights: " + str(value) + " -> " + str(h))
+            print("Highlights: " + str(h))
     elif xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Highlights2012"):
-        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Highlights2012")
+        h = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Highlights2012")
         sum = sum + abs(value)
-        # only process -ve values (reduce highligts) because that's all the internal filter supports
-        #if abs(value)>0.01:
-        if value<0.0:
+        if abs(h)>0.01:
             found2 = True
-            h = clamp (-value/100.0, 0.3, 1.0)
-            #h = clamp (-value/100.0, 0.0, 1.0)
-            print("Highlights: " + str(value) + " -> " + str(h))
+            print("Highlights: " + str(h))
 
     if found2 and abs(sum)>0.01:
-        filterMap["filters"].append( { 'key':"CIHighlightShadowAdjust", "parameters":[{ 'key':"inputRadius", 'val': 0.0, 'type': "CIAttributeTypeScalar"},
-                                                                                      { 'key':"inputShadowAmount", 'val': s, 'type': "CIAttributeTypeScalar"},
-                                                                                      { 'key':"inputHighlightAmount", 'val': h, 'type': "CIAttributeTypeScalar"}
-                                                                                      ] } )
+        updateShadowsHighlights(s, h)
         print ("...Shadows/Highlights")
 
+#----------------------------
+
+
+def processParametricCurve():
+    # this is the Lightroom version of a Tone Curve.
+    # keys: ParametricDarks, ParametricLights, ParametricShadows, ParametricHighlights, ParametricShadowSplit, ParametricMidtoneSplit, ParametricHighlightSplit
+    # the 'Split' keys affect the tone curve input values, others affect the output values
+    # values for output levels are are -100..+100 and represent the change relative to the current tone curve
+    # values for 'Split' variables represent the input value for that transition point (Shadows, Dark etc.). Range 0..100
+    # Note: each value is a percentage, i.e. 0..100 (-100..+100 for output adjustments), not an absolute value
+    # note that I constrained the changes so that they cannot go higher than the next point or lower than the previous point. This is
+    # artificial and precludes any 'inversion' type changes (via Parametric values)
+    
+    global toneCurve
+    global toneCurveChanged
+    
+    found = False
+    sum = 0.0
+    value = 0.0
+    
+    
+    # look for specific settings of each point and apply them on top of the current curve
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricDarks"):
+        found = True
+        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricDarks")
+        #toneCurve[0][1] = clamp ((toneCurve[0][1] + value), 0.0, 100.0)
+        print("Darks: " + str(value))
+        toneCurve[0][1] = calculateCurveChangeConstrained(toneCurve[0][1], value, toneCurve[1][1]-10.0, 0.0)
+    
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricShadowSplit"):
+        found = True
+        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricShadowSplit")
+        toneCurve[1][0] = value
+        sum = sum + abs(value)
+    
+    '''
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricShadows"):
+        found = True
+        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricShadows")
+        print("Shadows: " + str(value))
+        #toneCurve[1][1] = calculateCurveChange(toneCurve[1][1], value, 100.0)
+        toneCurve[1][1] = calculateCurveChangeConstrained(toneCurve[1][1], value, toneCurve[2][1]-10.0, toneCurve[0][1]+10.0)
+        sum = sum + abs(value)
+    '''
+    
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricMidtoneSplit"):
+        found = True
+        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricMidtoneSplit")
+        toneCurve[2][0] = value
+        sum = sum + abs(value)
+    
+    
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricHighlightSplit"):
+        found = True
+        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricHighlightSplit")
+        toneCurve[3][0] = value
+        sum = sum + abs(value)
+    
+    '''
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricHighlights"):
+        found = True
+        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricHighlights")
+        print("Highlights: " + str(value))
+        #toneCurve[3][1] = calculateCurveChange(toneCurve[3][1], value, 100.0)
+        toneCurve[3][1] = calculateCurveChangeConstrained(toneCurve[3][1], value, toneCurve[4][1]-10.0, toneCurve[2][1]+10.0)
+        sum = sum + abs(value)
+    '''
+    
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricLights"):
+        found = True
+        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricLights")
+        print("Lights: " + str(value))
+        #toneCurve[4][1] = calculateCurveChange(toneCurve[4][1], value, 100.0)
+        toneCurve[4][1] = calculateCurveChangeConstrained(toneCurve[4][1], value, 100.0, toneCurve[3][1]+10.0)
+        sum = sum + abs(value)
+    
+    
+    if found and abs(sum)>0.01:
+        toneCurveChanged = True
+        #addToneCurve()
+        print("Updated Curve: " + str(toneCurve))
+        print ("...Parametric Curve")
+
+    # process Shadows and Highlights using built in filter rather than adjusting Tone Curve
+    found2 = False
+    s = 0.0
+    h = 0.0
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricShadows"):
+        s = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricShadows")
+        if abs(s)>0.01:
+            found2 = True
+            print("Shadows: " + str(s))
+
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricHighlights"):
+        h = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricHighlights")
+        if abs(h)>0.01:
+            found2 = True
+            print("Highlights: " + str(h))
+
+    if found2:
+            updateShadowsHighlights(s, h)
+
+
+#----------------------------
+# takes XMP-based shadow/highlight values and creates filter definition for those (used in multiple places)
+def updateShadowsHighlights(s, h):
+    if abs(s)>0.01 or abs(h)>0.01:
+        s2 = clamp (s/100.0, -1.0, 1.0)
+        # highlights are strange. -100..+100 -> [], 1.0..0.3, there is no support for +ve values (i.e. increase highlights)
+        if h<0.0:
+            h2 = 1.0 + h/100.0
+        else:
+            h2 = 1.0
+        h2 = clamp (h2, 0.3, 1.0)
+        
+        print("Shadows: " + str(s) + " -> " + str(s2) + " Highlights: " + str(h) + " -> " + str(h2))
+        filterMap["filters"].append( { 'key':"CIHighlightShadowAdjust", "parameters":[{ 'key':"inputShadowAmount", 'val': s2, 'type': "CIAttributeTypeScalar"},
+                                                                                      { 'key':"inputHighlightAmount", 'val': h2, 'type': "CIAttributeTypeScalar"}
+                                                                                      ] } )
+    else:
+        print("WARNING - Ignoring Shadows/Highlights. s:" + str(s) + " h:" + str(h))
 
 #----------------------------
 
 def processClarity():
-    # keys: Clarity or Clarity2012. Range -100.0 .. +100.0 -> -1.0 ... +1.0
+    value = 0.0
+    # keys: Clarity or Clarity2012. Range -100.0 .. +100.0 -> 0.0 ... +1.0 Negative values not supported
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Clarity"):
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Clarity") / 100.0
-        if abs(value)>0.01:
+        if abs(value)>0.0:
             filterMap["filters"].append( { 'key':"ClarityFilter", "parameters":[{ 'key':"inputClarity", 'val': value, 'type': "CIAttributeTypeScalar"} ] } )
             print ("...Clarity")
     elif xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Clarity2012"):
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Clarity2012") / 100.0
-        if abs(value)>0.01:
+        if abs(value)>0.0:
             filterMap["filters"].append( { 'key':"ClarityFilter", "parameters":[{ 'key':"inputClarity", 'val': value, 'type': "CIAttributeTypeScalar"} ] } )
             print ("...Clarity2012")
+
+    if abs(value)>0.0:
+        print("Clarity: " + str(value))
 
 
 #----------------------------
 
 def processVibrance():
+    value = 0.0
     # key: Vibrance. Range -100..+100 -> -1.0..+1.0
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Vibrance"):
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Vibrance") / 100.0
@@ -498,11 +618,15 @@ def processVibrance():
             filterMap["filters"].append( { 'key':"CIVibrance", "parameters":[{ 'key':"inputAmount", 'val': value, 'type': "CIAttributeTypeScalar"} ] } )
             print ("...Vibrance")
 
+    if abs(value)>0.01:
+        print("Vibrance: " + str(value))
+
 
 
 #----------------------------
 
 def processSaturation():
+    value = 0.0
     # key: Saturation. Range -100..+100 -> 0.0..+2.0 (1.0 is neutral)
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Saturation"):
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Saturation")
@@ -512,81 +636,8 @@ def processSaturation():
             filterMap["filters"].append( { 'key':"SaturationFilter", "parameters":[{ 'key':"inputSaturation", 'val': value, 'type': "CIAttributeTypeScalar"} ] } )
             print ("...Saturation")
 
-
-#----------------------------
-
-def processParametricCurve():
-    # this is the Lightroom version of a Tone Curve.
-    # keys: ParametricDarks, ParametricLights, ParametricShadows, ParametricHighlights, ParametricShadowSplit, ParametricMidtoneSplit, ParametricHighlightSplit
-    # the 'Split' keys affect the tone curve input values, others affect the output values
-    # values for output levels are are -100..+100 and represent the change relative to a linear tone curve
-    # values for 'Split' variables represent the input value for that transition point (Shadows, Dark etc.). Range 0..100
-    # Note: each value is a percentage, i.e. 0..100 (-100..+100 for output adjustments), not an absolute value
-    # final conversion is to the range used in the CIToneCurve Filter, which is 0.0..1.0
-    # note that I constrained the changes so that they cannot go higher than the next point or lower than the previous point. This is
-    # artificial and precludes any 'inversion' type changes (via Parametric values)
-
-    global toneCurve
-    global toneCurveChanged
-    
-    found = False
-    sum = 0.0
-    
-
-    # look for specific settings of each point and apply them on top of the current curve
-    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricDarks"):
-        #found = True
-        #value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricDarks")
-        #toneCurve[0][1] = clamp ((toneCurve[0][1] + value), 0.0, 100.0)
-        print("WARNING: ignoring ParametricDarks")
-    
-    
-    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricShadowSplit"):
-        found = True
-        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricShadowSplit")
-        toneCurve[1][0] = value
-        sum = sum + abs(value)
-
-    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricShadows"):
-        found = True
-        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricShadows")
-        #toneCurve[1][1] = calculateCurveChange(toneCurve[1][1], value, 100.0)
-        toneCurve[1][1] = calculateCurveChangeConstrained(toneCurve[1][1], value, toneCurve[2][1]-10.0, toneCurve[0][1]+10.0)
-        sum = sum + abs(value)
-
-
-    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricMidtoneSplit"):
-        found = True
-        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricMidtoneSplit")
-        toneCurve[2][0] = value
-        sum = sum + abs(value)
-
-
-    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricHighlightSplit"):
-        found = True
-        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricHighlightSplit")
-        toneCurve[3][0] = value
-        sum = sum + abs(value)
-
-    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricHighlights"):
-        found = True
-        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricHighlights")
-        #toneCurve[3][1] = calculateCurveChange(toneCurve[3][1], value, 100.0)
-        toneCurve[3][1] = calculateCurveChangeConstrained(toneCurve[3][1], value, toneCurve[4][1]-10.0, toneCurve[2][1]+10.0)
-        sum = sum + abs(value)
-
-
-    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ParametricLights"):
-        found = True
-        value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ParametricLights")
-        toneCurve[4][1] = calculateCurveChange(toneCurve[4][1], value, 100.0)
-        sum = sum + abs(value)
-
-
-    if found and abs(sum)>0.01:
-        toneCurveChanged = True
-        #addToneCurve()
-        print ("...Parametric Curve")
+    if abs(value)>0.01:
+        print("Saturation: " + str(value))
 
 
 #----------------------------
@@ -631,7 +682,7 @@ def processToneCurve():
                 item = xmp.get_array_item(XMP_NS_CAMERA_RAW, curveName, i)
                 point = map(float, item.split(","))
                 points.append(point)
-            print("\Input Curve: "+str(points)+"\n")
+            print("\nInput Curve: "+str(points)+"\n")
 
             # if 2 or less points then ignore (linear anyway), otherwise interpolate
             if (count <2):
@@ -892,7 +943,7 @@ def processHSV():
             v = xmp.get_property_float(XMP_NS_CAMERA_RAW, "LuminanceAdjustment"+tag)
             if abs(v)>0.01:
                 value = (v / 100.0) # treat as a %age change
-                colourVectors[key][1] = colourVectors[key][1] + value
+                colourVectors[key][2] = colourVectors[key][2] + value
             #colourVectors[key][2] = calculateCurveChange(colourVectors[key][2], value, 1.0)
             sum = sum + abs(v)
         
@@ -905,8 +956,8 @@ def processHSV():
     if found:
         if (sum > 0.01): # check that something was specified, not all 0s
             coloursChanged = True
+            print ("Updated Colours: " + str(colourVectors) + "\n")
             print ("...HSV")
-            print ("Colours: " + str(colourVectors) + "\n")
         else:
             print ("Ignoring HSV")
 
@@ -960,7 +1011,7 @@ def processCalibration():
 
     if found and (sum > 0.01):
         coloursChanged = True
-        print ("Colours: " + str(colourVectors) + "\n")
+        print ("Updated Colours: " + str(colourVectors) + "\n")
         print ("...Calibration")
 
 
@@ -977,7 +1028,7 @@ def addHSV():
                                                                            { 'key':"inputPurpleShift", 'val': colourVectors["purple"], 'type': "CIAttributeTypePosition3"},
                                                                            { 'key':"inputMagentaShift", 'val': colourVectors["magenta"], 'type': "CIAttributeTypePosition3"} ]
                                     } )
-        print ("Colours: " + str(colourVectors) + "\n")
+        print ("Final Colours: " + str(colourVectors) + "\n")
 
 #----------------------------
 
@@ -990,7 +1041,7 @@ def processSplitToning():
     shadowSaturation = 0.5
     sum = 0.0
 
-    # straightforward conversion here, just convert range 0..100 to 0.0..1.0
+    # straightforward conversion here, just convert range Hue: -360..+360 -> -1.0..+1.0, Saturation: 0..100 to 0.0..1.0
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "SplitToningHighlightHue"):
         found = True
         highlightHue = xmp.get_property_float(XMP_NS_CAMERA_RAW, "SplitToningHighlightHue") / 360.0
@@ -1030,6 +1081,7 @@ def processSharpening():
         value = clamp(value, 0.0, 2.0)
         if abs(value)>0.01:
             filterMap["filters"].append( { 'key':"CISharpenLuminance", "parameters":[{ 'key':"inputSharpness", 'val': value, 'type': "CIAttributeTypeScalar"} ] } )
+            print ("Luminance Sharpen: " + str(value))
             print ("...Sharpening")
 
     # unsharp mask
@@ -1055,6 +1107,7 @@ def processSharpening():
                                                                                 { 'key':"inputRadius", 'val': radius, 'type': "CIAttributeTypeScalar"},
                                                                                 { 'key':"inputThreshold", 'val': threshold, 'type': "CIAttributeTypeScalar"} ]
                                     } )
+        print ("Unsharp Mask: amount: " + str(amount) + " radius: "  + str(radius) + " threshold: "  + str(threshold))
         print ("...Unsharp Mask")
 
 #----------------------------
@@ -1101,6 +1154,7 @@ def processVignette():
                                                                                { 'key':"inputIntensity", "val": intensity, "type": "CIAttributeTypeScalar"},
                                                                                { 'key':"inputFalloff", "val": falloff, "type": "CIAttributeTypeScalar"} ]
                                     } )
+        print ("Vignette: intensity:" + str(intensity) + " falloff: "  + str(falloff))
         print ("...Vignette")
 
 
@@ -1139,6 +1193,7 @@ def processGrain():
         filterMap["filters"].append( { 'key':"GrainFilter", "parameters":[{ 'key':"inputAmount", 'val': amount, 'type': "CIAttributeTypeScalar"},
                                                                           { 'key':"inputSize", 'val': size, 'type': "CIAttributeTypeScalar"} ]
                                     } )
+        print ("Film Grain: amount: " + str(amount) + " size: "  + str(size))
         print ("...Film Grain")
 
 #----------------------------
@@ -1163,7 +1218,7 @@ def calculateCurveChangeConstrained(currval, change, upper, lower):
         value = currval + (currval - lower) * change / 100.0
 
     value = clamp(value, lower, upper)
-    print ("Change: "+str(change) + str(currval) + " -> " + str(value))
+    #print ("Change: "+str(change) + str(currval) + " -> " + str(value))
     return value
 
 

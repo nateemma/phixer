@@ -8,16 +8,6 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 1.03, 
-          "key": "inputContrast"
-        }
-      ], 
-      "key": "ContrastFilter"
-    }, 
-    {
-      "parameters": [
-        {
-          "type": "CIAttributeTypeScalar", 
           "val": 1.0, 
           "key": "inputClarity"
         }
@@ -58,17 +48,12 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 0.0, 
-          "key": "inputRadius"
-        }, 
-        {
-          "type": "CIAttributeTypeScalar", 
           "val": 0.85, 
           "key": "inputShadowAmount"
         }, 
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 0.3, 
+          "val": 1.0, 
           "key": "inputHighlightAmount"
         }
       ], 
@@ -79,8 +64,8 @@
         {
           "type": "CIAttributeTypeOffset", 
           "val": [
-            0.0405, 
-            0.0
+            0.0, 
+            0.021
           ], 
           "key": "inputPoint0"
         }, 

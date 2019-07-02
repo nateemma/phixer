@@ -8,7 +8,7 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 1.039, 
+          "val": 1.1, 
           "key": "inputContrast"
         }
       ], 
@@ -48,6 +48,16 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
+          "val": 0.8, 
+          "key": "inputSharpness"
+        }
+      ], 
+      "key": "CISharpenLuminance"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
           "val": 0.39166666666666666, 
           "key": "inputHighlightHue"
         }, 
@@ -73,11 +83,31 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 0.8, 
-          "key": "inputSharpness"
+          "val": 0.14, 
+          "key": "inputAmount"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.25, 
+          "key": "inputSize"
         }
       ], 
-      "key": "CISharpenLuminance"
+      "key": "GrainFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.2, 
+          "key": "inputShadowAmount"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.81, 
+          "key": "inputHighlightAmount"
+        }
+      ], 
+      "key": "CIHighlightShadowAdjust"
     }, 
     {
       "parameters": [
@@ -154,16 +184,16 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 0.14, 
-          "key": "inputAmount"
+          "val": -0.2, 
+          "key": "inputShadowAmount"
         }, 
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 0.25, 
-          "key": "inputSize"
+          "val": 1.0, 
+          "key": "inputHighlightAmount"
         }
       ], 
-      "key": "GrainFilter"
+      "key": "CIHighlightShadowAdjust"
     }, 
     {
       "parameters": [
@@ -171,8 +201,8 @@
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.0275, 
-            0.6000000000000001, 
-            1.0
+            0.9, 
+            0.7
           ], 
           "key": "inputRedShift"
         }, 
@@ -180,8 +210,8 @@
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.00625, 
-            0.9500000000000001, 
-            1.0
+            1.05, 
+            0.9
           ], 
           "key": "inputOrangeShift"
         }, 
@@ -189,8 +219,8 @@
           "type": "CIAttributeTypePosition3", 
           "val": [
             -0.00625, 
-            0.85, 
-            1.0
+            1.0, 
+            0.85
           ], 
           "key": "inputYellowShift"
         }, 
@@ -198,8 +228,8 @@
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.05625, 
-            0.2, 
-            1.0
+            0.3, 
+            0.9
           ], 
           "key": "inputGreenShift"
         }, 
@@ -216,8 +246,8 @@
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.00625, 
-            0.8500000000000001, 
-            1.0
+            1.1, 
+            0.75
           ], 
           "key": "inputBlueShift"
         }, 
@@ -234,33 +264,13 @@
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.0, 
-            0.5499999999999999, 
-            1.0
+            0.7, 
+            0.85
           ], 
           "key": "inputMagentaShift"
         }
       ], 
       "key": "MultiBandHSV"
-    }, 
-    {
-      "parameters": [
-        {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.0, 
-          "key": "inputRadius"
-        }, 
-        {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.2, 
-          "key": "inputShadowAmount"
-        }, 
-        {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.3, 
-          "key": "inputHighlightAmount"
-        }
-      ], 
-      "key": "CIHighlightShadowAdjust"
     }, 
     {
       "parameters": [
@@ -276,7 +286,7 @@
           "type": "CIAttributeTypeOffset", 
           "val": [
             0.18, 
-            0.2860187859240454
+            0.2884058353462332
           ], 
           "key": "inputPoint1"
         }, 

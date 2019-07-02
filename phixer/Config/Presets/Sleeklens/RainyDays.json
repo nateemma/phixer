@@ -8,16 +8,6 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 1.03, 
-          "key": "inputContrast"
-        }
-      ], 
-      "key": "ContrastFilter"
-    }, 
-    {
-      "parameters": [
-        {
-          "type": "CIAttributeTypeScalar", 
           "val": -0.07, 
           "key": "inputClarity"
         }
@@ -48,6 +38,16 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
+          "val": 0.5, 
+          "key": "inputSharpness"
+        }
+      ], 
+      "key": "CISharpenLuminance"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
           "val": 0.0, 
           "key": "inputHighlightHue"
         }, 
@@ -73,11 +73,16 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 0.5, 
-          "key": "inputSharpness"
+          "val": 0.12, 
+          "key": "inputAmount"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.35, 
+          "key": "inputSize"
         }
       ], 
-      "key": "CISharpenLuminance"
+      "key": "GrainFilter"
     }, 
     {
       "parameters": [
@@ -154,16 +159,16 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 0.12, 
-          "key": "inputAmount"
+          "val": -0.35, 
+          "key": "inputShadowAmount"
         }, 
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 0.35, 
-          "key": "inputSize"
+          "val": 1.0, 
+          "key": "inputHighlightAmount"
         }
       ], 
-      "key": "GrainFilter"
+      "key": "CIHighlightShadowAdjust"
     }, 
     {
       "parameters": [
@@ -171,8 +176,8 @@
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.02, 
-            0.04999999999999999, 
-            1.0
+            0.25, 
+            0.8
           ], 
           "key": "inputRedShift"
         }, 
@@ -180,8 +185,8 @@
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.0, 
-            0.8, 
-            1.0
+            0.9, 
+            0.9
           ], 
           "key": "inputOrangeShift"
         }, 
@@ -189,8 +194,8 @@
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.0, 
-            0.79, 
-            1.0
+            0.97, 
+            0.8200000000000001
           ], 
           "key": "inputYellowShift"
         }, 
@@ -198,8 +203,8 @@
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.01625, 
-            -0.06999999999999998, 
-            1.0
+            0.15000000000000002, 
+            0.78
           ], 
           "key": "inputGreenShift"
         }, 
@@ -207,8 +212,8 @@
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.0, 
-            0.4799999999999999, 
-            1.0
+            0.6799999999999999, 
+            0.8
           ], 
           "key": "inputAquaShift"
         }, 
@@ -245,30 +250,10 @@
     {
       "parameters": [
         {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.0, 
-          "key": "inputRadius"
-        }, 
-        {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.45, 
-          "key": "inputShadowAmount"
-        }, 
-        {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.3, 
-          "key": "inputHighlightAmount"
-        }
-      ], 
-      "key": "CIHighlightShadowAdjust"
-    }, 
-    {
-      "parameters": [
-        {
           "type": "CIAttributeTypeOffset", 
           "val": [
             0.0, 
-            0.027450980392156873
+            0.02839238301457
           ], 
           "key": "inputPoint0"
         }, 
@@ -276,7 +261,7 @@
           "type": "CIAttributeTypeOffset", 
           "val": [
             0.25, 
-            0.1886421508490104
+            0.22159124263347
           ], 
           "key": "inputPoint1"
         }, 
@@ -300,7 +285,7 @@
           "type": "CIAttributeTypeOffset", 
           "val": [
             1.0, 
-            0.8
+            0.9749532206951599
           ], 
           "key": "inputPoint4"
         }

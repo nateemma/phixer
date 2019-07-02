@@ -8,16 +8,6 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 1.03, 
-          "key": "inputContrast"
-        }
-      ], 
-      "key": "ContrastFilter"
-    }, 
-    {
-      "parameters": [
-        {
-          "type": "CIAttributeTypeScalar", 
           "val": 0.3, 
           "key": "inputClarity"
         }
@@ -95,8 +85,8 @@
           "type": "CIAttributeTypePosition3", 
           "val": [
             -0.0075, 
-            0.94, 
-            1.0
+            1.0, 
+            0.94
           ], 
           "key": "inputBlueShift"
         }, 
@@ -104,8 +94,8 @@
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.01625, 
-            1.58, 
-            1.0
+            1.0, 
+            1.58
           ], 
           "key": "inputPurpleShift"
         }, 
@@ -113,8 +103,8 @@
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.0, 
-            0.92, 
-            1.0
+            1.0, 
+            0.92
           ], 
           "key": "inputMagentaShift"
         }

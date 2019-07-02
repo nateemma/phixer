@@ -23,7 +23,7 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 1.0453, 
+          "val": 1.17, 
           "key": "inputContrast"
         }
       ], 
@@ -48,6 +48,16 @@
         }
       ], 
       "key": "SaturationFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.46, 
+          "key": "inputSharpness"
+        }
+      ], 
+      "key": "CISharpenLuminance"
     }, 
     {
       "parameters": [
@@ -78,27 +88,27 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 0.46, 
-          "key": "inputSharpness"
-        }
-      ], 
-      "key": "CISharpenLuminance"
-    }, 
-    {
-      "parameters": [
-        {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.0, 
-          "key": "inputRadius"
-        }, 
-        {
-          "type": "CIAttributeTypeScalar", 
           "val": 0.3, 
           "key": "inputShadowAmount"
         }, 
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 0.3, 
+          "val": 0.74, 
+          "key": "inputHighlightAmount"
+        }
+      ], 
+      "key": "CIHighlightShadowAdjust"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.77, 
+          "key": "inputShadowAmount"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.8200000000000001, 
           "key": "inputHighlightAmount"
         }
       ], 
@@ -110,7 +120,7 @@
           "type": "CIAttributeTypeOffset", 
           "val": [
             0.0, 
-            0.09803921568627452
+            0.036274509803921565
           ], 
           "key": "inputPoint0"
         }, 
@@ -118,7 +128,7 @@
           "type": "CIAttributeTypeOffset", 
           "val": [
             0.3, 
-            0.3045991474340932
+            0.23157367013791164
           ], 
           "key": "inputPoint1"
         }, 
@@ -134,14 +144,14 @@
           "type": "CIAttributeTypeOffset", 
           "val": [
             0.75, 
-            0.6544484825030491
+            0.6825540622947744
           ], 
           "key": "inputPoint3"
         }, 
         {
           "type": "CIAttributeTypeOffset", 
           "val": [
-            0.946, 
+            1.0, 
             1.0
           ], 
           "key": "inputPoint4"

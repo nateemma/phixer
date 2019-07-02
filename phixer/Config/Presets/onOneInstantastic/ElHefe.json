@@ -7,16 +7,6 @@
     {
       "parameters": [
         {
-          "type": "CIAttributeTypeScalar", 
-          "val": 1.03, 
-          "key": "inputContrast"
-        }
-      ], 
-      "key": "ContrastFilter"
-    }, 
-    {
-      "parameters": [
-        {
           "type": "CIAttributeTypeVector", 
           "val": [
             0.0, 
@@ -136,8 +126,8 @@
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.0, 
-            1.1, 
-            1.0
+            1.0, 
+            1.1
           ], 
           "key": "inputBlueShift"
         }, 

@@ -33,11 +33,11 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 1.03, 
-          "key": "inputContrast"
+          "val": 0.5, 
+          "key": "inputSharpness"
         }
       ], 
-      "key": "ContrastFilter"
+      "key": "CISharpenLuminance"
     }, 
     {
       "parameters": [
@@ -68,16 +68,6 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 0.5, 
-          "key": "inputSharpness"
-        }
-      ], 
-      "key": "CISharpenLuminance"
-    }, 
-    {
-      "parameters": [
-        {
-          "type": "CIAttributeTypeScalar", 
           "val": 0.63, 
           "key": "inputAmount"
         }, 
@@ -92,11 +82,26 @@
     {
       "parameters": [
         {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.12, 
+          "key": "inputShadowAmount"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 1.0, 
+          "key": "inputHighlightAmount"
+        }
+      ], 
+      "key": "CIHighlightShadowAdjust"
+    }, 
+    {
+      "parameters": [
+        {
           "type": "CIAttributeTypePosition3", 
           "val": [
             -0.01125, 
-            1.84, 
-            1.0
+            0.84, 
+            2.0
           ], 
           "key": "inputRedShift"
         }, 
@@ -104,8 +109,8 @@
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.0, 
-            1.31, 
-            1.0
+            1.0, 
+            1.31
           ], 
           "key": "inputOrangeShift"
         }, 
@@ -131,8 +136,8 @@
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.0, 
-            0.94, 
-            1.0
+            1.0, 
+            0.94
           ], 
           "key": "inputAquaShift"
         }, 
@@ -140,8 +145,8 @@
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.0, 
-            0.27, 
-            1.0
+            1.0, 
+            0.27
           ], 
           "key": "inputBlueShift"
         }, 
@@ -149,8 +154,8 @@
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.0, 
-            1.13, 
-            1.0
+            1.0, 
+            1.13
           ], 
           "key": "inputPurpleShift"
         }, 
@@ -165,26 +170,6 @@
         }
       ], 
       "key": "MultiBandHSV"
-    }, 
-    {
-      "parameters": [
-        {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.0, 
-          "key": "inputRadius"
-        }, 
-        {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.12, 
-          "key": "inputShadowAmount"
-        }, 
-        {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.3, 
-          "key": "inputHighlightAmount"
-        }
-      ], 
-      "key": "CIHighlightShadowAdjust"
     }, 
     {
       "parameters": [

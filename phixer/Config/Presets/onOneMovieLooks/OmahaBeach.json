@@ -23,16 +23,6 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 1.03, 
-          "key": "inputContrast"
-        }
-      ], 
-      "key": "ContrastFilter"
-    }, 
-    {
-      "parameters": [
-        {
-          "type": "CIAttributeTypeScalar", 
           "val": 0.2, 
           "key": "inputClarity"
         }
@@ -95,8 +85,8 @@
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.0, 
-            1.2, 
-            1.0
+            1.0, 
+            1.2
           ], 
           "key": "inputRedShift"
         }, 
@@ -104,8 +94,8 @@
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.0, 
-            1.2, 
-            1.0
+            1.0, 
+            1.2
           ], 
           "key": "inputOrangeShift"
         }, 
@@ -113,8 +103,8 @@
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.0, 
-            1.2, 
-            1.0
+            1.0, 
+            1.2
           ], 
           "key": "inputYellowShift"
         }, 
@@ -122,8 +112,8 @@
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.0, 
-            1.2, 
-            1.0
+            1.0, 
+            1.2
           ], 
           "key": "inputGreenShift"
         }, 
@@ -131,8 +121,8 @@
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.0, 
-            1.2, 
-            1.0
+            1.0, 
+            1.2
           ], 
           "key": "inputAquaShift"
         }, 
@@ -140,8 +130,8 @@
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.0, 
-            1.2, 
-            1.0
+            1.0, 
+            1.2
           ], 
           "key": "inputBlueShift"
         }, 
@@ -149,8 +139,8 @@
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.0, 
-            1.2, 
-            1.0
+            1.0, 
+            1.2
           ], 
           "key": "inputPurpleShift"
         }, 
@@ -158,8 +148,8 @@
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.0, 
-            1.2, 
-            1.0
+            1.0, 
+            1.2
           ], 
           "key": "inputMagentaShift"
         }
