@@ -1,0 +1,125 @@
+{
+  "info": {
+    "group": "onOne X-Process LR5", 
+    "name": "Cross Process Yellow"
+  }, 
+  "filters": [
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeVector", 
+          "val": [
+            0.0, 
+            0.25, 
+            0.5, 
+            0.75, 
+            1.0
+          ], 
+          "key": "inputRedXvalues"
+        }, 
+        {
+          "type": "CIAttributeTypeVector", 
+          "val": [
+            0.05874888321723392, 
+            0.04353194550577294, 
+            0.3835413047919758, 
+            0.7964672324864993, 
+            1.0
+          ], 
+          "key": "inputRedYvalues"
+        }, 
+        {
+          "type": "CIAttributeTypeVector", 
+          "val": [
+            0.0, 
+            0.25, 
+            0.5, 
+            0.75, 
+            1.0
+          ], 
+          "key": "inputGreenXvalues"
+        }, 
+        {
+          "type": "CIAttributeTypeVector", 
+          "val": [
+            0.0, 
+            0.24313725490196078, 
+            0.5019607843137255, 
+            0.7725490196078432, 
+            1.0
+          ], 
+          "key": "inputGreenYvalues"
+        }, 
+        {
+          "type": "CIAttributeTypeVector", 
+          "val": [
+            0.0, 
+            0.25, 
+            0.5, 
+            0.75, 
+            1.0
+          ], 
+          "key": "inputBlueXvalues"
+        }, 
+        {
+          "type": "CIAttributeTypeVector", 
+          "val": [
+            0.0, 
+            0.2784313725490196, 
+            0.4980392156862745, 
+            0.6784313725490196, 
+            1.0
+          ], 
+          "key": "inputBlueYvalues"
+        }
+      ], 
+      "key": "RGBChannelToneCurve"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.0, 
+            0.0
+          ], 
+          "key": "inputPoint0"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.25, 
+            0.17856898270276222
+          ], 
+          "key": "inputPoint1"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.5, 
+            0.6579335091193195
+          ], 
+          "key": "inputPoint2"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.75, 
+            0.9238809616154566
+          ], 
+          "key": "inputPoint3"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            1.0, 
+            1.0238809616154567
+          ], 
+          "key": "inputPoint4"
+        }
+      ], 
+      "key": "CIToneCurve"
+    }
+  ], 
+  "key": "../phixer/Config/Presets//onOneX-Process/CrossProcessYellow.json"
+}

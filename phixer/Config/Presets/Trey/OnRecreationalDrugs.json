@@ -18,7 +18,7 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 1.16, 
+          "val": 1.08, 
           "key": "inputContrast"
         }
       ], 
@@ -245,5 +245,5 @@
       "key": "CIVignetteEffect"
     }
   ], 
-  "key": "../phixer/Config/Presets/Trey/OnRecreationalDrugs.json"
+  "key": "../phixer/Config/Presets//Trey/OnRecreationalDrugs.json"
 }

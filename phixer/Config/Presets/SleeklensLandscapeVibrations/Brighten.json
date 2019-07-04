@@ -1,0 +1,19 @@
+{
+  "info": {
+    "group": "Landscape Vibrations Presets", 
+    "name": "Sleeklens | 3-Exposure - Brighten"
+  }, 
+  "filters": [
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 1.0, 
+          "key": "inputEV"
+        }
+      ], 
+      "key": "CIExposureAdjust"
+    }
+  ], 
+  "key": "../phixer/Config/Presets//SleeklensLandscapeVibrations/Brighten.json"
+}

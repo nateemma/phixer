@@ -1,0 +1,19 @@
+{
+  "info": {
+    "group": "Essentials by PhotographyPla.net", 
+    "name": "3.02 - Light Sharpening"
+  }, 
+  "filters": [
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 1.0, 
+          "key": "inputSharpness"
+        }
+      ], 
+      "key": "CISharpenLuminance"
+    }
+  ], 
+  "key": "../phixer/Config/Presets//PhotographyPlanetEssentials/LightSharpening.json"
+}

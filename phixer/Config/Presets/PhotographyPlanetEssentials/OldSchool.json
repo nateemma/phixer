@@ -1,0 +1,145 @@
+{
+  "info": {
+    "group": "Essentials by PhotographyPla.net", 
+    "name": "1.12 - Old School"
+  }, 
+  "filters": [
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.1, 
+          "key": "inputClarity"
+        }
+      ], 
+      "key": "ClarityFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.9, 
+          "key": "inputSaturation"
+        }
+      ], 
+      "key": "SaturationFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeVector", 
+          "val": [
+            0.0, 
+            0.25, 
+            0.5, 
+            0.75, 
+            1.0
+          ], 
+          "key": "inputRedXvalues"
+        }, 
+        {
+          "type": "CIAttributeTypeVector", 
+          "val": [
+            0.17254901960784308, 
+            0.3552149513597585, 
+            0.6842407212634657, 
+            0.8714381071847201, 
+            0.9568627450980393
+          ], 
+          "key": "inputRedYvalues"
+        }, 
+        {
+          "type": "CIAttributeTypeVector", 
+          "val": [
+            0.0, 
+            0.25, 
+            0.5, 
+            0.75, 
+            1.0
+          ], 
+          "key": "inputGreenXvalues"
+        }, 
+        {
+          "type": "CIAttributeTypeVector", 
+          "val": [
+            0.20000000000000004, 
+            0.3515345995215113, 
+            0.6721147625414879, 
+            0.8185313543561474, 
+            0.9568627450980393
+          ], 
+          "key": "inputGreenYvalues"
+        }, 
+        {
+          "type": "CIAttributeTypeVector", 
+          "val": [
+            0.0, 
+            0.25, 
+            0.5, 
+            0.75, 
+            1.0
+          ], 
+          "key": "inputBlueXvalues"
+        }, 
+        {
+          "type": "CIAttributeTypeVector", 
+          "val": [
+            0.2352941176470589, 
+            0.4341517245478648, 
+            0.567721168994846, 
+            0.6637725106965908, 
+            0.8588235294117647
+          ], 
+          "key": "inputBlueYvalues"
+        }
+      ], 
+      "key": "RGBChannelToneCurve"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.0, 
+            0.0
+          ], 
+          "key": "inputPoint0"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.25, 
+            0.1980088495575221
+          ], 
+          "key": "inputPoint1"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.5, 
+            0.4800884955752212
+          ], 
+          "key": "inputPoint2"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.75, 
+            0.7621681415929202
+          ], 
+          "key": "inputPoint3"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            1.0, 
+            1.0
+          ], 
+          "key": "inputPoint4"
+        }
+      ], 
+      "key": "CIToneCurve"
+    }
+  ], 
+  "key": "../phixer/Config/Presets//PhotographyPlanetEssentials/OldSchool.json"
+}

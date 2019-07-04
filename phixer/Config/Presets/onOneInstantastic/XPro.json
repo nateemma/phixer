@@ -8,7 +8,7 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 1.3, 
+          "val": 1.15, 
           "key": "inputContrast"
         }
       ], 
@@ -118,5 +118,5 @@
       "key": "CIVignetteEffect"
     }
   ], 
-  "key": "../phixer/Config/Presets/onOneInstantastic/XPro.json"
+  "key": "../phixer/Config/Presets//onOneInstantastic/XPro.json"
 }

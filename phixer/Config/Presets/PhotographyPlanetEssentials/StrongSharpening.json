@@ -1,0 +1,19 @@
+{
+  "info": {
+    "group": "Essentials by PhotographyPla.net", 
+    "name": "3.03 - Strong Sharpening"
+  }, 
+  "filters": [
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 1.6, 
+          "key": "inputSharpness"
+        }
+      ], 
+      "key": "CISharpenLuminance"
+    }
+  ], 
+  "key": "../phixer/Config/Presets//PhotographyPlanetEssentials/StrongSharpening.json"
+}

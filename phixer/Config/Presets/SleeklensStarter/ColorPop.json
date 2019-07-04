@@ -1,0 +1,39 @@
+{
+  "info": {
+    "group": "Sleeklens Starter Presets", 
+    "name": "Sleeklens Starter | 4-Polish - Color Pop"
+  }, 
+  "filters": [
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.26, 
+          "key": "inputClarity"
+        }
+      ], 
+      "key": "ClarityFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.47, 
+          "key": "inputAmount"
+        }
+      ], 
+      "key": "CIVibrance"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 1.16, 
+          "key": "inputSaturation"
+        }
+      ], 
+      "key": "SaturationFilter"
+    }
+  ], 
+  "key": "../phixer/Config/Presets//SleeklensStarter/ColorPop.json"
+}

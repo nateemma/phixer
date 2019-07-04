@@ -1,0 +1,93 @@
+{
+  "info": {
+    "group": "Essentials by PhotographyPla.net", 
+    "name": "1.20 - Matte B&W"
+  }, 
+  "filters": [
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 1.075, 
+          "key": "inputContrast"
+        }
+      ], 
+      "key": "ContrastFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.1, 
+          "key": "inputClarity"
+        }
+      ], 
+      "key": "ClarityFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.2, 
+          "key": "inputShadowAmount"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.9, 
+          "key": "inputHighlightAmount"
+        }
+      ], 
+      "key": "CIHighlightShadowAdjust"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.0, 
+            0.18552162874388928
+          ], 
+          "key": "inputPoint0"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.25, 
+            0.28552162874388926
+          ], 
+          "key": "inputPoint1"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.5, 
+            0.52153112325473
+          ], 
+          "key": "inputPoint2"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            0.75, 
+            0.7614968079654907
+          ], 
+          "key": "inputPoint3"
+        }, 
+        {
+          "type": "CIAttributeTypeOffset", 
+          "val": [
+            1.0, 
+            0.9019607843137255
+          ], 
+          "key": "inputPoint4"
+        }
+      ], 
+      "key": "CIToneCurve"
+    }, 
+    {
+      "parameters": [], 
+      "key": "CIPhotoEffectMono"
+    }
+  ], 
+  "key": "../phixer/Config/Presets//PhotographyPlanetEssentials/MatteB&W.json"
+}

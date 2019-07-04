@@ -8,7 +8,7 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 1.2, 
+          "val": 1.1, 
           "key": "inputContrast"
         }
       ], 
@@ -89,5 +89,5 @@
       "key": "CIPhotoEffectMono"
     }
   ], 
-  "key": "../phixer/Config/Presets/onOneInstantastic/Inky.json"
+  "key": "../phixer/Config/Presets//onOneInstantastic/Inky.json"
 }

@@ -33,7 +33,7 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 1.4, 
+          "val": 1.2, 
           "key": "inputContrast"
         }
       ], 
@@ -177,5 +177,5 @@
       "key": "CIVignetteEffect"
     }
   ], 
-  "key": "../phixer/Config/Presets/Trey/Relic.json"
+  "key": "../phixer/Config/Presets//Trey/Relic.json"
 }

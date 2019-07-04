@@ -8,7 +8,7 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 1.8900000000000001, 
+          "val": 1.445, 
           "key": "inputContrast"
         }
       ], 
@@ -120,5 +120,5 @@
       "key": "CIToneCurve"
     }
   ], 
-  "key": "../phixer/Config/Presets/onOneMovieLooks/Tijuana.json"
+  "key": "../phixer/Config/Presets//onOneMovieLooks/Tijuana.json"
 }

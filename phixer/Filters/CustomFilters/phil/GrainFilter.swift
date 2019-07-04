@@ -135,7 +135,7 @@ class GrainFilter: CIFilter {
         }
 
         // Blur the speckles a little
-        let blurredImage = whiteSpecks?.applyingFilter("CIBoxBlur", parameters: ["inputRadius": 5.0]).clampedToExtent()
+        let blurredImage = whiteSpecks?.applyingFilter("CIBoxBlur", parameters: ["inputRadius": 3.0]).clampedToExtent()
 
         
         // generate 'faded' versions of the white and dark images

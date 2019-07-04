@@ -319,11 +319,14 @@ def processContrast():
         found = True
         value = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Contrast2012")
 
+    value = value / 2.0 # built in filter is much stronger than Photoshop/Lightroom
+
     if found and abs(value)>0.001:
         # if the value is +ve we can use the built in Contrast Filter
         if value>=0.0:
             #value = 1.0 + value * 3.0 / 100.0 # 0..100 -> 1..4
             value = 1.0 + value / 100.0 # 0..100 -> 1..2
+
             value = clamp(value, minContrast, 4.0)
             filterMap["filters"].append( { 'key':"ContrastFilter", "parameters":[{ 'key':"inputContrast", 'val': value, 'type': "CIAttributeTypeScalar"} ] } )
             print("Contrast: " + str(value))

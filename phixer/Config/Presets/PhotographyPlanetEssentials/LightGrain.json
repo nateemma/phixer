@@ -1,0 +1,24 @@
+{
+  "info": {
+    "group": "Essentials by PhotographyPla.net", 
+    "name": "5.02 - Light Grain"
+  }, 
+  "filters": [
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.2, 
+          "key": "inputAmount"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.3, 
+          "key": "inputSize"
+        }
+      ], 
+      "key": "GrainFilter"
+    }
+  ], 
+  "key": "../phixer/Config/Presets//PhotographyPlanetEssentials/LightGrain.json"
+}

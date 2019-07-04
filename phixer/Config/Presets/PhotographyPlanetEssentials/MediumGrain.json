@@ -1,0 +1,24 @@
+{
+  "info": {
+    "group": "Essentials by PhotographyPla.net", 
+    "name": "5.03 - Medium Grain"
+  }, 
+  "filters": [
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.4, 
+          "key": "inputAmount"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.3, 
+          "key": "inputSize"
+        }
+      ], 
+      "key": "GrainFilter"
+    }
+  ], 
+  "key": "../phixer/Config/Presets//PhotographyPlanetEssentials/MediumGrain.json"
+}

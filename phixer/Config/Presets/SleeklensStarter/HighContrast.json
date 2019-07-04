@@ -1,0 +1,19 @@
+{
+  "info": {
+    "group": "Sleeklens Starter Presets", 
+    "name": "Sleeklens Starter | 4-Polish - High Contrast"
+  }, 
+  "filters": [
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 1.25, 
+          "key": "inputContrast"
+        }
+      ], 
+      "key": "ContrastFilter"
+    }
+  ], 
+  "key": "../phixer/Config/Presets//SleeklensStarter/HighContrast.json"
+}

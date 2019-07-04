@@ -33,7 +33,7 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 1.28, 
+          "val": 1.1400000000000001, 
           "key": "inputContrast"
         }
       ], 
@@ -285,5 +285,5 @@
       "key": "CIVignetteEffect"
     }
   ], 
-  "key": "../phixer/Config/Presets/Trey/ThankHeavenForLittleGirls.json"
+  "key": "../phixer/Config/Presets//Trey/ThankHeavenforLittleGirls.json"
 }
