@@ -127,6 +127,7 @@ def main():
     processVibrance()
     processSaturation()
     processSharpening()
+    processNoiseReduction()
 
     processSplitToning()
     processGrain()
@@ -134,11 +135,12 @@ def main():
 
     processHSV()
     processCalibration()
+    processGrayMixer()
     processRGBToneCurves()
     
     processToneCurve()
     processParametricCurve()
-
+    
     addHSV()
     addToneCurve()
 
@@ -644,6 +646,34 @@ def processSaturation():
 
 
 #----------------------------
+def processNoiseReduction():
+    amount = 0.0
+    detail = 0.0
+    smoothness = 0.0
+    found = False
+    # key: Saturation. Range -100..+100 -> 0.0..+2.0 (1.0 is neutral)
+    if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ColorNoiseReduction"):
+        found = True
+        amount = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ColorNoiseReduction")
+        
+        if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ColorNoiseReductionDetail"):
+            detail = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ColorNoiseReductionDetail")
+    
+        #if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ColorNoiseReductionSmoothness"):
+        #    smoothness = xmp.get_property_float(XMP_NS_CAMERA_RAW, "ColorNoiseReductionSmoothness")
+
+    if found and abs(amount)>0.01:
+        amount = (amount / 1000.0) # 0..100 -> 0.0..0.1
+        amount = clamp(amount, 0.0, 0.1)
+        detail = detail / 500.0 # 0..100 -> 0.0..2.0
+        detail = clamp(detail, 0.0, 0.2)
+        filterMap["filters"].append( { 'key':"CINoiseReduction", "parameters":[{ 'key':"inputNoiseLevel", 'val': amount, 'type': "CIAttributeTypeScalar"},
+                                                                               { 'key':"inputSharpness", 'val': detail, 'type': "CIAttributeTypeScalar"},
+                                                                            ] })
+        print("Noise Reduction: amount: " + str(amount) + " detail: " + str(detail))
+        print ("...Noise Reduction")
+
+#----------------------------
 
 def processToneCurve():
     # this is the Photoshop version of a Tone Curve. Note, will overwrite any previous Tone Curve or Parametric curve
@@ -1017,6 +1047,30 @@ def processCalibration():
         print ("Updated Colours: " + str(colourVectors) + "\n")
         print ("...Calibration")
 
+
+#----------------------------
+def processGrayMixer():
+    global colourVectors
+    global coloursChanged
+    
+    # update colour vectors
+    found = False
+    for key in colourVectors.keys():
+        s = 0.0
+        tag = key.capitalize()
+
+        if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "GrayMixer"+tag):
+            found = True
+            s = xmp.get_property_float(XMP_NS_CAMERA_RAW, "GrayMixer"+tag)
+            if abs(s)>0.01:
+                value = (s / 100.0) # treat as a %age change
+                colourVectors[key][1] = colourVectors[key][1] + value
+                coloursChanged = True
+                print ("GrayMixer"+tag + ": " + str(s))
+
+    if found:
+        print ("Updated Colours: " + str(colourVectors) + "\n")
+        print ("...GrayMixer")
 
 #----------------------------
 

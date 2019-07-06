@@ -75,19 +75,19 @@ class ThemeManager {
             
             ThemeManager.themeDictionary["dark"] = ThemeParameters(key: "dark",
                                                                    description: "Dark Theme",
-                                                                   mainColor: UIColor.flatBlack,
-                                                                   textColor: UIColor.flatWhite,
+                                                                   mainColor: UIColor.black,
+                                                                   textColor: UIColor.white,
                                                                    barStyle: .default,
-                                                                   backgroundColor: UIColor.flatBlackDark,
-                                                                   secondaryColor: UIColor.flatGrayDark,
+                                                                   backgroundColor: UIColor.black,
+                                                                   secondaryColor: UIColor.flatBlack,
                                                                    titleColor: UIColor.flatBlackDark,
-                                                                   titleTextColor: UIColor.flatWhite,
-                                                                   subtitleTextColor: UIColor.flatWhiteDark,
+                                                                   titleTextColor: UIColor.white,
+                                                                   subtitleTextColor: UIColor.flatWhite,
                                                                    subtitleColor: UIColor.flatBlack,
                                                                    buttonColor: UIColor.flatGray,
                                                                    borderColor: UIColor.flatGray,
                                                                    highlightColor: UIColor.flatYellowDark,
-                                                                   tintColor: UIColor.flatWhiteDark)
+                                                                   tintColor: UIColor.flatWhite)
             
             ThemeManager.themeDictionary["light"] = ThemeParameters(key: "light",
                                                                     description: "Light Theme",

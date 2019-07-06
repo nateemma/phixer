@@ -204,7 +204,7 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
         let adornmentWidth:CGFloat = 48
         let side = min(adornmentWidth, height)
         let txtColor = UIColor(contrastingBlackOrWhiteColorOn:color, isFlat:true)
-        let txtFont = UIFont.boldSystemFont(ofSize: 20)
+        let txtFont = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.thin)
         
         // set up  container view
         item.frame.size.height = height.rounded()
@@ -262,7 +262,7 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
         let adornmentWidth:CGFloat = 64
         let side = min(adornmentWidth, height)
         let txtColor = UIColor(contrastingBlackOrWhiteColorOn:color, isFlat:true)
-        let txtFont = UIFont.boldSystemFont(ofSize: 20)
+        let txtFont = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.thin)
         
         // set up  container view
         item.frame.size.height = height.rounded()

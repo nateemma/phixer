@@ -222,7 +222,7 @@ class FilterSelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         filterLabel.textAlignment = .center
         //filterLabel.textColor = theme.titleTextColor
         filterLabel.textColor = theme.textColor
-        filterLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
+        filterLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFont.Weight.thin)
         filterLabel.frame.size.height = carouselHeight * 0.18
         filterLabel.frame.size.width = self.frame.size.width
         self.addSubview(filterLabel)

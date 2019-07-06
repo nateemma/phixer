@@ -188,7 +188,7 @@ class SimpleCarousel: UIView {
         // configure the rest based on whether the icon is specified or not
         if icon.isEmpty {
             // no icon, so just provide a view with a centred label
-            label.font = UIFont.boldSystemFont(ofSize: 12.0)
+            label.font = UIFont.systemFont(ofSize: 12.0, weight: UIFont.Weight.thin)
             label.frame.size.height = self.carouselHeight * 0.95
             view.addSubview(label)
             label.fillSuperview()
@@ -203,7 +203,7 @@ class SimpleCarousel: UIView {
 
             // make label smaller
             label.frame.size = CGSize(width:carouselHeight, height:carouselHeight*0.4)
-            label.font = UIFont.systemFont(ofSize: 10.0)
+            label.font = UIFont.systemFont(ofSize: 10.0, weight: UIFont.Weight.thin)
             //label.fitTextToBounds()
 
             // get the icon

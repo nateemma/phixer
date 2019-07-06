@@ -144,7 +144,7 @@ class AdornmentView: UIView {
         
         let label = UILabel()
         label.text = adornment.text
-        label.font = UIFont.systemFont(ofSize: 10.0)
+        label.font = UIFont.systemFont(ofSize: 10.0, weight: UIFont.Weight.thin)
         label.textColor = theme.textColor
         label.textAlignment = .center
 

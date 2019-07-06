@@ -1,5 +1,5 @@
 {
-    "version": { "id": 3.0, "overwrite": false },
+    "version": { "id": 3.0, "overwrite": true },
     
     "slow": [ "KuwaharaFilter", "SketchFilter",
         "EnhanceLipsFilter", "EnhanceEyesFilter", "EnhanceTeethFilter", "EnhanceEyebrowsFilter", "EnhanceFaceFilter",
@@ -836,7 +836,7 @@
         
         {"key": "favorites",
             "title": "Favorites",
-            "filters": [ "Navigator", "Tijuana", "Grunge",  "TurkishBlast", "FreshLime" ]
+            "filters": [ "CINoiseReduction", "TheNavigator", "Relic", "Tijuana", "Grunge",  "TurkishBlast", "FreshLime", "CISpotColor" ]
         },
         
         {"key": "pr_winter",
@@ -916,7 +916,7 @@
             "title": "Presets: Trey",
             "filters": [
                 "BeautifulRelease", "CarefullyShavenTurk", "AMarshmallowHappysmell", "SteampunkAfternoon", "OnRecreationalDrugs", "TurkishBlast",
-                "ThankHeavenForLittleGirls", "SundayAloneTime", "Navigator", "Relic"
+                "ThankHeavenForLittleGirls", "SundayAloneTime", "TheNavigator", "Relic"
             ]
         },
 

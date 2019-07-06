@@ -58,6 +58,21 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
+          "val": 0.017, 
+          "key": "inputNoiseLevel"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.1, 
+          "key": "inputSharpness"
+        }
+      ], 
+      "key": "CINoiseReduction"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
           "val": 0.39166666666666666, 
           "key": "inputHighlightHue"
         }, 

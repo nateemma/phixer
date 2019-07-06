@@ -159,6 +159,17 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
     ///////////////////////
 
     func loadFilterInfo(category: String, key: String){
+        
+        guard (key.isEmpty != true) else {
+            // ignore
+            log.verbose("NIL key supplied")
+            return
+        }
+        
+        if (!currFilterKey.isEmpty) && (key != currFilterKey) {
+            releaseCurrentFilter()
+        }
+        
         currFilterKey = key
         currCategory = category
         currFilterIndex = filterManager.getFilterIndex(category: category, key: key)
@@ -608,6 +619,7 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
             setTouchMode(.gestures)
             overlayView.isHidden = false
             overlayView.isUserInteractionEnabled = true
+            editImageView.isUserInteractionEnabled = true
             showParameters()
         }
    }
@@ -617,6 +629,7 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
             gesturesEnabled = false
             overlayView.isHidden = true
             overlayView.isUserInteractionEnabled = false
+            editImageView.isUserInteractionEnabled = false
             hideParameters()
         }
     }

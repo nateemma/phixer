@@ -233,7 +233,7 @@ class ThemeChooserController: CoordinatedController {
         title.text = "Title"
         title.textAlignment = .center
         title.textColor = selectedTheme?.titleTextColor
-        title.font = UIFont.boldSystemFont(ofSize: 24.0)
+        title.font = UIFont.systemFont(ofSize: 24.0, weight: UIFont.Weight.thin)
         titleView.addSubview(title)
         title.fillSuperview(left: pad, right: pad, top: pad, bottom: pad)
         
@@ -245,7 +245,7 @@ class ThemeChooserController: CoordinatedController {
         subtitle.text = "Subtitle"
         subtitle.textAlignment = .center
         subtitle.textColor = selectedTheme?.subtitleTextColor
-        subtitle.font = UIFont.systemFont(ofSize: 20.0)
+        subtitle.font = UIFont.systemFont(ofSize: 20.0, weight: UIFont.Weight.thin)
         subtitleView.addSubview(subtitle)
         subtitle.fillSuperview(left: pad, right: pad, top: pad, bottom: pad)
         
@@ -256,14 +256,14 @@ class ThemeChooserController: CoordinatedController {
         buttonLabel.text = "Button:    "
         buttonLabel.textAlignment = .right
         buttonLabel.textColor = selectedTheme?.textColor
-        buttonLabel.font = UIFont.systemFont(ofSize: 18.0)
+        buttonLabel.font = UIFont.systemFont(ofSize: 18.0, weight: UIFont.Weight.thin)
         buttonView.addSubview(buttonLabel)
         
         let button = UIButton()
         button.setTitle("Text", for: .normal)
         button.backgroundColor = selectedTheme?.buttonColor
         button.titleLabel?.textColor = selectedTheme?.textColor
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 18)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.thin)
         button.titleLabel?.textAlignment = .center
         button.frame.size.width = (itemSize.width*0.8).rounded()
         button.frame.size.height = (itemSize.height*0.8).rounded()
@@ -279,7 +279,7 @@ class ThemeChooserController: CoordinatedController {
         switchLabel.text = "Switch:    "
         switchLabel.textAlignment = .right
         switchLabel.textColor = selectedTheme?.textColor
-        switchLabel.font = UIFont.systemFont(ofSize: 18.0)
+        switchLabel.font = UIFont.systemFont(ofSize: 18.0, weight: UIFont.Weight.thin)
         switchView.addSubview(switchLabel)
 
         let uiswitch = UISwitch()
@@ -301,7 +301,7 @@ class ThemeChooserController: CoordinatedController {
         sliderLabel.text = "Slider:    "
         sliderLabel.textAlignment = .right
         sliderLabel.textColor = selectedTheme?.textColor
-        sliderLabel.font = UIFont.systemFont(ofSize: 18.0)
+        sliderLabel.font = UIFont.systemFont(ofSize: 18.0, weight: UIFont.Weight.thin)
         sliderView.addSubview(sliderLabel)
 
         let slider = UISlider()
@@ -428,7 +428,7 @@ extension ThemeChooserController: UIPickerViewDelegate {
         var pickerLabel: UILabel? = (view as? UILabel)
         if pickerLabel == nil {
             pickerLabel = UILabel()
-            pickerLabel?.font = UIFont.systemFont(ofSize: 16.0)
+            pickerLabel?.font = UIFont.systemFont(ofSize: 16.0, weight: UIFont.Weight.thin)
             pickerLabel?.textAlignment = .center
         }
         if (row>=0) && (row<self.themeList.count){

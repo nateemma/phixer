@@ -282,7 +282,7 @@ class FilterParametersView: UIView {
         titleLabel.frame.size.width = (self.frame.size.width - 4.0*side).rounded()
         titleLabel.frame.size.height = (CGFloat(sliderHeight)).rounded()
         titleLabel.textColor = titleTextColor
-        titleLabel.font = UIFont.systemFont(ofSize: 14)
+        titleLabel.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.thin)
         let currName = EditManager.getPreviewFilter()?.title  ?? "(No Filter)"
         let numApplied = EditManager.getAppliedCount()
         //titleLabel.text = "\(currName)   [\(numApplied)]"
@@ -393,7 +393,7 @@ class FilterParametersView: UIView {
                         label.frame.size.height = CGFloat(sliderHeight/2.0)
                         label.textAlignment = .left
                         label.textColor = sliderTextColor
-                        label.font = UIFont.systemFont(ofSize: 12.0)
+                        label.font = UIFont.systemFont(ofSize: 12.0, weight: UIFont.Weight.thin)
                         
                         // dynamically size label:
                         let newSize: CGSize = label.sizeThatFits(label.frame.size)
@@ -504,6 +504,7 @@ class FilterParametersView: UIView {
                                 self.currFilterDesc?.setColorParameter(key, color: CIColor(color: currColor))
                             }
                             //attachColorSliderAction(gsliders[i]!)
+                            attachColorSliderAction(gslider)
                             gsliders.append(gslider)
                             pView.addSubview(gslider)
                             pView.groupAndFill(group: .vertical, views: [textView, gslider], padding: 2.0)
@@ -811,7 +812,7 @@ class FilterParametersView: UIView {
     
     @objc func colorSliderDidEndChange(_ sender:GradientSlider!){
         let index = sender.tag
-        //log.verbose("Settings changed for color slider \(pKey[index])")
+        log.verbose("Settings changed for color slider \(pKey[index])")
 
         // unhide the rows
         for v in parameterRow {

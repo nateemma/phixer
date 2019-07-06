@@ -161,7 +161,7 @@ class EditBaseMenuController: CoordinatedController, SubControllerDelegate, Edit
         label.textAlignment = .center
         label.textColor = theme.subtitleTextColor
         label.backgroundColor = theme.subtitleColor
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.thin)
         label.adjustsFontSizeToFitWidth = true
         //label.fitTextToBounds()
  

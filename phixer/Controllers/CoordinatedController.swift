@@ -240,6 +240,9 @@ class CoordinatedController: UIViewController, ControllerDelegate {
         self.navigationController?.navigationBar.backgroundColor = theme.backgroundColor
         self.navigationController?.navigationBar.tintColor = theme.tintColor
         
+        // change the font style to 'thin'
+        self.navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: UIFont.systemFont(ofSize: 24.0, weight:UIFont.Weight.light) ]
+        
         // build the menu
         buildDefaultMenu()
 

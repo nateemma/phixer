@@ -194,7 +194,7 @@ class EditHSVToolController: EditBaseToolController {
             label.textAlignment = .center
             label.textColor = theme.subtitleTextColor
             label.backgroundColor = theme.subtitleColor.withAlphaComponent(0.8)
-            label.font = UIFont.boldSystemFont(ofSize: 10.0)
+            label.font = UIFont.systemFont(ofSize: 10.0, weight: UIFont.Weight.thin)
             label.lineBreakMode = NSLineBreakMode.byWordWrapping
             label.numberOfLines = 0
             
@@ -307,7 +307,7 @@ class EditHSVToolController: EditBaseToolController {
             label.frame.size.height = UISettings.titleHeight * 0.5
             label.textAlignment = .center
             label.textColor = theme.textColor
-            label.font = UIFont.systemFont(ofSize: 12.0)
+            label.font = UIFont.systemFont(ofSize: 12.0, weight: UIFont.Weight.thin)
             sliderView.addSubview(label)
         }
         

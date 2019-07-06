@@ -84,7 +84,7 @@ class ImageSelectionView: UIView {
             blendLabel.text = "blend"
             saveLabel.text = "save"
             for l in [imageLabel,  blendLabel, saveLabel] {
-                l!.font = UIFont.systemFont(ofSize: 10.0)
+                l!.font = UIFont.systemFont(ofSize: 10.0, weight: UIFont.Weight.thin)
                 l!.textColor = theme.textColor
                 l!.textAlignment = .center
             }

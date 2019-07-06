@@ -3,6 +3,22 @@
     "group": "Essentials by PhotographyPla.net", 
     "name": "4.02 - Light Noise Reduction"
   }, 
-  "filters": [], 
+  "filters": [
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.025, 
+          "key": "inputNoiseLevel"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.1, 
+          "key": "inputSharpness"
+        }
+      ], 
+      "key": "CINoiseReduction"
+    }
+  ], 
   "key": "../phixer/Config/Presets//PhotographyPlanetEssentials/LightNoiseReduction.json"
 }

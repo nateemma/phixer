@@ -95,7 +95,7 @@ class EditControlsView: UIView, iCarouselDelegate, iCarouselDataSource{
         
         view.label.frame.size = CGSize(width:carouselHeight, height:carouselHeight*0.2)
         
-        view.label.font = UIFont.systemFont(ofSize: 8.0)
+        view.label.font = UIFont.systemFont(ofSize: 8.0, weight: UIFont.Weight.thin)
         view.label.text = label
         view.label.textColor = theme.tintColor
         
@@ -146,8 +146,8 @@ class EditControlsView: UIView, iCarouselDelegate, iCarouselDataSource{
         controlLabel.textAlignment = .center
         //controlLabel.textColor = theme.titleTextColor
         controlLabel.textColor = theme.textColor
-        //controlLabel.font = UIFont.boldSystemFont(ofSize: 14.0)
-        controlLabel.font = UIFont.boldSystemFont(ofSize: 12.0)
+        //controlLabel.font = UIFont.systemFont(ofSize: 14.0)
+        controlLabel.font = UIFont.systemFont(ofSize: 12.0, weight: UIFont.Weight.thin)
         controlLabel.frame.size.height = carouselHeight * 0.3
         controlLabel.frame.size.width = self.frame.size.width
         self.addSubview(controlLabel)

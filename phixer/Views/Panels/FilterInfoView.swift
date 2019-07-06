@@ -74,7 +74,7 @@ class FilterInfoView: UIView {
             categoryLabel.frame.size.height = self.frame.size.height * 0.9
             categoryLabel.frame.size.width = self.frame.size.width / 3.0
             categoryLabel.setTitleColor(theme.titleTextColor, for: .normal)
-            categoryLabel.titleLabel!.font = UIFont.boldSystemFont(ofSize: 14.0)
+            categoryLabel.titleLabel!.font = UIFont.systemFont(ofSize: 14.0, weight: UIFont.Weight.thin)
             //categoryLabel.titleLabel!.textAlignment = .left
             categoryLabel.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.left
 
@@ -84,7 +84,7 @@ class FilterInfoView: UIView {
             filterLabel.frame.size.height = self.frame.size.height * 0.9
             filterLabel.frame.size.width = self.frame.size.width / 3.0
             filterLabel.setTitleColor(theme.titleTextColor, for: .normal)
-            filterLabel.titleLabel!.font = UIFont.boldSystemFont(ofSize: 14.0)
+            filterLabel.titleLabel!.font = UIFont.systemFont(ofSize: 14.0, weight: UIFont.Weight.thin)
             //filterLabel.titleLabel!.textAlignment = .left
             filterLabel.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.left
             

@@ -18,6 +18,21 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
+          "val": 0.025, 
+          "key": "inputNoiseLevel"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.1, 
+          "key": "inputSharpness"
+        }
+      ], 
+      "key": "CINoiseReduction"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
           "val": 0.25, 
           "key": "inputAmount"
         }, 

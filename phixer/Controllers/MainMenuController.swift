@@ -147,8 +147,8 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
         label.frame.size.width = width
         
         // change font to bold (and slightly bigger size)
-        let size = label.font.pointSize + 3.0
-        label.font = UIFont.boldSystemFont(ofSize: size)
+        let size = max(label.font.pointSize + 3.0, 24.0)
+        label.font = UIFont.systemFont(ofSize: size, weight: UIFont.Weight.thin)
  
         // set text
         label.text = title

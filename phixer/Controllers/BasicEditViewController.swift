@@ -85,6 +85,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             //self?.currFilterKey = ""
             self?.changeFilterTo (key)
             self?.editImageView.updateImage()
+            self?.editImageView.resetZoom()
         }
     }
     
@@ -759,6 +760,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         } else {
             hideModalViews()
         }
+        self.editImageView.resetZoom()
     }
     
     //////////////////////////////////////

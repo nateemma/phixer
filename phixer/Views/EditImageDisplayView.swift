@@ -159,15 +159,11 @@ class EditImageDisplayView: UIView {
         if (!key.isEmpty){
             let prevKey = currFilterKey
             currFilterKey = key
-
-            renderView?.isScrollEnabled = false
             EditManager.addPreviewFilter(filterManager.getFilterDescriptor(key: key))
-            update()
-            renderView?.zoomScale = 1.0
-            renderView?.centerImage()
-            renderView?.setZoomScale(0.0, animated: false)
-            renderView?.isScrollEnabled = true
             
+            resetZoom()
+            update()
+
             if (!prevKey.isEmpty) {
                 filterManager.releaseRenderView(key: prevKey)
                 filterManager.releaseFilterDescriptor(key: key)
@@ -226,19 +222,27 @@ class EditImageDisplayView: UIView {
     }
 
     open func updateImage(){
-        DispatchQueue.main.async(execute: { () -> Void in
+        DispatchQueue.main.async(execute: { [weak self] () -> Void in
             //log.verbose("Updating edit image")
             EditManager.setInputImage(InputSource.getCurrentImage())
+            self?.resetZoom()
 //            self.currInput = EditManager.getPreviewImage()
 //            if self.currInput == nil {
 //                log.warning("Edit image not set, using Sample")
 //                self.currInput = ImageManager.getCurrentSampleInput() // no edit image set, so make sure there is something
 //            }
-            self.update()
+            self?.update()
         })
     }
     
-    
+    public func resetZoom() {
+        renderView?.isScrollEnabled = false
+        renderView?.zoomScale = 1.0
+        renderView?.centerImage()
+        renderView?.setZoomScale(0.0, animated: false)
+        renderView?.isScrollEnabled = true
+    }
+
     public func isZoomed() -> Bool {
         log.verbose("zoomScale:\(self.renderView?.zoomScale)")
         return !((self.renderView?.zoomScale.approxEqual(1.0))!)
