@@ -72,7 +72,7 @@ class EditList {
 
         DispatchQueue.global(qos: .background).async() {
             //Database.addAssetListRecord(rec)
-            Database.clearAssetListRecords()
+            //Database.clearAssetListRecords()
             Database.updateAssetListRecord(rec)
             Database.save()
         }
