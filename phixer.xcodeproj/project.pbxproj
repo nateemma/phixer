@@ -2603,6 +2603,7 @@
 				25F460211D99DBBA00EDA182 /* CameraSpeed.swift */,
 				253B23761DA4BB7800203ECB /* ClosestFraction.swift */,
 				2556731E1DB961F700187F25 /* DisplayMode.swift */,
+				25C2DF8222D1810D00D43198 /* EditList.swift */,
 				2568BDCA21AC731100560287 /* EditManager.swift */,
 				25E36AA122414807009D2727 /* FaceDetection.swift */,
 				25F21FF2220FB233005C449F /* FacialFeatures.swift */,
@@ -2616,7 +2617,6 @@
 				25CC3EAA21FD190100EB8A0A /* RenderViewCache.swift */,
 				25159883219E2B850067AA00 /* ThemeManager.swift */,
 				25F460171D99CCCE00EDA182 /* UISettings.swift */,
-				25C2DF8222D1810D00D43198 /* EditList.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";

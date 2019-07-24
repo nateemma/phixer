@@ -23,6 +23,7 @@ public class AssetListEntity: NSManagedObject {
                 record.assets.append(f as String)
             }
         }
+        record.key = self.key
         return record
     }
     
@@ -35,5 +36,6 @@ public class AssetListEntity: NSManagedObject {
                 self.assets.append(f as NSString)
             }
         }
+        self.key = record.key
     }
 }

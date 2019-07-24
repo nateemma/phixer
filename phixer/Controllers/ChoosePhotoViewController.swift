@@ -47,6 +47,7 @@ class ChoosePhotoViewController: CoordinatedController, UIImagePickerControllerD
     
     convenience init(){
         self.init(nibName:nil, bundle:nil)
+        EditList.load()
     }
     
     
@@ -80,6 +81,8 @@ class ChoosePhotoViewController: CoordinatedController, UIImagePickerControllerD
     
     private func doLayout(){
         
+        EditList.load()
+
         displayHeight = view.height
         displayWidth = view.width
         log.verbose("h:\(displayHeight) w:\(displayWidth)")

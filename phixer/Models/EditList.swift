@@ -68,8 +68,12 @@ class EditList {
         let rec:AssetListRecord = AssetListRecord()
         rec.key = EditList.assetKey
         rec.assets = EditList._editList
-        Database.addAssetListRecord(rec)
+        log.verbose("Saved List: \(EditList._editList)")
+
         DispatchQueue.global(qos: .background).async() {
+            //Database.addAssetListRecord(rec)
+            Database.clearAssetListRecords()
+            Database.updateAssetListRecord(rec)
             Database.save()
         }
     }
@@ -83,6 +87,17 @@ class EditList {
             if let rec = Database.getAssetListRecord(key: EditList.assetKey) {
                 if rec.assets.count > 0 {
                     EditList._editList = rec.assets
+                    log.verbose("Restored List: \(EditList._editList)")
+
+                } else {
+                    log.debug("Empty edit list")
+                }
+            } else {
+                log.error("AssetListRecord not found")
+                let alist = Database.getAssetListRecords()
+                log.debug("AssetLists: \(alist)")
+                for rec in alist {
+                    log.debug("  key:\(rec.key) assets:\(rec.assets)")
                 }
             }
         }

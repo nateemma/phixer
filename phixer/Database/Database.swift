@@ -811,17 +811,17 @@ class Database {
     
     
     // remove an existing AssetList. Data is saved, i.e. permanent removal
-    public static func removeAssetListRecord(category: String){
+    public static func removeAssetListRecord(key: String){
         
         let fetchRequest = NSFetchRequest<AssetListEntity>(entityName: assetListName)
-        fetchRequest.predicate = NSPredicate(format: "category == %@", category)
+        fetchRequest.predicate = NSPredicate(format: "key == %@", key)
         do {
             let assets = try (context?.fetch(fetchRequest))!
             if (assets.count>0){
                 context?.delete(assets[0])
                 save()
             } else {
-                print("updateAssetListRecord() NO record found for: \(category)")
+                print("updateAssetListRecord() NO record found for: \(key)")
             }
         } catch let error as NSError {
             print("updateAssetListRecord() Could not fetch. \(error), \(error.userInfo)")
