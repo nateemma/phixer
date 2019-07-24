@@ -585,6 +585,9 @@ class ImageManager {
         settings.sampleImage = getCurrentSampleImageName()
         settings.editImage = getCurrentEditImageName()
         
+        if (settings.editImage != nil) {
+            EditList.add(settings.editImage!)
+        }
         Database.saveSettings(settings)
     }
 
@@ -658,7 +661,7 @@ class ImageManager {
      }
     
     
-    // returns the name (Asset) of the latest photo in the Camera Roll. Useful as a default setting
+    // returns the name (Asset ID) of the latest photo in the Camera Roll. Useful as a default setting
     // NOTE: returns asynchronously via the 'completion(name)' callback
 
     public static func getLatestPhotoName(completion: (_ name: String?) -> Void){
@@ -671,7 +674,7 @@ class ImageManager {
         let fetchOptions = PHFetchOptions()
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
         fetchOptions.includeHiddenAssets = false
-       //fetchOptions.fetchLimit = 1
+        //fetchOptions.fetchLimit = 1
         
         
         let fetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
@@ -684,13 +687,40 @@ class ImageManager {
         } else {
             completion(nil)
         }
-
-        
-        
     }
     
+
+    // finds the last 'count' photo IDs 
+    public static func getLatestPhotoList(count:Int, completion: (_ list: [String?]) -> Void){
+        
+        var photoList:[String?] = []
+        
+        if (count > 0) {
+            
+            let fetchOptions = PHFetchOptions()
+            fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+            fetchOptions.includeHiddenAssets = false
+            //fetchOptions.fetchLimit = 1
+            
+            
+            let fetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
+            
+            let numFound = fetchResult.count
+            if numFound > 0 {
+                for i in 0...min(numFound, count){
+                    let asset = fetchResult.object(at: i) as PHAsset
+                    photoList.append(asset.localIdentifier)
+                }
+            }
+        }
+        completion(photoList)
+
+    }
+    
+
+    
     // return the requested asset with the original asset size
-    private static func getImageFromAssets(assetID: String)->UIImage? {
+    public static func getImageFromAssets(assetID: String)->UIImage? {
         
         let result = autoreleasepool { () -> UIImage? in
             
@@ -749,7 +779,7 @@ class ImageManager {
     
     
     // return the requested asset with the specified size
-    private static func getImageFromAssets(assetID: String, size:CGSize)->UIImage? {
+    public static func getImageFromAssets(assetID: String, size:CGSize)->UIImage? {
         
         let result = autoreleasepool { () -> UIImage? in
             

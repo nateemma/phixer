@@ -20,7 +20,9 @@ enum ControllerIdentifier: String {
     // Full Controllers:
     
     case startup
-    case home
+    
+    case choosePhoto
+    case mainMenu
     
     case edit
     case browseStyleTransfer
@@ -106,8 +108,11 @@ class ControllerFactory {
         case .startup:
             instance = nil // TODO
             
-        case .home:
+        case .mainMenu:
             instance = MainMenuController()
+            
+        case .choosePhoto:
+            instance = ChoosePhotoViewController()
             
         case .edit:
             instance = BasicEditViewController()

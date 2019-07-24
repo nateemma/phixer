@@ -19,7 +19,7 @@ class CoordinatedController: UIViewController, ControllerDelegate {
     weak var coordinator: CoordinatorDelegate? = nil
     
     // the id of controller (useful to the coordinator)
-    public var id: ControllerIdentifier = .home // has to be something
+    public var id: ControllerIdentifier = .mainMenu // has to be something
     
     // the type of controller (useful to the coordinator)
     public var controllerType: ControllerType = .fullscreen
@@ -228,7 +228,7 @@ class CoordinatedController: UIViewController, ControllerDelegate {
         let menuButton = UIBarButtonItem(image: UIImage(named: "ic_menu")?.imageScaled(to: size), style: .plain, target: self, action: #selector(navbarMenuDidPress))
         
 
-        if (self.id != .home) &&  (self.id != .none) {
+        if (self.id != .choosePhoto) &&  (self.id != .none) {
             self.navigationItem.leftBarButtonItem = backButton
         }
         //self.navigationItem.rightBarButtonItems = [ menuButton, helpButton ] // build custom view?
@@ -250,7 +250,7 @@ class CoordinatedController: UIViewController, ControllerDelegate {
     
     @objc func navbarBackDidPress(){
         log.debug("\(self.getTag()) Back Pressed")
-        if self.id != .home {
+        if self.id != .mainMenu {
             //self.dismiss()
             self.end()
         }

@@ -92,7 +92,9 @@ class AppCoordinator: Coordinator {
         FirebaseApp.configure()
         
         //GADMobileAds.configure(withApplicationID: "ca-app-pub-3940256099942544~1458002511"); // Test ID, replace when ready
-        GADMobileAds.configure(withApplicationID: Admob.appID)
+        //GADMobileAds.configure(withApplicationID: Admob.appID)
+        // appID has been moved to info.plist
+         GADMobileAds.sharedInstance().start(completionHandler: nil)
     }
     
     
@@ -124,16 +126,29 @@ class AppCoordinator: Coordinator {
     
     private func setupCoordinator() {
         
-        self.mainControllerId = .home
+        /*** old version (start at main controller
+ 
+        self.mainControllerId = .mainMenu
         
         // define the list of valid Controllers
-        self.validControllers = [ .home, .edit, .browseFilters, .browseStyleTransfer, .settings, .help ]
+        self.validControllers = [ .mainMenu, .choosePhoto, .edit, .browseFilters, .browseStyleTransfer, .settings, .help ]
         
         // map controllers to their associated coordinators
+        self.coordinatorMap [ControllerIdentifier.choosePhoto] = CoordinatorIdentifier.choosePhoto
         self.coordinatorMap [ControllerIdentifier.edit] = CoordinatorIdentifier.edit
         self.coordinatorMap [ControllerIdentifier.browseFilters] = CoordinatorIdentifier.browseFilters
         self.coordinatorMap [ControllerIdentifier.browseStyleTransfer] = CoordinatorIdentifier.browseStyleTransfer
         self.coordinatorMap [ControllerIdentifier.settings] = CoordinatorIdentifier.settings
+        self.coordinatorMap [ControllerIdentifier.help] = CoordinatorIdentifier.help
+
+         ***/
+        
+        // new version, start at "Choose Photo"
+        self.mainControllerId = .choosePhoto
+        self.validControllers = [.choosePhoto, .mainMenu, .help ]
+        
+        self.coordinatorMap = [:]
+        self.coordinatorMap [ControllerIdentifier.mainMenu] = CoordinatorIdentifier.mainMenu
         self.coordinatorMap [ControllerIdentifier.help] = CoordinatorIdentifier.help
 
     }
@@ -170,14 +185,21 @@ class AppCoordinator: Coordinator {
         
         // a little different since nothing is running yet. Set the top-level Menu as the root ViewController
         
+        /*** old version (start at main controller
         self.mainController = MainMenuController()
         self.mainController?.coordinator = self
         self.mainControllerTag = (self.mainController?.getTag())!
-        self.mainControllerId = .home
+        self.mainControllerId = .mainMenu
         //DispatchQueue.main.async(execute: {
             Coordinator.navigationController?.setViewControllers([self.mainController!], animated: false)
        //})
-        
+         ***/
+        self.mainController = ControllerFactory.getController(self.mainControllerId)
+        self.mainController?.coordinator = self
+        self.mainControllerTag = (self.mainController?.getTag())!
+        //DispatchQueue.main.async(execute: {
+        Coordinator.navigationController?.setViewControllers([self.mainController!], animated: false)
+        //})
         // Create an instance of FilterManager (in a different queue entry). This will take care of reading the configuration file etc.
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {
             [weak self] in

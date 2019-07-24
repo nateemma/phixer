@@ -75,8 +75,14 @@
       "key": "CIToneCurve"
     }, 
     {
-      "parameters": [], 
-      "key": "CIPhotoEffectMono"
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.0, 
+          "key": "inputSaturation"
+        }
+      ], 
+      "key": "SaturationFilter"
     }
   ], 
   "key": "../phixer/Config/Presets//PhotographyPlanetEssentials/ElegantB&W.json"

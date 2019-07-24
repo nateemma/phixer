@@ -1,5 +1,5 @@
 {
-    "version": { "id": 3.0, "overwrite": true },
+    "version": { "id": 3.0, "overwrite": false },
     
     "slow": [ "KuwaharaFilter", "SketchFilter",
         "EnhanceLipsFilter", "EnhanceEyesFilter", "EnhanceTeethFilter", "EnhanceEyebrowsFilter", "EnhanceFaceFilter",
@@ -602,7 +602,7 @@
         { "key": "Relic",  "title": "Relic", "slow": false, "show": true, "rating": 0 },
         { "key": "OnRecreationalDrugs",  "title": "On Recreational Drugs", "slow": false, "show": true, "rating": 0 },
         { "key": "TurkishBlast",  "title": "Turkish Blast", "slow": false, "show": true, "rating": 0 },
-        { "key": "ThankHeavenforLittleGirls",  "title": "Thank Heavenfor Little Girls", "slow": false, "show": true, "rating": 0 },
+        { "key": "ThankHeavenForLittleGirls",  "title": "Thank Heaven for Little Girls", "slow": false, "show": true, "rating": 0 },
         { "key": "SundayAloneTime",  "title": "Sunday Alone Time", "slow": false, "show": true, "rating": 0 },
         { "key": "CarefullyShavenTurk",  "title": "Carefully Shaven Turk", "slow": false, "show": true, "rating": 0 },
         { "key": "AMarshmallowHappysmell",  "title": "A Marshmallow Happysmell", "slow": false, "show": true, "rating": 0 },
@@ -836,7 +836,7 @@
         
         {"key": "favorites",
             "title": "Favorites",
-            "filters": [ "CINoiseReduction", "TheNavigator", "Relic", "Tijuana", "Grunge",  "TurkishBlast", "FreshLime", "CISpotColor" ]
+            "filters": [ "TheNavigator", "Relic", "Tijuana", "Grunge",  "TurkishBlast", "FreshLime", "AMarshmallowHappysmell" ]
         },
         
         {"key": "pr_winter",
@@ -915,7 +915,7 @@
         {"key": "pr_trey",
             "title": "Presets: Trey",
             "filters": [
-                "BeautifulRelease", "CarefullyShavenTurk", "AMarshmallowHappysmell", "SteampunkAfternoon", "OnRecreationalDrugs", "TurkishBlast",
+                "ABeautifulRelease", "CarefullyShavenTurk", "AMarshmallowHappysmell", "SteampunkAfternoon", "OnRecreationalDrugs", "TurkishBlast",
                 "ThankHeavenForLittleGirls", "SundayAloneTime", "TheNavigator", "Relic"
             ]
         },
@@ -923,7 +923,8 @@
         {"key": "pr_fstopurban",
             "title": "Presets: F-Stop Urban",
             "filters": [
-                "Grunge", "GrungeBlue", "GrungeBW", "GrungeGreen", "GrungeMuted", "GrungeRed", "GrungeSepia", "GrungeSmooth",  "UrbanGrain",  "UrbanVignette"
+                "Grunge", "Grunge(blue)",  "Grunge(smooth)",  "Grunge(sepia)",  "Grunge(green)",  "Grunge(muted)",  "Grunge(red)",  "Grunge(black&white)",
+                "UrbanGrain",  "UrbanVignette"
             ]
         },
         
@@ -937,7 +938,7 @@
         {"key": "pr_film",
             "title": "Presets: Analog Film",
             "filters": [ "N-Fuji400H", "N-FujiSuperia1600", "N-FujiSuperia400", "N-FujiVelvia100", "N-FujiVelvia50",
-                "N-KodakEktar100", "N-KodakPortra400", "N-KodakPortra800", "N-KodakTMAX3200", "N-KodakTriX400"
+                "N-KodakEktar100", "N-KodakPortra400", "N-KodakPortra800", "N-KodakTRI-X400",  "N-KodakT-MAX3200"
             ]
         },
         
@@ -969,7 +970,7 @@
         {"key": "pr_omovie",
             "title": "Presets: onOne Movie Looks",
             "filters": [
-                "Wonka", "Blue Dawn", "Arkham", "OmahaBeach", "Tijuana"
+                "Wonka", "BlueDawn", "Arkham", "OmahaBeach", "Tijuana"
             ]
         },
         
@@ -1158,14 +1159,7 @@
                 "ur_011", "ur_012", "ur_013", "ur_014", "ur_015", "Grunge"
             ]
         },
-        
-        {"key": "yu",
-            "title": "Yu",
-            "filters": ["CLAHEFilter",  "YUCIFXAA",  "YUCIHighPass",  "SkinSmoothingFilter",
-                "YUCIHistogramEqualization",  "YUCIReflectedTile"
-            ]
-        },
-        
+                
         {"key": "vintage",
             "title": "Vintage",
             "filters": ["vn_001", "vn_002", "vn_003", "vn_004", "vn_005", "vn_006", "vn_007", "vn_008", "vn_009", "vn_010",

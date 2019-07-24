@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14315.18" systemVersion="18A391" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14490.99" systemVersion="18F132" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="AssetListEntity" representedClassName="AssetListEntity" syncable="YES">
+        <attribute name="assets" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="key" optional="YES" attributeType="String" syncable="YES"/>
+        <fetchIndex name="byKeyIndex">
+            <fetchIndexElement property="key" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <userInfo>
+            <entry key="key" value="value"/>
+        </userInfo>
+    </entity>
     <entity name="AssignmentEntity" representedClassName="AssignmentEntity" syncable="YES">
         <attribute name="category" attributeType="String" syncable="YES"/>
         <attribute name="filters" optional="YES" attributeType="Transformable" syncable="YES"/>
@@ -38,5 +48,6 @@
         <element name="CategoryEntity" positionX="-56" positionY="-459" width="128" height="88"/>
         <element name="SettingsEntity" positionX="88" positionY="-657" width="128" height="118"/>
         <element name="UserChangesEntity" positionX="-107.5" positionY="-601.89453125" width="128" height="88"/>
+        <element name="AssetListEntity" positionX="36" positionY="-540" width="128" height="75"/>
     </elements>
 </model>

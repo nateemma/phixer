@@ -24,12 +24,13 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
     var adView: GADBannerView! = GADBannerView()
     
     // Menu items
+    var choosePhotoMenuItem: UILabel = UILabel()
     var simpleEditMenuItem: UILabel = UILabel()
     var styleTransferMenuItem: UILabel = UILabel()
     var browseFiltersMenuItem: UILabel = UILabel()
     var settingsMenuItem: UILabel = UILabel()
  
-    let numItems = 4
+    let numItems = 5
     
     
     /////////////////////////////
@@ -86,6 +87,7 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
         
         // Note: need to add subviews before modifying constraints
         view.addSubview(adView)
+        view.addSubview(choosePhotoMenuItem)
         view.addSubview(simpleEditMenuItem)
         view.addSubview(styleTransferMenuItem)
         view.addSubview(browseFiltersMenuItem)
@@ -114,9 +116,13 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
         
 
         // setup text, colours etc.
+        
+        setupMenuItem(label:choosePhotoMenuItem, height:h, width:w,
+                      title:"Change Photo", color:UIColor.flatOrange, handler: UITapGestureRecognizer(target: self, action: #selector(presentPhotoChooser)))
+        
         setupMenuItem(label:simpleEditMenuItem, height:h, width:w,
                       title:"Simple Picture Editor", color:UIColor.flatMint, handler: UITapGestureRecognizer(target: self, action: #selector(presentSimpleImageEditor)))
-        
+
         setupMenuItem(label:styleTransferMenuItem, height:h, width:w,
                       title:"Style Transfer", color:UIColor.flatMintDark, handler: UITapGestureRecognizer(target: self, action: #selector(presentStyleTransfer)))
         
@@ -130,7 +136,7 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
 
         // set layout constraints
         view.groupAgainstEdge(group: .vertical,
-                              views: [simpleEditMenuItem, styleTransferMenuItem, browseFiltersMenuItem, settingsMenuItem],
+                              views: [choosePhotoMenuItem, simpleEditMenuItem, styleTransferMenuItem, browseFiltersMenuItem, settingsMenuItem],
                               againstEdge: .bottom, padding: 8, width: w-8, height: h)
       
         
@@ -156,7 +162,7 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
         // set Colours
         label.backgroundColor = color
         //label.textColor = UIColor.flatWhite()
-        label.textColor = UIColor(contrastingBlackOrWhiteColorOn:color, isFlat:true)
+        label.textColor = UIColor(contrastingBlackOrWhiteColorOn:color, isFlat:false)
         label.textAlignment = .center
 
         // assign gesture handler
@@ -169,11 +175,16 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
     /////////////////////////////////
     
     
+    @objc func presentPhotoChooser(){
+        InputSource.setCurrent(source: .edit)
+        self.coordinator?.activateRequest(id: .choosePhoto)
+    }
+    
     @objc func presentSimpleImageEditor(){
         InputSource.setCurrent(source: .edit)
         self.coordinator?.activateRequest(id: .edit)
     }
-    
+
     @objc func presentStyleTransfer(){
         InputSource.setCurrent(source: .edit)
         self.coordinator?.activateRequest(id: .browseStyleTransfer)

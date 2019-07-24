@@ -167,8 +167,14 @@
       "key": "CIToneCurve"
     }, 
     {
-      "parameters": [], 
-      "key": "CIPhotoEffectMono"
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.2, 
+          "key": "inputSaturation"
+        }
+      ], 
+      "key": "SaturationFilter"
     }
   ], 
   "key": "../phixer/Config/Presets//AnalogFilm/N-KodakTRI-X400.json"

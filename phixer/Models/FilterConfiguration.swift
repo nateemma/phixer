@@ -159,7 +159,7 @@ class FilterConfiguration{
                     
                     // version
                     let vParams = parsedConfig["version"].dictionaryValue
-                    log.verbose("vParams:\(vParams)")
+                    //log.verbose("vParams:\(vParams)")
                     version = vParams["id"]?.floatValue ?? 0.0
                     overwriteConfig = vParams["overwrite"]?.boolValue ?? false
                     log.verbose ("version: \(version) overwrite: \(overwriteConfig)")
@@ -171,13 +171,14 @@ class FilterConfiguration{
                         Database.clearSettings()
 
                         // blend, sample, edit assignments
+                        let edit = parsedConfig["settings"]["edit"].stringValue
                         let blend = parsedConfig["settings"]["blend"].stringValue
                         let sample = parsedConfig["settings"]["sample"].stringValue
-                        let edit = parsedConfig["settings"]["edit"].stringValue
                         log.debug("Sample:\(sample) Blend:\(blend) Edit:\(edit)")
                         // Note: need to do edit image first, so that default can be processed
                         ImageManager.setCurrentEditImageName(edit) // set even if empty
-                        ImageManager.setCurrentSampleImageName(sample) // set even if empty
+                        //ImageManager.setCurrentSampleImageName(sample) // set even if empty
+                        ImageManager.setCurrentSampleImageName(edit) // always setting to the same as 'edit' for now
                        if !blend.isEmpty { ImageManager.setCurrentBlendImageName(blend)}
  
 
@@ -322,9 +323,10 @@ class FilterConfiguration{
             // Inform ImageManager. Note that edit must be done first otherwise it leads to race conditions
             ImageManager.setCurrentEditImageName(settings.editImage!)
             ImageManager.setCurrentBlendImageName(settings.blendImage!)
-            ImageManager.setCurrentSampleImageName(settings.sampleImage!)
+            //ImageManager.setCurrentSampleImageName(settings.sampleImage!)
+            ImageManager.setCurrentSampleImageName(settings.editImage!)
         } else {
-            log.verbose("ERR: settings NOT found...")
+            log.error("ERR: settings NOT found...")
         }
         
     }
@@ -381,7 +383,7 @@ class FilterConfiguration{
     private static func addCategory(key:String, title:String){
         // just add the data to the dictionary
         FilterConfiguration.categoryDictionary[key] = title
-        log.verbose("addCategory(\(key), \(title))")
+        //log.verbose("addCategory(\(key), \(title))")
     }
   
     
@@ -391,7 +393,7 @@ class FilterConfiguration{
         // just store the mapping. Do lazy allocation as needed because of the potentially large number of filters
         //FilterDescriptorCache.get(key:key) = nil // just make sure there is an entry to find later
         FilterFactory.addFilterDefinition(key: key, definition:definition)
-        log.verbose("addFilter(\(definition.key): \(definition.title), \(definition.ftype), \(definition.hide), \(definition.rating)), \(definition.parameters)")
+        //log.verbose("addFilter(\(definition.key): \(definition.title), \(definition.ftype), \(definition.hide), \(definition.rating)), \(definition.parameters)")
     }
     
     
@@ -399,7 +401,7 @@ class FilterConfiguration{
     public static func addPreset(key:String, definition:FilterDefinition){
         
         FilterFactory.addFilterDefinition(key: key, definition:definition)
-        log.verbose("addPreset(\(definition.key): \(definition.title), \(definition.ftype), \(definition.hide), \(definition.rating)), \(definition.parameters)")
+        //log.verbose("addPreset(\(definition.key): \(definition.title), \(definition.ftype), \(definition.hide), \(definition.rating)), \(definition.parameters)")
     }
 
     
@@ -426,7 +428,7 @@ class FilterConfiguration{
         //FilterDescriptorCache.get(key:key) = nil
         FilterFactory.addLookupFilter(key: key, definition:def)
         //FilterFactory.addFilterDefinition(key: key, title: key, ftype: "lookup",  hide:hide, rating:rating)
-        log.verbose("addLookup(\(definition.key), \(definition.lookup), \(definition.hide), \(definition.rating))")
+        //log.verbose("addLookup(\(definition.key), \(definition.lookup), \(definition.hide), \(definition.rating))")
     }
     
     
@@ -589,9 +591,10 @@ class FilterConfiguration{
         
         if let settings = Database.getSettings() {
             log.verbose("loadFromDatabase() - Restoring Settings: key:\(settings.key) Sample:\(settings.sampleImage!) Blend:\(settings.blendImage!) Edit:\(settings.editImage!)")
-            ImageManager.setCurrentBlendImageName(settings.blendImage!)
-            ImageManager.setCurrentSampleImageName(settings.sampleImage!)
             ImageManager.setCurrentEditImageName(settings.editImage!)
+            ImageManager.setCurrentBlendImageName(settings.blendImage!)
+            //ImageManager.setCurrentSampleImageName(settings.sampleImage!)
+            ImageManager.setCurrentSampleImageName(settings.editImage!)
         } else {
             log.error("ERR: settings NOT found...")
         }

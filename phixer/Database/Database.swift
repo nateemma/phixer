@@ -28,6 +28,7 @@ class Database {
     fileprivate static var assignmentEntity: NSEntityDescription? = nil
     fileprivate static var presetEntity: NSEntityDescription? = nil
     fileprivate static var userChangesEntity: NSEntityDescription? = nil
+    fileprivate static var assetListEntity: NSEntityDescription? = nil
 
     
     // Table names
@@ -38,7 +39,8 @@ class Database {
     fileprivate static let assignmentName = "AssignmentEntity"
     fileprivate static let presetName = "PresetEntity"
     fileprivate static let userChangesName = "UserChangesEntity"
-    
+    fileprivate static let assetListName = "AssetListEntity"
+
     
     ///////////////////////////////////
     // MARK: - UTILITIES
@@ -133,6 +135,7 @@ class Database {
                 assignmentEntity = NSEntityDescription.entity(forEntityName: assignmentName, in: context!)!
                 userChangesEntity = NSEntityDescription.entity(forEntityName: userChangesName, in: context!)!
                 //presetEntity = NSEntityDescription.entity(forEntityName: presetName, in: context)!
+                assetListEntity = NSEntityDescription.entity(forEntityName: assetListName, in: context!)!
 
             } else {
                 print("Database.checkDatabase() - ERR: NIL context returned for Database")
@@ -147,7 +150,7 @@ class Database {
         
         checkDatabase()
         
-       // we determine whether the database has been populated by the presence of catagories
+       // we determine whether the database has been populated by the presence of categories
         let fetchRequest = NSFetchRequest<CategoryEntity>(entityName: categoryName)
         do {
             categories = try (context?.fetch(fetchRequest))!
@@ -714,5 +717,140 @@ class Database {
         }
         
     }
+    
+    
+    
+    
+    ///////////////////////////////////
+    // MARK: - Asset List
+    ///////////////////////////////////
+    
+    
+    
+    public static func getAssetListRecords() -> [AssetListRecord]{
+        var assetList:[AssetListRecord]
+        
+        assetList = []
+        
+        let fetchRequest = NSFetchRequest<AssetListEntity>(entityName: assetListName)
+        do {
+            let assets = try (context?.fetch(fetchRequest))!
+            if (assets.count>0){
+                for entity in assets {
+                    assetList.append(entity.toRecord())
+                }
+            } else {
+                print("getAssetListRecords() NO records found")
+            }
+        } catch let error as NSError {
+            print("getAssetListRecords() Could not fetch. \(error), \(error.userInfo)")
+        }
+        
+        return assetList
+    }
+    
+    
+    
+    // retrieve a specific asset record
+    public static func getAssetListRecord(key: String) -> AssetListRecord?{
+        var assetRecord: AssetListRecord?
+        
+        assetRecord = nil
+        
+        let fetchRequest = NSFetchRequest<AssetListEntity>(entityName: assetListName)
+        fetchRequest.predicate = NSPredicate(format: "key == %@", key)
+        do {
+            let assets = try (context?.fetch(fetchRequest))!
+            if (assets.count>0){
+                assetRecord = assets[0].toRecord()
+            } else {
+                print("getAssetListRecords() NO records found")
+            }
+        } catch let error as NSError {
+            print("getAssetListRecords() Could not fetch. \(error), \(error.userInfo)")
+        }
+        
+        return assetRecord
+    }
+    
+    
+    // add a new AssetList entry. Data is saved
+    public static func addAssetListRecord(_ record: AssetListRecord){
+        
+        var assetEntity: AssetListEntity?
+        
+        assetEntity = NSEntityDescription.insertNewObject(forEntityName: assetListName, into: context!) as? AssetListEntity
+        
+        assetEntity?.update(record: record)
+        
+        save()
+        
+    }
+    
+    
+    // update an existing AssetList record. Data is saved
+    public static func updateAssetListRecord(_ record: AssetListRecord){
+        
+        let fetchRequest = NSFetchRequest<AssetListEntity>(entityName: assetListName)
+        fetchRequest.predicate = NSPredicate(format: "key == %@", record.key!)
+        do {
+            let assets = try (context?.fetch(fetchRequest))!
+            if (assets.count>0){
+                print("updateAssetListRecord() UPDATE AssetList: \(String(describing: record.key)) \(record.assets)")
+                assets[0].update(record: record)
+                save()
+            } else {
+                print("updateAssetListRecord() NO record found for: \(String(describing: record.key)). ADDING")
+                addAssetListRecord(record)
+            }
+        } catch let error as NSError {
+            print("updateAssetListRecord() Could not fetch. \(error), \(error.userInfo)")
+        }
+        
+    }
+    
+    
+    // remove an existing AssetList. Data is saved, i.e. permanent removal
+    public static func removeAssetListRecord(category: String){
+        
+        let fetchRequest = NSFetchRequest<AssetListEntity>(entityName: assetListName)
+        fetchRequest.predicate = NSPredicate(format: "category == %@", category)
+        do {
+            let assets = try (context?.fetch(fetchRequest))!
+            if (assets.count>0){
+                context?.delete(assets[0])
+                save()
+            } else {
+                print("updateAssetListRecord() NO record found for: \(category)")
+            }
+        } catch let error as NSError {
+            print("updateAssetListRecord() Could not fetch. \(error), \(error.userInfo)")
+        }
+        
+    }
+    
+    
+    // clear (delete) all asset records
+    public static func clearAssetListRecords() {
+        
+        print("Database.clearAssetListRecords()")
+        
+        let fetchRequest = NSFetchRequest<AssetListEntity>(entityName: assetListName)
+        do {
+            let records = try (context?.fetch(fetchRequest))!
+            if (records.count>0){
+                for rec in records {
+                    context?.delete(rec)
+                }
+            } else {
+                print("clearAssetListRecords() NO records found")
+            }
+        } catch let error as NSError {
+            print("clearAssetListRecords() Could not fetch. \(error), \(error.userInfo)")
+        }
+        
+    }
+
+    //-------
 
 }

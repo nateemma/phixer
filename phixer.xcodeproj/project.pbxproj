@@ -620,7 +620,6 @@
 		252B10831E30692E005A0C2D /* sample_emma_1427.png in Resources */ = {isa = PBXBuildFile; fileRef = 252B105F1E30692E005A0C2D /* sample_emma_1427.png */; };
 		252B10851E30692E005A0C2D /* sample_hugger_1151.png in Resources */ = {isa = PBXBuildFile; fileRef = 252B10611E30692E005A0C2D /* sample_hugger_1151.png */; };
 		252C17911ECE649500039BFC /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 252C17901ECE649500039BFC /* CoreData.framework */; };
-		252C17951ECE64EE00039BFC /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 252C17931ECE64EE00039BFC /* Model.xcdatamodeld */; };
 		252C17A01ECE75FC00039BFC /* SettingsEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252C17961ECE75FC00039BFC /* SettingsEntity+CoreDataClass.swift */; };
 		252C17A41ECE75FC00039BFC /* CategoryEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252C179A1ECE75FC00039BFC /* CategoryEntity+CoreDataClass.swift */; };
 		252C17A51ECE75FC00039BFC /* CategoryEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252C179B1ECE75FC00039BFC /* CategoryEntity+CoreDataProperties.swift */; };
@@ -756,6 +755,10 @@
 		257F49F51D9448920083B1E4 /* phixerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257F49F41D9448920083B1E4 /* phixerTests.swift */; };
 		257F4A001D9448920083B1E4 /* phixerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257F49FF1D9448920083B1E4 /* phixerUITests.swift */; };
 		257F4A141D947CF80083B1E4 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 257F4A131D947CF80083B1E4 /* Podfile */; };
+		258D65D222E7B16B00D4EB8B /* ChoosePhotoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258D65D122E7B16B00D4EB8B /* ChoosePhotoCoordinator.swift */; };
+		258D65D422E7B24700D4EB8B /* MainMenuCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258D65D322E7B24700D4EB8B /* MainMenuCoordinator.swift */; };
+		258D65D622E897F000D4EB8B /* SwipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258D65D522E897F000D4EB8B /* SwipeView.swift */; };
+		258D65D822E8CF8300D4EB8B /* SimpleSwipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258D65D722E8CF8300D4EB8B /* SimpleSwipeView.swift */; };
 		258EA08E1ED90A7000D5E20E /* SettingsMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258EA08D1ED90A7000D5E20E /* SettingsMenuController.swift */; };
 		258EA0931ED9472600D5E20E /* ResetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258EA0921ED9472600D5E20E /* ResetViewController.swift */; };
 		258F098F218A7F100082FE2A /* About.html in Resources */ = {isa = PBXBuildFile; fileRef = 258F098E218A7F100082FE2A /* About.html */; };
@@ -830,23 +833,16 @@
 		25C2DEA222CD8A8D00D43198 /* LightNoiseReduction.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DD9722CD8A8B00D43198 /* LightNoiseReduction.json */; };
 		25C2DEA322CD8A8D00D43198 /* SplitToned.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DD9822CD8A8B00D43198 /* SplitToned.json */; };
 		25C2DEA422CD8A8D00D43198 /* WarmSunlight.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DD9922CD8A8B00D43198 /* WarmSunlight.json */; };
-		25C2DEA522CD8A8D00D43198 /* GrungeSepia.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DD9B22CD8A8B00D43198 /* GrungeSepia.json */; };
 		25C2DEA622CD8A8D00D43198 /* Grunge(green).json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DD9C22CD8A8B00D43198 /* Grunge(green).json */; };
 		25C2DEA722CD8A8D00D43198 /* Grunge(muted).json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DD9D22CD8A8B00D43198 /* Grunge(muted).json */; };
 		25C2DEA822CD8A8D00D43198 /* Grunge(black&white).json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DD9E22CD8A8B00D43198 /* Grunge(black&white).json */; };
 		25C2DEA922CD8A8D00D43198 /* Grunge(blue).json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DD9F22CD8A8B00D43198 /* Grunge(blue).json */; };
-		25C2DEAA22CD8A8D00D43198 /* GrungeRed.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DDA022CD8A8B00D43198 /* GrungeRed.json */; };
 		25C2DEAB22CD8A8D00D43198 /* UrbanVignette.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DDA122CD8A8B00D43198 /* UrbanVignette.json */; };
-		25C2DEAC22CD8A8D00D43198 /* GrungeBlue.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DDA222CD8A8B00D43198 /* GrungeBlue.json */; };
 		25C2DEAD22CD8A8D00D43198 /* Grunge(sepia).json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DDA322CD8A8B00D43198 /* Grunge(sepia).json */; };
-		25C2DEAE22CD8A8D00D43198 /* GrungeBW.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DDA422CD8A8B00D43198 /* GrungeBW.json */; };
 		25C2DEAF22CD8A8D00D43198 /* Grunge(smooth).json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DDA522CD8A8B00D43198 /* Grunge(smooth).json */; };
 		25C2DEB022CD8A8D00D43198 /* Grunge.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DDA622CD8A8B00D43198 /* Grunge.json */; };
-		25C2DEB122CD8A8D00D43198 /* GrungeGreen.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DDA722CD8A8B00D43198 /* GrungeGreen.json */; };
 		25C2DEB222CD8A8D00D43198 /* Grunge(red).json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DDA822CD8A8B00D43198 /* Grunge(red).json */; };
-		25C2DEB322CD8A8D00D43198 /* GrungeSmooth.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DDA922CD8A8B00D43198 /* GrungeSmooth.json */; };
 		25C2DEB422CD8A8D00D43198 /* UrbanGrain.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DDAA22CD8A8B00D43198 /* UrbanGrain.json */; };
-		25C2DEB522CD8A8D00D43198 /* GrungeMuted.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DDAB22CD8A8B00D43198 /* GrungeMuted.json */; };
 		25C2DEB622CD8A8D00D43198 /* Daisy.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DDAD22CD8A8B00D43198 /* Daisy.json */; };
 		25C2DEB722CD8A8D00D43198 /* Crossify.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DDAE22CD8A8B00D43198 /* Crossify.json */; };
 		25C2DEB822CD8A8D00D43198 /* Roaster.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DDAF22CD8A8B00D43198 /* Roaster.json */; };
@@ -1020,24 +1016,20 @@
 		25C2DF6022CD8A8D00D43198 /* N-KodakT-MAX3200.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DE6622CD8A8D00D43198 /* N-KodakT-MAX3200.json */; };
 		25C2DF6122CD8A8D00D43198 /* N-FujiVelvia50.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DE6722CD8A8D00D43198 /* N-FujiVelvia50.json */; };
 		25C2DF6222CD8A8D00D43198 /* N-KodakTRI-X400.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DE6822CD8A8D00D43198 /* N-KodakTRI-X400.json */; };
-		25C2DF6322CD8A8D00D43198 /* FujiVelvia100.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DE6922CD8A8D00D43198 /* FujiVelvia100.json */; };
-		25C2DF6422CD8A8D00D43198 /* FujiSuperia400.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DE6A22CD8A8D00D43198 /* FujiSuperia400.json */; };
 		25C2DF6522CD8A8D00D43198 /* N-FujiSuperia400.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DE6B22CD8A8D00D43198 /* N-FujiSuperia400.json */; };
-		25C2DF6622CD8A8D00D43198 /* KodakTMAX3200.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DE6C22CD8A8D00D43198 /* KodakTMAX3200.json */; };
-		25C2DF6722CD8A8D00D43198 /* KodakPortra400.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DE6D22CD8A8D00D43198 /* KodakPortra400.json */; };
-		25C2DF6822CD8A8D00D43198 /* KodakEktar100.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DE6E22CD8A8D00D43198 /* KodakEktar100.json */; };
-		25C2DF6922CD8A8D00D43198 /* KodakPortra800.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DE6F22CD8A8D00D43198 /* KodakPortra800.json */; };
 		25C2DF6A22CD8A8D00D43198 /* N-KodakPortra400.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DE7022CD8A8D00D43198 /* N-KodakPortra400.json */; };
 		25C2DF6B22CD8A8D00D43198 /* N-KodakPortra800.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DE7122CD8A8D00D43198 /* N-KodakPortra800.json */; };
 		25C2DF6C22CD8A8D00D43198 /* N-Fuji400H.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DE7222CD8A8D00D43198 /* N-Fuji400H.json */; };
-		25C2DF6D22CD8A8D00D43198 /* FujiSuperia1600.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DE7322CD8A8D00D43198 /* FujiSuperia1600.json */; };
 		25C2DF6E22CD8A8D00D43198 /* N-FujiVelvia100.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DE7422CD8A8D00D43198 /* N-FujiVelvia100.json */; };
 		25C2DF6F22CD8A8D00D43198 /* N-KodakEktar100.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DE7522CD8A8D00D43198 /* N-KodakEktar100.json */; };
-		25C2DF7022CD8A8D00D43198 /* FujiVelvia50.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DE7622CD8A8D00D43198 /* FujiVelvia50.json */; };
-		25C2DF7122CD8A8D00D43198 /* KodakTriX400.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DE7722CD8A8D00D43198 /* KodakTriX400.json */; };
-		25C2DF7222CD8A8D00D43198 /* Fuji400H.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DE7822CD8A8D00D43198 /* Fuji400H.json */; };
 		25C2DF7322CD8A8D00D43198 /* N-FujiSuperia1600.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DE7922CD8A8D00D43198 /* N-FujiSuperia1600.json */; };
 		25C2DF7422CD8A8D00D43198 /* Test00.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DE7B22CD8A8D00D43198 /* Test00.json */; };
+		25C2DF7822D1584F00D43198 /* AssetListRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C2DF7722D1584F00D43198 /* AssetListRecord.swift */; };
+		25C2DF7F22D1631300D43198 /* phixerModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 25C2DF7D22D1631200D43198 /* phixerModel.xcdatamodeld */; };
+		25C2DF8022D1668000D43198 /* AssetListEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C2DF7522D1563C00D43198 /* AssetListEntity+CoreDataClass.swift */; };
+		25C2DF8122D1669200D43198 /* AssetListEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C2DF7922D158EA00D43198 /* AssetListEntity+CoreDataProperties.swift */; };
+		25C2DF8322D1810D00D43198 /* EditList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C2DF8222D1810D00D43198 /* EditList.swift */; };
+		25C2DF8522D2457400D43198 /* ChoosePhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C2DF8422D2457400D43198 /* ChoosePhotoViewController.swift */; };
 		25CC3E9F21F5916200EB8A0A /* MercurializeFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CC3E9B21F5916200EB8A0A /* MercurializeFilter.swift */; };
 		25CC3EA021F5916200EB8A0A /* KuwaharaFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CC3E9C21F5916200EB8A0A /* KuwaharaFilter.swift */; };
 		25CC3EA121F5916200EB8A0A /* TransverseChromaticAberration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CC3E9D21F5916200EB8A0A /* TransverseChromaticAberration.swift */; };
@@ -1775,7 +1767,6 @@
 		252B105F1E30692E005A0C2D /* sample_emma_1427.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sample_emma_1427.png; sourceTree = "<group>"; };
 		252B10611E30692E005A0C2D /* sample_hugger_1151.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sample_hugger_1151.png; sourceTree = "<group>"; };
 		252C17901ECE649500039BFC /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		252C17941ECE64EE00039BFC /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		252C17961ECE75FC00039BFC /* SettingsEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SettingsEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		252C17981ECE75FC00039BFC /* FilterEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FilterEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		252C17991ECE75FC00039BFC /* FilterEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FilterEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -1941,6 +1932,10 @@
 		257F49FF1D9448920083B1E4 /* phixerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = phixerUITests.swift; sourceTree = "<group>"; };
 		257F4A011D9448920083B1E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		257F4A131D947CF80083B1E4 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		258D65D122E7B16B00D4EB8B /* ChoosePhotoCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChoosePhotoCoordinator.swift; sourceTree = "<group>"; };
+		258D65D322E7B24700D4EB8B /* MainMenuCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuCoordinator.swift; sourceTree = "<group>"; };
+		258D65D522E897F000D4EB8B /* SwipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeView.swift; sourceTree = "<group>"; };
+		258D65D722E8CF8300D4EB8B /* SimpleSwipeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleSwipeView.swift; sourceTree = "<group>"; };
 		258EA08D1ED90A7000D5E20E /* SettingsMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsMenuController.swift; sourceTree = "<group>"; };
 		258EA0921ED9472600D5E20E /* ResetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResetViewController.swift; sourceTree = "<group>"; };
 		258F098E218A7F100082FE2A /* About.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = About.html; sourceTree = "<group>"; };
@@ -2016,23 +2011,16 @@
 		25C2DD9722CD8A8B00D43198 /* LightNoiseReduction.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LightNoiseReduction.json; sourceTree = "<group>"; };
 		25C2DD9822CD8A8B00D43198 /* SplitToned.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SplitToned.json; sourceTree = "<group>"; };
 		25C2DD9922CD8A8B00D43198 /* WarmSunlight.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = WarmSunlight.json; sourceTree = "<group>"; };
-		25C2DD9B22CD8A8B00D43198 /* GrungeSepia.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = GrungeSepia.json; sourceTree = "<group>"; };
 		25C2DD9C22CD8A8B00D43198 /* Grunge(green).json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Grunge(green).json"; sourceTree = "<group>"; };
 		25C2DD9D22CD8A8B00D43198 /* Grunge(muted).json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Grunge(muted).json"; sourceTree = "<group>"; };
 		25C2DD9E22CD8A8B00D43198 /* Grunge(black&white).json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Grunge(black&white).json"; sourceTree = "<group>"; };
 		25C2DD9F22CD8A8B00D43198 /* Grunge(blue).json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Grunge(blue).json"; sourceTree = "<group>"; };
-		25C2DDA022CD8A8B00D43198 /* GrungeRed.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = GrungeRed.json; sourceTree = "<group>"; };
 		25C2DDA122CD8A8B00D43198 /* UrbanVignette.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = UrbanVignette.json; sourceTree = "<group>"; };
-		25C2DDA222CD8A8B00D43198 /* GrungeBlue.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = GrungeBlue.json; sourceTree = "<group>"; };
 		25C2DDA322CD8A8B00D43198 /* Grunge(sepia).json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Grunge(sepia).json"; sourceTree = "<group>"; };
-		25C2DDA422CD8A8B00D43198 /* GrungeBW.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = GrungeBW.json; sourceTree = "<group>"; };
 		25C2DDA522CD8A8B00D43198 /* Grunge(smooth).json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Grunge(smooth).json"; sourceTree = "<group>"; };
 		25C2DDA622CD8A8B00D43198 /* Grunge.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Grunge.json; sourceTree = "<group>"; };
-		25C2DDA722CD8A8B00D43198 /* GrungeGreen.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = GrungeGreen.json; sourceTree = "<group>"; };
 		25C2DDA822CD8A8B00D43198 /* Grunge(red).json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Grunge(red).json"; sourceTree = "<group>"; };
-		25C2DDA922CD8A8B00D43198 /* GrungeSmooth.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = GrungeSmooth.json; sourceTree = "<group>"; };
 		25C2DDAA22CD8A8B00D43198 /* UrbanGrain.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = UrbanGrain.json; sourceTree = "<group>"; };
-		25C2DDAB22CD8A8B00D43198 /* GrungeMuted.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = GrungeMuted.json; sourceTree = "<group>"; };
 		25C2DDAD22CD8A8B00D43198 /* Daisy.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Daisy.json; sourceTree = "<group>"; };
 		25C2DDAE22CD8A8B00D43198 /* Crossify.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Crossify.json; sourceTree = "<group>"; };
 		25C2DDAF22CD8A8B00D43198 /* Roaster.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Roaster.json; sourceTree = "<group>"; };
@@ -2206,24 +2194,20 @@
 		25C2DE6622CD8A8D00D43198 /* N-KodakT-MAX3200.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "N-KodakT-MAX3200.json"; sourceTree = "<group>"; };
 		25C2DE6722CD8A8D00D43198 /* N-FujiVelvia50.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "N-FujiVelvia50.json"; sourceTree = "<group>"; };
 		25C2DE6822CD8A8D00D43198 /* N-KodakTRI-X400.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "N-KodakTRI-X400.json"; sourceTree = "<group>"; };
-		25C2DE6922CD8A8D00D43198 /* FujiVelvia100.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = FujiVelvia100.json; sourceTree = "<group>"; };
-		25C2DE6A22CD8A8D00D43198 /* FujiSuperia400.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = FujiSuperia400.json; sourceTree = "<group>"; };
 		25C2DE6B22CD8A8D00D43198 /* N-FujiSuperia400.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "N-FujiSuperia400.json"; sourceTree = "<group>"; };
-		25C2DE6C22CD8A8D00D43198 /* KodakTMAX3200.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = KodakTMAX3200.json; sourceTree = "<group>"; };
-		25C2DE6D22CD8A8D00D43198 /* KodakPortra400.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = KodakPortra400.json; sourceTree = "<group>"; };
-		25C2DE6E22CD8A8D00D43198 /* KodakEktar100.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = KodakEktar100.json; sourceTree = "<group>"; };
-		25C2DE6F22CD8A8D00D43198 /* KodakPortra800.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = KodakPortra800.json; sourceTree = "<group>"; };
 		25C2DE7022CD8A8D00D43198 /* N-KodakPortra400.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "N-KodakPortra400.json"; sourceTree = "<group>"; };
 		25C2DE7122CD8A8D00D43198 /* N-KodakPortra800.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "N-KodakPortra800.json"; sourceTree = "<group>"; };
 		25C2DE7222CD8A8D00D43198 /* N-Fuji400H.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "N-Fuji400H.json"; sourceTree = "<group>"; };
-		25C2DE7322CD8A8D00D43198 /* FujiSuperia1600.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = FujiSuperia1600.json; sourceTree = "<group>"; };
 		25C2DE7422CD8A8D00D43198 /* N-FujiVelvia100.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "N-FujiVelvia100.json"; sourceTree = "<group>"; };
 		25C2DE7522CD8A8D00D43198 /* N-KodakEktar100.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "N-KodakEktar100.json"; sourceTree = "<group>"; };
-		25C2DE7622CD8A8D00D43198 /* FujiVelvia50.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = FujiVelvia50.json; sourceTree = "<group>"; };
-		25C2DE7722CD8A8D00D43198 /* KodakTriX400.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = KodakTriX400.json; sourceTree = "<group>"; };
-		25C2DE7822CD8A8D00D43198 /* Fuji400H.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Fuji400H.json; sourceTree = "<group>"; };
 		25C2DE7922CD8A8D00D43198 /* N-FujiSuperia1600.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "N-FujiSuperia1600.json"; sourceTree = "<group>"; };
 		25C2DE7B22CD8A8D00D43198 /* Test00.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Test00.json; sourceTree = "<group>"; };
+		25C2DF7522D1563C00D43198 /* AssetListEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AssetListEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		25C2DF7722D1584F00D43198 /* AssetListRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetListRecord.swift; sourceTree = "<group>"; };
+		25C2DF7922D158EA00D43198 /* AssetListEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AssetListEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		25C2DF7E22D1631200D43198 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		25C2DF8222D1810D00D43198 /* EditList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditList.swift; sourceTree = "<group>"; };
+		25C2DF8422D2457400D43198 /* ChoosePhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChoosePhotoViewController.swift; sourceTree = "<group>"; };
 		25CC3E9B21F5916200EB8A0A /* MercurializeFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MercurializeFilter.swift; sourceTree = "<group>"; };
 		25CC3E9C21F5916200EB8A0A /* KuwaharaFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KuwaharaFilter.swift; sourceTree = "<group>"; };
 		25CC3E9D21F5916200EB8A0A /* TransverseChromaticAberration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransverseChromaticAberration.swift; sourceTree = "<group>"; };
@@ -2518,16 +2502,18 @@
 			children = (
 				2537A21B21ED572A00060DBE /* AppCoordinator.swift */,
 				2537A22721EE510200060DBE /* BasicEditCoordinator.swift */,
+				258D65D122E7B16B00D4EB8B /* ChoosePhotoCoordinator.swift */,
 				2537A22F21EEC99000060DBE /* ControllerDelegate.swift */,
 				2537A21921ED3E7F00060DBE /* ControllerFactory.swift */,
 				2537A21D21ED58B300060DBE /* Coordinator.swift */,
 				2537A21721ED383E00060DBE /* CoordinatorDelegate.swift */,
 				2537A22321EE461900060DBE /* CoordinatorFactory.swift */,
 				2537A22B21EE784000060DBE /* FilterGalleryCoordinator.swift */,
+				2537A23821F17B7400060DBE /* HelpCoordinator.swift */,
+				258D65D322E7B24700D4EB8B /* MainMenuCoordinator.swift */,
 				2537A23321EFC88200060DBE /* README.md */,
 				2537A22D21EE78AC00060DBE /* SettingsCoordinator.swift */,
 				2537A22521EE4EA900060DBE /* SimpleCoordinator.swift */,
-				2537A23821F17B7400060DBE /* HelpCoordinator.swift */,
 				2537A22921EE772100060DBE /* StyleTransferGalleryCoordinator.swift */,
 				2537A23121EED2AC00060DBE /* SubControllerDelegate.swift */,
 			);
@@ -2630,6 +2616,7 @@
 				25CC3EAA21FD190100EB8A0A /* RenderViewCache.swift */,
 				25159883219E2B850067AA00 /* ThemeManager.swift */,
 				25F460171D99CCCE00EDA182 /* UISettings.swift */,
+				25C2DF8222D1810D00D43198 /* EditList.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -2637,20 +2624,21 @@
 		256D0FEF1D98DADA00220D7E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				2537A22121ED91E300060DBE /* CoordinatedController.swift */,
-				25F21F7B2203828F005C449F /* Tools */,
 				2542DF5A1ED372BF00CEB968 /* BasicEditViewController.swift */,
+				25C2DF8422D2457400D43198 /* ChoosePhotoViewController.swift */,
 				252745FA21851AEB00AA2DA2 /* ColorPickerController.swift */,
 				252745F421826DBC00AA2DA2 /* ColorSchemeViewController.swift */,
-				2568BDEB21C870D300560287 /* Menus */,
+				2537A22121ED91E300060DBE /* CoordinatedController.swift */,
 				25CC3EA421F80AE400EB8A0A /* FilterDetailsViewController.swift */,
 				25F85CEB21C9C790005498C4 /* Galleries */,
 				255591E62187CC62001B4452 /* HTMLViewController.swift */,
 				86DD9D941E9C5A7000A5D855 /* MainMenuController.swift */,
+				2568BDEB21C870D300560287 /* Menus */,
 				258EA0921ED9472600D5E20E /* ResetViewController.swift */,
 				258EA08D1ED90A7000D5E20E /* SettingsMenuController.swift */,
 				252745E4217FE2EF00AA2DA2 /* StartupViewController.swift */,
 				2515988721A3495C0067AA00 /* ThemeChooserController.swift */,
+				25F21F7B2203828F005C449F /* Tools */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -2825,6 +2813,10 @@
 		259BE4DD1ECCFFFC00D1A5E8 /* Database */ = {
 			isa = PBXGroup;
 			children = (
+				25C2DF7D22D1631200D43198 /* phixerModel.xcdatamodeld */,
+				25C2DF7522D1563C00D43198 /* AssetListEntity+CoreDataClass.swift */,
+				25C2DF7922D158EA00D43198 /* AssetListEntity+CoreDataProperties.swift */,
+				25C2DF7722D1584F00D43198 /* AssetListRecord.swift */,
 				252C179C1ECE75FC00039BFC /* AssignmentEntity+CoreDataClass.swift */,
 				252C179D1ECE75FC00039BFC /* AssignmentEntity+CoreDataProperties.swift */,
 				2542DF561ECFB3F100CEB968 /* AssignmentRecord.swift */,
@@ -2838,7 +2830,6 @@
 				252C179E1ECE75FC00039BFC /* LookupFilterEntity+CoreDataClass.swift */,
 				252C179F1ECE75FC00039BFC /* LookupFilterEntity+CoreDataProperties.swift */,
 				2542DF581ECFB4DA00CEB968 /* LookupFilterRecord.swift */,
-				252C17931ECE64EE00039BFC /* Model.xcdatamodeld */,
 				252C17961ECE75FC00039BFC /* SettingsEntity+CoreDataClass.swift */,
 				2542DF641ED6634800CEB968 /* SettingsEntity+CoreDataProperties.swift */,
 				2542DF4F1ECFB21300CEB968 /* SettingsRecord.swift */,
@@ -2900,23 +2891,16 @@
 		25C2DD9A22CD8A8B00D43198 /* F-StopUrban */ = {
 			isa = PBXGroup;
 			children = (
-				25C2DD9B22CD8A8B00D43198 /* GrungeSepia.json */,
 				25C2DD9C22CD8A8B00D43198 /* Grunge(green).json */,
 				25C2DD9D22CD8A8B00D43198 /* Grunge(muted).json */,
 				25C2DD9E22CD8A8B00D43198 /* Grunge(black&white).json */,
 				25C2DD9F22CD8A8B00D43198 /* Grunge(blue).json */,
-				25C2DDA022CD8A8B00D43198 /* GrungeRed.json */,
 				25C2DDA122CD8A8B00D43198 /* UrbanVignette.json */,
-				25C2DDA222CD8A8B00D43198 /* GrungeBlue.json */,
 				25C2DDA322CD8A8B00D43198 /* Grunge(sepia).json */,
-				25C2DDA422CD8A8B00D43198 /* GrungeBW.json */,
 				25C2DDA522CD8A8B00D43198 /* Grunge(smooth).json */,
 				25C2DDA622CD8A8B00D43198 /* Grunge.json */,
-				25C2DDA722CD8A8B00D43198 /* GrungeGreen.json */,
 				25C2DDA822CD8A8B00D43198 /* Grunge(red).json */,
-				25C2DDA922CD8A8B00D43198 /* GrungeSmooth.json */,
 				25C2DDAA22CD8A8B00D43198 /* UrbanGrain.json */,
-				25C2DDAB22CD8A8B00D43198 /* GrungeMuted.json */,
 			);
 			path = "F-StopUrban";
 			sourceTree = "<group>";
@@ -3199,26 +3183,16 @@
 		25C2DE6522CD8A8D00D43198 /* AnalogFilm */ = {
 			isa = PBXGroup;
 			children = (
-				25C2DE6622CD8A8D00D43198 /* N-KodakT-MAX3200.json */,
-				25C2DE6722CD8A8D00D43198 /* N-FujiVelvia50.json */,
-				25C2DE6822CD8A8D00D43198 /* N-KodakTRI-X400.json */,
-				25C2DE6922CD8A8D00D43198 /* FujiVelvia100.json */,
-				25C2DE6A22CD8A8D00D43198 /* FujiSuperia400.json */,
-				25C2DE6B22CD8A8D00D43198 /* N-FujiSuperia400.json */,
-				25C2DE6C22CD8A8D00D43198 /* KodakTMAX3200.json */,
-				25C2DE6D22CD8A8D00D43198 /* KodakPortra400.json */,
-				25C2DE6E22CD8A8D00D43198 /* KodakEktar100.json */,
-				25C2DE6F22CD8A8D00D43198 /* KodakPortra800.json */,
-				25C2DE7022CD8A8D00D43198 /* N-KodakPortra400.json */,
-				25C2DE7122CD8A8D00D43198 /* N-KodakPortra800.json */,
 				25C2DE7222CD8A8D00D43198 /* N-Fuji400H.json */,
-				25C2DE7322CD8A8D00D43198 /* FujiSuperia1600.json */,
+				25C2DE6B22CD8A8D00D43198 /* N-FujiSuperia400.json */,
+				25C2DE7922CD8A8D00D43198 /* N-FujiSuperia1600.json */,
+				25C2DE6722CD8A8D00D43198 /* N-FujiVelvia50.json */,
 				25C2DE7422CD8A8D00D43198 /* N-FujiVelvia100.json */,
 				25C2DE7522CD8A8D00D43198 /* N-KodakEktar100.json */,
-				25C2DE7622CD8A8D00D43198 /* FujiVelvia50.json */,
-				25C2DE7722CD8A8D00D43198 /* KodakTriX400.json */,
-				25C2DE7822CD8A8D00D43198 /* Fuji400H.json */,
-				25C2DE7922CD8A8D00D43198 /* N-FujiSuperia1600.json */,
+				25C2DE7022CD8A8D00D43198 /* N-KodakPortra400.json */,
+				25C2DE7122CD8A8D00D43198 /* N-KodakPortra800.json */,
+				25C2DE6622CD8A8D00D43198 /* N-KodakT-MAX3200.json */,
+				25C2DE6822CD8A8D00D43198 /* N-KodakTRI-X400.json */,
 			);
 			path = AnalogFilm;
 			sourceTree = "<group>";
@@ -3292,15 +3266,17 @@
 				25F21FBE2208B00E005C449F /* ImageCropperView */,
 				2568BCFF21AC72CB00560287 /* ISColorWheel.h */,
 				2568BCD021AC72CA00560287 /* ISColorWheel.m */,
+				25F21FF8221738DB005C449F /* PathMaskView.swift */,
 				25910B1A1DB7D61A007EC926 /* RenderContainerView.swift */,
 				2568BC3C21AC72C900560287 /* RenderView.swift */,
 				252745FC21851C6300AA2DA2 /* RGBSliderView.swift */,
 				25F21FE2220B45F2005C449F /* ScrollableRenderView.swift */,
 				25F85CE521C9650F005498C4 /* SimpleCarousel.swift */,
+				258D65D722E8CF8300D4EB8B /* SimpleSwipeView.swift */,
 				25CF4BD41D9490C400D779CF /* SquareButton.swift */,
+				258D65D522E897F000D4EB8B /* SwipeView.swift */,
 				258F09B6218E67910082FE2A /* TimedAlertView.swift */,
 				25F21FB82204CFA3005C449F /* ZoomableScrollView.swift */,
-				25F21FF8221738DB005C449F /* PathMaskView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -4067,10 +4043,9 @@
 			};
 			buildConfigurationList = 257F49D71D9448920083B1E4 /* Build configuration list for PBXProject "phixer" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				Base,
 			);
@@ -4154,7 +4129,6 @@
 				2537A1DD21DEBA9B00060DBE /* FilterGallery.html in Resources */,
 				252B0EAF1E30690F005A0C2D /* mo_016_smart_cold.jpg in Resources */,
 				25C2DF3522CD8A8D00D43198 /* Dramatic.json in Resources */,
-				25C2DEA522CD8A8D00D43198 /* GrungeSepia.json in Resources */,
 				252B0EE41E30690F005A0C2D /* fx_023_ink_6.jpg in Resources */,
 				252B0F0D1E30690F005A0C2D /* et_119_se_1.jpg in Resources */,
 				252B0FB41E30690F005A0C2D /* bw_025_silhouette.JPG in Resources */,
@@ -4174,7 +4148,6 @@
 				252B0F071E30690F005A0C2D /* fd_09g_wash_warm_dark_cross.jpg in Resources */,
 				252B0E0E1E30690F005A0C2D /* ur_005_grunge_muted.jpg in Resources */,
 				25C2DF2022CD8A8D00D43198 /* HawaiColor.json in Resources */,
-				25C2DEAA22CD8A8D00D43198 /* GrungeRed.json in Resources */,
 				25C2DEAD22CD8A8D00D43198 /* Grunge(sepia).json in Resources */,
 				25C2DF0922CD8A8D00D43198 /* GreenCotton.json in Resources */,
 				25C2DEA722CD8A8D00D43198 /* Grunge(muted).json in Resources */,
@@ -4252,7 +4225,6 @@
 				252B101F1E306920005A0C2D /* textures_100_by_inthename_stock.jpg in Resources */,
 				252B0F291E30690F005A0C2D /* et_093_i98o_4.jpg in Resources */,
 				2506767D1DE1091500226740 /* PresetList.json in Resources */,
-				25C2DEB122CD8A8D00D43198 /* GrungeGreen.json in Resources */,
 				252B0EC31E30690F005A0C2D /* fx_058_solarize_4.jpg in Resources */,
 				252B0F751E30690F005A0C2D /* et_010_a02.jpg in Resources */,
 				252B0DBC1E30690E005A0C2D /* xp_013_mutato_gradient.jpg in Resources */,
@@ -4313,7 +4285,6 @@
 				25C2DF5D22CD8A8D00D43198 /* TheNavigator.json in Resources */,
 				252B0E461E30690F005A0C2D /* ms_054_matte_7.jpg in Resources */,
 				252B0EBD1E30690F005A0C2D /* fx_052_pastel_1.jpg in Resources */,
-				25C2DF6722CD8A8D00D43198 /* KodakPortra400.json in Resources */,
 				252B0EDC1E30690F005A0C2D /* fx_032_midnight_3.jpg in Resources */,
 				25C2DF1422CD8A8D00D43198 /* CloseHighlights.json in Resources */,
 				252B0E1C1E30690F005A0C2D /* tn_004_isolate_red.jpg in Resources */,
@@ -4410,7 +4381,6 @@
 				25C2DEFF22CD8A8D00D43198 /* WinterVibrantWarm.json in Resources */,
 				252B0F611E30690F005A0C2D /* et_042_a21_2.jpg in Resources */,
 				25C2DF4022CD8A8D00D43198 /* MagicGoldenHour.json in Resources */,
-				25C2DEB322CD8A8D00D43198 /* GrungeSmooth.json in Resources */,
 				25C2DEC822CD8A8D00D43198 /* Glow-BrightContrast.json in Resources */,
 				25C2DF2422CD8A8D00D43198 /* BlackandWhiteTonalContrast(Medium).json in Resources */,
 				25C2DEAF22CD8A8D00D43198 /* Grunge(smooth).json in Resources */,
@@ -4447,7 +4417,6 @@
 				252B0E471E30690F005A0C2D /* ms_055_matte_8.jpg in Resources */,
 				252B0F0B1E30690F005A0C2D /* et_117_pinkish.jpg in Resources */,
 				252B0DE01E30690E005A0C2D /* vn_030_roaster.jpg in Resources */,
-				25C2DF6822CD8A8D00D43198 /* KodakEktar100.json in Resources */,
 				252B0DDC1E30690E005A0C2D /* vn_026_inky.jpg in Resources */,
 				25C2DEDD22CD8A8D00D43198 /* B&WInfrared.json in Resources */,
 				252B0ED81E30690F005A0C2D /* fx_028_ink_11.jpg in Resources */,
@@ -4455,10 +4424,8 @@
 				25C2DED822CD8A8D00D43198 /* Wonka.json in Resources */,
 				252B0F9B1E30690F005A0C2D /* bw_035_antique_plate_1.JPG in Resources */,
 				252B0FB71E30690F005A0C2D /* bw_009_lo_key_1.JPG in Resources */,
-				25C2DF7122CD8A8D00D43198 /* KodakTriX400.json in Resources */,
 				252B0F2D1E30690F005A0C2D /* et_084_clear_pic.jpg in Resources */,
 				252B0FA71E30690F005A0C2D /* bw_029_cool_tones_2.JPG in Resources */,
-				25C2DF7022CD8A8D00D43198 /* FujiVelvia50.json in Resources */,
 				252B0F251E30690F005A0C2D /* et_112_only_red.jpg in Resources */,
 				252B0DD41E30690E005A0C2D /* vn_046_red.jpg in Resources */,
 				25C2DF1722CD8A8D00D43198 /* FreshLime.json in Resources */,
@@ -4742,7 +4709,6 @@
 				25C2DEBE22CD8A8D00D43198 /* 1975.json in Resources */,
 				25C2DF4822CD8A8D00D43198 /* EnhanceGoldenHour.json in Resources */,
 				252B0E1E1E30690F005A0C2D /* ps_023_green_red.jpg in Resources */,
-				25C2DF6D22CD8A8D00D43198 /* FujiSuperia1600.json in Resources */,
 				252B10121E306920005A0C2D /* wake_by_photoshop_stock.jpg in Resources */,
 				2537A1DB21DEBA8A00060DBE /* BlendGallery.html in Resources */,
 				25C2DEBA22CD8A8D00D43198 /* WaldenPond.json in Resources */,
@@ -4799,7 +4765,6 @@
 				252B0E241E30690F005A0C2D /* ps_029_lightness_increase.jpg in Resources */,
 				252B0DCE1E30690E005A0C2D /* vn_040_antique.jpg in Resources */,
 				25C2DEFD22CD8A8D00D43198 /* WinterHazeCold.json in Resources */,
-				25C2DF6322CD8A8D00D43198 /* FujiVelvia100.json in Resources */,
 				252B0DB71E30690E005A0C2D /* xp_024_oo_yellow.jpg in Resources */,
 				252B0F061E30690F005A0C2D /* fd_09f_wash_warm_cross.jpg in Resources */,
 				252B0FA01E30690F005A0C2D /* da_002_sun_kiss copy.jpg in Resources */,
@@ -4847,7 +4812,6 @@
 				252B0F8E1E30690F005A0C2D /* et_005_4321_4.jpg in Resources */,
 				252B0F081E30690F005A0C2D /* et_114_pink_2.jpg in Resources */,
 				25C2DEE922CD8A8D00D43198 /* Emma.json in Resources */,
-				25C2DF6922CD8A8D00D43198 /* KodakPortra800.json in Resources */,
 				252745E3217FD09700AA2DA2 /* YUCIFlashTransition.cikernel in Resources */,
 				252B0DF61E30690F005A0C2D /* ur_010_gritty_light.jpg in Resources */,
 				252B0F5A1E30690F005A0C2D /* et_035_a14_5.jpg in Resources */,
@@ -4904,13 +4868,10 @@
 				252B0E7A1E30690F005A0C2D /* ms_001_adeline.jpg in Resources */,
 				252B0E4F1E30690F005A0C2D /* ms_063_warm_shadows.jpg in Resources */,
 				25C2DF6C22CD8A8D00D43198 /* N-Fuji400H.json in Resources */,
-				25C2DF6422CD8A8D00D43198 /* FujiSuperia400.json in Resources */,
 				252B0F7A1E30690F005A0C2D /* et_015_a04_3.jpg in Resources */,
 				252B0DE81E30690E005A0C2D /* vn_010_velvet_freedom.jpg in Resources */,
-				25C2DEAE22CD8A8D00D43198 /* GrungeBW.json in Resources */,
 				252B10381E306920005A0C2D /* shedyourskin_Tex_119.jpg in Resources */,
 				252B0FB61E30690F005A0C2D /* bw_008_hi_key_2.JPG in Resources */,
-				25C2DEAC22CD8A8D00D43198 /* GrungeBlue.json in Resources */,
 				252B0DF91E30690F005A0C2D /* ur_013_grunge_vignette.jpg in Resources */,
 				252B0F271E30690F005A0C2D /* et_097_made_1.jpg in Resources */,
 				252B0DB81E30690E005A0C2D /* xp_009_mutato_cross2.jpg in Resources */,
@@ -4931,7 +4892,6 @@
 				252B0ECE1E30690F005A0C2D /* fx_036_monday_morning_2.jpg in Resources */,
 				252B0DB41E30690E005A0C2D /* xp_021_oo_cyan.jpg in Resources */,
 				252B0E001E30690F005A0C2D /* vn_005_yesteryear.jpg in Resources */,
-				25C2DEB522CD8A8D00D43198 /* GrungeMuted.json in Resources */,
 				252B0E951E30690F005A0C2D /* mo_019_smart_bw3.jpg in Resources */,
 				252B0E281E30690F005A0C2D /* ps_033_night_from_day.jpg in Resources */,
 				252B0F431E30690F005A0C2D /* et_061_a25_1.jpg in Resources */,
@@ -4946,7 +4906,6 @@
 				252B0F851E30690F005A0C2D /* da_023_cream.jpg in Resources */,
 				252B0E311E30690F005A0C2D /* ps_014_darker.jpg in Resources */,
 				252B0E781E30690F005A0C2D /* mo_047_luma.jpg in Resources */,
-				25C2DF6622CD8A8D00D43198 /* KodakTMAX3200.json in Resources */,
 				252B0ED91E30690F005A0C2D /* fx_029_lo_key.jpg in Resources */,
 				25C2DE8222CD8A8D00D43198 /* CrossProcessed.json in Resources */,
 				252B0E451E30690F005A0C2D /* ms_053_matte_6.jpg in Resources */,
@@ -4954,7 +4913,6 @@
 				252B0EEC1E30690F005A0C2D /* fx_014_infrared_color_2.jpg in Resources */,
 				252B0ECF1E30690F005A0C2D /* fx_037_monday_morning_3.jpg in Resources */,
 				252B0EFE1E30690F005A0C2D /* fd_04j_amber.jpg in Resources */,
-				25C2DF7222CD8A8D00D43198 /* Fuji400H.json in Resources */,
 				252B0F171E30690F005A0C2D /* et_098_made_2.jpg in Resources */,
 				252B0F3A1E30690F005A0C2D /* et_075_a32_1.jpg in Resources */,
 				25C2DE8122CD8A8D00D43198 /* LightSharpening.json in Resources */,
@@ -5077,6 +5035,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25C2DF7822D1584F00D43198 /* AssetListRecord.swift in Sources */,
+				25C2DF8022D1668000D43198 /* AssetListEntity+CoreDataClass.swift in Sources */,
+				25C2DF8122D1669200D43198 /* AssetListEntity+CoreDataProperties.swift in Sources */,
 				258F09A5218CD6770082FE2A /* MLModelHelper.swift in Sources */,
 				258F09A0218CBFC30082FE2A /* FNS-The-Scream.mlmodel in Sources */,
 				250C5FA322C6734900DE0DDF /* VoronoiNoise.swift in Sources */,
@@ -5140,10 +5101,12 @@
 				252C17A01ECE75FC00039BFC /* SettingsEntity+CoreDataClass.swift in Sources */,
 				25CC3EA521F80AE400EB8A0A /* FilterDetailsViewController.swift in Sources */,
 				25F21FED220CA7F9005C449F /* CGRect+Extensions.swift in Sources */,
+				258D65D422E7B24700D4EB8B /* MainMenuCoordinator.swift in Sources */,
 				25E36AA42241AC28009D2727 /* EditFacesMenuController.swift in Sources */,
 				252745F72182A1D500AA2DA2 /* BorderedButton.swift in Sources */,
 				25F460201D99D79B00EDA182 /* AspectRatio.swift in Sources */,
 				2537A1E921E030A700060DBE /* ColorSketchFilter.swift in Sources */,
+				258D65D222E7B16B00D4EB8B /* ChoosePhotoCoordinator.swift in Sources */,
 				2517295C2175410B00D5E946 /* UserChangesEntity+CoreDataProperties.swift in Sources */,
 				25E36AA822444BCD009D2727 /* EnhanceEyesFilter.swift in Sources */,
 				25F21FE3220B45F2005C449F /* ScrollableRenderView.swift in Sources */,
@@ -5158,6 +5121,7 @@
 				25CF4BD61D9490C400D779CF /* CameraDisplayView.swift in Sources */,
 				252745F92182AAF900AA2DA2 /* ColorSchemeView.swift in Sources */,
 				25A702971DC3AEEA009441E2 /* Utilities.swift in Sources */,
+				258D65D622E897F000D4EB8B /* SwipeView.swift in Sources */,
 				2537A23521EFE8D000060DBE /* Stack.swift in Sources */,
 				2568BD5421AC72CB00560287 /* HSBSliderView.swift in Sources */,
 				258F09AF218E4B5B0082FE2A /* Style_Feathers.swift in Sources */,
@@ -5194,6 +5158,7 @@
 				2573D1E5217CDCB500E78CAB /* YUCIReflectedTile.m in Sources */,
 				2568BDD721BEC72600560287 /* StyleTransferFilter.swift in Sources */,
 				25AEBB441DBA8AEC00AA6279 /* FilterSelectionView.swift in Sources */,
+				25C2DF7F22D1631300D43198 /* phixerModel.xcdatamodeld in Sources */,
 				252745E92180FDF600AA2DA2 /* CustomFilterRegistry.swift in Sources */,
 				25CC3EBF21FFD59D00EB8A0A /* CausticRefraction.swift in Sources */,
 				250C5EFB22B7258800DE0DDF /* SplitToningFilter.swift in Sources */,
@@ -5210,11 +5175,14 @@
 				2537A22421EE461900060DBE /* CoordinatorFactory.swift in Sources */,
 				251598802194B97E0067AA00 /* ClarityFilter.swift in Sources */,
 				25F21F7A22022EF7005C449F /* HighPassFilter.swift in Sources */,
+				25C2DF8322D1810D00D43198 /* EditList.swift in Sources */,
+				25C2DF8522D2457400D43198 /* ChoosePhotoViewController.swift in Sources */,
 				25F21FF72214E79C005C449F /* FilterChain.swift in Sources */,
 				25F85CE621C9650F005498C4 /* SimpleCarousel.swift in Sources */,
 				25D24AB71DC7DCDB001F65B9 /* FilterGalleryViewCell.swift in Sources */,
 				2537A1E321E0220F00060DBE /* LaplacianGaussianFilter.swift in Sources */,
 				2537A22E21EE78AC00060DBE /* SettingsCoordinator.swift in Sources */,
+				258D65D822E8CF8300D4EB8B /* SimpleSwipeView.swift in Sources */,
 				25F21FD22208B078005C449F /* ImageCropperOverlayViewConfigurationOverlay.swift in Sources */,
 				2537A1E721E0305700060DBE /* ColorSobelFilter.swift in Sources */,
 				2573D1DB217CDCB500E78CAB /* YUCIColorLookup.m in Sources */,
@@ -5223,7 +5191,6 @@
 				25F21FE5220B6465005C449F /* EditFacesToolController.swift in Sources */,
 				25CC3EC021FFD59D00EB8A0A /* CompoundEye.swift in Sources */,
 				25F460181D99CCCE00EDA182 /* UISettings.swift in Sources */,
-				252C17951ECE64EE00039BFC /* Model.xcdatamodeld in Sources */,
 				25F21FB92204CFA3005C449F /* ZoomableScrollView.swift in Sources */,
 				258EA08E1ED90A7000D5E20E /* SettingsMenuController.swift in Sources */,
 				2537A22821EE510200060DBE /* BasicEditCoordinator.swift in Sources */,
@@ -5632,13 +5599,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		252C17931ECE64EE00039BFC /* Model.xcdatamodeld */ = {
+		25C2DF7D22D1631200D43198 /* phixerModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				252C17941ECE64EE00039BFC /* Model.xcdatamodel */,
+				25C2DF7E22D1631200D43198 /* Model.xcdatamodel */,
 			);
-			currentVersion = 252C17941ECE64EE00039BFC /* Model.xcdatamodel */;
-			path = Model.xcdatamodeld;
+			currentVersion = 25C2DF7E22D1631200D43198 /* Model.xcdatamodel */;
+			path = phixerModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

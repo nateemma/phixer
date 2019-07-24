@@ -1,26 +1,25 @@
 //
-//  SimpleCarousel.swift
+//  SimpleSwipeView.swift
 //  phixer
 //
-//  Created by Philip Price on 12/18/18.
+//  Created by Philip Price on 07/24/19
 //  Copyright © 2018 Nateemma. All rights reserved.
 //
 
-// implements a carousel of menu items that contain only text and an optional icon
+// implements a horizontal swipeview of menu items that contain only text and/or an icon
 
 import Foundation
 import UIKit
 import Neon
-import iCarousel
 
 
 
-class SimpleCarousel: UIView {
+class SimpleSwipeView: UIView {
     
     
     
     //////////////////////////////////////////
-    // MARK: - Menu/Carousel setup and handling
+    // MARK: - Menu/SwipeView setup and handling
     //////////////////////////////////////////
     
     var theme = ThemeManager.currentTheme()
@@ -28,8 +27,8 @@ class SimpleCarousel: UIView {
     // delegate for handling events
     weak var delegate: AdornmentDelegate? = nil
 
-    // the underlying carousel display
-    fileprivate var carousel:iCarousel? = iCarousel()
+    // the underlying swipeview display
+    fileprivate var swipeview:SwipeView? = SwipeView()
     
     // list of adornments
     fileprivate var itemList: [Adornment] = []
@@ -39,8 +38,9 @@ class SimpleCarousel: UIView {
     fileprivate var itemViewList: [UIView] = []
     
 
-    fileprivate var carouselHeight:CGFloat = 64.0
-    
+    fileprivate var swipeviewHeight:CGFloat = 64.0 // default, likely to change
+    fileprivate var itemSize:CGSize = CGSize(width: 64.0, height: 64.0)
+
     fileprivate var currIndex:Int = -1
     
     fileprivate var displayWidth : CGFloat = 0.0
@@ -58,7 +58,7 @@ class SimpleCarousel: UIView {
         //log.verbose("items:\(items)")
 //        if !self.wrap && (itemList.count >= 2) {
 //            log.verbose("Scroll to 2")
-//            carousel?.scrollToItem(at: 2, animated: true)
+//            swipeview?.scrollToItem(at: 2, animated: true)
 //        }
     }
 
@@ -143,16 +143,17 @@ class SimpleCarousel: UIView {
         displayHeight = self.frame.size.height
         displayWidth = self.frame.size.width
         
-        carouselHeight = displayHeight
+        swipeviewHeight = displayHeight
+        itemSize = CGSize(width: swipeviewHeight, height: swipeviewHeight)
         
         theme = ThemeManager.currentTheme()
         self.backgroundColor = theme.backgroundColor
 
         checkSetup()
         buildItemViews()
-        setupCarousel()
-        addSubview(carousel!)
-        //carousel?.fillSuperview()
+        setupSwipeView()
+        addSubview(swipeview!)
+        //swipeview?.fillSuperview()
         
         log.verbose("w:\(self.frame.size.width) h:\(self.frame.size.height)")
     }
@@ -186,8 +187,8 @@ class SimpleCarousel: UIView {
     func makeItemView(icon:String, text:String) -> UIView {
         
         let view:ImageContainerView = ImageContainerView()
-        view.frame.size.width = self.carouselHeight
-        view.frame.size.height = self.carouselHeight
+        view.frame.size.width = self.swipeviewHeight
+        view.frame.size.height = self.swipeviewHeight
  
         let label:UILabel = UILabel()
         label.text = text
@@ -202,14 +203,14 @@ class SimpleCarousel: UIView {
         if icon.isEmpty {
             // no icon, so just provide a view with a centred label
             label.font = UIFont.systemFont(ofSize: 12.0, weight: UIFont.Weight.thin)
-            label.frame.size.height = self.carouselHeight * 0.95
+            label.frame.size.height = self.swipeviewHeight * 0.95
             view.addSubview(label)
             label.fillSuperview()
         } else {
             // icon specified so create a compound view using the supplied icon and text
 
             let imgView:UIView = UIView()
-            imgView.frame.size = CGSize(width:carouselHeight, height:carouselHeight)
+            imgView.frame.size = CGSize(width:swipeviewHeight, height:swipeviewHeight)
             
             let image: UIImageView = UIImageView()
 
@@ -217,11 +218,11 @@ class SimpleCarousel: UIView {
                 // no label, so set to zero height and hide, fill cell with image
                 label.frame.size.height = 0.0
                 label.isHidden = true
-                image.frame.size = CGSize(width:carouselHeight, height:carouselHeight)
+                image.frame.size = CGSize(width:swipeviewHeight*0.9, height:swipeviewHeight*0.9)
             } else {
-                image.frame.size = CGSize(width:carouselHeight*0.6, height:carouselHeight*0.6)
+                image.frame.size = CGSize(width:swipeviewHeight*0.6, height:swipeviewHeight*0.6)
                 // make label smaller
-                label.frame.size = CGSize(width:carouselHeight, height:carouselHeight*0.4)
+                label.frame.size = CGSize(width:swipeviewHeight, height:swipeviewHeight*0.4)
                 label.font = UIFont.systemFont(ofSize: 10.0, weight: UIFont.Weight.thin)
                 //label.fitTextToBounds()
             }
@@ -255,7 +256,7 @@ class SimpleCarousel: UIView {
             imgView.addSubview(image)
             imgView.addSubview(label)
 
-            image.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: image.frame.size.height)
+            image.anchorAndFillEdge(.top, xPad: 2.0, yPad: 2.0, otherSize: image.frame.size.height)
             label.alignAndFill(align: .underCentered, relativeTo: image, padding: 0)
             view.addSubview(imgView)
         }
@@ -263,19 +264,21 @@ class SimpleCarousel: UIView {
         return view
     }
     
-    func setupCarousel(){
+    func setupSwipeView(){
         
-        // configure carousel
-        //carouselHeight = max((self.displayHeight * 0.8), 80.0).rounded() // doesn't seem to work at less than 80 (empirical)
-        carouselHeight = max((self.displayHeight * 0.8), 32.0).rounded() // don't go below 32 pixels
-        carousel?.frame.size.width = self.displayWidth
-        carousel?.frame.size.height = carouselHeight
+        // configure swipeview
+        //swipeviewHeight = max((self.displayHeight * 0.8), 80.0).rounded() // doesn't seem to work at less than 80 (empirical)
+        swipeviewHeight = max((self.displayHeight * 0.95), 32.0).rounded() // don't go below 32 pixels
+        itemSize = CGSize(width: swipeviewHeight, height: swipeviewHeight)
+        swipeview?.frame.size.width = self.displayWidth
+        swipeview?.frame.size.height = swipeviewHeight
         
-        carousel?.dataSource = self
-        carousel?.delegate = self
-        carousel?.type = .linear
+        swipeview?.dataSource = self
+        swipeview?.delegate = self
+        swipeview?.pagingEnabled = true
+        swipeview?.alignment = SwipeViewAlignment.Edge
 
-        //carousel?.centerItemWhenSelected = true
+        //swipeview?.centerItemWhenSelected = true
     }
     
     
@@ -292,7 +295,7 @@ class SimpleCarousel: UIView {
     
     
     // highlights the selection and updates variables
-    fileprivate func highlightSelection(_ carousel: iCarousel, index: Int){
+    fileprivate func highlightSelection(_ swipeview: SwipeView, index: Int){
         
         guard (isValidIndex(index)) else {
             return
@@ -329,7 +332,8 @@ class SimpleCarousel: UIView {
             newView.layer.borderColor = theme.highlightColor.withAlphaComponent(0.5).cgColor
             
             // scroll to selected item
-            carousel.scrollToItem(at: index, animated: false)
+            //swipeview.scrollToItem(at: index, animated: false)
+            swipeview.scrollToItemAtIndex(index: index, duration: 0.01)
             
         }
     }
@@ -349,7 +353,7 @@ class SimpleCarousel: UIView {
         }
     }
     
-    // select an item in the carousel. Can be called manually or by touching the screen
+    // select an item in the swipeview. Can be called manually or by touching the screen
     func selectItem(_ index:Int){
         guard (self.isValidIndex(index)) else {
             log.error("Invalid index: \(index)")
@@ -357,7 +361,7 @@ class SimpleCarousel: UIView {
         }
         
         log.debug("Selected index:\(index)")
-        self.highlightSelection(carousel!, index: index)
+        self.highlightSelection(swipeview!, index: index)
         
         self.currIndex = index
         self.handleOption(index)
@@ -370,21 +374,16 @@ class SimpleCarousel: UIView {
 
 
 //########################
-//MARK: iCarousel delegate functions
+//MARK: SwipeView delegate functions
 //########################
 
-extension SimpleCarousel: iCarouselDelegate{
-}
-
-extension SimpleCarousel: iCarouselDataSource{
-    
-    // number of items in list
-    func numberOfItems(in carousel: iCarousel) -> Int {
+extension SimpleSwipeView: SwipeViewDataSource {
+    func numberOfItemsInSwipeView(swipeView: SwipeView) -> Int {
         log.verbose("\(itemList.count) items")
         return itemList.count
     }
     
-    func carousel(_ carousel: iCarousel, viewForItemAt index: Int, reusing view: UIView?) -> UIView {
+    func viewForItemAtIndex(index: Int, swipeView: SwipeView, reusingView: UIView?) -> UIView? {
         guard (self.isValidIndex(index)) else {
             log.error("Invalid index: \(index) (count:\(itemList.count))")
             return UIView()
@@ -394,48 +393,30 @@ extension SimpleCarousel: iCarouselDataSource{
         
         return self.itemViewList[index]
     }
+}
+
+
+extension SimpleSwipeView: SwipeViewDelegate {
     
-    
-    // set custom items
-    func carousel(_ carousel: iCarousel, valueFor item: iCarouselOption, withDefault value: CGFloat) -> CGFloat {
-        
-        // spacing between items
-        if (item == iCarouselOption.spacing){
-            return value * 1.0
-        } else if (item == iCarouselOption.wrap){
-            //return 1.0
-            if self.wrap {
-                return 1.0
-            } else {
-                return 0.0
-            }
-        }
-        
-        // default
-        return value
+    func swipeViewItemSize(swipeView: SwipeView) -> CGSize {
+        return self.itemSize
+    }
+
+    func didSelectItemAtIndex(index: Int, swipeView: SwipeView) {
+        self.selectItem(index)
     }
     
-    
-    /* // don't use this as it will cause too many updates
-     // called whenever an ite passes to/through the center spot
-     func carouselCurrentItemIndexDidChange(_ carousel: iCarousel) {
-     let index = carousel?.currentItemIndex
-     log.debug("Selected: \(categoryList[index])")
-     }
-     */
-    
-    // called when an item is selected manually (i.e. touched).
-    func carousel(_ carousel: iCarousel, didSelectItemAt index: Int) {
-        self.selectItem(index)
+    func shouldSelectItemAtIndex(index: Int, swipeView: SwipeView) -> Bool {
+        return true
     }
     
     /*** only uncomment if you want to auto choose an item when scrolling ends
      // called when user stops scrolling through list
-     func carouselDidEndScrollingAnimation(_ carousel: iCarousel) {
-     let index = carousel?.currentItemIndex
+     func swipeviewDidEndScrollingAnimation(_ swipeview: SwipeView) {
+     let index = swipeview?.currentItemIndex
      
      log.debug("End scrolling at index:\(index)")
-     highlightSelection(carousel, index: index)
+     highlightSelection(swipeview, index: index)
      }
      ***/
 }
