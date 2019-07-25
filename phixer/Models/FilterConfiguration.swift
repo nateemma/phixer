@@ -302,7 +302,7 @@ class FilterConfiguration{
 
 
     // load settings from the database
-    private static func loadSettings(){
+    public static func loadSettings(){
         if let settings = Database.getSettings() {
             // Double-check that there is something valid in there...
             if (settings.blendImage!.isEmpty) {
@@ -587,17 +587,8 @@ class FilterConfiguration{
         
         
         
-        // restore the settings
+        // Note: Settings are loaded separately due to timing issues
         
-        if let settings = Database.getSettings() {
-            log.verbose("loadFromDatabase() - Restoring Settings: key:\(settings.key) Sample:\(settings.sampleImage!) Blend:\(settings.blendImage!) Edit:\(settings.editImage!)")
-            ImageManager.setCurrentEditImageName(settings.editImage!)
-            ImageManager.setCurrentBlendImageName(settings.blendImage!)
-            //ImageManager.setCurrentSampleImageName(settings.sampleImage!)
-            ImageManager.setCurrentSampleImageName(settings.editImage!)
-        } else {
-            log.error("ERR: settings NOT found...")
-        }
         
 /****
         // Categories

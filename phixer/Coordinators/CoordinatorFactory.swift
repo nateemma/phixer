@@ -18,8 +18,10 @@ enum CoordinatorIdentifier: String {
     
     case help
     
+    case splashScreen
     case choosePhoto
     case mainMenu
+    
     case edit
     case browseStyleTransfer
     case browseFilters
@@ -51,6 +53,9 @@ class CoordinatorFactory {
             
         case .help:
             instance = HelpCoordinator()
+
+        case .splashScreen:
+            instance = SplashScreenCoordinator()
 
         case .choosePhoto:
             //let sc = SimpleCoordinator()

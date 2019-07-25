@@ -145,12 +145,10 @@ class AppCoordinator: Coordinator {
         
         // new version, start at "Choose Photo"
         self.mainControllerId = .choosePhoto
-        self.validControllers = [.choosePhoto, .mainMenu, .help ]
+        self.validControllers = [.choosePhoto, .mainMenu ]
         
         self.coordinatorMap = [:]
         self.coordinatorMap [ControllerIdentifier.mainMenu] = CoordinatorIdentifier.mainMenu
-        self.coordinatorMap [ControllerIdentifier.help] = CoordinatorIdentifier.help
-
     }
 
 
@@ -197,12 +195,13 @@ class AppCoordinator: Coordinator {
         self.mainController = ControllerFactory.getController(self.mainControllerId)
         self.mainController?.coordinator = self
         self.mainControllerTag = (self.mainController?.getTag())!
-        //DispatchQueue.main.async(execute: {
         Coordinator.navigationController?.setViewControllers([self.mainController!], animated: false)
-        //})
+
         // Create an instance of FilterManager (in a different queue entry). This will take care of reading the configuration file etc.
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {
+        //DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(2000)) {
+        DispatchQueue.global(qos: .background).async() {
             [weak self] in
+            FilterManager.checkSetup()
             Coordinator.filterManager = FilterManager.sharedInstance
         }
 

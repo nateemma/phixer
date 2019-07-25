@@ -21,6 +21,7 @@ enum ControllerIdentifier: String {
     
     case startup
     
+    case splashScreen
     case choosePhoto
     case mainMenu
     
@@ -108,6 +109,9 @@ class ControllerFactory {
         case .startup:
             instance = nil // TODO
             
+        case .splashScreen:
+            instance = SplashScreenViewController()
+
         case .mainMenu:
             instance = MainMenuController()
             

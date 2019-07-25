@@ -759,6 +759,8 @@
 		258D65D422E7B24700D4EB8B /* MainMenuCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258D65D322E7B24700D4EB8B /* MainMenuCoordinator.swift */; };
 		258D65D622E897F000D4EB8B /* SwipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258D65D522E897F000D4EB8B /* SwipeView.swift */; };
 		258D65D822E8CF8300D4EB8B /* SimpleSwipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258D65D722E8CF8300D4EB8B /* SimpleSwipeView.swift */; };
+		258D65DA22E934BA00D4EB8B /* SplashScreenCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258D65D922E934BA00D4EB8B /* SplashScreenCoordinator.swift */; };
+		258D65DC22E9368E00D4EB8B /* SplashScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258D65DB22E9368E00D4EB8B /* SplashScreenViewController.swift */; };
 		258EA08E1ED90A7000D5E20E /* SettingsMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258EA08D1ED90A7000D5E20E /* SettingsMenuController.swift */; };
 		258EA0931ED9472600D5E20E /* ResetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258EA0921ED9472600D5E20E /* ResetViewController.swift */; };
 		258F098F218A7F100082FE2A /* About.html in Resources */ = {isa = PBXBuildFile; fileRef = 258F098E218A7F100082FE2A /* About.html */; };
@@ -1936,6 +1938,8 @@
 		258D65D322E7B24700D4EB8B /* MainMenuCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuCoordinator.swift; sourceTree = "<group>"; };
 		258D65D522E897F000D4EB8B /* SwipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeView.swift; sourceTree = "<group>"; };
 		258D65D722E8CF8300D4EB8B /* SimpleSwipeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleSwipeView.swift; sourceTree = "<group>"; };
+		258D65D922E934BA00D4EB8B /* SplashScreenCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashScreenCoordinator.swift; sourceTree = "<group>"; };
+		258D65DB22E9368E00D4EB8B /* SplashScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashScreenViewController.swift; sourceTree = "<group>"; };
 		258EA08D1ED90A7000D5E20E /* SettingsMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsMenuController.swift; sourceTree = "<group>"; };
 		258EA0921ED9472600D5E20E /* ResetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResetViewController.swift; sourceTree = "<group>"; };
 		258F098E218A7F100082FE2A /* About.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = About.html; sourceTree = "<group>"; };
@@ -2503,6 +2507,7 @@
 				2537A21B21ED572A00060DBE /* AppCoordinator.swift */,
 				2537A22721EE510200060DBE /* BasicEditCoordinator.swift */,
 				258D65D122E7B16B00D4EB8B /* ChoosePhotoCoordinator.swift */,
+				258D65D922E934BA00D4EB8B /* SplashScreenCoordinator.swift */,
 				2537A22F21EEC99000060DBE /* ControllerDelegate.swift */,
 				2537A21921ED3E7F00060DBE /* ControllerFactory.swift */,
 				2537A21D21ED58B300060DBE /* Coordinator.swift */,
@@ -2626,6 +2631,7 @@
 			children = (
 				2542DF5A1ED372BF00CEB968 /* BasicEditViewController.swift */,
 				25C2DF8422D2457400D43198 /* ChoosePhotoViewController.swift */,
+				258D65DB22E9368E00D4EB8B /* SplashScreenViewController.swift */,
 				252745FA21851AEB00AA2DA2 /* ColorPickerController.swift */,
 				252745F421826DBC00AA2DA2 /* ColorSchemeViewController.swift */,
 				2537A22121ED91E300060DBE /* CoordinatedController.swift */,
@@ -5167,6 +5173,7 @@
 				25F21FD12208B078005C449F /* ImageCropperOverlayView.swift in Sources */,
 				25F21FDE2208B078005C449F /* IC_CGFloatExtension.swift in Sources */,
 				258F09BB2192847F0082FE2A /* AdaptiveThresholdFilter.swift in Sources */,
+				258D65DA22E934BA00D4EB8B /* SplashScreenCoordinator.swift in Sources */,
 				25934FB31DD5109C00C3D665 /* BlendGalleryViewController.swift in Sources */,
 				2507160B1DBECDF200CDDF42 /* Admob.swift in Sources */,
 				2568BDD121BB3ECD00560287 /* StyleTransferGalleryView.swift in Sources */,
@@ -5204,6 +5211,7 @@
 				25CF4BD51D9490C400D779CF /* CameraControlsView.swift in Sources */,
 				25CF4BD81D9490C400D779CF /* CameraSettingsView.swift in Sources */,
 				2537A23921F17B7400060DBE /* HelpCoordinator.swift in Sources */,
+				258D65DC22E9368E00D4EB8B /* SplashScreenViewController.swift in Sources */,
 				2573D1E4217CDCB500E78CAB /* YUCICLAHE.m in Sources */,
 				2537A23B21F1876C00060DBE /* ControllerMenuView.swift in Sources */,
 				250716091DBEC19400CDDF42 /* FilterGalleryViewController.swift in Sources */,

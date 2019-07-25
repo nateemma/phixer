@@ -729,7 +729,9 @@ class Database {
     
     public static func getAssetListRecords() -> [AssetListRecord]{
         var assetList:[AssetListRecord]
-        
+     
+        checkDatabase()
+
         assetList = []
         
         let fetchRequest = NSFetchRequest<AssetListEntity>(entityName: assetListName)
@@ -755,6 +757,8 @@ class Database {
     public static func getAssetListRecord(key: String) -> AssetListRecord?{
         var assetRecord: AssetListRecord?
         
+        checkDatabase()
+
         assetRecord = nil
         
         let fetchRequest = NSFetchRequest<AssetListEntity>(entityName: assetListName)
@@ -779,6 +783,8 @@ class Database {
         
         var assetEntity: AssetListEntity?
         
+        checkDatabase()
+
         assetEntity = NSEntityDescription.insertNewObject(forEntityName: assetListName, into: context!) as? AssetListEntity
         
         assetEntity?.update(record: record)
@@ -791,6 +797,8 @@ class Database {
     // update an existing AssetList record. Data is saved
     public static func updateAssetListRecord(_ record: AssetListRecord){
         
+        checkDatabase()
+
         let fetchRequest = NSFetchRequest<AssetListEntity>(entityName: assetListName)
         fetchRequest.predicate = NSPredicate(format: "key == %@", record.key!)
         do {
@@ -813,6 +821,8 @@ class Database {
     // remove an existing AssetList. Data is saved, i.e. permanent removal
     public static func removeAssetListRecord(key: String){
         
+        checkDatabase()
+
         let fetchRequest = NSFetchRequest<AssetListEntity>(entityName: assetListName)
         fetchRequest.predicate = NSPredicate(format: "key == %@", key)
         do {
@@ -833,6 +843,8 @@ class Database {
     // clear (delete) all asset records
     public static func clearAssetListRecords() {
         
+        checkDatabase()
+
         print("Database.clearAssetListRecords()")
         
         let fetchRequest = NSFetchRequest<AssetListEntity>(entityName: assetListName)

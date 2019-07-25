@@ -53,7 +53,7 @@ class FilterManager{
     //MARK: - Setup/Teardown
     //////////////////////////////////////////////
     
-    fileprivate static func checkSetup(){
+    public static func checkSetup(){
         if (!FilterManager.initDone) {
             FilterManager.initDone = true
             
@@ -104,7 +104,7 @@ class FilterManager{
     }
     
     fileprivate init(){
-        FilterManager.checkSetup()
+        //FilterManager.checkSetup()
     }
     
     deinit{
