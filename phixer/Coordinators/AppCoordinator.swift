@@ -199,7 +199,7 @@ class AppCoordinator: Coordinator {
 
         // Create an instance of FilterManager (in a different queue entry). This will take care of reading the configuration file etc.
         //DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(2000)) {
-        DispatchQueue.global(qos: .background).async() {
+        DispatchQueue.global(qos: .utility).async() {
             [weak self] in
             FilterManager.checkSetup()
             Coordinator.filterManager = FilterManager.sharedInstance

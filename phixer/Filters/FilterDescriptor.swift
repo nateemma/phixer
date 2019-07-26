@@ -65,7 +65,7 @@ class FilterDescriptor {
     private var presetName: String = ""
 
     
-    private var opacityFilter:CIFilter? = CIFilter(name: "OpacityFilter")
+    //private var opacityFilter:CIFilter? = CIFilter(name: "OpacityFilter")
     
     let defaultColor = CIColor(red: 0, green: 0, blue: 0)
 
@@ -233,14 +233,15 @@ class FilterDescriptor {
         self.presetName = key + ".json"
         
         self.filter?.setDefaults()
-        
-       // set the default intensity
-        self.filter?.setValue(1.0, forKey: FilterDescriptor.lookupArgIntensity)
+
         
         // manually add the intensity parameter to the parameter list (so that it will be displayed)
         let p = ParameterSettings(key: FilterDescriptor.presetArgIntensity, title: "intensity", min: 0.0, max: 1.0, value: FilterDescriptor.presetIntensityDefault, type: .float)
         self.parameterConfiguration[FilterDescriptor.presetArgIntensity] = p
         self.numParameters += 1
+        
+        self.stashParameters()
+        log.debug("preset:\(key) parameters:\(parameters)")
     }
 
     private func initBlendFilter(key: String, title: String, parameters: [ParameterSettings]) {
@@ -623,8 +624,9 @@ class FilterDescriptor {
  
                 if validParam(kCIInputImageKey) { preset.setValue(image, forKey: kCIInputImageKey) }
                 preset.setPreset(name: self.key)
-                let presetImg = preset.outputImage?.clampedToExtent().cropped(to: (image?.extent)!)
-                
+                return preset.outputImage?.clampedToExtent().cropped(to: (image?.extent)!)
+
+                /*** moved to PresetFilter
                 // blend with orignial if Intensity is < 1.0
                 var alpha = self.getParameter(FilterDescriptor.presetArgIntensity)
                 if (alpha < 0.0) { alpha = 1.0 }
@@ -640,6 +642,7 @@ class FilterDescriptor {
                 } else {
                     return presetImg
                 }
+                 ***/
 
             case .blend:
                 //log.debug("Using BLEND mode for filter: \(String(describing: self.key))")

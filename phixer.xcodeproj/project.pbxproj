@@ -1109,6 +1109,10 @@
 		25F85CED21CC2631005498C4 /* EditBaseMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F85CEC21CC2631005498C4 /* EditBaseMenuController.swift */; };
 		25F85CEF21CC50E5005498C4 /* UIFont+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F85CEE21CC50E5005498C4 /* UIFont+Extensions.swift */; };
 		25F85CF121CC5125005498C4 /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F85CF021CC5125005498C4 /* UILabel+Extensions.swift */; };
+		25FD3C1422EA381100A1C00A /* CategoryGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25FD3C1322EA381100A1C00A /* CategoryGalleryViewController.swift */; };
+		25FD3C1622EA3DE000A1C00A /* CategoryGalleryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25FD3C1522EA3DE000A1C00A /* CategoryGalleryViewCell.swift */; };
+		25FD3C1822EA5ECB00A1C00A /* CategoryGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25FD3C1722EA5ECB00A1C00A /* CategoryGalleryView.swift */; };
+		25FD3C1A22EB34D000A1C00A /* CategoryGalleryCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25FD3C1922EB34D000A1C00A /* CategoryGalleryCoordinator.swift */; };
 		560E5668039EDD21652B216D /* Pods_phixerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDBA6C647E0CE1D78E741974 /* Pods_phixerUITests.framework */; };
 		6D62A8FFBDF1408E43BE59D8 /* Pods_phixerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA7977390F9DC393764E04A9 /* Pods_phixerTests.framework */; };
 		86DD9D951E9C5A7000A5D855 /* MainMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DD9D941E9C5A7000A5D855 /* MainMenuController.swift */; };
@@ -2295,6 +2299,10 @@
 		25F85CEC21CC2631005498C4 /* EditBaseMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditBaseMenuController.swift; sourceTree = "<group>"; };
 		25F85CEE21CC50E5005498C4 /* UIFont+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extensions.swift"; sourceTree = "<group>"; };
 		25F85CF021CC5125005498C4 /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
+		25FD3C1322EA381100A1C00A /* CategoryGalleryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryGalleryViewController.swift; sourceTree = "<group>"; };
+		25FD3C1522EA3DE000A1C00A /* CategoryGalleryViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryGalleryViewCell.swift; sourceTree = "<group>"; };
+		25FD3C1722EA5ECB00A1C00A /* CategoryGalleryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryGalleryView.swift; sourceTree = "<group>"; };
+		25FD3C1922EB34D000A1C00A /* CategoryGalleryCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryGalleryCoordinator.swift; sourceTree = "<group>"; };
 		737C29DA80DD0E6829273461 /* Pods-phixer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-phixer.release.xcconfig"; path = "Pods/Target Support Files/Pods-phixer/Pods-phixer.release.xcconfig"; sourceTree = "<group>"; };
 		86DD9D941E9C5A7000A5D855 /* MainMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuController.swift; sourceTree = "<group>"; };
 		980E4D07C72B2E639881E914 /* Pods-phixer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-phixer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-phixer/Pods-phixer.debug.xcconfig"; sourceTree = "<group>"; };
@@ -2506,8 +2514,8 @@
 			children = (
 				2537A21B21ED572A00060DBE /* AppCoordinator.swift */,
 				2537A22721EE510200060DBE /* BasicEditCoordinator.swift */,
+				25FD3C1922EB34D000A1C00A /* CategoryGalleryCoordinator.swift */,
 				258D65D122E7B16B00D4EB8B /* ChoosePhotoCoordinator.swift */,
-				258D65D922E934BA00D4EB8B /* SplashScreenCoordinator.swift */,
 				2537A22F21EEC99000060DBE /* ControllerDelegate.swift */,
 				2537A21921ED3E7F00060DBE /* ControllerFactory.swift */,
 				2537A21D21ED58B300060DBE /* Coordinator.swift */,
@@ -2519,6 +2527,7 @@
 				2537A23321EFC88200060DBE /* README.md */,
 				2537A22D21EE78AC00060DBE /* SettingsCoordinator.swift */,
 				2537A22521EE4EA900060DBE /* SimpleCoordinator.swift */,
+				258D65D922E934BA00D4EB8B /* SplashScreenCoordinator.swift */,
 				2537A22921EE772100060DBE /* StyleTransferGalleryCoordinator.swift */,
 				2537A23121EED2AC00060DBE /* SubControllerDelegate.swift */,
 			);
@@ -2629,21 +2638,9 @@
 		256D0FEF1D98DADA00220D7E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				2542DF5A1ED372BF00CEB968 /* BasicEditViewController.swift */,
-				25C2DF8422D2457400D43198 /* ChoosePhotoViewController.swift */,
-				258D65DB22E9368E00D4EB8B /* SplashScreenViewController.swift */,
-				252745FA21851AEB00AA2DA2 /* ColorPickerController.swift */,
-				252745F421826DBC00AA2DA2 /* ColorSchemeViewController.swift */,
-				2537A22121ED91E300060DBE /* CoordinatedController.swift */,
-				25CC3EA421F80AE400EB8A0A /* FilterDetailsViewController.swift */,
+				25FD3C1222EA378300A1C00A /* ViewControllers */,
 				25F85CEB21C9C790005498C4 /* Galleries */,
-				255591E62187CC62001B4452 /* HTMLViewController.swift */,
-				86DD9D941E9C5A7000A5D855 /* MainMenuController.swift */,
 				2568BDEB21C870D300560287 /* Menus */,
-				258EA0921ED9472600D5E20E /* ResetViewController.swift */,
-				258EA08D1ED90A7000D5E20E /* SettingsMenuController.swift */,
-				252745E4217FE2EF00AA2DA2 /* StartupViewController.swift */,
-				2515988721A3495C0067AA00 /* ThemeChooserController.swift */,
 				25F21F7B2203828F005C449F /* Tools */,
 			);
 			path = Controllers;
@@ -3227,13 +3224,15 @@
 		25F21F802203B276005C449F /* Galleries */ = {
 			isa = PBXGroup;
 			children = (
+				25934FB01DD4EC1100C3D665 /* BlendGalleryView.swift */,
+				25FD3C1722EA5ECB00A1C00A /* CategoryGalleryView.swift */,
+				25FD3C1522EA3DE000A1C00A /* CategoryGalleryViewCell.swift */,
 				2507160C1DBED62C00CDDF42 /* FilterGalleryView.swift */,
 				25D24AB61DC7DCDB001F65B9 /* FilterGalleryViewCell.swift */,
 				251729612179459F00D5E946 /* GalleryViewCell.swift */,
 				253A39E31DDA979400A714D4 /* SampleGalleryView.swift */,
 				2568BDD021BB3ECD00560287 /* StyleTransferGalleryView.swift */,
 				2568BDD221BB3F2800560287 /* StyleTransferGalleryViewCell.swift */,
-				25934FB01DD4EC1100C3D665 /* BlendGalleryView.swift */,
 			);
 			path = Galleries;
 			sourceTree = "<group>";
@@ -3920,11 +3919,32 @@
 			isa = PBXGroup;
 			children = (
 				25934FB21DD5109C00C3D665 /* BlendGalleryViewController.swift */,
+				25FD3C1322EA381100A1C00A /* CategoryGalleryViewController.swift */,
 				250716081DBEC19400CDDF42 /* FilterGalleryViewController.swift */,
 				253A39E11DDA965E00A714D4 /* SampleGalleryViewController.swift */,
 				2568BDCE21BB371D00560287 /* StyleTransferGalleryViewController.swift */,
 			);
 			path = Galleries;
+			sourceTree = "<group>";
+		};
+		25FD3C1222EA378300A1C00A /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				2542DF5A1ED372BF00CEB968 /* BasicEditViewController.swift */,
+				25C2DF8422D2457400D43198 /* ChoosePhotoViewController.swift */,
+				252745FA21851AEB00AA2DA2 /* ColorPickerController.swift */,
+				252745F421826DBC00AA2DA2 /* ColorSchemeViewController.swift */,
+				2537A22121ED91E300060DBE /* CoordinatedController.swift */,
+				25CC3EA421F80AE400EB8A0A /* FilterDetailsViewController.swift */,
+				255591E62187CC62001B4452 /* HTMLViewController.swift */,
+				86DD9D941E9C5A7000A5D855 /* MainMenuController.swift */,
+				258EA0921ED9472600D5E20E /* ResetViewController.swift */,
+				258EA08D1ED90A7000D5E20E /* SettingsMenuController.swift */,
+				258D65DB22E9368E00D4EB8B /* SplashScreenViewController.swift */,
+				252745E4217FE2EF00AA2DA2 /* StartupViewController.swift */,
+				2515988721A3495C0067AA00 /* ThemeChooserController.swift */,
+			);
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		6DAB93DA78696DFB7203E582 /* Frameworks */ = {
@@ -5140,6 +5160,7 @@
 				2568BC0A21AB1BE600560287 /* ImageSelectionView.swift in Sources */,
 				258F09AD218E4AC90082FE2A /* Style_Candy.swift in Sources */,
 				252745E5217FE2EF00AA2DA2 /* StartupViewController.swift in Sources */,
+				25FD3C1822EA5ECB00A1C00A /* CategoryGalleryView.swift in Sources */,
 				252C17A71ECE75FC00039BFC /* AssignmentEntity+CoreDataProperties.swift in Sources */,
 				2537A23021EEC99000060DBE /* ControllerDelegate.swift in Sources */,
 				250C5FA722C8168200DE0DDF /* GrainFilter.swift in Sources */,
@@ -5148,6 +5169,7 @@
 				2537A22621EE4EAA00060DBE /* SimpleCoordinator.swift in Sources */,
 				25910B1B1DB7D61A007EC926 /* RenderContainerView.swift in Sources */,
 				25CC3E9F21F5916200EB8A0A /* MercurializeFilter.swift in Sources */,
+				25FD3C1422EA381100A1C00A /* CategoryGalleryViewController.swift in Sources */,
 				25F21FD32208B078005C449F /* ImageCropperScrollView.swift in Sources */,
 				2537A1E521E02D7800060DBE /* SketchFilter.swift in Sources */,
 				2573D1D8217CDCB500E78CAB /* YUCIFilterConstructor.m in Sources */,
@@ -5175,6 +5197,7 @@
 				258F09BB2192847F0082FE2A /* AdaptiveThresholdFilter.swift in Sources */,
 				258D65DA22E934BA00D4EB8B /* SplashScreenCoordinator.swift in Sources */,
 				25934FB31DD5109C00C3D665 /* BlendGalleryViewController.swift in Sources */,
+				25FD3C1622EA3DE000A1C00A /* CategoryGalleryViewCell.swift in Sources */,
 				2507160B1DBECDF200CDDF42 /* Admob.swift in Sources */,
 				2568BDD121BB3ECD00560287 /* StyleTransferGalleryView.swift in Sources */,
 				25F21FD62208B078005C449F /* ImageCropperOverlayViewConfigurationGrid.swift in Sources */,
@@ -5272,6 +5295,7 @@
 				2573D1E1217CDCB500E78CAB /* YUCIUtilities.m in Sources */,
 				251729622179459F00D5E946 /* GalleryViewCell.swift in Sources */,
 				258F09AB218E3CCF0082FE2A /* CIImage+Extensions.swift in Sources */,
+				25FD3C1A22EB34D000A1C00A /* CategoryGalleryCoordinator.swift in Sources */,
 				25F21FE9220B8482005C449F /* HighPassSkinSmoothingFilter.swift in Sources */,
 				258F0991218B7DD90082FE2A /* UIImage+Extensions.swift in Sources */,
 				2568BDCB21AC731100560287 /* EditManager.swift in Sources */,

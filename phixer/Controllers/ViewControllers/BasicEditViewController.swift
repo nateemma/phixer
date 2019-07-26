@@ -10,8 +10,8 @@ import UIKit
 import CoreImage
 import Neon
 import AVFoundation
-import MediaPlayer
-import AudioToolbox
+//import MediaPlayer
+//import AudioToolbox
 import Photos
 
 import GoogleMobileAds
@@ -43,7 +43,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     
     
     var currCategory:String? = nil
-    var currFilterKey:String? = FilterDescriptor.nullFilter
+    var currFilterKey:String? = ""
     
     var currFilterDescriptor:FilterDescriptor? = nil
     var currIndex:Int = 0
@@ -141,10 +141,12 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     func doInit(){
         
         // TODO: remeber edits?
-        EditManager.reset()
+        //EditManager.reset()
         
         if (currFilterDescriptor == nil){
-            currFilterDescriptor = filterManager.getFilterDescriptor(key: FilterDescriptor.nullFilter)
+            //currFilterDescriptor = filterManager.getFilterDescriptor(key: FilterDescriptor.nullFilter)
+            currFilterDescriptor = filterManager.getCurrentFilterDescriptor()
+            currFilterKey = currFilterDescriptor?.key
         }
         if currCategory == nil {
             currCategory = filterManager.getCurrentCategory()
@@ -154,14 +156,14 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             BasicEditViewController.initDone = true
             log.verbose("init")
             
-            filterManager.setCurrentCategory(FilterManager.defaultCategory)
-            currFilterDescriptor = filterManager.getFilterDescriptor(key: FilterDescriptor.nullFilter)
+            //filterManager.setCurrentCategory(FilterManager.defaultCategory)
+            //currFilterDescriptor = filterManager.getFilterDescriptor(key: FilterDescriptor.nullFilter)
             filterParametersView.setConfirmMode(true)
             filterParametersView.delegate = self
             //filterParametersView.setConfirmMode(false)
             
-            filterManager.setCurrentFilterKey(FilterDescriptor.nullFilter)
-            editImageView.setFilter(key: FilterDescriptor.nullFilter)
+            //filterManager.setCurrentFilterKey(FilterDescriptor.nullFilter)
+            editImageView.setFilter(key: currFilterDescriptor?.key ?? FilterDescriptor.nullFilter)
             BasicEditViewController.initDone = true
             updateCurrentFilter()
             currTouchMode = .gestures
@@ -219,8 +221,6 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         view.addSubview(filterParametersView)
         
         
-        showModalViews()
-        
         // set layout constraints
         
         // top
@@ -243,9 +243,9 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         setGestureDetectors(view: editImageView)
         currTouchMode = .gestures
         
-        // listen to key press events
-        setVolumeListener()
-        
+        updateCurrentFilter()
+        showModalViews()
+
         // bit of a hack, but reset face detection if image changes. This allows results to be re-used across filters, which is a very expensive operation
         DispatchQueue.main.async {  [weak self] in
             FaceDetection.reset()
@@ -437,42 +437,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         }
     }
     
-    //////////////////////////////////////
-    // MARK: - Volume buttons
-    //////////////////////////////////////
-    
-    
-    func setVolumeListener() {
-        let audioSession = AVAudioSession.sharedInstance()
-        do {
-            try audioSession.setCategory(AVAudioSession.Category.ambient, mode: AVAudioSession.Mode.default, options: [])
-            try audioSession.setActive(true, options: [])
-            audioSession.addObserver(self, forKeyPath: "outputVolume", options: NSKeyValueObservingOptions(), context: nil)
-        } catch {
-            log.error("\(error)")
-        }
-        
-        //TODO: hide system volume HUD
-        self.view.addSubview(volumeView)
-    }
-    
-    
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        log.debug("Key event: \(String(describing: keyPath))")
-        if keyPath == "outputVolume" {
-            log.debug("Volume Button press detected, taking picture")
-            saveImage()
-        }
-    }
-    
-    // redefine the volume view so that it isn't really visible to the user
-    lazy var volumeView: MPVolumeView = {
-        let view = MPVolumeView()
-        view.frame = CGRect(x: 0, y: 0, width: 1, height: 1)
-        view.alpha = 0.000001
-        return view
-    }()
-    
+   
     
     //////////////////////////////////////
     // MARK: - Save Applied filters alert processing
@@ -741,14 +706,16 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             
             //if filterParametersView.numVisibleParams > 0 {
             self?.filterParametersView.isHidden = false
-            self?.filterParametersView.expand()
             //self?.view.bringSubviewToFront(filterParametersView)
             self?.filterParametersView.setNeedsDisplay()
             self?.filterParametersView.setNeedsLayout()
             //}
             self?.filterParametersView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: (self?.filterParametersView.frame.size.height)!)
             //self?.filterParametersView.logSizes()//debug
-            
+            DispatchQueue.main.async { [weak self] in
+                self?.filterParametersView.expand()
+            }
+
             self?.view.sendSubviewToBack((self?.editImageView)!)
         }
     }
@@ -793,7 +760,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         updateCurrentFilter()
     }
     
-    // retrive current settings from FilterManager and store locally
+    // updte subviews with curent filter selection
     func updateCurrentFilter(){
         if (currFilterKey != nil) {
             DispatchQueue.main.async { [weak self] in

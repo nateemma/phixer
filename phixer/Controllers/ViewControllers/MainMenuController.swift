@@ -28,9 +28,10 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
     var simpleEditMenuItem: UILabel = UILabel()
     var styleTransferMenuItem: UILabel = UILabel()
     var browseFiltersMenuItem: UILabel = UILabel()
+    var browsePresetsMenuItem: UILabel = UILabel()
     var settingsMenuItem: UILabel = UILabel()
  
-    let numItems = 5
+    let numItems = 6
     
     
     /////////////////////////////
@@ -91,6 +92,7 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
         view.addSubview(simpleEditMenuItem)
         view.addSubview(styleTransferMenuItem)
         view.addSubview(browseFiltersMenuItem)
+        view.addSubview(browsePresetsMenuItem)
         view.addSubview(settingsMenuItem)
         
         
@@ -128,7 +130,10 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
         
         setupMenuItem(label:browseFiltersMenuItem, height:h, width:w,
                       title:"Browse Filters", color:UIColor.flatWatermelonDark, handler: UITapGestureRecognizer(target: self, action: #selector(presentFilterGallery)))
-    
+        
+        setupMenuItem(label:browsePresetsMenuItem, height:h, width:w,
+                      title:"Browse Presets", color:UIColor.flatPlumDark, handler: UITapGestureRecognizer(target: self, action: #selector(presentPresetGallery)))
+
         
         setupMenuItem(label:settingsMenuItem, height:h, width:w,
                       title:"Settings", color:UIColor.flatPurple, handler: UITapGestureRecognizer(target: self, action: #selector(presentSettings)))
@@ -136,7 +141,7 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
 
         // set layout constraints
         view.groupAgainstEdge(group: .vertical,
-                              views: [choosePhotoMenuItem, simpleEditMenuItem, styleTransferMenuItem, browseFiltersMenuItem, settingsMenuItem],
+                              views: [choosePhotoMenuItem, simpleEditMenuItem, styleTransferMenuItem, browseFiltersMenuItem, browsePresetsMenuItem, settingsMenuItem],
                               againstEdge: .bottom, padding: 8, width: w-8, height: h)
       
         
@@ -192,10 +197,16 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
 
     
     @objc func presentFilterGallery(){
-        InputSource.setCurrent(source: .sample)
+        InputSource.setCurrent(source: .edit)
         self.coordinator?.activateRequest(id: .browseFilters)
     }
     
+    @objc func presentPresetGallery(){
+        InputSource.setCurrent(source: .edit)
+        filterManager.setCurrentCollection("presets") //TODO: make a constant
+        self.coordinator?.activateRequest(id: .categoryGallery)
+    }
+
 
     @objc func presentSettings(){
         self.coordinator?.activateRequest(id: .settings)

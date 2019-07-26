@@ -868,9 +868,11 @@ class SwipeView: UIView, UIScrollViewDelegate, UIGestureRecognizerDelegate {
             var visibleIndices = [Int]()
             
             //for (var i = 0; i < numberOfVisibleItems; i++) {
-            for i in 0...(numberOfVisibleItems-1) {
-                let index = clampedIndex(index: i + startIndex)
-                visibleIndices.append(index)
+            if numberOfVisibleItems > 0 {
+                for i in 0...(numberOfVisibleItems-1) {
+                    let index = clampedIndex(index: i + startIndex)
+                    visibleIndices.append(index)
+                }
             }
             
             //remove offscreen views

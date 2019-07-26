@@ -17,6 +17,8 @@ import SwiftyJSON
 class PresetFilter: CIFilter {
     let fname = "Preset"
     var inputImage: CIImage?
+    var inputIntensity: CGFloat = 1.0
+    
     var presetFile: String = ""
     
     private var fileLoaded:Bool = false
@@ -26,10 +28,13 @@ class PresetFilter: CIFilter {
     private var imgCentre:CIVector = CIVector(x: 0.0, y: 0.0)
     private var imgRadius:CGFloat = 0.0
 
+    private var opacityFilter:CIFilter? = CIFilter(name: "OpacityFilter")
+
     
     // default settings
     override func setDefaults() {
         inputImage = nil
+        inputIntensity = 1.0
         parsedConfig = JSON.null
         fileLoaded = false
     }
@@ -48,7 +53,16 @@ class PresetFilter: CIFilter {
             "inputImage": [kCIAttributeIdentity: 0,
                            kCIAttributeClass: "CIImage",
                            kCIAttributeDisplayName: "Image",
-                           kCIAttributeType: kCIAttributeTypeImage]
+                           kCIAttributeType: kCIAttributeTypeImage],
+            
+            "inputIntensity": [kCIAttributeIdentity: 0,
+                             kCIAttributeClass: "NSNumber",
+                             kCIAttributeDefault: 1,
+                             kCIAttributeDisplayName: "Intensity",
+                             kCIAttributeMin: 0,
+                             kCIAttributeSliderMin: 0,
+                             kCIAttributeSliderMax: 1,
+                             kCIAttributeType: kCIAttributeTypeScalar]
         ]
     }
     
@@ -65,18 +79,28 @@ class PresetFilter: CIFilter {
             imgRect = CIVector(cgRect: inputImage!.extent)
             imgCentre = CIVector(cgPoint: CGPoint(x: inputImage!.extent.width/2.0, y: inputImage!.extent.height/2.0))
             imgRadius = min(inputImage!.extent.width, inputImage!.extent.height) / 2.0
+        
+        case "inputIntensity":
+            inputIntensity = value as! CGFloat
 
         default:
             log.error("Invalid key: \(key)")
         }
     }
 
+    
     override var outputImage: CIImage? {
         guard let inputImage = inputImage else {
             log.error("No input image")
             return nil
         }
         
+        // check intensity. If approx. 0.0 then just return the input image (saves processing)
+        guard inputIntensity > 0.01 else {
+            log.warning("Preset not applied")
+            return inputImage
+        }
+
         var image: CIImage? = inputImage
         var tmpImage: CIImage? = nil
 
@@ -152,14 +176,34 @@ class PresetFilter: CIFilter {
                     }
                     tmpImage = filter?.outputImage
                     image = tmpImage
+                    
                 } else {
                     log.error("Could not create filter: \(fkey)")
                 }
-            }
+            } // end filter loop
+            
+            // blend with the original image based on the intensity parameter
+            log.verbose("Intensity: \(inputIntensity)")
+            if inputIntensity < 0.99 {
+                // reduce opacity of filtered image and overlay on original
+                if (self.opacityFilter == nil) {
+                    self.opacityFilter = CIFilter(name: "OpacityFilter")
+                }
+                self.opacityFilter?.setValue(inputIntensity, forKey: "inputOpacity")
+                self.opacityFilter?.setValue(image, forKey: "inputImage")
+                self.opacityFilter?.setValue(inputImage, forKey: "inputBackgroundImage")
+                tmpImage = self.opacityFilter?.outputImage
+                image = tmpImage
+           }
+
         } else {
             log.warning("No filters found for preset: \(presetFile)")
         }
         tmpImage = nil
+        
+        if image == nil {
+            log.warning("NIL image produced")
+        }
         
         return image
     }
@@ -195,7 +239,7 @@ class PresetFilter: CIFilter {
                     if (parsedConfig != JSON.null){
                         log.verbose("parsing data")
                         //log.verbose ("\(parsedConfig)")
-                        log.verbose("Found \(parsedConfig["filters"].count) filters in preset")
+                        log.verbose("Found \(parsedConfig["filters"].count) filters in preset: \(name)")
                         fileLoaded = true
                     }
                 }

@@ -11,6 +11,8 @@ import UIKit
 import Neon
 import Photos
 
+//TODO: make this a 'normal' ViewController?
+
 class SplashScreenViewController: CoordinatedController {
     
     

@@ -1,5 +1,5 @@
 {
-    "version": { "id": 3.0, "overwrite": false },
+    "version": { "id": 4.0, "overwrite": true },
     
     "slow": [ "KuwaharaFilter", "SketchFilter",
         "EnhanceLipsFilter", "EnhanceEyesFilter", "EnhanceTeethFilter", "EnhanceEyebrowsFilter", "EnhanceFaceFilter",
@@ -1183,5 +1183,48 @@
             ]
         }
         
-    ]
+    ],
+    
+    
+    "collections": [
+        
+        {"key": "presets",
+            "title": "Presets",
+            "categories": [ "pr_winter", "pr_fall", "pr_oglow", "pr_otinting", "pr_okidsmatte", "pr_otoners", "pr_pplanet", "pr_lvibrations", "pr_bwtonal", "pr_trey",
+                            "pr_fstopurban", "pr_blondies", "pr_film", "pr_sleeklens", "pr_oxprocess", "pr_ovintage", "pr_omovie", "pr_oinsta"
+            ]
+        },
+        
+        {"key": "styletransfer",
+            "title": "Style Transfer",
+            "categories": [ "styletransfer"
+            ]
+        },
+        
+        {"key": "filters",
+            "title": "Color Transforms",
+            "categories": [ "monochrome", "color", "etikate", "manicho", "ps", "cross", "deviantart", "fade", "misc", "tint", "urban", "vintage"
+            ]
+        },
+        
+        {"key": "blackwhite",
+            "title": "Black & White (Monochrome)",
+            "categories": [ "monochrome", "pr_otoners", "pr_bwtonal"
+            ]
+        },
+        
+        {"key": "transforms",
+            "title": "Transforms",
+            "categories": [ "blur", "distortionEffect", "halftoneEffect", "sharpen", "stylize", "tileEffect"
+            ]
+        },
+        
+        {"key": "favorites",
+            "title": "Favorites",
+            "categories": [ "favorites"
+            ]
+        }
+
+        ]
+
 }

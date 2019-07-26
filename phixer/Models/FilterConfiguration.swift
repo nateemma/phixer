@@ -28,6 +28,11 @@ class FilterConfiguration{
     public static var blendList:[String] = []
     public static var sampleList:[String] = []
 
+    // vars for processing collections. key is collection name
+    public static var collectionDictionary:[String:String] = [:]
+    public static var collectionList:[String] = []
+    public static var collectionCategories:[String:[String]] = [:]
+
     // The dictionary of Categories (key, title). key is category name
     public static var categoryDictionary:[String:String] = [:]
     public static var categoryList:[String] = []
@@ -78,6 +83,9 @@ class FilterConfiguration{
     
     
     fileprivate static func initLists(){
+        collectionDictionary = [:]
+        collectionCategories = [:]
+        collectionList = []
         categoryDictionary = [:]
         categoryList = []
         categoryFilters = [:]
@@ -276,6 +284,21 @@ class FilterConfiguration{
                     categoryList = Array(categoryDictionary.keys)
                     categoryList.sort(by: sortClosure)
 
+                    // Collection list
+                    count = 0
+                    for item in parsedConfig["collections"].arrayValue {
+                        count = count + 1
+                        key = item["key"].stringValue
+                        title = item["title"].stringValue
+                        addCollection(key:key, title:title)
+                        var list:[String] = item["categories"].arrayValue.map { $0.string!}
+                        list.sort(by: sortClosure) // sort alphabetically
+                        addCollectionCategories(collection:key, categories:list)
+                    }
+                    collectionList = Array(collectionDictionary.keys)
+                    collectionList.sort(by: sortClosure)
+                    log.verbose ("\(count) Collections found")
+
 
                     
                 } else {
@@ -458,7 +481,33 @@ class FilterConfiguration{
         }
     }
 
+    private static func addCollection(key:String, title:String) {
+        FilterConfiguration.collectionDictionary[key] = title
+    }
     
+    private static func addCollectionCategories(collection:String, categories:[String]){
+        log.verbose("Collection:\(collection) Categories:\(categories)")
+        let validKeys = FilterConfiguration.categoryFilters.keys
+        for c in categories {
+            if (validKeys.contains(c)) {
+                if FilterConfiguration.collectionCategories[collection] == nil {
+                    FilterConfiguration.collectionCategories[collection] = []
+                }
+                if !FilterConfiguration.collectionCategories[collection]!.contains(c){ // don't add if already there
+                    FilterConfiguration.collectionCategories[collection]?.append(c)
+                }
+                //list.append(f)
+                
+                // double check
+                if !FilterConfiguration.collectionCategories[collection]!.contains(c){
+                    log.error("ERROR: did not add to collection:\(collection)")
+                }
+            } else {
+                log.warning("Ignoring category: \(c)")
+            }
+        }
+    }
+
     
     
     ////////////////////////////
@@ -596,7 +645,7 @@ class FilterConfiguration{
             addCategory(key:(crec.key)!, title:(crec.title)!)
         }
  ***/
-        // Build Category array from dictionary. More convenient than a dictionary
+        // Build Category array from dictionary. More convenient than a dictionary (e.g. sorting)
         categoryList = Array(categoryDictionary.keys)
         categoryList.sort(by: sortClosure)
         
@@ -620,6 +669,7 @@ class FilterConfiguration{
         Database.clearCategoryRecords()
         Database.clearAssignmentRecords()
         Database.clearUserChangesRecords()
+        // Don't clear asset list
     }
 
     

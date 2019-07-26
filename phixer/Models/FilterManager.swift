@@ -23,10 +23,12 @@ class FilterManager{
     
     // predefine categories
     public static let favouriteCategory = "favorites"
+    public static let defaultCollection = favouriteCategory
     public static let defaultCategory = favouriteCategory
     public static let styleTransferCategory = "styletransfer"
 
     fileprivate static var initDone:Bool = false
+    fileprivate static var currCollection: String = "" // empty string means all categories (regardless of collection)
     fileprivate static var currCategory: String = defaultCategory
     fileprivate static var currFilterDescriptor: FilterDescriptor? = nil
     fileprivate static var currFilterKey: String = ""
@@ -130,7 +132,7 @@ class FilterManager{
         FilterManager.checkSetup()
         return (FilterConfiguration.categoryDictionary[key])!
     }
-
+    
     func getFilterCount(_ category:String)->Int {
         FilterManager.checkSetup()
         return (FilterConfiguration.categoryFilters[category]?.count)!
@@ -177,7 +179,7 @@ class FilterManager{
     }
     
     
-
+    
     
     // 'Index' methods are provided to support previous/next types of navigation
     
@@ -204,7 +206,7 @@ class FilterManager{
         
         return getCategoryIndex(category:FilterManager.currCategory)
     }
-  
+    
     
     open func getCategory(index: Int) -> String{
         FilterManager.checkSetup()
@@ -214,7 +216,152 @@ class FilterManager{
         }
         return category
     }
- 
+    
+    
+    //////////////////////////////////////////////
+    // MARK: - Collection-related Accessors
+    //////////////////////////////////////////////
+    
+    open func getCollectionList()->[String]{
+        FilterManager.checkSetup()
+        return FilterConfiguration.collectionList
+    }
+    
+    open func getCollectionTitle(key:String)->String{
+        FilterManager.checkSetup()
+        return (FilterConfiguration.collectionDictionary[key])!
+    }
+    
+    func getCategoryCount(_ collection:String)->Int {
+        FilterManager.checkSetup()
+        return (FilterConfiguration.collectionCategories[collection]?.count)!
+    }
+    
+    func getCategoryList(collection:String)->[String] {
+        FilterManager.checkSetup()
+        // if collection is empty then return the full list of categories
+        if collection.isEmpty {
+            return FilterConfiguration.categoryList
+        } else {
+            return (FilterConfiguration.collectionCategories[collection])!
+        }
+    }
+
+    func getCollectionCount()->Int {
+        FilterManager.checkSetup()
+        return FilterConfiguration.collectionList.count
+    }
+    
+    func getCurrentCollection() -> String{
+        FilterManager.checkSetup()
+        return FilterManager.currCollection
+        
+    }
+    
+    func setCurrentCollection(_ collection:String){
+        FilterManager.checkSetup()
+        if (FilterManager.currCollection != collection){
+            log.debug("Collection set to: \(collection)")
+            FilterManager.currCollection = collection
+            
+            // set current filter to the first filter (alphabetically) in the dictionary
+            
+            if FilterConfiguration.collectionCategories[collection] != nil {
+                let count = (FilterConfiguration.collectionCategories[collection]?.count)!
+                if (count>0){
+                    log.verbose ("\(count) items found")
+                    let key = (FilterConfiguration.collectionCategories[collection]?[0])!
+                    log.verbose("Setting filter to: \(key)")
+                    setCurrentFilterKey(key)
+                } else {
+                    log.debug("List empty: \(collection)")
+                    setCurrentFilterDescriptor(nil)
+                }
+            } else {
+                log.error("NIL collection: \(collection)")
+                setCurrentFilterDescriptor(nil)
+            }
+        }
+    }
+    
+    
+    
+    
+    // 'Index' methods are provided to support previous/next types of navigation
+    
+    // get the index of the collection within the collection list.
+    open func getCollectionIndex(collection:String)->Int {
+        var index:Int = -1
+        
+        FilterManager.checkSetup()
+        if (FilterConfiguration.collectionList.count > 0){
+            if (FilterConfiguration.collectionList.contains(collection)){
+                index = FilterConfiguration.collectionList.index(of: collection)!
+                //log.verbose("collection:\(collection) index:\(index)")
+            } else {
+                log.error("Collection not found:\(collection)")
+            }
+        } else {
+            log.error("Empty Collection List!!!")
+        }
+        return index
+    }
+    
+    
+    open func getCurrentCollectionIndex()->Int {
+        
+        return getCollectionIndex(collection:FilterManager.currCollection)
+    }
+    
+    
+    open func getCollection(index: Int) -> String{
+        FilterManager.checkSetup()
+        var collection:String = FilterManager.defaultCollection
+        if ((index >= 0) && (index < FilterConfiguration.collectionList.count)){
+            collection =  FilterConfiguration.collectionList[index]
+        }
+        return collection
+    }
+    
+    // the following are variants of the category-based index functions, but with a collection parameter
+    // needed because the order changes based on which collection is being used
+    
+    // get the index of the category within the category list.
+    open func getCategoryIndex(collection:String, category:String)->Int {
+        var index:Int = -1
+        
+        FilterManager.checkSetup()
+        let list = getCategoryList(collection: collection)
+        if (list.count > 0){
+            if (list.contains(category)){
+                index = list.index(of: category)!
+                //log.verbose("category:\(category) index:\(index)")
+            } else {
+                log.error("Category not found:\(category)")
+            }
+        } else {
+            log.error("Empty Category List!!!")
+        }
+        return index
+    }
+    
+    
+    open func getCurrentCategoryIndex(collection:String)->Int {
+        
+        return getCategoryIndex(collection: collection, category:FilterManager.currCategory)
+    }
+    
+    
+    open func getCategory(collection:String, index: Int) -> String{
+        FilterManager.checkSetup()
+        let list = getCategoryList(collection: collection)
+        var category:String = FilterManager.defaultCategory
+        if ((index >= 0) && (index < FilterConfiguration.categoryList.count)){
+            category =  list[index]
+        }
+        return category
+    }
+    
     
     
     //////////////////////////////////////////////

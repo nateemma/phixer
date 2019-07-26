@@ -55,11 +55,11 @@ class SimpleSwipeView: UIView {
 
     public func setItems(_ items:[Adornment]) {
         itemList = items
+        buildItemViews()
+        DispatchQueue.main.async { [weak self] in
+            self?.swipeview?.reloadData()
+        }
         //log.verbose("items:\(items)")
-//        if !self.wrap && (itemList.count >= 2) {
-//            log.verbose("Scroll to 2")
-//            swipeview?.scrollToItem(at: 2, animated: true)
-//        }
     }
 
     public func getNextItem() -> String {
@@ -267,7 +267,6 @@ class SimpleSwipeView: UIView {
     func setupSwipeView(){
         
         // configure swipeview
-        //swipeviewHeight = max((self.displayHeight * 0.8), 80.0).rounded() // doesn't seem to work at less than 80 (empirical)
         swipeviewHeight = max((self.displayHeight * 0.95), 32.0).rounded() // don't go below 32 pixels
         itemSize = CGSize(width: swipeviewHeight, height: swipeviewHeight)
         swipeview?.frame.size.width = self.displayWidth
@@ -277,6 +276,8 @@ class SimpleSwipeView: UIView {
         swipeview?.delegate = self
         swipeview?.pagingEnabled = true
         swipeview?.alignment = SwipeViewAlignment.Edge
+        swipeview?.bounces = true
+        swipeview?.decelerationRate = 0.5
 
         //swipeview?.centerItemWhenSelected = true
     }

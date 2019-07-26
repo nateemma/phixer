@@ -29,10 +29,14 @@ enum CoordinatorIdentifier: String {
     
     case about
     case filterDisplay
+    
     case filterGallery
     case styleGallery
     case sampleGallery
     case blendGallery
+    case categoryGallery
+
+    
     case themeChooser
     case reset
 
@@ -109,6 +113,9 @@ class CoordinatorFactory {
             sc.setMainController (ControllerIdentifier.blendGallery)
             instance = sc
             
+        case .categoryGallery:
+            instance = CategoryGalleryCoordinator()
+
         case .themeChooser:
             let sc = SimpleCoordinator()
             sc.setMainController (ControllerIdentifier.themeChooser)
@@ -128,6 +135,8 @@ class CoordinatorFactory {
         if instance != nil {
             //log.debug("Created Coordinator: \(coordinator.rawValue)")
             instance?.id = coordinator
+        } else {
+            log.error("Instance NOT created")
         }
         return instance
         

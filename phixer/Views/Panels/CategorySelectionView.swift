@@ -52,7 +52,8 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     
     func update(){
         //let newIndex = filterManager?.getCurrentCategory().getIndex()
-        let newIndex = (filterManager?.getCategoryIndex(category: currCategory))!
+        let collection = (filterManager?.getCurrentCollection())!
+        let newIndex = (filterManager?.getCategoryIndex(collection: collection, category: currCategory))!
         
         // if valid index, just scroll there. It could be the first time displaying, but index did not change
         if ((newIndex>=0) && (newIndex<categoryList.count)){
@@ -84,11 +85,10 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
     fileprivate var initDone:Bool = false
     func doInit(){
         if (!initDone){
-
-            // Pre-allocate views for the filters, makes it much easier and we can update in the background if needed
             
-            //setFilterCategory((filterManager?.getCurrentCategory())!)
-            categoryList = (filterManager?.getCategoryList())!
+            //categoryList = (filterManager?.getCategoryList())!
+            let collection = filterManager?.getCurrentCollection()
+            categoryList = (filterManager?.getCategoryList(collection: collection!))!
             categoryViewList = []
             
             if (categoryList.count > 0){
