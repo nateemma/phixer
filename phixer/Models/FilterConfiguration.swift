@@ -565,7 +565,7 @@ class FilterConfiguration{
         
             def = FilterDefinition()
             
-            let inputNames = (filter.inputKeys as! [String]).filter { (parameterName) -> Bool in
+            let inputNames = (filter.inputKeys ).filter { (parameterName) -> Bool in
                 return (parameterName as String) != "inputImage" // everything has inputImage so don't return that
             }
             

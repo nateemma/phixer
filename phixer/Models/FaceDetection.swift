@@ -57,7 +57,7 @@ class FaceDetection {
         FaceDetection.faceLandmarksDetectionRequest = VNSequenceRequestHandler()
         FaceDetection.faceDetectionHandler = VNSequenceRequestHandler()
 
-        try? FaceDetection.faceDetectionHandler?.perform([FaceDetection.faceDetection!], on: image, orientation: orientation)
+        ((try? FaceDetection.faceDetectionHandler?.perform([FaceDetection.faceDetection!], on: image, orientation: orientation)) as ()??)
         if let results = FaceDetection.faceDetection?.results as? [VNFaceObservation] {
             if !results.isEmpty {
                 log.verbose("Found \(results.count) faces. Orientation:\(orientation)")
@@ -222,7 +222,7 @@ class FaceDetection {
     // issue a request to the Vision framework and save the results in a facialFeatures struct for each face, which is added to faceList[]
     private static func detectLandmarks(on image: CIImage, orientation: CGImagePropertyOrientation, completion: @escaping ()->()) {
 
-        try? FaceDetection.faceLandmarksDetectionRequest?.perform([FaceDetection.faceLandmarks!], on: image, orientation: orientation)
+        ((try? FaceDetection.faceLandmarksDetectionRequest?.perform([FaceDetection.faceLandmarks!], on: image, orientation: orientation)) as ()??)
         if let landmarksResults = FaceDetection.faceLandmarks?.results as? [VNFaceObservation] {
 
             DispatchQueue.main.async {

@@ -214,7 +214,7 @@ private extension CategoryGalleryView {
     }
     
     func indexForKey(_ key:String) -> Int{
-        if let index = categoryList.index(of: key) {
+        if let index = categoryList.firstIndex(of: key) {
             return index
         } else {
             return 0

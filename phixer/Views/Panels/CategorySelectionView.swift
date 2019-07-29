@@ -116,7 +116,8 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         
         carouselHeight = max((self.frame.size.height * 0.8), 80.0).rounded() // doesn't seem to work at less than 80 (empirical)
         categoryCarousel.frame.size.width = self.frame.size.width
-        categoryCarousel.frame.size.height = carouselHeight
+//        categoryCarousel.frame.size.height = carouselHeight
+        categoryCarousel.frame.size.height = self.frame.size.height
 
         self.addSubview(categoryCarousel)
         
@@ -126,19 +127,19 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         //categoryCarousel.centerItemWhenSelected = true
         
         
-        categoryLabel.text = "Categories:"
-        categoryLabel.textAlignment = .center
-        categoryLabel.textColor = theme.textColor
-        categoryLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFont.Weight.thin)
-        categoryLabel.frame.size.height = self.frame.size.height - carouselHeight
-        categoryLabel.frame.size.width = self.frame.size.width
-        self.addSubview(categoryLabel)
+//        categoryLabel.text = "Categories:"
+//        categoryLabel.textAlignment = .center
+//        categoryLabel.textColor = theme.textColor
+//        categoryLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFont.Weight.thin)
+//        categoryLabel.frame.size.height = self.frame.size.height - carouselHeight
+//        categoryLabel.frame.size.width = self.frame.size.width
+//        self.addSubview(categoryLabel)
         
        log.verbose("hv:\(self.frame.size.height) hl:\(categoryLabel.frame.size.height) hc:\(categoryCarousel.frame.size.height) ch:\(carouselHeight)")
         //self.groupAndFill(.vertical, views: [categoryLabel, categoryCarousel], padding: 4.0)
-        categoryLabel.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: categoryLabel.frame.size.height)
-        categoryCarousel.align(.underCentered, relativeTo: categoryLabel, padding: 0, width: categoryCarousel.frame.size.width, height: categoryCarousel.frame.size.height)
-
+//        categoryLabel.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: categoryLabel.frame.size.height)
+//        categoryCarousel.align(.underCentered, relativeTo: categoryLabel, padding: 0, width: categoryCarousel.frame.size.width, height: categoryCarousel.frame.size.height)
+        categoryCarousel.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: categoryCarousel.frame.size.height)
         update()
        
         // don't do anything until category list has been assigned

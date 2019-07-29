@@ -110,15 +110,16 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
         let side = (menuView.frame.size.height * 0.667).rounded()
         let iconSize = CGSize(width: side, height: side)
         let curPhoto:UIImage = UIImage(ciImage: EditManager.getPreviewImage(size:iconSize)!)
-            
+        
+        // note: for collections, key must match colection name
         menuItems = [ MenuItem(key: "changePhoto", title: "Change Photo", subtitile: "", icon: "", view: curPhoto, isHidden: false),
                       MenuItem(key: "simpleEditor", title: "Picture Editor", subtitile: "Edit 'basic' image settings\n (exposure, colors, tone, vignette, sharpen etc.)",
                                icon: "ic_basic", view: nil, isHidden: false),
-                      MenuItem(key: "favourites", title: "Favorites", subtitile: "Browse favorite prests & filters", icon: "ic_heart_outline", view: nil, isHidden: false),
+                      MenuItem(key: "favorites", title: "Favorites", subtitile: "Browse favorite prests & filters", icon: "ic_heart_outline", view: nil, isHidden: false),
                       MenuItem(key: "styleTransfer", title: "Style Transfer", subtitile: "Apply a painting style to the photo", icon: "ic_brush", view: nil, isHidden: false),
                       MenuItem(key: "browseFilters", title: "Browse Filters", subtitile: "Browse available filters/presets", icon: "ic_filter", view: nil, isHidden: false),
                       MenuItem(key: "browsePresets", title: "Browse Presets", subtitile: "Browse preset collections", icon: "ic_preset", view: nil, isHidden: false),
-                      MenuItem(key: "b&w", title: "Black & White", subtitile: "Black & White (or monochrome) filters and presets", icon: "ic_contrast", view: nil, isHidden: false),
+                      MenuItem(key: "blackwhite", title: "Black & White", subtitile: "Black & White (or monochrome) filters and presets", icon: "ic_contrast", view: nil, isHidden: false),
                       MenuItem(key: "analog", title: "Analog Film Types", subtitile: "Classic Analog film presets", icon: "ic_filmstrip", view: nil, isHidden: false),
                       MenuItem(key: "transforms", title: "Transforms", subtitile: "Image transforming filters (warps, sketches etc.)", icon: "ic_transform", view: nil, isHidden: false),
                       MenuItem(key: "settings", title: "Settings", subtitile: "Change app settings", icon: "ic_gear", view: nil, isHidden: false)
@@ -151,7 +152,9 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
             log.error("NIL menu item supplied")
             return
         }
-        
+  
+        InputSource.setCurrent(source: .edit) // legacy. Remove at some time
+
         switch key {
         case "changePhoto":
             presentPhotoChooser()
@@ -163,14 +166,14 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
             presentFilterGallery()
         case "browsePresets":
             presentPresetGallery()
-        case "favourites":
-            presentFavourites()
-        case "b&w":
-            presentBlackAndWhite()
+        case "favorites":
+            showCollection(key)
+        case "blackwhite":
+            showCollection(key)
         case "transforms":
-            presentTranforms()
+            showCollection(key)
         case "analog":
-            presentAnalogFilm()
+            showCollection(key)
         case "settings":
             presentSettings()
         default:
@@ -178,34 +181,36 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
         }
     }
     
+    private func showCollection(_ collection: String) {
+        guard filterManager.isValidCollection(collection) else {
+            log.error("Invalid Collection: \(collection)")
+            return
+        }
+        filterManager.setCurrentCollection(collection)
+        //self.coordinator?.activateRequest(id: .categoryGallery)
+        self.coordinator?.activateRequest(id: .browseFilters)
+    }
     
     @objc func presentPhotoChooser(){
-        InputSource.setCurrent(source: .edit)
         self.coordinator?.activateRequest(id: .choosePhoto)
     }
     
     @objc func presentSimpleImageEditor(){
-        InputSource.setCurrent(source: .edit)
         self.coordinator?.activateRequest(id: .edit)
     }
 
     @objc func presentStyleTransfer(){
-        InputSource.setCurrent(source: .edit)
         self.coordinator?.activateRequest(id: .browseStyleTransfer)
     }
 
     
     @objc func presentFilterGallery(){
-        InputSource.setCurrent(source: .edit)
         //self.coordinator?.activateRequest(id: .browseFilters)
-        filterManager.setCurrentCollection("filters") //TODO: make a constant
-        self.coordinator?.activateRequest(id: .categoryGallery)
+        showCollection("filters") //TODO: make constants
     }
     
     @objc func presentPresetGallery(){
-        InputSource.setCurrent(source: .edit)
-        filterManager.setCurrentCollection("presets") //TODO: make a constant
-        self.coordinator?.activateRequest(id: .categoryGallery)
+        showCollection("presets")
     }
 
 
@@ -214,28 +219,20 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
     }
     
     @objc func presentFavourites(){
-        InputSource.setCurrent(source: .edit)
-        filterManager.setCurrentCollection("favorites") //TODO: make a constant
-        self.coordinator?.activateRequest(id: .categoryGallery)
+        showCollection("favorites")
     }
     
 
     @objc func presentBlackAndWhite(){
-        InputSource.setCurrent(source: .edit)
-        filterManager.setCurrentCollection("blackwhite") //TODO: make a constant
-        self.coordinator?.activateRequest(id: .categoryGallery)
+        showCollection("blackwhite")
     }
     
 
     @objc func presentTranforms(){
-        InputSource.setCurrent(source: .edit)
-        filterManager.setCurrentCollection("transforms") //TODO: make a constant
-        self.coordinator?.activateRequest(id: .categoryGallery)
+        showCollection("transforms")
     }
     @objc func presentAnalogFilm(){
-        InputSource.setCurrent(source: .edit)
-        filterManager.setCurrentCollection("analog") //TODO: make a constant
-        self.coordinator?.activateRequest(id: .categoryGallery)
+        showCollection("analog")
     }
     
 

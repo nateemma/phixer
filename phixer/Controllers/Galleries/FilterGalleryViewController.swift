@@ -51,8 +51,18 @@ class FilterGalleryViewController: CoordinatedController {
     // MARK: - Override Base Class functions
     /////////////////////////////
     
+    private func updateTitle(){
+        let collection = filterManager.getCurrentCollection()
+        if filterManager.getCategoryCount(collection) == 1 {
+            currTitle = filterManager.getCategoryTitle(key: currCategory)
+        } else {
+            currTitle = filterManager.getCollectionTitle(key: collection)
+        }
+    }
+    
     // return the display title for this Controller
     override public func getTitle() -> String {
+        updateTitle()
         return currTitle
     }
     
@@ -110,7 +120,7 @@ class FilterGalleryViewController: CoordinatedController {
         selectCategory(currCategory)
         categorySelectionView.setFilterCategory(currCategory)
         
-        currTitle = "Filters: " + filterManager.getCategoryTitle(key: currCategory)
+        updateTitle()
         
     }
     
@@ -169,7 +179,8 @@ class FilterGalleryViewController: CoordinatedController {
         
         categorySelectionView = CategorySelectionView()
         
-        categorySelectionView.frame.size.height = UISettings.menuHeight + UISettings.titleHeight
+        //categorySelectionView.frame.size.height = UISettings.menuHeight + UISettings.titleHeight
+        categorySelectionView.frame.size.height = UISettings.panelHeight + 8.0
         categorySelectionView.frame.size.width = displayWidth
         categorySelectionView.backgroundColor = theme.backgroundColor
         categorySelectionView.isHidden = false
@@ -200,12 +211,12 @@ class FilterGalleryViewController: CoordinatedController {
        
         if (UISettings.showAds){
             adView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: adView.frame.size.height)
-            categorySelectionView.align(.underCentered, relativeTo: adView, padding: 0, width: displayWidth, height: categorySelectionView.frame.size.height)
+            categorySelectionView.align(.underCentered, relativeTo: adView, padding: 2, width: displayWidth, height: categorySelectionView.frame.size.height)
         } else {
             categorySelectionView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: categorySelectionView.frame.size.height)
         }
   
-        filterGalleryView.align(.underCentered, relativeTo: categorySelectionView, padding: 8, width: displayWidth, height: filterGalleryView.frame.size.height)
+        filterGalleryView.align(.underCentered, relativeTo: categorySelectionView, padding: 4, width: displayWidth, height: filterGalleryView.frame.size.height)
         //filterGalleryView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: filterGalleryView.frame.size.height)
         
         categorySelectionView.delegate = self

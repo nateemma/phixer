@@ -609,7 +609,7 @@ private extension FilterGalleryView {
     }
     
     func indexForKey(_ key:String) -> Int{
-        if let index = filterList.index(of: key) {
+        if let index = filterList.firstIndex(of: key) {
             return index
         } else {
             return 0

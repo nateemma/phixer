@@ -115,7 +115,7 @@ class FilterManager{
     }
     
     
-    open func restoreDefaults(){
+    public func restoreDefaults(){
         FilterConfiguration.restoreDefaults()
     }
     
@@ -123,12 +123,12 @@ class FilterManager{
     // MARK: - Category-related Accessors
     //////////////////////////////////////////////
     
-    open func getCategoryList()->[String]{
+    public func getCategoryList()->[String]{
         FilterManager.checkSetup()
         return FilterConfiguration.categoryList
     }
     
-    open func getCategoryTitle(key:String)->String{
+    public func getCategoryTitle(key:String)->String{
         FilterManager.checkSetup()
         return (FilterConfiguration.categoryDictionary[key])!
     }
@@ -184,13 +184,13 @@ class FilterManager{
     // 'Index' methods are provided to support previous/next types of navigation
     
     // get the index of the category within the category list.
-    open func getCategoryIndex(category:String)->Int {
+    public func getCategoryIndex(category:String)->Int {
         var index:Int = -1
         
         FilterManager.checkSetup()
         if (FilterConfiguration.categoryList.count > 0){
             if (FilterConfiguration.categoryList.contains(category)){
-                index = FilterConfiguration.categoryList.index(of: category)!
+                index = FilterConfiguration.categoryList.firstIndex(of: category)!
                 //log.verbose("category:\(category) index:\(index)")
             } else {
                 log.error("Category not found:\(category)")
@@ -202,13 +202,13 @@ class FilterManager{
     }
     
     
-    open func getCurrentCategoryIndex()->Int {
+    public func getCurrentCategoryIndex()->Int {
         
         return getCategoryIndex(category:FilterManager.currCategory)
     }
     
     
-    open func getCategory(index: Int) -> String{
+    public func getCategory(index: Int) -> String{
         FilterManager.checkSetup()
         var category:String = FilterManager.defaultCategory
         if ((index >= 0) && (index < FilterConfiguration.categoryList.count)){
@@ -222,12 +222,22 @@ class FilterManager{
     // MARK: - Collection-related Accessors
     //////////////////////////////////////////////
     
-    open func getCollectionList()->[String]{
+    public func isValidCollection(_ collection: String) -> Bool {
+        FilterManager.checkSetup()
+
+        if FilterConfiguration.collectionDictionary[collection] != nil {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    public func getCollectionList()->[String]{
         FilterManager.checkSetup()
         return FilterConfiguration.collectionList
     }
     
-    open func getCollectionTitle(key:String)->String{
+    public func getCollectionTitle(key:String)->String{
         FilterManager.checkSetup()
         return (FilterConfiguration.collectionDictionary[key])!
     }
@@ -272,7 +282,8 @@ class FilterManager{
                     log.verbose ("\(count) items found")
                     let key = (FilterConfiguration.collectionCategories[collection]?[0])!
                     log.verbose("Setting filter to: \(key)")
-                    setCurrentFilterKey(key)
+                    //setCurrentFilterKey(key)
+                    setCurrentCategory(key)
                 } else {
                     log.debug("List empty: \(collection)")
                     setCurrentFilterDescriptor(nil)
@@ -290,13 +301,13 @@ class FilterManager{
     // 'Index' methods are provided to support previous/next types of navigation
     
     // get the index of the collection within the collection list.
-    open func getCollectionIndex(collection:String)->Int {
+    public func getCollectionIndex(collection:String)->Int {
         var index:Int = -1
         
         FilterManager.checkSetup()
         if (FilterConfiguration.collectionList.count > 0){
             if (FilterConfiguration.collectionList.contains(collection)){
-                index = FilterConfiguration.collectionList.index(of: collection)!
+                index = FilterConfiguration.collectionList.firstIndex(of: collection)!
                 //log.verbose("collection:\(collection) index:\(index)")
             } else {
                 log.error("Collection not found:\(collection)")
@@ -308,13 +319,13 @@ class FilterManager{
     }
     
     
-    open func getCurrentCollectionIndex()->Int {
+    public func getCurrentCollectionIndex()->Int {
         
         return getCollectionIndex(collection:FilterManager.currCollection)
     }
     
     
-    open func getCollection(index: Int) -> String{
+    public func getCollection(index: Int) -> String{
         FilterManager.checkSetup()
         var collection:String = FilterManager.defaultCollection
         if ((index >= 0) && (index < FilterConfiguration.collectionList.count)){
@@ -327,14 +338,14 @@ class FilterManager{
     // needed because the order changes based on which collection is being used
     
     // get the index of the category within the category list.
-    open func getCategoryIndex(collection:String, category:String)->Int {
+    public func getCategoryIndex(collection:String, category:String)->Int {
         var index:Int = -1
         
         FilterManager.checkSetup()
         let list = getCategoryList(collection: collection)
         if (list.count > 0){
             if (list.contains(category)){
-                index = list.index(of: category)!
+                index = list.firstIndex(of: category)!
                 //log.verbose("category:\(category) index:\(index)")
             } else {
                 log.error("Category not found:\(category)")
@@ -346,13 +357,13 @@ class FilterManager{
     }
     
     
-    open func getCurrentCategoryIndex(collection:String)->Int {
+    public func getCurrentCategoryIndex(collection:String)->Int {
         
         return getCategoryIndex(collection: collection, category:FilterManager.currCategory)
     }
     
     
-    open func getCategory(collection:String, index: Int) -> String{
+    public func getCategory(collection:String, index: Int) -> String{
         FilterManager.checkSetup()
         let list = getCategoryList(collection: collection)
         var category:String = FilterManager.defaultCategory
@@ -369,7 +380,7 @@ class FilterManager{
     //////////////////////////////////////////////
    
     // indicates whether a filter is in the "Favourites" category/list
-    open func isFavourite(key: String) -> Bool {
+    public func isFavourite(key: String) -> Bool {
         var result:Bool = false
         let index = getCategoryIndex(category: FilterManager.favouriteCategory)
         if (index>=0) {
@@ -388,7 +399,7 @@ class FilterManager{
     }
     
     // add a filter to the "Favourites" list
-    open func addToFavourites(key: String) {
+    public func addToFavourites(key: String) {
         if (FilterDescriptorCache.get(key:key) != nil){ // filter exists
             if (!((FilterConfiguration.categoryFilters[FilterManager.favouriteCategory]?.contains(key))!)){ // not already there
                 FilterConfiguration.categoryFilters[FilterManager.favouriteCategory]?.append(key)
@@ -400,10 +411,10 @@ class FilterManager{
     }
     
     // remove a filter from the "Favourites" list
-    open func removeFromFavourites(key: String) {
+    public func removeFromFavourites(key: String) {
         if (FilterDescriptorCache.get(key:key) != nil){ // filter exists
             if ((FilterConfiguration.categoryFilters[FilterManager.favouriteCategory]?.contains(key))!){ // in list?
-                if let index = FilterConfiguration.categoryFilters[FilterManager.favouriteCategory]?.index(of: key) {
+                if let index = FilterConfiguration.categoryFilters[FilterManager.favouriteCategory]?.firstIndex(of: key) {
                     FilterConfiguration.categoryFilters[FilterManager.favouriteCategory]?.remove(at: index)
                     FilterConfiguration.commitChanges() // HACK: should update single record
                 }
@@ -465,7 +476,7 @@ class FilterManager{
             if let list = FilterConfiguration.categoryFilters[category]?.sorted() {
                 if list.count > 1 { // 0 or 1, just return current key
                     if list.contains(key) {
-                        if let index = list.index(of:key) {
+                        if let index = list.firstIndex(of:key) {
                             oldIndex = index
                             newIndex = (oldIndex < (list.count-1)) ? (oldIndex + 1) : 0
                             key = list[newIndex]
@@ -494,7 +505,7 @@ class FilterManager{
             if let list = FilterConfiguration.categoryFilters[category]?.sorted() {
                 if list.count > 1 { // 0 or 1, just return current key
                     if list.contains(key) {
-                        if var index = list.index(of:key) {
+                        if var index = list.firstIndex(of:key) {
                             index = (index > 0) ? (index - 1) : (list.count - 1)
                           key = list[index]
                         }
@@ -513,7 +524,7 @@ class FilterManager{
     
     
     
-    open func getFilterList(_ category:String)->[String]?{
+    public func getFilterList(_ category:String)->[String]?{
         FilterManager.checkSetup()
         if (FilterConfiguration.categoryFilters[category] != nil){
             return FilterConfiguration.categoryFilters[category]
@@ -526,7 +537,7 @@ class FilterManager{
     
     public static var shownFilterList:[String] = []
     
-    open func getShownFilterList(_ category:String)->[String]?{
+    public func getShownFilterList(_ category:String)->[String]?{
         //var key:String = ""
         
         FilterManager.checkSetup()
@@ -554,7 +565,7 @@ class FilterManager{
     
     
     // get the filter descriptor for the supplied filter type
-    open func getFilterDescriptor(key:String)->FilterDescriptor? {
+    public func getFilterDescriptor(key:String)->FilterDescriptor? {
         
         var filterDescr: FilterDescriptor? = nil
         
@@ -586,7 +597,7 @@ class FilterManager{
   
     
     // 'Release' a filter descriptor. Should allow expensive OpenGL resources to be re-used
-    open func releaseFilterDescriptor(key:String){
+    public func releaseFilterDescriptor(key:String){
         
         if (!isLocked(key)){
             
@@ -608,7 +619,7 @@ class FilterManager{
     // 'Index' methods are provided to support previous/next types of navigation
     
     // get the index of the filter within the category list. -1 if not found
-    open func getFilterIndex(category:String, key:String)->Int {
+    public func getFilterIndex(category:String, key:String)->Int {
         
         FilterManager.checkSetup()
         
@@ -616,21 +627,21 @@ class FilterManager{
         
         //let list = category.getFilterList()
         if ((FilterConfiguration.categoryFilters[category]?.contains(key))!){
-            index = (FilterConfiguration.categoryFilters[category]?.index(of: key))!
+            index = (FilterConfiguration.categoryFilters[category]?.firstIndex(of: key))!
         }
         
         return index
     }
     
     
-    open func getCurrentFilterIndex()->Int {
+    public func getCurrentFilterIndex()->Int {
    
         return getFilterIndex(category:FilterManager.currCategory, key:FilterManager.currFilterKey)
     }
     
     
     // returns the key based on the index in the list
-    open func getFilterKey(category:String, index:Int)->String {
+    public func getFilterKey(category:String, index:Int)->String {
         
         var key: String = ""
         
@@ -703,34 +714,34 @@ class FilterManager{
     }
     
     
-    open func isHidden(key:String) -> Bool {
+    public func isHidden(key:String) -> Bool {
         return FilterFactory.isHidden(key:key)
     }
     
     // designate a filter as hidden or not
-    open func setHidden(key:String, hidden:Bool){
+    public func setHidden(key:String, hidden:Bool){
         FilterFactory.setHidden(key: key, hidden: hidden)
         FilterConfiguration.commitChanges() // HACK: should update single record
     }
     
     // get the rating for a filter
-    open func getRating(key:String) -> Int{
+    public func getRating(key:String) -> Int{
         return FilterFactory.getRating(key:key)
     }
     
     // set the rating for a filter
-    open func setRating(key:String, rating:Int){
+    public func setRating(key:String, rating:Int){
         FilterFactory.setRating(key:key, rating:rating)
         FilterConfiguration.commitChanges() // HACK: should update single record
     }
     
     
-    open func isSlow(key:String) -> Bool {
+    public func isSlow(key:String) -> Bool {
         return FilterFactory.isSlow(key:key)
     }
     
     // designate a filter as hidden or not
-    open func setSlow(key:String, slow:Bool){
+    public func setSlow(key:String, slow:Bool){
         FilterFactory.setSlow(key: key, slow: slow)
         FilterConfiguration.commitChanges() // HACK: should update single record
     }
@@ -742,7 +753,7 @@ class FilterManager{
     
    
     
-    open func getStyleTransferList()->[String]?{
+    public func getStyleTransferList()->[String]?{
         FilterManager.checkSetup()
         return FilterConfiguration.styleTransferList
     }
@@ -750,7 +761,7 @@ class FilterManager{
     
     public static var shownStyleTransferList:[String] = []
     
-    open func getShownStyleTransferList()->[String]?{
+    public func getShownStyleTransferList()->[String]?{
         
         FilterManager.checkSetup()
         FilterManager.shownStyleTransferList = []
@@ -782,12 +793,12 @@ class FilterManager{
     //////////////////////////////////////////////
     
   /***
-    open func setCategoryChangeNotification(callback: ()) {
+    public func setCategoryChangeNotification(callback: ()) {
         FilterManager._categoryChangeCallbackList.append(callback)
     }
     
     
-    open func setFilterChangeNotification(callback: ()) {
+    public func setFilterChangeNotification(callback: ()) {
         FilterManager._filterChangeCallbackList.append(callback)
     }
 ***/
