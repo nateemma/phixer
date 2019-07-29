@@ -175,7 +175,7 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 0.2, 
+          "val": 0.1, 
           "key": "inputSaturation"
         }
       ], 

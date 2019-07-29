@@ -19,7 +19,7 @@ import json
 import argparse
 
 
-XMP_NS_CAMERA_RAW="http://ns.adobe.com/camera-raw-settings/1.0/"
+XMP_NS_CAMERA_RAW = "http://ns.adobe.com/camera-raw-settings/1.0/"
 
 # TEMP: default hardcoded files for testing
 infile = 'sample_sidecar.xmp'
@@ -96,6 +96,7 @@ hueWidth = (360.0 / 8.0) / 100.0
 
 # ----------------------------
 
+
 def main():
 
     global infile
@@ -107,7 +108,7 @@ def main():
     parser.add_argument("output", help="the name of the output JSON file")
     args = parser.parse_args()
     
-    #print args
+    # print args
     infile = args.input
     outfile = args.output
     
@@ -150,13 +151,14 @@ def main():
 
 
     # print the final preset
-    #printPreset()
+    # printPreset()
 
     # and save it...
     savePreset(outfile)
 
 
 # ----------------------------
+
 
 def parseInput(f):
     # open the XMP file and parse
@@ -169,6 +171,7 @@ def parseInput(f):
 
 # ----------------------------
 
+
 def initPreset(f):
     filterMap["key"] = f
     filterMap["info"] ={}
@@ -176,6 +179,7 @@ def initPreset(f):
 
 
 # ----------------------------
+
 
 def printPreset():
     #print ("Raw map: " + str(filterMap))
@@ -185,10 +189,12 @@ def printPreset():
 
 # ----------------------------
 
+
 def savePreset(f):
     with safe_open_w(f) as outf:
         json.dump(filterMap, outf, indent=2)
         print("\nSaved to: " + f + "\n")
+
 
 def mkdir_p(path):
     try:
@@ -199,8 +205,9 @@ def mkdir_p(path):
         else:
             raise
 
+
 def safe_open_w(path):
-    #Open "path" for writing, creating any parent directories as needed.
+    # Open "path" for writing, creating any parent directories as needed.
 
     mkdir_p(os.path.dirname(path))
     return open(path, 'w')
@@ -208,19 +215,21 @@ def safe_open_w(path):
 
 # ----------------------------
 
+
 def processInfo():
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Name"):
         name = xmp.get_localized_text(XMP_NS_CAMERA_RAW, "Name", "", "us-en")
-        #print ("Name: " + str(name))
+        # print ("Name: " + str(name))
         filterMap["info"]["name"] = name
 
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Group"):
         group = xmp.get_localized_text(XMP_NS_CAMERA_RAW, "Group", "", "us-en")
-        #print ("Name: " + str(name))
+        # print ("Name: " + str(name))
         filterMap["info"]["group"] = group
 
 
 # ----------------------------
+
 
 def processAuto():
     # if any "Auto" function is specified, then run the auto adjust filter (which adjusts everything)
@@ -239,6 +248,7 @@ def processAuto():
 
 
 # ----------------------------
+
 
 def processWhiteBalance():
     temp = 0.0
@@ -284,6 +294,7 @@ def processWhiteBalance():
 
 # ----------------------------
 
+
 def processExposure():
     value = 0.0
     # keys: Exposure or Exposure2012. Range -5.0 .. +5.0 -> -10.0 ... +10.0 (but same scale)
@@ -301,8 +312,8 @@ def processExposure():
             print ("...Exposure2012")
 
 
-
 # ----------------------------
+
 
 def processContrast():
     
@@ -349,6 +360,7 @@ def processContrast():
         print ("...Contrast")
 
 # ----------------------------
+
 
 def processShadowsHighlights():
     # Highlights, Shadows, Whites, Blacks or: Highlights2012, Shadows2012, Whites2012, Blacks2012
@@ -574,7 +586,10 @@ def processParametricCurve():
 
 
 # ----------------------------
+
 # takes XMP-based shadow/highlight values and creates filter definition for those (used in multiple places)
+
+
 def updateShadowsHighlights(s, h):
     if abs(s)>0.01 or abs(h)>0.01:
         s2 = clamp (s/100.0, -1.0, 1.0)
@@ -593,6 +608,7 @@ def updateShadowsHighlights(s, h):
         print("WARNING - Ignoring Shadows/Highlights. s:" + str(s) + " h:" + str(h))
 
 # ----------------------------
+
 
 def processClarity():
     value = 0.0
@@ -614,6 +630,7 @@ def processClarity():
 
 # ----------------------------
 
+
 def processVibrance():
     value = 0.0
     # key: Vibrance. Range -100..+100 -> -1.0..+1.0
@@ -627,8 +644,8 @@ def processVibrance():
         print("Vibrance: " + str(value))
 
 
-
 # ----------------------------
+
 
 def processSaturation():
     value = 0.0
@@ -646,6 +663,8 @@ def processSaturation():
 
 
 # ----------------------------
+
+
 def processNoiseReduction():
     amount = 0.0
     detail = 0.0
@@ -675,13 +694,13 @@ def processNoiseReduction():
 
 # ----------------------------
 
+
 def processToneCurve():
     # this is the Photoshop version of a Tone Curve. Note, will overwrite any previous Tone Curve or Parametric curve
 
     global toneCurve, curveName
     global toneCurveChanged
     found = False
-    
 
     # first, look for a named preset
     name = ""
@@ -696,7 +715,6 @@ def processToneCurve():
             toneCurve = [ [0.0, 0.0], [25.0, 20.0], [50.0, 50.0], [75.0, 80.0], [100.0, 100.0]]
         elif name == "Strong Contrast":
             toneCurve = [ [0.0, 0.0], [25.0, 15.0], [50.0, 50.0], [75.0, 85.0], [100.0, 100.0]]
-
 
     # look for tone curve values
     curvename = ""
@@ -745,6 +763,7 @@ def processToneCurve():
 
 # ----------------------------
 
+
 def addToneCurve():
     
     global toneCurve
@@ -762,8 +781,8 @@ def addToneCurve():
         print ("Curve: " + str(toneCurve))
 
 
-
 # ----------------------------
+
 
 def processRGBToneCurves():
 
@@ -824,7 +843,6 @@ def processRGBToneCurves():
                     if redY[i] < 0.001: # small numbers case issues with JSON
                         redY[i] = 0.0
 
-
     # GREEN
     curveName = ""
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ToneCurvePVGreen"):
@@ -867,7 +885,6 @@ def processRGBToneCurves():
                     if greenY[i] < 0.001: # small numbers case issues with JSON
                         greenY[i] = 0.0
 
-
     # BLUE
     curveName = ""
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ToneCurvePVBlue"):
@@ -895,9 +912,9 @@ def processRGBToneCurves():
             elif (count <= 2):
                 print("WARN: too few points(" + str(count) + "). Using Linear Curve")
                 linearCount += 1
-            #elif (count <= 3):
+            # elif (count <= 3):
             else:
-                #print("Need to interpolate Tone Curve")
+                # print("Need to interpolate Tone Curve")
                 # split into 2 arrays, convert to 0..1.0 scale, create spline, interpolate and update the curve
                 x, y = zip(*points)
                 x2 = [f / 255 for f in x]
@@ -909,7 +926,6 @@ def processRGBToneCurves():
                     blueY[i] = float(tmp)
                     if blueY[i] < 0.001: # small numbers case issues with JSON
                         blueY[i] = 0.0
-
 
 
     if linearCount == 3:
@@ -931,6 +947,7 @@ def processRGBToneCurves():
         print ("...RGB Tone Curves")
 
 # ----------------------------
+
 
 def processHSV():
     
@@ -995,8 +1012,8 @@ def processHSV():
             print ("Ignoring HSV")
 
 
-
 # ----------------------------
+
 
 def processCalibration():
     # This is an 'older' way to change hue and saturation. Range is -100..+100 and represents % change
@@ -1049,6 +1066,8 @@ def processCalibration():
 
 
 # ----------------------------
+
+
 def processGrayMixer():
     global colourVectors
     global coloursChanged
@@ -1074,6 +1093,7 @@ def processGrayMixer():
 
 # ----------------------------
 
+
 def addHSV():
     if coloursChanged:
         filterMap["filters"].append( { 'key':"MultiBandHSV", "parameters":[{ 'key':"inputRedShift", 'val': colourVectors["red"], 'type': "CIAttributeTypePosition3"},
@@ -1088,6 +1108,7 @@ def addHSV():
         print ("Final Colours: " + str(colourVectors) + "\n")
 
 # ----------------------------
+
 
 def processSplitToning():
 
@@ -1129,6 +1150,7 @@ def processSplitToning():
 
 # ----------------------------
 
+
 def processSharpening():
     # there are 2 kinds of sharpening: 'general' sharpening by an amount, and unsharp mask
 
@@ -1168,6 +1190,7 @@ def processSharpening():
         print ("...Unsharp Mask")
 
 # ----------------------------
+
 
 def processVignette():
     # old: Midpoint, Radius, VignetteAmount, VignetteMidpoint
@@ -1217,6 +1240,7 @@ def processVignette():
 
 # ----------------------------
 
+
 def processGrayscale():
 
     global coloursChanged
@@ -1227,13 +1251,13 @@ def processGrayscale():
             # filterMap["filters"].append( { 'key':"CIPhotoEffectMono", "parameters":[] } )
             value = 0.0
             if coloursChanged:
-                value = 0.2  # if we messed with the colours, then leave a little in there
+                value = 0.1  # if we messed with the colours, then leave a little in there
             filterMap["filters"].append({'key': "SaturationFilter", "parameters": [ {'key': "inputSaturation", 'val': value, 'type': "CIAttributeTypeScalar"}]})
             print ("...ConvertToGrayscale")
 
 
-
 # ----------------------------
+
 
 def processGrain():
     '''
@@ -1262,9 +1286,12 @@ def processGrain():
         print ("...Film Grain")
 
 # ----------------------------
+
 # calculates the change to a "curve". We assume the change is a percentage of the remaining distance above/below the curve
 # change is -100..+100 and emulates Photoshop/Lightroom controls
 # scale is the maximum value of the curve (typically 1.0 or 100.0 here)
+
+
 def calculateCurveChange(currval, change, scale):
     value = currval
     if change>0.0:
@@ -1273,6 +1300,7 @@ def calculateCurveChange(currval, change, scale):
         value = currval + (scale * change / 100.0)
     
     return clamp(value, 0.0, scale)
+
 
 # same thing but between two bounds
 def calculateCurveChangeConstrained(currval, change, upper, lower):
@@ -1289,11 +1317,13 @@ def calculateCurveChangeConstrained(currval, change, upper, lower):
 
 # ----------------------------
 
+
 # utility function to clamp a value between the suppied min and max values
 def clamp(value, minv, maxv):
     return max(min(value, maxv), minv)
 
 # ----------------------------
+
 
 # utility function to check if a (float) var is approximately equal to the supplied number
 def approxEqual(var, value):

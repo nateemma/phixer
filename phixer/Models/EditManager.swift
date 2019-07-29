@@ -96,6 +96,9 @@ class EditManager {
     public static func getPreviewImage() -> CIImage? {
         return EditManager.previewImage
     }
+    public static func getPreviewImage(size:CGSize) -> CIImage? {
+        return EditManager.previewImage?.resize(size: size)
+    }
     
     // get the filtered version of the input image, without the preview image
     public static func getFilteredImage() -> CIImage? {

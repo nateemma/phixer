@@ -32,6 +32,8 @@ class FilterGalleryViewController: CoordinatedController {
     // Advertisements View
     var adView: GADBannerView! = GADBannerView()
     
+    var currTitle:String = "Filter Gallery"
+    
     // Category Selection View
     var categorySelectionView: CategorySelectionView!
     var currCategoryIndex = -1
@@ -51,7 +53,7 @@ class FilterGalleryViewController: CoordinatedController {
     
     // return the display title for this Controller
     override public func getTitle() -> String {
-        return "Filter Gallery"
+        return currTitle
     }
     
     // return the name of the help file associated with this Controller (without extension)
@@ -107,6 +109,8 @@ class FilterGalleryViewController: CoordinatedController {
         currCategory = filterManager.getCurrentCategory()
         selectCategory(currCategory)
         categorySelectionView.setFilterCategory(currCategory)
+        
+        currTitle = "Filters: " + filterManager.getCategoryTitle(key: currCategory)
         
     }
     
@@ -168,9 +172,18 @@ class FilterGalleryViewController: CoordinatedController {
         categorySelectionView.frame.size.height = UISettings.menuHeight + UISettings.titleHeight
         categorySelectionView.frame.size.width = displayWidth
         categorySelectionView.backgroundColor = theme.backgroundColor
+        categorySelectionView.isHidden = false
         view.addSubview(categorySelectionView)
 
-        
+        // don't display category selection view if there's only 1 category
+        let count = self.filterManager.getCategoryCount(self.filterManager.getCurrentCollection())
+        log.verbose("Categories: \(count)")
+        if (count <= 1) {
+            log.verbose("Ignore category selection")
+            self.categorySelectionView.frame.size.height = 0.0
+            self.categorySelectionView.isHidden = true
+        }
+
         
         if (UISettings.showAds){
             filterGalleryView.frame.size.height = displayHeight - adView.frame.size.height - categorySelectionView.frame.size.height
@@ -222,12 +235,12 @@ class FilterGalleryViewController: CoordinatedController {
                     self.filterGalleryView.suspend()
                     self.filterGalleryView.setCategory(self.filterManager.getCategory(index: index))
                     self.filterGalleryView.isHidden = false
-                } else {
+               } else {
                     if (self.isValidIndex(self.currCategoryIndex)) { self.filterGalleryView.isHidden = false } // re-display just in case (e.g. could be a rotation)
                     log.debug("Ignoring category change \(self.currCategoryIndex)->\(index)")
                 }
 
-                self.categorySelectionView.setFilterCategory(self.currCategory)
+                 self.categorySelectionView.setFilterCategory(self.currCategory)
             } else {
                 log.warning("Invalid index: \(index)")
             }

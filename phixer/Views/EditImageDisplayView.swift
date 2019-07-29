@@ -244,7 +244,7 @@ class EditImageDisplayView: UIView {
     }
 
     public func isZoomed() -> Bool {
-        log.verbose("zoomScale:\(self.renderView?.zoomScale)")
+        //log.verbose("zoomScale:\(self.renderView?.zoomScale)")
         return !((self.renderView?.zoomScale.approxEqual(1.0))!)
     }
     

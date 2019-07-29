@@ -95,6 +95,10 @@ extension ImageCropperScrollView: UIGestureRecognizerDelegate {
     
     // allow multiple gestures
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        // if this is a swipe gesture and we are not zoomed in, then don't handle
+        if (gestureRecognizer is UISwipeGestureRecognizer) && (self.zoomScale.approxEqual(1.0)) {
+            return false
+        }
         return true
     }
     

@@ -142,7 +142,7 @@ class Coordinator: CoordinatorDelegate {
         if subControllers.count > 0 {
             if let id = subControllerStack.top {
                 if let sc = subControllers[id] as? SubControllerDelegate {
-                    DispatchQueue.main.async(execute: { sc.previousItem() })
+                    DispatchQueue.main.async(execute: { sc.nextItem() })
                 } else {
                     log.error("Could not get reference to subcontroller: \(id)")
                 }
@@ -160,7 +160,7 @@ class Coordinator: CoordinatorDelegate {
         if subControllers.count > 0 {
             if let id = subControllerStack.top {
                 if let sc = subControllers[id] as? SubControllerDelegate {
-                    DispatchQueue.main.async(execute: { sc.nextItem() })
+                    DispatchQueue.main.async(execute: { sc.previousItem() })
                 } else {
                     log.error("Could not get reference to subcontroller: \(id)")
                 }

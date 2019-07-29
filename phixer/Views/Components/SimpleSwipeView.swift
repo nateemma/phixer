@@ -229,6 +229,7 @@ class SimpleSwipeView: UIView {
 
             // get the icon
             image.contentMode = .scaleAspectFit
+            image.tintColor = theme.tintColor
             var icview: UIImage? = nil
             if icon.contains("/") {
                 // can't tint managed assets, so just load

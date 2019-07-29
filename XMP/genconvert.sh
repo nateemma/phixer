@@ -60,10 +60,12 @@ function outputCommand() {
 # get the list of input files
 while IFS=  read -r -d $'\0'; do
     srcList+=("$REPLY")
-done < <(find ${SRCDIR} -name "*.xmp" -print0)
+done < <(find ${SRCDIR} -name "*.xmp" -print0 | sort -z)
 
 echo "#!/bin/bash"
 echo ""
+
+prevdir=""
 
 # loop through./xmpPresets file list
 for i in ${!srcList[@]}; do
@@ -76,6 +78,14 @@ for i in ${!srcList[@]}; do
     # create output directory path
     dir="${path%/*}"
     dir=${dir/${SRCDIR}/${DSTDIR}}
+
+    # insert newline tag if directory changes
+    srcdir="${path%/*}"
+    if [[ "$srcdir" != "$prevdir"  ]]; then
+        dstList+=("##")
+        prevdir=$srcdir
+        printf '\n'
+    fi
 
     # replace unwanted strings
     cleanupFilename
@@ -104,13 +114,18 @@ printf "# You'll need to manually fix titles and organise into categories\n\n\n"
 # preset definitions:
 for i in ${!dstList[@]}; do
     key="${dstList[$i]}"
-    # create a title by inserting spaces before capital letters
-    title="$(echo ${key} | sed -e 's/\([^[:blank:]]\)\([[:upper:]]\)/\1 \2/g')"
-    # fix known issues
-    title=${title//- /-}
-    title=${title//( /(}
-    title=${title//& /&}
-    printf '{ "key": "%s",  "title": "%s", "slow": false, "show": true, "rating": 0 },\n' "${key}" "${title}"
+    if [[ $key == '##' ]]; then
+        printf '\n'
+    else
+
+        # create a title by inserting spaces before capital letters
+        title="$(echo ${key} | sed -e 's/\([^[:blank:]]\)\([[:upper:]]\)/\1 \2/g')"
+        # fix known issues
+        title=${title//- /-}
+        title=${title//( /(}
+        title=${title//& /&}
+        printf '{ "key": "%s",  "title": "%s", "slow": false, "show": true, "rating": 0 },\n' "${key}" "${title}"
+    fi
 done
 
 # category list (just put in one for now):
@@ -120,7 +135,15 @@ printf '            "filters": [\n'
 printf '                        '
 for i in ${!dstList[@]}; do
     key="${dstList[$i]}"
-    printf '"%s", ' "${key}"
+    if [[ $key == '##' ]]; then
+        printf '\n'
+        printf '\n'
+    else
+        printf '"%s", ' "${key}"
+        if [[ $(($i%8)) == 0 ]] ; then
+            printf '\n'
+        fi
+    fi
 done
 printf '                       ]\n'
 printf '        },\n'

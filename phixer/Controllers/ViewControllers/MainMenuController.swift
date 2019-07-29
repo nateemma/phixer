@@ -22,17 +22,12 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
     
     // Advertisements View
     var adView: GADBannerView! = GADBannerView()
+
+    // menu item descriptors
+    var menuItems:[MenuItem] = []
     
-    // Menu items
-    var choosePhotoMenuItem: UILabel = UILabel()
-    var simpleEditMenuItem: UILabel = UILabel()
-    var styleTransferMenuItem: UILabel = UILabel()
-    var browseFiltersMenuItem: UILabel = UILabel()
-    var browsePresetsMenuItem: UILabel = UILabel()
-    var settingsMenuItem: UILabel = UILabel()
- 
-    let numItems = 6
-    
+    // gallery of menu items
+    var menuView: MenuView = MenuView()
     
     /////////////////////////////
     // MARK: - Override Base Class functions
@@ -88,13 +83,7 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
         
         // Note: need to add subviews before modifying constraints
         view.addSubview(adView)
-        view.addSubview(choosePhotoMenuItem)
-        view.addSubview(simpleEditMenuItem)
-        view.addSubview(styleTransferMenuItem)
-        view.addSubview(browseFiltersMenuItem)
-        view.addSubview(browsePresetsMenuItem)
-        view.addSubview(settingsMenuItem)
-        
+        view.addSubview(menuView)
         
         
         
@@ -113,71 +102,81 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
             adView.isHidden = true
         }
 
-        let h = ((view.frame.size.height - adView.frame.size.height - UISettings.topBarHeight) / CGFloat(numItems)) - 8
-        let w = displayWidth - 4
+        // set up menu
         
+        menuView.frame.size.height = displayHeight - adView.frame.size.height
+        menuView.frame.size.width = displayWidth
 
-        // setup text, colours etc.
+        let side = (menuView.frame.size.height * 0.667).rounded()
+        let iconSize = CGSize(width: side, height: side)
+        let curPhoto:UIImage = UIImage(ciImage: EditManager.getPreviewImage(size:iconSize)!)
+            
+        menuItems = [ MenuItem(key: "changePhoto", title: "Change Photo", subtitile: "", icon: "", view: curPhoto, isHidden: false),
+                      MenuItem(key: "simpleEditor", title: "Picture Editor", subtitile: "Edit 'basic' image settings\n (exposure, colors, tone, vignette, sharpen etc.)",
+                               icon: "ic_basic", view: nil, isHidden: false),
+                      MenuItem(key: "favourites", title: "Favorites", subtitile: "Browse favorite prests & filters", icon: "ic_heart_outline", view: nil, isHidden: false),
+                      MenuItem(key: "styleTransfer", title: "Style Transfer", subtitile: "Apply a painting style to the photo", icon: "ic_brush", view: nil, isHidden: false),
+                      MenuItem(key: "browseFilters", title: "Browse Filters", subtitile: "Browse available filters/presets", icon: "ic_filter", view: nil, isHidden: false),
+                      MenuItem(key: "browsePresets", title: "Browse Presets", subtitile: "Browse preset collections", icon: "ic_preset", view: nil, isHidden: false),
+                      MenuItem(key: "b&w", title: "Black & White", subtitile: "Black & White (or monochrome) filters and presets", icon: "ic_contrast", view: nil, isHidden: false),
+                      MenuItem(key: "analog", title: "Analog Film Types", subtitile: "Classic Analog film presets", icon: "ic_filmstrip", view: nil, isHidden: false),
+                      MenuItem(key: "transforms", title: "Transforms", subtitile: "Image transforming filters (warps, sketches etc.)", icon: "ic_transform", view: nil, isHidden: false),
+                      MenuItem(key: "settings", title: "Settings", subtitile: "Change app settings", icon: "ic_gear", view: nil, isHidden: false)
+        ]
         
-        setupMenuItem(label:choosePhotoMenuItem, height:h, width:w,
-                      title:"Change Photo", color:UIColor.flatOrange, handler: UITapGestureRecognizer(target: self, action: #selector(presentPhotoChooser)))
+        menuView.setItems(menuItems)
+        menuView.delegate = self
         
-        setupMenuItem(label:simpleEditMenuItem, height:h, width:w,
-                      title:"Simple Picture Editor", color:UIColor.flatMint, handler: UITapGestureRecognizer(target: self, action: #selector(presentSimpleImageEditor)))
-
-        setupMenuItem(label:styleTransferMenuItem, height:h, width:w,
-                      title:"Style Transfer", color:UIColor.flatMintDark, handler: UITapGestureRecognizer(target: self, action: #selector(presentStyleTransfer)))
-        
-        setupMenuItem(label:browseFiltersMenuItem, height:h, width:w,
-                      title:"Browse Filters", color:UIColor.flatWatermelonDark, handler: UITapGestureRecognizer(target: self, action: #selector(presentFilterGallery)))
-        
-        setupMenuItem(label:browsePresetsMenuItem, height:h, width:w,
-                      title:"Browse Presets", color:UIColor.flatPlumDark, handler: UITapGestureRecognizer(target: self, action: #selector(presentPresetGallery)))
-
-        
-        setupMenuItem(label:settingsMenuItem, height:h, width:w,
-                      title:"Settings", color:UIColor.flatPurple, handler: UITapGestureRecognizer(target: self, action: #selector(presentSettings)))
-
-
-        // set layout constraints
-        view.groupAgainstEdge(group: .vertical,
-                              views: [choosePhotoMenuItem, simpleEditMenuItem, styleTransferMenuItem, browseFiltersMenuItem, browsePresetsMenuItem, settingsMenuItem],
-                              againstEdge: .bottom, padding: 8, width: w-8, height: h)
-      
-        
+        if (UISettings.showAds){
+            view.addSubview(adView)
+            view.addSubview(menuView)
+            adView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: adView.frame.size.height)
+            menuView.align(.underCentered, relativeTo: adView, padding: 4.0, width: menuView.frame.size.width, height: menuView.frame.size.height)
+            Admob.startAds(view:adView, viewController:self)
+        } else {
+            view.addSubview(menuView)
+            menuView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: menuView.frame.size.height)
+       }
 
     }
     
-   
- 
-    // utility function to setup a menu item
-    func setupMenuItem(label:UILabel, height:CGFloat, width:CGFloat, title:String, color:UIColor, handler:UITapGestureRecognizer){
-        
-        // set size
-        label.frame.size.height = height
-        label.frame.size.width = width
-        
-        // change font to bold (and slightly bigger size)
-        let size = max(label.font.pointSize + 3.0, 24.0)
-        label.font = UIFont.systemFont(ofSize: size, weight: UIFont.Weight.thin)
- 
-        // set text
-        label.text = title
 
-        // set Colours
-        label.backgroundColor = color
-        //label.textColor = UIColor.flatWhite()
-        label.textColor = UIColor(contrastingBlackOrWhiteColorOn:color, isFlat:false)
-        label.textAlignment = .center
-
-        // assign gesture handler
-        label.isUserInteractionEnabled = true
-        label.addGestureRecognizer(handler)
-    }
     
     /////////////////////////////////
     // Handlers for menu items
     /////////////////////////////////
+    
+    func handleSelection(_ key: String){
+        guard !key.isEmpty else {
+            log.error("NIL menu item supplied")
+            return
+        }
+        
+        switch key {
+        case "changePhoto":
+            presentPhotoChooser()
+        case "simpleEditor":
+            presentSimpleImageEditor()
+        case "styleTransfer":
+            presentStyleTransfer()
+        case "browseFilters":
+            presentFilterGallery()
+        case "browsePresets":
+            presentPresetGallery()
+        case "favourites":
+            presentFavourites()
+        case "b&w":
+            presentBlackAndWhite()
+        case "transforms":
+            presentTranforms()
+        case "analog":
+            presentAnalogFilm()
+        case "settings":
+            presentSettings()
+        default:
+            log.warning("Unknown menu item: \(key)")
+        }
+    }
     
     
     @objc func presentPhotoChooser(){
@@ -198,7 +197,9 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
     
     @objc func presentFilterGallery(){
         InputSource.setCurrent(source: .edit)
-        self.coordinator?.activateRequest(id: .browseFilters)
+        //self.coordinator?.activateRequest(id: .browseFilters)
+        filterManager.setCurrentCollection("filters") //TODO: make a constant
+        self.coordinator?.activateRequest(id: .categoryGallery)
     }
     
     @objc func presentPresetGallery(){
@@ -210,9 +211,34 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
 
     @objc func presentSettings(){
         self.coordinator?.activateRequest(id: .settings)
-
     }
     
+    @objc func presentFavourites(){
+        InputSource.setCurrent(source: .edit)
+        filterManager.setCurrentCollection("favorites") //TODO: make a constant
+        self.coordinator?.activateRequest(id: .categoryGallery)
+    }
+    
+
+    @objc func presentBlackAndWhite(){
+        InputSource.setCurrent(source: .edit)
+        filterManager.setCurrentCollection("blackwhite") //TODO: make a constant
+        self.coordinator?.activateRequest(id: .categoryGallery)
+    }
+    
+
+    @objc func presentTranforms(){
+        InputSource.setCurrent(source: .edit)
+        filterManager.setCurrentCollection("transforms") //TODO: make a constant
+        self.coordinator?.activateRequest(id: .categoryGallery)
+    }
+    @objc func presentAnalogFilm(){
+        InputSource.setCurrent(source: .edit)
+        filterManager.setCurrentCollection("analog") //TODO: make a constant
+        self.coordinator?.activateRequest(id: .categoryGallery)
+    }
+    
+
     
     /////////////////////////////////
     // Handling for functions not yet implemented
@@ -241,4 +267,10 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
 // Extensions
 /////////////////////////////////
 
-
+extension MainMenuController: MenuViewDelegate {
+    func itemSelected(key:String){
+        DispatchQueue.main.async { [weak self] in
+            self?.handleSelection(key)
+        }
+    }
+}

@@ -21,6 +21,24 @@ class BasicEditCoordinator: Coordinator {
     // MARK:  Delegate Functions
     /////////////////////////////
     
+    // move to the next item, whatever that is (can be nothing)
+    override func nextItemRequest() {
+        
+        // get next filter and send it to the main controller
+        let key = Coordinator.filterManager?.getNextFilterKey()
+        self.mainController?.selectFilter(key: key!)
+    }
+    
+    
+    
+    // move to the previous item, whatever that is (can be nothing)
+    override func previousItemRequest() {
+        
+        // get prev filter and send it to the main controller
+        let key = Coordinator.filterManager?.getPreviousFilterKey()
+        self.mainController?.selectFilter(key: key!)
+    }
+
     override func selectFilterNotification (key: String) {
         // filter selected, display it. e want this to go back to the edit controller, not launch a separate viewer (as is done for the gallery scenes)
         log.debug("key: \(key)")

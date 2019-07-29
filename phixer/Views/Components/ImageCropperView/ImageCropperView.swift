@@ -306,6 +306,11 @@ open class ImageCropperView: UIView, UIScrollViewDelegate, UIGestureRecognizerDe
     // MARK: - UIGestureRecognizerDelegate
     
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        // if this is a swipe gesture and we are not zoomed in, then don't handle
+        if (gestureRecognizer is UISwipeGestureRecognizer) && (self.scrollView.zoomScale.approxEqual(1.0)) {
+            return false
+        }
+
         return true
     }
  

@@ -117,11 +117,11 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     // handle the end request. Check to see if there is anything to save before exiting
     override func end() {
         log.debug("Checking applied filters")
-        if EditManager.getAppliedCount() <= 0 {
+//        if EditManager.getAppliedCount() <= 0 {
             self.dismiss()
-        } else {
-            displayUnsavedFiltersAlert()
-        }
+//        } else {
+//            displayUnsavedFiltersAlert()
+//        }
     }
     
     /////////////////////////////
@@ -587,14 +587,18 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
                     switch swipeGesture.direction {
                         
                     case UISwipeGestureRecognizer.Direction.right:
-                        //log.verbose("Swiped Right")
+                        log.verbose("Swiped Right")
+                        editImageView.isUserInteractionEnabled = false // hack to prevent scrolview handlingthe swipe (nned better solution)
                         self.coordinator?.nextItemRequest()
-                        break
+                        editImageView.isUserInteractionEnabled = true
+                       break
                         
                     case UISwipeGestureRecognizer.Direction.left:
-                        //log.verbose("Swiped Left")
+                        log.verbose("Swiped Left")
+                        editImageView.isUserInteractionEnabled = false
                         self.coordinator?.previousItemRequest()
-                        break
+                        editImageView.isUserInteractionEnabled = true
+                       break
                         
                     case UISwipeGestureRecognizer.Direction.up:
                         //log.verbose("Swiped Up")
@@ -1100,6 +1104,12 @@ extension BasicEditViewController: UIGestureRecognizerDelegate {
         if let touchedView = touch.view, touchedView.isKind(of: UISlider.self) {
             return false
         }
+        
+        // if the main edit view and not zoomed, and not a multi touch then disable
+//        if (gestureRecognizer.view == self.editImageView) && (!self.editImageView.isZoomed()) {
+//            return false
+//        }
+
         return true
     }
     

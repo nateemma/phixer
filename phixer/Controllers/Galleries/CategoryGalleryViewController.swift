@@ -48,7 +48,7 @@ class CategoryGalleryViewController: CoordinatedController {
     
     // return the display title for this Controller
     override public func getTitle() -> String {
-        return "Collection: \(currCollection)"
+        return self.filterManager.getCollectionTitle(key: currCollection)
     }
     
     // return the name of the help file associated with this Controller (without extension)

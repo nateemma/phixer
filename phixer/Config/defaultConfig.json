@@ -598,233 +598,305 @@
     
     "preset": [
 
-        { "key": "TheNavigator",  "title": "The Navigator", "slow": false, "show": true, "rating": 0 },
-        { "key": "Relic",  "title": "Relic", "slow": false, "show": true, "rating": 0 },
-        { "key": "OnRecreationalDrugs",  "title": "On Recreational Drugs", "slow": false, "show": true, "rating": 0 },
-        { "key": "TurkishBlast",  "title": "Turkish Blast", "slow": false, "show": true, "rating": 0 },
-        { "key": "ThankHeavenForLittleGirls",  "title": "Thank Heaven for Little Girls", "slow": false, "show": true, "rating": 0 },
-        { "key": "SundayAloneTime",  "title": "Sunday Alone Time", "slow": false, "show": true, "rating": 0 },
-        { "key": "CarefullyShavenTurk",  "title": "Carefully Shaven Turk", "slow": false, "show": true, "rating": 0 },
-        { "key": "AMarshmallowHappysmell",  "title": "A Marshmallow Happysmell", "slow": false, "show": true, "rating": 0 },
-        { "key": "SteampunkAfternoon",  "title": "Steampunk Afternoon", "slow": false, "show": true, "rating": 0 },
-        { "key": "ABeautifulRelease",  "title": "A Beautiful Release", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-AgfaScala200",  "title": "Agfa Scala 200", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-AgfaVista100",  "title": "Agfa Vista 100", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-AgfaVista400",  "title": "Agfa Vista 400", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-AgfaVista800",  "title": "Agfa Vista 800", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-Fuji160C",  "title": "Fuji 160 C", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-Fuji400H",  "title": "Fuji 400 H", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-Fuji800Z",  "title": "Fuji 800 Z", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-FujiFP100C",  "title": "Fuji FP100 C", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-FujiFP3000b",  "title": "Fuji FP3000b", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-FujiFortiaSP",  "title": "Fuji Fortia SP", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-FujiNeopan1600",  "title": "Fuji Neopan 1600", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-FujiNeopan400",  "title": "Fuji Neopan 400", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-FujiProvia100",  "title": "Fuji Provia 100", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-FujiProvia400",  "title": "Fuji Provia 400", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-FujiSuperia100",  "title": "Fuji Superia 100", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-FujiSuperia1600",  "title": "Fuji Superia 1600", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-FujiSuperia400",  "title": "Fuji Superia 400", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-FujiVelvia100",  "title": "Fuji Velvia 100", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-FujiVelvia50",  "title": "Fuji Velvia 50", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-KodakBW400CN",  "title": "Kodak BW400 CN", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-KodakEktachrome100G",  "title": "Kodak Ektachrome 100 G", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-KodakEktachrome100VS",  "title": "Kodak Ektachrome 100 VS", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-KodakEktachromeE200",  "title": "Kodak Ektachrome E200", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-KodakEktar100",  "title": "Kodak Ektar 100", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-KodakGold100",  "title": "Kodak Gold 100", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-KodakGold200",  "title": "Kodak Gold 200", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-KodakMax800",  "title": "Kodak Max 800", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-KodakPortra160",  "title": "Kodak Portra 160", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-KodakPortra400",  "title": "Kodak Portra 400", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-KodakPortra800",  "title": "Kodak Portra 800", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-KodakRoyalGold400",  "title": "Kodak Royal Gold 400", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-KodakT-MAX3200",  "title": "Kodak T-MAX 3200", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-KodakTRI-X400",  "title": "Kodak TRI-X 400", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-KodakUltraMax400",  "title": "Kodak Ultra Max 400", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-KodakUltraMax800",  "title": "Kodak Ultra Max 800", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-Polaroid665",  "title": "Polaroid 665", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-Polaroid669",  "title": "Polaroid 669", "slow": false, "show": true, "rating": 0 },
+        { "key": "N-Polaroid690",  "title": "Polaroid 690", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "Adeline",  "title": "Adeline", "slow": false, "show": true, "rating": 0 },
+        { "key": "Amber",  "title": "Amber", "slow": false, "show": true, "rating": 0 },
+        { "key": "Clarisse",  "title": "Clarisse", "slow": false, "show": true, "rating": 0 },
+        { "key": "Emily",  "title": "Emily", "slow": false, "show": true, "rating": 0 },
+        { "key": "Gwendolyn",  "title": "Gwendolyn", "slow": false, "show": true, "rating": 0 },
+        { "key": "Juliet",  "title": "Juliet", "slow": false, "show": true, "rating": 0 },
+        { "key": "Marianne",  "title": "Marianne", "slow": false, "show": true, "rating": 0 },
+        { "key": "Summer",  "title": "Summer", "slow": false, "show": true, "rating": 0 },
+        { "key": "Taylor",  "title": "Taylor", "slow": false, "show": true, "rating": 0 },
+        { "key": "Vicky",  "title": "Vicky", "slow": false, "show": true, "rating": 0 },
+        { "key": "Violet",  "title": "Violet", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "WinterB&WDark",  "title": "Winter B&WDark", "slow": false, "show": true, "rating": 0 },
+        { "key": "WinterB&WHighlights",  "title": "Winter B&WHighlights", "slow": false, "show": true, "rating": 0 },
+        { "key": "WinterCinematicDehaze",  "title": "Winter Cinematic Dehaze", "slow": false, "show": true, "rating": 0 },
+        { "key": "WinterContrastExposure",  "title": "Winter Contrast Exposure", "slow": false, "show": true, "rating": 0 },
+        { "key": "WinterDehaze",  "title": "Winter Dehaze", "slow": false, "show": true, "rating": 0 },
+        { "key": "WinterDesaturated",  "title": "Winter Desaturated", "slow": false, "show": true, "rating": 0 },
+        { "key": "WinterFilmSaturation",  "title": "Winter Film Saturation", "slow": false, "show": true, "rating": 0 },
+        { "key": "WinterForegroundEnhancer",  "title": "Winter Foreground Enhancer", "slow": false, "show": true, "rating": 0 },
+        { "key": "WinterHDR",  "title": "Winter HD R", "slow": false, "show": true, "rating": 0 },
+        { "key": "WinterHazeCold",  "title": "Winter Haze Cold", "slow": false, "show": true, "rating": 0 },
+        { "key": "WinterHazeWarm",  "title": "Winter Haze Warm", "slow": false, "show": true, "rating": 0 },
+        { "key": "WinterHiSaturation",  "title": "Winter Hi Saturation", "slow": false, "show": true, "rating": 0 },
+        { "key": "WinterLowSaturation",  "title": "Winter Low Saturation", "slow": false, "show": true, "rating": 0 },
+        { "key": "WinterMatte",  "title": "Winter Matte", "slow": false, "show": true, "rating": 0 },
+        { "key": "WinterSceneryEnhancerClear",  "title": "Winter Scenery Enhancer Clear", "slow": false, "show": true, "rating": 0 },
+        { "key": "WinterSceneryEnhancer",  "title": "Winter Scenery Enhancer", "slow": false, "show": true, "rating": 0 },
         { "key": "WinterSkyEnhancer",  "title": "Winter Sky Enhancer", "slow": false, "show": true, "rating": 0 },
         { "key": "WinterVibrantCold",  "title": "Winter Vibrant Cold", "slow": false, "show": true, "rating": 0 },
-        { "key": "WinterHazeWarm",  "title": "Winter Haze Warm", "slow": false, "show": true, "rating": 0 },
-        { "key": "WinterCinematicDehaze",  "title": "Winter Cinematic Dehaze", "slow": false, "show": true, "rating": 0 },
-        { "key": "WinterDehaze",  "title": "Winter Dehaze", "slow": false, "show": true, "rating": 0 },
         { "key": "WinterVibrantWarm",  "title": "Winter Vibrant Warm", "slow": false, "show": true, "rating": 0 },
         { "key": "WinterVintageRetro",  "title": "Winter Vintage Retro", "slow": false, "show": true, "rating": 0 },
-        { "key": "WinterFilmSaturation",  "title": "Winter Film Saturation", "slow": false, "show": true, "rating": 0 },
-        { "key": "WinterDesaturated",  "title": "Winter Desaturated", "slow": false, "show": true, "rating": 0 },
-        { "key": "WinterMatte",  "title": "Winter Matte", "slow": false, "show": true, "rating": 0 },
-        { "key": "WinterHazeCold",  "title": "Winter Haze Cold", "slow": false, "show": true, "rating": 0 },
-        { "key": "WinterB&WDark",  "title": "Winter B&WDark", "slow": false, "show": true, "rating": 0 },
-        { "key": "WinterHiSaturation",  "title": "Winter Hi Saturation", "slow": false, "show": true, "rating": 0 },
-        { "key": "WinterSceneryEnhancerClear",  "title": "Winter Scenery Enhancer Clear", "slow": false, "show": true, "rating": 0 },
-        { "key": "WinterB&WHighlights",  "title": "Winter B&WHighlights", "slow": false, "show": true, "rating": 0 },
-        { "key": "WinterLowSaturation",  "title": "Winter Low Saturation", "slow": false, "show": true, "rating": 0 },
-        { "key": "WinterContrastExposure",  "title": "Winter Contrast Exposure", "slow": false, "show": true, "rating": 0 },
-        { "key": "WinterForegroundEnhancer",  "title": "Winter Foreground Enhancer", "slow": false, "show": true, "rating": 0 },
-        { "key": "WinterSceneryEnhancer",  "title": "Winter Scenery Enhancer", "slow": false, "show": true, "rating": 0 },
-        { "key": "WinterHDR",  "title": "Winter HD R", "slow": false, "show": true, "rating": 0 },
-        { "key": "VintageCool",  "title": "Vintage Cool", "slow": false, "show": true, "rating": 0 },
-        { "key": "VintageRedCyan",  "title": "Vintage Red Cyan", "slow": false, "show": true, "rating": 0 },
-        { "key": "VintageRed",  "title": "Vintage Red", "slow": false, "show": true, "rating": 0 },
-        { "key": "VintageBlueYellow",  "title": "Vintage Blue Yellow", "slow": false, "show": true, "rating": 0 },
-        { "key": "FallFoliage(Medium)",  "title": "Fall Foliage(Medium)", "slow": false, "show": true, "rating": 0 },
-        { "key": "FallFoliage(Light)",  "title": "Fall Foliage(Light)", "slow": false, "show": true, "rating": 0 },
-        { "key": "FallFoliage(Strong)",  "title": "Fall Foliage(Strong)", "slow": false, "show": true, "rating": 0 },
-        { "key": "Dramatic",  "title": "Dramatic", "slow": false, "show": true, "rating": 0 },
-        { "key": "Hollywood",  "title": "Hollywood", "slow": false, "show": true, "rating": 0 },
-        { "key": "Vivid",  "title": "Vivid", "slow": false, "show": true, "rating": 0 },
-        { "key": "ClassicSunset",  "title": "Classic Sunset", "slow": false, "show": true, "rating": 0 },
-        { "key": "CleanStart",  "title": "Clean Start", "slow": false, "show": true, "rating": 0 },
-        { "key": "Cinematic",  "title": "Cinematic", "slow": false, "show": true, "rating": 0 },
-        { "key": "ReduceReds",  "title": "Reduce Reds", "slow": false, "show": true, "rating": 0 },
-        { "key": "PunchitUp",  "title": "Punchit Up", "slow": false, "show": true, "rating": 0 },
-        { "key": "Crunchy",  "title": "Crunchy", "slow": false, "show": true, "rating": 0 },
-        { "key": "October",  "title": "October", "slow": false, "show": true, "rating": 0 },
-        { "key": "AlotofContrast",  "title": "Alotof Contrast", "slow": false, "show": true, "rating": 0 },
-        { "key": "Darken",  "title": "Darken", "slow": false, "show": true, "rating": 0 },
-        { "key": "PunchyBlackandWhite",  "title": "Punchy Blackand White", "slow": false, "show": true, "rating": 0 },
-        { "key": "WarmSplendor",  "title": "Warm Splendor", "slow": false, "show": true, "rating": 0 },
-        { "key": "ReduceYellows",  "title": "Reduce Yellows", "slow": false, "show": true, "rating": 0 },
-        { "key": "Brighten",  "title": "Brighten", "slow": false, "show": true, "rating": 0 },
-        { "key": "SoftLight",  "title": "Soft Light", "slow": false, "show": true, "rating": 0 },
-        { "key": "EnhanceGoldenHour",  "title": "Enhance Golden Hour", "slow": false, "show": true, "rating": 0 },
-        { "key": "BreakofDawn",  "title": "Breakof Dawn", "slow": false, "show": true, "rating": 0 },
-        { "key": "OverallHaze",  "title": "Overall Haze", "slow": false, "show": true, "rating": 0 },
-        { "key": "Vignette-MediumDarkness",  "title": "Vignette-Medium Darkness", "slow": false, "show": true, "rating": 0 },
-        { "key": "MagicGoldenHour",  "title": "Magic Golden Hour", "slow": false, "show": true, "rating": 0 },
-        { "key": "BlueSky",  "title": "Blue Sky", "slow": false, "show": true, "rating": 0 },
-        { "key": "MoreDynamicRange",  "title": "More Dynamic Range", "slow": false, "show": true, "rating": 0 },
-        { "key": "ContrastyB&W",  "title": "Contrasty B&W", "slow": false, "show": true, "rating": 0 },
-        { "key": "CrystalClear",  "title": "Crystal Clear", "slow": false, "show": true, "rating": 0 },
-        { "key": "VeryFlat",  "title": "Very Flat", "slow": false, "show": true, "rating": 0 },
-        { "key": "LessHighlights",  "title": "Less Highlights", "slow": false, "show": true, "rating": 0 },
-        { "key": "BrightenShadows",  "title": "Brighten Shadows", "slow": false, "show": true, "rating": 0 },
-        { "key": "EnhanceDetails",  "title": "Enhance Details", "slow": false, "show": true, "rating": 0 },
-        { "key": "Glow-Vibrance",  "title": "Glow-Vibrance", "slow": false, "show": true, "rating": 0 },
-        { "key": "Glow-SubtlePortrait",  "title": "Glow-Subtle Portrait", "slow": false, "show": true, "rating": 0 },
-        { "key": "Glow-VibrantDesaturation",  "title": "Glow-Vibrant Desaturation", "slow": false, "show": true, "rating": 0 },
-        { "key": "Glow-Bright&Flattened",  "title": "Glow-Bright&Flattened", "slow": false, "show": true, "rating": 0 },
-        { "key": "Glow-SoftandMuted",  "title": "Glow-Softand Muted", "slow": false, "show": true, "rating": 0 },
-        { "key": "Glow-BrightContrast",  "title": "Glow-Bright Contrast", "slow": false, "show": true, "rating": 0 },
-        { "key": "UrbanGrain",  "title": "Urban Grain", "slow": false, "show": true, "rating": 0 },
-        { "key": "Grunge",  "title": "Grunge", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "Grunge(black&white)",  "title": "Grunge(black&white)", "slow": false, "show": true, "rating": 0 },
         { "key": "Grunge(blue)",  "title": "Grunge(blue)", "slow": false, "show": true, "rating": 0 },
-        { "key": "Grunge(smooth)",  "title": "Grunge(smooth)", "slow": false, "show": true, "rating": 0 },
-        { "key": "Grunge(sepia)",  "title": "Grunge(sepia)", "slow": false, "show": true, "rating": 0 },
-        { "key": "UrbanVignette",  "title": "Urban Vignette", "slow": false, "show": true, "rating": 0 },
         { "key": "Grunge(green)",  "title": "Grunge(green)", "slow": false, "show": true, "rating": 0 },
         { "key": "Grunge(muted)",  "title": "Grunge(muted)", "slow": false, "show": true, "rating": 0 },
         { "key": "Grunge(red)",  "title": "Grunge(red)", "slow": false, "show": true, "rating": 0 },
-        { "key": "Grunge(black&white)",  "title": "Grunge(black&white)", "slow": false, "show": true, "rating": 0 },
-        { "key": "B&WInfrared",  "title": "B&WInfrared", "slow": false, "show": true, "rating": 0 },
-        { "key": "FourLeafClover",  "title": "Four Leaf Clover", "slow": false, "show": true, "rating": 0 },
-        { "key": "SundayMorningLatte",  "title": "Sunday Morning Latte", "slow": false, "show": true, "rating": 0 },
-        { "key": "B&WHighContrast",  "title": "B&WHigh Contrast", "slow": false, "show": true, "rating": 0 },
-        { "key": "RedVelvet",  "title": "Red Velvet", "slow": false, "show": true, "rating": 0 },
-        { "key": "LightMocha",  "title": "Light Mocha", "slow": false, "show": true, "rating": 0 },
-        { "key": "BluelikeJazz",  "title": "Bluelike Jazz", "slow": false, "show": true, "rating": 0 },
-        { "key": "PurplePassion",  "title": "Purple Passion", "slow": false, "show": true, "rating": 0 },
-        { "key": "Vicky",  "title": "Vicky", "slow": false, "show": true, "rating": 0 },
-        { "key": "Summer",  "title": "Summer", "slow": false, "show": true, "rating": 0 },
-        { "key": "Marianne",  "title": "Marianne", "slow": false, "show": true, "rating": 0 },
-        { "key": "Gwendolyn",  "title": "Gwendolyn", "slow": false, "show": true, "rating": 0 },
-        { "key": "Taylor",  "title": "Taylor", "slow": false, "show": true, "rating": 0 },
-        { "key": "Adeline",  "title": "Adeline", "slow": false, "show": true, "rating": 0 },
-        { "key": "Amber",  "title": "Amber", "slow": false, "show": true, "rating": 0 },
-        { "key": "Emily",  "title": "Emily", "slow": false, "show": true, "rating": 0 },
-        { "key": "Violet",  "title": "Violet", "slow": false, "show": true, "rating": 0 },
-        { "key": "Juliet",  "title": "Juliet", "slow": false, "show": true, "rating": 0 },
-        { "key": "Clarisse",  "title": "Clarisse", "slow": false, "show": true, "rating": 0 },
-        { "key": "NiceGreens",  "title": "Nice Greens", "slow": false, "show": true, "rating": 0 },
-        { "key": "FreshLime",  "title": "Fresh Lime", "slow": false, "show": true, "rating": 0 },
-        { "key": "HighContrast",  "title": "High Contrast", "slow": false, "show": true, "rating": 0 },
-        { "key": "OpenShadows",  "title": "Open Shadows", "slow": false, "show": true, "rating": 0 },
-        { "key": "VelvetFreedom",  "title": "Velvet Freedom", "slow": false, "show": true, "rating": 0 },
-        { "key": "LowContrast",  "title": "Low Contrast", "slow": false, "show": true, "rating": 0 },
-        { "key": "VintageBlack",  "title": "Vintage Black", "slow": false, "show": true, "rating": 0 },
-        { "key": "Vignette-SubtleWhite",  "title": "Vignette-Subtle White", "slow": false, "show": true, "rating": 0 },
-        { "key": "HappyMeadow",  "title": "Happy Meadow", "slow": false, "show": true, "rating": 0 },
-        { "key": "AfternoonPlay",  "title": "Afternoon Play", "slow": false, "show": true, "rating": 0 },
-        { "key": "SunnyVibe",  "title": "Sunny Vibe", "slow": false, "show": true, "rating": 0 },
-        { "key": "CloseHighlights",  "title": "Close Highlights", "slow": false, "show": true, "rating": 0 },
-        { "key": "RainyDays",  "title": "Rainy Days", "slow": false, "show": true, "rating": 0 },
-        { "key": "GreenCotton",  "title": "Green Cotton", "slow": false, "show": true, "rating": 0 },
-        { "key": "HawaiColor",  "title": "Hawai Color", "slow": false, "show": true, "rating": 0 },
-        { "key": "DreamyFeeling",  "title": "Dreamy Feeling", "slow": false, "show": true, "rating": 0 },
-        { "key": "OpenHighlights",  "title": "Open Highlights", "slow": false, "show": true, "rating": 0 },
-        { "key": "Exposure+1",  "title": "Exposure+1", "slow": false, "show": true, "rating": 0 },
-        { "key": "ColorPop",  "title": "Color Pop", "slow": false, "show": true, "rating": 0 },
-        { "key": "CleanBlack",  "title": "Clean Black", "slow": false, "show": true, "rating": 0 },
-        { "key": "Vignette-SubtleBlack",  "title": "Vignette-Subtle Black", "slow": false, "show": true, "rating": 0 },
-        { "key": "Startrails",  "title": "Startrails", "slow": false, "show": true, "rating": 0 },
-        { "key": "GreyWorld",  "title": "Grey World", "slow": false, "show": true, "rating": 0 },
-        { "key": "TravelWish",  "title": "Travel Wish", "slow": false, "show": true, "rating": 0 },
-        { "key": "SummerBloom",  "title": "Summer Bloom", "slow": false, "show": true, "rating": 0 },
-        { "key": "WarmShadows",  "title": "Warm Shadows", "slow": false, "show": true, "rating": 0 },
-        { "key": "CloseShadows",  "title": "Close Shadows", "slow": false, "show": true, "rating": 0 },
-        { "key": "RESETALL",  "title": "R ES ET AL L", "slow": false, "show": true, "rating": 0 },
-        { "key": "Kasper",  "title": "Kasper", "slow": false, "show": true, "rating": 0 },
-        { "key": "ExposureMinus1",  "title": "Exposure Minus1", "slow": false, "show": true, "rating": 0 },
-        { "key": "WalkOnABeach",  "title": "Walk On ABeach", "slow": false, "show": true, "rating": 0 },
-        { "key": "CrossProcessGreen",  "title": "Cross Process Green", "slow": false, "show": true, "rating": 0 },
-        { "key": "CrossProcessBlue",  "title": "Cross Process Blue", "slow": false, "show": true, "rating": 0 },
-        { "key": "CrossProcessYellow",  "title": "Cross Process Yellow", "slow": false, "show": true, "rating": 0 },
-        { "key": "Sophia",  "title": "Sophia", "slow": false, "show": true, "rating": 0 },
-        { "key": "Olivia",  "title": "Olivia", "slow": false, "show": true, "rating": 0 },
-        { "key": "Isabella",  "title": "Isabella", "slow": false, "show": true, "rating": 0 },
-        { "key": "Ava",  "title": "Ava", "slow": false, "show": true, "rating": 0 },
-        { "key": "Jackson",  "title": "Jackson", "slow": false, "show": true, "rating": 0 },
-        { "key": "Ethan",  "title": "Ethan", "slow": false, "show": true, "rating": 0 },
-        { "key": "Emma",  "title": "Emma", "slow": false, "show": true, "rating": 0 },
-        { "key": "Noah",  "title": "Noah", "slow": false, "show": true, "rating": 0 },
-        { "key": "Mason",  "title": "Mason", "slow": false, "show": true, "rating": 0 },
-        { "key": "Liam",  "title": "Liam", "slow": false, "show": true, "rating": 0 },
-        { "key": "N-FujiVelvia50",  "title": "N-Fuji Velvia50", "slow": false, "show": true, "rating": 0 },
-        { "key": "N-KodakPortra800",  "title": "N-Kodak Portra800", "slow": false, "show": true, "rating": 0 },
-        { "key": "N-KodakTRI-X400",  "title": "N-Kodak TR I-X400", "slow": false, "show": true, "rating": 0 },
-        { "key": "N-KodakEktar100",  "title": "N-Kodak Ektar100", "slow": false, "show": true, "rating": 0 },
-        { "key": "N-Fuji400H",  "title": "N-Fuji400 H", "slow": false, "show": true, "rating": 0 },
-        { "key": "N-FujiSuperia1600",  "title": "N-Fuji Superia1600", "slow": false, "show": true, "rating": 0 },
-        { "key": "N-KodakT-MAX3200",  "title": "N-Kodak T-MA X3200", "slow": false, "show": true, "rating": 0 },
-        { "key": "N-FujiSuperia400",  "title": "N-Fuji Superia400", "slow": false, "show": true, "rating": 0 },
-        { "key": "N-KodakPortra400",  "title": "N-Kodak Portra400", "slow": false, "show": true, "rating": 0 },
-        { "key": "N-FujiVelvia100",  "title": "N-Fuji Velvia100", "slow": false, "show": true, "rating": 0 },
-        { "key": "Wonka",  "title": "Wonka", "slow": false, "show": true, "rating": 0 },
-        { "key": "BlueDawn",  "title": "Blue Dawn", "slow": false, "show": true, "rating": 0 },
-        { "key": "Arkham",  "title": "Arkham", "slow": false, "show": true, "rating": 0 },
-        { "key": "OmahaBeach",  "title": "Omaha Beach", "slow": false, "show": true, "rating": 0 },
-        { "key": "Tijuana",  "title": "Tijuana", "slow": false, "show": true, "rating": 0 },
-        { "key": "BlackandWhiteTonalContrast(Strong)",  "title": "Blackand White Tonal Contrast(Strong)", "slow": false, "show": true, "rating": 0 },
-        { "key": "BlackandWhiteTonalContrast(Medium)",  "title": "Blackand White Tonal Contrast(Medium)", "slow": false, "show": true, "rating": 0 },
-        { "key": "BlackandWhiteTonalContrast(Light)",  "title": "Blackand White Tonal Contrast(Light)", "slow": false, "show": true, "rating": 0 },
-        { "key": "Faded",  "title": "Faded", "slow": false, "show": true, "rating": 0 },
-        { "key": "BoldHDR",  "title": "Bold HD R", "slow": false, "show": true, "rating": 0 },
-        { "key": "MediumGrain",  "title": "Medium Grain", "slow": false, "show": true, "rating": 0 },
-        { "key": "ResetColorFilter",  "title": "Reset Color Filter", "slow": false, "show": true, "rating": 0 },
-        { "key": "StrongVignette",  "title": "Strong Vignette", "slow": false, "show": true, "rating": 0 },
-        { "key": "NaturalColorPop",  "title": "Natural Color Pop", "slow": false, "show": true, "rating": 0 },
-        { "key": "OldSchool",  "title": "Old School", "slow": false, "show": true, "rating": 0 },
-        { "key": "Red",  "title": "Red", "slow": false, "show": true, "rating": 0 },
-        { "key": "SoftVignette",  "title": "Soft Vignette", "slow": false, "show": true, "rating": 0 },
-        { "key": "Hazy",  "title": "Hazy", "slow": false, "show": true, "rating": 0 },
-        { "key": "ElegantB&W",  "title": "Elegant B&W", "slow": false, "show": true, "rating": 0 },
-        { "key": "IntenseFilm",  "title": "Intense Film", "slow": false, "show": true, "rating": 0 },
-        { "key": "Sunlight",  "title": "Sunlight", "slow": false, "show": true, "rating": 0 },
-        { "key": "Violet2",  "title": "Violet", "slow": false, "show": true, "rating": 0 },
-        { "key": "SplitToned",  "title": "Split Toned", "slow": false, "show": true, "rating": 0 },
-        { "key": "Pink",  "title": "Pink", "slow": false, "show": true, "rating": 0 },
-        { "key": "MatteB&W",  "title": "Matte B&W", "slow": false, "show": true, "rating": 0 },
-        { "key": "ResetNoiseReduction",  "title": "Reset Noise Reduction", "slow": false, "show": true, "rating": 0 },
-        { "key": "SoftBluePastel",  "title": "Soft Blue Pastel", "slow": false, "show": true, "rating": 0 },
-        { "key": "Cinematic-Alternate",  "title": "Cinematic-Alternate", "slow": false, "show": true, "rating": 0 },
-        { "key": "StrongNoiseReduction",  "title": "Strong Noise Reduction", "slow": false, "show": true, "rating": 0 },
-        { "key": "WarmSunlight",  "title": "Warm Sunlight", "slow": false, "show": true, "rating": 0 },
-        { "key": "ResetVignette",  "title": "Reset Vignette", "slow": false, "show": true, "rating": 0 },
-        { "key": "LightNoiseReduction",  "title": "Light Noise Reduction", "slow": false, "show": true, "rating": 0 },
-        { "key": "LightGrain",  "title": "Light Grain", "slow": false, "show": true, "rating": 0 },
-        { "key": "CrossProcessed",  "title": "Cross Processed", "slow": false, "show": true, "rating": 0 },
-        { "key": "Teal",  "title": "Teal", "slow": false, "show": true, "rating": 0 },
-        { "key": "CoolBreeze",  "title": "Cool Breeze", "slow": false, "show": true, "rating": 0 },
-        { "key": "ModerateVignette",  "title": "Moderate Vignette", "slow": false, "show": true, "rating": 0 },
-        { "key": "HighClarityColorPop",  "title": "High Clarity Color Pop", "slow": false, "show": true, "rating": 0 },
+        { "key": "Grunge(sepia)",  "title": "Grunge(sepia)", "slow": false, "show": true, "rating": 0 },
+        { "key": "Grunge(smooth)",  "title": "Grunge(smooth)", "slow": false, "show": true, "rating": 0 },
+        { "key": "Grunge",  "title": "Grunge", "slow": false, "show": true, "rating": 0 },
+        { "key": "UrbanGrain",  "title": "Urban Grain", "slow": false, "show": true, "rating": 0 },
+        { "key": "UrbanVignette",  "title": "Urban Vignette", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "FallFoliage(Light)",  "title": "Fall Foliage( Light)", "slow": false, "show": true, "rating": 0 },
+        { "key": "FallFoliage(Medium)",  "title": "Fall Foliage( Medium)", "slow": false, "show": true, "rating": 0 },
+        { "key": "FallFoliage(Strong)",  "title": "Fall Foliage( Strong)", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "SoftMatte",  "title": "Soft Matte", "slow": false, "show": true, "rating": 0 },
         { "key": "Matte",  "title": "Matte", "slow": false, "show": true, "rating": 0 },
         { "key": "PeachyFilm",  "title": "Peachy Film", "slow": false, "show": true, "rating": 0 },
-        { "key": "SoftMatte",  "title": "Soft Matte", "slow": false, "show": true, "rating": 0 },
-        { "key": "LightSharpening",  "title": "Light Sharpening", "slow": false, "show": true, "rating": 0 },
+        { "key": "IntenseFilm",  "title": "Intense Film", "slow": false, "show": true, "rating": 0 },
+        { "key": "HighClarityColorPop",  "title": "High Clarity Color Pop", "slow": false, "show": true, "rating": 0 },
+        { "key": "NaturalColorPop",  "title": "Natural Color Pop", "slow": false, "show": true, "rating": 0 },
+        { "key": "Hazy",  "title": "Hazy", "slow": false, "show": true, "rating": 0 },
+        { "key": "CoolBreeze",  "title": "Cool Breeze", "slow": false, "show": true, "rating": 0 },
+        { "key": "Faded",  "title": "Faded", "slow": false, "show": true, "rating": 0 },
+        { "key": "SplitToned",  "title": "Split Toned", "slow": false, "show": true, "rating": 0 },
         { "key": "Delightful",  "title": "Delightful", "slow": false, "show": true, "rating": 0 },
-        { "key": "Cooling",  "title": "Cooling", "slow": false, "show": true, "rating": 0 },
-        { "key": "StrongSharpening",  "title": "Strong Sharpening", "slow": false, "show": true, "rating": 0 },
+        { "key": "OldSchool",  "title": "Old School", "slow": false, "show": true, "rating": 0 },
+        { "key": "BoldHDR",  "title": "Bold HD R", "slow": false, "show": true, "rating": 0 },
+        { "key": "Cinematic2",  "title": "Cinematic2", "slow": false, "show": true, "rating": 0 },
+        { "key": "Cinematic-Alternate",  "title": "Cinematic-Alternate", "slow": false, "show": true, "rating": 0 },
+        { "key": "SoftBluePastel",  "title": "Soft Blue Pastel", "slow": false, "show": true, "rating": 0 },
+        { "key": "CrossProcessed",  "title": "Cross Processed", "slow": false, "show": true, "rating": 0 },
+        { "key": "ElegantB&W",  "title": "Elegant B&W", "slow": false, "show": true, "rating": 0 },
         { "key": "HighContrastB&W",  "title": "High Contrast B&W", "slow": false, "show": true, "rating": 0 },
-        { "key": "HeavyGrain",  "title": "Heavy Grain", "slow": false, "show": true, "rating": 0 },
+        { "key": "MatteB&W",  "title": "Matte B&W", "slow": false, "show": true, "rating": 0 },
+        { "key": "ResetColorFilter",  "title": "Reset Color Filter", "slow": false, "show": true, "rating": 0 },
+        { "key": "Sunlight",  "title": "Sunlight", "slow": false, "show": true, "rating": 0 },
+        { "key": "WarmSunlight",  "title": "Warm Sunlight", "slow": false, "show": true, "rating": 0 },
+        { "key": "Cooling",  "title": "Cooling", "slow": false, "show": true, "rating": 0 },
+        { "key": "Red",  "title": "Red", "slow": false, "show": true, "rating": 0 },
+        { "key": "Pink",  "title": "Pink", "slow": false, "show": true, "rating": 0 },
+        { "key": "Teal",  "title": "Teal", "slow": false, "show": true, "rating": 0 },
+        { "key": "Violet2",  "title": "Violet2", "slow": false, "show": true, "rating": 0 },
+        { "key": "LightSharpening",  "title": "Light Sharpening", "slow": false, "show": true, "rating": 0 },
+        { "key": "StrongSharpening",  "title": "Strong Sharpening", "slow": false, "show": true, "rating": 0 },
+        { "key": "ResetNoiseReduction",  "title": "Reset Noise Reduction", "slow": false, "show": true, "rating": 0 },
+        { "key": "LightNoiseReduction",  "title": "Light Noise Reduction", "slow": false, "show": true, "rating": 0 },
+        { "key": "StrongNoiseReduction",  "title": "Strong Noise Reduction", "slow": false, "show": true, "rating": 0 },
         { "key": "ResetGrain",  "title": "Reset Grain", "slow": false, "show": true, "rating": 0 },
+        { "key": "LightGrain",  "title": "Light Grain", "slow": false, "show": true, "rating": 0 },
+        { "key": "MediumGrain",  "title": "Medium Grain", "slow": false, "show": true, "rating": 0 },
+        { "key": "HeavyGrain",  "title": "Heavy Grain", "slow": false, "show": true, "rating": 0 },
+        { "key": "ResetVignette",  "title": "Reset Vignette", "slow": false, "show": true, "rating": 0 },
+        { "key": "SoftVignette",  "title": "Soft Vignette", "slow": false, "show": true, "rating": 0 },
+        { "key": "ModerateVignette",  "title": "Moderate Vignette", "slow": false, "show": true, "rating": 0 },
+        { "key": "StrongVignette",  "title": "Strong Vignette", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "BrightFadedPunch",  "title": "Bright Faded Punch", "slow": false, "show": true, "rating": 0 },
+        { "key": "CrossVintagePunch",  "title": "Cross Vintage Punch", "slow": false, "show": true, "rating": 0 },
+        { "key": "DarkFadedPunch",  "title": "Dark Faded Punch", "slow": false, "show": true, "rating": 0 },
+        { "key": "HighContrastPunch",  "title": "High Contrast Punch", "slow": false, "show": true, "rating": 0 },
+        { "key": "NeutralPunch",  "title": "Neutral Punch", "slow": false, "show": true, "rating": 0 },
+        { "key": "VintagePunch",  "title": "Vintage Punch", "slow": false, "show": true, "rating": 0 },
+        { "key": "WarmPunch",  "title": "Warm Punch", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "BreakofDawn",  "title": "Breakof Dawn", "slow": false, "show": true, "rating": 0 },
+        { "key": "ClassicSunset",  "title": "Classic Sunset", "slow": false, "show": true, "rating": 0 },
+        { "key": "Crunchy",  "title": "Crunchy", "slow": false, "show": true, "rating": 0 },
+        { "key": "CrystalClear",  "title": "Crystal Clear", "slow": false, "show": true, "rating": 0 },
+        { "key": "Hollywood",  "title": "Hollywood", "slow": false, "show": true, "rating": 0 },
+        { "key": "MagicGoldenHour",  "title": "Magic Golden Hour", "slow": false, "show": true, "rating": 0 },
+        { "key": "PunchitUp",  "title": "Punchit Up", "slow": false, "show": true, "rating": 0 },
+        { "key": "WarmSplendor",  "title": "Warm Splendor", "slow": false, "show": true, "rating": 0 },
+        { "key": "CleanStart",  "title": "Clean Start", "slow": false, "show": true, "rating": 0 },
+        { "key": "ContrastyB&W",  "title": "Contrasty B&W", "slow": false, "show": true, "rating": 0 },
+        { "key": "Dramatic",  "title": "Dramatic", "slow": false, "show": true, "rating": 0 },
+        { "key": "MoreDynamicRange",  "title": "More Dynamic Range", "slow": false, "show": true, "rating": 0 },
+        { "key": "PunchyBlackandWhite",  "title": "Punchy Blackand White", "slow": false, "show": true, "rating": 0 },
+        { "key": "SoftLight",  "title": "Soft Light", "slow": false, "show": true, "rating": 0 },
+        { "key": "Vivid",  "title": "Vivid", "slow": false, "show": true, "rating": 0 },
+        { "key": "ReduceReds",  "title": "Reduce Reds", "slow": false, "show": true, "rating": 0 },
+        { "key": "ReduceYellows",  "title": "Reduce Yellows", "slow": false, "show": true, "rating": 0 },
+        { "key": "BrightenShadows",  "title": "Brighten Shadows", "slow": false, "show": true, "rating": 0 },
+        { "key": "Brighten",  "title": "Brighten", "slow": false, "show": true, "rating": 0 },
+        { "key": "Darken",  "title": "Darken", "slow": false, "show": true, "rating": 0 },
+        { "key": "LessHighlights",  "title": "Less Highlights", "slow": false, "show": true, "rating": 0 },
+        { "key": "AlotofContrast",  "title": "Alotof Contrast", "slow": false, "show": true, "rating": 0 },
+        { "key": "EnhanceDetails",  "title": "Enhance Details", "slow": false, "show": true, "rating": 0 },
+        { "key": "OverallHaze",  "title": "Overall Haze", "slow": false, "show": true, "rating": 0 },
+        { "key": "VeryFlat",  "title": "Very Flat", "slow": false, "show": true, "rating": 0 },
+        { "key": "BlueSky",  "title": "Blue Sky", "slow": false, "show": true, "rating": 0 },
         { "key": "Cinematic",  "title": "Cinematic", "slow": false, "show": true, "rating": 0 },
-        { "key": "Daisy",  "title": "Daisy", "slow": false, "show": true, "rating": 0 },
-        { "key": "Robin",  "title": "Robin", "slow": false, "show": true, "rating": 0 },
-        { "key": "Inky",  "title": "Inky", "slow": false, "show": true, "rating": 0 },
-        { "key": "Roaster",  "title": "Roaster", "slow": false, "show": true, "rating": 0 },
+        { "key": "EnhanceGoldenHour",  "title": "Enhance Golden Hour", "slow": false, "show": true, "rating": 0 },
+        { "key": "October",  "title": "October", "slow": false, "show": true, "rating": 0 },
+        { "key": "Vignette-MediumDarkness",  "title": "Vignette-Medium Darkness", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "FreshLime",  "title": "Fresh Lime", "slow": false, "show": true, "rating": 0 },
+        { "key": "HappyMeadow",  "title": "Happy Meadow", "slow": false, "show": true, "rating": 0 },
+        { "key": "WalkOnABeach",  "title": "Walk On ABeach", "slow": false, "show": true, "rating": 0 },
+        { "key": "AfternoonPlay",  "title": "Afternoon Play", "slow": false, "show": true, "rating": 0 },
+        { "key": "Kasper",  "title": "Kasper", "slow": false, "show": true, "rating": 0 },
+        { "key": "RainyDays",  "title": "Rainy Days", "slow": false, "show": true, "rating": 0 },
+        { "key": "CloseHighlights",  "title": "Close Highlights", "slow": false, "show": true, "rating": 0 },
+        { "key": "CloseShadows",  "title": "Close Shadows", "slow": false, "show": true, "rating": 0 },
+        { "key": "Exposure+1",  "title": "Exposure+1", "slow": false, "show": true, "rating": 0 },
+        { "key": "ExposureMinus1",  "title": "Exposure -1", "slow": false, "show": true, "rating": 0 },
+        { "key": "OpenHighlights",  "title": "Open Highlights", "slow": false, "show": true, "rating": 0 },
+        { "key": "OpenShadows",  "title": "Open Shadows", "slow": false, "show": true, "rating": 0 },
+        { "key": "HawaiColor",  "title": "Hawai Color", "slow": false, "show": true, "rating": 0 },
+        { "key": "NiceGreens",  "title": "Nice Greens", "slow": false, "show": true, "rating": 0 },
+        { "key": "SunnyVibe",  "title": "Sunny Vibe", "slow": false, "show": true, "rating": 0 },
+        { "key": "WarmShadows",  "title": "Warm Shadows", "slow": false, "show": true, "rating": 0 },
+        { "key": "ColorPop",  "title": "Color Pop", "slow": false, "show": true, "rating": 0 },
+        { "key": "HighContrast",  "title": "High Contrast", "slow": false, "show": true, "rating": 0 },
+        { "key": "LowContrast",  "title": "Low Contrast", "slow": false, "show": true, "rating": 0 },
+        { "key": "DreamyFeeling",  "title": "Dreamy Feeling", "slow": false, "show": true, "rating": 0 },
+        { "key": "GreenCotton",  "title": "Green Cotton", "slow": false, "show": true, "rating": 0 },
+        { "key": "SummerBloom",  "title": "Summer Bloom", "slow": false, "show": true, "rating": 0 },
+        { "key": "TravelWish",  "title": "Travel Wish", "slow": false, "show": true, "rating": 0 },
+        { "key": "VelvetFreedom",  "title": "Velvet Freedom", "slow": false, "show": true, "rating": 0 },
+        { "key": "CleanBlack",  "title": "Clean Black", "slow": false, "show": true, "rating": 0 },
+        { "key": "GreyWorld",  "title": "Grey World", "slow": false, "show": true, "rating": 0 },
+        { "key": "Startrails",  "title": "Startrails", "slow": false, "show": true, "rating": 0 },
+        { "key": "VintageBlack",  "title": "Vintage Black", "slow": false, "show": true, "rating": 0 },
+        { "key": "Vignette-SubtleBlack",  "title": "Vignette-Subtle Black", "slow": false, "show": true, "rating": 0 },
+        { "key": "Vignette-SubtleWhite",  "title": "Vignette-Subtle White", "slow": false, "show": true, "rating": 0 },
+        { "key": "RESETALL",  "title": "RESET ALL", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "BlackandWhiteTonalContrast(Light)",  "title": "Blackand White Tonal Contrast( Light)", "slow": false, "show": true, "rating": 0 },
+        { "key": "BlackandWhiteTonalContrast(Medium)",  "title": "Blackand White Tonal Contrast( Medium)", "slow": false, "show": true, "rating": 0 },
+        { "key": "BlackandWhiteTonalContrast(Strong)",  "title": "Blackand White Tonal Contrast( Strong)", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "ABeautifulRelease",  "title": "A Beautiful Release", "slow": false, "show": true, "rating": 0 },
+        { "key": "AMarshmallowHappysmell",  "title": "A Marshmallow Happysmell", "slow": false, "show": true, "rating": 0 },
+        { "key": "CarefullyShavenTurk",  "title": "Carefully Shaven Turk", "slow": false, "show": true, "rating": 0 },
+        { "key": "OnRecreationalDrugs",  "title": "On Recreational Drugs", "slow": false, "show": true, "rating": 0 },
+        { "key": "Relic",  "title": "Relic", "slow": false, "show": true, "rating": 0 },
+        { "key": "SteampunkAfternoon",  "title": "Steampunk Afternoon", "slow": false, "show": true, "rating": 0 },
+        { "key": "SundayAloneTime",  "title": "Sunday Alone Time", "slow": false, "show": true, "rating": 0 },
+        { "key": "ThankHeavenforLittleGirls",  "title": "Thank Heavenfor Little Girls", "slow": false, "show": true, "rating": 0 },
+        { "key": "TheNavigator",  "title": "The Navigator", "slow": false, "show": true, "rating": 0 },
+        { "key": "TurkishBlast",  "title": "Turkish Blast", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "A4",  "title": "A4", "slow": false, "show": true, "rating": 0 },
+        { "key": "A5",  "title": "A5", "slow": false, "show": true, "rating": 0 },
+        { "key": "A6",  "title": "A6", "slow": false, "show": true, "rating": 0 },
+        { "key": "B1",  "title": "B1", "slow": false, "show": true, "rating": 0 },
+        { "key": "B5",  "title": "B5", "slow": false, "show": true, "rating": 0 },
+        { "key": "HB1",  "title": "HB1", "slow": false, "show": true, "rating": 0 },
+        { "key": "HB2",  "title": "HB2", "slow": false, "show": true, "rating": 0 },
+        { "key": "M5",  "title": "M5", "slow": false, "show": true, "rating": 0 },
+        { "key": "T1",  "title": "T1", "slow": false, "show": true, "rating": 0 },
+        { "key": "X1",  "title": "X1", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "AmberDarkWash",  "title": "Amber Dark Wash", "slow": false, "show": true, "rating": 0 },
+        { "key": "AmberWash",  "title": "Amber Wash", "slow": false, "show": true, "rating": 0 },
+        { "key": "ApricotWash",  "title": "Apricot Wash", "slow": false, "show": true, "rating": 0 },
+        { "key": "CrossDarkWash",  "title": "Cross Dark Wash", "slow": false, "show": true, "rating": 0 },
+        { "key": "DarkWash",  "title": "Dark Wash", "slow": false, "show": true, "rating": 0 },
+        { "key": "WarmCrossWash",  "title": "Warm Cross Wash", "slow": false, "show": true, "rating": 0 },
+        { "key": "WarmDarkCrossWash",  "title": "Warm Dark Cross Wash", "slow": false, "show": true, "rating": 0 },
+        { "key": "WarmFadedWash",  "title": "Warm Faded Wash", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "Glow-Bright&Flattened",  "title": "Glow-Bright&Flattened", "slow": false, "show": true, "rating": 0 },
+        { "key": "Glow-BrightContrast",  "title": "Glow-Bright Contrast", "slow": false, "show": true, "rating": 0 },
+        { "key": "Glow-SoftandMuted",  "title": "Glow-Softand Muted", "slow": false, "show": true, "rating": 0 },
+        { "key": "Glow-SubtlePortrait",  "title": "Glow-Subtle Portrait", "slow": false, "show": true, "rating": 0 },
+        { "key": "Glow-Vibrance",  "title": "Glow-Vibrance", "slow": false, "show": true, "rating": 0 },
+        { "key": "Glow-VibrantDesaturation",  "title": "Glow-Vibrant Desaturation", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "Tinting-Aqua",  "title": "Tinting-Aqua", "slow": false, "show": true, "rating": 0 },
+        { "key": "Tinting-Blue",  "title": "Tinting-Blue", "slow": false, "show": true, "rating": 0 },
+        { "key": "Tinting-Brown",  "title": "Tinting-Brown", "slow": false, "show": true, "rating": 0 },
+        { "key": "Tinting-Green",  "title": "Tinting-Green", "slow": false, "show": true, "rating": 0 },
+        { "key": "Tinting-Orange",  "title": "Tinting-Orange", "slow": false, "show": true, "rating": 0 },
+        { "key": "Tinting-Pink",  "title": "Tinting-Pink", "slow": false, "show": true, "rating": 0 },
+        { "key": "Tinting-Red",  "title": "Tinting-Red", "slow": false, "show": true, "rating": 0 },
+        { "key": "Tinting-Yellow",  "title": "Tinting-Yellow", "slow": false, "show": true, "rating": 0 },
+        
         { "key": "1975",  "title": "1975", "slow": false, "show": true, "rating": 0 },
-        { "key": "ElHefe",  "title": "El Hefe", "slow": false, "show": true, "rating": 0 },
+        { "key": "Brandenburg",  "title": "Brandenburg", "slow": false, "show": true, "rating": 0 },
         { "key": "Crossify",  "title": "Crossify", "slow": false, "show": true, "rating": 0 },
+        { "key": "Daisy",  "title": "Daisy", "slow": false, "show": true, "rating": 0 },
+        { "key": "ElHefe",  "title": "El Hefe", "slow": false, "show": true, "rating": 0 },
+        { "key": "Inky",  "title": "Inky", "slow": false, "show": true, "rating": 0 },
+        { "key": "LordKelvin",  "title": "Lord Kelvin", "slow": false, "show": true, "rating": 0 },
+        { "key": "Mayor",  "title": "Mayor", "slow": false, "show": true, "rating": 0 },
+        { "key": "PopFlash",  "title": "Pop Flash", "slow": false, "show": true, "rating": 0 },
+        { "key": "Roaster",  "title": "Roaster", "slow": false, "show": true, "rating": 0 },
+        { "key": "Robin",  "title": "Robin", "slow": false, "show": true, "rating": 0 },
         { "key": "WaldenPond",  "title": "Walden Pond", "slow": false, "show": true, "rating": 0 },
         { "key": "XPro",  "title": "X Pro", "slow": false, "show": true, "rating": 0 },
-        { "key": "Brandenburg",  "title": "Brandenburg", "slow": false, "show": true, "rating": 0 },
-        { "key": "LordKelvin",  "title": "Lord Kelvin", "slow": false, "show": true, "rating": 0 },
-        { "key": "PopFlash",  "title": "Pop Flash", "slow": false, "show": true, "rating": 0 },
-        { "key": "Mayor",  "title": "Mayor", "slow": false, "show": true, "rating": 0 },
-        { "key": "Tinting-Brown",  "title": "Tinting-Brown", "slow": false, "show": true, "rating": 0 },
-        { "key": "Tinting-Blue",  "title": "Tinting-Blue", "slow": false, "show": true, "rating": 0 },
-        { "key": "Tinting-Aqua",  "title": "Tinting-Aqua", "slow": false, "show": true, "rating": 0 },
-        { "key": "Tinting-Green",  "title": "Tinting-Green", "slow": false, "show": true, "rating": 0 },
-        { "key": "Tinting-Pink",  "title": "Tinting-Pink", "slow": false, "show": true, "rating": 0 },
-        { "key": "Tinting-Yellow",  "title": "Tinting-Yellow", "slow": false, "show": true, "rating": 0 },
-        { "key": "Tinting-Orange",  "title": "Tinting-Orange", "slow": false, "show": true, "rating": 0 },
-        { "key": "Tinting-Red",  "title": "Tinting-Red", "slow": false, "show": true, "rating": 0 }
-
+        
+        { "key": "Ava",  "title": "Ava", "slow": false, "show": true, "rating": 0 },
+        { "key": "Emma",  "title": "Emma", "slow": false, "show": true, "rating": 0 },
+        { "key": "Ethan",  "title": "Ethan", "slow": false, "show": true, "rating": 0 },
+        { "key": "Isabella",  "title": "Isabella", "slow": false, "show": true, "rating": 0 },
+        { "key": "Jackson",  "title": "Jackson", "slow": false, "show": true, "rating": 0 },
+        { "key": "Liam",  "title": "Liam", "slow": false, "show": true, "rating": 0 },
+        { "key": "Mason",  "title": "Mason", "slow": false, "show": true, "rating": 0 },
+        { "key": "Noah",  "title": "Noah", "slow": false, "show": true, "rating": 0 },
+        { "key": "Olivia",  "title": "Olivia", "slow": false, "show": true, "rating": 0 },
+        { "key": "Sophia",  "title": "Sophia", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "Arkham",  "title": "Arkham", "slow": false, "show": true, "rating": 0 },
+        { "key": "BlueDawn",  "title": "Blue Dawn", "slow": false, "show": true, "rating": 0 },
+        { "key": "OmahaBeach",  "title": "Omaha Beach", "slow": false, "show": true, "rating": 0 },
+        { "key": "Tijuana",  "title": "Tijuana", "slow": false, "show": true, "rating": 0 },
+        { "key": "Wonka",  "title": "Wonka", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "B&WHighContrast",  "title": "B&WHigh Contrast", "slow": false, "show": true, "rating": 0 },
+        { "key": "B&WInfrared",  "title": "B&WInfrared", "slow": false, "show": true, "rating": 0 },
+        { "key": "BluelikeJazz",  "title": "Bluelike Jazz", "slow": false, "show": true, "rating": 0 },
+        { "key": "FourLeafClover",  "title": "Four Leaf Clover", "slow": false, "show": true, "rating": 0 },
+        { "key": "LightMocha",  "title": "Light Mocha", "slow": false, "show": true, "rating": 0 },
+        { "key": "PurplePassion",  "title": "Purple Passion", "slow": false, "show": true, "rating": 0 },
+        { "key": "RedVelvet",  "title": "Red Velvet", "slow": false, "show": true, "rating": 0 },
+        { "key": "SundayMorningLatte",  "title": "Sunday Morning Latte", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "VintageBlueYellow",  "title": "Vintage Blue Yellow", "slow": false, "show": true, "rating": 0 },
+        { "key": "VintageCool",  "title": "Vintage Cool", "slow": false, "show": true, "rating": 0 },
+        { "key": "VintageRedCyan",  "title": "Vintage Red Cyan", "slow": false, "show": true, "rating": 0 },
+        { "key": "VintageRed",  "title": "Vintage Red", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "CrossProcessBlue",  "title": "Cross Process Blue", "slow": false, "show": true, "rating": 0 },
+        { "key": "CrossProcessGreen",  "title": "Cross Process Green", "slow": false, "show": true, "rating": 0 },
+        { "key": "CrossProcessYellow",  "title": "Cross Process Yellow", "slow": false, "show": true, "rating": 0 }
     ],
 
     
@@ -840,7 +912,7 @@
         },
         
         {"key": "pr_winter",
-            "title": "Presets: Contrastly Winter Wonderland",
+            "title": "Contrastly Winter Wonderland",
             "filters": [
                 "WinterSkyEnhancer", "WinterVibrantCold", "WinterHazeWarm", "WinterCinematicDehaze", "WinterDehaze", "WinterVibrantWarm", "WinterVintageRetro",
                 "WinterFilmSaturation", "WinterDesaturated", "WinterMatte", "WinterHazeCold", "WinterB&WDark", "WinterHiSaturation", "WinterSceneryEnhancerClear",
@@ -849,42 +921,42 @@
         },
 
         {"key": "pr_fall",
-            "title": "Presets: Fall Color",
+            "title": "Fall Color",
             "filters": [
                 "FallFoliage(Medium)", "FallFoliage(Light)", "FallFoliage(Strong)"
             ]
         },
 
         {"key": "pr_oglow",
-            "title": "Presets: onOne Glow",
+            "title": "onOne Glow",
             "filters": [
                 "Glow-Vibrance", "Glow-SubtlePortrait", "Glow-VibrantDesaturation", "Glow-Bright&Flattened", "Glow-SoftandMuted", "Glow-BrightContrast"
             ]
         },
 
         {"key": "pr_otinting",
-            "title": "Presets: onOne Hand Tinting",
+            "title": "onOne Hand Tinting",
             "filters": [
                 "Tinting-Brown", "Tinting-Blue", "Tinting-Aqua", "Tinting-Green", "Tinting-Pink", "Tinting-Yellow", "Tinting-Orange", "Tinting-Red"
             ]
         },
 
         {"key": "pr_okidsmatte",
-            "title": "Presets: onOne Kids Matte B&W",
+            "title": "onOne Kids Matte B&W",
             "filters": [
                 "Sophia", "Olivia", "Isabella", "Ava", "Jackson", "Ethan", "Emma", "Noah", "Mason", "Liam"
             ]
         },
 
         {"key": "pr_otoners",
-            "title": "Presets: onOne Toners",
+            "title": "onOne Toners",
             "filters": [
                 "B&WInfrared", "FourLeafClover", "SundayMorningLatte", "B&WHighContrast", "RedVelvet", "LightMocha", "BluelikeJazz", "PurplePassion"
             ]
         },
 
         {"key": "pr_pplanet",
-            "title": "Presets: Photography Pla.net Essentials",
+            "title": "Photography Pla.net Essentials",
             "filters": [
                 "Faded", "BoldHDR", "MediumGrain", "ResetColorFilter", "StrongVignette", "NaturalColorPop", "OldSchool", "Red", "SoftVignette", "Hazy",
                 "ElegantB&W", "IntenseFilm", "Sunlight", "Violet2", "SplitToned", "Pink", "MatteB&W", "ResetNoiseReduction", "SoftBluePastel",
@@ -895,7 +967,7 @@
         },
 
         {"key": "pr_lvibrations",
-            "title": "Presets: Sleeklens Landscape Vibrations",
+            "title": "Sleeklens Landscape Vibrations",
             "filters": [
                 "Dramatic", "Hollywood", "Vivid", "ClassicSunset", "CleanStart", "Cinematic", "ReduceReds", "PunchitUp", "Crunchy", "October", "AlotofContrast",
                 "Darken", "PunchyBlackandWhite", "WarmSplendor", "ReduceYellows", "Brighten", "SoftLight", "EnhanceGoldenHour", "BreakofDawn", "OverallHaze",
@@ -905,7 +977,7 @@
         },
 
         {"key": "pr_bwtonal",
-            "title": "Presets: Tonal B&W",
+            "title": "Tonal B&W",
             "filters": [
                 "BlackandWhiteTonalContrast(Strong)", "BlackandWhiteTonalContrast(Medium)", "BlackandWhiteTonalContrast(Light)"
             ]
@@ -913,7 +985,7 @@
 
 
         {"key": "pr_trey",
-            "title": "Presets: Trey",
+            "title": "Trey",
             "filters": [
                 "ABeautifulRelease", "CarefullyShavenTurk", "AMarshmallowHappysmell", "SteampunkAfternoon", "OnRecreationalDrugs", "TurkishBlast",
                 "ThankHeavenForLittleGirls", "SundayAloneTime", "TheNavigator", "Relic"
@@ -921,7 +993,7 @@
         },
 
         {"key": "pr_fstopurban",
-            "title": "Presets: F-Stop Urban",
+            "title": "F-Stop Urban",
             "filters": [
                 "Grunge", "Grunge(blue)",  "Grunge(smooth)",  "Grunge(sepia)",  "Grunge(green)",  "Grunge(muted)",  "Grunge(red)",  "Grunge(black&white)",
                 "UrbanGrain",  "UrbanVignette"
@@ -929,22 +1001,52 @@
         },
         
         {"key": "pr_blondies",
-            "title": "Presets: Blondies & Brunettes",
+            "title": "Blondies & Brunettes",
             "filters": [
                 "Adeline", "Amber", "Clarisse", "Emily", "Gwendolyn", "Juliet", "Marianne", "Summer", "Taylor", "Vicky", "Violet"
             ]
         },
         
         {"key": "pr_film",
-            "title": "Presets: Analog Film",
-            "filters": [ "N-Fuji400H", "N-FujiSuperia1600", "N-FujiSuperia400", "N-FujiVelvia100", "N-FujiVelvia50",
-                "N-KodakEktar100", "N-KodakPortra400", "N-KodakPortra800", "N-KodakTRI-X400",  "N-KodakT-MAX3200"
+            "title": "Analog Film Types (All)",
+            "filters": [ "N-AgfaScala200", "N-AgfaVista100", "N-AgfaVista400", "N-AgfaVista800", "N-Fuji160C", "N-Fuji400H", "N-Fuji800Z", "N-FujiFP100C",
+                "N-FujiFP3000b", "N-FujiFortiaSP", "N-FujiNeopan1600", "N-FujiNeopan400", "N-FujiProvia100", "N-FujiProvia400", "N-FujiSuperia100",
+                "N-FujiSuperia1600", "N-FujiSuperia400", "N-FujiVelvia100", "N-FujiVelvia50", "N-KodakBW400CN", "N-KodakEktachrome100G", "N-KodakEktachrome100VS",
+                "N-KodakEktachromeE200", "N-KodakEktar100", "N-KodakGold100", "N-KodakGold200", "N-KodakMax800", "N-KodakPortra160", "N-KodakPortra400",
+                "N-KodakPortra800", "N-KodakRoyalGold400", "N-KodakT-MAX3200", "N-KodakTRI-X400", "N-KodakUltraMax400", "N-KodakUltraMax800", "N-Polaroid665",
+                "N-Polaroid669", "N-Polaroid690"
+            ]
+        },
+        
+        {"key": "pr_film_agfa",
+            "title": "Agfa Film Types",
+            "filters": [ "N-AgfaScala200", "N-AgfaVista100", "N-AgfaVista400", "N-AgfaVista800"
+            ]
+        },
+        
+        {"key": "pr_film_fuji",
+            "title": "Fuji Film Types",
+            "filters": [ "N-Fuji160C", "N-Fuji400H", "N-Fuji800Z", "N-FujiFP100C", "N-FujiFP3000b", "N-FujiFortiaSP", "N-FujiNeopan1600",
+                "N-FujiNeopan400", "N-FujiProvia100", "N-FujiProvia400", "N-FujiSuperia100", "N-FujiSuperia1600", "N-FujiSuperia400",
+                "N-FujiVelvia100", "N-FujiVelvia50"
+            ]
+        },
+        {"key": "pr_film_kodak",
+            "title": "Kodak Film Types",
+            "filters": [ "N-KodakBW400CN", "N-KodakEktachrome100G", "N-KodakEktachrome100VS", "N-KodakEktachromeE200", "N-KodakEktar100", "N-KodakGold100",
+                "N-KodakGold200", "N-KodakMax800", "N-KodakPortra160", "N-KodakPortra400", "N-KodakPortra800", "N-KodakRoyalGold400", "N-KodakT-MAX3200",
+                "N-KodakTRI-X400", "N-KodakUltraMax400", "N-KodakUltraMax800"
+            ]
+        },
+        {"key": "pr_film_polaroid",
+            "title": "Polaroid Film Types",
+            "filters": [ "N-Polaroid665", "N-Polaroid669", "N-Polaroid690"
             ]
         },
         
         
         {"key": "pr_sleeklens",
-            "title": "Presets: Sleeklens Starter",
+            "title": "Sleeklens Starter",
             "filters": [
                 "NiceGreens", "FreshLime", "HighContrast", "OpenShadows", "VelvetFreedom", "LowContrast", "VintageBlack", "Vignette-SubtleWhite",
                 "HappyMeadow", "AfternoonPlay", "SunnyVibe", "CloseHighlights", "RainyDays", "GreenCotton", "HawaiColor", "DreamyFeeling", "OpenHighlights",
@@ -954,28 +1056,28 @@
         },
         
         {"key": "pr_oxprocess",
-            "title": "Presets: onOne Cross Process",
+            "title": "onOne Cross Process",
             "filters": [
                 "CrossProcessGreen", "CrossProcessBlue", "CrossProcessYellow"
             ]
         },
         
         {"key": "pr_ovintage",
-            "title": "Presets: onOne Vintage",
+            "title": "onOne Vintage",
             "filters": [
                 "VintageCool", "VintageRedCyan", "VintageRed", "VintageBlueYellow"
             ]
         },
         
         {"key": "pr_omovie",
-            "title": "Presets: onOne Movie Looks",
+            "title": "onOne Movie Looks",
             "filters": [
                 "Wonka", "BlueDawn", "Arkham", "OmahaBeach", "Tijuana"
             ]
         },
         
         {"key": "pr_oinsta",
-            "title": "Presets: onOne Instatastic",
+            "title": "onOne Instatastic",
             "filters": [
                 "Daisy", "Robin", "Inky", "Roaster", "1975", "ElHefe", "Crossify", "WaldenPond", "XPro", "Brandenburg",
                 "LordKelvin", "PopFlash", "Mayor"
@@ -983,6 +1085,24 @@
         },
         
         
+        {"key": "pr_punch",
+            "title": "Punchy Effects",
+            "filters": [ "BrightFadedPunch", "CrossVintagePunch", "DarkFadedPunch", "HighContrastPunch", "NeutralPunch", "VintagePunch", "WarmPunch"
+            ]
+        },
+        
+        {"key": "pr_wash",
+            "title": "Wash Effects",
+            "filters": [ "AmberDarkWash", "AmberWash", "ApricotWash", "CrossDarkWash", "DarkWash", "WarmCrossWash", "WarmDarkCrossWash", "WarmFadedWash"
+            ]
+        },
+        
+        {"key": "pr_vsco",
+            "title": "VSCO-Style Effects",
+            "filters": [ "A4", "A5", "A6", "B1", "B5", "HB1", "HB2", "M5", "T1", "X1"
+            ]
+        },
+
         
         {"key": "styletransfer",
             "title": "Style Transfer",
@@ -1159,7 +1279,7 @@
                 "ur_011", "ur_012", "ur_013", "ur_014", "ur_015", "Grunge"
             ]
         },
-                
+        
         {"key": "vintage",
             "title": "Vintage",
             "filters": ["vn_001", "vn_002", "vn_003", "vn_004", "vn_005", "vn_006", "vn_007", "vn_008", "vn_009", "vn_010",
@@ -1169,7 +1289,7 @@
                 "vn_041", "vn_042", "vn_043", "vn_044", "vn_045", "vn_046", "vn_047"
             ]
         },
-        
+
 
         {"key": "custom",
             "title": "Custom",
@@ -1189,9 +1309,16 @@
     "collections": [
         
         {"key": "presets",
-            "title": "Presets",
+            "title": "All Presets",
             "categories": [ "pr_winter", "pr_fall", "pr_oglow", "pr_otinting", "pr_okidsmatte", "pr_otoners", "pr_pplanet", "pr_lvibrations", "pr_bwtonal", "pr_trey",
-                            "pr_fstopurban", "pr_blondies", "pr_film", "pr_sleeklens", "pr_oxprocess", "pr_ovintage", "pr_omovie", "pr_oinsta"
+                            "pr_fstopurban", "pr_blondies", "pr_film", "pr_sleeklens", "pr_oxprocess", "pr_ovintage", "pr_omovie", "pr_oinsta",
+                            "pr_punch", "pr_wash", "pr_vsco"
+            ]
+        },
+        
+        {"key": "analog",
+            "title": "Analog (Old) Film",
+            "categories": [ "pr_film_agfa", "pr_film_fuji", "pr_film_kodak", "pr_film_polaroid"
             ]
         },
         
@@ -1200,7 +1327,7 @@
             "categories": [ "styletransfer"
             ]
         },
-        
+
         {"key": "filters",
             "title": "Color Transforms",
             "categories": [ "monochrome", "color", "etikate", "manicho", "ps", "cross", "deviantart", "fade", "misc", "tint", "urban", "vintage"
@@ -1215,7 +1342,7 @@
         
         {"key": "transforms",
             "title": "Transforms",
-            "categories": [ "blur", "distortionEffect", "halftoneEffect", "sharpen", "stylize", "tileEffect"
+            "categories": [ "blur", "distortionEffect", "halftoneEffect", "stylize", "tileEffect"
             ]
         },
         
