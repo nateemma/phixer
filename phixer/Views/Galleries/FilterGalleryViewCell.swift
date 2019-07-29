@@ -64,6 +64,15 @@ class FilterGalleryViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    deinit {
+        if let descriptor = self.descriptor {
+            let key = descriptor.key
+            if !key.isEmpty {
+                release(key)
+            }
+        }
+    }
+    
     private func doInit(){
         if (!initDone){
             initDone = true
@@ -71,7 +80,13 @@ class FilterGalleryViewCell: UICollectionViewCell {
         }
     }
     
-    
+    private func release(_ key:String){
+        log.debug("release: \(key)")
+        FilterGalleryViewCell.filterManager.releaseRenderView(key: key)
+        FilterGalleryViewCell.filterManager.releaseFilterDescriptor(key: key)
+        renderView = nil
+        descriptor = nil
+    }
     
     private func doLayout(){
         
@@ -142,14 +157,17 @@ class FilterGalleryViewCell: UICollectionViewCell {
     
     // MARK: - Configuration
 
-/***
+
     override func prepareForReuse() {
-        //renderView = RenderView()
-        renderView = nil
-        //renderView.isHidden = true
+        if let descriptor = self.descriptor {
+            let key = descriptor.key
+            if !key.isEmpty {
+                release(key)
+            }
+        }
         super.prepareForReuse()
     }
-***/
+
     
     
     public func configureCell(frame: CGRect, index:Int, key:String) {

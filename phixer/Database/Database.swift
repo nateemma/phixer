@@ -729,26 +729,31 @@ class Database {
     
     public static func getAssetListRecords() -> [AssetListRecord]{
         var assetList:[AssetListRecord]
-     
+        
         checkDatabase()
-
         assetList = []
-        
-        let fetchRequest = NSFetchRequest<AssetListEntity>(entityName: assetListName)
-        do {
-            let assets = try (context?.fetch(fetchRequest))!
-            if (assets.count>0){
-                for entity in assets {
-                    assetList.append(entity.toRecord())
+
+        let result = autoreleasepool { () -> [AssetListRecord] in
+            
+            let fetchRequest = NSFetchRequest<AssetListEntity>(entityName: assetListName)
+            do {
+                var assets = try (context?.fetch(fetchRequest))!
+                if (assets.count>0){
+                    for entity in assets {
+                        assetList.append(entity.toRecord())
+                    }
+                } else {
+                    print("getAssetListRecords() NO records found")
                 }
-            } else {
-                print("getAssetListRecords() NO records found")
+                assets = []
+            } catch let error as NSError {
+                print("getAssetListRecords() Could not fetch. \(error), \(error.userInfo)")
             }
-        } catch let error as NSError {
-            print("getAssetListRecords() Could not fetch. \(error), \(error.userInfo)")
+            
+            return assetList
         }
+        return result
         
-        return assetList
     }
     
     
@@ -758,23 +763,27 @@ class Database {
         var assetRecord: AssetListRecord?
         
         checkDatabase()
-
-        assetRecord = nil
-        
-        let fetchRequest = NSFetchRequest<AssetListEntity>(entityName: assetListName)
-        fetchRequest.predicate = NSPredicate(format: "key == %@", key)
-        do {
-            let assets = try (context?.fetch(fetchRequest))!
-            if (assets.count>0){
-                assetRecord = assets[0].toRecord()
-            } else {
-                print("getAssetListRecords() NO records found")
+        let result = autoreleasepool { () -> AssetListRecord? in
+            
+            assetRecord = nil
+            
+            let fetchRequest = NSFetchRequest<AssetListEntity>(entityName: assetListName)
+            fetchRequest.predicate = NSPredicate(format: "key == %@", key)
+            do {
+                var assets = try (context?.fetch(fetchRequest))!
+                if (assets.count>0){
+                    assetRecord = assets[0].toRecord()
+                 } else {
+                    print("getAssetListRecords() NO records found")
+                }
+                assets = []
+            } catch let error as NSError {
+                print("getAssetListRecords() Could not fetch. \(error), \(error.userInfo)")
             }
-        } catch let error as NSError {
-            print("getAssetListRecords() Could not fetch. \(error), \(error.userInfo)")
+            
+            return assetRecord
         }
-        
-        return assetRecord
+        return result
     }
     
     

@@ -5240,7 +5240,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-phixer/Pods-phixer-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-phixer/Pods-phixer-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/ChameleonFramework/ChameleonFramework.framework",
 				"${BUILT_PRODUCTS_DIR}/Cosmos/Cosmos.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
@@ -5263,7 +5263,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-phixer/Pods-phixer-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-phixer/Pods-phixer-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		CB5009B080CD3F970FB7DDB7 /* [CP] Check Pods Manifest.lock */ = {

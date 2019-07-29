@@ -119,12 +119,12 @@ class PresetFilter: CIFilter {
                 }
             }
 
-            log.verbose("Running preset: \(self.presetFile) (\(count) filters)")
+            //log.verbose("Running preset: \(self.presetFile) (\(count) filters)")
             for i in 0...(count - 1) {
                 let fdesc = parsedConfig["filters"][i] // entry for a filter
                 let fkey = fdesc["key"].stringValue
                 let params = fdesc["parameters"].arrayValue // array of parameter dictionaries
-                log.verbose("Applying filter:\(fkey)")
+                //log.verbose("Applying filter:\(fkey)")
                 let filter = CIFilter(name: fkey)
 
                 if filter != nil {
@@ -141,7 +141,7 @@ class PresetFilter: CIFilter {
                             switch (ptype) {
                             case .float:
                                 let value = CGFloat(p["val"].floatValue)
-                                log.verbose("...arg: \(p["key"]) val:\(value) type:\(p["type"])")
+                                //log.verbose("...arg: \(p["key"]) val:\(value) type:\(p["type"])")
                                 filter?.setValue(value, forKey: pkey)
                             case .vector:
                                 let sarray = p["val"].arrayValue // array of string values
@@ -153,16 +153,16 @@ class PresetFilter: CIFilter {
                                     vec = CIVector(values: farray, count: farray.count)
                                 }
                                 //log.verbose("...arg: \(p["key"]) farray:\(farray) val:\(vec) type:\(p["type"])")
-                                log.verbose("...arg: \(p["key"]) val:\(vec) type:\(p["type"])")
+                                //log.verbose("...arg: \(p["key"]) val:\(vec) type:\(p["type"])")
                                 filter?.setValue(vec, forKey: pkey)
                             case .position:
-                                log.verbose("...arg: \(p["key"]) val:\(imgCentre) type:\(p["type"])")
+                                //log.verbose("...arg: \(p["key"]) val:\(imgCentre) type:\(p["type"])")
                                 filter?.setValue(imgCentre, forKey: pkey)
                             case .distance:
-                                log.verbose("...arg: \(p["key"]) val:\(imgRadius) type:\(p["type"])")
+                                //log.verbose("...arg: \(p["key"]) val:\(imgRadius) type:\(p["type"])")
                                 filter?.setValue(imgRadius, forKey: pkey)
                             case .rectangle:
-                                log.verbose("...arg: \(p["key"]) val:\(imgRect) type:\(p["type"])")
+                                //log.verbose("...arg: \(p["key"]) val:\(imgRect) type:\(p["type"])")
                                 filter?.setValue(imgRect, forKey: pkey)
                             default:
                                 // just ignore
@@ -183,7 +183,7 @@ class PresetFilter: CIFilter {
             } // end filter loop
             
             // blend with the original image based on the intensity parameter
-            log.verbose("Intensity: \(inputIntensity)")
+            //log.verbose("Intensity: \(inputIntensity)")
             if inputIntensity < 0.99 {
                 // reduce opacity of filtered image and overlay on original
                 if (self.opacityFilter == nil) {
@@ -214,7 +214,7 @@ class PresetFilter: CIFilter {
         //presetFile = name + ".json"
         presetFile = name
         fileLoaded = false
-        log.verbose("loading: \(presetFile)")
+        //log.verbose("loading: \(presetFile)")
         loadPresetFile(name: presetFile)
         
     }
@@ -237,9 +237,9 @@ class PresetFilter: CIFilter {
                     //log.verbose("parsing data from: \(path!)")
                     parsedConfig = try JSON(data: data)
                     if (parsedConfig != JSON.null){
-                        log.verbose("parsing data")
+                        //log.verbose("parsing data")
                         //log.verbose ("\(parsedConfig)")
-                        log.verbose("Found \(parsedConfig["filters"].count) filters in preset: \(name)")
+                        log.verbose("Preset:  \(name) (\(parsedConfig["filters"].count) filters)")
                         fileLoaded = true
                     }
                 }

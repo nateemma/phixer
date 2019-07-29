@@ -55,7 +55,7 @@ public extension CIColor {
                 g = p
                 b = q
             }
-            print("r:\(r) g:\(g) b:\(b)")
+            //print("r:\(r) g:\(g) b:\(b)")
             self.init(red: r, green: g, blue: b, alpha: alpha)
 
         }

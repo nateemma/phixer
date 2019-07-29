@@ -79,7 +79,7 @@ class CustomFilterRegistry: NSObject, CIFilterConstructor {
         if (CustomFilterRegistry.filterCache[name] != nil) && Thread.current.isMainThread {
             filterInstance = CustomFilterRegistry.filterCache[name]!
         } else {
-            log.verbose("Creating custom filter:\(name)")
+            //log.verbose("Creating custom filter:\(name)")
             
             // not in cache, create an instance from the classname
             let ns = Bundle.main.infoDictionary!["CFBundleExecutable"] as! String

@@ -137,13 +137,13 @@ class ChoosePhotoViewController: CoordinatedController, UIImagePickerControllerD
 
         
         let selectedImage: UIImageView! = UIImageView()
-        selectedImage.frame.size.height = selectedView.frame.size.height - label.frame.size.height - 16.0
+        selectedImage.frame.size.height = selectedView.frame.size.height - label.frame.size.height - 8.0
         selectedImage.frame.size.width = selectedImage.frame.size.height
         log.verbose("w:\(w) h:\(h) img: \(selectedImage.frame.size)")
         EditManager.setInputImage(ImageManager.getCurrentEditImage())
         selectedImage.contentMode = .scaleAspectFit
 
-        selectedImage.image = UIImage(ciImage: EditManager.getPreviewImage()!)
+        selectedImage.image = UIImage(ciImage: EditManager.getPreviewImage(size: selectedImage.frame.size)!)
 
         selectedView.addSubview(label)
         selectedView.addSubview(selectedImage)

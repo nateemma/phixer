@@ -115,14 +115,22 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
         menuItems = [ MenuItem(key: "changePhoto", title: "Change Photo", subtitile: "", icon: "", view: curPhoto, isHidden: false),
                       MenuItem(key: "simpleEditor", title: "Picture Editor", subtitile: "Edit 'basic' image settings\n (exposure, colors, tone, vignette, sharpen etc.)",
                                icon: "ic_basic", view: nil, isHidden: false),
-                      MenuItem(key: "favorites", title: "Favorites", subtitile: "Browse favorite prests & filters", icon: "ic_heart_outline", view: nil, isHidden: false),
-                      MenuItem(key: "styleTransfer", title: "Style Transfer", subtitile: "Apply a painting style to the photo", icon: "ic_brush", view: nil, isHidden: false),
-                      MenuItem(key: "browseFilters", title: "Browse Filters", subtitile: "Browse available filters/presets", icon: "ic_filter", view: nil, isHidden: false),
-                      MenuItem(key: "browsePresets", title: "Browse Presets", subtitile: "Browse preset collections", icon: "ic_preset", view: nil, isHidden: false),
-                      MenuItem(key: "blackwhite", title: "Black & White", subtitile: "Black & White (or monochrome) filters and presets", icon: "ic_contrast", view: nil, isHidden: false),
-                      MenuItem(key: "analog", title: "Analog Film Types", subtitile: "Classic Analog film presets", icon: "ic_filmstrip", view: nil, isHidden: false),
-                      MenuItem(key: "transforms", title: "Transforms", subtitile: "Image transforming filters (warps, sketches etc.)", icon: "ic_transform", view: nil, isHidden: false),
-                      MenuItem(key: "settings", title: "Settings", subtitile: "Change app settings", icon: "ic_gear", view: nil, isHidden: false)
+                      MenuItem(key: "favorites", title: "Favorites", subtitile: "Browse favorite presets & filters",
+                               icon: "ic_heart_outline", view: nil, isHidden: false),
+                      MenuItem(key: "browseFilters", title: "Color Filters", subtitile: "Browse Color Filters\n(these change only the image colors)",
+                               icon: "ic_filter", view: nil, isHidden: false),
+                      MenuItem(key: "browsePresets", title: "Browse Presets", subtitile: "Browse preset collections\n(these apply multiple filters)",
+                               icon: "ic_preset", view: nil, isHidden: false),
+                      MenuItem(key: "blackwhite", title: "Black & White", subtitile: "Black & White (or monochrome) filters and presets",
+                               icon: "ic_contrast", view: nil, isHidden: false),
+                      MenuItem(key: "analog", title: "Analog Film Types", subtitile: "Classic Analog film presets",
+                               icon: "ic_filmstrip", view: nil, isHidden: false),
+                      MenuItem(key: "transforms", title: "Transforms", subtitile: "Image transforming filters (warps, sketches etc.)",
+                               icon: "ic_transform", view: nil, isHidden: false),
+                      MenuItem(key: "styleTransfer", title: "Style Transfer", subtitile: "Apply a painting style to the photo",
+                               icon: "ic_brush", view: nil, isHidden: false),
+                      MenuItem(key: "settings", title: "Settings", subtitile: "Change app settings",
+                               icon: "ic_gear", view: nil, isHidden: false)
         ]
         
         menuView.setItems(menuItems)

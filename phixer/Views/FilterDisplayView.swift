@@ -25,7 +25,8 @@ class FilterDisplayView: UIView {
     fileprivate var initDone: Bool = false
     fileprivate var layoutDone: Bool = false
     fileprivate var filterManager = FilterManager.sharedInstance
-    
+    fileprivate var imgSize: CGSize = CGSize.zero
+
     
     fileprivate var currImageInput:CIImage? = nil
     fileprivate var currBlendInput:CIImage? = nil
@@ -55,18 +56,15 @@ class FilterDisplayView: UIView {
         super.layoutSubviews()
         
         log.debug("layout")
-        /***
-        self.currImageInput = InputSource.getCurrentImage() // this can change
+
+        // set size to the screen resoultion to save memory
+        imgSize = UISettings.screenResolution
+        
+        currImageInput = EditManager.getPreviewImage(size:imgSize) // this can/will change
+        
         renderView?.frame = self.frame
         renderView?.image = self.currImageInput
-        renderView?.setImageSize(InputSource.getSize())
-        renderView?.frame = self.frame
-        renderView?.backgroundColor = theme.backgroundColor
-        ***/
-        self.currImageInput = EditManager.getPreviewImage() // this can change
-        renderView?.frame = self.frame
-        renderView?.image = self.currImageInput
-        renderView?.setImageSize(EditManager.getImageSize())
+        renderView?.setImageSize(imgSize)
         renderView?.frame = self.frame
         renderView?.backgroundColor = theme.backgroundColor
 
@@ -89,6 +87,12 @@ class FilterDisplayView: UIView {
     open func setFilter(key:String){
         //currFilterKey = filterManager.getCurrentFilter()
         if (currFilterKey.isEmpty) || (key != currFilterKey) {
+            if (key != currFilterKey) {
+                filterManager.releaseFilterDescriptor(key: currFilterKey)
+                filterManager.releaseRenderView(key: currFilterKey)
+                RenderView.reset()
+            }
+            
             currFilterKey = key
             currFilterDescriptor = filterManager.getFilterDescriptor(key: currFilterKey)
             EditManager.addPreviewFilter(currFilterDescriptor)

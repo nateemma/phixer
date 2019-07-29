@@ -38,10 +38,7 @@ class RenderView: MTKView
     static var commandQueue: MTLCommandQueue? = nil
     private static var device: MTLDevice? = nil
     
-    lazy var ciContext: CIContext = { [unowned self] in
-        return CIContext(mtlDevice: self.device!)
-        //return CIContext(mtlDevice: self.device!, options: [ kCIContextUseSoftwareRenderer: false, kCIContextHighQualityDownsample: false ])
-        }()
+    private static var ciContext: CIContext? = nil
     
     
     override init(frame frameRect: CGRect, device: MTLDevice?) {
@@ -51,6 +48,10 @@ class RenderView: MTKView
         guard super.device != nil else {
             log.error("Device doesn't support Metal")
             return
+        }
+        
+        if RenderView.ciContext == nil {
+            RenderView.ciContext = CIContext(mtlDevice: self.device!)
         }
         
         RenderView.device = super.device
@@ -74,6 +75,14 @@ class RenderView: MTKView
         fatalError("init(coder:) has not been implemented")
     }
     
+    // reset the CIContext
+    public static func resetContext(){
+        RenderView.ciContext?.clearCaches()
+        RenderView.ciContext = nil
+        RenderView.ciContext = CIContext(mtlDevice: self.device!)
+    }
+
+    
     // reset the command queue.
     public static func reset(){
         RenderView.commandQueue = nil
@@ -81,6 +90,8 @@ class RenderView: MTKView
         if RenderView.commandQueue == nil {
             log.error("Could not allocate Metal Command Queue")
         }
+        
+        resetContext()
     }
   
     // returns a point in (CI) image coordinates based on a position in UI coordinates relative to the displayed view
@@ -253,55 +264,56 @@ class RenderView: MTKView
             return
         }
         
-        
-        if let srcImg = image {
-            
-            if let targetTexture = currentDrawable?.texture {
+        autoreleasepool {
+            if let srcImg = image {
                 
-                if let commandBuffer = RenderView.commandQueue?.makeCommandBuffer() { 
+                if let targetTexture = currentDrawable?.texture {
                     
-                   calculateTransforms()
-                    
-                    guard let rotation = rotationTransform, let scale = scaleTransform, let translation = translationTransform else {
-                        log.error("NIL Transforms")
-                        return
+                    if let commandBuffer = RenderView.commandQueue?.makeCommandBuffer() {
+                        
+                        calculateTransforms()
+                        
+                        guard let rotation = rotationTransform, let scale = scaleTransform, let translation = translationTransform else {
+                            log.error("NIL Transforms")
+                            return
+                        }
+                        
+                        let scaledImage = srcImg
+                            .transformed(by: rotation)
+                            .transformed(by: scale)
+                            .transformed(by: translation)
+                        
+                        
+                        
+                        let bounds = CGRect(origin: CGPoint.zero, size: drawableSize)
+                        
+                        RenderView.ciContext?.render(scaledImage,
+                                                     to: targetTexture,
+                                                     commandBuffer: commandBuffer,
+                                                     bounds: bounds,
+                                                     colorSpace: colorSpace)
+                        
+                        commandBuffer.present(currentDrawable!)
+                        commandBuffer.commit()
+                        
+                        self.draw()  // if isPaused is set then we must call this manually to free the drawable
+                        
+                    } else {
+                        log.error("Err getting cmd buf")
                     }
                     
-                    let scaledImage = srcImg
-                        .transformed(by: rotation)
-                        .transformed(by: scale)
-                        .transformed(by: translation)
-                    
-                    
-                    
-                    let bounds = CGRect(origin: CGPoint.zero, size: drawableSize)
-                    
-                   ciContext.render(scaledImage,
-                                     to: targetTexture,
-                                     commandBuffer: commandBuffer,
-                                     bounds: bounds,
-                                     colorSpace: colorSpace)
-                    
-                    commandBuffer.present(currentDrawable!)
-                    commandBuffer.commit()
-                    
-                    self.draw()  // if isPaused is set then we must call this manually to free the drawable 
-                    
+                    //self.bounds = bounds
+                    //self.frame.size = dsize
                 } else {
-                    log.error("Err getting cmd buf")
+                    if currentDrawable == nil {
+                        log.error("currentDrawable is nil")
+                    } else {
+                        log.error("Could not get texture")
+                    }
                 }
-                
-                //self.bounds = bounds
-                //self.frame.size = dsize
             } else {
-                if currentDrawable == nil {
-                    log.error("currentDrawable is nil")
-                } else {
-                    log.error("Could not get texture")
-                }
+                log.error("No image")
             }
-        } else {
-            log.error("No image")
         }
     }
     

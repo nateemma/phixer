@@ -241,7 +241,7 @@ class FilterDescriptor {
         self.numParameters += 1
         
         self.stashParameters()
-        log.debug("preset:\(key) parameters:\(parameters)")
+        //log.debug("preset:\(key)")
     }
 
     private func initBlendFilter(key: String, title: String, parameters: [ParameterSettings]) {

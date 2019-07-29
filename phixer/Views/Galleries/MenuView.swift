@@ -239,7 +239,7 @@ extension MenuView {
         let index:Int = (indexPath as NSIndexPath).item
         if ((index>=0) && (index<menuItems.count)){
             DispatchQueue.main.async(execute: { () -> Void in
-                log.verbose("Index: \(index) key:(\(self.menuItems[index]))")
+                //log.verbose("Index: \(index) key:(\(self.menuItems[index]))")
                 let category = self.menuItems[index]
 
                 cell.frame.size = self.cellSize

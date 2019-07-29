@@ -190,7 +190,7 @@ class SketchFilter: CIFilter {
     // load the texture to be used for the pencil shading effect
     static func loadPencilTexture(){
         
-        log.debug("Loading pencil texture")
+        //log.debug("Loading pencil texture")
         
         let url = Bundle.main.url(forResource: "tx_pencil_crosshatch_2", withExtension: "jpg")
         if url != nil {
@@ -210,7 +210,7 @@ class SketchFilter: CIFilter {
             return
         }
         
-        log.debug("Processing input file")
+        //log.debug("Processing input file")
         
         // resize so that longest is edge is at most 1024 pixels
         let l = max(inputImage.extent.size.width, inputImage.extent.size.height)

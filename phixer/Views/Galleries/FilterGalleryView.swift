@@ -156,15 +156,17 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         
         layout.itemSize = self.frame.size
         //log.debug("Gallery layout.itemSize: \(layout.itemSize)")
-        filterGallery = UICollectionView(frame: self.frame, collectionViewLayout: layout)
-        filterGallery?.isPrefetchingEnabled = true
-        filterGallery?.delegate   = self
-        filterGallery?.dataSource = self
-        reuseId = "FilterGalleryView_" + currCategory
-        filterGallery?.register(FilterGalleryViewCell.self, forCellWithReuseIdentifier: reuseId)
-        
-        self.addSubview(filterGallery!)
-        filterGallery?.fillSuperview()
+        if filterGallery == nil {
+            filterGallery = UICollectionView(frame: self.frame, collectionViewLayout: layout)
+            filterGallery?.isPrefetchingEnabled = true
+            filterGallery?.delegate   = self
+            filterGallery?.dataSource = self
+            //reuseId = "FilterGalleryView_" + currCategory
+            filterGallery?.register(FilterGalleryViewCell.self, forCellWithReuseIdentifier: reuseId)
+            
+            self.addSubview(filterGallery!)
+            filterGallery?.fillSuperview()
+        }
         
     }
     
@@ -226,6 +228,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         // load the cache in the background
         loadCache()
 
+        self.filterGallery?.reloadData()
     }
     
     ////////////////////////////////////////////
@@ -322,7 +325,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         if (self.filterList.count > 0){
             
             // add an entry for each filter to be displayed
-            log.verbose("Init images")
+            //log.verbose("Init images")
             for key in filterList {
                 // add the input image for now. It will be replaced by the filtered version
                 ImageCache.add(inputImage, key: key)
@@ -333,7 +336,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
             let delay = (self.filterList.count < 16) ? 0.0 : 0.15
             DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + delay) { [weak self] in
                 if self != nil {
-                    log.verbose("running filters in background...")
+                    //log.verbose("running filters in background...")
                    for key in self?.filterList ?? [] {
                         // update each image separately on the background queue to allow main queue to run
                         //DispatchQueue.global(qos: .background).async {
@@ -362,7 +365,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
                                 log.error("Input is NIL")
                             }
                             if self?.filterList.last == key {
-                                log.verbose("... done running filters")
+                                //log.verbose("... done running filters")
                                 self?.cacheLoaded = true
 //                                DispatchQueue.main.async(execute: { [weak self] in
 //                                    self?.update()
@@ -393,12 +396,16 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     
     private func releaseResources(){
         if (self.filterList.count > 0){
+            log.verbose("Releasing \(self.filterList.count) filters")
             for key in filterList {
                 ImageCache.remove(key: key)
                 RenderViewCache.remove(key: key)
                 FilterDescriptorCache.remove(key: key)
             }
             cacheLoaded = false
+            RenderView.reset()
+           
+            //listCells() //debug
         }
     }
 
@@ -584,7 +591,24 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         renderview?.setImageSize(self.imgSize)
         renderview?.image = ImageCache.get(key: key)
     }
+   
     
+
+    ////////////////////////////////////////////
+    // MARK: - Debug
+    ////////////////////////////////////////////
+
+    // debug func to list all cells in this collection
+    private func listCells(){
+        for i in 0...self.filterList.count-1 {
+            if let cell = filterGallery?.cellForItem(at: NSIndexPath(index: i) as IndexPath) {
+                log.debug("Cell: \(i) cell: \(cell)")
+            } else {
+                log.debug("Cell: \(i) cell: NIL")
+            }
+        }
+    }
+
 }
 
 
@@ -656,7 +680,7 @@ extension FilterGalleryView {
         let index:Int = (indexPath as NSIndexPath).item
         if ((index>=0) && (index<filterList.count)){
             DispatchQueue.main.async(execute: { () -> Void in
-                log.verbose("Index: \(index) key:(\(self.filterList[index]))")
+                //log.verbose("Index: \(index) key:(\(self.filterList[index]))")
                 let key = self.filterList[index]
                 let renderview = self.filterManager.getRenderView(key:key)
                 renderview?.frame = cell.frame

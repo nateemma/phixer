@@ -25,41 +25,52 @@ extension CIImage {
     
     // creates a CGImage - useful for cases when the CIImage was not created from a CGImage (or UIImage)
     public func generateCGImage(size:CGSize) -> CGImage? {
-        //let imgRect = CGRect(x: 0, y: 0, width: self.extent.width, height: self.extent.height)
-        let imgRect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-        return CIImage.getContext()?.createCGImage(self, from: imgRect)
+        let result = autoreleasepool { () -> CGImage? in
+            //let imgRect = CGRect(x: 0, y: 0, width: self.extent.width, height: self.extent.height)
+            let imgRect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+            return CIImage.getContext()?.createCGImage(self, from: imgRect)
+        }
+        return result
     }
     
     // get the associated CGImage, creating it if necessary
     public func getCGImage(size:CGSize) -> CGImage? {
-        if self.cgImage == nil {
-            return self.generateCGImage(size:size)
-        } else {
-            return self.cgImage
+        let result = autoreleasepool { () -> CGImage? in
+            if self.cgImage == nil {
+                return self.generateCGImage(size:size)
+            } else {
+                return self.cgImage
+            }
         }
+        return result
     }
 
     
     // resize a CIImage
     public func resize(size:CGSize) -> CIImage? {
         
-        // get the CGImage for this CIImage
-        let cgimage = self.getCGImage(size:self.extent.size)
         
-        // double-check that CGImage was created
-        guard cgimage != nil else {
-            log.error("Could not generate CGImage")
-            return self
+        var result: CIImage? = nil
+        result = self
+        autoreleasepool {
+            // get the CGImage for this CIImage
+            let cgimage = self.getCGImage(size:self.extent.size)
+            
+            // double-check that CGImage was created
+            if cgimage == nil  {
+                log.error("Could not generate CGImage")
+            } else {
+                
+                // resize the CGImage and check result
+                let cgimage2 = cgimage?.resize(size)
+                if cgimage2 == nil {
+                    log.error("Could not resize CGImage")
+                } else {
+                    result = CIImage(cgImage: cgimage2!)
+                }
+            }
         }
-        
-        // resize the CGImage and check result
-        let cgimage2 = cgimage?.resize(size)
-        guard cgimage2 != nil else {
-            log.error("Could not resize CGImage")
-            return self
-        }
-        
-        return CIImage(cgImage: cgimage2!)
+        return result
     }
     
     // get a portrait Matte Image, if it exists (iOS12 and later)

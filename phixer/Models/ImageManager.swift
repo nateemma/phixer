@@ -793,14 +793,14 @@ class ImageManager {
                 //tsize.width = UIScreen.main.bounds.size.width * UIScreen.main.scale
                 //tsize.height = UIScreen.main.bounds.size.height * UIScreen.main.scale
             }
-            log.debug("tsize: \(tsize)")
+            //log.debug("tsize: \(tsize)")
             
             if isAssetID(assetID) { // Asset?
                 let assets = PHAsset.fetchAssets(withLocalIdentifiers: [assetID], options:nil)
                 
                 if let asset = assets.firstObject {
                     do {
-                        log.debug("asset: \(asset)")
+                        //log.debug("asset: \(asset)")
                         let options = PHImageRequestOptions()
                         //        options.deliveryMode = PHImageRequestOptionsDeliveryMode.Opportunistic
                         //options.resizeMode = PHImageRequestOptionsResizeMode.exact

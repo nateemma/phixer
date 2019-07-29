@@ -381,7 +381,7 @@ class SimpleSwipeView: UIView {
 
 extension SimpleSwipeView: SwipeViewDataSource {
     func numberOfItemsInSwipeView(swipeView: SwipeView) -> Int {
-        log.verbose("\(itemList.count) items")
+        //log.verbose("\(itemList.count) items")
         return itemList.count
     }
     
