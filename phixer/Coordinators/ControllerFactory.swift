@@ -153,8 +153,9 @@ class ControllerFactory {
             instance = CategoryGalleryViewController()
 
         case .displayFilter:
-            instance = FilterDetailsViewController()
-            
+            //instance = FilterDetailsViewController()
+            instance = BasicEditViewController()
+
         case .colorPicker:
             instance = ColorPickerController()
             

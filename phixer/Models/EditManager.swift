@@ -19,12 +19,29 @@ protocol EditManagerDelegate: class {
 
 // static class to handle the editing of an image with multiple filters
 class EditManager {
+ 
     
-    public static var inputImage:CIImage? { return EditManager._input }
-    public static var previewImage:CIImage? { return applyAllFilters(EditManager._input) }
-    public static var filteredImage:CIImage? { return applySavedFilters(EditManager._input) }
-
     private static var _input:CIImage? = nil
+    private static var _preview:CIImage? = nil
+    private static var _filtered:CIImage? = nil
+
+    
+    public static var inputImage:CIImage? {
+        return EditManager._input
+    }
+    
+    public static var previewImage:CIImage? {
+        if EditManager._preview == nil {
+            EditManager._preview = applyAllFilters(EditManager._input)
+        }
+        return EditManager._preview
+    }
+    public static var filteredImage:CIImage? {
+        if EditManager._filtered == nil {
+            EditManager._filtered = applySavedFilters(EditManager._input)
+        }
+        return EditManager._filtered
+    }
 
     private static var filterList:[FilterDescriptor?] = []
     private static var previewFilter:FilterDescriptor? = nil
@@ -56,6 +73,10 @@ class EditManager {
     public static func reset(){
         log.verbose("Resetting")
         EditManager.filterList = []
+        EditManager._input = nil
+        EditManager._preview  = nil
+        EditManager._filtered = nil
+        
         previewFilter = filterManager?.getFilterDescriptor(key: FilterDescriptor.nullFilter)
         filterManager?.setCurrentFilterKey(FilterDescriptor.nullFilter)
         delegates.invoke { $0.editFilterReset() }
@@ -78,6 +99,8 @@ class EditManager {
         } else {
             EditManager._input = nil
         }
+        EditManager._preview  = nil
+        EditManager._filtered = nil
     }
     
     // get the size of the image (any of them, they are the same size)
@@ -112,7 +135,7 @@ class EditManager {
 
     
     // get a 'split preview' image, with the preview filtered image on the left and the filtered image (sans preview) on the right
-    // Note that x is specifed in image coordinates, not screen/view coordinates
+    // Note that offset is specifed in image coordinates, not screen/view coordinates
     public static func getSplitPreviewImage(offset:CGFloat) -> CIImage? {
         let leftImage:CIImage? = getPreviewImage()
         let rightImage:CIImage? = getFilteredImage()
@@ -127,7 +150,7 @@ class EditManager {
     }
     
     
-    // Asynchronous image get functions - use trhese for larger images (i.e. full screen) or slower filters
+    // Asynchronous image get functions - use these for larger images (i.e. full screen) or slower filters
 
     public static func getPreviewImageAsync(completion: @escaping (CIImage?)->()) {
         //DispatchQueue.main.async {
@@ -177,6 +200,8 @@ class EditManager {
         EditManager.filterList.append(filter)
         FilterManager.lockFilter(key:(filter?.key)!)
         log.debug("Added filter:\(String(describing: filter?.title))")
+        EditManager._preview  = nil
+        EditManager._filtered = nil
     }
     
     
@@ -210,6 +235,9 @@ class EditManager {
             filterManager?.setCurrentFilterKey(FilterDescriptor.nullFilter)
             EditManager.previewFilter = filterManager?.getFilterDescriptor(key: FilterDescriptor.nullFilter)
         }
+        
+        EditManager._preview  = nil
+        EditManager._filtered = nil
 
     }
     
@@ -226,6 +254,10 @@ class EditManager {
         if filter != nil {
             FilterManager.lockFilter(key:(filter?.key)!)
         }
+        
+        EditManager._preview  = nil
+        //EditManager._filtered = nil
+
        log.debug("Added Preview filter:\(String(describing: filter?.title))")
     }
 
@@ -236,6 +268,9 @@ class EditManager {
             addPreviewFilter(filterManager?.getFilterDescriptor(key: FilterDescriptor.nullFilter))
             
             delegates.invoke { $0.editPreviewRemoved() }
+            
+            EditManager._preview  = nil
+            //EditManager._filtered = nil
         }
     }
     
@@ -256,6 +291,8 @@ class EditManager {
         EditManager.addFilter(previewFilter)
         log.debug("Saved Preview filter:\(String(describing: previewFilter?.title))")
         addPreviewFilter(filterManager?.getFilterDescriptor(key: FilterDescriptor.nullFilter))
+        EditManager._preview  = nil
+        EditManager._filtered = nil
     }
 
     // func to see if (non-null) filter is active as a preview

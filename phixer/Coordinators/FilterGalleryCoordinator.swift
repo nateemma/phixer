@@ -24,8 +24,8 @@ class BrowseFiltersCoordinator: Coordinator {
     override func selectFilterNotification (key: String) {
         // filter selected, display it
         log.debug("key: \(key)")
-        //Coordinator.filterManager?.setCurrentFilterKey(key)
         self.activateRequest(id: ControllerIdentifier.displayFilter)
+        //self.activateRequest(id: ControllerIdentifier.edit)
     }
 
     
