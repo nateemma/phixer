@@ -46,10 +46,12 @@ class BrowseFiltersCoordinator: Coordinator {
         self.subControllers = [:]
         
         self.mainControllerId = .filterGallery
-        self.validControllers = [.filterGallery, .displayFilter, .help]
+        self.validControllers = [.filterGallery, .displayFilter, .edit, .help]
 
         // no (main) mappings for coordinators
+        // Note that we deliberately do not allow the edit subcontrollers here because we only want them to run in 'full' edit mode
         self.coordinatorMap = [:]
+        self.coordinatorMap [ControllerIdentifier.edit] = CoordinatorIdentifier.edit
         self.coordinatorMap [ControllerIdentifier.displayFilter] = CoordinatorIdentifier.filterDisplay
         self.coordinatorMap [ControllerIdentifier.help] = CoordinatorIdentifier.help
 

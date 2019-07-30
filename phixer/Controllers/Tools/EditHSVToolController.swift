@@ -73,6 +73,7 @@ class EditHSVToolController: EditBaseToolController {
 
     private var colorMap: [String:ColorParameters] = [:]
     private var currColorKey:String = "red"
+    private var refColor:UIColor = MultiBandHSV.red
     private var currColorIndex:Int = 0
     private var oldColorIndex:Int = 0
 
@@ -222,6 +223,7 @@ class EditHSVToolController: EditBaseToolController {
             oldColorIndex = currColorIndex
             currColorIndex = index
             currColorKey = c
+            refColor = (p?.color)!
             
             setSlidersColor((p?.color)!)
        }
@@ -398,7 +400,11 @@ class EditHSVToolController: EditBaseToolController {
         sSlider.thumbColor = currColor
         bSlider.thumbColor = currColor
 
-        colorMap[currColorKey]?.vector = CIVector(x: hValue, y: sValue, z: bValue)
+        // the vector expresses the difference from the reference color, not absoulte values. So subtract
+        var href:CGFloat=0.0, sref:CGFloat=0.0, bref:CGFloat=0.0, aref:CGFloat=0.0
+        refColor.getHue(&href, saturation: &sref, brightness: &bref, alpha: &aref)
+        //colorMap[currColorKey]?.vector = CIVector(x: hValue, y: sValue, z: bValue)
+        colorMap[currColorKey]?.vector = CIVector(x: hValue-href, y: 1.0+(sValue-sref), z: 1.0+(bValue-bref))
         colorMap[currColorKey]?.color = UIColor(hue: hValue, saturation: sValue, brightness: bValue, alpha: 1.0)
 
         setFilterParameters()
