@@ -149,7 +149,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         imgViewSize = cellSize
 
         // calculate the sizes for processing the input image (typically a downscaled version of the input)
-        // for now, we just use the display size adjusted for the screen points per pixel
+        // for now, we just use the cell size adjusted for the screen points per pixel
         imgSize = CGSize(width: imgViewSize.width * UISettings.screenScale, height: imgViewSize.height * UISettings.screenScale)
 
         // set up the gallery/collection view
@@ -203,7 +203,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         // load the input data
         loadInputs(size: imgSize)
 
-
+/***
         // pre-load filters. Inefficient, but it avoids multi-thread timing issues when rendering cells
         // ignore compiler warnings, the intent is to pre-load the filters
         if (self.filterList.count > 0){
@@ -211,15 +211,10 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
                 let key = self.filterList[i]
                 filter = filterManager.getFilterDescriptor(key: key)
                 renderview = filterManager.getRenderView(key: key)
+                renderview?.setImageSize(imgSize)
            }
-            /***
-            for key in self.filterList{
-                filter = filterManager.getFilterDescriptor(key: key)
-                renderview = filterManager.getRenderView(key: key)
-            }
- ***/
         }
-
+***/
         
         //self.filterGallery?.reloadData()
         //self.filterGallery?.setNeedsDisplay()
@@ -333,53 +328,87 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
             
             self.blend = nil // big, so only allocate when needed
 
-            let delay = (self.filterList.count < 16) ? 0.0 : 0.15
-            DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + delay) { [weak self] in
-                if self != nil {
-                    //log.verbose("running filters in background...")
-                   for key in self?.filterList ?? [] {
-                        // update each image separately on the background queue to allow main queue to run
-                        //DispatchQueue.global(qos: .background).async {
-                            //DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.2) {
-                            //let renderview = self.filterManager.getRenderView(key: key) // this caches the RenderView
-                            let descriptor = self?.filterManager.getFilterDescriptor(key: key)
-                            if self?.inputImage != nil {
-                                if descriptor?.filterOperationType == FilterOperationType.blend {
-                                    if self?.blend == nil {
-                                        self?.blend = ImageManager.getCurrentBlendImage()
-                                    }
-                                }
-                                //let image = descriptor?.apply(image:self?.inputImage, image2: self?.blend)
-                                var image = ImageCache.get(key: key)
-                                image = descriptor?.apply(image:self?.inputImage, image2: self?.blend)
-                                if image != nil {
-                                    ImageCache.add(image, key: key)
-                                    // update on main thread (needs to do some layout that we can't do in the background)
-                                    DispatchQueue.main.async(execute: { [weak self] in
-                                        self?.reloadImage(key:key)
-                                    })
-                                } else {
-                                    log.error("Filter returned nil")
-                                }
-                            } else {
-                                log.error("Input is NIL")
-                            }
-                            if self?.filterList.last == key {
-                                //log.verbose("... done running filters")
-                                self?.cacheLoaded = true
-//                                DispatchQueue.main.async(execute: { [weak self] in
-//                                    self?.update()
-//                                })
-                           }
-                        //}
-                    }
-                } else {
-                    log.error("SELF not defined")
-                }
-            }
+            loadFilterList()
         }
         
     }
+    
+    var workList:[String] = []
+    
+    // loads the list of filters one at a time
+    private func loadFilterList(){
+        
+        // this is a little tricky. We can't load all of the filters at once because it holds up the main thread too much.
+        // However, we can't run all of the processing on the background thread because some image libraries are used
+        // So,we break it up into pieces that we run on the main thread one at a time
+        
+        workList = self.filterList
+        
+        processWorkItem()
+    }
+    
+    private func processWorkItem(){
+        DispatchQueue.main.async(execute: { [weak self] in
+            if (self?.workList.count)! > 0 { // can change e.g. fast scrolling through categories by user
+                if let key = self?.workList[0] {
+                    if !key.isEmpty {
+                        self?.loadFilter(key)
+                    }
+                }
+                
+                // remove this entry
+                self?.workList.remove(at: 0)
+                
+                // if we're done then flag the cache as loaded
+                if (self?.workList.count)! <= 0 {
+                    self?.cacheLoaded = true
+                } else {
+                    // not done, recursively call to process next item
+                    self?.processWorkItem()
+                }
+            }
+        })
+    }
+    
+    // load an individual filter
+    private func loadFilter(_ key: String){
+        
+        // get the descriptor and renderview. This also leaves them cached for later use
+        let descriptor = self.filterManager.getFilterDescriptor(key: key)
+        let renderview = filterManager.getRenderView(key: key)
+        renderview?.setImageSize(imgSize)
+
+        if self.inputImage != nil {
+            if descriptor?.filterOperationType == FilterOperationType.blend {
+                if self.blend == nil { // lazy loading
+                    self.blend = ImageManager.getCurrentBlendImage()
+                }
+            }
+            // we pre-loaded the cache with the source image so just use that
+            var image = ImageCache.get(key: key)
+            
+            // apply the filter
+            image = descriptor?.apply(image:self.inputImage, image2: self.blend)
+            if image != nil {
+                
+                // replace the image in the cache
+                ImageCache.add(image, key: key)
+                
+                // update the display
+                DispatchQueue.main.async(execute: { [weak self] in
+                    self?.reloadImage(key:key)
+                })
+            } else {
+                log.error("Filter returned nil")
+            }
+        } else {
+            log.error("Input is NIL")
+        }
+        
+    }
+    
+
+    
     
     // removes images from the cache
     private func unloadCache() {
@@ -389,7 +418,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
             }
         }
         cacheLoaded = false
-   }
+    }
     
     
     // releaes the resources that we used for the gallery items

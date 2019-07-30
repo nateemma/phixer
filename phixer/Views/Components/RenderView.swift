@@ -51,7 +51,9 @@ class RenderView: MTKView
         }
         
         if RenderView.ciContext == nil {
-            RenderView.ciContext = CIContext(mtlDevice: self.device!)
+            //RenderView.ciContext = CIContext(mtlDevice: self.device!)
+            // Note: have to turn off internal cacheing, otherwise memory grows every time an image is displayed, even if it gets deallocated exoplicitly
+            RenderView.ciContext = CIContext(mtlDevice: self.device!, options: [CIContextOption.useSoftwareRenderer:false, CIContextOption.cacheIntermediates:false])
         }
         
         RenderView.device = super.device
@@ -79,7 +81,7 @@ class RenderView: MTKView
     public static func resetContext(){
         RenderView.ciContext?.clearCaches()
         RenderView.ciContext = nil
-        RenderView.ciContext = CIContext(mtlDevice: self.device!)
+        RenderView.ciContext = CIContext(mtlDevice: self.device!, options: [CIContextOption.useSoftwareRenderer:false, CIContextOption.cacheIntermediates:false])
     }
 
     
@@ -295,9 +297,10 @@ class RenderView: MTKView
                         
                         commandBuffer.present(currentDrawable!)
                         commandBuffer.commit()
-                        
+
                         self.draw()  // if isPaused is set then we must call this manually to free the drawable
-                        
+                        RenderView.ciContext?.clearCaches()
+
                     } else {
                         log.error("Err getting cmd buf")
                     }
