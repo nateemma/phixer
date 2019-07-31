@@ -63,6 +63,9 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     fileprivate var reuseId:String = "FilterGalleryView"
     //fileprivate var opacityFilter:OpacityAdjustment? = nil
     
+    // object to load filters asynchrobously into cache
+    private let filterLoader = FilterLoader()
+
     
     // delegate for handling events
     weak var delegate: FilterGalleryViewDelegate?
@@ -334,80 +337,22 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         
     }
     
-    var workList:[String] = []
-    
+
+
     // loads the list of filters one at a time
     private func loadFilterList(){
         
-        // this is a little tricky. We can't load all of the filters at once because it holds up the main thread too much.
-        // However, we can't run all of the processing on the background thread because some image libraries are used
-        // So,we break it up into pieces that we run on the main thread one at a time
-        
-        workList = self.filterList
-        
-        processWorkItem()
+        filterLoader.unload() // in case anything was previously loaded
+        filterLoader.setFilters(self.filterList)
+        filterLoader.load(image: self.inputImage,
+                    update: { key in
+                        DispatchQueue.main.async(execute: { [weak self] in
+                            self?.reloadImage(key:key)
+                        })
+                    },
+                    completion: { self.cacheLoaded = true }
+                   )
     }
-    
-    private func processWorkItem(){
-        DispatchQueue.main.async(execute: { [weak self] in
-            if (self?.workList.count)! > 0 { // can change e.g. fast scrolling through categories by user
-                if let key = self?.workList[0] {
-                    if !key.isEmpty {
-                        self?.loadFilter(key)
-                    }
-                }
-                
-                // remove this entry
-                self?.workList.remove(at: 0)
-                
-                // if we're done then flag the cache as loaded
-                if (self?.workList.count)! <= 0 {
-                    self?.cacheLoaded = true
-                } else {
-                    // not done, recursively call to process next item
-                    self?.processWorkItem()
-                }
-            }
-        })
-    }
-    
-    // load an individual filter
-    private func loadFilter(_ key: String){
-        
-        // get the descriptor and renderview. This also leaves them cached for later use
-        let descriptor = self.filterManager.getFilterDescriptor(key: key)
-        let renderview = filterManager.getRenderView(key: key)
-        renderview?.setImageSize(imgSize)
-
-        if self.inputImage != nil {
-            if descriptor?.filterOperationType == FilterOperationType.blend {
-                if self.blend == nil { // lazy loading
-                    self.blend = ImageManager.getCurrentBlendImage()
-                }
-            }
-            // we pre-loaded the cache with the source image so just use that
-            var image = ImageCache.get(key: key)
-            
-            // apply the filter
-            image = descriptor?.apply(image:self.inputImage, image2: self.blend)
-            if image != nil {
-                
-                // replace the image in the cache
-                ImageCache.add(image, key: key)
-                
-                // update the display
-                DispatchQueue.main.async(execute: { [weak self] in
-                    self?.reloadImage(key:key)
-                })
-            } else {
-                log.error("Filter returned nil")
-            }
-        } else {
-            log.error("Input is NIL")
-        }
-        
-    }
-    
 
     
     
@@ -427,11 +372,12 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     private func releaseResources(){
         if (self.filterList.count > 0){
             log.verbose("Releasing \(self.filterList.count) filters")
-            for key in filterList {
-                ImageCache.remove(key: key)
-                RenderViewCache.remove(key: key)
-                FilterDescriptorCache.remove(key: key)
-            }
+            filterLoader.unload()
+//            for key in filterList {
+//                ImageCache.remove(key: key)
+//                RenderViewCache.remove(key: key)
+//                FilterDescriptorCache.remove(key: key)
+//            }
             cacheLoaded = false
             RenderView.reset()
            

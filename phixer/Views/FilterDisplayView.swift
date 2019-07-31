@@ -90,7 +90,7 @@ class FilterDisplayView: UIView {
             if (key != currFilterKey) {
                 filterManager.releaseFilterDescriptor(key: currFilterKey)
                 filterManager.releaseRenderView(key: currFilterKey)
-                RenderView.reset()
+                //RenderView.reset()
             }
             
             currFilterKey = key

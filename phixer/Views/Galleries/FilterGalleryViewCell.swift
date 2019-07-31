@@ -157,7 +157,7 @@ class FilterGalleryViewCell: UICollectionViewCell {
     
     // MARK: - Configuration
 
-
+/***
     override func prepareForReuse() {
         if let descriptor = self.descriptor {
             let key = descriptor.key
@@ -167,7 +167,7 @@ class FilterGalleryViewCell: UICollectionViewCell {
         }
         super.prepareForReuse()
     }
-
+***/
     
     
     public func configureCell(frame: CGRect, index:Int, key:String) {

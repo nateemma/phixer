@@ -747,6 +747,7 @@
 		2573D1EB217CDCB500E78CAB /* YUCIColorLookup.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = 2573D1CF217CDCB400E78CAB /* YUCIColorLookup.cikernel */; };
 		2573D1EC217CDCB500E78CAB /* YUCIBilateralFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2573D1D2217CDCB400E78CAB /* YUCIBilateralFilter.m */; };
 		2573D1ED217CDCB500E78CAB /* YUCIHighPassSkinSmoothingMaskBoost.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = 2573D1D3217CDCB400E78CAB /* YUCIHighPassSkinSmoothingMaskBoost.cikernel */; };
+		257ABB0C22F1F7F1000546E4 /* FilterLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257ABB0B22F1F7F1000546E4 /* FilterLoader.swift */; };
 		257E29A12168274100F438C6 /* oldFilterConfig.json in Resources */ = {isa = PBXBuildFile; fileRef = 257E29A02168274100F438C6 /* oldFilterConfig.json */; };
 		257E29CA216D505B00F438C6 /* oldPresetList.json in Resources */ = {isa = PBXBuildFile; fileRef = 257E29C9216D505B00F438C6 /* oldPresetList.json */; };
 		257F49E51D9448920083B1E4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 257F49E31D9448920083B1E4 /* Main.storyboard */; };
@@ -1981,6 +1982,7 @@
 		2573D1D2217CDCB400E78CAB /* YUCIBilateralFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YUCIBilateralFilter.m; sourceTree = "<group>"; };
 		2573D1D3217CDCB400E78CAB /* YUCIHighPassSkinSmoothingMaskBoost.cikernel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = YUCIHighPassSkinSmoothingMaskBoost.cikernel; sourceTree = "<group>"; };
 		2573D1D4217CDCB400E78CAB /* YUCIReflectedTileROICalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YUCIReflectedTileROICalculator.h; sourceTree = "<group>"; };
+		257ABB0B22F1F7F1000546E4 /* FilterLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterLoader.swift; sourceTree = "<group>"; };
 		257E29A02168274100F438C6 /* oldFilterConfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = oldFilterConfig.json; sourceTree = "<group>"; };
 		257E29C9216D505B00F438C6 /* oldPresetList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = oldPresetList.json; sourceTree = "<group>"; };
 		257F49DC1D9448920083B1E4 /* phixer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = phixer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2748,6 +2750,7 @@
 				25CC3EAA21FD190100EB8A0A /* RenderViewCache.swift */,
 				25159883219E2B850067AA00 /* ThemeManager.swift */,
 				25F460171D99CCCE00EDA182 /* UISettings.swift */,
+				257ABB0B22F1F7F1000546E4 /* FilterLoader.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -5335,6 +5338,7 @@
 				25F21FBB2204D12F005C449F /* GridOverlayView.swift in Sources */,
 				258F09B9219264C20082FE2A /* SmoothThresholdFilter.swift in Sources */,
 				2537A1E121E01EA900060DBE /* Sobel3x3Filter.swift in Sources */,
+				257ABB0C22F1F7F1000546E4 /* FilterLoader.swift in Sources */,
 				25CC3EC321FFD59D00EB8A0A /* EightBit.swift in Sources */,
 				2568BDA221AC72CB00560287 /* ISColorWheel.m in Sources */,
 				25CC3EA121F5916200EB8A0A /* TransverseChromaticAberration.swift in Sources */,

@@ -41,6 +41,7 @@ class StyleTransferGalleryView : UIView {
     fileprivate let height: CGFloat = 34
     fileprivate let rowHeight: CGFloat = 96
     
+    fileprivate var inputImage:CIImage? = nil
     fileprivate var rowSize:CGSize = CGSize.zero
     fileprivate var imgSize:CGSize = CGSize.zero
     fileprivate var imgViewSize:CGSize = CGSize.zero
@@ -65,6 +66,9 @@ class StyleTransferGalleryView : UIView {
     fileprivate var reuseId:String = "StyleTransferGalleryView"
     //fileprivate var opacityFilter:OpacityAdjustment? = nil
     
+    // object to load filters asynchronously into cache
+    private let filterLoader = FilterLoader()
+
     
     // delegate for handling events
     weak var delegate: StyleTransferGalleryViewDelegate?
@@ -85,11 +89,12 @@ class StyleTransferGalleryView : UIView {
     deinit{
         suspend()
         if filterList.count > 0 {
-            for key in filterList {
-                ImageCache.remove(key: key)
-                RenderViewCache.remove(key: key)
-                FilterDescriptorCache.remove(key: key)
-            }
+            filterLoader.unload()
+//            for key in filterList {
+//                ImageCache.remove(key: key)
+//                RenderViewCache.remove(key: key)
+//                FilterDescriptorCache.remove(key: key)
+//            }
             filterList = []
             sourceImageList = [:]
             styledImageList = [:]
@@ -193,8 +198,8 @@ class StyleTransferGalleryView : UIView {
     open func reset(){
         DispatchQueue.main.async(execute: { () -> Void in
             log.verbose("Resetting...")
-            //self.sample = InputSource.getCurrentImage()?.resize(size: self.imgSize)
-            self.sample = EditManager.getPreviewImage()?.resize(size: self.imgSize)
+            //self.inputImage = InputSource.getCurrentImage()?.resize(size: self.imgSize)
+            self.inputImage = EditManager.getPreviewImage()?.resize(size: self.imgSize)
             self.renderStyledImages()
             StyleTransferGalleryViewCell.reset()
             self.styleTransfer?.reloadData()
@@ -204,8 +209,8 @@ class StyleTransferGalleryView : UIView {
     open func update(){
         //self.styleTransfer?.setNeedsDisplay()
         log.verbose("update requested")
-        //self.sample = InputSource.getCurrentImage()?.resize(size: self.imgSize)
-        self.sample = EditManager.getPreviewImage()?.resize(size: imgSize)
+        //self.inputImage = InputSource.getCurrentImage()?.resize(size: self.imgSize)
+        self.inputImage = EditManager.getPreviewImage()?.resize(size: imgSize)
        self.renderStyledImages()
         self.styleTransfer?.reloadData()
         //doLoadData()
@@ -263,7 +268,7 @@ class StyleTransferGalleryView : UIView {
                     renderview = RenderView()
                     renderview?.setImageSize(self.imgSize) // we may have changed the size
                     renderview?.frame.size = imgViewSize
-                    renderview?.image = self.sample
+                    renderview?.image = self.inputImage
                     self.styledImageList[key] = renderview
                 }
             }
@@ -275,8 +280,6 @@ class StyleTransferGalleryView : UIView {
     // MARK: - Rendering stuff
     ////////////////////////////////////////////
     
-    fileprivate var sample:CIImage? = nil
-    
     
     
     fileprivate func loadInputs(size:CGSize){
@@ -284,8 +287,8 @@ class StyleTransferGalleryView : UIView {
         // input image can change, so make sure it's current
         EditManager.setInputImage(InputSource.getCurrentImage())
 
-        //sample = ImageManager.getCurrentSampleImage()
-        if sample == nil {
+        //inputImage = ImageManager.getCurrentSampleImage()
+        if inputImage == nil {
             // downsize the input image to something based on the requested size. Keep the aspect ratio though, otherwise redndering will be strange
             // resize so that longest is edge is a multiple of the desired size
             
@@ -304,9 +307,9 @@ class StyleTransferGalleryView : UIView {
                 mysize = CGSize(width: (insize.width*ratio).rounded(), height: (insize.height*ratio).rounded())
             }
             log.verbose("Input image resized to: \(mysize)")
-            //sample = ImageManager.getCurrentSampleImage(size:size)
+            //inputImage = ImageManager.getCurrentSampleImage(size:size)
             imgSize = mysize
-            sample = EditManager.getPreviewImage()?.resize(size: imgSize)
+            inputImage = EditManager.getPreviewImage()?.resize(size: imgSize)
             
             // update the view frame to match the orientation
             let ar = imgSize.width / imgSize.height
@@ -341,19 +344,30 @@ class StyleTransferGalleryView : UIView {
         
         loadInputs(size:imgSize)
         
-        guard (sample != nil) else {
-            log.error("Could not load sample image")
+        guard (inputImage != nil) else {
+            log.error("Could not load input image")
             return nil
         }
         
 
         // run the filter
-        return descriptor?.apply(image:sample)
+        return descriptor?.apply(image:inputImage)
 
     }
     
+    // updates the image associated with the supplied key
+    func reloadImage(key: String){
+        let renderview = self.filterManager.getRenderView(key:key)
+        renderview?.frame.size = self.imgViewSize
+        renderview?.setImageSize(self.imgSize)
+        renderview?.image = ImageCache.get(key: key)
+        log.debug("Reloading: \(key)")
+        //self.styleTransfer?.reloadData()
+    }
+
     // apply styles for all filters in the list
     func renderStyledImages(){
+        /***
         //DispatchQueue.main.async(execute: { () -> Void in
         DispatchQueue.global(qos: .background).async {
             
@@ -365,11 +379,11 @@ class StyleTransferGalleryView : UIView {
                     
                     // styled image
                     renderview =  self.styledImageList[key]!
-                    renderview?.setImageSize((self.sample?.extent.size)!) // we changed the size
+                    renderview?.setImageSize((self.inputImage?.extent.size)!) // we changed the size
                     //log.debug("key:\(key), imgSize:\(self.imgSize) viewSize:\(self.imgViewSize) frame:\(renderview?.frame.size)")
 
                     renderview?.image = self.getStyledImage(key:key)
-                    //renderview?.image = self.sample
+                    //renderview?.image = self.inputImage
                  }
             }
             
@@ -380,6 +394,24 @@ class StyleTransferGalleryView : UIView {
             //self.styleTransfer?.setNeedsDisplay()
         }
         //})
+         ***/
+        
+        log.debug("Loading filters: \(filterList)")
+        filterLoader.unload() // in case anything was previously loaded
+        filterLoader.setFilters(self.filterList)
+        filterLoader.load(image: self.inputImage,
+                          update: { key in
+                            DispatchQueue.main.async(execute: { [weak self] in
+                                self?.reloadImage(key: key)
+                            })
+                          },
+                          completion: {
+                            DispatchQueue.main.async(execute: { [weak self] in
+                                self?.styleTransfer?.reloadData()
+                            })
+                          }
+        )
+
     }
 }
 
@@ -433,14 +465,9 @@ extension StyleTransferGalleryView: UICollectionViewDataSource {
                 cell.frame.size.height = self.rowHeight
                 //log.verbose("Index: \(index) key:(\(self.filterList[index]))")
                 let key = self.filterList[index]
-                //let renderview = self.filterManager.getRenderView(key:key)
-                //renderview?.frame.size.width = cell.frame.size.width / 4.0
-                //renderview?.frame.size.height = cell.frame.size.height * 0.9
-                //self.updateRenderView(index:index, key: key, renderview: renderview) // doesn't seem to work if we put this into the StyleTransferGalleryViewCell logic (threading?!)
-                
-                //cell.setStyledImage(index:index, key: key, image:self.getStyledImage(key:key))
-                //cell.configure(index: index, srcImage: (self.sourceImageList[key])!,  styledImage: self.filterManager.getRenderView(key: key))
-                let renderview =  self.styledImageList[key]
+                //let renderview =  self.styledImageList[key]
+                let renderview = self.filterManager.getRenderView(key:key)
+
                 renderview?.setImageSize(self.imgSize) // we changed the size
                 renderview?.frame.size = self.imgViewSize // can change
                 //log.debug("key:\(key), imgSize:\(self.imgSize) viewSize:\(self.imgViewSize) frame:\(renderview?.frame.size)")
