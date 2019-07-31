@@ -60,6 +60,7 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
         
         if (!initDone){
             log.verbose("init")
+            CoordinatedController.enableNavigation = true // OK to enable navigation now
             initDone = true
         }
     }
@@ -113,7 +114,7 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
         
         // note: for collections, key must match colection name
         menuItems = [ MenuItem(key: "changePhoto", title: "Change Photo", subtitile: "", icon: "", view: curPhoto, isHidden: false),
-                      MenuItem(key: "simpleEditor", title: "Picture Editor", subtitile: "Edit 'basic' image settings\n (exposure, colors, tone, vignette, sharpen etc.)",
+                      MenuItem(key: "simpleEditor", title: "Picture Editor", subtitile: "Edit multiple 'basic' image settings\n (exposure, colors, tone, vignette, sharpen etc.)",
                                icon: "ic_basic", view: nil, isHidden: false),
                       MenuItem(key: "favorites", title: "Favorites", subtitile: "Browse favorite presets & filters",
                                icon: "ic_heart_outline", view: nil, isHidden: false),

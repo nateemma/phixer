@@ -589,14 +589,14 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
                     case UISwipeGestureRecognizer.Direction.right:
                         log.verbose("Swiped Right")
                         editImageView.isUserInteractionEnabled = false // hack to prevent scrolview handlingthe swipe (nned better solution)
-                        self.coordinator?.nextItemRequest()
+                        self.coordinator?.previousItemRequest()
                         editImageView.isUserInteractionEnabled = true
                        break
                         
                     case UISwipeGestureRecognizer.Direction.left:
                         log.verbose("Swiped Left")
                         editImageView.isUserInteractionEnabled = false
-                        self.coordinator?.previousItemRequest()
+                        self.coordinator?.nextItemRequest()
                         editImageView.isUserInteractionEnabled = true
                        break
                         

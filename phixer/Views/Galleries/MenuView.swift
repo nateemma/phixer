@@ -43,7 +43,7 @@ class MenuView : UIView, UICollectionViewDataSource {
     fileprivate let rightOffset: CGFloat = 7
     fileprivate let height: CGFloat = 34
     
-    fileprivate let sectionInsets = UIEdgeInsets(top: 2.0, left: 3.0, bottom: 2.0, right: 3.0) // layout is *really* sensitive to left/right for some reason
+    fileprivate var sectionInsets = UIEdgeInsets(top: 2.0, left: 3.0, bottom: 2.0, right: 3.0)
 
     
     fileprivate var menuItems:[MenuItem] = []
@@ -126,6 +126,8 @@ class MenuView : UIView, UICollectionViewDataSource {
             let widthPerItem = availableWidth / itemsPerRow
             
             cellSize = CGSize(width: widthPerItem, height: (UISettings.panelHeight).rounded())
+            
+            sectionInsets.bottom = (cellSize.height * 0.667).rounded() // otherwise, only half of bottom row shows
             
             // set up the gallery/collection view
             

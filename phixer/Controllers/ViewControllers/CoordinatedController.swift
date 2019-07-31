@@ -18,8 +18,14 @@ class CoordinatedController: UIViewController, ControllerDelegate {
     // delegate for handling events
     weak var coordinator: CoordinatorDelegate? = nil
     
+    // flag to disable navigation. Should be to set to true by the root controller when it runs
+    public static var enableNavigation:Bool = false
+    
+    // ID of the 'root' controller in the screen hierarchy. This is not necessarily the first controller to run
+    private static let rootController:ControllerIdentifier = .mainMenu
+    
     // the id of controller (useful to the coordinator)
-    public var id: ControllerIdentifier = .mainMenu // has to be something
+    public var id: ControllerIdentifier = .none // has to be something
     
     // the type of controller (useful to the coordinator)
     public var controllerType: ControllerType = .fullscreen
@@ -228,9 +234,15 @@ class CoordinatedController: UIViewController, ControllerDelegate {
         let menuButton = UIBarButtonItem(image: UIImage(named: "ic_menu")?.imageScaled(to: size), style: .plain, target: self, action: #selector(navbarMenuDidPress))
         
 
-        if (self.id != .choosePhoto) &&  (self.id != .none) {
+        // set up back button if not root controller, id is set and navigation is enabled
+        if (self.id != CoordinatedController.rootController) &&  (self.id != .none) && (CoordinatedController.enableNavigation){
             self.navigationItem.leftBarButtonItem = backButton
+            self.navigationItem.hidesBackButton = false
+        } else {
+            //self.navigationItem.leftBarButtonItem = nil
+            self.navigationItem.hidesBackButton = true
         }
+        
         //self.navigationItem.rightBarButtonItems = [ menuButton, helpButton ] // build custom view?
         self.navigationItem.rightBarButtonItem = menuButton
         
@@ -250,7 +262,7 @@ class CoordinatedController: UIViewController, ControllerDelegate {
     
     @objc func navbarBackDidPress(){
         log.debug("\(self.getTag()) Back Pressed")
-        if self.id != .mainMenu {
+        if self.id != CoordinatedController.rootController {
             //self.dismiss()
             self.end()
         }

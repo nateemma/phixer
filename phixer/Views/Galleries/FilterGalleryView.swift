@@ -48,7 +48,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     fileprivate let rightOffset: CGFloat = 7
     fileprivate let height: CGFloat = 34
     
-    fileprivate let sectionInsets = UIEdgeInsets(top: 2.0, left: 3.0, bottom: 2.0, right: 3.0) // layout is *really* sensitive to left/right for some reason
+    fileprivate var sectionInsets = UIEdgeInsets(top: 2.0, left: 3.0, bottom: 2.0, right: 3.0) // layout is *really* sensitive to left/right for some reason
 
     
     fileprivate var filterList:[String] = []
@@ -147,6 +147,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         
         cellSize = CGSize(width: widthPerItem, height: widthPerItem/aspectRatio) // use same aspect ratio as inputImage image
         imgViewSize = cellSize
+        sectionInsets.bottom = (cellSize.height * 0.5).rounded() // otherwise, only half of bottom row shows
 
         // calculate the sizes for processing the input image (typically a downscaled version of the input)
         // for now, we just use the cell size adjusted for the screen points per pixel

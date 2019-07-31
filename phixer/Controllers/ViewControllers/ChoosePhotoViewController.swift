@@ -16,6 +16,10 @@ class ChoosePhotoViewController: CoordinatedController, UIImagePickerControllerD
     
     private var displayWidth : CGFloat = 0.0
     private var displayHeight : CGFloat = 0.0
+    private var sectionHeight : CGFloat = 0.0
+    private var labelHeight : CGFloat = 0.0
+    private var imageHeight : CGFloat = 0.0
+
     
     private var mainView:UIView! = UIView()
     private var selectedView:UIView! = UIView()
@@ -83,6 +87,8 @@ class ChoosePhotoViewController: CoordinatedController, UIImagePickerControllerD
     
     private func doLayout(){
         
+        // make sure edit image has been set
+        EditManager.setInputImage(ImageManager.getCurrentEditImage())
 
         displayHeight = view.height
         displayWidth = view.width
@@ -95,7 +101,7 @@ class ChoosePhotoViewController: CoordinatedController, UIImagePickerControllerD
         view.addSubview(mainView)
         
         // layout constraints
-        mainView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: (displayHeight-UISettings.panelHeight))
+        mainView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: displayHeight)
     }
     
 
@@ -104,15 +110,21 @@ class ChoosePhotoViewController: CoordinatedController, UIImagePickerControllerD
         mainView.frame.size.width = displayWidth
         mainView.backgroundColor = theme.backgroundColor
         
+        // set up sizes for each section
+        sectionHeight = ((mainView.frame.size.height-12.0) / 3.0).rounded()
+        labelHeight = 24.0
+        imageHeight = sectionHeight - labelHeight - 4.0
+
+        
         layoutCurrentSelection()
         layoutRecentPhotos()
         layoutRecentEdits()
         
         let w = mainView.frame.size.width - 8.0
-        let h = (mainView.frame.size.height / 3.0).rounded()
+        let h = sectionHeight.rounded()
         view.groupAgainstEdge(group: .vertical,
                               views: [selectedView, recentPhotosView, recentEditsView],
-                              againstEdge: .bottom, padding: 8, width: w, height: h)
+                              againstEdge: .top, padding: 8, width: w, height: h)
 
     }
     
@@ -120,16 +132,16 @@ class ChoosePhotoViewController: CoordinatedController, UIImagePickerControllerD
     // view that presents the currently selected photo (if any)
     private func layoutCurrentSelection() {
         let w = mainView.frame.size.width - 8.0
-        let h = (mainView.frame.size.height / 4.0).rounded()
+        let h = sectionHeight
 
         selectedView.frame.size.height = h
         selectedView.frame.size.width = w
         selectedView.backgroundColor = theme.backgroundColor
         
         let label:UILabel! = UILabel()
-        label.frame.size.height = 20.0
+        label.frame.size.height = labelHeight
         label.frame.size.width = w
-        label.backgroundColor = theme.backgroundColor
+        label.backgroundColor = theme.subtitleColor
         label.textColor = theme.textColor
         label.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.thin)
         label.textAlignment = .left
@@ -137,10 +149,11 @@ class ChoosePhotoViewController: CoordinatedController, UIImagePickerControllerD
 
         
         let selectedImage: UIImageView! = UIImageView()
-        selectedImage.frame.size.height = selectedView.frame.size.height - label.frame.size.height - 8.0
-        selectedImage.frame.size.width = selectedImage.frame.size.height
-        log.verbose("w:\(w) h:\(h) img: \(selectedImage.frame.size)")
-        EditManager.setInputImage(ImageManager.getCurrentEditImage())
+        selectedImage.frame.size.height = imageHeight
+        let size = EditManager.getImageSize()
+        selectedImage.frame.size.width = selectedImage.frame.size.height * (size.width / size.height)
+        //log.verbose("w:\(w) h:\(h) img: \(selectedImage.frame.size)")
+        
         selectedImage.contentMode = .scaleAspectFit
 
         selectedImage.image = UIImage(ciImage: EditManager.getPreviewImage(size: selectedImage.frame.size)!)
@@ -148,7 +161,7 @@ class ChoosePhotoViewController: CoordinatedController, UIImagePickerControllerD
         selectedView.addSubview(label)
         selectedView.addSubview(selectedImage)
         label.anchorToEdge(.top, padding: 4, width: label.frame.size.width, height: label.frame.size.height)
-        selectedImage.align(.underCentered, relativeTo: label, padding: 8.0, width: selectedImage.frame.size.width, height: selectedImage.frame.size.height)
+        selectedImage.align(.underCentered, relativeTo: label, padding: 2.0, width: selectedImage.frame.size.width, height: selectedImage.frame.size.height)
 
         mainView.addSubview(selectedView)
         
@@ -162,23 +175,23 @@ class ChoosePhotoViewController: CoordinatedController, UIImagePickerControllerD
     // view that presents the list of recently taken photos
     private func layoutRecentPhotos() {
         let w = mainView.frame.size.width - 8.0
-        let h = (mainView.frame.size.height / 4.0).rounded()
+        let h = sectionHeight
 
         recentPhotosView.frame.size.height = h
         recentPhotosView.frame.size.width = w
         recentPhotosView.backgroundColor = theme.backgroundColor
         
         let label:UILabel! = UILabel()
-        label.frame.size.height = 20.0
+        label.frame.size.height = labelHeight
         label.frame.size.width = w
-        label.backgroundColor = theme.backgroundColor
+        label.backgroundColor = theme.subtitleColor
         label.textColor = theme.textColor
         label.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.thin)
         label.textAlignment = .left
-        label.text = "Latest photos:"
+        label.text = "Latest Photos:"
         
         let recentStrip:SimpleSwipeView! = SimpleSwipeView()
-        recentStrip.frame.size.height = recentPhotosView.frame.size.height - label.frame.size.height - 16.0
+        recentStrip.frame.size.height = imageHeight
         recentStrip.frame.size.width = mainView.frame.size.width
         recentStrip.backgroundColor = theme.backgroundColor
         recentStrip.disableWrap()
@@ -208,7 +221,7 @@ class ChoosePhotoViewController: CoordinatedController, UIImagePickerControllerD
         recentPhotosView.addSubview(label)
         recentPhotosView.addSubview(recentStrip)
         label.anchorToEdge(.top, padding: 4, width: label.frame.size.width, height: label.frame.size.height)
-        recentStrip.align(.underCentered, relativeTo: label, padding: 16.0, width: recentStrip.frame.size.width, height: recentStrip.frame.size.height)
+        recentStrip.align(.underCentered, relativeTo: label, padding: 0.0, width: recentStrip.frame.size.width, height: recentStrip.frame.size.height)
 
         mainView.addSubview(recentPhotosView)
     }
@@ -217,16 +230,16 @@ class ChoosePhotoViewController: CoordinatedController, UIImagePickerControllerD
     // view that presents the list of recently edited/selected photos
     private func layoutRecentEdits() {
         let w = mainView.frame.size.width - 8.0
-        let h = (mainView.frame.size.height / 4.0).rounded()
+        let h = sectionHeight
 
         recentEditsView.frame.size.height = h
         recentEditsView.frame.size.width = w
         recentEditsView.backgroundColor = theme.backgroundColor
         
         let label:UILabel! = UILabel()
-        label.frame.size.height = 20.0
+        label.frame.size.height = labelHeight
         label.frame.size.width = w
-        label.backgroundColor = theme.backgroundColor
+        label.backgroundColor = theme.subtitleColor
         label.textColor = theme.textColor
         label.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.thin)
         label.textAlignment = .left
@@ -234,7 +247,7 @@ class ChoosePhotoViewController: CoordinatedController, UIImagePickerControllerD
        
         
         let editStrip:SimpleSwipeView! = SimpleSwipeView()
-        editStrip.frame.size.height = recentPhotosView.frame.size.height - label.frame.size.height - 16.0
+        editStrip.frame.size.height = imageHeight
         editStrip.frame.size.width = mainView.frame.size.width
         editStrip.backgroundColor = theme.backgroundColor
         editStrip.disableWrap()
@@ -257,7 +270,7 @@ class ChoosePhotoViewController: CoordinatedController, UIImagePickerControllerD
         recentEditsView.addSubview(label)
         recentEditsView.addSubview(editStrip)
         label.anchorToEdge(.top, padding: 4, width: label.frame.size.width, height: label.frame.size.height)
-        editStrip.align(.underCentered, relativeTo: label, padding: 16.0, width: editStrip.frame.size.width, height: editStrip.frame.size.height)
+        editStrip.align(.underCentered, relativeTo: label, padding: 0.0, width: editStrip.frame.size.width, height: editStrip.frame.size.height)
 
         mainView.addSubview(recentEditsView)
 

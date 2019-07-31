@@ -149,6 +149,7 @@ class AppCoordinator: Coordinator {
         
         self.coordinatorMap = [:]
         self.coordinatorMap [ControllerIdentifier.mainMenu] = CoordinatorIdentifier.mainMenu
+
     }
 
 
@@ -171,7 +172,7 @@ class AppCoordinator: Coordinator {
         ControllerFactory.setFrame(.paneltool, frame: toolFrame)
         ControllerFactory.setFrame(.fulltool, frame: fullFrame)
 
-        log.debug("screen: (\(w),\(h)), top bar h: \(UISettings.topBarHeight)")
+        //log.debug("screen: (\(w),\(h)), top bar h: \(UISettings.topBarHeight)")
     }
 
     

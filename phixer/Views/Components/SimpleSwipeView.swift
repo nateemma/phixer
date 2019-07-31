@@ -47,6 +47,8 @@ class SimpleSwipeView: UIView {
     fileprivate var displayHeight : CGFloat = 0.0
     
     fileprivate var wrap:Bool = true // wrap by default
+    
+    fileprivate var addBorder:Bool = false
  
     
     ////////////////////////////////////////////
@@ -56,7 +58,8 @@ class SimpleSwipeView: UIView {
     public func setItems(_ items:[Adornment]) {
         itemList = items
         buildItemViews()
-        DispatchQueue.main.async { [weak self] in
+        //DispatchQueue.main.asyncAfter(deadline: <#T##DispatchTime#>, execute: <#T##() -> Void#>) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) { [weak self] in
             self?.swipeview?.reloadData()
         }
         //log.verbose("items:\(items)")
@@ -132,6 +135,14 @@ class SimpleSwipeView: UIView {
         self.wrap = false
     }
 
+    public func disableBorder(){
+        addBorder = false
+    }
+    
+    public func enableBorder(){
+        addBorder = true
+    }
+    
     ////////////////////////////////////////////
     //MARK: Layout
     ////////////////////////////////////////////
@@ -172,7 +183,6 @@ class SimpleSwipeView: UIView {
         
         var icon:String = ""
         
-        // we assume the title list is the 'main' list that drives others
         if (itemList.count > 0){
             for i in (0...itemList.count-1) {
                 icon = ""
@@ -189,6 +199,7 @@ class SimpleSwipeView: UIView {
         let view:ImageContainerView = ImageContainerView()
         view.frame.size.width = self.swipeviewHeight
         view.frame.size.height = self.swipeviewHeight
+        view.disableBorder()
  
         let label:UILabel = UILabel()
         label.text = text
@@ -229,13 +240,13 @@ class SimpleSwipeView: UIView {
 
             // get the icon
             image.contentMode = .scaleAspectFit
-            image.tintColor = theme.tintColor
             var icview: UIImage? = nil
             if icon.contains("/") {
                 // can't tint managed assets, so just load
                 icview = ImageManager.getImageFromAssets(assetID: icon, size: imgView.frame.size)
                 image.image = icview
             } else {
+                image.tintColor = theme.tintColor
                 icview = UIImage(named: icon)
                 let tintableImage = icview!.withRenderingMode(.alwaysTemplate)
                 image.image = tintableImage
@@ -247,12 +258,19 @@ class SimpleSwipeView: UIView {
             }
 
             //view.imageView.tintColor =  UIColor(contrastingBlackOrWhiteColorOn:theme.backgroundColor, isFlat:true)
-            image.tintColor =  theme.tintColor
+            //image.tintColor =  theme.tintColor
             
             image.backgroundColor = theme.backgroundColor
-            imgView.layer.cornerRadius = 4.0
-            imgView.layer.borderWidth = 0.5
-            imgView.layer.borderColor = theme.borderColor.withAlphaComponent(0.5).cgColor
+            if addBorder {
+                imgView.layer.cornerRadius = 1.0
+                imgView.layer.borderWidth = 0.2
+                imgView.layer.borderColor = theme.borderColor.cgColor
+                log.debug("border: \(theme.borderColor)")
+            } else {
+                imgView.layer.cornerRadius = 0.0
+                imgView.layer.borderWidth = 0.0
+                imgView.layer.borderColor = nil
+            }
 
             imgView.addSubview(image)
             imgView.addSubview(label)
@@ -278,7 +296,8 @@ class SimpleSwipeView: UIView {
         swipeview?.pagingEnabled = true
         swipeview?.alignment = SwipeViewAlignment.Edge
         swipeview?.bounces = true
-        swipeview?.decelerationRate = 0.5
+        //swipeview?.autoscroll = 1.0
+        swipeview?.decelerationRate = 1.0
 
         //swipeview?.centerItemWhenSelected = true
     }
@@ -318,20 +337,24 @@ class SimpleSwipeView: UIView {
                 //oldView.label.textColor = theme.textColor
                 if (oldView != nil){
                     oldView?.backgroundColor = theme.backgroundColor
-                   oldView?.tintColor = theme.tintColor
-                    oldView?.layer.cornerRadius = 4.0
-                    oldView?.layer.borderWidth = 0.5
-                    oldView?.layer.borderColor = theme.borderColor.withAlphaComponent(0.5).cgColor
+                    //oldView?.tintColor = theme.tintColor
+                    if addBorder {
+                        oldView?.layer.cornerRadius = 1.0
+                        oldView?.layer.borderWidth = 0.5
+                        oldView?.layer.borderColor = theme.borderColor.cgColor
+                    }
                 }
             }
             
             let newView = itemViewList[index]
             //newView.label.textColor = UIColor.flatLime()
             newView.backgroundColor = theme.backgroundColor
-            newView.tintColor = theme.highlightColor
-            newView.layer.cornerRadius = 4.0
-            newView.layer.borderWidth = 3.0
-            newView.layer.borderColor = theme.highlightColor.withAlphaComponent(0.5).cgColor
+            //newView.tintColor = theme.highlightColor
+            if addBorder {
+                newView.layer.cornerRadius = 1.0
+                newView.layer.borderWidth = 0.5
+                newView.layer.borderColor = theme.highlightColor.cgColor
+            }
             
             // scroll to selected item
             //swipeview.scrollToItem(at: index, animated: false)

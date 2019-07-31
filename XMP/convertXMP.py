@@ -975,10 +975,8 @@ def processHSV():
 
             sum = sum + abs(h)
             if abs(h)>0.01:
-                #value = colourVectors[key][0] * (1.0 + h / 100.0)
-                #value = (h / 100.0) * hueWidth
                 value = (h / 100.0) / 8.0 # treat as a %age of the colour band
-                #value = 1.0 + value
+                #value = (h / 100.0)
                 colourVectors[key][0] = colourVectors[key][0] + value
         if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "SaturationAdjustment"+tag):
             found = True

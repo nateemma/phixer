@@ -63,6 +63,7 @@ enum ControllerIdentifier: String {
 }
 
 
+
 // enum that identifies the type of controller
 enum ControllerType: String {
     case fullscreen
@@ -81,7 +82,7 @@ class ControllerFactory {
     
     private static var idMap:[String:ControllerIdentifier] = [:]
     
-    
+
     
     // sets the frame for a type of controller
     public static func setFrame(_ ctype:ControllerType, frame:CGRect) {
