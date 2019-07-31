@@ -21,8 +21,9 @@ enum CoordinatorIdentifier: String {
     case splashScreen
     case choosePhoto
     case mainMenu
-    
+
     case edit
+    case presetList
     case browseStyleTransfer
     case browseFilters
     case settings
@@ -69,6 +70,9 @@ class CoordinatorFactory {
 
         case .mainMenu:
             instance = MainMenuCoordinator()
+            
+        case .presetList:
+            instance = PresetListCoordinator()
 
         case .edit:
             instance = BasicEditCoordinator()

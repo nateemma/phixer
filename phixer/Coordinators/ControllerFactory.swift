@@ -26,6 +26,7 @@ enum ControllerIdentifier: String {
     case mainMenu
     
     case edit
+    case presetList
     case browseStyleTransfer
     case browseFilters
     case settings
@@ -126,9 +127,12 @@ class ControllerFactory {
         case .browseStyleTransfer:
             instance = StyleTransferGalleryViewController()
             
+        case .presetList:
+            instance = PresetListController()
+            
         case .browseFilters:
             instance = FilterGalleryViewController()
-            
+
         case .settings:
             instance = SettingsMenuController()
             

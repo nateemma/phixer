@@ -1,5 +1,5 @@
 //
-//  MainMenuController.swift
+//  PresetListController.swift
 //  phixer
 //
 //  Created by Phil Price on 4/10/17.
@@ -12,9 +12,9 @@ import UIKit
 import Neon
 import GoogleMobileAds
 
-// This is the Main View Controller for phixer, and basically just presents a menu of available options
+// Presents a list of available preset 'groups'
 
-class MainMenuController: CoordinatedController, UINavigationControllerDelegate {
+class PresetListController: CoordinatedController, UINavigationControllerDelegate {
     
     var displayWidth : CGFloat = 0.0
     var displayHeight : CGFloat = 0.0
@@ -35,7 +35,7 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
     
     // return the display title for this Controller
     override public func getTitle() -> String {
-        return "Main Menu"
+        return "Preset List"
     }
     
     // return the name of the help file associated with this Controller (without extension)
@@ -50,7 +50,7 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
 
     convenience init(){
         self.init(nibName:nil, bundle:nil)
-        //log.debug("=== MainMenuController() ===")
+        //log.debug("=== PresetListController() ===")
         //doInit()
     }
     
@@ -60,7 +60,6 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
         
         if (!initDone){
             log.verbose("init")
-            CoordinatedController.enableNavigation = true // OK to enable navigation now
             initDone = true
         }
     }
@@ -113,17 +112,16 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
         let curPhoto:UIImage = UIImage(ciImage: EditManager.getPreviewImage(size:iconSize)!)
         
         // note: for collections, key must match colection name
-        menuItems = [ MenuItem(key: "changePhoto", title: "Change Photo", subtitile: "", icon: "", view: curPhoto, isHidden: false),
-                      MenuItem(key: "simpleEditor", title: "Picture Editor", subtitile: "Edit multiple 'basic' image settings\n (exposure, colors, tone, vignette, sharpen etc.)",
-                               icon: "ic_basic", view: nil, isHidden: false),
-                      MenuItem(key: "favorites", title: "Favorites", subtitile: "Browse favorite presets & filters",
-                               icon: "ic_heart_outline", view: nil, isHidden: false),
-                      MenuItem(key: "browsePresets", title: "Browse Presets", subtitile: "Browse preset collections\n(these apply multiple filters)",
+        menuItems = [ MenuItem(key: "browseFilters", title: "Color Filters", subtitile: "Browse Color Filters by Source\n(these change only the image colors)",
+                               icon: "ic_filter", view: nil, isHidden: false),
+                      MenuItem(key: "browsePresets", title: "All Presets", subtitile: "Browse Full preset collections\n(these apply multiple filters)",
                                icon: "ic_preset", view: nil, isHidden: false),
-                      MenuItem(key: "styleTransfer", title: "Style Transfer", subtitile: "Apply a painting style to the photo",
-                               icon: "ic_brush", view: nil, isHidden: false),
-                      MenuItem(key: "settings", title: "Settings", subtitile: "Change app settings",
-                               icon: "ic_gear", view: nil, isHidden: false)
+                      MenuItem(key: "blackwhite", title: "Black & White", subtitile: "Black & White (or monochrome) filters and presets",
+                               icon: "ic_contrast", view: nil, isHidden: false),
+                      MenuItem(key: "analog", title: "Analog Film Types", subtitile: "Classic Analog film presets",
+                               icon: "ic_filmstrip", view: nil, isHidden: false),
+                      MenuItem(key: "transforms", title: "Transforms", subtitile: "Image transforming filters (warps, sketches etc.)",
+                               icon: "ic_transform", view: nil, isHidden: false)
         ]
         
         menuView.setItems(menuItems)
@@ -157,18 +155,18 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
         InputSource.setCurrent(source: .edit) // legacy. Remove at some time
 
         switch key {
-        case "changePhoto":
-            presentPhotoChooser()
-        case "simpleEditor":
-            presentSimpleImageEditor()
-        case "styleTransfer":
-            presentStyleTransfer()
+        case "browseFilters":
+            presentFilterGallery()
         case "browsePresets":
-            presentPresetList()
+            presentPresetGallery()
         case "favorites":
             showCollection(key)
-        case "settings":
-            presentSettings()
+        case "blackwhite":
+            showCollection(key)
+        case "transforms":
+            showCollection(key)
+        case "analog":
+            showCollection(key)
         default:
             log.warning("Unknown menu item: \(key)")
         }
@@ -184,17 +182,6 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
         self.coordinator?.activateRequest(id: .browseFilters)
     }
     
-    @objc func presentPhotoChooser(){
-        self.coordinator?.activateRequest(id: .choosePhoto)
-    }
-    
-    @objc func presentSimpleImageEditor(){
-        self.coordinator?.activateRequest(id: .edit)
-    }
-
-    @objc func presentStyleTransfer(){
-        self.coordinator?.activateRequest(id: .browseStyleTransfer)
-    }
 
     
     @objc func presentFilterGallery(){
@@ -202,17 +189,26 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
         showCollection("filters") //TODO: make constants
     }
     
-    @objc func presentPresetList(){
-        self.coordinator?.activateRequest(id: .presetList)
+    @objc func presentPresetGallery(){
+        showCollection("presets")
     }
 
-
-    @objc func presentSettings(){
-        self.coordinator?.activateRequest(id: .settings)
-    }
     
     @objc func presentFavourites(){
         showCollection("favorites")
+    }
+    
+
+    @objc func presentBlackAndWhite(){
+        showCollection("blackwhite")
+    }
+    
+
+    @objc func presentTranforms(){
+        showCollection("transforms")
+    }
+    @objc func presentAnalogFilm(){
+        showCollection("analog")
     }
     
 
@@ -237,14 +233,14 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
         })
     }
 
-} // MainMenuController
+} // PresetListController
 
 
 /////////////////////////////////
 // Extensions
 /////////////////////////////////
 
-extension MainMenuController: MenuViewDelegate {
+extension PresetListController: MenuViewDelegate {
     func itemSelected(key:String){
         DispatchQueue.main.async { [weak self] in
             self?.handleSelection(key)

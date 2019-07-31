@@ -748,6 +748,8 @@
 		2573D1EC217CDCB500E78CAB /* YUCIBilateralFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2573D1D2217CDCB400E78CAB /* YUCIBilateralFilter.m */; };
 		2573D1ED217CDCB500E78CAB /* YUCIHighPassSkinSmoothingMaskBoost.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = 2573D1D3217CDCB400E78CAB /* YUCIHighPassSkinSmoothingMaskBoost.cikernel */; };
 		257ABB0C22F1F7F1000546E4 /* FilterLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257ABB0B22F1F7F1000546E4 /* FilterLoader.swift */; };
+		257ABB0E22F24C68000546E4 /* PresetListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257ABB0D22F24C68000546E4 /* PresetListController.swift */; };
+		257ABB1022F24E89000546E4 /* PresetListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257ABB0F22F24E89000546E4 /* PresetListCoordinator.swift */; };
 		257E29A12168274100F438C6 /* oldFilterConfig.json in Resources */ = {isa = PBXBuildFile; fileRef = 257E29A02168274100F438C6 /* oldFilterConfig.json */; };
 		257E29CA216D505B00F438C6 /* oldPresetList.json in Resources */ = {isa = PBXBuildFile; fileRef = 257E29C9216D505B00F438C6 /* oldPresetList.json */; };
 		257F49E51D9448920083B1E4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 257F49E31D9448920083B1E4 /* Main.storyboard */; };
@@ -1170,7 +1172,6 @@
 		25FD3CD622EC17A400A1C00A /* MenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25FD3CD522EC17A400A1C00A /* MenuItem.swift */; };
 		25FD3CDA22ED1DBF00A1C00A /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25FD3CD922ED1DBF00A1C00A /* MenuView.swift */; };
 		25FD3CDC22ED625800A1C00A /* MenuViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25FD3CDB22ED625800A1C00A /* MenuViewCell.swift */; };
-		25FD3CDE22EDF08D00A1C00A /* OldMainMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25FD3CDD22EDF08D00A1C00A /* OldMainMenuController.swift */; };
 		560E5668039EDD21652B216D /* Pods_phixerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDBA6C647E0CE1D78E741974 /* Pods_phixerUITests.framework */; };
 		6D62A8FFBDF1408E43BE59D8 /* Pods_phixerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA7977390F9DC393764E04A9 /* Pods_phixerTests.framework */; };
 		86DD9D951E9C5A7000A5D855 /* MainMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DD9D941E9C5A7000A5D855 /* MainMenuController.swift */; };
@@ -1983,6 +1984,8 @@
 		2573D1D3217CDCB400E78CAB /* YUCIHighPassSkinSmoothingMaskBoost.cikernel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = YUCIHighPassSkinSmoothingMaskBoost.cikernel; sourceTree = "<group>"; };
 		2573D1D4217CDCB400E78CAB /* YUCIReflectedTileROICalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YUCIReflectedTileROICalculator.h; sourceTree = "<group>"; };
 		257ABB0B22F1F7F1000546E4 /* FilterLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterLoader.swift; sourceTree = "<group>"; };
+		257ABB0D22F24C68000546E4 /* PresetListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresetListController.swift; sourceTree = "<group>"; };
+		257ABB0F22F24E89000546E4 /* PresetListCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresetListCoordinator.swift; sourceTree = "<group>"; };
 		257E29A02168274100F438C6 /* oldFilterConfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = oldFilterConfig.json; sourceTree = "<group>"; };
 		257E29C9216D505B00F438C6 /* oldPresetList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = oldPresetList.json; sourceTree = "<group>"; };
 		257F49DC1D9448920083B1E4 /* phixer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = phixer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2418,7 +2421,6 @@
 		25FD3CD522EC17A400A1C00A /* MenuItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuItem.swift; sourceTree = "<group>"; };
 		25FD3CD922ED1DBF00A1C00A /* MenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		25FD3CDB22ED625800A1C00A /* MenuViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewCell.swift; sourceTree = "<group>"; };
-		25FD3CDD22EDF08D00A1C00A /* OldMainMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldMainMenuController.swift; sourceTree = "<group>"; };
 		737C29DA80DD0E6829273461 /* Pods-phixer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-phixer.release.xcconfig"; path = "Pods/Target Support Files/Pods-phixer/Pods-phixer.release.xcconfig"; sourceTree = "<group>"; };
 		86DD9D941E9C5A7000A5D855 /* MainMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuController.swift; sourceTree = "<group>"; };
 		980E4D07C72B2E639881E914 /* Pods-phixer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-phixer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-phixer/Pods-phixer.debug.xcconfig"; sourceTree = "<group>"; };
@@ -2643,6 +2645,7 @@
 				2537A22B21EE784000060DBE /* FilterGalleryCoordinator.swift */,
 				2537A23821F17B7400060DBE /* HelpCoordinator.swift */,
 				258D65D322E7B24700D4EB8B /* MainMenuCoordinator.swift */,
+				257ABB0F22F24E89000546E4 /* PresetListCoordinator.swift */,
 				2537A23321EFC88200060DBE /* README.md */,
 				2537A22D21EE78AC00060DBE /* SettingsCoordinator.swift */,
 				2537A22521EE4EA900060DBE /* SimpleCoordinator.swift */,
@@ -4089,7 +4092,7 @@
 				25CC3EA421F80AE400EB8A0A /* FilterDetailsViewController.swift */,
 				255591E62187CC62001B4452 /* HTMLViewController.swift */,
 				86DD9D941E9C5A7000A5D855 /* MainMenuController.swift */,
-				25FD3CDD22EDF08D00A1C00A /* OldMainMenuController.swift */,
+				257ABB0D22F24C68000546E4 /* PresetListController.swift */,
 				258EA0921ED9472600D5E20E /* ResetViewController.swift */,
 				258EA08D1ED90A7000D5E20E /* SettingsMenuController.swift */,
 				258D65DB22E9368E00D4EB8B /* SplashScreenViewController.swift */,
@@ -5342,6 +5345,7 @@
 				25CC3EC321FFD59D00EB8A0A /* EightBit.swift in Sources */,
 				2568BDA221AC72CB00560287 /* ISColorWheel.m in Sources */,
 				25CC3EA121F5916200EB8A0A /* TransverseChromaticAberration.swift in Sources */,
+				257ABB0E22F24C68000546E4 /* PresetListController.swift in Sources */,
 				2515988821A3495C0067AA00 /* ThemeChooserController.swift in Sources */,
 				258F09A9218E36870082FE2A /* CGImage+Extensions.swift in Sources */,
 				2573D1DC217CDCB500E78CAB /* YUCIFilterPreviewGenerator.m in Sources */,
@@ -5516,7 +5520,6 @@
 				250C5FA422C6734900DE0DDF /* Scatter.swift in Sources */,
 				2568BDE821C86BDC00560287 /* UIViewController+Extensions.swift in Sources */,
 				2542DF551ECFB37400CEB968 /* CategoryRecord.swift in Sources */,
-				25FD3CDE22EDF08D00A1C00A /* OldMainMenuController.swift in Sources */,
 				2537A21821ED383E00060DBE /* CoordinatorDelegate.swift in Sources */,
 				2537A1EB21E271E400060DBE /* Sobel5x5Filter.swift in Sources */,
 				25F21FBD2204FBBB005C449F /* CroppableImageView.swift in Sources */,
@@ -5545,6 +5548,7 @@
 				253A39E21DDA965E00A714D4 /* SampleGalleryViewController.swift in Sources */,
 				2515987E2193CD490067AA00 /* LumaRangeFilter.swift in Sources */,
 				25F563FC1DD1165C00DFB125 /* ImageManager.swift in Sources */,
+				257ABB1022F24E89000546E4 /* PresetListCoordinator.swift in Sources */,
 				2573D1E2217CDCB500E78CAB /* YUCIRGBToneCurve.m in Sources */,
 				2537A1BF21D28F6E00060DBE /* BrightnessFilter.swift in Sources */,
 				25159884219E2B850067AA00 /* ThemeManager.swift in Sources */,
