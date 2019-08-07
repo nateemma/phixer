@@ -1,0 +1,262 @@
+{
+  "key": "../phixer/Config/Presets//poster_bd HDR Soft Vol.2/posterbdhdrsoft01-14.json",
+  "info": {
+    "name": "Preset 14",
+    "group": "25 HDR Soft Lightroom Preset Vol.2"
+  },
+  "filters": [
+    {
+      "key": "WhiteBalanceFilter",
+      "parameters": [
+        {
+          "key": "inputTemperature",
+          "val": 7059.0,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputTint",
+          "val": 27.0,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "ContrastFilter",
+      "parameters": [
+        {
+          "key": "inputContrast",
+          "val": 1.105,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "ClarityFilter",
+      "parameters": [
+        {
+          "key": "inputClarity",
+          "val": 0.57,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "CISharpenLuminance",
+      "parameters": [
+        {
+          "key": "inputSharpness",
+          "val": 1.96,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "CIHighlightShadowAdjust",
+      "parameters": [
+        {
+          "key": "inputShadowAmount",
+          "val": -0.6,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputHighlightAmount",
+          "val": 1.0,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "RGBChannelToneCurve",
+      "parameters": [
+        {
+          "key": "inputRedXvalues",
+          "val": [
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "type": "CIAttributeTypeVector"
+        },
+        {
+          "key": "inputRedYvalues",
+          "val": [
+            0.0,
+            0.2647115384615385,
+            0.5196153846153846,
+            0.7647115384615385,
+            1.0
+          ],
+          "type": "CIAttributeTypeVector"
+        },
+        {
+          "key": "inputGreenXvalues",
+          "val": [
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "type": "CIAttributeTypeVector"
+        },
+        {
+          "key": "inputGreenYvalues",
+          "val": [
+            0.0,
+            0.2264673311184939,
+            0.4686231081579919,
+            0.7264673311184939,
+            1.0
+          ],
+          "type": "CIAttributeTypeVector"
+        },
+        {
+          "key": "inputBlueXvalues",
+          "val": [
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "type": "CIAttributeTypeVector"
+        },
+        {
+          "key": "inputBlueYvalues",
+          "val": [
+            0.0,
+            0.2824132565019105,
+            0.5432176753358807,
+            0.7824132565019105,
+            1.0
+          ],
+          "type": "CIAttributeTypeVector"
+        }
+      ]
+    },
+    {
+      "key": "MultiBandHSV",
+      "parameters": [
+        {
+          "key": "inputRedShift",
+          "val": [
+            0.0,
+            1.24,
+            1.0
+          ],
+          "type": "CIAttributeTypePosition3"
+        },
+        {
+          "key": "inputOrangeShift",
+          "val": [
+            0.0,
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypePosition3"
+        },
+        {
+          "key": "inputYellowShift",
+          "val": [
+            0.0,
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypePosition3"
+        },
+        {
+          "key": "inputGreenShift",
+          "val": [
+            0.0,
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypePosition3"
+        },
+        {
+          "key": "inputAquaShift",
+          "val": [
+            0.0,
+            1.22,
+            1.0
+          ],
+          "type": "CIAttributeTypePosition3"
+        },
+        {
+          "key": "inputBlueShift",
+          "val": [
+            0.0,
+            1.38,
+            1.0
+          ],
+          "type": "CIAttributeTypePosition3"
+        },
+        {
+          "key": "inputPurpleShift",
+          "val": [
+            0.0,
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypePosition3"
+        },
+        {
+          "key": "inputMagentaShift",
+          "val": [
+            0.0,
+            1.29,
+            1.0
+          ],
+          "type": "CIAttributeTypePosition3"
+        }
+      ]
+    },
+    {
+      "key": "CIToneCurve",
+      "parameters": [
+        {
+          "key": "inputPoint0",
+          "val": [
+            0.0,
+            0.0
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint1",
+          "val": [
+            0.25,
+            0.19386817226890757
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint2",
+          "val": [
+            0.5,
+            0.42515756302521013
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint3",
+          "val": [
+            0.75,
+            0.6938681722689075
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint4",
+          "val": [
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypeOffset"
+        }
+      ]
+    }
+  ]
+}

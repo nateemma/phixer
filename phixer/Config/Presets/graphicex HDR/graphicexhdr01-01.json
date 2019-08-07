@@ -1,0 +1,114 @@
+{
+  "key": "../phixer/Config/Presets//graphicex HDR/graphicexhdr01-01.json",
+  "info": {
+    "name": "Preset 1",
+    "group": "15 HDR Lightroom Preset"
+  },
+  "filters": [
+    {
+      "key": "WhiteBalanceFilter",
+      "parameters": [
+        {
+          "key": "inputTemperature",
+          "val": 5889.0,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputTint",
+          "val": 22.0,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "ContrastFilter",
+      "parameters": [
+        {
+          "key": "inputContrast",
+          "val": 1.05,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "ClarityFilter",
+      "parameters": [
+        {
+          "key": "inputClarity",
+          "val": 0.33,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "CISharpenLuminance",
+      "parameters": [
+        {
+          "key": "inputSharpness",
+          "val": 0.72,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "GrainFilter",
+      "parameters": [
+        {
+          "key": "inputAmount",
+          "val": 0.02,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputSize",
+          "val": 0.25,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "CIToneCurve",
+      "parameters": [
+        {
+          "key": "inputPoint0",
+          "val": [
+            0.0,
+            0.0
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint1",
+          "val": [
+            0.25,
+            0.19692087085234977
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint2",
+          "val": [
+            0.5,
+            0.42922782780313296
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint3",
+          "val": [
+            0.75,
+            0.6969208708523498
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint4",
+          "val": [
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypeOffset"
+        }
+      ]
+    }
+  ]
+}

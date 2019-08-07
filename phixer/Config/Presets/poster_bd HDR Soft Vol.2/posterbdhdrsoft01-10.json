@@ -1,0 +1,195 @@
+{
+  "key": "../phixer/Config/Presets//poster_bd HDR Soft Vol.2/posterbdhdrsoft01-10.json",
+  "info": {
+    "name": "Preset 10",
+    "group": "25 HDR Soft Lightroom Preset Vol.2"
+  },
+  "filters": [
+    {
+      "key": "WhiteBalanceFilter",
+      "parameters": [
+        {
+          "key": "inputTemperature",
+          "val": 4354.0,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputTint",
+          "val": 20.0,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "CIExposureAdjust",
+      "parameters": [
+        {
+          "key": "inputEV",
+          "val": -0.12,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "ContrastFilter",
+      "parameters": [
+        {
+          "key": "inputContrast",
+          "val": 1.12,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "ClarityFilter",
+      "parameters": [
+        {
+          "key": "inputClarity",
+          "val": 0.52,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "CISharpenLuminance",
+      "parameters": [
+        {
+          "key": "inputSharpness",
+          "val": 0.36,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "CINoiseReduction",
+      "parameters": [
+        {
+          "key": "inputNoiseLevel",
+          "val": 0.027,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputSharpness",
+          "val": 0.096,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "RGBChannelToneCurve",
+      "parameters": [
+        {
+          "key": "inputRedXvalues",
+          "val": [
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "type": "CIAttributeTypeVector"
+        },
+        {
+          "key": "inputRedYvalues",
+          "val": [
+            0.0,
+            0.22644124168514407,
+            0.46858832224685876,
+            0.726441241685144,
+            1.0
+          ],
+          "type": "CIAttributeTypeVector"
+        },
+        {
+          "key": "inputGreenXvalues",
+          "val": [
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "type": "CIAttributeTypeVector"
+        },
+        {
+          "key": "inputGreenYvalues",
+          "val": [
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "type": "CIAttributeTypeVector"
+        },
+        {
+          "key": "inputBlueXvalues",
+          "val": [
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "type": "CIAttributeTypeVector"
+        },
+        {
+          "key": "inputBlueYvalues",
+          "val": [
+            0.0,
+            0.2323396330952968,
+            0.47645284412706235,
+            0.7323396330952968,
+            1.0
+          ],
+          "type": "CIAttributeTypeVector"
+        }
+      ]
+    },
+    {
+      "key": "CIToneCurve",
+      "parameters": [
+        {
+          "key": "inputPoint0",
+          "val": [
+            0.0,
+            0.0
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint1",
+          "val": [
+            0.25,
+            0.22940891472868213
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint2",
+          "val": [
+            0.5,
+            0.47254521963824286
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint3",
+          "val": [
+            0.75,
+            0.7294089147286822
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint4",
+          "val": [
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypeOffset"
+        }
+      ]
+    }
+  ]
+}

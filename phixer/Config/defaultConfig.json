@@ -896,7 +896,277 @@
         
         { "key": "CrossProcessBlue",  "title": "Cross Process Blue", "slow": false, "show": true, "rating": 0 },
         { "key": "CrossProcessGreen",  "title": "Cross Process Green", "slow": false, "show": true, "rating": 0 },
-        { "key": "CrossProcessYellow",  "title": "Cross Process Yellow", "slow": false, "show": true, "rating": 0 }
+        { "key": "CrossProcessYellow",  "title": "Cross Process Yellow", "slow": false, "show": true, "rating": 0 },
+        
+        
+        { "key": "Corruption",  "title": "Corruption", "slow": false, "show": true, "rating": 0 },
+        { "key": "Fallout",  "title": "Fallout", "slow": false, "show": true, "rating": 0 },
+        { "key": "Hopeless",  "title": "Hopeless", "slow": false, "show": true, "rating": 0 },
+        { "key": "Metropolis",  "title": "Metropolis", "slow": false, "show": true, "rating": 0 },
+        { "key": "SecretBunker",  "title": "Secret Bunker", "slow": false, "show": true, "rating": 0 },
+        { "key": "Sewage",  "title": "Sewage", "slow": false, "show": true, "rating": 0 },
+        { "key": "Station",  "title": "Station", "slow": false, "show": true, "rating": 0 },
+        { "key": "ToxicCity",  "title": "Toxic City", "slow": false, "show": true, "rating": 0 },
+        { "key": "Union",  "title": "Union", "slow": false, "show": true, "rating": 0 },
+        { "key": "Wasteland",  "title": "Wasteland", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "Grunge",  "title": "Grunge", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "IlfordDelta100Curve",  "title": "Ilford Delta100 Curve", "slow": false, "show": true, "rating": 0 },
+        { "key": "IlfordDelta3200Curve",  "title": "Ilford Delta3200 Curve", "slow": false, "show": true, "rating": 0 },
+        { "key": "IlfordDelta400Curve",  "title": "Ilford Delta400 Curve", "slow": false, "show": true, "rating": 0 },
+        { "key": "IlfordFP4Plus125Curve",  "title": "Ilford FP4 Plus125 Curve", "slow": false, "show": true, "rating": 0 },
+        { "key": "IlfordHP5Plus400Curve",  "title": "Ilford HP5 Plus400 Curve", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "PorcelainI",  "title": "Porcelain I", "slow": false, "show": true, "rating": 0 },
+        { "key": "PorcelainIILT",  "title": "Porcelain II LT", "slow": false, "show": true, "rating": 0 },
+        { "key": "PorcelainIIIHC",  "title": "Porcelain II IH C", "slow": false, "show": true, "rating": 0 },
+        { "key": "PorcelainIV",  "title": "Porcelain IV", "slow": false, "show": true, "rating": 0 },
+        { "key": "PorcelainVSF",  "title": "Porcelain VS F", "slow": false, "show": true, "rating": 0 },
+        { "key": "PorcelainVISF2",  "title": "Porcelain VI SF2", "slow": false, "show": true, "rating": 0 },
+        { "key": "PorcelainVII",  "title": "Porcelain VI I", "slow": false, "show": true, "rating": 0 },
+        { "key": "PorcelainVIIILT",  "title": "Porcelain VI II LT", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "AlkalineStorm",  "title": "Alkaline Storm", "slow": false, "show": true, "rating": 0 },
+        { "key": "BrokenPhotocopier",  "title": "Broken Photocopier", "slow": false, "show": true, "rating": 0 },
+        { "key": "HotelofBudapest",  "title": "Hotelof Budapest", "slow": false, "show": true, "rating": 0 },
+        { "key": "LatinOilSlicker",  "title": "Latin Oil Slicker", "slow": false, "show": true, "rating": 0 },
+        { "key": "Let'sGetLost",  "title": "Let's Get Lost", "slow": false, "show": true, "rating": 0 },
+        { "key": "LightHDR",  "title": "Light HD R", "slow": false, "show": true, "rating": 0 },
+        { "key": "OldenDelays",  "title": "Olden Delays", "slow": false, "show": true, "rating": 0 },
+        { "key": "Parentgrain",  "title": "Parentgrain", "slow": false, "show": true, "rating": 0 },
+        { "key": "PrimePicard",  "title": "Prime Picard", "slow": false, "show": true, "rating": 0 },
+        { "key": "Relic",  "title": "Relic", "slow": false, "show": true, "rating": 0 },
+        { "key": "RestorationSoftware",  "title": "Restoration Software", "slow": false, "show": true, "rating": 0 },
+        { "key": "SandstormCastleBlack",  "title": "Sandstorm Castle Black", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "graphicex01-01",  "title": "graphicex01-01", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicex01-02",  "title": "graphicex01-02", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicex01-03",  "title": "graphicex01-03", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicex01-04",  "title": "graphicex01-04", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicex01-05",  "title": "graphicex01-05", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicex01-06",  "title": "graphicex01-06", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicex01-07",  "title": "graphicex01-07", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicex01-08",  "title": "graphicex01-08", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicex01-09",  "title": "graphicex01-09", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicex01-10",  "title": "graphicex01-10", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "graphicex02-01",  "title": "graphicex02-01", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicex02-02",  "title": "graphicex02-02", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicex02-03",  "title": "graphicex02-03", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicex02-04",  "title": "graphicex02-04", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicex02-05",  "title": "graphicex02-05", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicex02-06",  "title": "graphicex02-06", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicex02-07",  "title": "graphicex02-07", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicex02-08",  "title": "graphicex02-08", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicex02-09",  "title": "graphicex02-09", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicex02-10",  "title": "graphicex02-10", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicex02-11",  "title": "graphicex02-11", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicex02-12",  "title": "graphicex02-12", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicex02-13",  "title": "graphicex02-13", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicex02-14",  "title": "graphicex02-14", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicex02-15",  "title": "graphicex02-15", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicex02-16",  "title": "graphicex02-16", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicex02-17",  "title": "graphicex02-17", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicex02-18",  "title": "graphicex02-18", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicex02-19",  "title": "graphicex02-19", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicex02-20",  "title": "graphicex02-20", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "graphicexhdr01-01",  "title": "graphicexhdr01-01", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicexhdr01-02",  "title": "graphicexhdr01-02", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicexhdr01-03",  "title": "graphicexhdr01-03", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicexhdr01-04",  "title": "graphicexhdr01-04", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicexhdr01-05",  "title": "graphicexhdr01-05", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicexhdr01-06",  "title": "graphicexhdr01-06", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicexhdr01-07",  "title": "graphicexhdr01-07", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicexhdr01-08",  "title": "graphicexhdr01-08", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicexhdr01-09",  "title": "graphicexhdr01-09", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicexhdr01-10",  "title": "graphicexhdr01-10", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicexhdr01-11",  "title": "graphicexhdr01-11", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicexhdr01-12",  "title": "graphicexhdr01-12", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicexhdr01-13",  "title": "graphicexhdr01-13", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicexhdr01-14",  "title": "graphicexhdr01-14", "slow": false, "show": true, "rating": 0 },
+        { "key": "graphicexhdr01-15",  "title": "graphicexhdr01-15", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "posterbdhdrsoft01-01",  "title": "posterbdhdrsoft01-01", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdhdrsoft01-02",  "title": "posterbdhdrsoft01-02", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdhdrsoft01-03",  "title": "posterbdhdrsoft01-03", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdhdrsoft01-04",  "title": "posterbdhdrsoft01-04", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdhdrsoft01-05",  "title": "posterbdhdrsoft01-05", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdhdrsoft01-06",  "title": "posterbdhdrsoft01-06", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdhdrsoft01-07",  "title": "posterbdhdrsoft01-07", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdhdrsoft01-08",  "title": "posterbdhdrsoft01-08", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdhdrsoft01-09",  "title": "posterbdhdrsoft01-09", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdhdrsoft01-10",  "title": "posterbdhdrsoft01-10", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdhdrsoft01-11",  "title": "posterbdhdrsoft01-11", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdhdrsoft01-12",  "title": "posterbdhdrsoft01-12", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdhdrsoft01-13",  "title": "posterbdhdrsoft01-13", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdhdrsoft01-14",  "title": "posterbdhdrsoft01-14", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdhdrsoft01-15",  "title": "posterbdhdrsoft01-15", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdhdrsoft01-16",  "title": "posterbdhdrsoft01-16", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdhdrsoft01-17",  "title": "posterbdhdrsoft01-17", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdhdrsoft01-18",  "title": "posterbdhdrsoft01-18", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdhdrsoft01-19",  "title": "posterbdhdrsoft01-19", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdhdrsoft01-20",  "title": "posterbdhdrsoft01-20", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdhdrsoft01-21",  "title": "posterbdhdrsoft01-21", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdhdrsoft01-22",  "title": "posterbdhdrsoft01-22", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdhdrsoft01-23",  "title": "posterbdhdrsoft01-23", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdhdrsoft01-24",  "title": "posterbdhdrsoft01-24", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdhdrsoft01-25",  "title": "posterbdhdrsoft01-25", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "posterbdsoft01-01",  "title": "posterbdsoft01-01", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft01-02",  "title": "posterbdsoft01-02", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft01-03",  "title": "posterbdsoft01-03", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft01-04",  "title": "posterbdsoft01-04", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft01-05",  "title": "posterbdsoft01-05", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft01-06",  "title": "posterbdsoft01-06", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft01-07",  "title": "posterbdsoft01-07", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft01-08",  "title": "posterbdsoft01-08", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft01-09",  "title": "posterbdsoft01-09", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft01-10",  "title": "posterbdsoft01-10", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft01-11",  "title": "posterbdsoft01-11", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft01-12",  "title": "posterbdsoft01-12", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft01-13",  "title": "posterbdsoft01-13", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft01-14",  "title": "posterbdsoft01-14", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft01-15",  "title": "posterbdsoft01-15", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft01-16",  "title": "posterbdsoft01-16", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft01-17",  "title": "posterbdsoft01-17", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft01-18",  "title": "posterbdsoft01-18", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft01-19",  "title": "posterbdsoft01-19", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft01-20",  "title": "posterbdsoft01-20", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "posterbdsoft02-01",  "title": "posterbdsoft02-01", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft02-02",  "title": "posterbdsoft02-02", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft02-03",  "title": "posterbdsoft02-03", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft02-04",  "title": "posterbdsoft02-04", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft02-05",  "title": "posterbdsoft02-05", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft02-06",  "title": "posterbdsoft02-06", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft02-07",  "title": "posterbdsoft02-07", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft02-08",  "title": "posterbdsoft02-08", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft02-09",  "title": "posterbdsoft02-09", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft02-10",  "title": "posterbdsoft02-10", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft02-11",  "title": "posterbdsoft02-11", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft02-12",  "title": "posterbdsoft02-12", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft02-13",  "title": "posterbdsoft02-13", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft02-14",  "title": "posterbdsoft02-14", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft02-15",  "title": "posterbdsoft02-15", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft02-16",  "title": "posterbdsoft02-16", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft02-17",  "title": "posterbdsoft02-17", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft02-18",  "title": "posterbdsoft02-18", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft02-19",  "title": "posterbdsoft02-19", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft02-20",  "title": "posterbdsoft02-20", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "posterbdsoft03-01",  "title": "posterbdsoft03-01", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft03-02",  "title": "posterbdsoft03-02", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft03-03",  "title": "posterbdsoft03-03", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft03-04",  "title": "posterbdsoft03-04", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft03-05",  "title": "posterbdsoft03-05", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft03-06",  "title": "posterbdsoft03-06", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft03-07",  "title": "posterbdsoft03-07", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft03-08",  "title": "posterbdsoft03-08", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft03-09",  "title": "posterbdsoft03-09", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft03-10",  "title": "posterbdsoft03-10", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft03-11",  "title": "posterbdsoft03-11", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft03-12",  "title": "posterbdsoft03-12", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft03-13",  "title": "posterbdsoft03-13", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft03-14",  "title": "posterbdsoft03-14", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft03-15",  "title": "posterbdsoft03-15", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft03-16",  "title": "posterbdsoft03-16", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft03-17",  "title": "posterbdsoft03-17", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft03-18",  "title": "posterbdsoft03-18", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft03-19",  "title": "posterbdsoft03-19", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft03-20",  "title": "posterbdsoft03-20", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "posterbdsoft04-01",  "title": "posterbdsoft04-01", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft04-02",  "title": "posterbdsoft04-02", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft04-03",  "title": "posterbdsoft04-03", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft04-04",  "title": "posterbdsoft04-04", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft04-05",  "title": "posterbdsoft04-05", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft04-06",  "title": "posterbdsoft04-06", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft04-07",  "title": "posterbdsoft04-07", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft04-08",  "title": "posterbdsoft04-08", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft04-09",  "title": "posterbdsoft04-09", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft04-10",  "title": "posterbdsoft04-10", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft04-11",  "title": "posterbdsoft04-11", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft04-12",  "title": "posterbdsoft04-12", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft04-13",  "title": "posterbdsoft04-13", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft04-14",  "title": "posterbdsoft04-14", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft04-15",  "title": "posterbdsoft04-15", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft04-16",  "title": "posterbdsoft04-16", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft04-17",  "title": "posterbdsoft04-17", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft04-18",  "title": "posterbdsoft04-18", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft04-19",  "title": "posterbdsoft04-19", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft04-20",  "title": "posterbdsoft04-20", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft04-21",  "title": "posterbdsoft04-21", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdsoft04-22",  "title": "posterbdsoft04-22", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "posterbdwedding-01",  "title": "posterbdwedding-01", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdwedding-02",  "title": "posterbdwedding-02", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdwedding-03",  "title": "posterbdwedding-03", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdwedding-04",  "title": "posterbdwedding-04", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdwedding-05",  "title": "posterbdwedding-05", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdwedding-06",  "title": "posterbdwedding-06", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdwedding-07",  "title": "posterbdwedding-07", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdwedding-08",  "title": "posterbdwedding-08", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdwedding-09",  "title": "posterbdwedding-09", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdwedding-10",  "title": "posterbdwedding-10", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdwedding-11",  "title": "posterbdwedding-11", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdwedding-12",  "title": "posterbdwedding-12", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdwedding-13",  "title": "posterbdwedding-13", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdwedding-14",  "title": "posterbdwedding-14", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdwedding-15",  "title": "posterbdwedding-15", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdwedding-16",  "title": "posterbdwedding-16", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdwedding-17",  "title": "posterbdwedding-17", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdwedding-18",  "title": "posterbdwedding-18", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdwedding-19",  "title": "posterbdwedding-19", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdwedding-20",  "title": "posterbdwedding-20", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdwedding-21",  "title": "posterbdwedding-21", "slow": false, "show": true, "rating": 0 },
+        { "key": "posterbdwedding-22",  "title": "posterbdwedding-22", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "Presetpro-Center",  "title": "Presetpro-Center", "slow": false, "show": true, "rating": 0 },
+        { "key": "Presetpro-Edge",  "title": "Presetpro-Edge", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "B&WP#01",  "title": "B&WP#01", "slow": false, "show": true, "rating": 0 },
+        { "key": "B&WP#02",  "title": "B&WP#02", "slow": false, "show": true, "rating": 0 },
+        { "key": "B&WP#03",  "title": "B&WP#03", "slow": false, "show": true, "rating": 0 },
+        { "key": "B&WP#04",  "title": "B&WP#04", "slow": false, "show": true, "rating": 0 },
+        { "key": "B&WP#05",  "title": "B&WP#05", "slow": false, "show": true, "rating": 0 },
+        { "key": "B&WP#06",  "title": "B&WP#06", "slow": false, "show": true, "rating": 0 },
+        { "key": "B&WP#07",  "title": "B&WP#07", "slow": false, "show": true, "rating": 0 },
+        { "key": "B&WP#08",  "title": "B&WP#08", "slow": false, "show": true, "rating": 0 },
+        { "key": "B&WP#09",  "title": "B&WP#09", "slow": false, "show": true, "rating": 0 },
+        { "key": "B&WP#10",  "title": "B&WP#10", "slow": false, "show": true, "rating": 0 },
+        
+        { "key": "dramatic-01",  "title": "dramatic-01", "slow": false, "show": true, "rating": 0 },
+        { "key": "dramatic-02",  "title": "dramatic-02", "slow": false, "show": true, "rating": 0 },
+        { "key": "dramatic-03",  "title": "dramatic-03", "slow": false, "show": true, "rating": 0 },
+        { "key": "dramatic-04",  "title": "dramatic-04", "slow": false, "show": true, "rating": 0 },
+        { "key": "dramatic-05",  "title": "dramatic-05", "slow": false, "show": true, "rating": 0 },
+        { "key": "dramatic-06",  "title": "dramatic-06", "slow": false, "show": true, "rating": 0 },
+        { "key": "dramatic-07",  "title": "dramatic-07", "slow": false, "show": true, "rating": 0 },
+        { "key": "dramatic-08",  "title": "dramatic-08", "slow": false, "show": true, "rating": 0 },
+        { "key": "dramatic-09",  "title": "dramatic-09", "slow": false, "show": true, "rating": 0 },
+        { "key": "dramatic-10",  "title": "dramatic-10", "slow": false, "show": true, "rating": 0 },
+        { "key": "dramatic-11",  "title": "dramatic-11", "slow": false, "show": true, "rating": 0 },
+        { "key": "dramatic-12",  "title": "dramatic-12", "slow": false, "show": true, "rating": 0 },
+        { "key": "dramatic-13",  "title": "dramatic-13", "slow": false, "show": true, "rating": 0 },
+        { "key": "dramatic-14",  "title": "dramatic-14", "slow": false, "show": true, "rating": 0 },
+        { "key": "dramatic-15",  "title": "dramatic-15", "slow": false, "show": true, "rating": 0 },
+        { "key": "dramatic-16",  "title": "dramatic-16", "slow": false, "show": true, "rating": 0 },
+        { "key": "dramatic-17",  "title": "dramatic-17", "slow": false, "show": true, "rating": 0 },
+        { "key": "dramatic-18",  "title": "dramatic-18", "slow": false, "show": true, "rating": 0 },
+        { "key": "dramatic-19",  "title": "dramatic-19", "slow": false, "show": true, "rating": 0 },
+        { "key": "dramatic-20",  "title": "dramatic-20", "slow": false, "show": true, "rating": 0 },
+        { "key": "dramatic-21",  "title": "dramatic-21", "slow": false, "show": true, "rating": 0 },
+        { "key": "dramatic-22",  "title": "dramatic-22", "slow": false, "show": true, "rating": 0 },
+        { "key": "dramatic-23",  "title": "dramatic-23", "slow": false, "show": true, "rating": 0 },
+        { "key": "dramatic-24",  "title": "dramatic-24", "slow": false, "show": true, "rating": 0 },
+        { "key": "dramatic-25",  "title": "dramatic-25", "slow": false, "show": true, "rating": 0 },
+        { "key": "dramatic-26",  "title": "dramatic-26", "slow": false, "show": true, "rating": 0 },
+        { "key": "dramatic-27",  "title": "dramatic-27", "slow": false, "show": true, "rating": 0 },
+        { "key": "dramatic-28",  "title": "dramatic-28", "slow": false, "show": true, "rating": 0 },
+        { "key": "dramatic-29",  "title": "dramatic-29", "slow": false, "show": true, "rating": 0 },
+        { "key": "dramatic-30",  "title": "dramatic-30", "slow": false, "show": true, "rating": 0 }
     ],
 
     
@@ -988,7 +1258,9 @@
             "title": "Trey",
             "filters": [
                 "ABeautifulRelease", "CarefullyShavenTurk", "AMarshmallowHappysmell", "SteampunkAfternoon", "OnRecreationalDrugs", "TurkishBlast",
-                "ThankHeavenForLittleGirls", "SundayAloneTime", "TheNavigator", "Relic"
+                "ThankHeavenForLittleGirls", "SundayAloneTime", "TheNavigator", "Relic",
+                "AlkalineStorm", "BrokenPhotocopier", "HotelofBudapest", "LatinOilSlicker", "Let'sGetLost", "LightHDR", "OldenDelays", "Parentgrain",
+                "PrimePicard", "Relic", "RestorationSoftware", "SandstormCastleBlack"
             ]
         },
 
@@ -1100,6 +1372,158 @@
         {"key": "pr_vsco",
             "title": "VSCO-Style Effects",
             "filters": [ "A4", "A5", "A6", "B1", "B5", "HB1", "HB2", "M5", "T1", "X1"
+            ]
+        },
+
+        {"key": "pr_apocalypse",
+            "title": "Design Panoply - Apocalypse",
+            "filters": [ "Corruption", "Fallout", "Hopeless", "Metropolis",
+        "SecretBunker", "Sewage", "Station", "ToxicCity", "Union", "Wasteland"
+            ]
+        },
+
+        
+        {"key": "pr_film_ilford",
+            "title": "Analog Film: Ilford B&W",
+            "filters": [ "IlfordDelta100Curve", "IlfordDelta3200Curve", "IlfordDelta400Curve", "IlfordFP4Plus125Curve", "IlfordHP5Plus400Curve"
+            ]
+        },
+        
+        
+        {"key": "pr_porcelain",
+            "title": "Porcelain B&W",
+            "filters": [
+        "PorcelainI",
+        "PorcelainIILT", "PorcelainIIIHC", "PorcelainIV", "PorcelainVSF", "PorcelainVISF2", "PorcelainVII", "PorcelainVIIILT"
+            ]
+        },
+        
+        
+        {"key": "pr_graphicex01",
+            "title": "graphicex Vol.1",
+            "filters": [ "graphicex01-01", "graphicex01-02", "graphicex01-03",
+        "graphicex01-04", "graphicex01-05", "graphicex01-06", "graphicex01-07", "graphicex01-08", "graphicex01-09", "graphicex01-10"
+            ]
+        },
+        
+        
+        {"key": "pr_graphicex02",
+            "title": "graphicex Vol.2",
+            "filters": [ "graphicex02-01", "graphicex02-02", "graphicex02-03", "graphicex02-04", "graphicex02-05", "graphicex02-06", "graphicex02-07", "graphicex02-08",
+        "graphicex02-09", "graphicex02-10", "graphicex02-11", "graphicex02-12", "graphicex02-13", "graphicex02-14", "graphicex02-15", "graphicex02-16",
+        "graphicex02-17", "graphicex02-18", "graphicex02-19", "graphicex02-20"
+            ]
+        },
+        
+        
+        {"key": "pr_graphicexhdr",
+            "title": "graphicex HDR",
+            "filters": [ "posterbdhdrsoft01-01", "posterbdhdrsoft01-02", "posterbdhdrsoft01-03",
+                "posterbdhdrsoft01-04", "posterbdhdrsoft01-05", "posterbdhdrsoft01-06",
+                "posterbdhdrsoft01-07", "posterbdhdrsoft01-08", "posterbdhdrsoft01-09",
+                "posterbdhdrsoft01-10", "posterbdhdrsoft01-11",
+                "posterbdhdrsoft01-12", "posterbdhdrsoft01-13", "posterbdhdrsoft01-14",
+                "posterbdhdrsoft01-15", "posterbdhdrsoft01-16", "posterbdhdrsoft01-17",
+                "posterbdhdrsoft01-18", "posterbdhdrsoft01-19",
+                "posterbdhdrsoft01-20", "posterbdhdrsoft01-21", "posterbdhdrsoft01-22",
+                "posterbdhdrsoft01-23", "posterbdhdrsoft01-24", "posterbdhdrsoft01-25"
+            ]
+        },
+        
+        
+        {"key": "pr_pbd_softhdr",
+            "title": "posterbd - Soft HDR",
+            "filters": [ "posterbdhdrsoft01-01", "posterbdhdrsoft01-02", "posterbdhdrsoft01-03",
+        "posterbdhdrsoft01-04", "posterbdhdrsoft01-05", "posterbdhdrsoft01-06", "posterbdhdrsoft01-07", "posterbdhdrsoft01-08", "posterbdhdrsoft01-09", "posterbdhdrsoft01-10", "posterbdhdrsoft01-11",
+        "posterbdhdrsoft01-12", "posterbdhdrsoft01-13", "posterbdhdrsoft01-14", "posterbdhdrsoft01-15", "posterbdhdrsoft01-16", "posterbdhdrsoft01-17", "posterbdhdrsoft01-18", "posterbdhdrsoft01-19",
+        "posterbdhdrsoft01-20"
+            ]
+        },
+        
+        {"key": "pr_pbd_softv1",
+            "title": "posterbd - Soft Vol.1",
+            "filters": [ "posterbdhdrsoft01-01", "posterbdhdrsoft01-02", "posterbdhdrsoft01-03",
+                "posterbdhdrsoft01-04", "posterbdhdrsoft01-05", "posterbdhdrsoft01-06",
+                "posterbdhdrsoft01-07", "posterbdhdrsoft01-08", "posterbdhdrsoft01-09",
+                "posterbdhdrsoft01-10", "posterbdhdrsoft01-11",
+                "posterbdhdrsoft01-12", "posterbdhdrsoft01-13", "posterbdhdrsoft01-14",
+                "posterbdhdrsoft01-15", "posterbdhdrsoft01-16", "posterbdhdrsoft01-17",
+                "posterbdhdrsoft01-18", "posterbdhdrsoft01-19",
+                "posterbdhdrsoft01-20", "posterbdhdrsoft01-21", "posterbdhdrsoft01-22",
+                "posterbdhdrsoft01-23", "posterbdhdrsoft01-24", "posterbdhdrsoft01-25"
+            ]
+        },
+        
+        {"key": "pr_pbd_softv2",
+            "title": "posterbd - Soft Vol.2",
+            "filters": [ "posterbdsoft01-01",
+        "posterbdsoft01-02", "posterbdsoft01-03", "posterbdsoft01-04", "posterbdsoft01-05", "posterbdsoft01-06", "posterbdsoft01-07", "posterbdsoft01-08", "posterbdsoft01-09",
+        "posterbdsoft01-10", "posterbdsoft01-11", "posterbdsoft01-12", "posterbdsoft01-13", "posterbdsoft01-14", "posterbdsoft01-15", "posterbdsoft01-16", "posterbdsoft01-17",
+        "posterbdsoft01-18", "posterbdsoft01-19", "posterbdsoft01-20"
+            ]
+        },
+        
+        
+        {"key": "pr_pbd_softv3",
+            "title": "posterbd - Soft Vol.3",
+            "filters": [ "posterbdsoft03-01", "posterbdsoft03-02", "posterbdsoft03-03", "posterbdsoft03-04", "posterbdsoft03-05", "posterbdsoft03-06", "posterbdsoft03-07",
+                "posterbdsoft03-08", "posterbdsoft03-09", "posterbdsoft03-10", "posterbdsoft03-11",
+                "posterbdsoft03-12", "posterbdsoft03-13", "posterbdsoft03-14", "posterbdsoft03-15",
+                "posterbdsoft03-16", "posterbdsoft03-17", "posterbdsoft03-18", "posterbdsoft03-19",
+                "posterbdsoft03-20"
+            ]
+        },
+        
+        
+        {"key": "pr_pbd_softv4",
+            "title": "posterbd - Soft Vol.4",
+            "filters": [ "posterbdsoft04-01", "posterbdsoft04-02",
+                "posterbdsoft04-03", "posterbdsoft04-04", "posterbdsoft04-05", "posterbdsoft04-06",
+                "posterbdsoft04-07", "posterbdsoft04-08", "posterbdsoft04-09", "posterbdsoft04-10",
+                "posterbdsoft04-11", "posterbdsoft04-12", "posterbdsoft04-13", "posterbdsoft04-14",
+                "posterbdsoft04-15", "posterbdsoft04-16", "posterbdsoft04-17", "posterbdsoft04-18",
+                "posterbdsoft04-19", "posterbdsoft04-20", "posterbdsoft04-21", "posterbdsoft04-22"
+            ]
+        },
+        
+        
+        
+        {"key": "pr_pbd_wedding",
+            "title": "posterbd - Wedding",
+            "filters": [ "posterbdwedding-01", "posterbdwedding-02", "posterbdwedding-03",
+                "posterbdwedding-04", "posterbdwedding-05", "posterbdwedding-06", "posterbdwedding-07",
+                "posterbdwedding-08", "posterbdwedding-09", "posterbdwedding-10", "posterbdwedding-11",
+                "posterbdwedding-12", "posterbdwedding-13", "posterbdwedding-14", "posterbdwedding-15",
+                "posterbdwedding-16", "posterbdwedding-17", "posterbdwedding-18", "posterbdwedding-19",
+                "posterbdwedding-20", "posterbdwedding-21", "posterbdwedding-22"
+            ]
+        },
+        
+        
+        {"key": "pr_leaks",
+            "title": "Light Leaks",
+            "filters": [ "Presetpro-Center", "Presetpro-Edge"
+            ]
+        },
+        
+        
+        {"key": "pr_upl_bw",
+            "title": "uploader: B&W",
+            "filters": [ "B&WP#01",
+        "B&WP#02", "B&WP#03", "B&WP#04", "B&WP#05", "B&WP#06", "B&WP#07", "B&WP#08", "B&WP#09",
+        "B&WP#10"
+            ]
+        },
+        
+        
+        {"key": "pr_dramatic",
+            "title": "uploader: Dramatic Landscapes",
+            "filters": [ "dramatic-01", "dramatic-02", "dramatic-03", "dramatic-04", "dramatic-05",
+                "dramatic-06", "dramatic-07", "dramatic-08", "dramatic-09", "dramatic-10",
+                "dramatic-11", "dramatic-12", "dramatic-13", "dramatic-14", "dramatic-15",
+                "dramatic-16", "dramatic-17", "dramatic-18", "dramatic-19", "dramatic-20",
+                "dramatic-21", "dramatic-22", "dramatic-23", "dramatic-24", "dramatic-25",
+                "dramatic-26", "dramatic-27", "dramatic-28", "dramatic-29", "dramatic-30"
             ]
         },
 
@@ -1289,8 +1713,38 @@
                 "vn_041", "vn_042", "vn_043", "vn_044", "vn_045", "vn_046", "vn_047"
             ]
         },
+        
+        
+        {"key": "edgy",
+            "title": "Edge Detection",
+            "filters": [ "EdgeGlowFilter",  "ColorSobelFilter", "SobelFilter", "Sobel3x3Filter", "Sobel5x5Filter", "LaplacianGaussianFilter"
+            ]
+        },
+        
+        {"key": "sketchy",
+            "title": "Drawing & Painting",
+            "filters": [ "ColorSketchFilter", "SketchFilter", "KuwaharaFilter",
+                "CIColorPosterize", "CIComicEffect", "CIEdges", "CIEdgeWork",
+                "CIPixellate", "CIPointillize", "CISpotColor"
+            ]
+        },
+        
+        {"key": "glitchy",
+            "title": "Glitchy Effects",
+            "filters": [ "RGBChannelCompositing", "EightBit", "TransverseChromaticAberration", "VHSTrackingLines", "CausticRefraction", "CIFalseColor", "CRTFilter"
+            ]
+        },
+        
+        {"key": "apple",
+            "title": "Apple Native Filters",
+            "filters": [ "CIPhotoEffectChrome", "CIPhotoEffectFade", "CIPhotoEffectInstant", "CIPhotoEffectMono", "CIPhotoEffectNoir", "CIPhotoEffectProcess", "CIPhotoEffectTonal",
+                "CIPhotoEffectTransfer", "CISepiaTone", "CIColorInvert", "CIColorMonochrome",
+                "CICrystallize", "CIDepthOfField", "CIGloom",  "CIHexagonalPixellate",
+                "CISpotLight"
+            ]
+        },
 
-
+        
         {"key": "custom",
             "title": "Custom",
             "filters": ["ClarityFilter", "OpacityFilter", "EdgeGlowFilter", "SmoothThresholdFilter", "AdaptiveThresholdFilter", "LumaRangeFilter",
@@ -1302,7 +1756,7 @@
                 "HighPassFilter", "HighPassSharpeningFilter", "HueRangeFilter", "SplitToningFilter", "CIFalseColor", "CRTFilter", "GrainFilter"
             ]
         }
-        
+
     ],
     
     
@@ -1312,13 +1766,19 @@
             "title": "All Presets",
             "categories": [ "pr_winter", "pr_fall", "pr_oglow", "pr_otinting", "pr_okidsmatte", "pr_otoners", "pr_pplanet", "pr_lvibrations", "pr_bwtonal", "pr_trey",
                             "pr_fstopurban", "pr_blondies", "pr_film", "pr_sleeklens", "pr_oxprocess", "pr_ovintage", "pr_omovie", "pr_oinsta",
-                            "pr_punch", "pr_wash", "pr_vsco"
+                            "pr_punch", "pr_wash", "pr_vsco",
+                            "pr_apocalypse", "pr_film_ilford", "pr_porcelain",
+                            "pr_graphicex01", "pr_graphicex02", "pr_graphicexhdr",
+                            "pr_pbd_softv1", "pr_pbd_softv2", "pr_pbd_softv3", "pr_pbd_softv4",
+                            "pr_pbd_softv5", "pr_pbd_wedding",
+                            "pr_leaks", "pr_upl_bw", "pr_dramatic"
             ]
         },
         
         {"key": "analog",
             "title": "Analog (Old) Film",
-            "categories": [ "pr_film_agfa", "pr_film_fuji", "pr_film_kodak", "pr_film_polaroid"
+            "categories": [ "pr_film_agfa", "pr_film_fuji", "pr_film_kodak",
+                "pr_film_polaroid", "pr_film_ilford"
             ]
         },
         
@@ -1336,7 +1796,8 @@
         
         {"key": "blackwhite",
             "title": "Black & White (Monochrome)",
-            "categories": [ "monochrome", "pr_otoners", "pr_bwtonal"
+            "categories": [ "monochrome", "pr_otoners", "pr_bwtonal", "pr_film_ilford",
+                "pr_porcelain", "pr_upl_bw"
             ]
         },
         
@@ -1346,6 +1807,21 @@
             ]
         },
         
+        {"key": "miscellaneous",
+            "title": "Miscellaneous",
+            "categories": [ "edgy", "sketchy", "glitchy", "apple"
+            ]
+        },
+        {"key": "new",
+            "title": "New Stuff",
+            "categories": [ "pr_apocalypse", "pr_film_ilford", "pr_porcelain",
+                "pr_graphicex01", "pr_graphicex02", "pr_graphicexhdr",
+                "pr_pbd_softv1", "pr_pbd_softv2", "pr_pbd_softv3", "pr_pbd_softv4",
+                "pr_pbd_softv5", "pr_pbd_wedding",
+                "pr_leaks", "pr_upl_bw", "pr_dramatic"
+            ]
+        },
+
         {"key": "favorites",
             "title": "Favorites",
             "categories": [ "favorites"

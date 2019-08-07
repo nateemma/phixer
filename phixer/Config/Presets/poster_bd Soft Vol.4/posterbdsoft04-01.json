@@ -1,0 +1,134 @@
+{
+  "key": "../phixer/Config/Presets//poster_bd Soft Vol.4/posterbdsoft04-01.json",
+  "info": {
+    "name": "Preset 1",
+    "group": "22 Soft Lightroom Preset Vol.4"
+  },
+  "filters": [
+    {
+      "key": "WhiteBalanceFilter",
+      "parameters": [
+        {
+          "key": "inputTemperature",
+          "val": 4259.0,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputTint",
+          "val": -19.0,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "CIExposureAdjust",
+      "parameters": [
+        {
+          "key": "inputEV",
+          "val": 0.12,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "ContrastFilter",
+      "parameters": [
+        {
+          "key": "inputContrast",
+          "val": 1.05,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "ClarityFilter",
+      "parameters": [
+        {
+          "key": "inputClarity",
+          "val": 0.1,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "CIVibrance",
+      "parameters": [
+        {
+          "key": "inputAmount",
+          "val": 0.14,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "CISharpenLuminance",
+      "parameters": [
+        {
+          "key": "inputSharpness",
+          "val": 0.28,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "CINoiseReduction",
+      "parameters": [
+        {
+          "key": "inputNoiseLevel",
+          "val": 0.017,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputSharpness",
+          "val": 0.1,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "CIToneCurve",
+      "parameters": [
+        {
+          "key": "inputPoint0",
+          "val": [
+            0.0,
+            0.0
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint1",
+          "val": [
+            0.25,
+            0.21849674711061884
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint2",
+          "val": [
+            0.52,
+            0.4998332678553635
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint3",
+          "val": [
+            0.75,
+            0.7655402310016218
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint4",
+          "val": [
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypeOffset"
+        }
+      ]
+    }
+  ]
+}

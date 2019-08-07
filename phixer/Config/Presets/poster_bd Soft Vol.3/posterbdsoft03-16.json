@@ -1,0 +1,211 @@
+{
+  "key": "../phixer/Config/Presets//poster_bd Soft Vol.3/posterbdsoft03-16.json",
+  "info": {
+    "name": "Preset 16",
+    "group": "20 Soft Lightroom Preset Vol.3"
+  },
+  "filters": [
+    {
+      "key": "WhiteBalanceFilter",
+      "parameters": [
+        {
+          "key": "inputTemperature",
+          "val": 5061.0,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputTint",
+          "val": 100.0,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "CIExposureAdjust",
+      "parameters": [
+        {
+          "key": "inputEV",
+          "val": -0.24,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "ContrastFilter",
+      "parameters": [
+        {
+          "key": "inputContrast",
+          "val": 1.06,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "ClarityFilter",
+      "parameters": [
+        {
+          "key": "inputClarity",
+          "val": 0.05,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "CIVibrance",
+      "parameters": [
+        {
+          "key": "inputAmount",
+          "val": 0.05,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "SplitToningFilter",
+      "parameters": [
+        {
+          "key": "inputHighlightHue",
+          "val": 0.15833333333333333,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputHighlightSaturation",
+          "val": 0.78,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputShadowHue",
+          "val": 0.6722222222222223,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputShadowSaturation",
+          "val": 0.3,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "MultiBandHSV",
+      "parameters": [
+        {
+          "key": "inputRedShift",
+          "val": [
+            0.0,
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypePosition3"
+        },
+        {
+          "key": "inputOrangeShift",
+          "val": [
+            0.0,
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypePosition3"
+        },
+        {
+          "key": "inputYellowShift",
+          "val": [
+            0.0,
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypePosition3"
+        },
+        {
+          "key": "inputGreenShift",
+          "val": [
+            0.00625,
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypePosition3"
+        },
+        {
+          "key": "inputAquaShift",
+          "val": [
+            0.0,
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypePosition3"
+        },
+        {
+          "key": "inputBlueShift",
+          "val": [
+            0.0,
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypePosition3"
+        },
+        {
+          "key": "inputPurpleShift",
+          "val": [
+            0.0,
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypePosition3"
+        },
+        {
+          "key": "inputMagentaShift",
+          "val": [
+            0.0,
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypePosition3"
+        }
+      ]
+    },
+    {
+      "key": "CIToneCurve",
+      "parameters": [
+        {
+          "key": "inputPoint0",
+          "val": [
+            0.0,
+            0.0
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint1",
+          "val": [
+            0.25,
+            0.27353266888150607
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint2",
+          "val": [
+            0.5,
+            0.5313768918420081
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint3",
+          "val": [
+            0.75,
+            0.7735326688815062
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint4",
+          "val": [
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypeOffset"
+        }
+      ]
+    }
+  ]
+}

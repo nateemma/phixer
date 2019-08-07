@@ -1,0 +1,290 @@
+{
+  "key": "../phixer/Config/Presets//poster_bd Soft Vol.4/posterbdsoft04-16.json",
+  "info": {
+    "name": "Preset 16",
+    "group": "22 Soft Lightroom Preset Vol.4"
+  },
+  "filters": [
+    {
+      "key": "WhiteBalanceFilter",
+      "parameters": [
+        {
+          "key": "inputTemperature",
+          "val": 6477.0,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputTint",
+          "val": -59.0,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "ClarityFilter",
+      "parameters": [
+        {
+          "key": "inputClarity",
+          "val": 0.4,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "CISharpenLuminance",
+      "parameters": [
+        {
+          "key": "inputSharpness",
+          "val": 1.72,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "SplitToningFilter",
+      "parameters": [
+        {
+          "key": "inputHighlightHue",
+          "val": 0.0,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputHighlightSaturation",
+          "val": 0.2,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputShadowHue",
+          "val": 0.08333333333333333,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputShadowSaturation",
+          "val": 0.19,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "RGBChannelToneCurve",
+      "parameters": [
+        {
+          "key": "inputRedXvalues",
+          "val": [
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "type": "CIAttributeTypeVector"
+        },
+        {
+          "key": "inputRedYvalues",
+          "val": [
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "type": "CIAttributeTypeVector"
+        },
+        {
+          "key": "inputGreenXvalues",
+          "val": [
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "type": "CIAttributeTypeVector"
+        },
+        {
+          "key": "inputGreenYvalues",
+          "val": [
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "type": "CIAttributeTypeVector"
+        },
+        {
+          "key": "inputBlueXvalues",
+          "val": [
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "type": "CIAttributeTypeVector"
+        },
+        {
+          "key": "inputBlueYvalues",
+          "val": [
+            0.09411764705882353,
+            0.3745151861420244,
+            0.6032751501501501,
+            0.7803975390832008,
+            0.9058823529411765
+          ],
+          "type": "CIAttributeTypeVector"
+        }
+      ]
+    },
+    {
+      "key": "MultiBandHSV",
+      "parameters": [
+        {
+          "key": "inputRedShift",
+          "val": [
+            0.02375,
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypePosition3"
+        },
+        {
+          "key": "inputOrangeShift",
+          "val": [
+            0.0,
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypePosition3"
+        },
+        {
+          "key": "inputYellowShift",
+          "val": [
+            0.0,
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypePosition3"
+        },
+        {
+          "key": "inputGreenShift",
+          "val": [
+            0.0,
+            0.64,
+            1.0
+          ],
+          "type": "CIAttributeTypePosition3"
+        },
+        {
+          "key": "inputAquaShift",
+          "val": [
+            0.0,
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypePosition3"
+        },
+        {
+          "key": "inputBlueShift",
+          "val": [
+            -0.00875,
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypePosition3"
+        },
+        {
+          "key": "inputPurpleShift",
+          "val": [
+            0.0,
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypePosition3"
+        },
+        {
+          "key": "inputMagentaShift",
+          "val": [
+            0.0,
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypePosition3"
+        }
+      ]
+    },
+    {
+      "key": "CIToneCurve",
+      "parameters": [
+        {
+          "key": "inputPoint0",
+          "val": [
+            0.0,
+            0.09411764705882347
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint1",
+          "val": [
+            0.25,
+            0.21675921141684434
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint2",
+          "val": [
+            0.5,
+            0.4086201250263807
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint3",
+          "val": [
+            0.75,
+            0.6697003878874326
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint4",
+          "val": [
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypeOffset"
+        }
+      ]
+    },
+    {
+      "key": "CIVignetteEffect",
+      "parameters": [
+        {
+          "key": "inputCenter",
+          "val": [
+            0.0,
+            0.0
+          ],
+          "type": "CIAttributeTypePosition"
+        },
+        {
+          "key": "inputRadius",
+          "val": 0.0,
+          "type": "CIAttributeTypeDistance"
+        },
+        {
+          "key": "inputIntensity",
+          "val": -0.05,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputFalloff",
+          "val": 0.62,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    }
+  ]
+}

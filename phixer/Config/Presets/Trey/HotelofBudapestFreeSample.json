@@ -1,0 +1,264 @@
+{
+  "key": "../phixer/Config/Presets//Trey/HotelofBudapestFreeSample.json",
+  "info": {
+    "name": "Hotel of Budapest Free Sample",
+    "group": "User Presets"
+  },
+  "filters": [
+    {
+      "key": "CIExposureAdjust",
+      "parameters": [
+        {
+          "key": "inputEV",
+          "val": 0.34,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "ClarityFilter",
+      "parameters": [
+        {
+          "key": "inputClarity",
+          "val": -0.42,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "CIVibrance",
+      "parameters": [
+        {
+          "key": "inputAmount",
+          "val": -0.02,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "SaturationFilter",
+      "parameters": [
+        {
+          "key": "inputSaturation",
+          "val": 0.84,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "CISharpenLuminance",
+      "parameters": [
+        {
+          "key": "inputSharpness",
+          "val": 0.5,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "CINoiseReduction",
+      "parameters": [
+        {
+          "key": "inputNoiseLevel",
+          "val": 0.025,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputSharpness",
+          "val": 0.1,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "SplitToningFilter",
+      "parameters": [
+        {
+          "key": "inputHighlightHue",
+          "val": 0.125,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputHighlightSaturation",
+          "val": 0.47,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputShadowHue",
+          "val": 0.55,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputShadowSaturation",
+          "val": 0.13,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "CIHighlightShadowAdjust",
+      "parameters": [
+        {
+          "key": "inputShadowAmount",
+          "val": 0.11,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputHighlightAmount",
+          "val": 0.56,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "MultiBandHSV",
+      "parameters": [
+        {
+          "key": "inputRedShift",
+          "val": [
+            0.0,
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypePosition3"
+        },
+        {
+          "key": "inputOrangeShift",
+          "val": [
+            0.0,
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypePosition3"
+        },
+        {
+          "key": "inputYellowShift",
+          "val": [
+            0.0,
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypePosition3"
+        },
+        {
+          "key": "inputGreenShift",
+          "val": [
+            -0.02,
+            1.0,
+            0.75
+          ],
+          "type": "CIAttributeTypePosition3"
+        },
+        {
+          "key": "inputAquaShift",
+          "val": [
+            -0.0175,
+            1.0,
+            0.83
+          ],
+          "type": "CIAttributeTypePosition3"
+        },
+        {
+          "key": "inputBlueShift",
+          "val": [
+            -0.00375,
+            1.0,
+            0.83
+          ],
+          "type": "CIAttributeTypePosition3"
+        },
+        {
+          "key": "inputPurpleShift",
+          "val": [
+            0.0,
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypePosition3"
+        },
+        {
+          "key": "inputMagentaShift",
+          "val": [
+            0.0,
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypePosition3"
+        }
+      ]
+    },
+    {
+      "key": "CIToneCurve",
+      "parameters": [
+        {
+          "key": "inputPoint0",
+          "val": [
+            0.0,
+            0.04202211156164597
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint1",
+          "val": [
+            0.25,
+            0.3626381972602873
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint2",
+          "val": [
+            0.5,
+            0.5601971782583637
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint3",
+          "val": [
+            0.75,
+            0.7276575701272583
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint4",
+          "val": [
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypeOffset"
+        }
+      ]
+    },
+    {
+      "key": "CIVignetteEffect",
+      "parameters": [
+        {
+          "key": "inputCenter",
+          "val": [
+            0.0,
+            0.0
+          ],
+          "type": "CIAttributeTypePosition"
+        },
+        {
+          "key": "inputRadius",
+          "val": 0.0,
+          "type": "CIAttributeTypeDistance"
+        },
+        {
+          "key": "inputIntensity",
+          "val": 0.22,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputFalloff",
+          "val": 0.5,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    }
+  ]
+}

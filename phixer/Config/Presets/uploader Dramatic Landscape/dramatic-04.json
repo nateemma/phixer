@@ -1,0 +1,260 @@
+{
+  "key": "../phixer/Config/Presets//uploader Dramatic Landscape/dramatic-04.json",
+  "info": {
+    "name": "Preset 4",
+    "group": "Dramatic Landscape Preset"
+  },
+  "filters": [
+    {
+      "key": "WhiteBalanceFilter",
+      "parameters": [
+        {
+          "key": "inputTemperature",
+          "val": 4123.0,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputTint",
+          "val": -10.0,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "CIExposureAdjust",
+      "parameters": [
+        {
+          "key": "inputEV",
+          "val": -0.12,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "ContrastFilter",
+      "parameters": [
+        {
+          "key": "inputContrast",
+          "val": 1.035,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "ClarityFilter",
+      "parameters": [
+        {
+          "key": "inputClarity",
+          "val": 0.31,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "CIVibrance",
+      "parameters": [
+        {
+          "key": "inputAmount",
+          "val": 0.12,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "CISharpenLuminance",
+      "parameters": [
+        {
+          "key": "inputSharpness",
+          "val": 1.68,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "CINoiseReduction",
+      "parameters": [
+        {
+          "key": "inputNoiseLevel",
+          "val": 0.008,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputSharpness",
+          "val": 0.1,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "SplitToningFilter",
+      "parameters": [
+        {
+          "key": "inputHighlightHue",
+          "val": 0.0,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputHighlightSaturation",
+          "val": 0.12,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputShadowHue",
+          "val": 0.0,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputShadowSaturation",
+          "val": 0.0,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "GrainFilter",
+      "parameters": [
+        {
+          "key": "inputAmount",
+          "val": 0.11,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputSize",
+          "val": 0.25,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "CIHighlightShadowAdjust",
+      "parameters": [
+        {
+          "key": "inputShadowAmount",
+          "val": 0.17,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputHighlightAmount",
+          "val": 1.0,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "RGBChannelToneCurve",
+      "parameters": [
+        {
+          "key": "inputRedXvalues",
+          "val": [
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "type": "CIAttributeTypeVector"
+        },
+        {
+          "key": "inputRedYvalues",
+          "val": [
+            0.0,
+            0.2705885519192914,
+            0.5274514025590551,
+            0.7705885519192914,
+            1.0
+          ],
+          "type": "CIAttributeTypeVector"
+        },
+        {
+          "key": "inputGreenXvalues",
+          "val": [
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "type": "CIAttributeTypeVector"
+        },
+        {
+          "key": "inputGreenYvalues",
+          "val": [
+            0.0,
+            0.2147053395669291,
+            0.4529404527559055,
+            0.7147053395669292,
+            1.0
+          ],
+          "type": "CIAttributeTypeVector"
+        },
+        {
+          "key": "inputBlueXvalues",
+          "val": [
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "type": "CIAttributeTypeVector"
+        },
+        {
+          "key": "inputBlueYvalues",
+          "val": [
+            0.07450980392156861,
+            0.24128151260504202,
+            0.4511204481792717,
+            0.7040266106442578,
+            1.0
+          ],
+          "type": "CIAttributeTypeVector"
+        }
+      ]
+    },
+    {
+      "key": "CIToneCurve",
+      "parameters": [
+        {
+          "key": "inputPoint0",
+          "val": [
+            0.0,
+            0.0
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint1",
+          "val": [
+            0.25,
+            0.25
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint2",
+          "val": [
+            0.5,
+            0.5
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint3",
+          "val": [
+            0.75,
+            0.75
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint4",
+          "val": [
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypeOffset"
+        }
+      ]
+    }
+  ]
+}

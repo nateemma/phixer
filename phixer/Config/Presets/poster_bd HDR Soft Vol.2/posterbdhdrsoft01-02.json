@@ -1,0 +1,167 @@
+{
+  "key": "../phixer/Config/Presets//poster_bd HDR Soft Vol.2/posterbdhdrsoft01-02.json",
+  "info": {
+    "name": "Preset 2",
+    "group": "25 HDR Soft Lightroom Preset Vol.2"
+  },
+  "filters": [
+    {
+      "key": "WhiteBalanceFilter",
+      "parameters": [
+        {
+          "key": "inputTemperature",
+          "val": 3534.0,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputTint",
+          "val": 9.0,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "ContrastFilter",
+      "parameters": [
+        {
+          "key": "inputContrast",
+          "val": 1.085,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "ClarityFilter",
+      "parameters": [
+        {
+          "key": "inputClarity",
+          "val": 0.26,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "CIVibrance",
+      "parameters": [
+        {
+          "key": "inputAmount",
+          "val": 0.1,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "CISharpenLuminance",
+      "parameters": [
+        {
+          "key": "inputSharpness",
+          "val": 1.14,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "GrainFilter",
+      "parameters": [
+        {
+          "key": "inputAmount",
+          "val": 0.18,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputSize",
+          "val": 0.25,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "CIHighlightShadowAdjust",
+      "parameters": [
+        {
+          "key": "inputShadowAmount",
+          "val": 0.0,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputHighlightAmount",
+          "val": 1.0,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "CIToneCurve",
+      "parameters": [
+        {
+          "key": "inputPoint0",
+          "val": [
+            0.0,
+            0.01111673076923077
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint1",
+          "val": [
+            0.25,
+            0.22351923076923078
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint2",
+          "val": [
+            0.5,
+            0.46469230769230774
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint3",
+          "val": [
+            0.75,
+            0.7235192307692307
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint4",
+          "val": [
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypeOffset"
+        }
+      ]
+    },
+    {
+      "key": "CIVignetteEffect",
+      "parameters": [
+        {
+          "key": "inputCenter",
+          "val": [
+            0.0,
+            0.0
+          ],
+          "type": "CIAttributeTypePosition"
+        },
+        {
+          "key": "inputRadius",
+          "val": 0.0,
+          "type": "CIAttributeTypeDistance"
+        },
+        {
+          "key": "inputIntensity",
+          "val": 0.02,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputFalloff",
+          "val": 0.5,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    }
+  ]
+}

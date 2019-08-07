@@ -1,0 +1,187 @@
+{
+  "key": "../phixer/Config/Presets//Design Panoply - The Apocalypse/Wasteland.json",
+  "info": {
+    "name": "10 - Wasteland",
+    "group": "Design Panoply - The Apocalypse"
+  },
+  "filters": [
+    {
+      "key": "CIExposureAdjust",
+      "parameters": [
+        {
+          "key": "inputEV",
+          "val": 0.75,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "ContrastFilter",
+      "parameters": [
+        {
+          "key": "inputContrast",
+          "val": 1.125,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "ClarityFilter",
+      "parameters": [
+        {
+          "key": "inputClarity",
+          "val": 1.0,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "SaturationFilter",
+      "parameters": [
+        {
+          "key": "inputSaturation",
+          "val": 0.09999999999999998,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "CISharpenLuminance",
+      "parameters": [
+        {
+          "key": "inputSharpness",
+          "val": 0.7,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "SplitToningFilter",
+      "parameters": [
+        {
+          "key": "inputHighlightHue",
+          "val": 0.1111111111111111,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputHighlightSaturation",
+          "val": 0.1,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputShadowHue",
+          "val": 0.6388888888888888,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputShadowSaturation",
+          "val": 0.3,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "GrainFilter",
+      "parameters": [
+        {
+          "key": "inputAmount",
+          "val": 0.15,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputSize",
+          "val": 0.35,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "CIHighlightShadowAdjust",
+      "parameters": [
+        {
+          "key": "inputShadowAmount",
+          "val": 1.0,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputHighlightAmount",
+          "val": 0.9,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    },
+    {
+      "key": "CIToneCurve",
+      "parameters": [
+        {
+          "key": "inputPoint0",
+          "val": [
+            0.0,
+            0.0
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint1",
+          "val": [
+            0.25,
+            0.18501306697154657
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint2",
+          "val": [
+            0.5,
+            0.46943785502600605
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint3",
+          "val": [
+            0.75,
+            0.7720530039326735
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
+        {
+          "key": "inputPoint4",
+          "val": [
+            1.0,
+            1.0
+          ],
+          "type": "CIAttributeTypeOffset"
+        }
+      ]
+    },
+    {
+      "key": "CIVignetteEffect",
+      "parameters": [
+        {
+          "key": "inputCenter",
+          "val": [
+            0.0,
+            0.0
+          ],
+          "type": "CIAttributeTypePosition"
+        },
+        {
+          "key": "inputRadius",
+          "val": 0.0,
+          "type": "CIAttributeTypeDistance"
+        },
+        {
+          "key": "inputIntensity",
+          "val": 0.15,
+          "type": "CIAttributeTypeScalar"
+        },
+        {
+          "key": "inputFalloff",
+          "val": 0.5,
+          "type": "CIAttributeTypeScalar"
+        }
+      ]
+    }
+  ]
+}

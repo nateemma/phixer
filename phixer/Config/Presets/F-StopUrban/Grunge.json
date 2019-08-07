@@ -1,119 +1,119 @@
 {
+  "key": "../phixer/Config/Presets//F-StopUrban/Grunge.json",
   "info": {
-    "group": "F-Stop Stop Urban Presets", 
-    "name": "Grunge"
-  }, 
+    "name": "Grunge",
+    "group": "F-Stop Stop Urban Presets"
+  },
   "filters": [
     {
+      "key": "CIExposureAdjust",
       "parameters": [
         {
-          "type": "CIAttributeTypeScalar", 
-          "val": -0.2, 
-          "key": "inputEV"
+          "key": "inputEV",
+          "val": -0.2,
+          "type": "CIAttributeTypeScalar"
         }
-      ], 
-      "key": "CIExposureAdjust"
-    }, 
+      ]
+    },
     {
+      "key": "ClarityFilter",
       "parameters": [
         {
-          "type": "CIAttributeTypeScalar", 
-          "val": 1.0, 
-          "key": "inputClarity"
+          "key": "inputClarity",
+          "val": 1.0,
+          "type": "CIAttributeTypeScalar"
         }
-      ], 
-      "key": "ClarityFilter"
-    }, 
+      ]
+    },
     {
+      "key": "CIVibrance",
       "parameters": [
         {
-          "type": "CIAttributeTypeScalar", 
-          "val": 1.0, 
-          "key": "inputAmount"
+          "key": "inputAmount",
+          "val": 1.0,
+          "type": "CIAttributeTypeScalar"
         }
-      ], 
-      "key": "CIVibrance"
-    }, 
+      ]
+    },
     {
+      "key": "SaturationFilter",
       "parameters": [
         {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.6, 
-          "key": "inputSaturation"
+          "key": "inputSaturation",
+          "val": 0.6,
+          "type": "CIAttributeTypeScalar"
         }
-      ], 
-      "key": "SaturationFilter"
-    }, 
+      ]
+    },
     {
+      "key": "CISharpenLuminance",
       "parameters": [
         {
-          "type": "CIAttributeTypeScalar", 
-          "val": 2.0, 
-          "key": "inputSharpness"
+          "key": "inputSharpness",
+          "val": 2.0,
+          "type": "CIAttributeTypeScalar"
         }
-      ], 
-      "key": "CISharpenLuminance"
-    }, 
+      ]
+    },
     {
+      "key": "CIHighlightShadowAdjust",
       "parameters": [
         {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.8, 
-          "key": "inputShadowAmount"
-        }, 
+          "key": "inputShadowAmount",
+          "val": 0.8,
+          "type": "CIAttributeTypeScalar"
+        },
         {
-          "type": "CIAttributeTypeScalar", 
-          "val": 1.0, 
-          "key": "inputHighlightAmount"
+          "key": "inputHighlightAmount",
+          "val": 1.0,
+          "type": "CIAttributeTypeScalar"
         }
-      ], 
-      "key": "CIHighlightShadowAdjust"
-    }, 
+      ]
+    },
     {
+      "key": "CIToneCurve",
       "parameters": [
         {
-          "type": "CIAttributeTypeOffset", 
+          "key": "inputPoint0",
           "val": [
-            0.0, 
+            0.0,
             0.021
-          ], 
-          "key": "inputPoint0"
-        }, 
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
         {
-          "type": "CIAttributeTypeOffset", 
+          "key": "inputPoint1",
           "val": [
-            0.25, 
+            0.25,
             0.25
-          ], 
-          "key": "inputPoint1"
-        }, 
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
         {
-          "type": "CIAttributeTypeOffset", 
+          "key": "inputPoint2",
           "val": [
-            0.5, 
+            0.5,
             0.5
-          ], 
-          "key": "inputPoint2"
-        }, 
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
         {
-          "type": "CIAttributeTypeOffset", 
+          "key": "inputPoint3",
           "val": [
-            0.75, 
+            0.75,
             0.75
-          ], 
-          "key": "inputPoint3"
-        }, 
+          ],
+          "type": "CIAttributeTypeOffset"
+        },
         {
-          "type": "CIAttributeTypeOffset", 
+          "key": "inputPoint4",
           "val": [
-            1.0, 
+            1.0,
             1.0
-          ], 
-          "key": "inputPoint4"
+          ],
+          "type": "CIAttributeTypeOffset"
         }
-      ], 
-      "key": "CIToneCurve"
+      ]
     }
-  ], 
-  "key": "../phixer/Config/Presets//F-StopUrban/Grunge.json"
+  ]
 }

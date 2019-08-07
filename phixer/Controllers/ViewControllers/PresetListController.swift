@@ -121,7 +121,9 @@ class PresetListController: CoordinatedController, UINavigationControllerDelegat
                       MenuItem(key: "analog", title: "Analog Film Types", subtitile: "Classic Analog film presets",
                                icon: "ic_filmstrip", view: nil, isHidden: false),
                       MenuItem(key: "transforms", title: "Transforms", subtitile: "Image transforming filters (warps, sketches etc.)",
-                               icon: "ic_transform", view: nil, isHidden: false)
+                               icon: "ic_transform", view: nil, isHidden: false),
+                      MenuItem(key: "miscellaneous", title: "Miscellaneous", subtitile: "Miscellaneous Stuff",
+                               icon: "ic_unknown", view: nil, isHidden: false)
         ]
         
         menuView.setItems(menuItems)
@@ -166,6 +168,8 @@ class PresetListController: CoordinatedController, UINavigationControllerDelegat
         case "transforms":
             showCollection(key)
         case "analog":
+            showCollection(key)
+        case "miscellaneous":
             showCollection(key)
         default:
             log.warning("Unknown menu item: \(key)")

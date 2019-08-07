@@ -13,7 +13,6 @@
 		2507160D1DBED62C00CDDF42 /* FilterGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2507160C1DBED62C00CDDF42 /* FilterGalleryView.swift */; };
 		250C5EFB22B7258800DE0DDF /* SplitToningFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250C5EFA22B7258800DE0DDF /* SplitToningFilter.swift */; };
 		250C5EFD22B72A5300DE0DDF /* CIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250C5EFC22B72A5300DE0DDF /* CIColor+Extensions.swift */; };
-		250C5EFF22B75B5500DE0DDF /* convert.sh in Resources */ = {isa = PBXBuildFile; fileRef = 250C5EFE22B75B5500DE0DDF /* convert.sh */; };
 		250C5F0122B800D600DE0DDF /* PresetFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250C5F0022B800D600DE0DDF /* PresetFilter.swift */; };
 		250C5FA322C6734900DE0DDF /* VoronoiNoise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250C5FA022C6734900DE0DDF /* VoronoiNoise.swift */; };
 		250C5FA422C6734900DE0DDF /* Scatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250C5FA122C6734900DE0DDF /* Scatter.swift */; };
@@ -1174,6 +1173,261 @@
 		25FD3CDC22ED625800A1C00A /* MenuViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25FD3CDB22ED625800A1C00A /* MenuViewCell.swift */; };
 		560E5668039EDD21652B216D /* Pods_phixerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDBA6C647E0CE1D78E741974 /* Pods_phixerUITests.framework */; };
 		6D62A8FFBDF1408E43BE59D8 /* Pods_phixerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA7977390F9DC393764E04A9 /* Pods_phixerTests.framework */; };
+		865348D722F4DAAE0060CF2A /* ChameleonFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 865348D622F4DAAE0060CF2A /* ChameleonFramework.framework */; };
+		865348D922F4DAAE0060CF2A /* Cosmos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 865348D822F4DAAE0060CF2A /* Cosmos.framework */; };
+		865348DB22F4DAAE0060CF2A /* FirebaseCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 865348DA22F4DAAE0060CF2A /* FirebaseCore.framework */; };
+		865348DD22F4DAAE0060CF2A /* FirebaseInstanceID.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 865348DC22F4DAAE0060CF2A /* FirebaseInstanceID.framework */; };
+		865348DF22F4DAAE0060CF2A /* GoogleUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 865348DE22F4DAAE0060CF2A /* GoogleUtilities.framework */; };
+		865348E122F4DAAE0060CF2A /* iCarousel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 865348E022F4DAAE0060CF2A /* iCarousel.framework */; };
+		865348E322F4DAAE0060CF2A /* nanopb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 865348E222F4DAAE0060CF2A /* nanopb.framework */; };
+		865348E522F4DAAE0060CF2A /* Neon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 865348E422F4DAAE0060CF2A /* Neon.framework */; };
+		865348E722F4DABA0060CF2A /* SwiftyBeaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 865348E622F4DABA0060CF2A /* SwiftyBeaver.framework */; };
+		868EE0C522F7D0850006F292 /* SecretBunker.json in Resources */ = {isa = PBXBuildFile; fileRef = 868EE0BB22F7D0810006F292 /* SecretBunker.json */; };
+		868EE0C622F7D0850006F292 /* Hopeless.json in Resources */ = {isa = PBXBuildFile; fileRef = 868EE0BC22F7D0820006F292 /* Hopeless.json */; };
+		868EE0C722F7D0850006F292 /* Wasteland.json in Resources */ = {isa = PBXBuildFile; fileRef = 868EE0BD22F7D0820006F292 /* Wasteland.json */; };
+		868EE0C822F7D0850006F292 /* ToxicCity.json in Resources */ = {isa = PBXBuildFile; fileRef = 868EE0BE22F7D0830006F292 /* ToxicCity.json */; };
+		868EE0C922F7D0850006F292 /* Metropolis.json in Resources */ = {isa = PBXBuildFile; fileRef = 868EE0BF22F7D0830006F292 /* Metropolis.json */; };
+		868EE0CA22F7D0850006F292 /* Union.json in Resources */ = {isa = PBXBuildFile; fileRef = 868EE0C022F7D0830006F292 /* Union.json */; };
+		868EE0CB22F7D0850006F292 /* Fallout.json in Resources */ = {isa = PBXBuildFile; fileRef = 868EE0C122F7D0840006F292 /* Fallout.json */; };
+		868EE0CC22F7D0850006F292 /* Corruption.json in Resources */ = {isa = PBXBuildFile; fileRef = 868EE0C222F7D0840006F292 /* Corruption.json */; };
+		868EE0CD22F7D0850006F292 /* Station.json in Resources */ = {isa = PBXBuildFile; fileRef = 868EE0C322F7D0840006F292 /* Station.json */; };
+		868EE0CE22F7D0850006F292 /* Sewage.json in Resources */ = {isa = PBXBuildFile; fileRef = 868EE0C422F7D0850006F292 /* Sewage.json */; };
+		868EE0D122F892A30006F292 /* Presetpro-Edge.json in Resources */ = {isa = PBXBuildFile; fileRef = 868EE0CF22F892A20006F292 /* Presetpro-Edge.json */; };
+		868EE0D222F892A30006F292 /* Presetpro-Center.json in Resources */ = {isa = PBXBuildFile; fileRef = 868EE0D022F892A20006F292 /* Presetpro-Center.json */; };
+		86A9B06522F7771B007F9743 /* SandstormCastleBlack.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B05A22F77719007F9743 /* SandstormCastleBlack.json */; };
+		86A9B06622F7771B007F9743 /* Parentgrain.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B05B22F77719007F9743 /* Parentgrain.json */; };
+		86A9B06722F7771B007F9743 /* RestorationSoftware.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B05C22F77719007F9743 /* RestorationSoftware.json */; };
+		86A9B06822F7771B007F9743 /* BrokenPhotocopier.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B05D22F77719007F9743 /* BrokenPhotocopier.json */; };
+		86A9B06922F7771B007F9743 /* OldenDelays.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B05E22F7771A007F9743 /* OldenDelays.json */; };
+		86A9B06A22F7771B007F9743 /* HotelofBudapest.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B05F22F7771A007F9743 /* HotelofBudapest.json */; };
+		86A9B06B22F7771B007F9743 /* Let'sGetLost.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B06022F7771A007F9743 /* Let'sGetLost.json */; };
+		86A9B06C22F7771B007F9743 /* AlkalineStorm.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B06122F7771A007F9743 /* AlkalineStorm.json */; };
+		86A9B06D22F7771B007F9743 /* LatinOilSlicker.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B06222F7771A007F9743 /* LatinOilSlicker.json */; };
+		86A9B06E22F7771B007F9743 /* PrimePicard.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B06322F7771A007F9743 /* PrimePicard.json */; };
+		86A9B06F22F7771B007F9743 /* LightHDR.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B06422F7771B007F9743 /* LightHDR.json */; };
+		86A9B74122F7C5B0007F9743 /* genconvert.sh in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B61A22F7C5B0007F9743 /* genconvert.sh */; };
+		86A9B77B22F7CB65007F9743 /* dramatic-22.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B76222F7CB5C007F9743 /* dramatic-22.json */; };
+		86A9B77C22F7CB65007F9743 /* dramatic-11.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B76322F7CB5C007F9743 /* dramatic-11.json */; };
+		86A9B77D22F7CB65007F9743 /* dramatic-25.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B76422F7CB5D007F9743 /* dramatic-25.json */; };
+		86A9B77E22F7CB65007F9743 /* dramatic-28.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B76522F7CB5D007F9743 /* dramatic-28.json */; };
+		86A9B77F22F7CB65007F9743 /* dramatic-07.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B76622F7CB5E007F9743 /* dramatic-07.json */; };
+		86A9B78022F7CB65007F9743 /* dramatic-15.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B76722F7CB5E007F9743 /* dramatic-15.json */; };
+		86A9B78122F7CB65007F9743 /* dramatic-13.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B76822F7CB5E007F9743 /* dramatic-13.json */; };
+		86A9B78222F7CB65007F9743 /* dramatic-20.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B76922F7CB5F007F9743 /* dramatic-20.json */; };
+		86A9B78322F7CB65007F9743 /* dramatic-01.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B76A22F7CB5F007F9743 /* dramatic-01.json */; };
+		86A9B78422F7CB65007F9743 /* dramatic-21.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B76B22F7CB5F007F9743 /* dramatic-21.json */; };
+		86A9B78522F7CB65007F9743 /* dramatic-18.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B76C22F7CB60007F9743 /* dramatic-18.json */; };
+		86A9B78622F7CB65007F9743 /* dramatic-27.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B76D22F7CB60007F9743 /* dramatic-27.json */; };
+		86A9B78722F7CB65007F9743 /* dramatic-17.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B76E22F7CB61007F9743 /* dramatic-17.json */; };
+		86A9B78822F7CB65007F9743 /* dramatic-19.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B76F22F7CB61007F9743 /* dramatic-19.json */; };
+		86A9B78922F7CB65007F9743 /* dramatic-30.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B77022F7CB61007F9743 /* dramatic-30.json */; };
+		86A9B78A22F7CB65007F9743 /* dramatic-03.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B77122F7CB62007F9743 /* dramatic-03.json */; };
+		86A9B78B22F7CB65007F9743 /* dramatic-05.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B77222F7CB62007F9743 /* dramatic-05.json */; };
+		86A9B78C22F7CB65007F9743 /* dramatic-10.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B77322F7CB62007F9743 /* dramatic-10.json */; };
+		86A9B78D22F7CB65007F9743 /* dramatic-26.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B77422F7CB63007F9743 /* dramatic-26.json */; };
+		86A9B78E22F7CB65007F9743 /* dramatic-09.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B77522F7CB63007F9743 /* dramatic-09.json */; };
+		86A9B78F22F7CB65007F9743 /* dramatic-24.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B77622F7CB63007F9743 /* dramatic-24.json */; };
+		86A9B79022F7CB65007F9743 /* dramatic-29.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B77722F7CB64007F9743 /* dramatic-29.json */; };
+		86A9B79122F7CB65007F9743 /* dramatic-14.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B77822F7CB64007F9743 /* dramatic-14.json */; };
+		86A9B79222F7CB65007F9743 /* dramatic-06.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B77922F7CB64007F9743 /* dramatic-06.json */; };
+		86A9B79322F7CB65007F9743 /* dramatic-08.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B77A22F7CB65007F9743 /* dramatic-08.json */; };
+		86A9B7AA22F7CC0D007F9743 /* posterbdsoft04-19.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B79422F7CC05007F9743 /* posterbdsoft04-19.json */; };
+		86A9B7AB22F7CC0D007F9743 /* posterbdsoft04-07.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B79522F7CC05007F9743 /* posterbdsoft04-07.json */; };
+		86A9B7AC22F7CC0D007F9743 /* posterbdsoft04-06.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B79622F7CC06007F9743 /* posterbdsoft04-06.json */; };
+		86A9B7AD22F7CC0D007F9743 /* posterbdsoft04-01.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B79722F7CC06007F9743 /* posterbdsoft04-01.json */; };
+		86A9B7AE22F7CC0D007F9743 /* posterbdsoft04-14.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B79822F7CC06007F9743 /* posterbdsoft04-14.json */; };
+		86A9B7AF22F7CC0D007F9743 /* posterbdsoft04-12.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B79922F7CC07007F9743 /* posterbdsoft04-12.json */; };
+		86A9B7B022F7CC0D007F9743 /* posterbdsoft04-03.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B79A22F7CC07007F9743 /* posterbdsoft04-03.json */; };
+		86A9B7B122F7CC0D007F9743 /* posterbdsoft04-09.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B79B22F7CC07007F9743 /* posterbdsoft04-09.json */; };
+		86A9B7B222F7CC0D007F9743 /* posterbdsoft04-05.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B79C22F7CC08007F9743 /* posterbdsoft04-05.json */; };
+		86A9B7B322F7CC0D007F9743 /* posterbdsoft04-10.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B79D22F7CC08007F9743 /* posterbdsoft04-10.json */; };
+		86A9B7B422F7CC0D007F9743 /* posterbdsoft04-17.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B79E22F7CC08007F9743 /* posterbdsoft04-17.json */; };
+		86A9B7B522F7CC0D007F9743 /* posterbdsoft04-18.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B79F22F7CC09007F9743 /* posterbdsoft04-18.json */; };
+		86A9B7B622F7CC0D007F9743 /* posterbdsoft04-20.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7A022F7CC09007F9743 /* posterbdsoft04-20.json */; };
+		86A9B7B722F7CC0D007F9743 /* posterbdsoft04-22.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7A122F7CC09007F9743 /* posterbdsoft04-22.json */; };
+		86A9B7B822F7CC0D007F9743 /* posterbdsoft04-13.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7A222F7CC0A007F9743 /* posterbdsoft04-13.json */; };
+		86A9B7B922F7CC0D007F9743 /* posterbdsoft04-11.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7A322F7CC0A007F9743 /* posterbdsoft04-11.json */; };
+		86A9B7BA22F7CC0D007F9743 /* posterbdsoft04-02.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7A422F7CC0B007F9743 /* posterbdsoft04-02.json */; };
+		86A9B7BB22F7CC0D007F9743 /* posterbdsoft04-16.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7A522F7CC0B007F9743 /* posterbdsoft04-16.json */; };
+		86A9B7BC22F7CC0D007F9743 /* posterbdsoft04-04.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7A622F7CC0B007F9743 /* posterbdsoft04-04.json */; };
+		86A9B7BD22F7CC0D007F9743 /* posterbdsoft04-21.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7A722F7CC0C007F9743 /* posterbdsoft04-21.json */; };
+		86A9B7BE22F7CC0D007F9743 /* posterbdsoft04-15.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7A822F7CC0C007F9743 /* posterbdsoft04-15.json */; };
+		86A9B7BF22F7CC0D007F9743 /* posterbdsoft04-08.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7A922F7CC0C007F9743 /* posterbdsoft04-08.json */; };
+		86A9B7D422F7CC2C007F9743 /* posterbdsoft03-10.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7C022F7CC26007F9743 /* posterbdsoft03-10.json */; };
+		86A9B7D522F7CC2C007F9743 /* posterbdsoft03-05.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7C122F7CC26007F9743 /* posterbdsoft03-05.json */; };
+		86A9B7D622F7CC2C007F9743 /* posterbdsoft03-11.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7C222F7CC26007F9743 /* posterbdsoft03-11.json */; };
+		86A9B7D722F7CC2C007F9743 /* posterbdsoft03-08.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7C322F7CC27007F9743 /* posterbdsoft03-08.json */; };
+		86A9B7D822F7CC2C007F9743 /* posterbdsoft03-04.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7C422F7CC27007F9743 /* posterbdsoft03-04.json */; };
+		86A9B7D922F7CC2C007F9743 /* posterbdsoft03-16.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7C522F7CC27007F9743 /* posterbdsoft03-16.json */; };
+		86A9B7DA22F7CC2C007F9743 /* posterbdsoft03-15.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7C622F7CC28007F9743 /* posterbdsoft03-15.json */; };
+		86A9B7DB22F7CC2C007F9743 /* posterbdsoft03-02.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7C722F7CC28007F9743 /* posterbdsoft03-02.json */; };
+		86A9B7DC22F7CC2C007F9743 /* posterbdsoft03-12.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7C822F7CC28007F9743 /* posterbdsoft03-12.json */; };
+		86A9B7DD22F7CC2C007F9743 /* posterbdsoft03-09.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7C922F7CC29007F9743 /* posterbdsoft03-09.json */; };
+		86A9B7DE22F7CC2C007F9743 /* posterbdsoft03-01.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7CA22F7CC29007F9743 /* posterbdsoft03-01.json */; };
+		86A9B7DF22F7CC2C007F9743 /* posterbdsoft03-07.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7CB22F7CC29007F9743 /* posterbdsoft03-07.json */; };
+		86A9B7E022F7CC2C007F9743 /* posterbdsoft03-03.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7CC22F7CC2A007F9743 /* posterbdsoft03-03.json */; };
+		86A9B7E122F7CC2C007F9743 /* posterbdsoft03-17.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7CD22F7CC2A007F9743 /* posterbdsoft03-17.json */; };
+		86A9B7E222F7CC2C007F9743 /* posterbdsoft03-06.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7CE22F7CC2A007F9743 /* posterbdsoft03-06.json */; };
+		86A9B7E322F7CC2C007F9743 /* posterbdsoft03-14.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7CF22F7CC2B007F9743 /* posterbdsoft03-14.json */; };
+		86A9B7E422F7CC2C007F9743 /* posterbdsoft03-18.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7D022F7CC2B007F9743 /* posterbdsoft03-18.json */; };
+		86A9B7E522F7CC2C007F9743 /* posterbdsoft03-19.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7D122F7CC2B007F9743 /* posterbdsoft03-19.json */; };
+		86A9B7E622F7CC2C007F9743 /* posterbdsoft03-13.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7D222F7CC2C007F9743 /* posterbdsoft03-13.json */; };
+		86A9B7E722F7CC2C007F9743 /* posterbdsoft03-20.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7D322F7CC2C007F9743 /* posterbdsoft03-20.json */; };
+		86A9B7F222F7CC6F007F9743 /* B&WP#07.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7E822F7CC6B007F9743 /* B&WP#07.json */; };
+		86A9B7F322F7CC6F007F9743 /* B&WP#03.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7E922F7CC6B007F9743 /* B&WP#03.json */; };
+		86A9B7F422F7CC6F007F9743 /* B&WP#01.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7EA22F7CC6C007F9743 /* B&WP#01.json */; };
+		86A9B7F522F7CC6F007F9743 /* B&WP#05.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7EB22F7CC6C007F9743 /* B&WP#05.json */; };
+		86A9B7F622F7CC6F007F9743 /* B&WP#04.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7EC22F7CC6C007F9743 /* B&WP#04.json */; };
+		86A9B7F722F7CC6F007F9743 /* B&WP#08.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7ED22F7CC6D007F9743 /* B&WP#08.json */; };
+		86A9B7F822F7CC6F007F9743 /* B&WP#10.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7EE22F7CC6D007F9743 /* B&WP#10.json */; };
+		86A9B7F922F7CC6F007F9743 /* B&WP#09.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7EF22F7CC6E007F9743 /* B&WP#09.json */; };
+		86A9B7FA22F7CC6F007F9743 /* B&WP#06.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7F022F7CC6E007F9743 /* B&WP#06.json */; };
+		86A9B7FB22F7CC6F007F9743 /* B&WP#02.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B7F122F7CC6E007F9743 /* B&WP#02.json */; };
+		86A9B81622F7CCAC007F9743 /* posterbdwedding-14.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B80022F7CCA5007F9743 /* posterbdwedding-14.json */; };
+		86A9B81722F7CCAC007F9743 /* posterbdwedding-18.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B80122F7CCA5007F9743 /* posterbdwedding-18.json */; };
+		86A9B81822F7CCAC007F9743 /* posterbdwedding-21.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B80222F7CCA5007F9743 /* posterbdwedding-21.json */; };
+		86A9B81922F7CCAC007F9743 /* posterbdwedding-06.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B80322F7CCA6007F9743 /* posterbdwedding-06.json */; };
+		86A9B81A22F7CCAC007F9743 /* posterbdwedding-04.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B80422F7CCA6007F9743 /* posterbdwedding-04.json */; };
+		86A9B81B22F7CCAC007F9743 /* posterbdwedding-12.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B80522F7CCA6007F9743 /* posterbdwedding-12.json */; };
+		86A9B81C22F7CCAC007F9743 /* posterbdwedding-09.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B80622F7CCA7007F9743 /* posterbdwedding-09.json */; };
+		86A9B81D22F7CCAC007F9743 /* posterbdwedding-20.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B80722F7CCA7007F9743 /* posterbdwedding-20.json */; };
+		86A9B81E22F7CCAC007F9743 /* posterbdwedding-22.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B80822F7CCA7007F9743 /* posterbdwedding-22.json */; };
+		86A9B81F22F7CCAC007F9743 /* posterbdwedding-10.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B80922F7CCA8007F9743 /* posterbdwedding-10.json */; };
+		86A9B82022F7CCAC007F9743 /* posterbdwedding-02.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B80A22F7CCA8007F9743 /* posterbdwedding-02.json */; };
+		86A9B82122F7CCAC007F9743 /* posterbdwedding-11.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B80B22F7CCA8007F9743 /* posterbdwedding-11.json */; };
+		86A9B82222F7CCAC007F9743 /* posterbdwedding-07.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B80C22F7CCA9007F9743 /* posterbdwedding-07.json */; };
+		86A9B82322F7CCAC007F9743 /* posterbdwedding-16.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B80D22F7CCA9007F9743 /* posterbdwedding-16.json */; };
+		86A9B82422F7CCAC007F9743 /* posterbdwedding-17.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B80E22F7CCAA007F9743 /* posterbdwedding-17.json */; };
+		86A9B82522F7CCAC007F9743 /* posterbdwedding-08.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B80F22F7CCAA007F9743 /* posterbdwedding-08.json */; };
+		86A9B82622F7CCAC007F9743 /* posterbdwedding-19.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B81022F7CCAA007F9743 /* posterbdwedding-19.json */; };
+		86A9B82722F7CCAC007F9743 /* posterbdwedding-03.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B81122F7CCAA007F9743 /* posterbdwedding-03.json */; };
+		86A9B82822F7CCAC007F9743 /* posterbdwedding-05.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B81222F7CCAB007F9743 /* posterbdwedding-05.json */; };
+		86A9B82922F7CCAC007F9743 /* posterbdwedding-01.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B81322F7CCAB007F9743 /* posterbdwedding-01.json */; };
+		86A9B82A22F7CCAC007F9743 /* posterbdwedding-15.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B81422F7CCAC007F9743 /* posterbdwedding-15.json */; };
+		86A9B82B22F7CCAC007F9743 /* posterbdwedding-13.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B81522F7CCAC007F9743 /* posterbdwedding-13.json */; };
+		86A9B84022F7CCC9007F9743 /* posterbdsoft02-13.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B82C22F7CCC2007F9743 /* posterbdsoft02-13.json */; };
+		86A9B84122F7CCC9007F9743 /* posterbdsoft02-09.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B82D22F7CCC3007F9743 /* posterbdsoft02-09.json */; };
+		86A9B84222F7CCC9007F9743 /* posterbdsoft02-03.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B82E22F7CCC3007F9743 /* posterbdsoft02-03.json */; };
+		86A9B84322F7CCC9007F9743 /* posterbdsoft02-01.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B82F22F7CCC3007F9743 /* posterbdsoft02-01.json */; };
+		86A9B84422F7CCC9007F9743 /* posterbdsoft02-12.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B83022F7CCC4007F9743 /* posterbdsoft02-12.json */; };
+		86A9B84522F7CCC9007F9743 /* posterbdsoft02-08.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B83122F7CCC4007F9743 /* posterbdsoft02-08.json */; };
+		86A9B84622F7CCC9007F9743 /* posterbdsoft02-15.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B83222F7CCC4007F9743 /* posterbdsoft02-15.json */; };
+		86A9B84722F7CCC9007F9743 /* posterbdsoft02-04.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B83322F7CCC5007F9743 /* posterbdsoft02-04.json */; };
+		86A9B84822F7CCC9007F9743 /* posterbdsoft02-16.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B83422F7CCC5007F9743 /* posterbdsoft02-16.json */; };
+		86A9B84922F7CCC9007F9743 /* posterbdsoft02-05.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B83522F7CCC5007F9743 /* posterbdsoft02-05.json */; };
+		86A9B84A22F7CCC9007F9743 /* posterbdsoft02-18.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B83622F7CCC6007F9743 /* posterbdsoft02-18.json */; };
+		86A9B84B22F7CCC9007F9743 /* posterbdsoft02-10.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B83722F7CCC6007F9743 /* posterbdsoft02-10.json */; };
+		86A9B84C22F7CCC9007F9743 /* posterbdsoft02-06.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B83822F7CCC6007F9743 /* posterbdsoft02-06.json */; };
+		86A9B84D22F7CCC9007F9743 /* posterbdsoft02-11.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B83922F7CCC7007F9743 /* posterbdsoft02-11.json */; };
+		86A9B84E22F7CCC9007F9743 /* posterbdsoft02-17.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B83A22F7CCC7007F9743 /* posterbdsoft02-17.json */; };
+		86A9B84F22F7CCC9007F9743 /* posterbdsoft02-07.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B83B22F7CCC8007F9743 /* posterbdsoft02-07.json */; };
+		86A9B85022F7CCC9007F9743 /* posterbdsoft02-14.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B83C22F7CCC8007F9743 /* posterbdsoft02-14.json */; };
+		86A9B85122F7CCC9007F9743 /* posterbdsoft02-02.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B83D22F7CCC8007F9743 /* posterbdsoft02-02.json */; };
+		86A9B85222F7CCC9007F9743 /* posterbdsoft02-19.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B83E22F7CCC9007F9743 /* posterbdsoft02-19.json */; };
+		86A9B85322F7CCC9007F9743 /* posterbdsoft02-20.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B83F22F7CCC9007F9743 /* posterbdsoft02-20.json */; };
+		86A9B86822F7CCE8007F9743 /* posterbdsoft01-03.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B85422F7CCE1007F9743 /* posterbdsoft01-03.json */; };
+		86A9B86922F7CCE8007F9743 /* posterbdsoft01-13.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B85522F7CCE1007F9743 /* posterbdsoft01-13.json */; };
+		86A9B86A22F7CCE8007F9743 /* posterbdsoft01-14.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B85622F7CCE2007F9743 /* posterbdsoft01-14.json */; };
+		86A9B86B22F7CCE8007F9743 /* posterbdsoft01-15.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B85722F7CCE2007F9743 /* posterbdsoft01-15.json */; };
+		86A9B86C22F7CCE8007F9743 /* posterbdsoft01-16.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B85822F7CCE2007F9743 /* posterbdsoft01-16.json */; };
+		86A9B86D22F7CCE8007F9743 /* posterbdsoft01-12.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B85922F7CCE3007F9743 /* posterbdsoft01-12.json */; };
+		86A9B86E22F7CCE8007F9743 /* posterbdsoft01-17.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B85A22F7CCE3007F9743 /* posterbdsoft01-17.json */; };
+		86A9B86F22F7CCE8007F9743 /* posterbdsoft01-08.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B85B22F7CCE3007F9743 /* posterbdsoft01-08.json */; };
+		86A9B87022F7CCE8007F9743 /* posterbdsoft01-04.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B85C22F7CCE4007F9743 /* posterbdsoft01-04.json */; };
+		86A9B87122F7CCE8007F9743 /* posterbdsoft01-06.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B85D22F7CCE4007F9743 /* posterbdsoft01-06.json */; };
+		86A9B87222F7CCE8007F9743 /* posterbdsoft01-07.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B85E22F7CCE4007F9743 /* posterbdsoft01-07.json */; };
+		86A9B87322F7CCE8007F9743 /* posterbdsoft01-09.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B85F22F7CCE5007F9743 /* posterbdsoft01-09.json */; };
+		86A9B87422F7CCE8007F9743 /* posterbdsoft01-01.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B86022F7CCE5007F9743 /* posterbdsoft01-01.json */; };
+		86A9B87522F7CCE8007F9743 /* posterbdsoft01-11.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B86122F7CCE5007F9743 /* posterbdsoft01-11.json */; };
+		86A9B87622F7CCE8007F9743 /* posterbdsoft01-02.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B86222F7CCE6007F9743 /* posterbdsoft01-02.json */; };
+		86A9B87722F7CCE8007F9743 /* posterbdsoft01-05.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B86322F7CCE6007F9743 /* posterbdsoft01-05.json */; };
+		86A9B87822F7CCE8007F9743 /* posterbdsoft01-20.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B86422F7CCE6007F9743 /* posterbdsoft01-20.json */; };
+		86A9B87922F7CCE8007F9743 /* posterbdsoft01-10.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B86522F7CCE7007F9743 /* posterbdsoft01-10.json */; };
+		86A9B87A22F7CCE8007F9743 /* posterbdsoft01-18.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B86622F7CCE7007F9743 /* posterbdsoft01-18.json */; };
+		86A9B87B22F7CCE8007F9743 /* posterbdsoft01-19.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B86722F7CCE8007F9743 /* posterbdsoft01-19.json */; };
+		86A9B89522F7CD07007F9743 /* posterbdhdrsoft01-12.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B87C22F7CCFE007F9743 /* posterbdhdrsoft01-12.json */; };
+		86A9B89622F7CD07007F9743 /* posterbdhdrsoft01-01.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B87D22F7CCFF007F9743 /* posterbdhdrsoft01-01.json */; };
+		86A9B89722F7CD07007F9743 /* posterbdhdrsoft01-17.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B87E22F7CCFF007F9743 /* posterbdhdrsoft01-17.json */; };
+		86A9B89822F7CD07007F9743 /* posterbdhdrsoft01-13.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B87F22F7CCFF007F9743 /* posterbdhdrsoft01-13.json */; };
+		86A9B89922F7CD07007F9743 /* posterbdhdrsoft01-23.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B88022F7CD00007F9743 /* posterbdhdrsoft01-23.json */; };
+		86A9B89A22F7CD07007F9743 /* posterbdhdrsoft01-05.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B88122F7CD00007F9743 /* posterbdhdrsoft01-05.json */; };
+		86A9B89B22F7CD07007F9743 /* posterbdhdrsoft01-10.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B88222F7CD00007F9743 /* posterbdhdrsoft01-10.json */; };
+		86A9B89C22F7CD07007F9743 /* posterbdhdrsoft01-22.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B88322F7CD01007F9743 /* posterbdhdrsoft01-22.json */; };
+		86A9B89D22F7CD07007F9743 /* posterbdhdrsoft01-02.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B88422F7CD01007F9743 /* posterbdhdrsoft01-02.json */; };
+		86A9B89E22F7CD07007F9743 /* posterbdhdrsoft01-09.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B88522F7CD01007F9743 /* posterbdhdrsoft01-09.json */; };
+		86A9B89F22F7CD07007F9743 /* posterbdhdrsoft01-25.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B88622F7CD02007F9743 /* posterbdhdrsoft01-25.json */; };
+		86A9B8A022F7CD07007F9743 /* posterbdhdrsoft01-18.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B88722F7CD02007F9743 /* posterbdhdrsoft01-18.json */; };
+		86A9B8A122F7CD07007F9743 /* posterbdhdrsoft01-07.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B88822F7CD02007F9743 /* posterbdhdrsoft01-07.json */; };
+		86A9B8A222F7CD07007F9743 /* posterbdhdrsoft01-16.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B88922F7CD03007F9743 /* posterbdhdrsoft01-16.json */; };
+		86A9B8A322F7CD07007F9743 /* posterbdhdrsoft01-08.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B88A22F7CD03007F9743 /* posterbdhdrsoft01-08.json */; };
+		86A9B8A422F7CD07007F9743 /* posterbdhdrsoft01-14.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B88B22F7CD03007F9743 /* posterbdhdrsoft01-14.json */; };
+		86A9B8A522F7CD07007F9743 /* posterbdhdrsoft01-03.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B88C22F7CD04007F9743 /* posterbdhdrsoft01-03.json */; };
+		86A9B8A622F7CD07007F9743 /* posterbdhdrsoft01-24.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B88D22F7CD04007F9743 /* posterbdhdrsoft01-24.json */; };
+		86A9B8A722F7CD07007F9743 /* posterbdhdrsoft01-20.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B88E22F7CD05007F9743 /* posterbdhdrsoft01-20.json */; };
+		86A9B8A822F7CD07007F9743 /* posterbdhdrsoft01-11.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B88F22F7CD05007F9743 /* posterbdhdrsoft01-11.json */; };
+		86A9B8A922F7CD07007F9743 /* posterbdhdrsoft01-19.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B89022F7CD05007F9743 /* posterbdhdrsoft01-19.json */; };
+		86A9B8AA22F7CD07007F9743 /* posterbdhdrsoft01-15.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B89122F7CD06007F9743 /* posterbdhdrsoft01-15.json */; };
+		86A9B8AB22F7CD07007F9743 /* posterbdhdrsoft01-21.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B89222F7CD06007F9743 /* posterbdhdrsoft01-21.json */; };
+		86A9B8AC22F7CD07007F9743 /* posterbdhdrsoft01-06.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B89322F7CD06007F9743 /* posterbdhdrsoft01-06.json */; };
+		86A9B8AD22F7CD07007F9743 /* posterbdhdrsoft01-04.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B89422F7CD07007F9743 /* posterbdhdrsoft01-04.json */; };
+		86A9B8B622F7CD22007F9743 /* PorcelainVISF2.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8AE22F7CD1F007F9743 /* PorcelainVISF2.json */; };
+		86A9B8B722F7CD22007F9743 /* PorcelainVSF.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8AF22F7CD20007F9743 /* PorcelainVSF.json */; };
+		86A9B8B822F7CD22007F9743 /* PorcelainIIIHC.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8B022F7CD20007F9743 /* PorcelainIIIHC.json */; };
+		86A9B8B922F7CD22007F9743 /* PorcelainI.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8B122F7CD20007F9743 /* PorcelainI.json */; };
+		86A9B8BA22F7CD22007F9743 /* PorcelainIILT.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8B222F7CD21007F9743 /* PorcelainIILT.json */; };
+		86A9B8BB22F7CD22007F9743 /* PorcelainIV.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8B322F7CD21007F9743 /* PorcelainIV.json */; };
+		86A9B8BC22F7CD22007F9743 /* PorcelainVIIILT.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8B422F7CD21007F9743 /* PorcelainVIIILT.json */; };
+		86A9B8BD22F7CD22007F9743 /* PorcelainVII.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8B522F7CD22007F9743 /* PorcelainVII.json */; };
+		86A9B8C322F7CD42007F9743 /* IlfordDelta3200Curve.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8BE22F7CD41007F9743 /* IlfordDelta3200Curve.json */; };
+		86A9B8C422F7CD42007F9743 /* IlfordDelta100Curve.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8BF22F7CD41007F9743 /* IlfordDelta100Curve.json */; };
+		86A9B8C522F7CD42007F9743 /* IlfordHP5Plus400Curve.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8C022F7CD41007F9743 /* IlfordHP5Plus400Curve.json */; };
+		86A9B8C622F7CD42007F9743 /* IlfordDelta400Curve.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8C122F7CD42007F9743 /* IlfordDelta400Curve.json */; };
+		86A9B8C722F7CD42007F9743 /* IlfordFP4Plus125Curve.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8C222F7CD42007F9743 /* IlfordFP4Plus125Curve.json */; };
+		86A9B8D722F7CD60007F9743 /* graphicexhdr01-14.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8C822F7CD5A007F9743 /* graphicexhdr01-14.json */; };
+		86A9B8D822F7CD60007F9743 /* graphicexhdr01-06.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8C922F7CD5B007F9743 /* graphicexhdr01-06.json */; };
+		86A9B8D922F7CD60007F9743 /* graphicexhdr01-08.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8CA22F7CD5B007F9743 /* graphicexhdr01-08.json */; };
+		86A9B8DA22F7CD60007F9743 /* graphicexhdr01-04.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8CB22F7CD5B007F9743 /* graphicexhdr01-04.json */; };
+		86A9B8DB22F7CD60007F9743 /* graphicexhdr01-11.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8CC22F7CD5C007F9743 /* graphicexhdr01-11.json */; };
+		86A9B8DC22F7CD60007F9743 /* graphicexhdr01-10.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8CD22F7CD5C007F9743 /* graphicexhdr01-10.json */; };
+		86A9B8DD22F7CD60007F9743 /* graphicexhdr01-13.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8CE22F7CD5C007F9743 /* graphicexhdr01-13.json */; };
+		86A9B8DE22F7CD60007F9743 /* graphicexhdr01-05.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8CF22F7CD5D007F9743 /* graphicexhdr01-05.json */; };
+		86A9B8DF22F7CD60007F9743 /* graphicexhdr01-01.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8D022F7CD5D007F9743 /* graphicexhdr01-01.json */; };
+		86A9B8E022F7CD60007F9743 /* graphicexhdr01-07.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8D122F7CD5D007F9743 /* graphicexhdr01-07.json */; };
+		86A9B8E122F7CD60007F9743 /* graphicexhdr01-02.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8D222F7CD5E007F9743 /* graphicexhdr01-02.json */; };
+		86A9B8E222F7CD60007F9743 /* graphicexhdr01-03.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8D322F7CD5E007F9743 /* graphicexhdr01-03.json */; };
+		86A9B8E322F7CD60007F9743 /* graphicexhdr01-12.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8D422F7CD5F007F9743 /* graphicexhdr01-12.json */; };
+		86A9B8E422F7CD60007F9743 /* graphicexhdr01-15.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8D522F7CD5F007F9743 /* graphicexhdr01-15.json */; };
+		86A9B8E522F7CD60007F9743 /* graphicexhdr01-09.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8D622F7CD5F007F9743 /* graphicexhdr01-09.json */; };
+		86A9B8FA22F7CD81007F9743 /* graphicex02-11.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8E622F7CD79007F9743 /* graphicex02-11.json */; };
+		86A9B8FB22F7CD81007F9743 /* graphicex02-07.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8E722F7CD7A007F9743 /* graphicex02-07.json */; };
+		86A9B8FC22F7CD81007F9743 /* graphicex02-16.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8E822F7CD7A007F9743 /* graphicex02-16.json */; };
+		86A9B8FD22F7CD81007F9743 /* graphicex02-19.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8E922F7CD7A007F9743 /* graphicex02-19.json */; };
+		86A9B8FE22F7CD81007F9743 /* graphicex02-09.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8EA22F7CD7B007F9743 /* graphicex02-09.json */; };
+		86A9B8FF22F7CD81007F9743 /* graphicex02-10.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8EB22F7CD7B007F9743 /* graphicex02-10.json */; };
+		86A9B90022F7CD81007F9743 /* graphicex02-03.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8EC22F7CD7B007F9743 /* graphicex02-03.json */; };
+		86A9B90122F7CD81007F9743 /* graphicex02-02.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8ED22F7CD7C007F9743 /* graphicex02-02.json */; };
+		86A9B90222F7CD81007F9743 /* graphicex02-01.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8EE22F7CD7C007F9743 /* graphicex02-01.json */; };
+		86A9B90322F7CD81007F9743 /* graphicex02-12.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8EF22F7CD7C007F9743 /* graphicex02-12.json */; };
+		86A9B90422F7CD81007F9743 /* graphicex02-05.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8F022F7CD7D007F9743 /* graphicex02-05.json */; };
+		86A9B90522F7CD81007F9743 /* graphicex02-04.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8F122F7CD7D007F9743 /* graphicex02-04.json */; };
+		86A9B90622F7CD81007F9743 /* graphicex02-06.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8F222F7CD7E007F9743 /* graphicex02-06.json */; };
+		86A9B90722F7CD81007F9743 /* graphicex02-14.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8F322F7CD7E007F9743 /* graphicex02-14.json */; };
+		86A9B90822F7CD81007F9743 /* graphicex02-15.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8F422F7CD7E007F9743 /* graphicex02-15.json */; };
+		86A9B90922F7CD81007F9743 /* graphicex02-18.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8F522F7CD7F007F9743 /* graphicex02-18.json */; };
+		86A9B90A22F7CD81007F9743 /* graphicex02-13.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8F622F7CD7F007F9743 /* graphicex02-13.json */; };
+		86A9B90B22F7CD81007F9743 /* graphicex02-20.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8F722F7CD80007F9743 /* graphicex02-20.json */; };
+		86A9B90C22F7CD81007F9743 /* graphicex02-08.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8F822F7CD80007F9743 /* graphicex02-08.json */; };
+		86A9B90D22F7CD81007F9743 /* graphicex02-17.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B8F922F7CD80007F9743 /* graphicex02-17.json */; };
+		86A9B91822F7CD96007F9743 /* graphicex01-05.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B90E22F7CD92007F9743 /* graphicex01-05.json */; };
+		86A9B91922F7CD96007F9743 /* graphicex01-02.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B90F22F7CD93007F9743 /* graphicex01-02.json */; };
+		86A9B91A22F7CD96007F9743 /* graphicex01-10.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B91022F7CD93007F9743 /* graphicex01-10.json */; };
+		86A9B91B22F7CD96007F9743 /* graphicex01-01.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B91122F7CD93007F9743 /* graphicex01-01.json */; };
+		86A9B91C22F7CD96007F9743 /* graphicex01-09.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B91222F7CD94007F9743 /* graphicex01-09.json */; };
+		86A9B91D22F7CD96007F9743 /* graphicex01-04.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B91322F7CD94007F9743 /* graphicex01-04.json */; };
+		86A9B91E22F7CD96007F9743 /* graphicex01-06.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B91422F7CD94007F9743 /* graphicex01-06.json */; };
+		86A9B91F22F7CD96007F9743 /* graphicex01-07.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B91522F7CD95007F9743 /* graphicex01-07.json */; };
+		86A9B92022F7CD96007F9743 /* graphicex01-03.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B91622F7CD95007F9743 /* graphicex01-03.json */; };
+		86A9B92122F7CD96007F9743 /* graphicex01-08.json in Resources */ = {isa = PBXBuildFile; fileRef = 86A9B91722F7CD96007F9743 /* graphicex01-08.json */; };
 		86DD9D951E9C5A7000A5D855 /* MainMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DD9D941E9C5A7000A5D855 /* MainMenuController.swift */; };
 		E88E81DDAA94E3FBB69A0E8C /* Pods_phixer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E7799EBB34159D9CDB7937F /* Pods_phixer.framework */; };
 /* End PBXBuildFile section */
@@ -1214,7 +1468,6 @@
 		250716081DBEC19400CDDF42 /* FilterGalleryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterGalleryViewController.swift; sourceTree = "<group>"; };
 		2507160A1DBECDF200CDDF42 /* Admob.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Admob.swift; sourceTree = "<group>"; };
 		2507160C1DBED62C00CDDF42 /* FilterGalleryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterGalleryView.swift; sourceTree = "<group>"; };
-		250C5EF422B0605700DE0DDF /* convertXMP.py */ = {isa = PBXFileReference; explicitFileType = text.script.python; path = convertXMP.py; sourceTree = "<group>"; };
 		250C5EF522B0605700DE0DDF /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		250C5EF622B0605700DE0DDF /* sample_sidecar.xmp */ = {isa = PBXFileReference; lastKnownFileType = text; path = sample_sidecar.xmp; sourceTree = "<group>"; };
 		250C5EF722B0605700DE0DDF /* Exiv2 - Image metadata library and tools.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "Exiv2 - Image metadata library and tools.html"; sourceTree = "<group>"; };
@@ -2422,6 +2675,279 @@
 		25FD3CD922ED1DBF00A1C00A /* MenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		25FD3CDB22ED625800A1C00A /* MenuViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewCell.swift; sourceTree = "<group>"; };
 		737C29DA80DD0E6829273461 /* Pods-phixer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-phixer.release.xcconfig"; path = "Pods/Target Support Files/Pods-phixer/Pods-phixer.release.xcconfig"; sourceTree = "<group>"; };
+		865348D622F4DAAE0060CF2A /* ChameleonFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ChameleonFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		865348D822F4DAAE0060CF2A /* Cosmos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Cosmos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		865348DA22F4DAAE0060CF2A /* FirebaseCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FirebaseCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		865348DC22F4DAAE0060CF2A /* FirebaseInstanceID.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FirebaseInstanceID.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		865348DE22F4DAAE0060CF2A /* GoogleUtilities.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = GoogleUtilities.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		865348E022F4DAAE0060CF2A /* iCarousel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = iCarousel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		865348E222F4DAAE0060CF2A /* nanopb.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = nanopb.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		865348E422F4DAAE0060CF2A /* Neon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Neon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		865348E622F4DABA0060CF2A /* SwiftyBeaver.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftyBeaver.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		868EE0BB22F7D0810006F292 /* SecretBunker.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SecretBunker.json; sourceTree = "<group>"; };
+		868EE0BC22F7D0820006F292 /* Hopeless.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Hopeless.json; sourceTree = "<group>"; };
+		868EE0BD22F7D0820006F292 /* Wasteland.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Wasteland.json; sourceTree = "<group>"; };
+		868EE0BE22F7D0830006F292 /* ToxicCity.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ToxicCity.json; sourceTree = "<group>"; };
+		868EE0BF22F7D0830006F292 /* Metropolis.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = Metropolis.json; path = "phixer/Config/Presets/Design Panoply - The Apocalypse/Metropolis.json"; sourceTree = "<group>"; };
+		868EE0C022F7D0830006F292 /* Union.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Union.json; sourceTree = "<group>"; };
+		868EE0C122F7D0840006F292 /* Fallout.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Fallout.json; sourceTree = "<group>"; };
+		868EE0C222F7D0840006F292 /* Corruption.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Corruption.json; sourceTree = "<group>"; };
+		868EE0C322F7D0840006F292 /* Station.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = Station.json; path = "phixer/Config/Presets/Design Panoply - The Apocalypse/Station.json"; sourceTree = "<group>"; };
+		868EE0C422F7D0850006F292 /* Sewage.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Sewage.json; sourceTree = "<group>"; };
+		868EE0CF22F892A20006F292 /* Presetpro-Edge.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "Presetpro-Edge.json"; path = "phixer/Config/Presets/presetpro Light Leaks/Presetpro-Edge.json"; sourceTree = "<group>"; };
+		868EE0D022F892A20006F292 /* Presetpro-Center.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "Presetpro-Center.json"; path = "phixer/Config/Presets/presetpro Light Leaks/Presetpro-Center.json"; sourceTree = "<group>"; };
+		86A9B05A22F77719007F9743 /* SandstormCastleBlack.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SandstormCastleBlack.json; sourceTree = "<group>"; };
+		86A9B05B22F77719007F9743 /* Parentgrain.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Parentgrain.json; sourceTree = "<group>"; };
+		86A9B05C22F77719007F9743 /* RestorationSoftware.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = RestorationSoftware.json; sourceTree = "<group>"; };
+		86A9B05D22F77719007F9743 /* BrokenPhotocopier.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = BrokenPhotocopier.json; sourceTree = "<group>"; };
+		86A9B05E22F7771A007F9743 /* OldenDelays.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OldenDelays.json; sourceTree = "<group>"; };
+		86A9B05F22F7771A007F9743 /* HotelofBudapest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = HotelofBudapest.json; sourceTree = "<group>"; };
+		86A9B06022F7771A007F9743 /* Let'sGetLost.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Let'sGetLost.json"; sourceTree = "<group>"; };
+		86A9B06122F7771A007F9743 /* AlkalineStorm.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AlkalineStorm.json; sourceTree = "<group>"; };
+		86A9B06222F7771A007F9743 /* LatinOilSlicker.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LatinOilSlicker.json; sourceTree = "<group>"; };
+		86A9B06322F7771A007F9743 /* PrimePicard.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PrimePicard.json; sourceTree = "<group>"; };
+		86A9B06422F7771B007F9743 /* LightHDR.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LightHDR.json; sourceTree = "<group>"; };
+		86A9B61A22F7C5B0007F9743 /* genconvert.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = genconvert.sh; path = XMP/genconvert.sh; sourceTree = SOURCE_ROOT; };
+		86A9B74222F7C5CE007F9743 /* convertXMP.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = convertXMP.py; path = XMP/convertXMP.py; sourceTree = SOURCE_ROOT; };
+		86A9B74422F7CADC007F9743 /* Design Panoply - The Apocalypse */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Design Panoply - The Apocalypse"; sourceTree = "<group>"; };
+		86A9B74522F7CADD007F9743 /* uploader Dramatic Landscape */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "uploader Dramatic Landscape"; sourceTree = "<group>"; };
+		86A9B74622F7CADD007F9743 /* poster_bd Soft Vol.3 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "poster_bd Soft Vol.3"; sourceTree = "<group>"; };
+		86A9B74722F7CADD007F9743 /* poster_bd Soft Vol.4 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "poster_bd Soft Vol.4"; sourceTree = "<group>"; };
+		86A9B74C22F7CB1A007F9743 /* Ilford B&W */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Ilford B&W"; sourceTree = "<group>"; };
+		86A9B74D22F7CB1A007F9743 /* poster_bd Soft Vol.1 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "poster_bd Soft Vol.1"; sourceTree = "<group>"; };
+		86A9B74E22F7CB1A007F9743 /* poster_bd Soft Vol.2 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "poster_bd Soft Vol.2"; sourceTree = "<group>"; };
+		86A9B74F22F7CB1B007F9743 /* poster_bd Wedding */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "poster_bd Wedding"; sourceTree = "<group>"; };
+		86A9B75022F7CB1B007F9743 /* presetpro Light Leaks */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "presetpro Light Leaks"; sourceTree = "<group>"; };
+		86A9B75122F7CB1B007F9743 /* uploader B&W HDR */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "uploader B&W HDR"; sourceTree = "<group>"; };
+		86A9B75222F7CB1B007F9743 /* graphicex 02 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "graphicex 02"; sourceTree = "<group>"; };
+		86A9B75322F7CB1B007F9743 /* graphicex HDR */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "graphicex HDR"; sourceTree = "<group>"; };
+		86A9B75422F7CB1C007F9743 /* Porcelain B&W */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Porcelain B&W"; sourceTree = "<group>"; };
+		86A9B75522F7CB1C007F9743 /* poster_bd HDR Soft Vol.2 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "poster_bd HDR Soft Vol.2"; sourceTree = "<group>"; };
+		86A9B75622F7CB1C007F9743 /* graphicex 01 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "graphicex 01"; sourceTree = "<group>"; };
+		86A9B76222F7CB5C007F9743 /* dramatic-22.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "dramatic-22.json"; sourceTree = "<group>"; };
+		86A9B76322F7CB5C007F9743 /* dramatic-11.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "dramatic-11.json"; sourceTree = "<group>"; };
+		86A9B76422F7CB5D007F9743 /* dramatic-25.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "dramatic-25.json"; sourceTree = "<group>"; };
+		86A9B76522F7CB5D007F9743 /* dramatic-28.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "dramatic-28.json"; sourceTree = "<group>"; };
+		86A9B76622F7CB5E007F9743 /* dramatic-07.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "dramatic-07.json"; sourceTree = "<group>"; };
+		86A9B76722F7CB5E007F9743 /* dramatic-15.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "dramatic-15.json"; sourceTree = "<group>"; };
+		86A9B76822F7CB5E007F9743 /* dramatic-13.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "dramatic-13.json"; sourceTree = "<group>"; };
+		86A9B76922F7CB5F007F9743 /* dramatic-20.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "dramatic-20.json"; sourceTree = "<group>"; };
+		86A9B76A22F7CB5F007F9743 /* dramatic-01.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "dramatic-01.json"; sourceTree = "<group>"; };
+		86A9B76B22F7CB5F007F9743 /* dramatic-21.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "dramatic-21.json"; sourceTree = "<group>"; };
+		86A9B76C22F7CB60007F9743 /* dramatic-18.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "dramatic-18.json"; sourceTree = "<group>"; };
+		86A9B76D22F7CB60007F9743 /* dramatic-27.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "dramatic-27.json"; sourceTree = "<group>"; };
+		86A9B76E22F7CB61007F9743 /* dramatic-17.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "dramatic-17.json"; sourceTree = "<group>"; };
+		86A9B76F22F7CB61007F9743 /* dramatic-19.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "dramatic-19.json"; sourceTree = "<group>"; };
+		86A9B77022F7CB61007F9743 /* dramatic-30.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "dramatic-30.json"; sourceTree = "<group>"; };
+		86A9B77122F7CB62007F9743 /* dramatic-03.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "dramatic-03.json"; sourceTree = "<group>"; };
+		86A9B77222F7CB62007F9743 /* dramatic-05.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "dramatic-05.json"; sourceTree = "<group>"; };
+		86A9B77322F7CB62007F9743 /* dramatic-10.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "dramatic-10.json"; sourceTree = "<group>"; };
+		86A9B77422F7CB63007F9743 /* dramatic-26.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "dramatic-26.json"; sourceTree = "<group>"; };
+		86A9B77522F7CB63007F9743 /* dramatic-09.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "dramatic-09.json"; sourceTree = "<group>"; };
+		86A9B77622F7CB63007F9743 /* dramatic-24.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "dramatic-24.json"; sourceTree = "<group>"; };
+		86A9B77722F7CB64007F9743 /* dramatic-29.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "dramatic-29.json"; sourceTree = "<group>"; };
+		86A9B77822F7CB64007F9743 /* dramatic-14.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "dramatic-14.json"; sourceTree = "<group>"; };
+		86A9B77922F7CB64007F9743 /* dramatic-06.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "dramatic-06.json"; sourceTree = "<group>"; };
+		86A9B77A22F7CB65007F9743 /* dramatic-08.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "dramatic-08.json"; sourceTree = "<group>"; };
+		86A9B79422F7CC05007F9743 /* posterbdsoft04-19.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft04-19.json"; sourceTree = "<group>"; };
+		86A9B79522F7CC05007F9743 /* posterbdsoft04-07.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft04-07.json"; sourceTree = "<group>"; };
+		86A9B79622F7CC06007F9743 /* posterbdsoft04-06.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft04-06.json"; sourceTree = "<group>"; };
+		86A9B79722F7CC06007F9743 /* posterbdsoft04-01.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft04-01.json"; sourceTree = "<group>"; };
+		86A9B79822F7CC06007F9743 /* posterbdsoft04-14.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft04-14.json"; sourceTree = "<group>"; };
+		86A9B79922F7CC07007F9743 /* posterbdsoft04-12.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft04-12.json"; sourceTree = "<group>"; };
+		86A9B79A22F7CC07007F9743 /* posterbdsoft04-03.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft04-03.json"; sourceTree = "<group>"; };
+		86A9B79B22F7CC07007F9743 /* posterbdsoft04-09.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft04-09.json"; sourceTree = "<group>"; };
+		86A9B79C22F7CC08007F9743 /* posterbdsoft04-05.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft04-05.json"; sourceTree = "<group>"; };
+		86A9B79D22F7CC08007F9743 /* posterbdsoft04-10.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft04-10.json"; sourceTree = "<group>"; };
+		86A9B79E22F7CC08007F9743 /* posterbdsoft04-17.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft04-17.json"; sourceTree = "<group>"; };
+		86A9B79F22F7CC09007F9743 /* posterbdsoft04-18.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft04-18.json"; sourceTree = "<group>"; };
+		86A9B7A022F7CC09007F9743 /* posterbdsoft04-20.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft04-20.json"; sourceTree = "<group>"; };
+		86A9B7A122F7CC09007F9743 /* posterbdsoft04-22.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft04-22.json"; sourceTree = "<group>"; };
+		86A9B7A222F7CC0A007F9743 /* posterbdsoft04-13.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft04-13.json"; sourceTree = "<group>"; };
+		86A9B7A322F7CC0A007F9743 /* posterbdsoft04-11.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft04-11.json"; sourceTree = "<group>"; };
+		86A9B7A422F7CC0B007F9743 /* posterbdsoft04-02.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft04-02.json"; sourceTree = "<group>"; };
+		86A9B7A522F7CC0B007F9743 /* posterbdsoft04-16.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft04-16.json"; sourceTree = "<group>"; };
+		86A9B7A622F7CC0B007F9743 /* posterbdsoft04-04.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft04-04.json"; sourceTree = "<group>"; };
+		86A9B7A722F7CC0C007F9743 /* posterbdsoft04-21.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft04-21.json"; sourceTree = "<group>"; };
+		86A9B7A822F7CC0C007F9743 /* posterbdsoft04-15.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft04-15.json"; sourceTree = "<group>"; };
+		86A9B7A922F7CC0C007F9743 /* posterbdsoft04-08.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft04-08.json"; sourceTree = "<group>"; };
+		86A9B7C022F7CC26007F9743 /* posterbdsoft03-10.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft03-10.json"; sourceTree = "<group>"; };
+		86A9B7C122F7CC26007F9743 /* posterbdsoft03-05.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft03-05.json"; sourceTree = "<group>"; };
+		86A9B7C222F7CC26007F9743 /* posterbdsoft03-11.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft03-11.json"; sourceTree = "<group>"; };
+		86A9B7C322F7CC27007F9743 /* posterbdsoft03-08.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft03-08.json"; sourceTree = "<group>"; };
+		86A9B7C422F7CC27007F9743 /* posterbdsoft03-04.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft03-04.json"; sourceTree = "<group>"; };
+		86A9B7C522F7CC27007F9743 /* posterbdsoft03-16.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft03-16.json"; sourceTree = "<group>"; };
+		86A9B7C622F7CC28007F9743 /* posterbdsoft03-15.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft03-15.json"; sourceTree = "<group>"; };
+		86A9B7C722F7CC28007F9743 /* posterbdsoft03-02.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft03-02.json"; sourceTree = "<group>"; };
+		86A9B7C822F7CC28007F9743 /* posterbdsoft03-12.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft03-12.json"; sourceTree = "<group>"; };
+		86A9B7C922F7CC29007F9743 /* posterbdsoft03-09.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft03-09.json"; sourceTree = "<group>"; };
+		86A9B7CA22F7CC29007F9743 /* posterbdsoft03-01.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft03-01.json"; sourceTree = "<group>"; };
+		86A9B7CB22F7CC29007F9743 /* posterbdsoft03-07.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft03-07.json"; sourceTree = "<group>"; };
+		86A9B7CC22F7CC2A007F9743 /* posterbdsoft03-03.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft03-03.json"; sourceTree = "<group>"; };
+		86A9B7CD22F7CC2A007F9743 /* posterbdsoft03-17.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft03-17.json"; sourceTree = "<group>"; };
+		86A9B7CE22F7CC2A007F9743 /* posterbdsoft03-06.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft03-06.json"; sourceTree = "<group>"; };
+		86A9B7CF22F7CC2B007F9743 /* posterbdsoft03-14.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft03-14.json"; sourceTree = "<group>"; };
+		86A9B7D022F7CC2B007F9743 /* posterbdsoft03-18.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft03-18.json"; sourceTree = "<group>"; };
+		86A9B7D122F7CC2B007F9743 /* posterbdsoft03-19.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft03-19.json"; sourceTree = "<group>"; };
+		86A9B7D222F7CC2C007F9743 /* posterbdsoft03-13.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft03-13.json"; sourceTree = "<group>"; };
+		86A9B7D322F7CC2C007F9743 /* posterbdsoft03-20.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft03-20.json"; sourceTree = "<group>"; };
+		86A9B7E822F7CC6B007F9743 /* B&WP#07.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "B&WP#07.json"; sourceTree = "<group>"; };
+		86A9B7E922F7CC6B007F9743 /* B&WP#03.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "B&WP#03.json"; sourceTree = "<group>"; };
+		86A9B7EA22F7CC6C007F9743 /* B&WP#01.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "B&WP#01.json"; sourceTree = "<group>"; };
+		86A9B7EB22F7CC6C007F9743 /* B&WP#05.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "B&WP#05.json"; sourceTree = "<group>"; };
+		86A9B7EC22F7CC6C007F9743 /* B&WP#04.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "B&WP#04.json"; sourceTree = "<group>"; };
+		86A9B7ED22F7CC6D007F9743 /* B&WP#08.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "B&WP#08.json"; sourceTree = "<group>"; };
+		86A9B7EE22F7CC6D007F9743 /* B&WP#10.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "B&WP#10.json"; sourceTree = "<group>"; };
+		86A9B7EF22F7CC6E007F9743 /* B&WP#09.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "B&WP#09.json"; sourceTree = "<group>"; };
+		86A9B7F022F7CC6E007F9743 /* B&WP#06.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "B&WP#06.json"; sourceTree = "<group>"; };
+		86A9B7F122F7CC6E007F9743 /* B&WP#02.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "B&WP#02.json"; sourceTree = "<group>"; };
+		86A9B7FC22F7CC8F007F9743 /* Presetpro-Center.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Presetpro-Center.json"; sourceTree = "<group>"; };
+		86A9B7FD22F7CC8F007F9743 /* Presetpro-Edge.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Presetpro-Edge.json"; sourceTree = "<group>"; };
+		86A9B80022F7CCA5007F9743 /* posterbdwedding-14.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdwedding-14.json"; sourceTree = "<group>"; };
+		86A9B80122F7CCA5007F9743 /* posterbdwedding-18.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdwedding-18.json"; sourceTree = "<group>"; };
+		86A9B80222F7CCA5007F9743 /* posterbdwedding-21.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdwedding-21.json"; sourceTree = "<group>"; };
+		86A9B80322F7CCA6007F9743 /* posterbdwedding-06.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdwedding-06.json"; sourceTree = "<group>"; };
+		86A9B80422F7CCA6007F9743 /* posterbdwedding-04.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdwedding-04.json"; sourceTree = "<group>"; };
+		86A9B80522F7CCA6007F9743 /* posterbdwedding-12.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdwedding-12.json"; sourceTree = "<group>"; };
+		86A9B80622F7CCA7007F9743 /* posterbdwedding-09.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdwedding-09.json"; sourceTree = "<group>"; };
+		86A9B80722F7CCA7007F9743 /* posterbdwedding-20.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdwedding-20.json"; sourceTree = "<group>"; };
+		86A9B80822F7CCA7007F9743 /* posterbdwedding-22.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdwedding-22.json"; sourceTree = "<group>"; };
+		86A9B80922F7CCA8007F9743 /* posterbdwedding-10.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdwedding-10.json"; sourceTree = "<group>"; };
+		86A9B80A22F7CCA8007F9743 /* posterbdwedding-02.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdwedding-02.json"; sourceTree = "<group>"; };
+		86A9B80B22F7CCA8007F9743 /* posterbdwedding-11.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdwedding-11.json"; sourceTree = "<group>"; };
+		86A9B80C22F7CCA9007F9743 /* posterbdwedding-07.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdwedding-07.json"; sourceTree = "<group>"; };
+		86A9B80D22F7CCA9007F9743 /* posterbdwedding-16.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdwedding-16.json"; sourceTree = "<group>"; };
+		86A9B80E22F7CCAA007F9743 /* posterbdwedding-17.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdwedding-17.json"; sourceTree = "<group>"; };
+		86A9B80F22F7CCAA007F9743 /* posterbdwedding-08.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdwedding-08.json"; sourceTree = "<group>"; };
+		86A9B81022F7CCAA007F9743 /* posterbdwedding-19.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdwedding-19.json"; sourceTree = "<group>"; };
+		86A9B81122F7CCAA007F9743 /* posterbdwedding-03.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdwedding-03.json"; sourceTree = "<group>"; };
+		86A9B81222F7CCAB007F9743 /* posterbdwedding-05.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdwedding-05.json"; sourceTree = "<group>"; };
+		86A9B81322F7CCAB007F9743 /* posterbdwedding-01.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdwedding-01.json"; sourceTree = "<group>"; };
+		86A9B81422F7CCAC007F9743 /* posterbdwedding-15.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdwedding-15.json"; sourceTree = "<group>"; };
+		86A9B81522F7CCAC007F9743 /* posterbdwedding-13.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdwedding-13.json"; sourceTree = "<group>"; };
+		86A9B82C22F7CCC2007F9743 /* posterbdsoft02-13.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft02-13.json"; sourceTree = "<group>"; };
+		86A9B82D22F7CCC3007F9743 /* posterbdsoft02-09.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft02-09.json"; sourceTree = "<group>"; };
+		86A9B82E22F7CCC3007F9743 /* posterbdsoft02-03.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft02-03.json"; sourceTree = "<group>"; };
+		86A9B82F22F7CCC3007F9743 /* posterbdsoft02-01.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft02-01.json"; sourceTree = "<group>"; };
+		86A9B83022F7CCC4007F9743 /* posterbdsoft02-12.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft02-12.json"; sourceTree = "<group>"; };
+		86A9B83122F7CCC4007F9743 /* posterbdsoft02-08.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft02-08.json"; sourceTree = "<group>"; };
+		86A9B83222F7CCC4007F9743 /* posterbdsoft02-15.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft02-15.json"; sourceTree = "<group>"; };
+		86A9B83322F7CCC5007F9743 /* posterbdsoft02-04.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft02-04.json"; sourceTree = "<group>"; };
+		86A9B83422F7CCC5007F9743 /* posterbdsoft02-16.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft02-16.json"; sourceTree = "<group>"; };
+		86A9B83522F7CCC5007F9743 /* posterbdsoft02-05.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft02-05.json"; sourceTree = "<group>"; };
+		86A9B83622F7CCC6007F9743 /* posterbdsoft02-18.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft02-18.json"; sourceTree = "<group>"; };
+		86A9B83722F7CCC6007F9743 /* posterbdsoft02-10.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft02-10.json"; sourceTree = "<group>"; };
+		86A9B83822F7CCC6007F9743 /* posterbdsoft02-06.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft02-06.json"; sourceTree = "<group>"; };
+		86A9B83922F7CCC7007F9743 /* posterbdsoft02-11.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft02-11.json"; sourceTree = "<group>"; };
+		86A9B83A22F7CCC7007F9743 /* posterbdsoft02-17.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft02-17.json"; sourceTree = "<group>"; };
+		86A9B83B22F7CCC8007F9743 /* posterbdsoft02-07.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft02-07.json"; sourceTree = "<group>"; };
+		86A9B83C22F7CCC8007F9743 /* posterbdsoft02-14.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft02-14.json"; sourceTree = "<group>"; };
+		86A9B83D22F7CCC8007F9743 /* posterbdsoft02-02.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft02-02.json"; sourceTree = "<group>"; };
+		86A9B83E22F7CCC9007F9743 /* posterbdsoft02-19.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft02-19.json"; sourceTree = "<group>"; };
+		86A9B83F22F7CCC9007F9743 /* posterbdsoft02-20.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft02-20.json"; sourceTree = "<group>"; };
+		86A9B85422F7CCE1007F9743 /* posterbdsoft01-03.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft01-03.json"; sourceTree = "<group>"; };
+		86A9B85522F7CCE1007F9743 /* posterbdsoft01-13.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft01-13.json"; sourceTree = "<group>"; };
+		86A9B85622F7CCE2007F9743 /* posterbdsoft01-14.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft01-14.json"; sourceTree = "<group>"; };
+		86A9B85722F7CCE2007F9743 /* posterbdsoft01-15.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft01-15.json"; sourceTree = "<group>"; };
+		86A9B85822F7CCE2007F9743 /* posterbdsoft01-16.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft01-16.json"; sourceTree = "<group>"; };
+		86A9B85922F7CCE3007F9743 /* posterbdsoft01-12.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft01-12.json"; sourceTree = "<group>"; };
+		86A9B85A22F7CCE3007F9743 /* posterbdsoft01-17.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft01-17.json"; sourceTree = "<group>"; };
+		86A9B85B22F7CCE3007F9743 /* posterbdsoft01-08.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft01-08.json"; sourceTree = "<group>"; };
+		86A9B85C22F7CCE4007F9743 /* posterbdsoft01-04.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft01-04.json"; sourceTree = "<group>"; };
+		86A9B85D22F7CCE4007F9743 /* posterbdsoft01-06.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft01-06.json"; sourceTree = "<group>"; };
+		86A9B85E22F7CCE4007F9743 /* posterbdsoft01-07.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft01-07.json"; sourceTree = "<group>"; };
+		86A9B85F22F7CCE5007F9743 /* posterbdsoft01-09.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft01-09.json"; sourceTree = "<group>"; };
+		86A9B86022F7CCE5007F9743 /* posterbdsoft01-01.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft01-01.json"; sourceTree = "<group>"; };
+		86A9B86122F7CCE5007F9743 /* posterbdsoft01-11.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft01-11.json"; sourceTree = "<group>"; };
+		86A9B86222F7CCE6007F9743 /* posterbdsoft01-02.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft01-02.json"; sourceTree = "<group>"; };
+		86A9B86322F7CCE6007F9743 /* posterbdsoft01-05.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft01-05.json"; sourceTree = "<group>"; };
+		86A9B86422F7CCE6007F9743 /* posterbdsoft01-20.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft01-20.json"; sourceTree = "<group>"; };
+		86A9B86522F7CCE7007F9743 /* posterbdsoft01-10.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft01-10.json"; sourceTree = "<group>"; };
+		86A9B86622F7CCE7007F9743 /* posterbdsoft01-18.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft01-18.json"; sourceTree = "<group>"; };
+		86A9B86722F7CCE8007F9743 /* posterbdsoft01-19.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdsoft01-19.json"; sourceTree = "<group>"; };
+		86A9B87C22F7CCFE007F9743 /* posterbdhdrsoft01-12.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdhdrsoft01-12.json"; sourceTree = "<group>"; };
+		86A9B87D22F7CCFF007F9743 /* posterbdhdrsoft01-01.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdhdrsoft01-01.json"; sourceTree = "<group>"; };
+		86A9B87E22F7CCFF007F9743 /* posterbdhdrsoft01-17.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdhdrsoft01-17.json"; sourceTree = "<group>"; };
+		86A9B87F22F7CCFF007F9743 /* posterbdhdrsoft01-13.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdhdrsoft01-13.json"; sourceTree = "<group>"; };
+		86A9B88022F7CD00007F9743 /* posterbdhdrsoft01-23.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdhdrsoft01-23.json"; sourceTree = "<group>"; };
+		86A9B88122F7CD00007F9743 /* posterbdhdrsoft01-05.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdhdrsoft01-05.json"; sourceTree = "<group>"; };
+		86A9B88222F7CD00007F9743 /* posterbdhdrsoft01-10.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdhdrsoft01-10.json"; sourceTree = "<group>"; };
+		86A9B88322F7CD01007F9743 /* posterbdhdrsoft01-22.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdhdrsoft01-22.json"; sourceTree = "<group>"; };
+		86A9B88422F7CD01007F9743 /* posterbdhdrsoft01-02.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdhdrsoft01-02.json"; sourceTree = "<group>"; };
+		86A9B88522F7CD01007F9743 /* posterbdhdrsoft01-09.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdhdrsoft01-09.json"; sourceTree = "<group>"; };
+		86A9B88622F7CD02007F9743 /* posterbdhdrsoft01-25.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdhdrsoft01-25.json"; sourceTree = "<group>"; };
+		86A9B88722F7CD02007F9743 /* posterbdhdrsoft01-18.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdhdrsoft01-18.json"; sourceTree = "<group>"; };
+		86A9B88822F7CD02007F9743 /* posterbdhdrsoft01-07.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdhdrsoft01-07.json"; sourceTree = "<group>"; };
+		86A9B88922F7CD03007F9743 /* posterbdhdrsoft01-16.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdhdrsoft01-16.json"; sourceTree = "<group>"; };
+		86A9B88A22F7CD03007F9743 /* posterbdhdrsoft01-08.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdhdrsoft01-08.json"; sourceTree = "<group>"; };
+		86A9B88B22F7CD03007F9743 /* posterbdhdrsoft01-14.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdhdrsoft01-14.json"; sourceTree = "<group>"; };
+		86A9B88C22F7CD04007F9743 /* posterbdhdrsoft01-03.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdhdrsoft01-03.json"; sourceTree = "<group>"; };
+		86A9B88D22F7CD04007F9743 /* posterbdhdrsoft01-24.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdhdrsoft01-24.json"; sourceTree = "<group>"; };
+		86A9B88E22F7CD05007F9743 /* posterbdhdrsoft01-20.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdhdrsoft01-20.json"; sourceTree = "<group>"; };
+		86A9B88F22F7CD05007F9743 /* posterbdhdrsoft01-11.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdhdrsoft01-11.json"; sourceTree = "<group>"; };
+		86A9B89022F7CD05007F9743 /* posterbdhdrsoft01-19.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdhdrsoft01-19.json"; sourceTree = "<group>"; };
+		86A9B89122F7CD06007F9743 /* posterbdhdrsoft01-15.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdhdrsoft01-15.json"; sourceTree = "<group>"; };
+		86A9B89222F7CD06007F9743 /* posterbdhdrsoft01-21.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdhdrsoft01-21.json"; sourceTree = "<group>"; };
+		86A9B89322F7CD06007F9743 /* posterbdhdrsoft01-06.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdhdrsoft01-06.json"; sourceTree = "<group>"; };
+		86A9B89422F7CD07007F9743 /* posterbdhdrsoft01-04.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "posterbdhdrsoft01-04.json"; sourceTree = "<group>"; };
+		86A9B8AE22F7CD1F007F9743 /* PorcelainVISF2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = PorcelainVISF2.json; sourceTree = "<group>"; };
+		86A9B8AF22F7CD20007F9743 /* PorcelainVSF.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = PorcelainVSF.json; sourceTree = "<group>"; };
+		86A9B8B022F7CD20007F9743 /* PorcelainIIIHC.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = PorcelainIIIHC.json; sourceTree = "<group>"; };
+		86A9B8B122F7CD20007F9743 /* PorcelainI.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = PorcelainI.json; sourceTree = "<group>"; };
+		86A9B8B222F7CD21007F9743 /* PorcelainIILT.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = PorcelainIILT.json; sourceTree = "<group>"; };
+		86A9B8B322F7CD21007F9743 /* PorcelainIV.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = PorcelainIV.json; sourceTree = "<group>"; };
+		86A9B8B422F7CD21007F9743 /* PorcelainVIIILT.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = PorcelainVIIILT.json; sourceTree = "<group>"; };
+		86A9B8B522F7CD22007F9743 /* PorcelainVII.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = PorcelainVII.json; sourceTree = "<group>"; };
+		86A9B8BE22F7CD41007F9743 /* IlfordDelta3200Curve.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = IlfordDelta3200Curve.json; sourceTree = "<group>"; };
+		86A9B8BF22F7CD41007F9743 /* IlfordDelta100Curve.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = IlfordDelta100Curve.json; sourceTree = "<group>"; };
+		86A9B8C022F7CD41007F9743 /* IlfordHP5Plus400Curve.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = IlfordHP5Plus400Curve.json; sourceTree = "<group>"; };
+		86A9B8C122F7CD42007F9743 /* IlfordDelta400Curve.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = IlfordDelta400Curve.json; sourceTree = "<group>"; };
+		86A9B8C222F7CD42007F9743 /* IlfordFP4Plus125Curve.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = IlfordFP4Plus125Curve.json; sourceTree = "<group>"; };
+		86A9B8C822F7CD5A007F9743 /* graphicexhdr01-14.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicexhdr01-14.json"; sourceTree = "<group>"; };
+		86A9B8C922F7CD5B007F9743 /* graphicexhdr01-06.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicexhdr01-06.json"; sourceTree = "<group>"; };
+		86A9B8CA22F7CD5B007F9743 /* graphicexhdr01-08.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicexhdr01-08.json"; sourceTree = "<group>"; };
+		86A9B8CB22F7CD5B007F9743 /* graphicexhdr01-04.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicexhdr01-04.json"; sourceTree = "<group>"; };
+		86A9B8CC22F7CD5C007F9743 /* graphicexhdr01-11.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicexhdr01-11.json"; sourceTree = "<group>"; };
+		86A9B8CD22F7CD5C007F9743 /* graphicexhdr01-10.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicexhdr01-10.json"; sourceTree = "<group>"; };
+		86A9B8CE22F7CD5C007F9743 /* graphicexhdr01-13.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicexhdr01-13.json"; sourceTree = "<group>"; };
+		86A9B8CF22F7CD5D007F9743 /* graphicexhdr01-05.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicexhdr01-05.json"; sourceTree = "<group>"; };
+		86A9B8D022F7CD5D007F9743 /* graphicexhdr01-01.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicexhdr01-01.json"; sourceTree = "<group>"; };
+		86A9B8D122F7CD5D007F9743 /* graphicexhdr01-07.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicexhdr01-07.json"; sourceTree = "<group>"; };
+		86A9B8D222F7CD5E007F9743 /* graphicexhdr01-02.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicexhdr01-02.json"; sourceTree = "<group>"; };
+		86A9B8D322F7CD5E007F9743 /* graphicexhdr01-03.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicexhdr01-03.json"; sourceTree = "<group>"; };
+		86A9B8D422F7CD5F007F9743 /* graphicexhdr01-12.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicexhdr01-12.json"; sourceTree = "<group>"; };
+		86A9B8D522F7CD5F007F9743 /* graphicexhdr01-15.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicexhdr01-15.json"; sourceTree = "<group>"; };
+		86A9B8D622F7CD5F007F9743 /* graphicexhdr01-09.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicexhdr01-09.json"; sourceTree = "<group>"; };
+		86A9B8E622F7CD79007F9743 /* graphicex02-11.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicex02-11.json"; sourceTree = "<group>"; };
+		86A9B8E722F7CD7A007F9743 /* graphicex02-07.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicex02-07.json"; sourceTree = "<group>"; };
+		86A9B8E822F7CD7A007F9743 /* graphicex02-16.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicex02-16.json"; sourceTree = "<group>"; };
+		86A9B8E922F7CD7A007F9743 /* graphicex02-19.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicex02-19.json"; sourceTree = "<group>"; };
+		86A9B8EA22F7CD7B007F9743 /* graphicex02-09.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicex02-09.json"; sourceTree = "<group>"; };
+		86A9B8EB22F7CD7B007F9743 /* graphicex02-10.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicex02-10.json"; sourceTree = "<group>"; };
+		86A9B8EC22F7CD7B007F9743 /* graphicex02-03.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicex02-03.json"; sourceTree = "<group>"; };
+		86A9B8ED22F7CD7C007F9743 /* graphicex02-02.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicex02-02.json"; sourceTree = "<group>"; };
+		86A9B8EE22F7CD7C007F9743 /* graphicex02-01.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicex02-01.json"; sourceTree = "<group>"; };
+		86A9B8EF22F7CD7C007F9743 /* graphicex02-12.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicex02-12.json"; sourceTree = "<group>"; };
+		86A9B8F022F7CD7D007F9743 /* graphicex02-05.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicex02-05.json"; sourceTree = "<group>"; };
+		86A9B8F122F7CD7D007F9743 /* graphicex02-04.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicex02-04.json"; sourceTree = "<group>"; };
+		86A9B8F222F7CD7E007F9743 /* graphicex02-06.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicex02-06.json"; sourceTree = "<group>"; };
+		86A9B8F322F7CD7E007F9743 /* graphicex02-14.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicex02-14.json"; sourceTree = "<group>"; };
+		86A9B8F422F7CD7E007F9743 /* graphicex02-15.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicex02-15.json"; sourceTree = "<group>"; };
+		86A9B8F522F7CD7F007F9743 /* graphicex02-18.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicex02-18.json"; sourceTree = "<group>"; };
+		86A9B8F622F7CD7F007F9743 /* graphicex02-13.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicex02-13.json"; sourceTree = "<group>"; };
+		86A9B8F722F7CD80007F9743 /* graphicex02-20.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicex02-20.json"; sourceTree = "<group>"; };
+		86A9B8F822F7CD80007F9743 /* graphicex02-08.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicex02-08.json"; sourceTree = "<group>"; };
+		86A9B8F922F7CD80007F9743 /* graphicex02-17.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicex02-17.json"; sourceTree = "<group>"; };
+		86A9B90E22F7CD92007F9743 /* graphicex01-05.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicex01-05.json"; sourceTree = "<group>"; };
+		86A9B90F22F7CD93007F9743 /* graphicex01-02.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicex01-02.json"; sourceTree = "<group>"; };
+		86A9B91022F7CD93007F9743 /* graphicex01-10.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicex01-10.json"; sourceTree = "<group>"; };
+		86A9B91122F7CD93007F9743 /* graphicex01-01.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicex01-01.json"; sourceTree = "<group>"; };
+		86A9B91222F7CD94007F9743 /* graphicex01-09.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicex01-09.json"; sourceTree = "<group>"; };
+		86A9B91322F7CD94007F9743 /* graphicex01-04.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicex01-04.json"; sourceTree = "<group>"; };
+		86A9B91422F7CD94007F9743 /* graphicex01-06.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicex01-06.json"; sourceTree = "<group>"; };
+		86A9B91522F7CD95007F9743 /* graphicex01-07.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicex01-07.json"; sourceTree = "<group>"; };
+		86A9B91622F7CD95007F9743 /* graphicex01-03.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicex01-03.json"; sourceTree = "<group>"; };
+		86A9B91722F7CD96007F9743 /* graphicex01-08.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "graphicex01-08.json"; sourceTree = "<group>"; };
 		86DD9D941E9C5A7000A5D855 /* MainMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuController.swift; sourceTree = "<group>"; };
 		980E4D07C72B2E639881E914 /* Pods-phixer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-phixer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-phixer/Pods-phixer.debug.xcconfig"; sourceTree = "<group>"; };
 		A0E5F104AE4A456893628DB9 /* Pods-phixerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-phixerUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-phixerUITests/Pods-phixerUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -2436,6 +2962,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				865348E722F4DABA0060CF2A /* SwiftyBeaver.framework in Frameworks */,
+				865348D722F4DAAE0060CF2A /* ChameleonFramework.framework in Frameworks */,
+				865348D922F4DAAE0060CF2A /* Cosmos.framework in Frameworks */,
+				865348DB22F4DAAE0060CF2A /* FirebaseCore.framework in Frameworks */,
+				865348DD22F4DAAE0060CF2A /* FirebaseInstanceID.framework in Frameworks */,
+				865348DF22F4DAAE0060CF2A /* GoogleUtilities.framework in Frameworks */,
+				865348E122F4DAAE0060CF2A /* iCarousel.framework in Frameworks */,
+				865348E322F4DAAE0060CF2A /* nanopb.framework in Frameworks */,
+				865348E522F4DAAE0060CF2A /* Neon.framework in Frameworks */,
 				252C17911ECE649500039BFC /* CoreData.framework in Frameworks */,
 				E88E81DDAA94E3FBB69A0E8C /* Pods_phixer.framework in Frameworks */,
 			);
@@ -2486,8 +3021,9 @@
 		250C5EF922B0605700DE0DDF /* XMP */ = {
 			isa = PBXGroup;
 			children = (
+				86A9B74222F7C5CE007F9743 /* convertXMP.py */,
+				86A9B61A22F7C5B0007F9743 /* genconvert.sh */,
 				250C5EFE22B75B5500DE0DDF /* convert.sh */,
-				250C5EF422B0605700DE0DDF /* convertXMP.py */,
 				250C5EF522B0605700DE0DDF /* README */,
 				250C5EF622B0605700DE0DDF /* sample_sidecar.xmp */,
 				250C5EF722B0605700DE0DDF /* Exiv2 - Image metadata library and tools.html */,
@@ -2500,6 +3036,21 @@
 		250C5F0222B863B200DE0DDF /* Presets */ = {
 			isa = PBXGroup;
 			children = (
+				86A9B75622F7CB1C007F9743 /* graphicex 01 */,
+				86A9B75222F7CB1B007F9743 /* graphicex 02 */,
+				86A9B75322F7CB1B007F9743 /* graphicex HDR */,
+				86A9B74C22F7CB1A007F9743 /* Ilford B&W */,
+				86A9B75422F7CB1C007F9743 /* Porcelain B&W */,
+				86A9B75522F7CB1C007F9743 /* poster_bd HDR Soft Vol.2 */,
+				86A9B74D22F7CB1A007F9743 /* poster_bd Soft Vol.1 */,
+				86A9B74E22F7CB1A007F9743 /* poster_bd Soft Vol.2 */,
+				86A9B74F22F7CB1B007F9743 /* poster_bd Wedding */,
+				86A9B75022F7CB1B007F9743 /* presetpro Light Leaks */,
+				86A9B75122F7CB1B007F9743 /* uploader B&W HDR */,
+				86A9B74422F7CADC007F9743 /* Design Panoply - The Apocalypse */,
+				86A9B74622F7CADD007F9743 /* poster_bd Soft Vol.3 */,
+				86A9B74722F7CADD007F9743 /* poster_bd Soft Vol.4 */,
+				86A9B74522F7CADD007F9743 /* uploader Dramatic Landscape */,
 				25FD3CC022EB971200A1C00A /* VSCO */,
 				25FD3CAF22EB970900A1C00A /* Washes */,
 				25FD3CA022EB96FB00A1C00A /* Punches */,
@@ -2833,6 +3384,242 @@
 		257F49D31D9448920083B1E4 = {
 			isa = PBXGroup;
 			children = (
+				868EE0D022F892A20006F292 /* Presetpro-Center.json */,
+				868EE0CF22F892A20006F292 /* Presetpro-Edge.json */,
+				868EE0C222F7D0840006F292 /* Corruption.json */,
+				868EE0C122F7D0840006F292 /* Fallout.json */,
+				868EE0BC22F7D0820006F292 /* Hopeless.json */,
+				868EE0BF22F7D0830006F292 /* Metropolis.json */,
+				868EE0BB22F7D0810006F292 /* SecretBunker.json */,
+				868EE0C422F7D0850006F292 /* Sewage.json */,
+				868EE0C322F7D0840006F292 /* Station.json */,
+				868EE0BE22F7D0830006F292 /* ToxicCity.json */,
+				868EE0C022F7D0830006F292 /* Union.json */,
+				868EE0BD22F7D0820006F292 /* Wasteland.json */,
+				86A9B91122F7CD93007F9743 /* graphicex01-01.json */,
+				86A9B90F22F7CD93007F9743 /* graphicex01-02.json */,
+				86A9B91622F7CD95007F9743 /* graphicex01-03.json */,
+				86A9B91322F7CD94007F9743 /* graphicex01-04.json */,
+				86A9B90E22F7CD92007F9743 /* graphicex01-05.json */,
+				86A9B91422F7CD94007F9743 /* graphicex01-06.json */,
+				86A9B91522F7CD95007F9743 /* graphicex01-07.json */,
+				86A9B91722F7CD96007F9743 /* graphicex01-08.json */,
+				86A9B91222F7CD94007F9743 /* graphicex01-09.json */,
+				86A9B91022F7CD93007F9743 /* graphicex01-10.json */,
+				86A9B8EE22F7CD7C007F9743 /* graphicex02-01.json */,
+				86A9B8ED22F7CD7C007F9743 /* graphicex02-02.json */,
+				86A9B8EC22F7CD7B007F9743 /* graphicex02-03.json */,
+				86A9B8F122F7CD7D007F9743 /* graphicex02-04.json */,
+				86A9B8F022F7CD7D007F9743 /* graphicex02-05.json */,
+				86A9B8F222F7CD7E007F9743 /* graphicex02-06.json */,
+				86A9B8E722F7CD7A007F9743 /* graphicex02-07.json */,
+				86A9B8F822F7CD80007F9743 /* graphicex02-08.json */,
+				86A9B8EA22F7CD7B007F9743 /* graphicex02-09.json */,
+				86A9B8EB22F7CD7B007F9743 /* graphicex02-10.json */,
+				86A9B8E622F7CD79007F9743 /* graphicex02-11.json */,
+				86A9B8EF22F7CD7C007F9743 /* graphicex02-12.json */,
+				86A9B8F622F7CD7F007F9743 /* graphicex02-13.json */,
+				86A9B8F322F7CD7E007F9743 /* graphicex02-14.json */,
+				86A9B8F422F7CD7E007F9743 /* graphicex02-15.json */,
+				86A9B8E822F7CD7A007F9743 /* graphicex02-16.json */,
+				86A9B8F922F7CD80007F9743 /* graphicex02-17.json */,
+				86A9B8F522F7CD7F007F9743 /* graphicex02-18.json */,
+				86A9B8E922F7CD7A007F9743 /* graphicex02-19.json */,
+				86A9B8F722F7CD80007F9743 /* graphicex02-20.json */,
+				86A9B8D022F7CD5D007F9743 /* graphicexhdr01-01.json */,
+				86A9B8D222F7CD5E007F9743 /* graphicexhdr01-02.json */,
+				86A9B8D322F7CD5E007F9743 /* graphicexhdr01-03.json */,
+				86A9B8CB22F7CD5B007F9743 /* graphicexhdr01-04.json */,
+				86A9B8CF22F7CD5D007F9743 /* graphicexhdr01-05.json */,
+				86A9B8C922F7CD5B007F9743 /* graphicexhdr01-06.json */,
+				86A9B8D122F7CD5D007F9743 /* graphicexhdr01-07.json */,
+				86A9B8CA22F7CD5B007F9743 /* graphicexhdr01-08.json */,
+				86A9B8D622F7CD5F007F9743 /* graphicexhdr01-09.json */,
+				86A9B8CD22F7CD5C007F9743 /* graphicexhdr01-10.json */,
+				86A9B8CC22F7CD5C007F9743 /* graphicexhdr01-11.json */,
+				86A9B8D422F7CD5F007F9743 /* graphicexhdr01-12.json */,
+				86A9B8CE22F7CD5C007F9743 /* graphicexhdr01-13.json */,
+				86A9B8C822F7CD5A007F9743 /* graphicexhdr01-14.json */,
+				86A9B8D522F7CD5F007F9743 /* graphicexhdr01-15.json */,
+				86A9B8BF22F7CD41007F9743 /* IlfordDelta100Curve.json */,
+				86A9B8C122F7CD42007F9743 /* IlfordDelta400Curve.json */,
+				86A9B8BE22F7CD41007F9743 /* IlfordDelta3200Curve.json */,
+				86A9B8C222F7CD42007F9743 /* IlfordFP4Plus125Curve.json */,
+				86A9B8C022F7CD41007F9743 /* IlfordHP5Plus400Curve.json */,
+				86A9B8B122F7CD20007F9743 /* PorcelainI.json */,
+				86A9B8B022F7CD20007F9743 /* PorcelainIIIHC.json */,
+				86A9B8B222F7CD21007F9743 /* PorcelainIILT.json */,
+				86A9B8B322F7CD21007F9743 /* PorcelainIV.json */,
+				86A9B8B522F7CD22007F9743 /* PorcelainVII.json */,
+				86A9B8B422F7CD21007F9743 /* PorcelainVIIILT.json */,
+				86A9B8AE22F7CD1F007F9743 /* PorcelainVISF2.json */,
+				86A9B8AF22F7CD20007F9743 /* PorcelainVSF.json */,
+				86A9B87D22F7CCFF007F9743 /* posterbdhdrsoft01-01.json */,
+				86A9B88422F7CD01007F9743 /* posterbdhdrsoft01-02.json */,
+				86A9B88C22F7CD04007F9743 /* posterbdhdrsoft01-03.json */,
+				86A9B89422F7CD07007F9743 /* posterbdhdrsoft01-04.json */,
+				86A9B88122F7CD00007F9743 /* posterbdhdrsoft01-05.json */,
+				86A9B89322F7CD06007F9743 /* posterbdhdrsoft01-06.json */,
+				86A9B88822F7CD02007F9743 /* posterbdhdrsoft01-07.json */,
+				86A9B88A22F7CD03007F9743 /* posterbdhdrsoft01-08.json */,
+				86A9B88522F7CD01007F9743 /* posterbdhdrsoft01-09.json */,
+				86A9B88222F7CD00007F9743 /* posterbdhdrsoft01-10.json */,
+				86A9B88F22F7CD05007F9743 /* posterbdhdrsoft01-11.json */,
+				86A9B87C22F7CCFE007F9743 /* posterbdhdrsoft01-12.json */,
+				86A9B87F22F7CCFF007F9743 /* posterbdhdrsoft01-13.json */,
+				86A9B88B22F7CD03007F9743 /* posterbdhdrsoft01-14.json */,
+				86A9B89122F7CD06007F9743 /* posterbdhdrsoft01-15.json */,
+				86A9B88922F7CD03007F9743 /* posterbdhdrsoft01-16.json */,
+				86A9B87E22F7CCFF007F9743 /* posterbdhdrsoft01-17.json */,
+				86A9B88722F7CD02007F9743 /* posterbdhdrsoft01-18.json */,
+				86A9B89022F7CD05007F9743 /* posterbdhdrsoft01-19.json */,
+				86A9B88E22F7CD05007F9743 /* posterbdhdrsoft01-20.json */,
+				86A9B89222F7CD06007F9743 /* posterbdhdrsoft01-21.json */,
+				86A9B88322F7CD01007F9743 /* posterbdhdrsoft01-22.json */,
+				86A9B88022F7CD00007F9743 /* posterbdhdrsoft01-23.json */,
+				86A9B88D22F7CD04007F9743 /* posterbdhdrsoft01-24.json */,
+				86A9B88622F7CD02007F9743 /* posterbdhdrsoft01-25.json */,
+				86A9B86022F7CCE5007F9743 /* posterbdsoft01-01.json */,
+				86A9B86222F7CCE6007F9743 /* posterbdsoft01-02.json */,
+				86A9B85422F7CCE1007F9743 /* posterbdsoft01-03.json */,
+				86A9B85C22F7CCE4007F9743 /* posterbdsoft01-04.json */,
+				86A9B86322F7CCE6007F9743 /* posterbdsoft01-05.json */,
+				86A9B85D22F7CCE4007F9743 /* posterbdsoft01-06.json */,
+				86A9B85E22F7CCE4007F9743 /* posterbdsoft01-07.json */,
+				86A9B85B22F7CCE3007F9743 /* posterbdsoft01-08.json */,
+				86A9B85F22F7CCE5007F9743 /* posterbdsoft01-09.json */,
+				86A9B86522F7CCE7007F9743 /* posterbdsoft01-10.json */,
+				86A9B86122F7CCE5007F9743 /* posterbdsoft01-11.json */,
+				86A9B85922F7CCE3007F9743 /* posterbdsoft01-12.json */,
+				86A9B85522F7CCE1007F9743 /* posterbdsoft01-13.json */,
+				86A9B85622F7CCE2007F9743 /* posterbdsoft01-14.json */,
+				86A9B85722F7CCE2007F9743 /* posterbdsoft01-15.json */,
+				86A9B85822F7CCE2007F9743 /* posterbdsoft01-16.json */,
+				86A9B85A22F7CCE3007F9743 /* posterbdsoft01-17.json */,
+				86A9B86622F7CCE7007F9743 /* posterbdsoft01-18.json */,
+				86A9B86722F7CCE8007F9743 /* posterbdsoft01-19.json */,
+				86A9B86422F7CCE6007F9743 /* posterbdsoft01-20.json */,
+				86A9B82F22F7CCC3007F9743 /* posterbdsoft02-01.json */,
+				86A9B83D22F7CCC8007F9743 /* posterbdsoft02-02.json */,
+				86A9B82E22F7CCC3007F9743 /* posterbdsoft02-03.json */,
+				86A9B83322F7CCC5007F9743 /* posterbdsoft02-04.json */,
+				86A9B83522F7CCC5007F9743 /* posterbdsoft02-05.json */,
+				86A9B83822F7CCC6007F9743 /* posterbdsoft02-06.json */,
+				86A9B83B22F7CCC8007F9743 /* posterbdsoft02-07.json */,
+				86A9B83122F7CCC4007F9743 /* posterbdsoft02-08.json */,
+				86A9B82D22F7CCC3007F9743 /* posterbdsoft02-09.json */,
+				86A9B83722F7CCC6007F9743 /* posterbdsoft02-10.json */,
+				86A9B83922F7CCC7007F9743 /* posterbdsoft02-11.json */,
+				86A9B83022F7CCC4007F9743 /* posterbdsoft02-12.json */,
+				86A9B82C22F7CCC2007F9743 /* posterbdsoft02-13.json */,
+				86A9B83C22F7CCC8007F9743 /* posterbdsoft02-14.json */,
+				86A9B83222F7CCC4007F9743 /* posterbdsoft02-15.json */,
+				86A9B83422F7CCC5007F9743 /* posterbdsoft02-16.json */,
+				86A9B83A22F7CCC7007F9743 /* posterbdsoft02-17.json */,
+				86A9B83622F7CCC6007F9743 /* posterbdsoft02-18.json */,
+				86A9B83E22F7CCC9007F9743 /* posterbdsoft02-19.json */,
+				86A9B83F22F7CCC9007F9743 /* posterbdsoft02-20.json */,
+				86A9B81322F7CCAB007F9743 /* posterbdwedding-01.json */,
+				86A9B80A22F7CCA8007F9743 /* posterbdwedding-02.json */,
+				86A9B81122F7CCAA007F9743 /* posterbdwedding-03.json */,
+				86A9B80422F7CCA6007F9743 /* posterbdwedding-04.json */,
+				86A9B81222F7CCAB007F9743 /* posterbdwedding-05.json */,
+				86A9B80322F7CCA6007F9743 /* posterbdwedding-06.json */,
+				86A9B80C22F7CCA9007F9743 /* posterbdwedding-07.json */,
+				86A9B80F22F7CCAA007F9743 /* posterbdwedding-08.json */,
+				86A9B80622F7CCA7007F9743 /* posterbdwedding-09.json */,
+				86A9B80922F7CCA8007F9743 /* posterbdwedding-10.json */,
+				86A9B80B22F7CCA8007F9743 /* posterbdwedding-11.json */,
+				86A9B80522F7CCA6007F9743 /* posterbdwedding-12.json */,
+				86A9B81522F7CCAC007F9743 /* posterbdwedding-13.json */,
+				86A9B80022F7CCA5007F9743 /* posterbdwedding-14.json */,
+				86A9B81422F7CCAC007F9743 /* posterbdwedding-15.json */,
+				86A9B80D22F7CCA9007F9743 /* posterbdwedding-16.json */,
+				86A9B80E22F7CCAA007F9743 /* posterbdwedding-17.json */,
+				86A9B80122F7CCA5007F9743 /* posterbdwedding-18.json */,
+				86A9B81022F7CCAA007F9743 /* posterbdwedding-19.json */,
+				86A9B80722F7CCA7007F9743 /* posterbdwedding-20.json */,
+				86A9B80222F7CCA5007F9743 /* posterbdwedding-21.json */,
+				86A9B80822F7CCA7007F9743 /* posterbdwedding-22.json */,
+				86A9B7FC22F7CC8F007F9743 /* Presetpro-Center.json */,
+				86A9B7FD22F7CC8F007F9743 /* Presetpro-Edge.json */,
+				86A9B7EA22F7CC6C007F9743 /* B&WP#01.json */,
+				86A9B7F122F7CC6E007F9743 /* B&WP#02.json */,
+				86A9B7E922F7CC6B007F9743 /* B&WP#03.json */,
+				86A9B7EC22F7CC6C007F9743 /* B&WP#04.json */,
+				86A9B7EB22F7CC6C007F9743 /* B&WP#05.json */,
+				86A9B7F022F7CC6E007F9743 /* B&WP#06.json */,
+				86A9B7E822F7CC6B007F9743 /* B&WP#07.json */,
+				86A9B7ED22F7CC6D007F9743 /* B&WP#08.json */,
+				86A9B7EF22F7CC6E007F9743 /* B&WP#09.json */,
+				86A9B7EE22F7CC6D007F9743 /* B&WP#10.json */,
+				86A9B7CA22F7CC29007F9743 /* posterbdsoft03-01.json */,
+				86A9B7C722F7CC28007F9743 /* posterbdsoft03-02.json */,
+				86A9B7CC22F7CC2A007F9743 /* posterbdsoft03-03.json */,
+				86A9B7C422F7CC27007F9743 /* posterbdsoft03-04.json */,
+				86A9B7C122F7CC26007F9743 /* posterbdsoft03-05.json */,
+				86A9B7CE22F7CC2A007F9743 /* posterbdsoft03-06.json */,
+				86A9B7CB22F7CC29007F9743 /* posterbdsoft03-07.json */,
+				86A9B7C322F7CC27007F9743 /* posterbdsoft03-08.json */,
+				86A9B7C922F7CC29007F9743 /* posterbdsoft03-09.json */,
+				86A9B7C022F7CC26007F9743 /* posterbdsoft03-10.json */,
+				86A9B7C222F7CC26007F9743 /* posterbdsoft03-11.json */,
+				86A9B7C822F7CC28007F9743 /* posterbdsoft03-12.json */,
+				86A9B7D222F7CC2C007F9743 /* posterbdsoft03-13.json */,
+				86A9B7CF22F7CC2B007F9743 /* posterbdsoft03-14.json */,
+				86A9B7C622F7CC28007F9743 /* posterbdsoft03-15.json */,
+				86A9B7C522F7CC27007F9743 /* posterbdsoft03-16.json */,
+				86A9B7CD22F7CC2A007F9743 /* posterbdsoft03-17.json */,
+				86A9B7D022F7CC2B007F9743 /* posterbdsoft03-18.json */,
+				86A9B7D122F7CC2B007F9743 /* posterbdsoft03-19.json */,
+				86A9B7D322F7CC2C007F9743 /* posterbdsoft03-20.json */,
+				86A9B79722F7CC06007F9743 /* posterbdsoft04-01.json */,
+				86A9B7A422F7CC0B007F9743 /* posterbdsoft04-02.json */,
+				86A9B79A22F7CC07007F9743 /* posterbdsoft04-03.json */,
+				86A9B7A622F7CC0B007F9743 /* posterbdsoft04-04.json */,
+				86A9B79C22F7CC08007F9743 /* posterbdsoft04-05.json */,
+				86A9B79622F7CC06007F9743 /* posterbdsoft04-06.json */,
+				86A9B79522F7CC05007F9743 /* posterbdsoft04-07.json */,
+				86A9B7A922F7CC0C007F9743 /* posterbdsoft04-08.json */,
+				86A9B79B22F7CC07007F9743 /* posterbdsoft04-09.json */,
+				86A9B79D22F7CC08007F9743 /* posterbdsoft04-10.json */,
+				86A9B7A322F7CC0A007F9743 /* posterbdsoft04-11.json */,
+				86A9B79922F7CC07007F9743 /* posterbdsoft04-12.json */,
+				86A9B7A222F7CC0A007F9743 /* posterbdsoft04-13.json */,
+				86A9B79822F7CC06007F9743 /* posterbdsoft04-14.json */,
+				86A9B7A822F7CC0C007F9743 /* posterbdsoft04-15.json */,
+				86A9B7A522F7CC0B007F9743 /* posterbdsoft04-16.json */,
+				86A9B79E22F7CC08007F9743 /* posterbdsoft04-17.json */,
+				86A9B79F22F7CC09007F9743 /* posterbdsoft04-18.json */,
+				86A9B79422F7CC05007F9743 /* posterbdsoft04-19.json */,
+				86A9B7A022F7CC09007F9743 /* posterbdsoft04-20.json */,
+				86A9B7A722F7CC0C007F9743 /* posterbdsoft04-21.json */,
+				86A9B7A122F7CC09007F9743 /* posterbdsoft04-22.json */,
+				86A9B76A22F7CB5F007F9743 /* dramatic-01.json */,
+				86A9B77122F7CB62007F9743 /* dramatic-03.json */,
+				86A9B77222F7CB62007F9743 /* dramatic-05.json */,
+				86A9B77922F7CB64007F9743 /* dramatic-06.json */,
+				86A9B76622F7CB5E007F9743 /* dramatic-07.json */,
+				86A9B77A22F7CB65007F9743 /* dramatic-08.json */,
+				86A9B77522F7CB63007F9743 /* dramatic-09.json */,
+				86A9B77322F7CB62007F9743 /* dramatic-10.json */,
+				86A9B76322F7CB5C007F9743 /* dramatic-11.json */,
+				86A9B76822F7CB5E007F9743 /* dramatic-13.json */,
+				86A9B77822F7CB64007F9743 /* dramatic-14.json */,
+				86A9B76722F7CB5E007F9743 /* dramatic-15.json */,
+				86A9B76E22F7CB61007F9743 /* dramatic-17.json */,
+				86A9B76C22F7CB60007F9743 /* dramatic-18.json */,
+				86A9B76F22F7CB61007F9743 /* dramatic-19.json */,
+				86A9B76922F7CB5F007F9743 /* dramatic-20.json */,
+				86A9B76B22F7CB5F007F9743 /* dramatic-21.json */,
+				86A9B76222F7CB5C007F9743 /* dramatic-22.json */,
+				86A9B77622F7CB63007F9743 /* dramatic-24.json */,
+				86A9B76422F7CB5D007F9743 /* dramatic-25.json */,
+				86A9B77422F7CB63007F9743 /* dramatic-26.json */,
+				86A9B76D22F7CB60007F9743 /* dramatic-27.json */,
+				86A9B76522F7CB5D007F9743 /* dramatic-28.json */,
+				86A9B77722F7CB64007F9743 /* dramatic-29.json */,
+				86A9B77022F7CB61007F9743 /* dramatic-30.json */,
 				25F21FB62203BAEA005C449F /* LICENSE */,
 				2517295F2179448500D5E946 /* README.md */,
 				257F4A131D947CF80083B1E4 /* Podfile */,
@@ -3289,6 +4076,17 @@
 		25C2DE5722CD8A8D00D43198 /* Trey */ = {
 			isa = PBXGroup;
 			children = (
+				86A9B06122F7771A007F9743 /* AlkalineStorm.json */,
+				86A9B05D22F77719007F9743 /* BrokenPhotocopier.json */,
+				86A9B05F22F7771A007F9743 /* HotelofBudapest.json */,
+				86A9B06222F7771A007F9743 /* LatinOilSlicker.json */,
+				86A9B06022F7771A007F9743 /* Let'sGetLost.json */,
+				86A9B06422F7771B007F9743 /* LightHDR.json */,
+				86A9B05E22F7771A007F9743 /* OldenDelays.json */,
+				86A9B05B22F77719007F9743 /* Parentgrain.json */,
+				86A9B06322F7771A007F9743 /* PrimePicard.json */,
+				86A9B05C22F77719007F9743 /* RestorationSoftware.json */,
+				86A9B05A22F77719007F9743 /* SandstormCastleBlack.json */,
 				25C2DE5822CD8A8D00D43198 /* Relic.json */,
 				25C2DE5922CD8A8D00D43198 /* OnRecreationalDrugs.json */,
 				25C2DE5A22CD8A8D00D43198 /* TurkishBlast.json */,
@@ -4151,6 +4949,15 @@
 		6DAB93DA78696DFB7203E582 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				865348E622F4DABA0060CF2A /* SwiftyBeaver.framework */,
+				865348D622F4DAAE0060CF2A /* ChameleonFramework.framework */,
+				865348D822F4DAAE0060CF2A /* Cosmos.framework */,
+				865348DA22F4DAAE0060CF2A /* FirebaseCore.framework */,
+				865348DC22F4DAAE0060CF2A /* FirebaseInstanceID.framework */,
+				865348DE22F4DAAE0060CF2A /* GoogleUtilities.framework */,
+				865348E022F4DAAE0060CF2A /* iCarousel.framework */,
+				865348E222F4DAAE0060CF2A /* nanopb.framework */,
+				865348E422F4DAAE0060CF2A /* Neon.framework */,
 				25F6DEDC216EA37C00964DD7 /* SwiftyJSON */,
 				25F6DEDA216EA37500964DD7 /* SwiftyBeaver */,
 				25F6DED8216EA36F00964DD7 /* Neon */,
@@ -4293,6 +5100,240 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				868EE0D122F892A30006F292 /* Presetpro-Edge.json in Resources */,
+				868EE0D222F892A30006F292 /* Presetpro-Center.json in Resources */,
+				868EE0C522F7D0850006F292 /* SecretBunker.json in Resources */,
+				868EE0C622F7D0850006F292 /* Hopeless.json in Resources */,
+				868EE0C722F7D0850006F292 /* Wasteland.json in Resources */,
+				868EE0C822F7D0850006F292 /* ToxicCity.json in Resources */,
+				868EE0C922F7D0850006F292 /* Metropolis.json in Resources */,
+				868EE0CA22F7D0850006F292 /* Union.json in Resources */,
+				868EE0CB22F7D0850006F292 /* Fallout.json in Resources */,
+				868EE0CC22F7D0850006F292 /* Corruption.json in Resources */,
+				868EE0CD22F7D0850006F292 /* Station.json in Resources */,
+				868EE0CE22F7D0850006F292 /* Sewage.json in Resources */,
+				86A9B91822F7CD96007F9743 /* graphicex01-05.json in Resources */,
+				86A9B91922F7CD96007F9743 /* graphicex01-02.json in Resources */,
+				86A9B91A22F7CD96007F9743 /* graphicex01-10.json in Resources */,
+				86A9B91B22F7CD96007F9743 /* graphicex01-01.json in Resources */,
+				86A9B91C22F7CD96007F9743 /* graphicex01-09.json in Resources */,
+				86A9B91D22F7CD96007F9743 /* graphicex01-04.json in Resources */,
+				86A9B91E22F7CD96007F9743 /* graphicex01-06.json in Resources */,
+				86A9B91F22F7CD96007F9743 /* graphicex01-07.json in Resources */,
+				86A9B92022F7CD96007F9743 /* graphicex01-03.json in Resources */,
+				86A9B92122F7CD96007F9743 /* graphicex01-08.json in Resources */,
+				86A9B8FA22F7CD81007F9743 /* graphicex02-11.json in Resources */,
+				86A9B8FB22F7CD81007F9743 /* graphicex02-07.json in Resources */,
+				86A9B8FC22F7CD81007F9743 /* graphicex02-16.json in Resources */,
+				86A9B8FD22F7CD81007F9743 /* graphicex02-19.json in Resources */,
+				86A9B8FE22F7CD81007F9743 /* graphicex02-09.json in Resources */,
+				86A9B8FF22F7CD81007F9743 /* graphicex02-10.json in Resources */,
+				86A9B90022F7CD81007F9743 /* graphicex02-03.json in Resources */,
+				86A9B90122F7CD81007F9743 /* graphicex02-02.json in Resources */,
+				86A9B90222F7CD81007F9743 /* graphicex02-01.json in Resources */,
+				86A9B90322F7CD81007F9743 /* graphicex02-12.json in Resources */,
+				86A9B90422F7CD81007F9743 /* graphicex02-05.json in Resources */,
+				86A9B90522F7CD81007F9743 /* graphicex02-04.json in Resources */,
+				86A9B90622F7CD81007F9743 /* graphicex02-06.json in Resources */,
+				86A9B90722F7CD81007F9743 /* graphicex02-14.json in Resources */,
+				86A9B90822F7CD81007F9743 /* graphicex02-15.json in Resources */,
+				86A9B90922F7CD81007F9743 /* graphicex02-18.json in Resources */,
+				86A9B90A22F7CD81007F9743 /* graphicex02-13.json in Resources */,
+				86A9B90B22F7CD81007F9743 /* graphicex02-20.json in Resources */,
+				86A9B90C22F7CD81007F9743 /* graphicex02-08.json in Resources */,
+				86A9B90D22F7CD81007F9743 /* graphicex02-17.json in Resources */,
+				86A9B8D722F7CD60007F9743 /* graphicexhdr01-14.json in Resources */,
+				86A9B8D822F7CD60007F9743 /* graphicexhdr01-06.json in Resources */,
+				86A9B8D922F7CD60007F9743 /* graphicexhdr01-08.json in Resources */,
+				86A9B8DA22F7CD60007F9743 /* graphicexhdr01-04.json in Resources */,
+				86A9B8DB22F7CD60007F9743 /* graphicexhdr01-11.json in Resources */,
+				86A9B8DC22F7CD60007F9743 /* graphicexhdr01-10.json in Resources */,
+				86A9B8DD22F7CD60007F9743 /* graphicexhdr01-13.json in Resources */,
+				86A9B8DE22F7CD60007F9743 /* graphicexhdr01-05.json in Resources */,
+				86A9B8DF22F7CD60007F9743 /* graphicexhdr01-01.json in Resources */,
+				86A9B8E022F7CD60007F9743 /* graphicexhdr01-07.json in Resources */,
+				86A9B8E122F7CD60007F9743 /* graphicexhdr01-02.json in Resources */,
+				86A9B8E222F7CD60007F9743 /* graphicexhdr01-03.json in Resources */,
+				86A9B8E322F7CD60007F9743 /* graphicexhdr01-12.json in Resources */,
+				86A9B8E422F7CD60007F9743 /* graphicexhdr01-15.json in Resources */,
+				86A9B8E522F7CD60007F9743 /* graphicexhdr01-09.json in Resources */,
+				86A9B8C322F7CD42007F9743 /* IlfordDelta3200Curve.json in Resources */,
+				86A9B8C422F7CD42007F9743 /* IlfordDelta100Curve.json in Resources */,
+				86A9B8C522F7CD42007F9743 /* IlfordHP5Plus400Curve.json in Resources */,
+				86A9B8C622F7CD42007F9743 /* IlfordDelta400Curve.json in Resources */,
+				86A9B8C722F7CD42007F9743 /* IlfordFP4Plus125Curve.json in Resources */,
+				86A9B8B622F7CD22007F9743 /* PorcelainVISF2.json in Resources */,
+				86A9B8B722F7CD22007F9743 /* PorcelainVSF.json in Resources */,
+				86A9B8B822F7CD22007F9743 /* PorcelainIIIHC.json in Resources */,
+				86A9B8B922F7CD22007F9743 /* PorcelainI.json in Resources */,
+				86A9B8BA22F7CD22007F9743 /* PorcelainIILT.json in Resources */,
+				86A9B8BB22F7CD22007F9743 /* PorcelainIV.json in Resources */,
+				86A9B8BC22F7CD22007F9743 /* PorcelainVIIILT.json in Resources */,
+				86A9B8BD22F7CD22007F9743 /* PorcelainVII.json in Resources */,
+				86A9B89522F7CD07007F9743 /* posterbdhdrsoft01-12.json in Resources */,
+				86A9B89622F7CD07007F9743 /* posterbdhdrsoft01-01.json in Resources */,
+				86A9B89722F7CD07007F9743 /* posterbdhdrsoft01-17.json in Resources */,
+				86A9B89822F7CD07007F9743 /* posterbdhdrsoft01-13.json in Resources */,
+				86A9B89922F7CD07007F9743 /* posterbdhdrsoft01-23.json in Resources */,
+				86A9B89A22F7CD07007F9743 /* posterbdhdrsoft01-05.json in Resources */,
+				86A9B89B22F7CD07007F9743 /* posterbdhdrsoft01-10.json in Resources */,
+				86A9B89C22F7CD07007F9743 /* posterbdhdrsoft01-22.json in Resources */,
+				86A9B89D22F7CD07007F9743 /* posterbdhdrsoft01-02.json in Resources */,
+				86A9B89E22F7CD07007F9743 /* posterbdhdrsoft01-09.json in Resources */,
+				86A9B89F22F7CD07007F9743 /* posterbdhdrsoft01-25.json in Resources */,
+				86A9B8A022F7CD07007F9743 /* posterbdhdrsoft01-18.json in Resources */,
+				86A9B8A122F7CD07007F9743 /* posterbdhdrsoft01-07.json in Resources */,
+				86A9B8A222F7CD07007F9743 /* posterbdhdrsoft01-16.json in Resources */,
+				86A9B8A322F7CD07007F9743 /* posterbdhdrsoft01-08.json in Resources */,
+				86A9B8A422F7CD07007F9743 /* posterbdhdrsoft01-14.json in Resources */,
+				86A9B8A522F7CD07007F9743 /* posterbdhdrsoft01-03.json in Resources */,
+				86A9B8A622F7CD07007F9743 /* posterbdhdrsoft01-24.json in Resources */,
+				86A9B8A722F7CD07007F9743 /* posterbdhdrsoft01-20.json in Resources */,
+				86A9B8A822F7CD07007F9743 /* posterbdhdrsoft01-11.json in Resources */,
+				86A9B8A922F7CD07007F9743 /* posterbdhdrsoft01-19.json in Resources */,
+				86A9B8AA22F7CD07007F9743 /* posterbdhdrsoft01-15.json in Resources */,
+				86A9B8AB22F7CD07007F9743 /* posterbdhdrsoft01-21.json in Resources */,
+				86A9B8AC22F7CD07007F9743 /* posterbdhdrsoft01-06.json in Resources */,
+				86A9B8AD22F7CD07007F9743 /* posterbdhdrsoft01-04.json in Resources */,
+				86A9B86822F7CCE8007F9743 /* posterbdsoft01-03.json in Resources */,
+				86A9B86922F7CCE8007F9743 /* posterbdsoft01-13.json in Resources */,
+				86A9B86A22F7CCE8007F9743 /* posterbdsoft01-14.json in Resources */,
+				86A9B86B22F7CCE8007F9743 /* posterbdsoft01-15.json in Resources */,
+				86A9B86C22F7CCE8007F9743 /* posterbdsoft01-16.json in Resources */,
+				86A9B86D22F7CCE8007F9743 /* posterbdsoft01-12.json in Resources */,
+				86A9B86E22F7CCE8007F9743 /* posterbdsoft01-17.json in Resources */,
+				86A9B86F22F7CCE8007F9743 /* posterbdsoft01-08.json in Resources */,
+				86A9B87022F7CCE8007F9743 /* posterbdsoft01-04.json in Resources */,
+				86A9B87122F7CCE8007F9743 /* posterbdsoft01-06.json in Resources */,
+				86A9B87222F7CCE8007F9743 /* posterbdsoft01-07.json in Resources */,
+				86A9B87322F7CCE8007F9743 /* posterbdsoft01-09.json in Resources */,
+				86A9B87422F7CCE8007F9743 /* posterbdsoft01-01.json in Resources */,
+				86A9B87522F7CCE8007F9743 /* posterbdsoft01-11.json in Resources */,
+				86A9B87622F7CCE8007F9743 /* posterbdsoft01-02.json in Resources */,
+				86A9B87722F7CCE8007F9743 /* posterbdsoft01-05.json in Resources */,
+				86A9B87822F7CCE8007F9743 /* posterbdsoft01-20.json in Resources */,
+				86A9B87922F7CCE8007F9743 /* posterbdsoft01-10.json in Resources */,
+				86A9B87A22F7CCE8007F9743 /* posterbdsoft01-18.json in Resources */,
+				86A9B87B22F7CCE8007F9743 /* posterbdsoft01-19.json in Resources */,
+				86A9B84022F7CCC9007F9743 /* posterbdsoft02-13.json in Resources */,
+				86A9B84122F7CCC9007F9743 /* posterbdsoft02-09.json in Resources */,
+				86A9B84222F7CCC9007F9743 /* posterbdsoft02-03.json in Resources */,
+				86A9B84322F7CCC9007F9743 /* posterbdsoft02-01.json in Resources */,
+				86A9B84422F7CCC9007F9743 /* posterbdsoft02-12.json in Resources */,
+				86A9B84522F7CCC9007F9743 /* posterbdsoft02-08.json in Resources */,
+				86A9B84622F7CCC9007F9743 /* posterbdsoft02-15.json in Resources */,
+				86A9B84722F7CCC9007F9743 /* posterbdsoft02-04.json in Resources */,
+				86A9B84822F7CCC9007F9743 /* posterbdsoft02-16.json in Resources */,
+				86A9B84922F7CCC9007F9743 /* posterbdsoft02-05.json in Resources */,
+				86A9B84A22F7CCC9007F9743 /* posterbdsoft02-18.json in Resources */,
+				86A9B84B22F7CCC9007F9743 /* posterbdsoft02-10.json in Resources */,
+				86A9B84C22F7CCC9007F9743 /* posterbdsoft02-06.json in Resources */,
+				86A9B84D22F7CCC9007F9743 /* posterbdsoft02-11.json in Resources */,
+				86A9B84E22F7CCC9007F9743 /* posterbdsoft02-17.json in Resources */,
+				86A9B84F22F7CCC9007F9743 /* posterbdsoft02-07.json in Resources */,
+				86A9B85022F7CCC9007F9743 /* posterbdsoft02-14.json in Resources */,
+				86A9B85122F7CCC9007F9743 /* posterbdsoft02-02.json in Resources */,
+				86A9B85222F7CCC9007F9743 /* posterbdsoft02-19.json in Resources */,
+				86A9B85322F7CCC9007F9743 /* posterbdsoft02-20.json in Resources */,
+				86A9B81622F7CCAC007F9743 /* posterbdwedding-14.json in Resources */,
+				86A9B81722F7CCAC007F9743 /* posterbdwedding-18.json in Resources */,
+				86A9B81822F7CCAC007F9743 /* posterbdwedding-21.json in Resources */,
+				86A9B81922F7CCAC007F9743 /* posterbdwedding-06.json in Resources */,
+				86A9B81A22F7CCAC007F9743 /* posterbdwedding-04.json in Resources */,
+				86A9B81B22F7CCAC007F9743 /* posterbdwedding-12.json in Resources */,
+				86A9B81C22F7CCAC007F9743 /* posterbdwedding-09.json in Resources */,
+				86A9B81D22F7CCAC007F9743 /* posterbdwedding-20.json in Resources */,
+				86A9B81E22F7CCAC007F9743 /* posterbdwedding-22.json in Resources */,
+				86A9B81F22F7CCAC007F9743 /* posterbdwedding-10.json in Resources */,
+				86A9B82022F7CCAC007F9743 /* posterbdwedding-02.json in Resources */,
+				86A9B82122F7CCAC007F9743 /* posterbdwedding-11.json in Resources */,
+				86A9B82222F7CCAC007F9743 /* posterbdwedding-07.json in Resources */,
+				86A9B82322F7CCAC007F9743 /* posterbdwedding-16.json in Resources */,
+				86A9B82422F7CCAC007F9743 /* posterbdwedding-17.json in Resources */,
+				86A9B82522F7CCAC007F9743 /* posterbdwedding-08.json in Resources */,
+				86A9B82622F7CCAC007F9743 /* posterbdwedding-19.json in Resources */,
+				86A9B82722F7CCAC007F9743 /* posterbdwedding-03.json in Resources */,
+				86A9B82822F7CCAC007F9743 /* posterbdwedding-05.json in Resources */,
+				86A9B82922F7CCAC007F9743 /* posterbdwedding-01.json in Resources */,
+				86A9B82A22F7CCAC007F9743 /* posterbdwedding-15.json in Resources */,
+				86A9B82B22F7CCAC007F9743 /* posterbdwedding-13.json in Resources */,
+				86A9B7F222F7CC6F007F9743 /* B&WP#07.json in Resources */,
+				86A9B7F322F7CC6F007F9743 /* B&WP#03.json in Resources */,
+				86A9B7F422F7CC6F007F9743 /* B&WP#01.json in Resources */,
+				86A9B7F522F7CC6F007F9743 /* B&WP#05.json in Resources */,
+				86A9B7F622F7CC6F007F9743 /* B&WP#04.json in Resources */,
+				86A9B7F722F7CC6F007F9743 /* B&WP#08.json in Resources */,
+				86A9B7F822F7CC6F007F9743 /* B&WP#10.json in Resources */,
+				86A9B7F922F7CC6F007F9743 /* B&WP#09.json in Resources */,
+				86A9B7FA22F7CC6F007F9743 /* B&WP#06.json in Resources */,
+				86A9B7FB22F7CC6F007F9743 /* B&WP#02.json in Resources */,
+				86A9B7D422F7CC2C007F9743 /* posterbdsoft03-10.json in Resources */,
+				86A9B7D522F7CC2C007F9743 /* posterbdsoft03-05.json in Resources */,
+				86A9B7D622F7CC2C007F9743 /* posterbdsoft03-11.json in Resources */,
+				86A9B7D722F7CC2C007F9743 /* posterbdsoft03-08.json in Resources */,
+				86A9B7D822F7CC2C007F9743 /* posterbdsoft03-04.json in Resources */,
+				86A9B7D922F7CC2C007F9743 /* posterbdsoft03-16.json in Resources */,
+				86A9B7DA22F7CC2C007F9743 /* posterbdsoft03-15.json in Resources */,
+				86A9B7DB22F7CC2C007F9743 /* posterbdsoft03-02.json in Resources */,
+				86A9B7DC22F7CC2C007F9743 /* posterbdsoft03-12.json in Resources */,
+				86A9B7DD22F7CC2C007F9743 /* posterbdsoft03-09.json in Resources */,
+				86A9B7DE22F7CC2C007F9743 /* posterbdsoft03-01.json in Resources */,
+				86A9B7DF22F7CC2C007F9743 /* posterbdsoft03-07.json in Resources */,
+				86A9B7E022F7CC2C007F9743 /* posterbdsoft03-03.json in Resources */,
+				86A9B7E122F7CC2C007F9743 /* posterbdsoft03-17.json in Resources */,
+				86A9B7E222F7CC2C007F9743 /* posterbdsoft03-06.json in Resources */,
+				86A9B7E322F7CC2C007F9743 /* posterbdsoft03-14.json in Resources */,
+				86A9B7E422F7CC2C007F9743 /* posterbdsoft03-18.json in Resources */,
+				86A9B7E522F7CC2C007F9743 /* posterbdsoft03-19.json in Resources */,
+				86A9B7E622F7CC2C007F9743 /* posterbdsoft03-13.json in Resources */,
+				86A9B7E722F7CC2C007F9743 /* posterbdsoft03-20.json in Resources */,
+				86A9B7AA22F7CC0D007F9743 /* posterbdsoft04-19.json in Resources */,
+				86A9B7AB22F7CC0D007F9743 /* posterbdsoft04-07.json in Resources */,
+				86A9B7AC22F7CC0D007F9743 /* posterbdsoft04-06.json in Resources */,
+				86A9B7AD22F7CC0D007F9743 /* posterbdsoft04-01.json in Resources */,
+				86A9B7AE22F7CC0D007F9743 /* posterbdsoft04-14.json in Resources */,
+				86A9B7AF22F7CC0D007F9743 /* posterbdsoft04-12.json in Resources */,
+				86A9B7B022F7CC0D007F9743 /* posterbdsoft04-03.json in Resources */,
+				86A9B7B122F7CC0D007F9743 /* posterbdsoft04-09.json in Resources */,
+				86A9B7B222F7CC0D007F9743 /* posterbdsoft04-05.json in Resources */,
+				86A9B7B322F7CC0D007F9743 /* posterbdsoft04-10.json in Resources */,
+				86A9B7B422F7CC0D007F9743 /* posterbdsoft04-17.json in Resources */,
+				86A9B7B522F7CC0D007F9743 /* posterbdsoft04-18.json in Resources */,
+				86A9B7B622F7CC0D007F9743 /* posterbdsoft04-20.json in Resources */,
+				86A9B7B722F7CC0D007F9743 /* posterbdsoft04-22.json in Resources */,
+				86A9B7B822F7CC0D007F9743 /* posterbdsoft04-13.json in Resources */,
+				86A9B7B922F7CC0D007F9743 /* posterbdsoft04-11.json in Resources */,
+				86A9B7BA22F7CC0D007F9743 /* posterbdsoft04-02.json in Resources */,
+				86A9B7BB22F7CC0D007F9743 /* posterbdsoft04-16.json in Resources */,
+				86A9B7BC22F7CC0D007F9743 /* posterbdsoft04-04.json in Resources */,
+				86A9B7BD22F7CC0D007F9743 /* posterbdsoft04-21.json in Resources */,
+				86A9B7BE22F7CC0D007F9743 /* posterbdsoft04-15.json in Resources */,
+				86A9B7BF22F7CC0D007F9743 /* posterbdsoft04-08.json in Resources */,
+				86A9B77B22F7CB65007F9743 /* dramatic-22.json in Resources */,
+				86A9B77C22F7CB65007F9743 /* dramatic-11.json in Resources */,
+				86A9B77D22F7CB65007F9743 /* dramatic-25.json in Resources */,
+				86A9B77E22F7CB65007F9743 /* dramatic-28.json in Resources */,
+				86A9B77F22F7CB65007F9743 /* dramatic-07.json in Resources */,
+				86A9B78022F7CB65007F9743 /* dramatic-15.json in Resources */,
+				86A9B78122F7CB65007F9743 /* dramatic-13.json in Resources */,
+				86A9B78222F7CB65007F9743 /* dramatic-20.json in Resources */,
+				86A9B78322F7CB65007F9743 /* dramatic-01.json in Resources */,
+				86A9B78422F7CB65007F9743 /* dramatic-21.json in Resources */,
+				86A9B78522F7CB65007F9743 /* dramatic-18.json in Resources */,
+				86A9B78622F7CB65007F9743 /* dramatic-27.json in Resources */,
+				86A9B78722F7CB65007F9743 /* dramatic-17.json in Resources */,
+				86A9B78822F7CB65007F9743 /* dramatic-19.json in Resources */,
+				86A9B78922F7CB65007F9743 /* dramatic-30.json in Resources */,
+				86A9B78A22F7CB65007F9743 /* dramatic-03.json in Resources */,
+				86A9B78B22F7CB65007F9743 /* dramatic-05.json in Resources */,
+				86A9B78C22F7CB65007F9743 /* dramatic-10.json in Resources */,
+				86A9B78D22F7CB65007F9743 /* dramatic-26.json in Resources */,
+				86A9B78E22F7CB65007F9743 /* dramatic-09.json in Resources */,
+				86A9B78F22F7CB65007F9743 /* dramatic-24.json in Resources */,
+				86A9B79022F7CB65007F9743 /* dramatic-29.json in Resources */,
+				86A9B79122F7CB65007F9743 /* dramatic-14.json in Resources */,
+				86A9B79222F7CB65007F9743 /* dramatic-06.json in Resources */,
+				86A9B79322F7CB65007F9743 /* dramatic-08.json in Resources */,
 				2573D1D9217CDCB500E78CAB /* YUCIRGBToHSL.cikernel in Resources */,
 				2537A1D721DEBA6A00060DBE /* SampleGallery.html in Resources */,
 				25C2DF1E22CD8A8D00D43198 /* WarmShadows.json in Resources */,
@@ -4339,6 +5380,7 @@
 				252B0EF31E30690F005A0C2D /* fx_003_fog.jpg in Resources */,
 				25C2DEE622CD8A8D00D43198 /* Ava.json in Resources */,
 				25FD3C8A22EB96E700A1C00A /* N-FujiSuperia100.json in Resources */,
+				86A9B74122F7C5B0007F9743 /* genconvert.sh in Resources */,
 				25FD3CB922EB970900A1C00A /* WarmCrossWash.json in Resources */,
 				25FD3C8D22EB96E700A1C00A /* N-AgfaVista100.json in Resources */,
 				252B0DFC1E30690F005A0C2D /* vn_001_punch.jpg in Resources */,
@@ -4372,6 +5414,7 @@
 				25C2DE8D22CD8A8D00D43198 /* PeachyFilm.json in Resources */,
 				25C2DECA22CD8A8D00D43198 /* Tinting-Red.json in Resources */,
 				252B0DE11E30690E005A0C2D /* vn_031_robin.jpg in Resources */,
+				86A9B06922F7771B007F9743 /* OldenDelays.json in Resources */,
 				252B0F6F1E30690F005A0C2D /* et_032_a14_2.jpg in Resources */,
 				25C2DF3D22CD8A8D00D43198 /* ReduceYellows.json in Resources */,
 				252B0E831E30690F005A0C2D /* ms_010_vicky.jpg in Resources */,
@@ -4511,6 +5554,7 @@
 				252B0E8E1E30690F005A0C2D /* mo_040_contrast_desat_1.jpg in Resources */,
 				25C2DF5122CD8A8D00D43198 /* WarmSplendor.json in Resources */,
 				252B10171E306920005A0C2D /* paper_curled_by_fotojenny.jpg in Resources */,
+				86A9B06822F7771B007F9743 /* BrokenPhotocopier.json in Resources */,
 				252B0F7F1E30690F005A0C2D /* et_020_a08_2.jpg in Resources */,
 				252B0F721E30690F005A0C2D /* et_007_4321_6.jpg in Resources */,
 				252B10181E306920005A0C2D /* 8_by_grandeombre_stock.jpg in Resources */,
@@ -4672,6 +5716,7 @@
 				25C2DEDD22CD8A8D00D43198 /* B&WInfrared.json in Resources */,
 				252B0ED81E30690F005A0C2D /* fx_028_ink_11.jpg in Resources */,
 				252B0F521E30690F005A0C2D /* et_051_a22_8.jpg in Resources */,
+				86A9B06522F7771B007F9743 /* SandstormCastleBlack.json in Resources */,
 				25C2DED822CD8A8D00D43198 /* Wonka.json in Resources */,
 				252B0F9B1E30690F005A0C2D /* bw_035_antique_plate_1.JPG in Resources */,
 				252B0FB71E30690F005A0C2D /* bw_009_lo_key_1.JPG in Resources */,
@@ -4685,6 +5730,7 @@
 				25FD3C8922EB96E700A1C00A /* N-KodakGold200.json in Resources */,
 				252B0EAD1E30690F005A0C2D /* mo_014_sad.jpg in Resources */,
 				252B0F591E30690F005A0C2D /* et_034_a14_4.jpg in Resources */,
+				86A9B06C22F7771B007F9743 /* AlkalineStorm.json in Resources */,
 				25C2DEF722CD8A8D00D43198 /* WinterHazeWarm.json in Resources */,
 				2559533D1DF0D9EE002A2905 /* defaultConfig.json in Resources */,
 				25C2DF3222CD8A8D00D43198 /* FallFoliage(Light).json in Resources */,
@@ -4706,6 +5752,7 @@
 				252B0F191E30690F005A0C2D /* et_100_made_4.jpg in Resources */,
 				257F49EA1D9448920083B1E4 /* LaunchScreen.storyboard in Resources */,
 				25C2DEC122CD8A8D00D43198 /* PopFlash.json in Resources */,
+				86A9B06E22F7771B007F9743 /* PrimePicard.json in Resources */,
 				252B0DC11E30690E005A0C2D /* xp_018_lr_3.jpg in Resources */,
 				252B0DC61E30690E005A0C2D /* xp_005_mutato_cmyk.jpg in Resources */,
 				252B0F571E30690F005A0C2D /* et_056_a23_3.jpg in Resources */,
@@ -4721,7 +5768,6 @@
 				252B0F561E30690F005A0C2D /* et_055_a23_2.jpg in Resources */,
 				25FD3C9922EB96E700A1C00A /* N-Fuji800Z.json in Resources */,
 				252B0F0A1E30690F005A0C2D /* et_116_pink.jpg in Resources */,
-				250C5EFF22B75B5500DE0DDF /* convert.sh in Resources */,
 				25C2DEB622CD8A8D00D43198 /* Daisy.json in Resources */,
 				252B103E1E306920005A0C2D /* shedyourskin_Tex_87.jpg in Resources */,
 				25C2DED722CD8A8D00D43198 /* Blue Dawn.json in Resources */,
@@ -4803,6 +5849,7 @@
 				252B103B1E306920005A0C2D /* shedyourskin_Tex_124.jpg in Resources */,
 				252B0F101E30690F005A0C2D /* et_122_se_4.jpg in Resources */,
 				25FD3CAD22EB96FB00A1C00A /* VintagePunch.json in Resources */,
+				86A9B06F22F7771B007F9743 /* LightHDR.json in Resources */,
 				252B0FBF1E30690F005A0C2D /* bw_017_full_spectrum.JPG in Resources */,
 				252B0F4B1E30690F005A0C2D /* et_069_a30.jpg in Resources */,
 				252B0E6C1E30690F005A0C2D /* ms_015_intense_film.jpg in Resources */,
@@ -4863,6 +5910,7 @@
 				25C2DEA122CD8A8D00D43198 /* HighClarityColorPop.json in Resources */,
 				252B0F8A1E30690F005A0C2D /* et_001_88iiu.jpg in Resources */,
 				252B0F441E30690F005A0C2D /* et_062_a25_2.jpg in Resources */,
+				86A9B06B22F7771B007F9743 /* Let'sGetLost.json in Resources */,
 				252B0E9F1E30690F005A0C2D /* mo_029_smart_psycho_2.jpg in Resources */,
 				25C2DEDF22CD8A8D00D43198 /* BluelikeJazz.json in Resources */,
 				252B0E9A1E30690F005A0C2D /* mo_024_fashion_3.jpg in Resources */,
@@ -4884,6 +5932,7 @@
 				252B106C1E30692E005A0C2D /* sample_girls_2134.png in Resources */,
 				252B0EF11E30690F005A0C2D /* fx_001_bleach_bypass.jpg in Resources */,
 				25FD3CBF22EB970900A1C00A /* DarkWash.json in Resources */,
+				86A9B06D22F7771B007F9743 /* LatinOilSlicker.json in Resources */,
 				25C2DE9622CD8A8D00D43198 /* NaturalColorPop.json in Resources */,
 				252B0F1F1E30690F005A0C2D /* et_106_nature_1.jpg in Resources */,
 				252B0EC71E30690F005A0C2D /* fx_046_old_photo_color_1.jpg in Resources */,
@@ -4902,6 +5951,7 @@
 				252B0E981E30690F005A0C2D /* mo_022_fashion_1.jpg in Resources */,
 				252B0E751E30690F005A0C2D /* ms_024_soft_blue_pastel.jpg in Resources */,
 				25C2DF1A22CD8A8D00D43198 /* HighContrast.json in Resources */,
+				86A9B06622F7771B007F9743 /* Parentgrain.json in Resources */,
 				252B0E9B1E30690F005A0C2D /* mo_025_extreme_vintage_1.jpg in Resources */,
 				25C2DF4E22CD8A8D00D43198 /* BrightenShadows.json in Resources */,
 				252B0DD81E30690E005A0C2D /* vn_022_brandenburg.jpg in Resources */,
@@ -5070,6 +6120,7 @@
 				2573D1D5217CDCB500E78CAB /* YUCIReflectedTile.cikernel in Resources */,
 				252B0EE61E30690F005A0C2D /* fx_025_ink_8.jpg in Resources */,
 				25FD3CA822EB96FB00A1C00A /* NeutralPunch.json in Resources */,
+				86A9B06722F7771B007F9743 /* RestorationSoftware.json in Resources */,
 				252B0EDD1E30690F005A0C2D /* fx_033_midnight_4.jpg in Resources */,
 				252B0F711E30690F005A0C2D /* et_006_4321_5.jpg in Resources */,
 				252B0DBF1E30690E005A0C2D /* xp_016_lr_1.jpg in Resources */,
@@ -5080,6 +6131,7 @@
 				252B0F041E30690F005A0C2D /* fd_09d_wash_amber.jpg in Resources */,
 				252B0FAD1E30690F005A0C2D /* bw_018_full_spectrum_inverse.JPG in Resources */,
 				252B0E611E30690F005A0C2D /* ms_030_magic_golden_hour.jpg in Resources */,
+				86A9B06A22F7771B007F9743 /* HotelofBudapest.json in Resources */,
 				252B0EAE1E30690F005A0C2D /* mo_015_smart_sepia.jpg in Resources */,
 				25C2DED522CD8A8D00D43198 /* Tijuana.json in Resources */,
 				252B0E841E30690F005A0C2D /* ms_011_violet.jpg in Resources */,

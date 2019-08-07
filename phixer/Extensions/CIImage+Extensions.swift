@@ -18,7 +18,8 @@ extension CIImage {
     // get the current CIContext, creating it if necessary
     private static func getContext() -> CIContext? {
         if (CIImage.context == nil){
-            CIImage.context = CIContext(options: [ CIContextOption.useSoftwareRenderer : false, CIContextOption.highQualityDownsample : true ])
+            CIImage.context = CIContext(options: [ CIContextOption.useSoftwareRenderer : false, CIContextOption.highQualityDownsample : true,
+                CIContextOption.cacheIntermediates : false])
         }
         return CIImage.context
     }
@@ -34,9 +35,11 @@ extension CIImage {
     }
     
     // get the associated CGImage, creating it if necessary
+    // (Images created by filters typically do not have a cgImage)
     public func getCGImage(size:CGSize) -> CGImage? {
         let result = autoreleasepool { () -> CGImage? in
             if self.cgImage == nil {
+                // self.cgImage is read-only so can't set it
                 return self.generateCGImage(size:size)
             } else {
                 return self.cgImage

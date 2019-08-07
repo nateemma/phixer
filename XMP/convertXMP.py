@@ -1249,7 +1249,7 @@ def processGrayscale():
             # filterMap["filters"].append( { 'key':"CIPhotoEffectMono", "parameters":[] } )
             value = 0.0
             if coloursChanged:
-                value = 0.1  # if we messed with the colours, then leave a little in there
+                value = 0.01  # if we messed with the colours, then leave a little in there
             filterMap["filters"].append({'key': "SaturationFilter", "parameters": [ {'key': "inputSaturation", 'val': value, 'type': "CIAttributeTypeScalar"}]})
             print ("...ConvertToGrayscale")
 
