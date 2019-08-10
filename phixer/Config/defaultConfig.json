@@ -1731,16 +1731,16 @@
         
         {"key": "glitchy",
             "title": "Glitchy Effects",
-            "filters": [ "RGBChannelCompositing", "EightBit", "TransverseChromaticAberration", "VHSTrackingLines", "CausticRefraction", "CIFalseColor", "CRTFilter"
+            "filters": [ "CarnivalMirror", "RGBChannelCompositing", "EightBit", "CMYKLevels", "ChromaticAberration", "TransverseChromaticAberration",
+                "VHSTrackingLines", "CausticRefraction", "CIFalseColor", "CRTFilter"
             ]
         },
         
         {"key": "apple",
             "title": "Apple Native Filters",
             "filters": [ "CIPhotoEffectChrome", "CIPhotoEffectFade", "CIPhotoEffectInstant", "CIPhotoEffectMono", "CIPhotoEffectNoir", "CIPhotoEffectProcess", "CIPhotoEffectTonal",
-                "CIPhotoEffectTransfer", "CISepiaTone", "CIColorInvert", "CIColorMonochrome",
-                "CICrystallize", "CIDepthOfField", "CIGloom",  "CIHexagonalPixellate",
-                "CISpotLight"
+                "CIPhotoEffectTransfer", "CISepiaTone", "CIColorInvert", "CIColorMonochrome", "ColorDirectedBlur", "CausticRefraction", "HomogeneousColorBlur",
+                "CICrystallize", "CIHexagonalPixellate"
             ]
         },
 

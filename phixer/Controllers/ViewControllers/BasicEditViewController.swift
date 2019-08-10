@@ -588,16 +588,16 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
                         
                     case UISwipeGestureRecognizer.Direction.right:
                         log.verbose("Swiped Right")
-                        editImageView.isUserInteractionEnabled = false // hack to prevent scrolview handlingthe swipe (nned better solution)
+                        //editImageView.isUserInteractionEnabled = false // hack to prevent scrolview handlingthe swipe (need better solution)
                         self.coordinator?.previousItemRequest()
-                        editImageView.isUserInteractionEnabled = true
+                        //editImageView.isUserInteractionEnabled = true
                        break
                         
                     case UISwipeGestureRecognizer.Direction.left:
                         log.verbose("Swiped Left")
-                        editImageView.isUserInteractionEnabled = false
+                        //editImageView.isUserInteractionEnabled = false
                         self.coordinator?.nextItemRequest()
-                        editImageView.isUserInteractionEnabled = true
+                        //editImageView.isUserInteractionEnabled = true
                        break
                         
                     case UISwipeGestureRecognizer.Direction.up:
@@ -1116,6 +1116,17 @@ extension BasicEditViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
                            shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer)
         -> Bool {
+            
+            // if this is a pinch type, then always pass on
+            if gestureRecognizer is UIPinchGestureRecognizer {
+                return true
+            }
+            
+            // if zoomed, then pass on
+            if self.editImageView.isZoomed() {
+                return true
+            }
+            
             // If the gesture recognizer's view isn't the main edit view, do not allow multiple gestures
             if gestureRecognizer.view != self.editImageView {
                 return false

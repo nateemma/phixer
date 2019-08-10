@@ -113,6 +113,14 @@ class ScrollableRenderView: UIScrollView, UIScrollViewDelegate {
     
     // the scrollable/zoomable/tappable parts:
     
+    public func isZoomed() -> Bool {
+        if self.isZooming || (self.zoomScale > 1.001) {
+            return true
+        } else {
+            return false
+        }
+    }
+    
 	func configureFor(_ imageSize: CGSize) {
         log.verbose("size:\(imageSize)")
 		self.contentSize = imageSize
@@ -313,7 +321,14 @@ extension ScrollableRenderView: UIGestureRecognizerDelegate {
     
     // allow multiple gestures
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        if (gestureRecognizer.view != self) && (self.zoomScale.approxEqual(1.0)) {
+        
+        // if this is a pinch type, then always pass on
+        if gestureRecognizer is UIPinchGestureRecognizer {
+            return true
+        }
+
+        //if (gestureRecognizer.view != self) && (self.zoomScale.approxEqual(1.0)) {
+        if (gestureRecognizer.view == self) && (!self.isZoomed()) {
             return false
         }
         return true
@@ -322,6 +337,22 @@ extension ScrollableRenderView: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
                            shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer)
         -> Bool {
+            
+            
+            // if this is a pinch type, then always pass on
+            if gestureRecognizer is UIPinchGestureRecognizer {
+                return true
+            }
+            
+            if self.isZoomed() {
+                return true
+            }
+            
+            // don't propagate if image is not zoomed (otherwise swipe becomes a pan etc.)
+            if (gestureRecognizer.view == self) && (!self.isZoomed()) {
+                return false
+            }
+            
             return true
     }
 }
