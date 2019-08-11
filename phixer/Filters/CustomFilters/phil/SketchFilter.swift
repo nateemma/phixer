@@ -24,7 +24,7 @@ class SketchFilter: CIFilter {
     
     // filter display name
     func displayName() -> String {
-        return "Sketch Edge Detection"
+        return "Shaded Sketch"
     }
 
     // init
@@ -224,7 +224,9 @@ class SketchFilter: CIFilter {
         workingExtent = (resizedInputImg?.extent)!
         
         // resize the pencil texture to match
-        shadingTextureImg = SketchFilter.pencilTexture?.resize(size: workingExtent.size)
+        shadingTextureImg = SketchFilter.pencilTexture?.resize(size: workingExtent.size)?
+            .clampedToExtent()
+            .cropped(to: workingExtent)
 
         // equalise, bump up the contrast, convert to B&W
         monoImg = resizedInputImg?
@@ -233,6 +235,8 @@ class SketchFilter: CIFilter {
             //.applyingFilter("CIColorControls", parameters: ["inputContrast": 1.0])
             //.applyingFilter("CIColorPosterize", parameters: ["inputLevels": 16])
             .applyingFilter("CIPhotoEffectMono")
+            .clampedToExtent()
+            .cropped(to: workingExtent)
 
         // set the other class-scope vars so that they are not nil
         basicSketchImg = monoImg
@@ -283,6 +287,8 @@ class SketchFilter: CIFilter {
             .applyingFilter("CILinearDodgeBlendMode", parameters: [kCIInputBackgroundImageKey:monoImg])
             
         basicSketchImg = tmpImg.applyingFilter("CIMultiplyBlendMode", parameters: [kCIInputBackgroundImageKey:tmpImg])
+            .clampedToExtent()
+            .cropped(to: workingExtent)
 
     }
     
@@ -304,7 +310,9 @@ class SketchFilter: CIFilter {
         // create a mask from the b&w image by selecting the dark regions
         let shadowMask = monoImg.applyingFilter("LumaRangeFilter", parameters: ["inputLower": 0.0, "inputUpper": 0.1])
             .applyingFilter("CIColorInvert")
-        
+            .clampedToExtent()
+            .cropped(to: workingExtent)
+
         //TODO: create masks of different areas/depths of darkness?
         
         // darken the shading texture, mask it, blend with the basic sketch and turn down the opacity based on the user input
@@ -313,6 +321,8 @@ class SketchFilter: CIFilter {
             .applyingFilter("CIBlendWithMask", parameters: [kCIInputMaskImageKey: shadowMask, kCIInputBackgroundImageKey: shadingTextureImg])
             .applyingFilter("CIBlendWithMask", parameters: [kCIInputMaskImageKey: shadowMask, kCIInputBackgroundImageKey: basicSketchImg])
             .applyingFilter("OpacityFilter", parameters:  ["inputOpacity": inputTexture])
+            .clampedToExtent()
+            .cropped(to: workingExtent)
 
                // TODO: add light opacity overlay of mono image?
     }
@@ -331,7 +341,8 @@ class SketchFilter: CIFilter {
         //        - Sobel3x3 has much stronger edge detection, so bring down the opacity if using
         //        - BoxBlur is faster than Gaussian Blur
         //        - the Gloom filter softens edges and adds a glow effect
-        edgeImg = inputImage?
+        //edgeImg = inputImage?
+        edgeImg = resizedInputImg?
             .applyingFilter("CIColorControls", parameters: ["inputContrast": 1.0])
             .applyingFilter("SobelFilter", parameters: ["inputThreshold": inputThreshold]).applyingFilter("CIColorInvert")
             //.applyingFilter("Sobel3x3Filter", parameters: ["inputThreshold": inputThreshold])
@@ -340,8 +351,9 @@ class SketchFilter: CIFilter {
             //.applyingFilter("CIBoxBlur", parameters: ["inputRadius": 1.0]).clampedToExtent()
             //.cropped(to: workingExtent)
             .applyingFilter("CIGloom", parameters:  ["inputRadius": 2.0, "inputIntensity": 1.0])
+            .applyingFilter("OpacityFilter", parameters:  ["inputOpacity": 0.6])
+            .clampedToExtent()
             .cropped(to: workingExtent)
-           .applyingFilter("OpacityFilter", parameters:  ["inputOpacity": 0.6])
 
 
     }
