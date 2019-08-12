@@ -1725,7 +1725,7 @@
             "title": "Drawing & Painting",
             "filters": [ "ColorSketchFilter", "SketchFilter", "KuwaharaFilter",
                 "CIColorPosterize", "CIComicEffect", "CIEdges", "CIEdgeWork",
-                "CIPixellate", "CIPointillize", "CISpotColor"
+                "CIPixellate", "CIPointillize", "CISpotColor", "BWZoneFilter"
             ]
         },
         
@@ -1753,7 +1753,7 @@
                 "CarnivalMirror", "RGBChannelCompositing", "KuwaharaFilter", "MercurializeFilter",
                 "CMYKLevels", "ChromaticAberration", "ColorDirectedBlur", "CompoundEye", "EightBit", "HomogeneousColorBlur",
                 "RGBChannelBrightnessAndContrast", "RGBChannelGaussianBlur", "TransverseChromaticAberration", "VHSTrackingLines", "CausticRefraction",
-                "HighPassFilter", "HighPassSharpeningFilter", "HueRangeFilter", "SplitToningFilter", "CIFalseColor", "CRTFilter", "GrainFilter"
+                "HighPassFilter", "HighPassSharpeningFilter", "HueRangeFilter", "SplitToningFilter", "CIFalseColor", "CRTFilter", "GrainFilter", "BWZoneFilter"
             ]
         }
 

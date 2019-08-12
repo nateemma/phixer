@@ -257,6 +257,8 @@
 		2500473522FF3D470025309F /* IlfordDelta100Curve.json in Resources */ = {isa = PBXBuildFile; fileRef = 2500471E22FF3D470025309F /* IlfordDelta100Curve.json */; };
 		2500473622FF3D470025309F /* IlfordDelta400Curve.json in Resources */ = {isa = PBXBuildFile; fileRef = 2500471F22FF3D470025309F /* IlfordDelta400Curve.json */; };
 		2500473722FF3D470025309F /* IlfordFP4Plus125Curve.json in Resources */ = {isa = PBXBuildFile; fileRef = 2500472022FF3D470025309F /* IlfordFP4Plus125Curve.json */; };
+		2500473922FFCF5B0025309F /* BWZoneFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2500473822FFCF5B0025309F /* BWZoneFilter.swift */; };
+		2500473B2300B4AE0025309F /* ColorConversions.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = 2500473A2300B4AE0025309F /* ColorConversions.cikernel */; };
 		2506767D1DE1091500226740 /* PresetList.json in Resources */ = {isa = PBXBuildFile; fileRef = 2506767C1DE1091500226740 /* PresetList.json */; };
 		250716091DBEC19400CDDF42 /* FilterGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250716081DBEC19400CDDF42 /* FilterGalleryViewController.swift */; };
 		2507160B1DBECDF200CDDF42 /* Admob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2507160A1DBECDF200CDDF42 /* Admob.swift */; };
@@ -1710,6 +1712,8 @@
 		2500471E22FF3D470025309F /* IlfordDelta100Curve.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = IlfordDelta100Curve.json; sourceTree = "<group>"; };
 		2500471F22FF3D470025309F /* IlfordDelta400Curve.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = IlfordDelta400Curve.json; sourceTree = "<group>"; };
 		2500472022FF3D470025309F /* IlfordFP4Plus125Curve.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = IlfordFP4Plus125Curve.json; sourceTree = "<group>"; };
+		2500473822FFCF5B0025309F /* BWZoneFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BWZoneFilter.swift; sourceTree = "<group>"; };
+		2500473A2300B4AE0025309F /* ColorConversions.cikernel */ = {isa = PBXFileReference; lastKnownFileType = text; path = ColorConversions.cikernel; sourceTree = "<group>"; };
 		2506767C1DE1091500226740 /* PresetList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PresetList.json; sourceTree = "<group>"; };
 		250716081DBEC19400CDDF42 /* FilterGalleryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterGalleryViewController.swift; sourceTree = "<group>"; };
 		2507160A1DBECDF200CDDF42 /* Admob.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Admob.swift; sourceTree = "<group>"; };
@@ -3409,6 +3413,7 @@
 				25F21F7722016ED3005C449F /* HighPassSharpeningFilter.swift */,
 				25F21FE8220B8482005C449F /* HighPassSkinSmoothingFilter.swift */,
 				25F21FF42210B932005C449F /* HueRangeFilter.swift */,
+				2500473822FFCF5B0025309F /* BWZoneFilter.swift */,
 				2537A1E221E0220F00060DBE /* LaplacianGaussianFilter.swift */,
 				2515987D2193CD490067AA00 /* LumaRangeFilter.swift */,
 				25F21FFA22272F0D005C449F /* MaskedSkinSmoothingFilter.swift */,
@@ -3431,6 +3436,7 @@
 				2568BDD621BEC72600560287 /* StyleTransferFilter.swift */,
 				2537A20A21E7BC8400060DBE /* UnsharpMaskFilter.swift */,
 				2537A1C021D31F4B00060DBE /* WhiteBalanceFilter.swift */,
+				2500473A2300B4AE0025309F /* ColorConversions.cikernel */,
 			);
 			path = phil;
 			sourceTree = "<group>";
@@ -5319,6 +5325,7 @@
 				25FD3C8822EB96E700A1C00A /* N-KodakRoyalGold400.json in Resources */,
 				252B0F221E30690F005A0C2D /* et_109_new_2.jpg in Resources */,
 				252B0F3D1E30690F005A0C2D /* et_078_a33_2.jpg in Resources */,
+				2500473B2300B4AE0025309F /* ColorConversions.cikernel in Resources */,
 				252B10151E306920005A0C2D /* monoprint_16_by_pendlestock.jpg in Resources */,
 				252B0E671E30690F005A0C2D /* ms_036_vivid.jpg in Resources */,
 				25C2DE8822CD8A8D00D43198 /* ModerateVignette.json in Resources */,
@@ -6684,6 +6691,7 @@
 				253F54CD1DF24702007CCDEF /* FilterConfiguration.swift in Sources */,
 				2537A1C521DC26D400060DBE /* AdornmentView.swift in Sources */,
 				25F21FE1220B37C5005C449F /* CropRotateFilter.swift in Sources */,
+				2500473922FFCF5B0025309F /* BWZoneFilter.swift in Sources */,
 				255844EE1E03598B009440CA /* FilterFactory.swift in Sources */,
 				253B23791DA5782300203ECB /* FilterManager.swift in Sources */,
 				2537A20721E5174C00060DBE /* UIBezierPath+Extensions.swift in Sources */,
