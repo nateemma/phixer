@@ -1,6 +1,6 @@
 //
 //  SplashScreenViewController.swift
-//  Controller to guide the user in choosing a photo to edit
+//  Displqys splash screen while the app is being initialised
 //
 //  Created by Philip Price on 10/29/18.
 //  Copyright © 2018 Nateemma. All rights reserved.
@@ -11,39 +11,37 @@ import UIKit
 import Neon
 import Photos
 
-//TODO: make this a 'normal' ViewController?
 
-class SplashScreenViewController: CoordinatedController {
+class SplashScreenViewController: UIViewController {
     
     
     private var displayWidth : CGFloat = 0.0
     private var displayHeight : CGFloat = 0.0
-    
-    private var mainView:UIView! = UIView()
+
+    public var completionHandler : (() -> Void)?
 
     
-    /////////////////////////////
-    // MARK: - Override Base Class functions
-    /////////////////////////////
-    
-    // return the display title for this Controller
-    override public func getTitle() -> String {
-        return "phixer"
-    }
-    
-    // return the name of the help file associated with this Controller (without extension)
-    override public func getHelpKey() -> String {
-        return "About" // temp, change later
-    }
-    
+    // the current UI Theme. Note: this can change
+    public var theme = ThemeManager.currentTheme()
 
-    /////////////////////////////
-    // MARK: - Boilerplate
-    /////////////////////////////
-    
+    let iconView: UIImageView! = UIImageView()
+
     
     convenience init(){
         self.init(nibName:nil, bundle:nil)
+        
+        // Create an instance of FilterManager (in a different queue entry). This will take care of reading the configuration file etc.
+        DispatchQueue.main.async {
+            log.verbose("Loading config...")
+            FilterManager.checkSetup()
+            Coordinator.filterManager = FilterManager.sharedInstance
+            log.verbose("config loaded - calling completion handler...")
+            DispatchQueue.main.async {
+                self.completionHandler?()
+                self.dismiss(animated: true)
+            }
+        }
+
     }
     
     
@@ -55,13 +53,26 @@ class SplashScreenViewController: CoordinatedController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // common setup
-        self.prepController()
+        // Logging nicety, show that controller has changed:
+        print ("\n========== \(String(describing: type(of: self))) ==========")
 
         doLayout()
+        
+        
+        log.debug("fading in...")
+        UIView.animate(withDuration: 5.0, animations: {
+            self.iconView.alpha = 1.0
+        })
     }
     
-    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+//        log.verbose("config loaded - calling completion handler...")
+//        DispatchQueue.main.async {
+//            self.completionHandler?()
+//        }
+    }
     
     /////////////////////////////
     // MARK: - public accessors
@@ -85,35 +96,28 @@ class SplashScreenViewController: CoordinatedController {
         
         
         view.backgroundColor = theme.backgroundColor // default seems to be white
-        view.addSubview(mainView)
-        mainView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: (displayHeight-UISettings.panelHeight))
 
         
         // get app icon
-        let appIcon = UIImage(named: "AppIcon")
-        let iconView: UIImageView! = UIImageView()
+        let appIcon = UIImage(named: "app_icon")
         
         // layout constraints
-        iconView.frame = mainView.frame
+        iconView.frame = view.frame
         iconView.image = appIcon
+        self.iconView.alpha = 0.1 // we fade this in over time
         
-        mainView.addSubview(iconView)
-        iconView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: iconView.frame.size.height)
+        view.addSubview(iconView)
+        //iconView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: iconView.frame.size.width)
+        iconView.anchorInCenter(width: iconView.frame.size.width, height: iconView.frame.size.width)
 
-        
-        // Create an instance of FilterManager (in a different queue entry). This will take care of reading the configuration file etc.
-        DispatchQueue.main.async {
-            [weak self] in
-            Coordinator.filterManager = FilterManager.sharedInstance
-        }
 
-        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.splashTimeOut(sender:)), userInfo: nil, repeats: false)
+        //Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.splashTimeOut(sender:)), userInfo: nil, repeats: false)
         // Do any additional setup after loading the view.
     }
     
     @objc func splashTimeOut(sender : Timer){
-        // start the choose photo screen
-        self.coordinator?.activateRequest(id: ControllerIdentifier.choosePhoto)
+        log.verbose("Finished...")
+        self.completionHandler?()
     }
     
 

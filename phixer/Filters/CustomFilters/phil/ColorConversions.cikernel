@@ -76,3 +76,69 @@ vec3 hsv2rgb(vec3 c)
     vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
     return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
 }
+
+// the following functions are based off of the pseudocode
+// found on www.easyrgb.com
+
+vec3 lab2rgb(vec3 lab){
+    float y = (lab.x + 16.0) / 116.0;
+    float x = lab.y / 500.0 + y;
+    float z = y - lab.z / 200.0;
+
+    x = 0.95047 * ((x * x * x > 0.008856) ? x * x * x : (x - 16/116) / 7.787);
+    y = 1.00000 * ((y * y * y > 0.008856) ? y * y * y : (y - 16/116) / 7.787);
+    z = 1.08883 * ((z * z * z > 0.008856) ? z * z * z : (z - 16/116) / 7.787);
+
+    float r = x *  3.2406 + y * -1.5372 + z * -0.4986;
+    float g = x * -0.9689 + y *  1.8758 + z *  0.0415;
+    float b = x *  0.0557 + y * -0.2040 + z *  1.0570;
+
+    r = (r > 0.0031308) ? (1.055 * pow(r, 1/2.4) - 0.055) : 12.92 * r;
+    g = (g > 0.0031308) ? (1.055 * pow(g, 1/2.4) - 0.055) : 12.92 * g;
+    b = (b > 0.0031308) ? (1.055 * pow(b, 1/2.4) - 0.055) : 12.92 * b;
+
+    return vec3( max(0, min(1, r)), max(0, min(1, g)), max(0, min(1, b)) )
+}
+
+
+vec3 rgb2lab(vec3 rgb){
+    float r = rgb.x;
+    float g = rgb.y;
+    float b = rgb.z;
+    float x, y, z;
+
+    r = (r > 0.04045) ? pow((r + 0.055) / 1.055, 2.4) : r / 12.92;
+    g = (g > 0.04045) ? pow((g + 0.055) / 1.055, 2.4) : g / 12.92;
+    b = (b > 0.04045) ? pow((b + 0.055) / 1.055, 2.4) : b / 12.92;
+
+    x = (r * 0.4124 + g * 0.3576 + b * 0.1805) / 0.95047;
+    y = (r * 0.2126 + g * 0.7152 + b * 0.0722) / 1.00000;
+    z = (r * 0.0193 + g * 0.1192 + b * 0.9505) / 1.08883;
+
+    x = (x > 0.008856) ? pow(x, 1/3) : (7.787 * x) + 16/116;
+    y = (y > 0.008856) ? pow(y, 1/3) : (7.787 * y) + 16/116;
+    z = (z > 0.008856) ? pow(z, 1/3) : (7.787 * z) + 16/116;
+
+    return [(116 * y) - 16, 500 * (x - y), 200 * (y - z)]
+}
+
+// calculate the perceptual distance between colors in CIELAB
+// https://github.com/THEjoezack/ColorMine/blob/master/ColorMine/ColorSpaces/Comparisons/Cie94Comparison.cs
+
+float deltaE(vec3 labA, vec3 labB){
+    float  deltaL = labA.x - labB.x;
+    float  deltaA = labA.y - labB.y;
+    float  deltaB = labA.z - labB.z;
+    float  c1 = sqrt(labA.y * labA.y + labA.z * labA.z);
+    float  c2 = sqrt(labB.y * labB.y + labB.z * labB.z);
+    float  deltaC = c1 - c2;
+    float  deltaH = deltaA * deltaA + deltaB * deltaB - deltaC * deltaC;
+    deltaH = deltaH < 0 ? 0 : sqrt(deltaH);
+    float  sc = 1.0 + 0.045 * c1;
+    float  sh = 1.0 + 0.015 * c1;
+    float  deltaLKlsl = deltaL / (1.0);
+    float  deltaCkcsc = deltaC / (sc);
+    float  deltaHkhsh = deltaH / (sh);
+    float  i = deltaLKlsl * deltaLKlsl + deltaCkcsc * deltaCkcsc + deltaHkhsh * deltaHkhsh;
+    return i < 0 ? 0 : sqrt(i);
+}

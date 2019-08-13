@@ -65,6 +65,7 @@ class EditList {
     
     // save the current list to persistent storage
     public static func save() {
+        EditList.trimList()
         let rec:AssetListRecord = AssetListRecord()
         rec.key = EditList.assetKey
         rec.assets = EditList._editList
@@ -78,6 +79,14 @@ class EditList {
         }
     }
     
+    // trim the list to the max allowable size
+    private static func trimList(){
+        if EditList._editList.count > maxItems {
+            while EditList._editList.count > maxItems {
+                EditList._editList.remove(at: EditList._editList.count-1)
+            }
+        }
+    }
     
     // check to see whether the list has been loaded and, if not, load it
     private static func checkList() {

@@ -16,6 +16,8 @@ class BWZoneFilter: CIFilter {
 
     // this kernel converts image colours to B&W 'zone' values, based on Ansel Adams Zone system
     
+    // Note: lots of playing around with different ways to calculate luminosity. I left the variations in here (commented out) for reference
+    
     let kernel = CIColorKernel(source:
         "vec3 rgb2hsv(vec3 c)\n" +
             "{\n" +
@@ -37,7 +39,7 @@ class BWZoneFilter: CIFilter {
             "float rgb2l(vec3 c)\n" +
             "{\n" +
             "    float lum = (0.212655 * c.r) + (0.715158 * c.g) + (0.072187 * c.b);\n" + // Photometric/digital luminance from ITU BT.709
-            "    float plum = 0.0;\n" + // CIE perceived luminance
+            "    float plum = 0.0;\n" + // CIE perceived luminance (linear in shadows)
             "    if (lum <= (216.0/24389.0)) {\n" +
             "        plum = lum * (24389.0/27.0);\n" +
             "    } else {\n" +

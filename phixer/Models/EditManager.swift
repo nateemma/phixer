@@ -24,6 +24,8 @@ class EditManager {
     private static var _input:CIImage? = nil
     private static var _preview:CIImage? = nil
     private static var _filtered:CIImage? = nil
+    
+    //private static var _id:Int = 0
 
     
     public static var inputImage:CIImage? {

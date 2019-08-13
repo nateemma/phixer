@@ -21,7 +21,7 @@ let themeColor = UIColor(red: 0.01, green: 0.41, blue: 0.22, alpha: 1.0)
 //let filterManager:FilterManager = FilterManager.sharedInstance
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UINavigationControllerDelegate {
     var window: UIWindow?
     var appCoordinator: AppCoordinator!
 
@@ -77,12 +77,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //log.addDestination(file)
         //log.addDestination(cloud)
 
-        // set up the window and start the coordinator
+        // set up the window
         window = UIWindow(frame: UIScreen.main.bounds)
-        appCoordinator = AppCoordinator(window: window)
-        appCoordinator.startRequest(completion: { [weak self] in
-            log.info("AppCoordinator finished")
-        } )
+        Coordinator.window = window
+
+        setupAds()
+        
+        // completion handler for splash screen
+        let completionHandler:()->Void = {
+            self.appCoordinator = AppCoordinator()
+            self.appCoordinator.startRequest(completion: { [weak self] in
+                print("AppCoordinator finished")
+            } )
+        }
+        
+        // start the splash screen
+        let initApp = SplashScreenViewController()
+        initApp.completionHandler = completionHandler
+        window?.rootViewController = initApp
+        window?.makeKeyAndVisible()
         
         return true
     }
@@ -97,6 +110,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        FilterConfiguration.commitChanges()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -117,6 +131,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         ThemeManager.applyTheme(key: ThemeManager.getSavedTheme())
 
+    }
+
+    
+    private func setupAds() {
+        // set up Google banner ad framework. Use the Firebase library to configure APIs
+        FirebaseApp.configure()
+        
+        //GADMobileAds.configure(withApplicationID: "ca-app-pub-3940256099942544~1458002511"); // Test ID, replace when ready
+        //GADMobileAds.configure(withApplicationID: Admob.appID)
+        // appID has been moved to info.plist
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
     }
 
 }

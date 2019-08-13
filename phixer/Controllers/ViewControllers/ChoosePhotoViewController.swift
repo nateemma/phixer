@@ -52,7 +52,7 @@ class ChoosePhotoViewController: CoordinatedController, UIImagePickerControllerD
     convenience init(){
         self.init(nibName:nil, bundle:nil)
         EditList.load()
-        FilterConfiguration.loadSettings()
+        //FilterConfiguration.loadSettings()
     }
     
     
@@ -191,12 +191,12 @@ class ChoosePhotoViewController: CoordinatedController, UIImagePickerControllerD
         label.text = "Latest Photos:"
         
         let recentStrip:SimpleSwipeView! = SimpleSwipeView()
+        recentStrip.delegate = self
         recentStrip.frame.size.height = imageHeight
         recentStrip.frame.size.width = mainView.frame.size.width
         recentStrip.backgroundColor = theme.backgroundColor
         recentStrip.disableWrap()
-        recentStrip.delegate = self
-
+ 
         let numItems = 5
         var itemList: [Adornment] = []
 
@@ -247,11 +247,12 @@ class ChoosePhotoViewController: CoordinatedController, UIImagePickerControllerD
        
         
         let editStrip:SimpleSwipeView! = SimpleSwipeView()
+        editStrip.delegate = self
         editStrip.frame.size.height = imageHeight
         editStrip.frame.size.width = mainView.frame.size.width
         editStrip.backgroundColor = theme.backgroundColor
         editStrip.disableWrap()
-        editStrip.delegate = self
+
         
         let numItems = 5
         var itemList: [Adornment] = []

@@ -332,8 +332,12 @@ class FilterParametersView: UIView {
    
     private func setTitle(){
         if showFiltersEnabled {
-            let currName = EditManager.getPreviewFilter()?.title  ?? "(No Filter)"
-            titleLabel.text = "Preview: \(currName)"
+            let currName = EditManager.getPreviewFilter()?.title  ?? "(No Preview)"
+            titleLabel.text = "\(currName)"
+            //titleLabel.text = "Preview: \(currName)"
+            if EditManager.getAppliedCount() > 0 {
+                titleLabel.text = titleLabel.text! + " (+\(EditManager.getAppliedCount()))"
+            }
         } else {
             titleLabel.text = "Original"
        }

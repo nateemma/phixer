@@ -22,10 +22,11 @@ class AppCoordinator: Coordinator {
     // MARK:  Interaction with AppDelegate. Do not put this in any other Coodinator classes
     /////////////////////////////
 
-    var window: UIWindow? = nil
+    //var window: UIWindow? = nil
     
-    init(window: UIWindow?) {
-        self.window = window
+    //init(window: UIWindow?) {
+    override init() {
+        //Coordinator.window = window
         
         Coordinator.navigationController = UINavigationController()
 
@@ -47,7 +48,7 @@ class AppCoordinator: Coordinator {
             // Logging nicety, show that controller has changed:
             print ("\n========== \(String(describing: type(of: self))) ==========\n")
             
-            guard let window = window else {
+            guard let window = Coordinator.window else {
                 return
             }
             
@@ -63,11 +64,9 @@ class AppCoordinator: Coordinator {
             self.subControllers = [:]
             self.validControllers = []
             
-            //TODO: display transition screen while the App is being prepared???
-            DispatchQueue.main.async(execute: { [weak self] in
-                self?.prepareApp()
-                self?.startMainController()
-            })
+            prepareApp()
+            startMainController()
+
         }
         
     }
@@ -81,7 +80,7 @@ class AppCoordinator: Coordinator {
  
     func prepareApp(){
         
-        setupAds()
+        //setupAds()
         setupTheme()
         setupConfig()
         setupCoordinator()
@@ -126,23 +125,6 @@ class AppCoordinator: Coordinator {
     
     private func setupCoordinator() {
         
-        /*** old version (start at main controller
- 
-        self.mainControllerId = .mainMenu
-        
-        // define the list of valid Controllers
-        self.validControllers = [ .mainMenu, .choosePhoto, .edit, .browseFilters, .browseStyleTransfer, .settings, .help ]
-        
-        // map controllers to their associated coordinators
-        self.coordinatorMap [ControllerIdentifier.choosePhoto] = CoordinatorIdentifier.choosePhoto
-        self.coordinatorMap [ControllerIdentifier.edit] = CoordinatorIdentifier.edit
-        self.coordinatorMap [ControllerIdentifier.browseFilters] = CoordinatorIdentifier.browseFilters
-        self.coordinatorMap [ControllerIdentifier.browseStyleTransfer] = CoordinatorIdentifier.browseStyleTransfer
-        self.coordinatorMap [ControllerIdentifier.settings] = CoordinatorIdentifier.settings
-        self.coordinatorMap [ControllerIdentifier.help] = CoordinatorIdentifier.help
-
-         ***/
-        
         // new version, start at "Choose Photo"
         self.mainControllerId = .choosePhoto
         self.validControllers = [.choosePhoto, .mainMenu ]
@@ -182,22 +164,12 @@ class AppCoordinator: Coordinator {
 
     private func startMainController() {
         
-        // a little different since nothing is running yet. Set the top-level Menu as the root ViewController
-        
-        /*** old version (start at main controller
-        self.mainController = MainMenuController()
-        self.mainController?.coordinator = self
-        self.mainControllerTag = (self.mainController?.getTag())!
-        self.mainControllerId = .mainMenu
-        //DispatchQueue.main.async(execute: {
-            Coordinator.navigationController?.setViewControllers([self.mainController!], animated: false)
-       //})
-         ***/
         self.mainController = ControllerFactory.getController(self.mainControllerId)
         self.mainController?.coordinator = self
         self.mainControllerTag = (self.mainController?.getTag())!
         Coordinator.navigationController?.setViewControllers([self.mainController!], animated: false)
 
+        /*** done elsewhere
         // Create an instance of FilterManager (in a different queue entry). This will take care of reading the configuration file etc.
         //DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(2000)) {
         DispatchQueue.global(qos: .utility).async() {
@@ -205,11 +177,7 @@ class AppCoordinator: Coordinator {
             FilterManager.checkSetup()
             Coordinator.filterManager = FilterManager.sharedInstance
         }
+         ***/
 
-       // self.activate(self.mainControllerId)
-//        if self.mainController != nil {
-//            Coordinator.navigationController = UINavigationController(rootViewController: self.mainController!)
-//            //window?.rootViewController = self.mainController
-//        }
     }
 }

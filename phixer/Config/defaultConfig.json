@@ -809,7 +809,7 @@
         { "key": "Relic",  "title": "Relic", "slow": false, "show": true, "rating": 0 },
         { "key": "SteampunkAfternoon",  "title": "Steampunk Afternoon", "slow": false, "show": true, "rating": 0 },
         { "key": "SundayAloneTime",  "title": "Sunday Alone Time", "slow": false, "show": true, "rating": 0 },
-        { "key": "ThankHeavenforLittleGirls",  "title": "Thank Heavenfor Little Girls", "slow": false, "show": true, "rating": 0 },
+        { "key": "ThankHeavenForLittleGirls",  "title": "Thank Heavenfor Little Girls", "slow": false, "show": true, "rating": 0 },
         { "key": "TheNavigator",  "title": "The Navigator", "slow": false, "show": true, "rating": 0 },
         { "key": "TurkishBlast",  "title": "Turkish Blast", "slow": false, "show": true, "rating": 0 },
         
@@ -1172,7 +1172,7 @@
     
     "categories": [
         {"key": "none",
-            "title": "No Filters",
+            "title": "No Preview",
             "filters": [ "NoFilter" ]
         },
         
@@ -1770,8 +1770,8 @@
                             "pr_apocalypse", "pr_film_ilford", "pr_porcelain",
                             "pr_graphicex01", "pr_graphicex02", "pr_graphicexhdr",
                             "pr_pbd_softv1", "pr_pbd_softv2", "pr_pbd_softv3", "pr_pbd_softv4",
-                            "pr_pbd_softv5", "pr_pbd_wedding",
-                            "pr_leaks", "pr_upl_bw", "pr_dramatic"
+                            "pr_pbd_softhdr", "pr_pbd_wedding",
+                            "pr_leaks", "pr_upl_bw", "pr_dramatic", "custom"
             ]
         },
         
@@ -1817,7 +1817,7 @@
             "categories": [ "pr_apocalypse", "pr_film_ilford", "pr_porcelain",
                 "pr_graphicex01", "pr_graphicex02", "pr_graphicexhdr",
                 "pr_pbd_softv1", "pr_pbd_softv2", "pr_pbd_softv3", "pr_pbd_softv4",
-                "pr_pbd_softv5", "pr_pbd_wedding",
+                "pr_pbd_softhdr", "pr_pbd_wedding",
                 "pr_leaks", "pr_upl_bw", "pr_dramatic"
             ]
         },

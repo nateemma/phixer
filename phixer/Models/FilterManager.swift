@@ -661,13 +661,13 @@ class FilterManager{
         
         FilterManager.checkSetup()
         
-        if (!RenderViewCache.contains(key:key)){
+        if (!RenderViewCache.contains(key:key)) {
             // not an error, just lazy allocation. Create the RenderView and add it to the dictionary
             log.debug("create key:\(key)")
             RenderViewCache.add(RenderView(), key:key)
         }
         
-        return (RenderViewCache.get(key:key))!
+        return (RenderViewCache.get(key:key))
     }
     
     

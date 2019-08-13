@@ -14,6 +14,8 @@ import UIKit
 
 class Coordinator: CoordinatorDelegate {
 
+    // reference to the UI Window
+    static var window: UIWindow? = nil
     
     // id of the current Coordinator
     var id: CoordinatorIdentifier

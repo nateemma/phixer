@@ -804,6 +804,7 @@ class SwipeView: UIView, UIScrollViewDelegate, UIGestureRecognizerDelegate {
     //MARK: - View loading
     
     func loadViewAtIndex(index: Int) -> UIView {
+        
         var view = dataSource?.viewForItemAtIndex(index: index, swipeView: self, reusingView: dequeueItemView())
         if (view == nil) {
             view = UIView()
@@ -824,6 +825,13 @@ class SwipeView: UIView, UIScrollViewDelegate, UIGestureRecognizerDelegate {
     }
     
     func updateItemSizeAndCount() {
+        guard dataSource != nil else {
+            numberOfItems = 0
+            itemSize.width = 1
+            itemSize.height = 1
+            return
+        }
+        
         //get number of items
         numberOfItems = (dataSource?.numberOfItemsInSwipeView(swipeView: self))!
         

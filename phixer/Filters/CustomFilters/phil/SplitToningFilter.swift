@@ -17,8 +17,10 @@ class SplitToningFilter: CIFilter {
     var inputImage: CIImage?
     var inputHighlightHue:CGFloat = 0.0
     var inputHighlightSaturation:CGFloat = 0.5
+    var inputHighlightBrightness:CGFloat = 0.901961
     var inputShadowHue:CGFloat = 0.1
     var inputShadowSaturation:CGFloat = 0.5
+    var inputShadowBrightness:CGFloat = 0.270588
 
     
     // default settings
@@ -26,8 +28,10 @@ class SplitToningFilter: CIFilter {
         inputImage = nil
         inputHighlightHue = 0.0
         inputHighlightSaturation = 0.5
+        inputHighlightBrightness = 0.901961
         inputShadowHue = 0.1
         inputShadowSaturation = 0.5
+        inputShadowBrightness = 0.270588
     }
     
     
@@ -57,14 +61,23 @@ class SplitToningFilter: CIFilter {
                                   kCIAttributeType: kCIAttributeTypeScalar],
             
             "inputHighlightSaturation": [kCIAttributeIdentity: 0,
-                                  kCIAttributeClass: "NSNumber",
-                                  kCIAttributeDefault: 0.5,
-                                  kCIAttributeDisplayName: "Highlight Saturation",
-                                  kCIAttributeMin: 0.0,
-                                  kCIAttributeSliderMin: 0.0,
-                                  kCIAttributeSliderMax: 1.0,
-                                  kCIAttributeType: kCIAttributeTypeScalar],
+                                         kCIAttributeClass: "NSNumber",
+                                         kCIAttributeDefault: 0.5,
+                                         kCIAttributeDisplayName: "Highlight Saturation",
+                                         kCIAttributeMin: 0.0,
+                                         kCIAttributeSliderMin: 0.0,
+                                         kCIAttributeSliderMax: 1.0,
+                                         kCIAttributeType: kCIAttributeTypeScalar],
             
+            "inputHighlightBrightness": [kCIAttributeIdentity: 0,
+                                         kCIAttributeClass: "NSNumber",
+                                         kCIAttributeDefault: 0.901961,
+                                         kCIAttributeDisplayName: "Highlight Brightness",
+                                         kCIAttributeMin: 0.0,
+                                         kCIAttributeSliderMin: 0.0,
+                                         kCIAttributeSliderMax: 1.0,
+                                         kCIAttributeType: kCIAttributeTypeScalar],
+
             "inputShadowHue": [kCIAttributeIdentity: 0,
                                   kCIAttributeClass: "NSNumber",
                                   kCIAttributeDefault: 0.1,
@@ -81,7 +94,17 @@ class SplitToningFilter: CIFilter {
                            kCIAttributeMin: 0.0,
                            kCIAttributeSliderMin: 0.0,
                            kCIAttributeSliderMax: 1.0,
-                           kCIAttributeType: kCIAttributeTypeScalar]
+                           kCIAttributeType: kCIAttributeTypeScalar],
+            
+            "inputShadowBrightness": [kCIAttributeIdentity: 0,
+                                         kCIAttributeClass: "NSNumber",
+                                         kCIAttributeDefault: 0.270588,
+                                         kCIAttributeDisplayName: "Shadow Brightness",
+                                         kCIAttributeMin: 0.0,
+                                         kCIAttributeSliderMin: 0.0,
+                                         kCIAttributeSliderMax: 1.0,
+                                         kCIAttributeType: kCIAttributeTypeScalar]
+
         ]
     }
     
@@ -94,10 +117,14 @@ class SplitToningFilter: CIFilter {
             inputHighlightHue = value as! CGFloat
         case "inputHighlightSaturation":
             inputHighlightSaturation = value as! CGFloat
+        case "inputHighlightBrightness":
+            inputHighlightBrightness = value as! CGFloat
         case "inputShadowHue":
             inputShadowHue = value as! CGFloat
         case "inputShadowSaturation":
             inputShadowSaturation = value as! CGFloat
+        case "inputShadowBrightness":
+            inputShadowBrightness = value as! CGFloat
         default:
             log.error("Invalid key: \(key)")
         }
@@ -116,13 +143,13 @@ class SplitToningFilter: CIFilter {
         }
         
         // for now, apply CIFalseFilter and Screen Blend to emulate the effect
-        //  TODO: combine these into a kernel so that we can take the luminace value of the source pixel
+        //  TODO: combine these into a kernel so that we can take the luminance value of the source pixel
         
         // Original idea taken from: https://stackoverflow.com/questions/7961929/split-tone-effect-using-core-image-filters/8092453#8092453
         // Values are the result of playing around. Taken from reference colours used in HSV filter
 
-        let color1 = CIColor(h: inputShadowHue, s: inputShadowSaturation, v: 0.270588, alpha:0.5)
-        let color2 = CIColor(h: inputHighlightHue, s: inputHighlightSaturation, v: 0.901961, alpha:0.5)
+        let color1 = CIColor(h: inputShadowHue, s: inputShadowSaturation, v: inputShadowBrightness, alpha:1.0)
+        let color2 = CIColor(h: inputHighlightHue, s: inputHighlightSaturation, v: inputHighlightBrightness, alpha:1.0)
         //log.verbose("CIColor1: \(color1), CIColor2: \(color2)")
 
         // DBG: UIColor much more user friendly, so check colour conversion with that

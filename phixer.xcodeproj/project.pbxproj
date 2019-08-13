@@ -1014,7 +1014,6 @@
 		258D65D422E7B24700D4EB8B /* MainMenuCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258D65D322E7B24700D4EB8B /* MainMenuCoordinator.swift */; };
 		258D65D622E897F000D4EB8B /* SwipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258D65D522E897F000D4EB8B /* SwipeView.swift */; };
 		258D65D822E8CF8300D4EB8B /* SimpleSwipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258D65D722E8CF8300D4EB8B /* SimpleSwipeView.swift */; };
-		258D65DA22E934BA00D4EB8B /* SplashScreenCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258D65D922E934BA00D4EB8B /* SplashScreenCoordinator.swift */; };
 		258D65DC22E9368E00D4EB8B /* SplashScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258D65DB22E9368E00D4EB8B /* SplashScreenViewController.swift */; };
 		258EA08E1ED90A7000D5E20E /* SettingsMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258EA08D1ED90A7000D5E20E /* SettingsMenuController.swift */; };
 		258EA0931ED9472600D5E20E /* ResetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258EA0921ED9472600D5E20E /* ResetViewController.swift */; };
@@ -2508,7 +2507,6 @@
 		258D65D322E7B24700D4EB8B /* MainMenuCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuCoordinator.swift; sourceTree = "<group>"; };
 		258D65D522E897F000D4EB8B /* SwipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeView.swift; sourceTree = "<group>"; };
 		258D65D722E8CF8300D4EB8B /* SimpleSwipeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleSwipeView.swift; sourceTree = "<group>"; };
-		258D65D922E934BA00D4EB8B /* SplashScreenCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashScreenCoordinator.swift; sourceTree = "<group>"; };
 		258D65DB22E9368E00D4EB8B /* SplashScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashScreenViewController.swift; sourceTree = "<group>"; };
 		258EA08D1ED90A7000D5E20E /* SettingsMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsMenuController.swift; sourceTree = "<group>"; };
 		258EA0921ED9472600D5E20E /* ResetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResetViewController.swift; sourceTree = "<group>"; };
@@ -3395,8 +3393,10 @@
 				258F09BA2192847F0082FE2A /* AdaptiveThresholdFilter.swift */,
 				25F21FE6220B75EF005C449F /* AutoAdjustFilter.swift */,
 				2537A1BE21D28F6E00060DBE /* BrightnessFilter.swift */,
+				2500473822FFCF5B0025309F /* BWZoneFilter.swift */,
 				25F21FEA220B8867005C449F /* CLAHEFilter.swift */,
 				2515987F2194B97E0067AA00 /* ClarityFilter.swift */,
+				2500473A2300B4AE0025309F /* ColorConversions.cikernel */,
 				2537A1E821E030A700060DBE /* ColorSketchFilter.swift */,
 				2537A1E621E0305700060DBE /* ColorSobelFilter.swift */,
 				2537A1BA21D1873400060DBE /* ContrastFilter.swift */,
@@ -3413,7 +3413,6 @@
 				25F21F7722016ED3005C449F /* HighPassSharpeningFilter.swift */,
 				25F21FE8220B8482005C449F /* HighPassSkinSmoothingFilter.swift */,
 				25F21FF42210B932005C449F /* HueRangeFilter.swift */,
-				2500473822FFCF5B0025309F /* BWZoneFilter.swift */,
 				2537A1E221E0220F00060DBE /* LaplacianGaussianFilter.swift */,
 				2515987D2193CD490067AA00 /* LumaRangeFilter.swift */,
 				25F21FFA22272F0D005C449F /* MaskedSkinSmoothingFilter.swift */,
@@ -3436,7 +3435,6 @@
 				2568BDD621BEC72600560287 /* StyleTransferFilter.swift */,
 				2537A20A21E7BC8400060DBE /* UnsharpMaskFilter.swift */,
 				2537A1C021D31F4B00060DBE /* WhiteBalanceFilter.swift */,
-				2500473A2300B4AE0025309F /* ColorConversions.cikernel */,
 			);
 			path = phil;
 			sourceTree = "<group>";
@@ -3514,7 +3512,6 @@
 				2537A23321EFC88200060DBE /* README.md */,
 				2537A22D21EE78AC00060DBE /* SettingsCoordinator.swift */,
 				2537A22521EE4EA900060DBE /* SimpleCoordinator.swift */,
-				258D65D922E934BA00D4EB8B /* SplashScreenCoordinator.swift */,
 				2537A22921EE772100060DBE /* StyleTransferGalleryCoordinator.swift */,
 				2537A23121EED2AC00060DBE /* SubControllerDelegate.swift */,
 			);
@@ -6581,7 +6578,6 @@
 				25F21FDE2208B078005C449F /* IC_CGFloatExtension.swift in Sources */,
 				258F09BB2192847F0082FE2A /* AdaptiveThresholdFilter.swift in Sources */,
 				25FD3CDA22ED1DBF00A1C00A /* MenuView.swift in Sources */,
-				258D65DA22E934BA00D4EB8B /* SplashScreenCoordinator.swift in Sources */,
 				25934FB31DD5109C00C3D665 /* BlendGalleryViewController.swift in Sources */,
 				25FD3C1622EA3DE000A1C00A /* CategoryGalleryViewCell.swift in Sources */,
 				2507160B1DBECDF200CDDF42 /* Admob.swift in Sources */,

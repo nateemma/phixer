@@ -59,7 +59,7 @@ class SimpleSwipeView: UIView {
         itemList = items
         buildItemViews()
         //DispatchQueue.main.asyncAfter(deadline: <#T##DispatchTime#>, execute: <#T##() -> Void#>) { [weak self] in
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) { [weak self] in
             self?.swipeview?.reloadData()
         }
         //log.verbose("items:\(items)")

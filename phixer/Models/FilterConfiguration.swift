@@ -106,8 +106,8 @@ class FilterConfiguration{
         loadFilterConfig()
         if !FilterConfiguration.overwriteConfig {
             loadFromDatabase()
-        } else {
-            clearDatabase()
+//        } else {
+//            clearDatabase()
         }
         commitChanges()
         //}
