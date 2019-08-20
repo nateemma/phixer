@@ -87,6 +87,8 @@ protocol SwipeViewDataSource {
 
 class SwipeView: UIView, UIScrollViewDelegate, UIGestureRecognizerDelegate {
     
+    private static let defaultScrollDuration = 1.0
+    
     private(set) var scrollView: UIScrollView
     private(set) var itemViews: [Int: UIView]?
     private(set) var itemViewPool: [UIView]?
@@ -94,7 +96,8 @@ class SwipeView: UIView, UIScrollViewDelegate, UIGestureRecognizerDelegate {
     private(set) var previousContentOffset = CGPoint.zero
     private(set) var itemSize = CGSize.zero
     private(set) var suppressScrollEvent = false
-    private(set) var scrollDuration = 0.0
+    //private(set) var scrollDuration = 0.0
+    private(set) var scrollDuration = defaultScrollDuration
     private(set) var scrolling = false
     private(set) var startTime = 0.0
     private(set) var lastTime = 0.0
@@ -189,10 +192,15 @@ class SwipeView: UIView, UIScrollViewDelegate, UIGestureRecognizerDelegate {
             }
         }
     }
-    var decelerationRate: CGFloat = 0.0 {
+    var decelerationRate: CGFloat = UIScrollView.DecelerationRate.normal.rawValue {
         didSet {
             if (abs(self.decelerationRate - oldValue) > 0.001) {
-                scrollView.decelerationRate = UIScrollView.DecelerationRate(rawValue: decelerationRate)
+                //scrollView.decelerationRate = UIScrollView.DecelerationRate(rawValue: decelerationRate)
+                if self.decelerationRate > 1.0 {
+                    scrollView.decelerationRate = UIScrollView.DecelerationRate.fast
+                } else {
+                    scrollView.decelerationRate = UIScrollView.DecelerationRate.normal
+               }
             }
         }
     }
@@ -246,7 +254,8 @@ class SwipeView: UIView, UIScrollViewDelegate, UIGestureRecognizerDelegate {
         scrollView.alwaysBounceVertical = vertical && bounces
         scrollView.isPagingEnabled = pagingEnabled
         scrollView.isScrollEnabled = scrollEnabled
-        scrollView.decelerationRate = UIScrollView.DecelerationRate(rawValue: self.decelerationRate)
+        //scrollView.decelerationRate = UIScrollView.DecelerationRate(rawValue: self.decelerationRate)
+        scrollView.decelerationRate = UIScrollView.DecelerationRate.normal
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = false
         scrollView.scrollsToTop = false
@@ -551,7 +560,8 @@ class SwipeView: UIView, UIScrollViewDelegate, UIGestureRecognizerDelegate {
         updateScrollViewDimensions()
         updateLayout()
         if pagingEnabled && !scrolling {
-            scrollToItemAtIndex(index: self.currentItemIndex, duration:0.25)
+            //scrollToItemAtIndex(index: self.currentItemIndex, duration:0.25)
+            scrollToItemAtIndex(index: self.currentItemIndex, duration:SwipeView.defaultScrollDuration)
         }
     }
     
@@ -618,7 +628,8 @@ class SwipeView: UIView, UIScrollViewDelegate, UIGestureRecognizerDelegate {
                 setContentOffsetWithoutEvent(contentOffset: CGPoint(x: scrollOffset * itemSize.width, y: 0.0))
             }
             didScroll()
-            if (time == 1.0) {
+            if (time >= 1.0) {
+            //if abs(time - CGFloat(self.scrollDuration)) < 0.001  {
                 scrolling = false
                 didScroll()
                 delegate?.swipeViewDidEndScrollingAnimation?(swipeView: self)
@@ -732,7 +743,8 @@ class SwipeView: UIView, UIScrollViewDelegate, UIGestureRecognizerDelegate {
     
     func setCurrentPage(currentPage: Int) {
         if (currentPage * itemsPerPage != currentItemIndex) {
-            scrollToPage(page: currentPage, duration:0.0)
+            //scrollToPage(page: currentPage, duration:0.0)
+            scrollToPage(page: currentPage, duration:SwipeView.defaultScrollDuration)
         }
     }
     

@@ -122,7 +122,7 @@ class ScrollableRenderView: UIScrollView, UIScrollViewDelegate {
     }
     
 	func configureFor(_ imageSize: CGSize) {
-        log.verbose("size:\(imageSize)")
+        //log.verbose("size:\(imageSize)")
 		self.contentSize = imageSize
 		self.setMaxMinZoomScaleForCurrentBounds()
         //self.zoomScale = self.minimumZoomScale

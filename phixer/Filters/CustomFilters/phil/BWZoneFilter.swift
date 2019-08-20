@@ -84,7 +84,7 @@ class BWZoneFilter: CIFilter {
             "adj = adj * (rlum - ov);\n" + // smooth out the value within the zone
             "ov = clamp(ov + adj, ov, rlum);\n" +
             //"ov = ov + adj*ov;\n" + // add adjustment from zone boundary
-            "vec3 ohsv = vec3(ihsv.x, 0.0, ov);\n" +
+            "vec3 ohsv = vec3(ihsv.x, ihsv.x, ov);\n" +
             "vec3 orgb = hsv2rgb(ohsv);\n" +
             "vec4 result = vec4(orgb, 1.0);\n" +
             "return linear_to_srgb(result);\n" +
@@ -145,7 +145,8 @@ class BWZoneFilter: CIFilter {
         
         // equalise the histogram (i.e. try to fix the exposure)
         let adjImg = inputImage
-            //.applyingFilter("YUCIHistogramEqualization")
+            .applyingFilter("CIPhotoEffectMono")
+            .applyingFilter("YUCIHistogramEqualization")
 
         let extent = inputImage.extent
         let arguments = [adjImg] as [Any]

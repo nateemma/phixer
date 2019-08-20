@@ -210,7 +210,9 @@ class FilterConfiguration{
                     var def:FilterDefinition = FilterDefinition()
 
                     addNullFilter() // useful for showing unmodified image
+                    /*** don't pre-allocate filters, do it as-needed to save memory
                     addAvailableFilters()  // adds all CIFilters, including custom filters
+                     ***/
                     
                     // 'Slow' filters (allows the UI to take action)
                     for f in parsedConfig["slow"].arrayValue {
@@ -460,9 +462,11 @@ class FilterConfiguration{
         // scan through list to make sure they are valid filters
         //FilterConfiguration.categoryFilters[category] = []
         //var list:[String] = []
-        let validKeys = FilterFactory.getFilterList()
+
+//        let validKeys = FilterFactory.getFilterList()
         for f in filters {
-            if (validKeys.contains(f)) {
+            /** don't check because we don't allocate the filters until they are requested (i.e. no record of them until then) **/
+            //            if (validKeys.contains(f)) {
                 if FilterConfiguration.categoryFilters[category] == nil {
                     FilterConfiguration.categoryFilters[category] = []
                 }
@@ -471,13 +475,13 @@ class FilterConfiguration{
                 }
                 //list.append(f)
                 
-                // double check
-                if !FilterConfiguration.categoryFilters[category]!.contains(f){
-                    log.error("ERROR: did not add to category:\(category)")
-                }
-            } else {
-                log.warning("Ignoring filter: \(f)")
-            }
+//                // double check
+//                if !FilterConfiguration.categoryFilters[category]!.contains(f){
+//                    log.error("ERROR: did not add to category:\(category)")
+//                }
+//            } else {
+//                log.warning("Ignoring filter: \(f)")
+//            }
         }
     }
 
@@ -557,7 +561,7 @@ class FilterConfiguration{
 
     
     // convert the definition of the filter into FilterDescriptor form
-    static func makeFilterDefinition(_ name:String) -> FilterDefinition? {
+    public static func makeFilterDefinition(_ name:String) -> FilterDefinition? {
         var def:FilterDefinition? = nil
         //var filter: CIFilter? = nil
         

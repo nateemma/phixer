@@ -27,6 +27,7 @@ protocol ImageManagerDelegate: class {
 class ImageManager {
     
 
+    private static let defaultSampleName:String = "sample_beach_1678.png"
     
     //////////////////////////////////
     // MARK: - Blend Image/Layer Management
@@ -377,7 +378,7 @@ class ImageManager {
                 if (_sampleNameList.count>0) {
                     _currSampleName = _sampleNameList[0]
                 } else {
-                    _currSampleName = "sample_beach_1678.png" // desperation, hard-code the name
+                    _currSampleName = defaultSampleName // desperation, hard-code the name
                 }
             }
         }
@@ -551,14 +552,21 @@ class ImageManager {
             _currEditSize = _currSampleSize // just to set it to something reasonable
             _currEditName = _currSampleName
             log.debug("Edit image not set")
-            // look up name of latest photo in camera roll
-            getLatestPhotoName(completion: { (name: String?) in
-                if name == nil { // case where there is no photo (e.g. on simulator)
-                    _currEditName = _currSampleName
-                } else {
-                    _currEditName = name!
-                }
-            })
+            
+            // get the most recently used photo
+            _currEditName = EditList.getLatest()
+            
+            if (_currEditName.isEmpty){
+                
+                // No photo selected, so look up name of latest photo in camera roll
+                getLatestPhotoName(completion: { (name: String?) in
+                    if name == nil { // case where there is no photo (e.g. on simulator)
+                        _currEditName = _currSampleName
+                    } else {
+                        _currEditName = name!
+                    }
+                })
+            }
             
         }
         log.debug("curr edit name: \(_currEditName)")

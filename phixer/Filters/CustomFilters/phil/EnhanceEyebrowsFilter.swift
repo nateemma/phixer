@@ -119,7 +119,7 @@ class EnhanceEyebrowsFilter: CIFilter {
             return
         }
         
-        // build a compound path for the lips
+        // build a compound path for the eyebrows
         var contourList:[[CGPoint]] = [[]]
         for i in 0..<faceList.count {
             contourList.append(faceList[i].leftEyebrow)

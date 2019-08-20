@@ -45,7 +45,8 @@ class FilterDescriptor {
     private static let lookupFilterName: String = "YUCIColorLookup"
     private static let lookupArgImage: String = "inputColorLookupTable"
     private static let lookupArgIntensity: String = "inputIntensity"
-    
+    private static let lookupIntensityDefault: Float = 1.0
+
     // name of CIFilter used to create Preset filters
     private static let presetFilterName: String = "PresetFilter"
     private static let presetArgIntensity: String = "inputIntensity"
@@ -206,10 +207,10 @@ class FilterDescriptor {
         if let name = FilterConfiguration.lookupDictionary[key] {
             // set the name of the lookup image and default intensity
             self.setLookupImage(name: name)
-            self.filter?.setValue(1.0, forKey: FilterDescriptor.lookupArgIntensity)
+            self.filter?.setValue(FilterDescriptor.lookupIntensityDefault, forKey: FilterDescriptor.lookupArgIntensity)
             
             // manually add the intensity parameter to the parameter list (so that it will be displayed)
-            let p = ParameterSettings(key: FilterDescriptor.lookupArgIntensity, title: "intensity", min: 0.0, max: 1.0, value: 1.0, type: .float)
+            let p = ParameterSettings(key: FilterDescriptor.lookupArgIntensity, title: "intensity", min: 0.0, max: 1.0, value: FilterDescriptor.lookupIntensityDefault, type: .float)
             self.parameterConfiguration[FilterDescriptor.lookupArgIntensity] = p
             self.numParameters = 1
         } else {

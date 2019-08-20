@@ -58,6 +58,16 @@ class EditList {
         return EditList._editList
     }
     
+    // get the most recently used photo
+    public static func getLatest() -> String {
+        EditList.checkList()
+        if EditList._editList.count > 0 {
+            return EditList._editList[0]
+        } else {
+            return ""
+        }
+    }
+    
     // load the list from persistent storage
     public static func load() {
         EditList.checkList()

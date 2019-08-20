@@ -1,5 +1,5 @@
 {
-    "version": { "id": 4.0, "overwrite": true },
+    "version": { "id": 4.1, "overwrite": true },
     
     "slow": [ "KuwaharaFilter", "SketchFilter",
         "EnhanceLipsFilter", "EnhanceEyesFilter", "EnhanceTeethFilter", "EnhanceEyebrowsFilter", "EnhanceFaceFilter",
@@ -39,11 +39,7 @@
         "wake_by_photoshop_stock.jpg"
     ],
     
-    "samples": [
-        "sample_gnocchi_2273.png", "sample_tree_1149.png", "sample_hugger_1151.png", "sample_bagels_1986.png", "sample_glasses_1975.png",
-        "sample_parents_1758.png", "sample_beach_1678.png", "sample_nate_1429.png", "sample_emma_1427.png", 
-        "sample_girls_2143.png", "sample_pisa_2216.png", "sample_kids_9989.png"
-    ],
+    "samples": [ "sample_beach_1678.png" ],
 
     "lookup": [
         { "key": "bw_000", "image": "bw_000_neutral.JPG", "slow": false, "show": true, "rating": 0 },
@@ -275,17 +271,7 @@
         { "key": "mo_047", "image": "mo_047_luma.jpg", "slow": false, "show": true, "rating": 1 },
         { "key": "mo_048", "image": "mo_048_lod.jpg", "slow": false, "show": true, "rating": 0 },
         
-        { "key": "ms_001", "image": "ms_001_adeline.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_002", "image": "ms_002_amber.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_003", "image": "ms_003_clarisse.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_004", "image": "ms_004_emily.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_005", "image": "ms_005_gwendoline.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_006", "image": "ms_006_juliette.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_007", "image": "ms_007_marianne.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_008", "image": "ms_008_summer.jpg", "slow": false, "show": true, "rating": 1 },
-        { "key": "ms_009", "image": "ms_009_taylor.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_010", "image": "ms_010_vicky.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_011", "image": "ms_011_violet.jpg", "slow": false, "show": true, "rating": 0 },
+
         { "key": "ms_012", "image": "ms_012_soft_matte.jpg", "slow": false, "show": true, "rating": 0 },
         { "key": "ms_013", "image": "ms_013_matte.jpg", "slow": false, "show": true, "rating": 0 },
         { "key": "ms_014", "image": "ms_014_peachy_film.jpg", "slow": false, "show": true, "rating": 0 },
@@ -299,21 +285,7 @@
         { "key": "ms_022", "image": "ms_022_cinematic_1.jpg", "slow": false, "show": true, "rating": 0 },
         { "key": "ms_023", "image": "ms_023_cinematic_2.jpg", "slow": false, "show": true, "rating": 1 },
         { "key": "ms_024", "image": "ms_024_soft_blue_pastel.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_025", "image": "ms_025_break_of_dawn.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_026", "image": "ms_026_classic_sunset.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_027", "image": "ms_027_crunchy.jpg", "slow": false, "show": true, "rating": 1 },
-        { "key": "ms_028", "image": "ms_028_crystal_clear.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_029", "image": "ms_029_hollywood.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_030", "image": "ms_030_magic_golden_hour.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_031", "image": "ms_031_punch_it_up.jpg", "slow": false, "show": true, "rating": 1 },
-        { "key": "ms_032", "image": "ms_032_warm_splendor.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_033", "image": "ms_033_clean_start.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_034", "image": "ms_034_dramatic.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_035", "image": "ms_035_soft_light.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_036", "image": "ms_036_vivid.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_037", "image": "ms_037_blue_sky.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_038", "image": "ms_038_enhance_golden_hour.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_039", "image": "ms_039_october.jpg", "slow": false, "show": true, "rating": 0 },
+        
         { "key": "ms_041", "image": "ms_041_nate_1.jpg", "slow": false, "show": true, "rating": 0 },
         { "key": "ms_042", "image": "ms_042_nate_2.jpg", "slow": false, "show": true, "rating": 0 },
         { "key": "ms_043", "image": "ms_043_nate_3.jpg", "slow": false, "show": true, "rating": 0 },
@@ -329,23 +301,7 @@
         { "key": "ms_053", "image": "ms_053_matte_6.jpg", "slow": false, "show": true, "rating": 0 },
         { "key": "ms_054", "image": "ms_054_matte_7.jpg", "slow": false, "show": true, "rating": 0 },
         { "key": "ms_055", "image": "ms_055_matte_8.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_056", "image": "ms_056_fresh_lime.jpg", "slow": false, "show": true, "rating": 1 },
-        { "key": "ms_057", "image": "ms_057_happy_meadow.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_058", "image": "ms_058_walk_on_a_beach.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_059", "image": "ms_059_afternoon_play.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_060", "image": "ms_060_kasper.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_061", "image": "ms_061_rainy_day.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_062", "image": "ms_062_nice_greens.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_063", "image": "ms_063_warm_shadows.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_064", "image": "ms_064_fall_foliage_light.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_065", "image": "ms_065_fall_foliage_medium.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_066", "image": "ms_066_fall_foliage_strong.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_067", "image": "ms_067_glow_bright_flattened.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_068", "image": "ms_068_glow_bright_contrast.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_069", "image": "ms_069_glow_soft_muted.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_070", "image": "ms_070_glow_subtle_portrait.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_071", "image": "ms_071_glow_vibrance.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ms_072", "image": "ms_072_glow_vibrant_desat.jpg", "slow": false, "show": true, "rating": 0 },
+
         
         { "key": "et_001", "image": "et_001_88iiu.jpg", "slow": false, "show": true, "rating": 0 },
         { "key": "et_002", "image": "et_002_4321_1.jpg", "slow": false, "show": true, "rating": 0 },
@@ -528,71 +484,10 @@
         { "key": "tn_008", "image": "tn_008_tint_orange.jpg", "slow": false, "show": true, "rating": 0 },
         { "key": "tn_009", "image": "tn_009_tint_pink.jpg", "slow": false, "show": true, "rating": 0 },
         { "key": "tn_010", "image": "tn_010_tint_red.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "tn_011", "image": "tn_011_tint_yellow.jpg", "slow": false, "show": true, "rating": 0 },
+        { "key": "tn_011", "image": "tn_011_tint_yellow.jpg", "slow": false, "show": true, "rating": 0 }
         
-        { "key": "ur_001", "image": "ur_001_grunge.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ur_002", "image": "ur_002_grunge_bw.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ur_003", "image": "ur_003_grunge_blue.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ur_004", "image": "ur_004_grunge_green.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ur_005", "image": "ur_005_grunge_muted.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ur_006", "image": "ur_006_grunge_red.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ur_007", "image": "ur_007_grunge_sepia.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ur_008", "image": "ur_008_gritty_daylight.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ur_009", "image": "ur_009_gritty_heavy.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ur_010", "image": "ur_010_gritty_light.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ur_011", "image": "ur_011_gritty_medium.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ur_012", "image": "ur_012_gritty_warm.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ur_013", "image": "ur_013_grunge_vignette.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ur_014", "image": "ur_014_grunge_dark.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "ur_015", "image": "ur_015_grunge_simple.jpg", "slow": false, "show": true, "rating": 0 },
         
-        { "key": "vn_001", "image": "vn_001_punch.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_002", "image": "vn_002_cross_punch.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_003", "image": "vn_003_winter_retro.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_004", "image": "vn_004_old_polar.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_005", "image": "vn_005_yesteryear.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_006", "image": "vn_006_dreamy_feeling.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_007", "image": "vn_007_green_cotton.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_008", "image": "vn_008_summer_bloom.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_009", "image": "vn_009_travel_wish.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_010", "image": "vn_010_velvet_freedom.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_011", "image": "vn_011_beautiful_release.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_012", "image": "vn_012_marshmallow_happysmell.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_013", "image": "vn_013_carefully_shaven_turk.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_014", "image": "vn_014_recreational_drugs.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_015", "image": "vn_015_relic.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_016", "image": "vn_016_steampunk_afternoon.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_017", "image": "vn_017_sunday_alone_time.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_018", "image": "vn_018_thank_heaven.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_019", "image": "vn_019_navigator.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_020", "image": "vn_020_turkish_blast.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_021", "image": "vn_021_1975.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_022", "image": "vn_022_brandenburg.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_023", "image": "vn_023_crossify.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_024", "image": "vn_024_daisy.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_025", "image": "vn_025_el_hefe.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_026", "image": "vn_026_inky.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_027", "image": "vn_027_lord_kelvin.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_028", "image": "vn_028_mayor.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_029", "image": "vn_029_pop_flash.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_030", "image": "vn_030_roaster.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_031", "image": "vn_031_robin.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_032", "image": "vn_032_waldon_pond.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_033", "image": "vn_033_xpro.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_034", "image": "vn_034_arkham.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_035", "image": "vn_035_blue_dawn.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_036", "image": "vn_036_clarity.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_037", "image": "vn_037_omaha_beach.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_038", "image": "vn_038_tijuana.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_039", "image": "vn_039_wonka.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_040", "image": "vn_040_antique.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_041", "image": "vn_041_classic_muted.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_042", "image": "vn_042_grandmas_lemonade.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_043", "image": "vn_043_retro_warm.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_044", "image": "vn_044_blue_yellow.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_045", "image": "vn_045_cool.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_046", "image": "vn_046_red.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "vn_047", "image": "vn_047_red_cyan.jpg", "slow": false, "show": true, "rating": 0 }
+
     ],
     
     
@@ -778,7 +673,7 @@
         { "key": "ExposureMinus1",  "title": "Exposure -1", "slow": false, "show": true, "rating": 0 },
         { "key": "OpenHighlights",  "title": "Open Highlights", "slow": false, "show": true, "rating": 0 },
         { "key": "OpenShadows",  "title": "Open Shadows", "slow": false, "show": true, "rating": 0 },
-        { "key": "HawaiColor",  "title": "Hawai Color", "slow": false, "show": true, "rating": 0 },
+        { "key": "HawaiColor",  "title": "Hawaii Color", "slow": false, "show": true, "rating": 0 },
         { "key": "NiceGreens",  "title": "Nice Greens", "slow": false, "show": true, "rating": 0 },
         { "key": "SunnyVibe",  "title": "Sunny Vibe", "slow": false, "show": true, "rating": 0 },
         { "key": "WarmShadows",  "title": "Warm Shadows", "slow": false, "show": true, "rating": 0 },
@@ -1679,14 +1574,10 @@
         
         {"key": "misc",
             "title": "Miscellaneous",
-            "filters": ["ms_001", "ms_002", "ms_003", "ms_004", "ms_005", "ms_006", "ms_007", "ms_008", "ms_009", "ms_010",
-                "ms_011", "ms_012", "ms_013", "ms_014", "ms_015", "ms_016", "ms_017", "ms_018", "ms_019", "ms_020",
-                "ms_021", "ms_022", "ms_023", "ms_024", "ms_025", "ms_026", "ms_027", "ms_028", "ms_029", "ms_030",
-                "ms_031", "ms_032", "ms_033", "ms_034", "ms_035", "ms_036", "ms_037", "ms_038", "ms_039", "ms_041",
-                "ms_042", "ms_043", "ms_044", "ms_045", "ms_046", "ms_047", "ms_048", "ms_049", "ms_050", "ms_051",
-                "ms_052", "ms_053", "ms_054", "ms_055", "ms_056", "ms_057", "ms_058", "ms_059", "ms_060", "ms_061",
-                "ms_062", "ms_063", "ms_064", "ms_065", "ms_066", "ms_067", "ms_068", "ms_069", "ms_070", "ms_071",
-                "ms_072"
+            "filters": [ "ms_012", "ms_013", "ms_014", "ms_015", "ms_016", "ms_017", "ms_018", "ms_019", "ms_020",
+                "ms_021", "ms_022", "ms_023", "ms_024",
+                "ms_041", "ms_042", "ms_043", "ms_044", "ms_045", "ms_046", "ms_047", "ms_048", "ms_049", "ms_050", "ms_051",
+                "ms_052", "ms_053", "ms_054", "ms_055"
             ]
         },
         
@@ -1697,22 +1588,6 @@
             ]
         },
         
-        {"key": "urban",
-            "title": "Urban",
-            "filters": ["ur_001", "ur_002", "ur_003", "ur_004", "ur_005", "ur_006", "ur_007", "ur_008", "ur_009", "ur_010",
-                "ur_011", "ur_012", "ur_013", "ur_014", "ur_015", "Grunge"
-            ]
-        },
-        
-        {"key": "vintage",
-            "title": "Vintage",
-            "filters": ["vn_001", "vn_002", "vn_003", "vn_004", "vn_005", "vn_006", "vn_007", "vn_008", "vn_009", "vn_010",
-                "vn_011", "vn_012", "vn_013", "vn_014", "vn_015", "vn_016", "vn_017", "vn_018", "vn_019", "vn_020",
-                "vn_021", "vn_022", "vn_023", "vn_024", "vn_025", "vn_026", "vn_027", "vn_028", "vn_029", "vn_030",
-                "vn_031", "vn_032", "vn_033", "vn_034", "vn_035", "vn_036", "vn_037", "vn_038", "vn_039", "vn_040",
-                "vn_041", "vn_042", "vn_043", "vn_044", "vn_045", "vn_046", "vn_047"
-            ]
-        },
         
         
         {"key": "edgy",
@@ -1740,7 +1615,7 @@
             "title": "Apple Native Filters",
             "filters": [ "CIPhotoEffectChrome", "CIPhotoEffectFade", "CIPhotoEffectInstant", "CIPhotoEffectMono", "CIPhotoEffectNoir", "CIPhotoEffectProcess", "CIPhotoEffectTonal",
                 "CIPhotoEffectTransfer", "CISepiaTone", "CIColorInvert", "CIColorMonochrome", "ColorDirectedBlur", "CausticRefraction", "HomogeneousColorBlur",
-                "CICrystallize", "CIHexagonalPixellate"
+                "CICrystallize", "CIHexagonalPixellate", "CIHeightFieldFromMask"
             ]
         },
 
@@ -1753,7 +1628,8 @@
                 "CarnivalMirror", "RGBChannelCompositing", "KuwaharaFilter", "MercurializeFilter",
                 "CMYKLevels", "ChromaticAberration", "ColorDirectedBlur", "CompoundEye", "EightBit", "HomogeneousColorBlur",
                 "RGBChannelBrightnessAndContrast", "RGBChannelGaussianBlur", "TransverseChromaticAberration", "VHSTrackingLines", "CausticRefraction",
-                "HighPassFilter", "HighPassSharpeningFilter", "HueRangeFilter", "SplitToningFilter", "CIFalseColor", "CRTFilter", "GrainFilter", "BWZoneFilter"
+                "HighPassFilter", "HighPassSharpeningFilter", "HueRangeFilter", "SplitToningFilter", "CIFalseColor", "CRTFilter", "GrainFilter",
+                "BWZoneFilter", "ForegroundMaskFilter", "BackgroundBlurFilter", "ForegroundLightingFilter"
             ]
         }
 
@@ -1790,7 +1666,7 @@
 
         {"key": "filters",
             "title": "Color Transforms",
-            "categories": [ "monochrome", "color", "etikate", "manicho", "ps", "cross", "deviantart", "fade", "misc", "tint", "urban", "vintage"
+            "categories": [ "monochrome", "color", "etikate", "manicho", "ps", "cross", "deviantart", "fade", "misc", "tint"
             ]
         },
         
@@ -1809,7 +1685,7 @@
         
         {"key": "miscellaneous",
             "title": "Miscellaneous",
-            "categories": [ "edgy", "sketchy", "glitchy", "apple"
+            "categories": [ "edgy", "sketchy", "glitchy", "apple", "custom"
             ]
         },
         {"key": "new",

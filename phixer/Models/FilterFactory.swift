@@ -17,8 +17,9 @@ class FilterFactory{
     
     private static var filterList: [String:FilterDefinition] = [:]
     //private static var typeList: [String:String] = [:]
-    //private static var hideList: [String:Bool] = [:]
-    //private static var ratingList: [String:Int] = [:]
+    fileprivate static var hideList: [String:Bool] = [:]
+    fileprivate static var ratingList: [String:Int] = [:]
+    fileprivate static var slowList: [String:Bool] = [:]
     //private static var settingsList: [String:[FilterDescriptor.ParameterSettings]] = [:]
     //private static var lookupList: [String:String] = [:]
 
@@ -31,6 +32,9 @@ class FilterFactory{
         if (!FilterFactory.initDone){
             FilterFactory.initDone = true
             FilterFactory.filterList = [:]
+            FilterFactory.hideList = [:]
+            FilterFactory.ratingList = [:]
+            FilterFactory.slowList = [:]
         }
     }
     
@@ -64,7 +68,14 @@ class FilterFactory{
             let def = FilterFactory.filterList[key]
             descriptor = FilterDescriptor(key: key, definition:def!)
         } else {
-            print ("FilterFactory.createFilter() ERR: Unkown class: \(key)")
+            // not present in list, so try to create
+            let def = FilterConfiguration.makeFilterDefinition(key)
+            if def != nil {
+                FilterConfiguration.addFilter(key:(def?.key)!, definition:def!)
+                descriptor = FilterDescriptor(key: key, definition:def!)
+            } else {
+                print ("FilterFactory.createFilter() ERR: Unkown class: \(key)")
+            }
         }
         
         return descriptor
@@ -109,58 +120,76 @@ class FilterFactory{
 
     // indicates whether filter should be hidden or not
     public static func isHidden(key: String)->Bool{
-        if (FilterFactory.filterList[key] != nil){
-            return (FilterFactory.filterList[key]?.hide)!
+        if (FilterFactory.hideList[key] != nil){
+            return FilterFactory.hideList[key]!
         } else {
-            log.error("ERR: unknown key:\"\(key)\"")
-            return true
+            return false
         }
+//        if (FilterFactory.filterList[key] != nil){
+//            return (FilterFactory.filterList[key]?.hide)!
+//        } else {
+//            log.error("ERR: unknown key:\"\(key)\"")
+//            return false
+//        }
     }
 
     
     // sets the hidden state of a filter
     public static func setHidden(key: String, hidden:Bool) {
-        if (FilterFactory.filterList[key] != nil){
-            FilterFactory.filterList[key]!.hide = hidden
-        } else {
-            log.error("ERR: unknown key:\"\(key)\"")
-        }
+        FilterFactory.hideList[key] = hidden
+//        if (FilterFactory.filterList[key] != nil){
+//            FilterFactory.filterList[key]!.hide = hidden
+//        } else {
+//            log.error("ERR: unknown key:\"\(key)\"")
+//        }
     }
     
     // sets the hidden state of a filter
     public static func setSlow(key: String, slow:Bool) {
-        if (FilterFactory.filterList[key] != nil){
-            FilterFactory.filterList[key]!.slow = slow
-        } else {
-            log.error("ERR: unknown key:\"\(key)\"")
-        }
+        FilterFactory.slowList[key] = slow
+//        if (FilterFactory.filterList[key] != nil){
+//            FilterFactory.filterList[key]!.slow = slow
+//        } else {
+//            log.error("ERR: unknown key:\"\(key)\"")
+//        }
     }
     
     // indicates whether filter is slow or not
     public static func isSlow(key: String)->Bool{
-        if (FilterFactory.filterList[key] != nil){
-            return (FilterFactory.filterList[key]?.slow)!
+        if (FilterFactory.slowList[key] != nil){
+            return FilterFactory.slowList[key]!
         } else {
-            log.error("ERR: unknown key:\"\(key)\"")
-            return true
+            return false
         }
+//        if (FilterFactory.filterList[key] != nil){
+//            return (FilterFactory.filterList[key]?.slow)!
+//        } else {
+//            log.error("ERR: unknown key:\"\(key)\"")
+//            return false
+//        }
     }
     
     public static func getRating(key:String) -> Int{
-        if (FilterFactory.filterList[key] != nil){
-            return FilterFactory.filterList[key]!.rating
+        if (FilterFactory.ratingList[key] != nil){
+            return FilterFactory.ratingList[key]!
         } else {
             return 0
         }
+//        if (FilterFactory.filterList[key] != nil){
+//            return FilterFactory.filterList[key]!.rating
+//        } else {
+//            return 0
+//        }
     }
     
     // set the rating for a filter
     public static func setRating(key:String, rating:Int){
-        if (FilterFactory.filterList[key] != nil){
-            FilterFactory.filterList[key]!.rating = rating
-        }else {
-            log.error("ERR: unknown key:\"\(key)\"")
-        }
+        FilterFactory.ratingList[key] = rating
+//        if (FilterFactory.filterList[key] != nil){
+//            FilterFactory.filterList[key]!.rating = rating
+//        }else {
+//            log.error("ERR: unknown key:\"\(key)\"")
+//        }
     }
 
 }

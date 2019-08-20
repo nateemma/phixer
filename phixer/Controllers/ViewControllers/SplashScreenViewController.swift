@@ -17,6 +17,7 @@ class SplashScreenViewController: UIViewController {
     
     private var displayWidth : CGFloat = 0.0
     private var displayHeight : CGFloat = 0.0
+    private let duration = 3.0
 
     public var completionHandler : (() -> Void)?
 
@@ -60,8 +61,19 @@ class SplashScreenViewController: UIViewController {
         
         
         log.debug("fading in...")
-        UIView.animate(withDuration: 5.0, animations: {
+        let rotation: CABasicAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
+        rotation.toValue = Double.pi * 2
+        rotation.duration = 2.0 // or however long you want ...
+        rotation.isCumulative = true
+        rotation.repeatCount = Float.greatestFiniteMagnitude
+        self.view.layer.add(rotation, forKey: "rotationAnimation")
+        //TODO: fix origin?
+        UIView.animate(withDuration: duration, animations: {
             self.iconView.alpha = 1.0
+            self.iconView.frame.size.width = self.view.frame.size.width
+            self.iconView.frame.size.height = self.view.frame.size.width
+            self.iconView.frame.origin.x = (self.view.frame.size.width - self.iconView.frame.size.width) / 2.0
+            self.iconView.frame.origin.y = (self.view.frame.size.height - self.iconView.frame.size.height) / 2.0
         })
     }
     
@@ -104,8 +116,13 @@ class SplashScreenViewController: UIViewController {
         // layout constraints
         iconView.frame = view.frame
         iconView.image = appIcon
-        self.iconView.alpha = 0.1 // we fade this in over time
-        
+        let d = CGFloat(duration)
+        self.iconView.alpha = 1.0 / d // we fade this in over time
+        iconView.frame.size.width = view.frame.size.width / d
+        iconView.frame.size.height = view.frame.size.width / d
+        iconView.frame.origin.x = (view.frame.size.width - iconView.frame.size.width) / 2.0
+        iconView.frame.origin.y = (view.frame.size.height - iconView.frame.size.height) / 2.0
+
         view.addSubview(iconView)
         //iconView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: iconView.frame.size.width)
         iconView.anchorInCenter(width: iconView.frame.size.width, height: iconView.frame.size.width)

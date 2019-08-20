@@ -199,10 +199,12 @@ class PresetFilter: CIFilter {
         } else {
             log.warning("No filters found for preset: \(presetFile)")
         }
+        
         tmpImage = nil
         
         if image == nil {
             log.warning("NIL image produced")
+            image = inputImage
         }
         
         return image

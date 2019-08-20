@@ -213,7 +213,7 @@ class SimpleSwipeView: UIView {
         // configure the rest based on whether the icon is specified or not
         if icon.isEmpty {
             // no icon, so just provide a view with a centred label
-            label.font = UIFont.systemFont(ofSize: 12.0, weight: UIFont.Weight.thin)
+            label.font = UIFont.systemFont(ofSize: 16.0, weight: UIFont.Weight.thin)
             label.frame.size.height = self.swipeviewHeight * 0.95
             view.addSubview(label)
             label.fillSuperview()
@@ -295,9 +295,10 @@ class SimpleSwipeView: UIView {
         swipeview?.delegate = self
         swipeview?.pagingEnabled = true
         swipeview?.alignment = SwipeViewAlignment.Edge
-        swipeview?.bounces = true
+        swipeview?.bounces = false
         //swipeview?.autoscroll = 1.0
-        swipeview?.decelerationRate = 1.0
+        swipeview?.decelerationRate = UIScrollView.DecelerationRate.normal.rawValue
+        swipeview?.defersItemViewLoading = true
 
         //swipeview?.centerItemWhenSelected = true
     }
