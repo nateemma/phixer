@@ -40,6 +40,9 @@ toneCurve = [ [0.0, 0.0], [25.0, 25.0], [50.0, 50.0], [75.0, 75.0], [100.0, 100.
 # flag to indicate that ToneCurve should be added (modified by several different processes)
 toneCurveChanged = False
 
+# flag to indicate that conversion to B&W requested
+convertToMono = False
+
 
 '''
     red = UIColor(red: 0.901961, green: 0.270588, blue: 0.270588, alpha: 1) hsv: [0.0, 0.7, 0.886806]
@@ -130,7 +133,6 @@ def main():
     processSharpening()
     processNoiseReduction()
 
-    processSplitToning()
     processGrain()
     processShadowsHighlights()
 
@@ -147,6 +149,7 @@ def main():
 
     # process these last
     processGrayscale()
+    processSplitToning()
     processVignette()
 
 
@@ -1069,6 +1072,7 @@ def processCalibration():
 def processGrayMixer():
     global colourVectors
     global coloursChanged
+    global convertToMono
     
     # update colour vectors
     found = False
@@ -1088,6 +1092,9 @@ def processGrayMixer():
     if found:
         print ("Updated Colours: " + str(colourVectors) + "\n")
         print ("...GrayMixer")
+        # if GrayMix is specified then assume conversion to greyscale
+        convertToMono = True
+
 
 # ----------------------------
 
@@ -1242,16 +1249,20 @@ def processVignette():
 def processGrayscale():
 
     global coloursChanged
+    global convertToMono
 
+    flag = False
     if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "ConvertToGrayscale"):
         flag = xmp.get_property_bool(XMP_NS_CAMERA_RAW, "ConvertToGrayscale")
-        if flag:
-            # filterMap["filters"].append( { 'key':"CIPhotoEffectMono", "parameters":[] } )
-            value = 0.0
-            if coloursChanged:
-                value = 0.001  # if we messed with the colours, then leave a little in there
-            filterMap["filters"].append({'key': "SaturationFilter", "parameters": [ {'key': "inputSaturation", 'val': value, 'type': "CIAttributeTypeScalar"}]})
-            print ("...ConvertToGrayscale")
+
+    # apply if flagged here or elsewhere, unless Split Toning is applied (this is used for Sepia toning etc.)
+    if (flag or convertToMono):
+        # filterMap["filters"].append( { 'key':"CIPhotoEffectMono", "parameters":[] } )
+        value = 0.0
+        if coloursChanged:
+            value = 0.001  # if we messed with the colours, then leave a little in there
+        filterMap["filters"].append({'key': "SaturationFilter", "parameters": [ {'key': "inputSaturation", 'val': value, 'type': "CIAttributeTypeScalar"}]})
+        print ("...ConvertToGrayscale")
 
 
 # ----------------------------

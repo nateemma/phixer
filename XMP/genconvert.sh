@@ -48,7 +48,7 @@ function cleanupFilename() {
 
 #---------------------------------
 function outputCommand() {
-    echo "python3 convertXMP.py \"$1\" \"$2\""
+    echo "python convertXMP.py \"$1\" \"$2\""
 }
 
 

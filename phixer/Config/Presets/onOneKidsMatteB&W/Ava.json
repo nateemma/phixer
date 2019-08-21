@@ -18,31 +18,6 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 0.15, 
-          "key": "inputHighlightHue"
-        }, 
-        {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.1, 
-          "key": "inputHighlightSaturation"
-        }, 
-        {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.011111111111111112, 
-          "key": "inputShadowHue"
-        }, 
-        {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.04, 
-          "key": "inputShadowSaturation"
-        }
-      ], 
-      "key": "SplitToningFilter"
-    }, 
-    {
-      "parameters": [
-        {
-          "type": "CIAttributeTypeScalar", 
           "val": 0.01, 
           "key": "inputShadowAmount"
         }, 
@@ -180,11 +155,36 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 0.1, 
+          "val": 0.001, 
           "key": "inputSaturation"
         }
       ], 
       "key": "SaturationFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.15, 
+          "key": "inputHighlightHue"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.1, 
+          "key": "inputHighlightSaturation"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.011111111111111112, 
+          "key": "inputShadowHue"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.04, 
+          "key": "inputShadowSaturation"
+        }
+      ], 
+      "key": "SplitToningFilter"
     }
   ], 
   "key": "../phixer/Config/Presets//onOneKidsMatteB&W/Ava.json"

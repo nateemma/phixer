@@ -7,31 +7,6 @@
     {
       "parameters": [
         {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.0, 
-          "key": "inputHighlightHue"
-        }, 
-        {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.0, 
-          "key": "inputHighlightSaturation"
-        }, 
-        {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.09166666666666666, 
-          "key": "inputShadowHue"
-        }, 
-        {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.04, 
-          "key": "inputShadowSaturation"
-        }
-      ], 
-      "key": "SplitToningFilter"
-    }, 
-    {
-      "parameters": [
-        {
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.0, 
@@ -105,6 +80,31 @@
         }
       ], 
       "key": "MultiBandHSV"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.0, 
+          "key": "inputHighlightHue"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.0, 
+          "key": "inputHighlightSaturation"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.09166666666666666, 
+          "key": "inputShadowHue"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.04, 
+          "key": "inputShadowSaturation"
+        }
+      ], 
+      "key": "SplitToningFilter"
     }
   ], 
   "key": "../phixer/Config/Presets//SleeklensLandscapeVibrations/October.json"

@@ -18,31 +18,6 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 0.08888888888888889, 
-          "key": "inputHighlightHue"
-        }, 
-        {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.52, 
-          "key": "inputHighlightSaturation"
-        }, 
-        {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.0, 
-          "key": "inputShadowHue"
-        }, 
-        {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.0, 
-          "key": "inputShadowSaturation"
-        }
-      ], 
-      "key": "SplitToningFilter"
-    }, 
-    {
-      "parameters": [
-        {
-          "type": "CIAttributeTypeScalar", 
           "val": 0.3, 
           "key": "inputShadowAmount"
         }, 
@@ -98,6 +73,31 @@
         }
       ], 
       "key": "CIToneCurve"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.08888888888888889, 
+          "key": "inputHighlightHue"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.52, 
+          "key": "inputHighlightSaturation"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.0, 
+          "key": "inputShadowHue"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.0, 
+          "key": "inputShadowSaturation"
+        }
+      ], 
+      "key": "SplitToningFilter"
     }
   ], 
   "key": "../phixer/Config/Presets//ContrastlyWinterWonderland/WinterVibrantWarm.json"

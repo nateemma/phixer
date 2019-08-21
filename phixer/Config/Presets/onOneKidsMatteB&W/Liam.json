@@ -7,31 +7,6 @@
     {
       "parameters": [
         {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.125, 
-          "key": "inputHighlightHue"
-        }, 
-        {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.1, 
-          "key": "inputHighlightSaturation"
-        }, 
-        {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.7611111111111111, 
-          "key": "inputShadowHue"
-        }, 
-        {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.12, 
-          "key": "inputShadowSaturation"
-        }
-      ], 
-      "key": "SplitToningFilter"
-    }, 
-    {
-      "parameters": [
-        {
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.0, 
@@ -155,11 +130,36 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 0.1, 
+          "val": 0.001, 
           "key": "inputSaturation"
         }
       ], 
       "key": "SaturationFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.125, 
+          "key": "inputHighlightHue"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.1, 
+          "key": "inputHighlightSaturation"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.7611111111111111, 
+          "key": "inputShadowHue"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.12, 
+          "key": "inputShadowSaturation"
+        }
+      ], 
+      "key": "SplitToningFilter"
     }
   ], 
   "key": "../phixer/Config/Presets//onOneKidsMatteB&W/Liam.json"

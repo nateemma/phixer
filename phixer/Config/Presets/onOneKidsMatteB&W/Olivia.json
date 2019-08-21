@@ -17,31 +17,6 @@
     {
       "parameters": [
         {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.1361111111111111, 
-          "key": "inputHighlightHue"
-        }, 
-        {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.33, 
-          "key": "inputHighlightSaturation"
-        }, 
-        {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.8527777777777777, 
-          "key": "inputShadowHue"
-        }, 
-        {
-          "type": "CIAttributeTypeScalar", 
-          "val": 0.02, 
-          "key": "inputShadowSaturation"
-        }
-      ], 
-      "key": "SplitToningFilter"
-    }, 
-    {
-      "parameters": [
-        {
           "type": "CIAttributeTypePosition3", 
           "val": [
             0.0, 
@@ -165,11 +140,36 @@
       "parameters": [
         {
           "type": "CIAttributeTypeScalar", 
-          "val": 0.1, 
+          "val": 0.001, 
           "key": "inputSaturation"
         }
       ], 
       "key": "SaturationFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.1361111111111111, 
+          "key": "inputHighlightHue"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.33, 
+          "key": "inputHighlightSaturation"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.8527777777777777, 
+          "key": "inputShadowHue"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.02, 
+          "key": "inputShadowSaturation"
+        }
+      ], 
+      "key": "SplitToningFilter"
     }
   ], 
   "key": "../phixer/Config/Presets//onOneKidsMatteB&W/Olivia.json"

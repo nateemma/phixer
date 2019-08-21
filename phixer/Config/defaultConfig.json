@@ -580,6 +580,62 @@
         { "key": "FallFoliage(Medium)",  "title": "Fall Foliage( Medium)", "slow": false, "show": true, "rating": 0 },
         { "key": "FallFoliage(Strong)",  "title": "Fall Foliage( Strong)", "slow": false, "show": true, "rating": 0 },
         
+        { "key": "LR-AgedPhoto1",  "title": "Aged Photo1", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-BW-Flat",  "title": "BW-Flat", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-BW-HighContrast-2",  "title": "BW-High Contrast-2", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-BW-HighContrast",  "title": "BW-High Contrast", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-BW-Infrared",  "title": "BW-Infrared", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-BW-Landscape",  "title": "BW-Landscape", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-BW-Look1",  "title": "BW-Look1", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-BW-Look2",  "title": "BW-Look2", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-BW-Look3",  "title": "BW-Look3", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-BW-Look4",  "title": "BW-Look4", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-BW-Look5",  "title": "BW-Look5", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-BW-LowContrast-2",  "title": "BW-Low Contrast-2", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-BW-LowContrast",  "title": "BW-Low Contrast", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-BW-Punch",  "title": "BW-Punch", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-BW-SeleniumTone",  "title": "BW-Selenium Tone", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-BW-SepiaTone",  "title": "BW-Sepia Tone", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-BW-Soft",  "title": "BW-Soft", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-BW-SplitTone",  "title": "BW-Split Tone", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-BleachBypass",  "title": "Bleach Bypass", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-Bright",  "title": "Bright", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-ColdTone",  "title": "Cold Tone", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-CoolLight",  "title": "Cool Light", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-CrossProcess-01",  "title": "Cross Process-01", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-CrossProcess-02",  "title": "Cross Process-02", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-CrossProcess-03",  "title": "Cross Process-03", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-DesaturatedContrast",  "title": "Desaturated Contrast", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-DirectPositive",  "title": "Direct Positive", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-FlatGreen",  "title": "Flat Green", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-HighContrast",  "title": "High Contrast", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-HighContrastDetail",  "title": "High Contrast Detail", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-Matte",  "title": "Matte", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-MediumContrast",  "title": "Medium Contrast", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-Natural",  "title": "Natural", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-OldPolar",  "title": "Old Polar", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-Punch",  "title": "Punch", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-RedLiftMatte",  "title": "Red Lift Matte", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-SharpenFaces",  "title": "Sharpen Faces", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-SharpenScenic",  "title": "Sharpen Scenic", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-SoftMist",  "title": "Soft Mist", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-Antique",  "title": "Antique", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-AntiqueLight",  "title": "Antique Light", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-Creamtone",  "title": "Creamtone", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-Cyanotype",  "title": "Cyanotype", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-Selenium",  "title": "Selenium", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-Sepia",  "title": "Sepia", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-Split1",  "title": "Split1", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-Split2",  "title": "Split2", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-Split3",  "title": "Split3", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-Split4",  "title": "Split4", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-TurquoiseRed",  "title": "Turquoise Red", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-VintageInstant",  "title": "Vintage Instant", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-Vivid",  "title": "Vivid", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-WarmContrast",  "title": "Warm Contrast", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-WarmShadows",  "title": "Warm Shadows", "slow": false, "show": true, "rating": 0 },
+        { "key": "LR-Yesteryear",  "title": "Yesteryear", "slow": false, "show": true, "rating": 0 },
+
         { "key": "SoftMatte",  "title": "Soft Matte", "slow": false, "show": true, "rating": 0 },
         { "key": "Matte",  "title": "Matte", "slow": false, "show": true, "rating": 0 },
         { "key": "PeachyFilm",  "title": "Peachy Film", "slow": false, "show": true, "rating": 0 },
@@ -1421,6 +1477,19 @@
                 "dramatic-26", "dramatic-27", "dramatic-28", "dramatic-29", "dramatic-30"
             ]
         },
+        
+        {"key": "pr_lightroom",
+            "title": "Lightroom Presets",
+            "filters": [ "LR-AgedPhoto1", "LR-BW-Flat", "LR-BW-HighContrast-2", "LR-BW-HighContrast", "LR-BW-Infrared", "LR-BW-Landscape",
+                "LR-BW-Look1", "LR-BW-Look2", "LR-BW-Look3", "LR-BW-Look4", "LR-BW-Look5",
+                "LR-BW-LowContrast-2", "LR-BW-LowContrast", "LR-BW-Punch", "LR-BW-SeleniumTone", "LR-BW-SepiaTone", "LR-BW-Soft",
+                "LR-BW-SplitTone", "LR-BleachBypass", "LR-Bright", "LR-ColdTone", "LR-CoolLight", "LR-CrossProcess-01", "LR-CrossProcess-02", "LR-CrossProcess-03",
+                "LR-DesaturatedContrast", "LR-DirectPositive", "LR-FlatGreen", "LR-HighContrast", "LR-HighContrastDetail", "LR-Matte", "LR-MediumContrast", "LR-Natural",
+                "LR-OldPolar", "LR-Punch", "LR-RedLiftMatte", "LR-SharpenFaces", "LR-SharpenScenic", "LR-SoftMist", "LR-Antique", "LR-AntiqueLight",
+                "LR-Creamtone", "LR-Cyanotype", "LR-Selenium", "LR-Sepia", "LR-Split1", "LR-Split2", "LR-Split3", "LR-Split4",
+                "LR-TurquoiseRed", "LR-VintageInstant", "LR-Vivid", "LR-WarmContrast", "LR-WarmShadows", "LR-Yesteryear"
+            ]
+        },
 
         
         {"key": "styletransfer",
@@ -1647,7 +1716,7 @@
                             "pr_graphicex01", "pr_graphicex02", "pr_graphicexhdr",
                             "pr_pbd_softv1", "pr_pbd_softv2", "pr_pbd_softv3", "pr_pbd_softv4",
                             "pr_pbd_softhdr", "pr_pbd_wedding",
-                            "pr_leaks", "pr_upl_bw", "pr_dramatic", "custom"
+                            "pr_leaks", "pr_upl_bw", "pr_dramatic", "custom", "pr_lightroom"
             ]
         },
         
@@ -1685,9 +1754,10 @@
         
         {"key": "miscellaneous",
             "title": "Miscellaneous",
-            "categories": [ "edgy", "sketchy", "glitchy", "apple", "custom"
+            "categories": [ "edgy", "sketchy", "glitchy", "apple", "custom", "pr_lightroom"
             ]
         },
+        
         {"key": "new",
             "title": "New Stuff",
             "categories": [ "pr_apocalypse", "pr_film_ilford", "pr_porcelain",

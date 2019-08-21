@@ -1,224 +1,224 @@
 {
-  "key": "../phixer/Config/Presets//BlondiesBrunettes/Taylor.json",
   "info": {
-    "name": "Taylor",
-    "group": "Blondies & Brunettes - Free Presets"
-  },
+    "group": "Blondies & Brunettes - Free Presets", 
+    "name": "Taylor"
+  }, 
   "filters": [
     {
-      "key": "WhiteBalanceFilter",
       "parameters": [
         {
-          "key": "inputTemperature",
-          "val": 5889.0,
-          "type": "CIAttributeTypeScalar"
-        },
+          "type": "CIAttributeTypeScalar", 
+          "val": 5889.0, 
+          "key": "inputTemperature"
+        }, 
         {
-          "key": "inputTint",
-          "val": 27.0,
-          "type": "CIAttributeTypeScalar"
+          "type": "CIAttributeTypeScalar", 
+          "val": 27.0, 
+          "key": "inputTint"
         }
-      ]
-    },
+      ], 
+      "key": "WhiteBalanceFilter"
+    }, 
     {
-      "key": "SaturationFilter",
       "parameters": [
         {
-          "key": "inputSaturation",
-          "val": 0.94,
-          "type": "CIAttributeTypeScalar"
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.94, 
+          "key": "inputSaturation"
         }
-      ]
-    },
+      ], 
+      "key": "SaturationFilter"
+    }, 
     {
-      "key": "SplitToningFilter",
       "parameters": [
         {
-          "key": "inputHighlightHue",
-          "val": 0.08888888888888889,
-          "type": "CIAttributeTypeScalar"
-        },
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.1, 
+          "key": "inputShadowAmount"
+        }, 
         {
-          "key": "inputHighlightSaturation",
-          "val": 0.51,
-          "type": "CIAttributeTypeScalar"
-        },
-        {
-          "key": "inputShadowHue",
-          "val": 0.2833333333333333,
-          "type": "CIAttributeTypeScalar"
-        },
-        {
-          "key": "inputShadowSaturation",
-          "val": 0.53,
-          "type": "CIAttributeTypeScalar"
+          "type": "CIAttributeTypeScalar", 
+          "val": 1.0, 
+          "key": "inputHighlightAmount"
         }
-      ]
-    },
+      ], 
+      "key": "CIHighlightShadowAdjust"
+    }, 
     {
-      "key": "CIHighlightShadowAdjust",
       "parameters": [
         {
-          "key": "inputShadowAmount",
-          "val": 0.1,
-          "type": "CIAttributeTypeScalar"
-        },
-        {
-          "key": "inputHighlightAmount",
-          "val": 1.0,
-          "type": "CIAttributeTypeScalar"
-        }
-      ]
-    },
-    {
-      "key": "MultiBandHSV",
-      "parameters": [
-        {
-          "key": "inputRedShift",
+          "type": "CIAttributeTypePosition3", 
           "val": [
-            -0.03875,
-            1.17,
+            -0.03875, 
+            1.17, 
             1.0
-          ],
-          "type": "CIAttributeTypePosition3"
-        },
+          ], 
+          "key": "inputRedShift"
+        }, 
         {
-          "key": "inputOrangeShift",
+          "type": "CIAttributeTypePosition3", 
           "val": [
-            0.0,
-            1.0,
+            0.0, 
+            1.0, 
             1.0
-          ],
-          "type": "CIAttributeTypePosition3"
-        },
+          ], 
+          "key": "inputOrangeShift"
+        }, 
         {
-          "key": "inputYellowShift",
+          "type": "CIAttributeTypePosition3", 
           "val": [
-            0.0,
-            1.0,
+            0.0, 
+            1.0, 
             1.0
-          ],
-          "type": "CIAttributeTypePosition3"
-        },
+          ], 
+          "key": "inputYellowShift"
+        }, 
         {
-          "key": "inputGreenShift",
+          "type": "CIAttributeTypePosition3", 
           "val": [
-            0.008749999999999994,
-            1.8299999999999998,
+            0.008749999999999994, 
+            1.8299999999999998, 
             0.7
-          ],
-          "type": "CIAttributeTypePosition3"
-        },
+          ], 
+          "key": "inputGreenShift"
+        }, 
         {
-          "key": "inputAquaShift",
+          "type": "CIAttributeTypePosition3", 
           "val": [
-            -0.0425,
-            1.0,
+            -0.0425, 
+            1.0, 
             1.0
-          ],
-          "type": "CIAttributeTypePosition3"
-        },
+          ], 
+          "key": "inputAquaShift"
+        }, 
         {
-          "key": "inputBlueShift",
+          "type": "CIAttributeTypePosition3", 
           "val": [
-            -0.09625,
-            1.26,
+            -0.09625, 
+            1.26, 
             1.0
-          ],
-          "type": "CIAttributeTypePosition3"
-        },
+          ], 
+          "key": "inputBlueShift"
+        }, 
         {
-          "key": "inputPurpleShift",
+          "type": "CIAttributeTypePosition3", 
           "val": [
-            0.0,
-            1.0,
+            0.0, 
+            1.0, 
             1.0
-          ],
-          "type": "CIAttributeTypePosition3"
-        },
+          ], 
+          "key": "inputPurpleShift"
+        }, 
         {
-          "key": "inputMagentaShift",
+          "type": "CIAttributeTypePosition3", 
           "val": [
-            0.0,
-            1.0,
+            0.0, 
+            1.0, 
             1.0
-          ],
-          "type": "CIAttributeTypePosition3"
+          ], 
+          "key": "inputMagentaShift"
         }
-      ]
-    },
+      ], 
+      "key": "MultiBandHSV"
+    }, 
     {
-      "key": "CIToneCurve",
       "parameters": [
         {
-          "key": "inputPoint0",
+          "type": "CIAttributeTypeOffset", 
           "val": [
-            0.0,
+            0.0, 
             0.0
-          ],
-          "type": "CIAttributeTypeOffset"
-        },
+          ], 
+          "key": "inputPoint0"
+        }, 
         {
-          "key": "inputPoint1",
+          "type": "CIAttributeTypeOffset", 
           "val": [
-            0.25,
+            0.25, 
             0.21849674711061884
-          ],
-          "type": "CIAttributeTypeOffset"
-        },
+          ], 
+          "key": "inputPoint1"
+        }, 
         {
-          "key": "inputPoint2",
+          "type": "CIAttributeTypeOffset", 
           "val": [
-            0.5,
+            0.5, 
             0.4998332678553635
-          ],
-          "type": "CIAttributeTypeOffset"
-        },
+          ], 
+          "key": "inputPoint2"
+        }, 
         {
-          "key": "inputPoint3",
+          "type": "CIAttributeTypeOffset", 
           "val": [
-            0.75,
+            0.75, 
             0.7655402310016218
-          ],
-          "type": "CIAttributeTypeOffset"
-        },
+          ], 
+          "key": "inputPoint3"
+        }, 
         {
-          "key": "inputPoint4",
+          "type": "CIAttributeTypeOffset", 
           "val": [
-            1.0,
+            1.0, 
             1.0
-          ],
-          "type": "CIAttributeTypeOffset"
+          ], 
+          "key": "inputPoint4"
         }
-      ]
-    },
+      ], 
+      "key": "CIToneCurve"
+    }, 
     {
-      "key": "CIVignetteEffect",
       "parameters": [
         {
-          "key": "inputCenter",
-          "val": [
-            0.0,
-            0.0
-          ],
-          "type": "CIAttributeTypePosition"
-        },
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.08888888888888889, 
+          "key": "inputHighlightHue"
+        }, 
         {
-          "key": "inputRadius",
-          "val": 0.0,
-          "type": "CIAttributeTypeDistance"
-        },
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.51, 
+          "key": "inputHighlightSaturation"
+        }, 
         {
-          "key": "inputIntensity",
-          "val": 0.7,
-          "type": "CIAttributeTypeScalar"
-        },
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.2833333333333333, 
+          "key": "inputShadowHue"
+        }, 
         {
-          "key": "inputFalloff",
-          "val": 0.5,
-          "type": "CIAttributeTypeScalar"
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.53, 
+          "key": "inputShadowSaturation"
         }
-      ]
+      ], 
+      "key": "SplitToningFilter"
+    }, 
+    {
+      "parameters": [
+        {
+          "type": "CIAttributeTypePosition", 
+          "val": [
+            0.0, 
+            0.0
+          ], 
+          "key": "inputCenter"
+        }, 
+        {
+          "type": "CIAttributeTypeDistance", 
+          "val": 0.0, 
+          "key": "inputRadius"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.7, 
+          "key": "inputIntensity"
+        }, 
+        {
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.5, 
+          "key": "inputFalloff"
+        }
+      ], 
+      "key": "CIVignetteEffect"
     }
-  ]
+  ], 
+  "key": "../phixer/Config/Presets//BlondiesBrunettes/Taylor.json"
 }

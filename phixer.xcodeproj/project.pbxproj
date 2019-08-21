@@ -264,6 +264,61 @@
 		2500474123038ABF0025309F /* CGImageSource+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2500474023038ABF0025309F /* CGImageSource+Extensions.swift */; };
 		25004743230392530025309F /* BackgroundBlurFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25004742230392530025309F /* BackgroundBlurFilter.swift */; };
 		2500474523039AF80025309F /* ForegroundLightingFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2500474423039AF80025309F /* ForegroundLightingFilter.swift */; };
+		25060AD1230CB5870081FA5C /* LR-HighContrastDetail.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060A9A230CB5870081FA5C /* LR-HighContrastDetail.json */; };
+		25060AD2230CB5870081FA5C /* LR-FlatGreen.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060A9B230CB5870081FA5C /* LR-FlatGreen.json */; };
+		25060AD3230CB5870081FA5C /* LR-TurquoiseRed.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060A9C230CB5870081FA5C /* LR-TurquoiseRed.json */; };
+		25060AD4230CB5870081FA5C /* LR-SoftMist.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060A9D230CB5870081FA5C /* LR-SoftMist.json */; };
+		25060AD5230CB5870081FA5C /* LR-BW-Look2.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060A9E230CB5870081FA5C /* LR-BW-Look2.json */; };
+		25060AD6230CB5870081FA5C /* LR-SharpenFaces.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060A9F230CB5870081FA5C /* LR-SharpenFaces.json */; };
+		25060AD7230CB5870081FA5C /* LR-Sepia.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AA0230CB5870081FA5C /* LR-Sepia.json */; };
+		25060AD8230CB5870081FA5C /* LR-BW-Soft.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AA1230CB5870081FA5C /* LR-BW-Soft.json */; };
+		25060AD9230CB5870081FA5C /* LR-BW-SplitTone.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AA2230CB5870081FA5C /* LR-BW-SplitTone.json */; };
+		25060ADA230CB5870081FA5C /* LR-HighContrast.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AA3230CB5870081FA5C /* LR-HighContrast.json */; };
+		25060ADB230CB5870081FA5C /* LR-DirectPositive.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AA4230CB5870081FA5C /* LR-DirectPositive.json */; };
+		25060ADC230CB5870081FA5C /* LR-BW-HighContrast-2.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AA5230CB5870081FA5C /* LR-BW-HighContrast-2.json */; };
+		25060ADD230CB5870081FA5C /* LR-AntiqueLight.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AA6230CB5870081FA5C /* LR-AntiqueLight.json */; };
+		25060ADE230CB5870081FA5C /* LR-Natural.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AA7230CB5870081FA5C /* LR-Natural.json */; };
+		25060ADF230CB5870081FA5C /* LR-BW-Look3.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AA8230CB5870081FA5C /* LR-BW-Look3.json */; };
+		25060AE0230CB5870081FA5C /* LR-BW-SepiaTone.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AA9230CB5870081FA5C /* LR-BW-SepiaTone.json */; };
+		25060AE1230CB5870081FA5C /* LR-WarmContrast.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AAA230CB5870081FA5C /* LR-WarmContrast.json */; };
+		25060AE2230CB5870081FA5C /* LR-WarmShadows.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AAB230CB5870081FA5C /* LR-WarmShadows.json */; };
+		25060AE3230CB5870081FA5C /* LR-CrossProcess-01.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AAC230CB5870081FA5C /* LR-CrossProcess-01.json */; };
+		25060AE4230CB5870081FA5C /* LR-Matte.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AAD230CB5870081FA5C /* LR-Matte.json */; };
+		25060AE5230CB5870081FA5C /* LR-AgedPhoto1.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AAE230CB5870081FA5C /* LR-AgedPhoto1.json */; };
+		25060AE6230CB5870081FA5C /* LR-BW-Look4.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AAF230CB5870081FA5C /* LR-BW-Look4.json */; };
+		25060AE7230CB5870081FA5C /* LR-BW-Punch.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AB0230CB5870081FA5C /* LR-BW-Punch.json */; };
+		25060AE8230CB5870081FA5C /* LR-SharpenScenic.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AB1230CB5870081FA5C /* LR-SharpenScenic.json */; };
+		25060AE9230CB5870081FA5C /* LR-Antique.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AB2230CB5870081FA5C /* LR-Antique.json */; };
+		25060AEA230CB5870081FA5C /* LR-RedLiftMatte.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AB3230CB5870081FA5C /* LR-RedLiftMatte.json */; };
+		25060AEB230CB5870081FA5C /* LR-Split1.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AB4230CB5870081FA5C /* LR-Split1.json */; };
+		25060AEC230CB5870081FA5C /* LR-Punch.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AB5230CB5870081FA5C /* LR-Punch.json */; };
+		25060AED230CB5870081FA5C /* LR-BW-Look5.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AB6230CB5870081FA5C /* LR-BW-Look5.json */; };
+		25060AEE230CB5870081FA5C /* LR-Selenium.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AB7230CB5870081FA5C /* LR-Selenium.json */; };
+		25060AEF230CB5870081FA5C /* LR-DesaturatedContrast.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AB8230CB5870081FA5C /* LR-DesaturatedContrast.json */; };
+		25060AF0230CB5870081FA5C /* LR-VintageInstant.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AB9230CB5870081FA5C /* LR-VintageInstant.json */; };
+		25060AF1230CB5870081FA5C /* LR-Split2.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060ABA230CB5870081FA5C /* LR-Split2.json */; };
+		25060AF2230CB5870081FA5C /* LR-BleachBypass.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060ABB230CB5870081FA5C /* LR-BleachBypass.json */; };
+		25060AF3230CB5870081FA5C /* LR-CoolLight.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060ABC230CB5870081FA5C /* LR-CoolLight.json */; };
+		25060AF4230CB5870081FA5C /* LR-OldPolar.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060ABD230CB5870081FA5C /* LR-OldPolar.json */; };
+		25060AF5230CB5870081FA5C /* LR-BW-Infrared.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060ABE230CB5870081FA5C /* LR-BW-Infrared.json */; };
+		25060AF6230CB5870081FA5C /* LR-MediumContrast.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060ABF230CB5870081FA5C /* LR-MediumContrast.json */; };
+		25060AF7230CB5870081FA5C /* LR-Split3.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AC0230CB5870081FA5C /* LR-Split3.json */; };
+		25060AF8230CB5870081FA5C /* LR-Bright.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AC1230CB5870081FA5C /* LR-Bright.json */; };
+		25060AF9230CB5870081FA5C /* LR-Split4.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AC2230CB5870081FA5C /* LR-Split4.json */; };
+		25060AFA230CB5870081FA5C /* LR-CrossProcess-02.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AC3230CB5870081FA5C /* LR-CrossProcess-02.json */; };
+		25060AFB230CB5870081FA5C /* LR-BW-SeleniumTone.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AC4230CB5870081FA5C /* LR-BW-SeleniumTone.json */; };
+		25060AFC230CB5870081FA5C /* LR-Creamtone.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AC5230CB5870081FA5C /* LR-Creamtone.json */; };
+		25060AFD230CB5870081FA5C /* LR-ColdTone.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AC6230CB5870081FA5C /* LR-ColdTone.json */; };
+		25060AFE230CB5870081FA5C /* LR-BW-Landscape.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AC7230CB5870081FA5C /* LR-BW-Landscape.json */; };
+		25060AFF230CB5870081FA5C /* LR-Vivid.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AC8230CB5870081FA5C /* LR-Vivid.json */; };
+		25060B00230CB5870081FA5C /* LR-BW-HighContrast.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AC9230CB5870081FA5C /* LR-BW-HighContrast.json */; };
+		25060B01230CB5870081FA5C /* LR-BW-Look1.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060ACA230CB5870081FA5C /* LR-BW-Look1.json */; };
+		25060B02230CB5870081FA5C /* LR-Yesteryear.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060ACB230CB5870081FA5C /* LR-Yesteryear.json */; };
+		25060B03230CB5870081FA5C /* LR-BW-LowContrast-2.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060ACC230CB5870081FA5C /* LR-BW-LowContrast-2.json */; };
+		25060B04230CB5870081FA5C /* LR-BW-LowContrast.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060ACD230CB5870081FA5C /* LR-BW-LowContrast.json */; };
+		25060B05230CB5870081FA5C /* LR-Cyanotype.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060ACE230CB5870081FA5C /* LR-Cyanotype.json */; };
+		25060B06230CB5870081FA5C /* LR-CrossProcess-03.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060ACF230CB5870081FA5C /* LR-CrossProcess-03.json */; };
+		25060B07230CB5870081FA5C /* LR-BW-Flat.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AD0230CB5870081FA5C /* LR-BW-Flat.json */; };
 		2506767D1DE1091500226740 /* PresetList.json in Resources */ = {isa = PBXBuildFile; fileRef = 2506767C1DE1091500226740 /* PresetList.json */; };
 		250716091DBEC19400CDDF42 /* FilterGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250716081DBEC19400CDDF42 /* FilterGalleryViewController.swift */; };
 		2507160B1DBECDF200CDDF42 /* Admob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2507160A1DBECDF200CDDF42 /* Admob.swift */; };
@@ -1607,6 +1662,61 @@
 		2500474023038ABF0025309F /* CGImageSource+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGImageSource+Extensions.swift"; sourceTree = "<group>"; };
 		25004742230392530025309F /* BackgroundBlurFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundBlurFilter.swift; sourceTree = "<group>"; };
 		2500474423039AF80025309F /* ForegroundLightingFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForegroundLightingFilter.swift; sourceTree = "<group>"; };
+		25060A9A230CB5870081FA5C /* LR-HighContrastDetail.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-HighContrastDetail.json"; sourceTree = "<group>"; };
+		25060A9B230CB5870081FA5C /* LR-FlatGreen.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-FlatGreen.json"; sourceTree = "<group>"; };
+		25060A9C230CB5870081FA5C /* LR-TurquoiseRed.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-TurquoiseRed.json"; sourceTree = "<group>"; };
+		25060A9D230CB5870081FA5C /* LR-SoftMist.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-SoftMist.json"; sourceTree = "<group>"; };
+		25060A9E230CB5870081FA5C /* LR-BW-Look2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-BW-Look2.json"; sourceTree = "<group>"; };
+		25060A9F230CB5870081FA5C /* LR-SharpenFaces.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-SharpenFaces.json"; sourceTree = "<group>"; };
+		25060AA0230CB5870081FA5C /* LR-Sepia.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-Sepia.json"; sourceTree = "<group>"; };
+		25060AA1230CB5870081FA5C /* LR-BW-Soft.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-BW-Soft.json"; sourceTree = "<group>"; };
+		25060AA2230CB5870081FA5C /* LR-BW-SplitTone.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-BW-SplitTone.json"; sourceTree = "<group>"; };
+		25060AA3230CB5870081FA5C /* LR-HighContrast.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-HighContrast.json"; sourceTree = "<group>"; };
+		25060AA4230CB5870081FA5C /* LR-DirectPositive.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-DirectPositive.json"; sourceTree = "<group>"; };
+		25060AA5230CB5870081FA5C /* LR-BW-HighContrast-2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-BW-HighContrast-2.json"; sourceTree = "<group>"; };
+		25060AA6230CB5870081FA5C /* LR-AntiqueLight.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-AntiqueLight.json"; sourceTree = "<group>"; };
+		25060AA7230CB5870081FA5C /* LR-Natural.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-Natural.json"; sourceTree = "<group>"; };
+		25060AA8230CB5870081FA5C /* LR-BW-Look3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-BW-Look3.json"; sourceTree = "<group>"; };
+		25060AA9230CB5870081FA5C /* LR-BW-SepiaTone.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-BW-SepiaTone.json"; sourceTree = "<group>"; };
+		25060AAA230CB5870081FA5C /* LR-WarmContrast.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-WarmContrast.json"; sourceTree = "<group>"; };
+		25060AAB230CB5870081FA5C /* LR-WarmShadows.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-WarmShadows.json"; sourceTree = "<group>"; };
+		25060AAC230CB5870081FA5C /* LR-CrossProcess-01.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-CrossProcess-01.json"; sourceTree = "<group>"; };
+		25060AAD230CB5870081FA5C /* LR-Matte.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-Matte.json"; sourceTree = "<group>"; };
+		25060AAE230CB5870081FA5C /* LR-AgedPhoto1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-AgedPhoto1.json"; sourceTree = "<group>"; };
+		25060AAF230CB5870081FA5C /* LR-BW-Look4.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-BW-Look4.json"; sourceTree = "<group>"; };
+		25060AB0230CB5870081FA5C /* LR-BW-Punch.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-BW-Punch.json"; sourceTree = "<group>"; };
+		25060AB1230CB5870081FA5C /* LR-SharpenScenic.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-SharpenScenic.json"; sourceTree = "<group>"; };
+		25060AB2230CB5870081FA5C /* LR-Antique.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-Antique.json"; sourceTree = "<group>"; };
+		25060AB3230CB5870081FA5C /* LR-RedLiftMatte.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-RedLiftMatte.json"; sourceTree = "<group>"; };
+		25060AB4230CB5870081FA5C /* LR-Split1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-Split1.json"; sourceTree = "<group>"; };
+		25060AB5230CB5870081FA5C /* LR-Punch.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-Punch.json"; sourceTree = "<group>"; };
+		25060AB6230CB5870081FA5C /* LR-BW-Look5.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-BW-Look5.json"; sourceTree = "<group>"; };
+		25060AB7230CB5870081FA5C /* LR-Selenium.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-Selenium.json"; sourceTree = "<group>"; };
+		25060AB8230CB5870081FA5C /* LR-DesaturatedContrast.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-DesaturatedContrast.json"; sourceTree = "<group>"; };
+		25060AB9230CB5870081FA5C /* LR-VintageInstant.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-VintageInstant.json"; sourceTree = "<group>"; };
+		25060ABA230CB5870081FA5C /* LR-Split2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-Split2.json"; sourceTree = "<group>"; };
+		25060ABB230CB5870081FA5C /* LR-BleachBypass.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-BleachBypass.json"; sourceTree = "<group>"; };
+		25060ABC230CB5870081FA5C /* LR-CoolLight.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-CoolLight.json"; sourceTree = "<group>"; };
+		25060ABD230CB5870081FA5C /* LR-OldPolar.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-OldPolar.json"; sourceTree = "<group>"; };
+		25060ABE230CB5870081FA5C /* LR-BW-Infrared.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-BW-Infrared.json"; sourceTree = "<group>"; };
+		25060ABF230CB5870081FA5C /* LR-MediumContrast.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-MediumContrast.json"; sourceTree = "<group>"; };
+		25060AC0230CB5870081FA5C /* LR-Split3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-Split3.json"; sourceTree = "<group>"; };
+		25060AC1230CB5870081FA5C /* LR-Bright.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-Bright.json"; sourceTree = "<group>"; };
+		25060AC2230CB5870081FA5C /* LR-Split4.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-Split4.json"; sourceTree = "<group>"; };
+		25060AC3230CB5870081FA5C /* LR-CrossProcess-02.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-CrossProcess-02.json"; sourceTree = "<group>"; };
+		25060AC4230CB5870081FA5C /* LR-BW-SeleniumTone.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-BW-SeleniumTone.json"; sourceTree = "<group>"; };
+		25060AC5230CB5870081FA5C /* LR-Creamtone.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-Creamtone.json"; sourceTree = "<group>"; };
+		25060AC6230CB5870081FA5C /* LR-ColdTone.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-ColdTone.json"; sourceTree = "<group>"; };
+		25060AC7230CB5870081FA5C /* LR-BW-Landscape.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-BW-Landscape.json"; sourceTree = "<group>"; };
+		25060AC8230CB5870081FA5C /* LR-Vivid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-Vivid.json"; sourceTree = "<group>"; };
+		25060AC9230CB5870081FA5C /* LR-BW-HighContrast.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-BW-HighContrast.json"; sourceTree = "<group>"; };
+		25060ACA230CB5870081FA5C /* LR-BW-Look1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-BW-Look1.json"; sourceTree = "<group>"; };
+		25060ACB230CB5870081FA5C /* LR-Yesteryear.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-Yesteryear.json"; sourceTree = "<group>"; };
+		25060ACC230CB5870081FA5C /* LR-BW-LowContrast-2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-BW-LowContrast-2.json"; sourceTree = "<group>"; };
+		25060ACD230CB5870081FA5C /* LR-BW-LowContrast.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-BW-LowContrast.json"; sourceTree = "<group>"; };
+		25060ACE230CB5870081FA5C /* LR-Cyanotype.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-Cyanotype.json"; sourceTree = "<group>"; };
+		25060ACF230CB5870081FA5C /* LR-CrossProcess-03.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-CrossProcess-03.json"; sourceTree = "<group>"; };
+		25060AD0230CB5870081FA5C /* LR-BW-Flat.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-BW-Flat.json"; sourceTree = "<group>"; };
 		2506767C1DE1091500226740 /* PresetList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PresetList.json; sourceTree = "<group>"; };
 		250716081DBEC19400CDDF42 /* FilterGalleryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterGalleryViewController.swift; sourceTree = "<group>"; };
 		2507160A1DBECDF200CDDF42 /* Admob.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Admob.swift; sourceTree = "<group>"; };
@@ -3093,6 +3203,68 @@
 			name = "Recovered References";
 			sourceTree = "<group>";
 		};
+		25060A99230CB5870081FA5C /* Lightroom */ = {
+			isa = PBXGroup;
+			children = (
+				25060AAE230CB5870081FA5C /* LR-AgedPhoto1.json */,
+				25060AB2230CB5870081FA5C /* LR-Antique.json */,
+				25060AA6230CB5870081FA5C /* LR-AntiqueLight.json */,
+				25060ABB230CB5870081FA5C /* LR-BleachBypass.json */,
+				25060AC1230CB5870081FA5C /* LR-Bright.json */,
+				25060AD0230CB5870081FA5C /* LR-BW-Flat.json */,
+				25060AA5230CB5870081FA5C /* LR-BW-HighContrast-2.json */,
+				25060AC9230CB5870081FA5C /* LR-BW-HighContrast.json */,
+				25060ABE230CB5870081FA5C /* LR-BW-Infrared.json */,
+				25060AC7230CB5870081FA5C /* LR-BW-Landscape.json */,
+				25060ACA230CB5870081FA5C /* LR-BW-Look1.json */,
+				25060A9E230CB5870081FA5C /* LR-BW-Look2.json */,
+				25060AA8230CB5870081FA5C /* LR-BW-Look3.json */,
+				25060AAF230CB5870081FA5C /* LR-BW-Look4.json */,
+				25060AB6230CB5870081FA5C /* LR-BW-Look5.json */,
+				25060ACC230CB5870081FA5C /* LR-BW-LowContrast-2.json */,
+				25060ACD230CB5870081FA5C /* LR-BW-LowContrast.json */,
+				25060AB0230CB5870081FA5C /* LR-BW-Punch.json */,
+				25060AC4230CB5870081FA5C /* LR-BW-SeleniumTone.json */,
+				25060AA9230CB5870081FA5C /* LR-BW-SepiaTone.json */,
+				25060AA1230CB5870081FA5C /* LR-BW-Soft.json */,
+				25060AA2230CB5870081FA5C /* LR-BW-SplitTone.json */,
+				25060AC6230CB5870081FA5C /* LR-ColdTone.json */,
+				25060ABC230CB5870081FA5C /* LR-CoolLight.json */,
+				25060AC5230CB5870081FA5C /* LR-Creamtone.json */,
+				25060AAC230CB5870081FA5C /* LR-CrossProcess-01.json */,
+				25060AC3230CB5870081FA5C /* LR-CrossProcess-02.json */,
+				25060ACF230CB5870081FA5C /* LR-CrossProcess-03.json */,
+				25060ACE230CB5870081FA5C /* LR-Cyanotype.json */,
+				25060AB8230CB5870081FA5C /* LR-DesaturatedContrast.json */,
+				25060AA4230CB5870081FA5C /* LR-DirectPositive.json */,
+				25060A9B230CB5870081FA5C /* LR-FlatGreen.json */,
+				25060AA3230CB5870081FA5C /* LR-HighContrast.json */,
+				25060A9A230CB5870081FA5C /* LR-HighContrastDetail.json */,
+				25060AAD230CB5870081FA5C /* LR-Matte.json */,
+				25060ABF230CB5870081FA5C /* LR-MediumContrast.json */,
+				25060AA7230CB5870081FA5C /* LR-Natural.json */,
+				25060ABD230CB5870081FA5C /* LR-OldPolar.json */,
+				25060AB5230CB5870081FA5C /* LR-Punch.json */,
+				25060AB3230CB5870081FA5C /* LR-RedLiftMatte.json */,
+				25060AB7230CB5870081FA5C /* LR-Selenium.json */,
+				25060AA0230CB5870081FA5C /* LR-Sepia.json */,
+				25060A9F230CB5870081FA5C /* LR-SharpenFaces.json */,
+				25060AB1230CB5870081FA5C /* LR-SharpenScenic.json */,
+				25060A9D230CB5870081FA5C /* LR-SoftMist.json */,
+				25060AB4230CB5870081FA5C /* LR-Split1.json */,
+				25060ABA230CB5870081FA5C /* LR-Split2.json */,
+				25060AC0230CB5870081FA5C /* LR-Split3.json */,
+				25060AC2230CB5870081FA5C /* LR-Split4.json */,
+				25060A9C230CB5870081FA5C /* LR-TurquoiseRed.json */,
+				25060AB9230CB5870081FA5C /* LR-VintageInstant.json */,
+				25060AC8230CB5870081FA5C /* LR-Vivid.json */,
+				25060AAA230CB5870081FA5C /* LR-WarmContrast.json */,
+				25060AAB230CB5870081FA5C /* LR-WarmShadows.json */,
+				25060ACB230CB5870081FA5C /* LR-Yesteryear.json */,
+			);
+			path = Lightroom;
+			sourceTree = "<group>";
+		};
 		2506767B1DE108A500226740 /* Config */ = {
 			isa = PBXGroup;
 			children = (
@@ -3124,6 +3296,7 @@
 		250C5F0222B863B200DE0DDF /* Presets */ = {
 			isa = PBXGroup;
 			children = (
+				25060A99230CB5870081FA5C /* Lightroom */,
 				2500470722FF3D470025309F /* Design Panoply - The Apocalypse */,
 				2500471B22FF3D470025309F /* Ilford B&W */,
 				2500471222FF3D470025309F /* Porcelain B&W */,
@@ -4853,6 +5026,7 @@
 				252B0F361E30690F005A0C2D /* et_071_a31_2.jpg in Resources */,
 				2573D1ED217CDCB500E78CAB /* YUCIHighPassSkinSmoothingMaskBoost.cikernel in Resources */,
 				25C2DE9D22CD8A8D00D43198 /* Violet2.json in Resources */,
+				25060AFA230CB5870081FA5C /* LR-CrossProcess-02.json in Resources */,
 				252B0F501E30690F005A0C2D /* et_049_a22_6.jpg in Resources */,
 				252B0EF71E30690F005A0C2D /* fx_007_hi_key.jpg in Resources */,
 				250046D422FF3D240025309F /* posterbdsoft01-01.json in Resources */,
@@ -4866,6 +5040,7 @@
 				252B0F131E30690F005A0C2D /* fd_04a_neutral.jpg in Resources */,
 				252B0F3E1E30690F005A0C2D /* et_079_a33_3.jpg in Resources */,
 				2500469222FF3D240025309F /* posterbdsoft02-17.json in Resources */,
+				25060AF8230CB5870081FA5C /* LR-Bright.json in Resources */,
 				252B0E1D1E30690F005A0C2D /* ps_022_gold_crimson.jpg in Resources */,
 				252B0F111E30690F005A0C2D /* et_123_special_blue.jpg in Resources */,
 				25C2DEFB22CD8A8D00D43198 /* WinterSceneryEnhancerClear.json in Resources */,
@@ -4899,6 +5074,7 @@
 				25C2DEC622CD8A8D00D43198 /* Glow-Vibrance.json in Resources */,
 				250046CC22FF3D240025309F /* posterbdsoft03-18.json in Resources */,
 				252B0DB21E30690E005A0C2D /* xp_019_direct_pos.jpg in Resources */,
+				25060AD2230CB5870081FA5C /* LR-FlatGreen.json in Resources */,
 				252B0F231E30690F005A0C2D /* et_110_new_3.jpg in Resources */,
 				25C2DF4922CD8A8D00D43198 /* October.json in Resources */,
 				2568BDE421BEEB2000560287 /* style_udnie.jpg in Resources */,
@@ -4927,13 +5103,16 @@
 				252B0F6F1E30690F005A0C2D /* et_032_a14_2.jpg in Resources */,
 				25C2DF3D22CD8A8D00D43198 /* ReduceYellows.json in Resources */,
 				252B0EC01E30690F005A0C2D /* fx_055_solarize_1.jpg in Resources */,
+				25060ADE230CB5870081FA5C /* LR-Natural.json in Resources */,
 				252B0F1B1E30690F005A0C2D /* et_102_mmm_1.jpg in Resources */,
 				25C2DE9322CD8A8D00D43198 /* HeavyGrain.json in Resources */,
 				25C2DF5622CD8A8D00D43198 /* CarefullyShavenTurk.json in Resources */,
 				252B0E5B1E30690F005A0C2D /* ms_050_matte_3.jpg in Resources */,
 				25C2DE9422CD8A8D00D43198 /* LightGrain.json in Resources */,
+				25060B04230CB5870081FA5C /* LR-BW-LowContrast.json in Resources */,
 				252B0F071E30690F005A0C2D /* fd_09g_wash_warm_dark_cross.jpg in Resources */,
 				25C2DF2022CD8A8D00D43198 /* HawaiColor.json in Resources */,
+				25060AEE230CB5870081FA5C /* LR-Selenium.json in Resources */,
 				25C2DEAD22CD8A8D00D43198 /* Grunge(sepia).json in Resources */,
 				2500470122FF3D240025309F /* B&WP#09.json in Resources */,
 				2500472A22FF3D470025309F /* Union.json in Resources */,
@@ -4946,6 +5125,7 @@
 				252B0E911E30690F005A0C2D /* mo_044_aurea.jpg in Resources */,
 				2573D1EB217CDCB500E78CAB /* YUCIColorLookup.cikernel in Resources */,
 				25FD3C8E22EB96E700A1C00A /* N-FujiProvia100.json in Resources */,
+				25060AD6230CB5870081FA5C /* LR-SharpenFaces.json in Resources */,
 				252B0F881E30690F005A0C2D /* da_026_sun_kiss_basic.jpg in Resources */,
 				252B0E421E30690F005A0C2D /* ps_004_blacklight_poster.jpg in Resources */,
 				25C2DF5C22CD8A8D00D43198 /* Navigator.json in Resources */,
@@ -4961,6 +5141,7 @@
 				250046CE22FF3D240025309F /* posterbdsoft03-03.json in Resources */,
 				252B0E901E30690F005A0C2D /* mo_042_contrast_desat_3.jpg in Resources */,
 				252B0EF01E30690F005A0C2D /* fd_09h_wash_warm_faded.jpg in Resources */,
+				25060B00230CB5870081FA5C /* LR-BW-HighContrast.json in Resources */,
 				2537A1F121E2EDBF00060DBE /* tx_pencil_2.jpg in Resources */,
 				252B0DBD1E30690E005A0C2D /* xp_014_another.jpg in Resources */,
 				2573D1E3217CDCB500E78CAB /* YUCIFXAA.cikernel in Resources */,
@@ -4995,6 +5176,7 @@
 				25C2DEE022CD8A8D00D43198 /* FourLeafClover.json in Resources */,
 				250046A522FF3D240025309F /* posterbdsoft02-02.json in Resources */,
 				2500467222FF3D240025309F /* dramatic-13.json in Resources */,
+				25060AD3230CB5870081FA5C /* LR-TurquoiseRed.json in Resources */,
 				25FD3CD422EB971200A1C00A /* X1.json in Resources */,
 				250046AE22FF3D240025309F /* posterbdsoft04-02.json in Resources */,
 				250046A122FF3D240025309F /* posterbdsoft02-15.json in Resources */,
@@ -5008,6 +5190,7 @@
 				250046C222FF3D240025309F /* posterbdsoft03-11.json in Resources */,
 				252B0F281E30690F005A0C2D /* et_092_i98o_3.jpg in Resources */,
 				252B0E941E30690F005A0C2D /* mo_018_smart_bw2.jpg in Resources */,
+				25060AF2230CB5870081FA5C /* LR-BleachBypass.json in Resources */,
 				252B0FA81E30690F005A0C2D /* bw_030_film_noir_1.JPG in Resources */,
 				252B0E091E30690F005A0C2D /* tn_011_tint_yellow.jpg in Resources */,
 				25C2DEEA22CD8A8D00D43198 /* Sophia.json in Resources */,
@@ -5043,10 +5226,12 @@
 				250046B922FF3D240025309F /* posterbdsoft04-06.json in Resources */,
 				25FD3C9F22EB96E700A1C00A /* N-AgfaScala200.json in Resources */,
 				2573D1E7217CDCB500E78CAB /* YUCIHighPass.cikernel in Resources */,
+				25060AF4230CB5870081FA5C /* LR-OldPolar.json in Resources */,
 				25C2DE9022CD8A8D00D43198 /* Cooling.json in Resources */,
 				2500468822FF3D240025309F /* graphicex01-04.json in Resources */,
 				25C2DF3B22CD8A8D00D43198 /* Darken.json in Resources */,
 				250046B022FF3D240025309F /* posterbdsoft04-15.json in Resources */,
+				25060AE8230CB5870081FA5C /* LR-SharpenScenic.json in Resources */,
 				25C2DEF122CD8A8D00D43198 /* WinterHiSaturation.json in Resources */,
 				252B0F341E30690F005A0C2D /* et_091_i98o_2.jpg in Resources */,
 				252B0E251E30690F005A0C2D /* ps_030_medium_contrast.jpg in Resources */,
@@ -5094,6 +5279,7 @@
 				250046C422FF3D240025309F /* posterbdsoft03-08.json in Resources */,
 				2500470622FF3D240025309F /* B&WP#02.json in Resources */,
 				25FD3CBE22EB970900A1C00A /* WarmDarkCrossWash.json in Resources */,
+				25060B03230CB5870081FA5C /* LR-BW-LowContrast-2.json in Resources */,
 				252B0E301E30690F005A0C2D /* ps_013_cross_process.jpg in Resources */,
 				2500467622FF3D240025309F /* dramatic-14.json in Resources */,
 				25C2DF5922CD8A8D00D43198 /* SundayAloneTime.json in Resources */,
@@ -5114,6 +5300,7 @@
 				252B0E1C1E30690F005A0C2D /* tn_004_isolate_red.jpg in Resources */,
 				252B0E1F1E30690F005A0C2D /* ps_024_increase_contrast.jpg in Resources */,
 				252B0F541E30690F005A0C2D /* et_053_a22_10.jpg in Resources */,
+				25060AEC230CB5870081FA5C /* LR-Punch.json in Resources */,
 				252B0F6B1E30690F005A0C2D /* et_028_a09_6.jpg in Resources */,
 				2500463822FF3D240025309F /* graphicexhdr01-13.json in Resources */,
 				252B10061E306920005A0C2D /* lightning_splits_by_dazzle_textures.jpg in Resources */,
@@ -5149,6 +5336,7 @@
 				2500454322FB30150025309F /* OldenDelays.json in Resources */,
 				25C2DF2C22CD8A8D00D43198 /* Vicky.json in Resources */,
 				252B0E571E30690F005A0C2D /* ms_046_nate_6.jpg in Resources */,
+				25060AE6230CB5870081FA5C /* LR-BW-Look4.json in Resources */,
 				2500464C22FF3D240025309F /* posterbdwedding-05.json in Resources */,
 				252B0F5E1E30690F005A0C2D /* et_039_a19.jpg in Resources */,
 				252B0F9C1E30690F005A0C2D /* bw_036_antique_plate_2.JPG in Resources */,
@@ -5162,7 +5350,9 @@
 				252B0FAA1E30690F005A0C2D /* bw_032_film_noir_3.JPG in Resources */,
 				252B0EB81E30690F005A0C2D /* lookup.jpg in Resources */,
 				250046E422FF3D240025309F /* posterbdhdrsoft01-22.json in Resources */,
+				25060AE0230CB5870081FA5C /* LR-BW-SepiaTone.json in Resources */,
 				25C2DF2522CD8A8D00D43198 /* BlackandWhiteTonalContrast(Light).json in Resources */,
+				25060AEB230CB5870081FA5C /* LR-Split1.json in Resources */,
 				25C2DF6122CD8A8D00D43198 /* N-FujiVelvia50.json in Resources */,
 				2500472522FF3D470025309F /* Sewage.json in Resources */,
 				25C2DE9B22CD8A8D00D43198 /* ResetColorFilter.json in Resources */,
@@ -5223,6 +5413,7 @@
 				252B0F321E30690F005A0C2D /* et_089_green.jpg in Resources */,
 				252B0F411E30690F005A0C2D /* et_059_a24_2.jpg in Resources */,
 				252B0F671E30690F005A0C2D /* et_024_a09_2.jpg in Resources */,
+				25060ADF230CB5870081FA5C /* LR-BW-Look3.json in Resources */,
 				252B0F6A1E30690F005A0C2D /* et_027_a09_5.jpg in Resources */,
 				250046F522FF3D240025309F /* posterbdhdrsoft01-10.json in Resources */,
 				2500473222FF3D470025309F /* PorcelainVIIILT.json in Resources */,
@@ -5236,6 +5427,7 @@
 				25C2DED922CD8A8D00D43198 /* BlueDawn.json in Resources */,
 				25C2DEFF22CD8A8D00D43198 /* WinterVibrantWarm.json in Resources */,
 				252B0F611E30690F005A0C2D /* et_042_a21_2.jpg in Resources */,
+				25060AFC230CB5870081FA5C /* LR-Creamtone.json in Resources */,
 				250046CF22FF3D240025309F /* posterbdsoft03-15.json in Resources */,
 				25C2DF4022CD8A8D00D43198 /* MagicGoldenHour.json in Resources */,
 				2500472E22FF3D470025309F /* PorcelainVISF2.json in Resources */,
@@ -5275,8 +5467,10 @@
 				2500470222FF3D240025309F /* B&WP#05.json in Resources */,
 				25C2DF1522CD8A8D00D43198 /* SummerBloom.json in Resources */,
 				252B0FB21E30690F005A0C2D /* bw_023_wet_rocks.JPG in Resources */,
+				25060AD4230CB5870081FA5C /* LR-SoftMist.json in Resources */,
 				252B0F2A1E30690F005A0C2D /* et_094_i98o_5.jpg in Resources */,
 				252B0E231E30690F005A0C2D /* ps_028_lightness_decrease.jpg in Resources */,
+				25060AE7230CB5870081FA5C /* LR-BW-Punch.json in Resources */,
 				252B0EF21E30690F005A0C2D /* fx_002_duplex.jpg in Resources */,
 				252B0EA61E30690F005A0C2D /* mo_007_retro_water.jpg in Resources */,
 				252B0DB61E30690E005A0C2D /* xp_023_oo_red.jpg in Resources */,
@@ -5292,6 +5486,7 @@
 				252B0F521E30690F005A0C2D /* et_051_a22_8.jpg in Resources */,
 				2500463422FF3D240025309F /* graphicexhdr01-15.json in Resources */,
 				25C2DED822CD8A8D00D43198 /* Wonka.json in Resources */,
+				25060B02230CB5870081FA5C /* LR-Yesteryear.json in Resources */,
 				252B0F9B1E30690F005A0C2D /* bw_035_antique_plate_1.JPG in Resources */,
 				252B0FB71E30690F005A0C2D /* bw_009_lo_key_1.JPG in Resources */,
 				252B0F2D1E30690F005A0C2D /* et_084_clear_pic.jpg in Resources */,
@@ -5308,6 +5503,7 @@
 				252B0EAD1E30690F005A0C2D /* mo_014_sad.jpg in Resources */,
 				250046A922FF3D240025309F /* posterbdsoft04-09.json in Resources */,
 				252B0F591E30690F005A0C2D /* et_034_a14_4.jpg in Resources */,
+				25060ADC230CB5870081FA5C /* LR-BW-HighContrast-2.json in Resources */,
 				25C2DEF722CD8A8D00D43198 /* WinterHazeWarm.json in Resources */,
 				2559533D1DF0D9EE002A2905 /* defaultConfig.json in Resources */,
 				2500466022FF3D240025309F /* graphicex02-10.json in Resources */,
@@ -5316,6 +5512,8 @@
 				252B0E211E30690F005A0C2D /* ps_026_late_sunset.jpg in Resources */,
 				252B0ED11E30690F005A0C2D /* fx_039_monday_morning_5.jpg in Resources */,
 				252B0EF81E30690F005A0C2D /* fx_008_indian_summer.jpg in Resources */,
+				25060AD7230CB5870081FA5C /* LR-Sepia.json in Resources */,
+				25060AE2230CB5870081FA5C /* LR-WarmShadows.json in Resources */,
 				25C2DF4322CD8A8D00D43198 /* Vivid.json in Resources */,
 				2500466A22FF3D240025309F /* dramatic-28.json in Resources */,
 				2500467D22FF3D240025309F /* dramatic-16.json in Resources */,
@@ -5349,6 +5547,7 @@
 				25C2DEB622CD8A8D00D43198 /* Daisy.json in Resources */,
 				252B103E1E306920005A0C2D /* shedyourskin_Tex_87.jpg in Resources */,
 				25C2DED722CD8A8D00D43198 /* Blue Dawn.json in Resources */,
+				25060AF0230CB5870081FA5C /* LR-VintageInstant.json in Resources */,
 				25C2DEFE22CD8A8D00D43198 /* WinterSceneryEnhancer.json in Resources */,
 				252B0FA51E30690F005A0C2D /* bw_027_soft_sepia.JPG in Resources */,
 				252B0E161E30690F005A0C2D /* ps_042_teal_orange_contrast.jpg in Resources */,
@@ -5357,6 +5556,8 @@
 				250046FB22FF3D240025309F /* posterbdhdrsoft01-01.json in Resources */,
 				252B0EAC1E30690F005A0C2D /* mo_013_happy.jpg in Resources */,
 				2500472F22FF3D470025309F /* PorcelainVSF.json in Resources */,
+				25060AF7230CB5870081FA5C /* LR-Split3.json in Resources */,
+				25060ADA230CB5870081FA5C /* LR-HighContrast.json in Resources */,
 				252B0E441E30690F005A0C2D /* ps_006_blue_tone.jpg in Resources */,
 				2573D1E6217CDCB500E78CAB /* YUCIHSLToRGB.cikernel in Resources */,
 				25C2DE9C22CD8A8D00D43198 /* IntenseFilm.json in Resources */,
@@ -5368,6 +5569,7 @@
 				25C2DF0B22CD8A8D00D43198 /* LowContrast.json in Resources */,
 				25C2DF3822CD8A8D00D43198 /* Hollywood.json in Resources */,
 				2573D1DD217CDCB500E78CAB /* YUCIRGBToneCurve.cikernel in Resources */,
+				25060AD8230CB5870081FA5C /* LR-BW-Soft.json in Resources */,
 				252B0E881E30690F005A0C2D /* mo_034_old_school_1.jpg in Resources */,
 				25C2DECF22CD8A8D00D43198 /* Tinting-Orange.json in Resources */,
 				252B0EE71E30690F005A0C2D /* fx_009_infrared_1.jpg in Resources */,
@@ -5402,6 +5604,7 @@
 				252B0EB01E30690F005A0C2D /* mo_017_smart_bw1.jpg in Resources */,
 				25C2DF3A22CD8A8D00D43198 /* BreakofDawn.json in Resources */,
 				252B0E221E30690F005A0C2D /* ps_027_lighter.jpg in Resources */,
+				25060AF6230CB5870081FA5C /* LR-MediumContrast.json in Resources */,
 				2537A1CD21DEBA2400060DBE /* FilterPreview.html in Resources */,
 				252B0E0F1E30690F005A0C2D /* ps_035_red_blue_yellow.jpg in Resources */,
 				252B0EAA1E30690F005A0C2D /* mo_011_nature_sky.jpg in Resources */,
@@ -5421,7 +5624,9 @@
 				252B0EC51E30690F005A0C2D /* fx_044_old_photo_5.jpg in Resources */,
 				250046F222FF3D240025309F /* posterbdhdrsoft01-05.json in Resources */,
 				25C2DEC222CD8A8D00D43198 /* Inky.json in Resources */,
+				25060AFD230CB5870081FA5C /* LR-ColdTone.json in Resources */,
 				252B0EB91E30690F005A0C2D /* mo_001_retro_reddish.jpg in Resources */,
+				25060AF9230CB5870081FA5C /* LR-Split4.json in Resources */,
 				250046DA22FF3D240025309F /* posterbdsoft01-03.json in Resources */,
 				252B0F761E30690F005A0C2D /* et_011_a03_1.jpg in Resources */,
 				252B0F331E30690F005A0C2D /* et_090_i98o_1.jpg in Resources */,
@@ -5463,6 +5668,8 @@
 				252745F321825DFF00AA2DA2 /* crayola.json in Resources */,
 				252B0FC41E30690F005A0C2D /* bw_005_hi_structure_harsh.JPG in Resources */,
 				252B102B1E306920005A0C2D /* ScratchTheItch.jpg in Resources */,
+				25060AFE230CB5870081FA5C /* LR-BW-Landscape.json in Resources */,
+				25060AD1230CB5870081FA5C /* LR-HighContrastDetail.json in Resources */,
 				252B0EF91E30690F005A0C2D /* fd_04e_dark.jpg in Resources */,
 				252B0F141E30690F005A0C2D /* fd_04b_desat.jpg in Resources */,
 				2500466C22FF3D240025309F /* dramatic-04.json in Resources */,
@@ -5497,8 +5704,10 @@
 				25C2DF3022CD8A8D00D43198 /* Marianne.json in Resources */,
 				252B0E961E30690F005A0C2D /* mo_020_colorful_glow.jpg in Resources */,
 				2500472122FF3D470025309F /* Hopeless.json in Resources */,
+				25060AFF230CB5870081FA5C /* LR-Vivid.json in Resources */,
 				2537A1CB21DEBA1400060DBE /* Settings.html in Resources */,
 				252B0F161E30690F005A0C2D /* fd_04d_blue_yellow.jpg in Resources */,
+				25060AE5230CB5870081FA5C /* LR-AgedPhoto1.json in Resources */,
 				252B0DC81E30690E005A0C2D /* xp_007_mutato_c41_e6.jpg in Resources */,
 				25FD3CD222EB971200A1C00A /* M5.json in Resources */,
 				252B0E8B1E30690F005A0C2D /* mo_037_contrast_1.jpg in Resources */,
@@ -5508,6 +5717,7 @@
 				252B0FAC1E30690F005A0C2D /* bw_034_yellowed_2.JPG in Resources */,
 				252B0E531E30690F005A0C2D /* ms_042_nate_2.jpg in Resources */,
 				253FC298216011730081A34C /* Default-568h@2x.png in Resources */,
+				25060AE9230CB5870081FA5C /* LR-Antique.json in Resources */,
 				25C2DEA122CD8A8D00D43198 /* HighClarityColorPop.json in Resources */,
 				2500465C22FF3D240025309F /* graphicex02-12.json in Resources */,
 				252B0F8A1E30690F005A0C2D /* et_001_88iiu.jpg in Resources */,
@@ -5524,6 +5734,7 @@
 				25C2DEB922CD8A8D00D43198 /* LordKelvin.json in Resources */,
 				252B0E171E30690F005A0C2D /* ps_043_tension_green.jpg in Resources */,
 				252B0DC31E30690E005A0C2D /* xp_002_kalif_medium.jpg in Resources */,
+				25060AD5230CB5870081FA5C /* LR-BW-Look2.json in Resources */,
 				25C2DEEE22CD8A8D00D43198 /* VintageBlueYellow.json in Resources */,
 				252B0F481E30690F005A0C2D /* et_066_a27.jpg in Resources */,
 				252B0F2B1E30690F005A0C2D /* et_095_icon2_1.jpg in Resources */,
@@ -5569,6 +5780,7 @@
 				25C2DEF922CD8A8D00D43198 /* WinterLowSaturation.json in Resources */,
 				252B0E2E1E30690F005A0C2D /* ps_011_crisp_warm.jpg in Resources */,
 				252B0E5C1E30690F005A0C2D /* ms_051_matte_4.jpg in Resources */,
+				25060ADB230CB5870081FA5C /* LR-DirectPositive.json in Resources */,
 				2500463F22FF3D240025309F /* posterbdwedding-16.json in Resources */,
 				252B0F891E30690F005A0C2D /* da_027_sun_kiss_warm.jpg in Resources */,
 				25C2DEE522CD8A8D00D43198 /* Liam.json in Resources */,
@@ -5585,10 +5797,13 @@
 				25C2DEEC22CD8A8D00D43198 /* Jackson.json in Resources */,
 				2500454922FB30150025309F /* Parentgrain.json in Resources */,
 				252B0FC71E30690F005A0C2D /* bw_000_neutral.JPG in Resources */,
+				25060AEF230CB5870081FA5C /* LR-DesaturatedContrast.json in Resources */,
 				252B0F7D1E30690F005A0C2D /* et_018_a07.jpg in Resources */,
 				252B0F731E30690F005A0C2D /* et_008_4321_7.jpg in Resources */,
+				25060AED230CB5870081FA5C /* LR-BW-Look5.json in Resources */,
 				252B0DB11E30690E005A0C2D /* et_096_icon2_2.jpg in Resources */,
 				2500464A22FF3D240025309F /* posterbdwedding-09.json in Resources */,
+				25060AE1230CB5870081FA5C /* LR-WarmContrast.json in Resources */,
 				2500466D22FF3D240025309F /* dramatic-24.json in Resources */,
 				2500464822FF3D240025309F /* posterbdwedding-12.json in Resources */,
 				252B0F931E30690F005A0C2D /* da_011_color_curve.jpg in Resources */,
@@ -5603,6 +5818,7 @@
 				2500466522FF3D240025309F /* graphicex02-20.json in Resources */,
 				252B0E791E30690F005A0C2D /* mo_048_lod.jpg in Resources */,
 				25C2DF3322CD8A8D00D43198 /* FallFoliage(Medium).json in Resources */,
+				25060AF1230CB5870081FA5C /* LR-Split2.json in Resources */,
 				2500472722FF3D470025309F /* Fallout.json in Resources */,
 				25C2DE7F22CD8A8D00D43198 /* OldSchool.json in Resources */,
 				2500454522FB30150025309F /* LatinOilSlicker.json in Resources */,
@@ -5622,6 +5838,7 @@
 				252B0E741E30690F005A0C2D /* ms_023_cinematic_2.jpg in Resources */,
 				252B0F941E30690F005A0C2D /* da_012_dark_blue_contrast.jpg in Resources */,
 				252B0F691E30690F005A0C2D /* et_026_a09_4.jpg in Resources */,
+				25060B05230CB5870081FA5C /* LR-Cyanotype.json in Resources */,
 				250046B622FF3D240025309F /* posterbdsoft04-17.json in Resources */,
 				25C2DEEB22CD8A8D00D43198 /* Ethan.json in Resources */,
 				2500473722FF3D470025309F /* IlfordFP4Plus125Curve.json in Resources */,
@@ -5638,6 +5855,7 @@
 				2500463D22FF3D240025309F /* graphicexhdr01-12.json in Resources */,
 				2537A1DB21DEBA8A00060DBE /* BlendGallery.html in Resources */,
 				25C2DEBA22CD8A8D00D43198 /* WaldenPond.json in Resources */,
+				25060AE3230CB5870081FA5C /* LR-CrossProcess-01.json in Resources */,
 				25FD3C8B22EB96E700A1C00A /* N-FujiFP100C.json in Resources */,
 				25C2DE7D22CD8A8D00D43198 /* ResetVignette.json in Resources */,
 				252B0F8C1E30690F005A0C2D /* et_003_4321_2.jpg in Resources */,
@@ -5712,7 +5930,9 @@
 				252B0EE51E30690F005A0C2D /* fx_024_ink_7.jpg in Resources */,
 				252B0EA81E30690F005A0C2D /* mo_009_broken_camera.jpg in Resources */,
 				252B0E2F1E30690F005A0C2D /* ps_012_crisp_winter.jpg in Resources */,
+				25060AD9230CB5870081FA5C /* LR-BW-SplitTone.json in Resources */,
 				252B0EC21E30690F005A0C2D /* fx_057_solarize_3.jpg in Resources */,
+				25060B07230CB5870081FA5C /* LR-BW-Flat.json in Resources */,
 				252B0F631E30690F005A0C2D /* et_044_a22_1.jpg in Resources */,
 				25C2DEE822CD8A8D00D43198 /* Noah.json in Resources */,
 				250046BF22FF3D240025309F /* posterbdsoft03-01.json in Resources */,
@@ -5727,6 +5947,7 @@
 				25FD3CBC22EB970900A1C00A /* AmberWash.json in Resources */,
 				25C2DF4D22CD8A8D00D43198 /* EnhanceDetails.json in Resources */,
 				252B0E541E30690F005A0C2D /* ms_043_nate_3.jpg in Resources */,
+				25060B01230CB5870081FA5C /* LR-BW-Look1.json in Resources */,
 				25FD3CAE22EB96FB00A1C00A /* DarkFadedPunch.json in Resources */,
 				252B0F801E30690F005A0C2D /* et_021_a08_3.jpg in Resources */,
 				25C2DF4A22CD8A8D00D43198 /* ReduceReds.json in Resources */,
@@ -5735,6 +5956,7 @@
 				252B0EF51E30690F005A0C2D /* fx_005_foliage_2.jpg in Resources */,
 				2573D1D5217CDCB500E78CAB /* YUCIReflectedTile.cikernel in Resources */,
 				252B0EE61E30690F005A0C2D /* fx_025_ink_8.jpg in Resources */,
+				25060AFB230CB5870081FA5C /* LR-BW-SeleniumTone.json in Resources */,
 				25FD3CA822EB96FB00A1C00A /* NeutralPunch.json in Resources */,
 				252B0EDD1E30690F005A0C2D /* fx_033_midnight_4.jpg in Resources */,
 				252B0F711E30690F005A0C2D /* et_006_4321_5.jpg in Resources */,
@@ -5769,6 +5991,7 @@
 				2500454622FB30150025309F /* Let'sGetLost.json in Resources */,
 				2500472922FF3D470025309F /* SecretBunker.json in Resources */,
 				2500463322FF3D240025309F /* graphicexhdr01-01.json in Resources */,
+				25060ADD230CB5870081FA5C /* LR-AntiqueLight.json in Resources */,
 				25C2DF3422CD8A8D00D43198 /* FallFoliage(Strong).json in Resources */,
 				25C2DF2A22CD8A8D00D43198 /* Summer.json in Resources */,
 				25C2DF5822CD8A8D00D43198 /* ThankHeavenForLittleGirls.json in Resources */,
@@ -5776,6 +5999,7 @@
 				250046C322FF3D240025309F /* posterbdsoft03-07.json in Resources */,
 				252B0F241E30690F005A0C2D /* et_111_old.jpg in Resources */,
 				252B0EF41E30690F005A0C2D /* fx_004_foliage_1.jpg in Resources */,
+				25060AF5230CB5870081FA5C /* LR-BW-Infrared.json in Resources */,
 				257F49E51D9448920083B1E4 /* Main.storyboard in Resources */,
 				25C2DF1D22CD8A8D00D43198 /* WalkOnABeach.json in Resources */,
 				25C2DF5B22CD8A8D00D43198 /* ABeautifulRelease.json in Resources */,
@@ -5832,6 +6056,7 @@
 				252B0EBE1E30690F005A0C2D /* fx_053_pastel_2.jpg in Resources */,
 				2500468722FF3D240025309F /* dramatic-07.json in Resources */,
 				25C2DE7E22CD8A8D00D43198 /* Delightful.json in Resources */,
+				25060B06230CB5870081FA5C /* LR-CrossProcess-03.json in Resources */,
 				25C2DF0722CD8A8D00D43198 /* DreamyFeeling.json in Resources */,
 				252B0E041E30690F005A0C2D /* tn_006_tint_brown.jpg in Resources */,
 				252B0F8F1E30690F005A0C2D /* da_007_green_blue_contrast.jpg in Resources */,
@@ -5862,9 +6087,11 @@
 				252B0E781E30690F005A0C2D /* mo_047_luma.jpg in Resources */,
 				252B0ED91E30690F005A0C2D /* fx_029_lo_key.jpg in Resources */,
 				25C2DE8222CD8A8D00D43198 /* CrossProcessed.json in Resources */,
+				25060AF3230CB5870081FA5C /* LR-CoolLight.json in Resources */,
 				252B0E451E30690F005A0C2D /* ms_053_matte_6.jpg in Resources */,
 				252B0EE81E30690F005A0C2D /* fx_010_infrared_2.jpg in Resources */,
 				252B0EEC1E30690F005A0C2D /* fx_014_infrared_color_2.jpg in Resources */,
+				25060AE4230CB5870081FA5C /* LR-Matte.json in Resources */,
 				252B0ECF1E30690F005A0C2D /* fx_037_monday_morning_3.jpg in Resources */,
 				252B0EFE1E30690F005A0C2D /* fd_04j_amber.jpg in Resources */,
 				252B0F171E30690F005A0C2D /* et_098_made_2.jpg in Resources */,
@@ -5874,6 +6101,7 @@
 				25FD3CCB22EB971200A1C00A /* B5.json in Resources */,
 				252B0FAB1E30690F005A0C2D /* bw_033_yellowed_1.JPG in Resources */,
 				252B0EB71E30690F005A0C2D /* fx_067_solarize_bw_6.jpg in Resources */,
+				25060AEA230CB5870081FA5C /* LR-RedLiftMatte.json in Resources */,
 				25C2DF4622CD8A8D00D43198 /* ContrastyB&W.json in Resources */,
 				252B0E591E30690F005A0C2D /* ms_048_matte_1.jpg in Resources */,
 				252B0E5D1E30690F005A0C2D /* ms_052_matte_5.jpg in Resources */,
