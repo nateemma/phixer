@@ -73,9 +73,16 @@ class FilterFactory{
             if def != nil {
                 FilterConfiguration.addFilter(key:(def?.key)!, definition:def!)
                 descriptor = FilterDescriptor(key: key, definition:def!)
+                FilterFactory.filterList[key] = def
             } else {
                 print ("FilterFactory.createFilter() ERR: Unkown class: \(key)")
             }
+        }
+        
+        if descriptor != nil {
+            descriptor?.slow = isSlow(key: key)
+            descriptor?.show = !isHidden(key: key)
+            descriptor?.rating = getRating(key: key)
         }
         
         return descriptor

@@ -16,6 +16,7 @@ class SketchFilter: CIFilter {
     var inputTexture: CGFloat = 0.5
     
     var parameterChanged:Bool = false
+    var running:Bool = false
 
     //private let kernel: CIKernel!
     var currOutputImage:CIImage? = nil
@@ -174,14 +175,17 @@ class SketchFilter: CIFilter {
             return nil
         }
         
-        // only run the filter if something changed (or this is the first run)
-        if (parameterChanged) {
-            parameterChanged = false
-            
-            combineLayers()
+        if !running { // execution can overlap (in multiple threads), so don't run if the filter is already active
+            running = true
+            // only run the filter if something changed (or this is the first run)
+            if (parameterChanged) {
+                parameterChanged = false
+                
+                combineLayers()
+            }
+            running = false
         }
-        
-        return currOutputImage
+        return currOutputImage != nil ? currOutputImage : inputImage
     }
     
     
@@ -247,7 +251,7 @@ class SketchFilter: CIFilter {
         prepDetail()
         prepShading()
         prepEdges()
-        combineLayers()
+        //combineLayers()
 
     }
     
@@ -316,15 +320,16 @@ class SketchFilter: CIFilter {
         //TODO: create masks of different areas/depths of darkness?
         
         // darken the shading texture, mask it, blend with the basic sketch and turn down the opacity based on the user input
+        // Also added a low opacity version of the mono image to provide some background
         shadedImg = shadingTextureImg
-            .applyingFilter("CIMultiplyBlendMode", parameters: [kCIInputBackgroundImageKey: shadingTextureImg.applyingFilter("OpacityFilter", parameters:  ["inputOpacity": 0.2])])
+            //.applyingFilter("CIMultiplyBlendMode", parameters: [kCIInputBackgroundImageKey: shadingTextureImg.applyingFilter("OpacityFilter", parameters:  ["inputOpacity": 0.2])])
+            .applyingFilter("CIMultiplyBlendMode", parameters: [kCIInputBackgroundImageKey: shadowMask.applyingFilter("OpacityFilter", parameters:  ["inputOpacity": 0.8])])
             .applyingFilter("CIBlendWithMask", parameters: [kCIInputMaskImageKey: shadowMask, kCIInputBackgroundImageKey: shadingTextureImg])
             .applyingFilter("CIBlendWithMask", parameters: [kCIInputMaskImageKey: shadowMask, kCIInputBackgroundImageKey: basicSketchImg])
+            .applyingFilter("CIMultiplyBlendMode", parameters: [kCIInputBackgroundImageKey: monoImg.applyingFilter("OpacityFilter", parameters:  ["inputOpacity": 0.4])])
             .applyingFilter("OpacityFilter", parameters:  ["inputOpacity": inputTexture])
             .clampedToExtent()
             .cropped(to: workingExtent)
-
-               // TODO: add light opacity overlay of mono image?
     }
     
     

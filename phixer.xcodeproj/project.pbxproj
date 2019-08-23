@@ -319,7 +319,6 @@
 		25060B05230CB5870081FA5C /* LR-Cyanotype.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060ACE230CB5870081FA5C /* LR-Cyanotype.json */; };
 		25060B06230CB5870081FA5C /* LR-CrossProcess-03.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060ACF230CB5870081FA5C /* LR-CrossProcess-03.json */; };
 		25060B07230CB5870081FA5C /* LR-BW-Flat.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060AD0230CB5870081FA5C /* LR-BW-Flat.json */; };
-		2506767D1DE1091500226740 /* PresetList.json in Resources */ = {isa = PBXBuildFile; fileRef = 2506767C1DE1091500226740 /* PresetList.json */; };
 		250716091DBEC19400CDDF42 /* FilterGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250716081DBEC19400CDDF42 /* FilterGalleryViewController.swift */; };
 		2507160B1DBECDF200CDDF42 /* Admob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2507160A1DBECDF200CDDF42 /* Admob.swift */; };
 		2507160D1DBED62C00CDDF42 /* FilterGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2507160C1DBED62C00CDDF42 /* FilterGalleryView.swift */; };
@@ -350,7 +349,6 @@
 		252745E92180FDF600AA2DA2 /* CustomFilterRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252745E82180FDF600AA2DA2 /* CustomFilterRegistry.swift */; };
 		252745EF21815FB700AA2DA2 /* CarnivalMirror.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252745EE21815FB700AA2DA2 /* CarnivalMirror.swift */; };
 		252745F12182295100AA2DA2 /* EdgeGlowFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252745F02182295100AA2DA2 /* EdgeGlowFilter.swift */; };
-		252745F321825DFF00AA2DA2 /* crayola.json in Resources */ = {isa = PBXBuildFile; fileRef = 252745F221825DFF00AA2DA2 /* crayola.json */; };
 		252745F521826DBC00AA2DA2 /* ColorSchemeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252745F421826DBC00AA2DA2 /* ColorSchemeViewController.swift */; };
 		252745F72182A1D500AA2DA2 /* BorderedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252745F62182A1D500AA2DA2 /* BorderedButton.swift */; };
 		252745F92182AAF900AA2DA2 /* ColorSchemeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252745F82182AAF900AA2DA2 /* ColorSchemeView.swift */; };
@@ -574,7 +572,6 @@
 		252B0EED1E30690F005A0C2D /* fx_015_infrared_color_3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 252B0CD31E30690E005A0C2D /* fx_015_infrared_color_3.jpg */; };
 		252B0EEE1E30690F005A0C2D /* fx_016_infrared_color_4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 252B0CD41E30690E005A0C2D /* fx_016_infrared_color_4.jpg */; };
 		252B0EEF1E30690F005A0C2D /* fx_017_infrared_color_5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 252B0CD51E30690E005A0C2D /* fx_017_infrared_color_5.jpg */; };
-		252B0EF01E30690F005A0C2D /* fd_09h_wash_warm_faded.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 252B0CD61E30690E005A0C2D /* fd_09h_wash_warm_faded.jpg */; };
 		252B0EF11E30690F005A0C2D /* fx_001_bleach_bypass.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 252B0CD71E30690E005A0C2D /* fx_001_bleach_bypass.jpg */; };
 		252B0EF21E30690F005A0C2D /* fx_002_duplex.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 252B0CD81E30690E005A0C2D /* fx_002_duplex.jpg */; };
 		252B0EF31E30690F005A0C2D /* fx_003_fog.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 252B0CD91E30690E005A0C2D /* fx_003_fog.jpg */; };
@@ -591,13 +588,6 @@
 		252B0EFE1E30690F005A0C2D /* fd_04j_amber.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 252B0CE41E30690E005A0C2D /* fd_04j_amber.jpg */; };
 		252B0EFF1E30690F005A0C2D /* fd_04k_dark_purple.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 252B0CE51E30690E005A0C2D /* fd_04k_dark_purple.jpg */; };
 		252B0F001E30690F005A0C2D /* fd_04l_hi_contrast.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 252B0CE61E30690E005A0C2D /* fd_04l_hi_contrast.jpg */; };
-		252B0F011E30690F005A0C2D /* fd_09a_wash_dark.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 252B0CE71E30690E005A0C2D /* fd_09a_wash_dark.jpg */; };
-		252B0F021E30690F005A0C2D /* fd_09b_wash_cross_dark.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 252B0CE81E30690E005A0C2D /* fd_09b_wash_cross_dark.jpg */; };
-		252B0F031E30690F005A0C2D /* fd_09c_wash_amber_dark.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 252B0CE91E30690E005A0C2D /* fd_09c_wash_amber_dark.jpg */; };
-		252B0F041E30690F005A0C2D /* fd_09d_wash_amber.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 252B0CEA1E30690E005A0C2D /* fd_09d_wash_amber.jpg */; };
-		252B0F051E30690F005A0C2D /* fd_09e_wash_apricot.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 252B0CEB1E30690E005A0C2D /* fd_09e_wash_apricot.jpg */; };
-		252B0F061E30690F005A0C2D /* fd_09f_wash_warm_cross.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 252B0CEC1E30690E005A0C2D /* fd_09f_wash_warm_cross.jpg */; };
-		252B0F071E30690F005A0C2D /* fd_09g_wash_warm_dark_cross.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 252B0CED1E30690E005A0C2D /* fd_09g_wash_warm_dark_cross.jpg */; };
 		252B0F081E30690F005A0C2D /* et_114_pink_2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 252B0CEE1E30690E005A0C2D /* et_114_pink_2.jpg */; };
 		252B0F091E30690F005A0C2D /* et_115_pink_grey.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 252B0CEF1E30690E005A0C2D /* et_115_pink_grey.jpg */; };
 		252B0F0A1E30690F005A0C2D /* et_116_pink.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 252B0CF01E30690E005A0C2D /* et_116_pink.jpg */; };
@@ -1717,7 +1707,6 @@
 		25060ACE230CB5870081FA5C /* LR-Cyanotype.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-Cyanotype.json"; sourceTree = "<group>"; };
 		25060ACF230CB5870081FA5C /* LR-CrossProcess-03.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-CrossProcess-03.json"; sourceTree = "<group>"; };
 		25060AD0230CB5870081FA5C /* LR-BW-Flat.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-BW-Flat.json"; sourceTree = "<group>"; };
-		2506767C1DE1091500226740 /* PresetList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PresetList.json; sourceTree = "<group>"; };
 		250716081DBEC19400CDDF42 /* FilterGalleryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterGalleryViewController.swift; sourceTree = "<group>"; };
 		2507160A1DBECDF200CDDF42 /* Admob.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Admob.swift; sourceTree = "<group>"; };
 		2507160C1DBED62C00CDDF42 /* FilterGalleryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterGalleryView.swift; sourceTree = "<group>"; };
@@ -1757,7 +1746,6 @@
 		252745E82180FDF600AA2DA2 /* CustomFilterRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomFilterRegistry.swift; path = phixer/Filters/CustomFilters/CustomFilterRegistry.swift; sourceTree = SOURCE_ROOT; };
 		252745EE21815FB700AA2DA2 /* CarnivalMirror.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CarnivalMirror.swift; path = phixer/Filters/CustomFilters/Filterpedia/CarnivalMirror.swift; sourceTree = SOURCE_ROOT; };
 		252745F02182295100AA2DA2 /* EdgeGlowFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeGlowFilter.swift; sourceTree = "<group>"; };
-		252745F221825DFF00AA2DA2 /* crayola.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = crayola.json; sourceTree = "<group>"; };
 		252745F421826DBC00AA2DA2 /* ColorSchemeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorSchemeViewController.swift; sourceTree = "<group>"; };
 		252745F62182A1D500AA2DA2 /* BorderedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderedButton.swift; sourceTree = "<group>"; };
 		252745F82182AAF900AA2DA2 /* ColorSchemeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSchemeView.swift; sourceTree = "<group>"; };
@@ -1981,7 +1969,6 @@
 		252B0CD31E30690E005A0C2D /* fx_015_infrared_color_3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fx_015_infrared_color_3.jpg; sourceTree = "<group>"; };
 		252B0CD41E30690E005A0C2D /* fx_016_infrared_color_4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fx_016_infrared_color_4.jpg; sourceTree = "<group>"; };
 		252B0CD51E30690E005A0C2D /* fx_017_infrared_color_5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fx_017_infrared_color_5.jpg; sourceTree = "<group>"; };
-		252B0CD61E30690E005A0C2D /* fd_09h_wash_warm_faded.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fd_09h_wash_warm_faded.jpg; sourceTree = "<group>"; };
 		252B0CD71E30690E005A0C2D /* fx_001_bleach_bypass.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fx_001_bleach_bypass.jpg; sourceTree = "<group>"; };
 		252B0CD81E30690E005A0C2D /* fx_002_duplex.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fx_002_duplex.jpg; sourceTree = "<group>"; };
 		252B0CD91E30690E005A0C2D /* fx_003_fog.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fx_003_fog.jpg; sourceTree = "<group>"; };
@@ -1998,13 +1985,6 @@
 		252B0CE41E30690E005A0C2D /* fd_04j_amber.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fd_04j_amber.jpg; sourceTree = "<group>"; };
 		252B0CE51E30690E005A0C2D /* fd_04k_dark_purple.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fd_04k_dark_purple.jpg; sourceTree = "<group>"; };
 		252B0CE61E30690E005A0C2D /* fd_04l_hi_contrast.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fd_04l_hi_contrast.jpg; sourceTree = "<group>"; };
-		252B0CE71E30690E005A0C2D /* fd_09a_wash_dark.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fd_09a_wash_dark.jpg; sourceTree = "<group>"; };
-		252B0CE81E30690E005A0C2D /* fd_09b_wash_cross_dark.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fd_09b_wash_cross_dark.jpg; sourceTree = "<group>"; };
-		252B0CE91E30690E005A0C2D /* fd_09c_wash_amber_dark.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fd_09c_wash_amber_dark.jpg; sourceTree = "<group>"; };
-		252B0CEA1E30690E005A0C2D /* fd_09d_wash_amber.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fd_09d_wash_amber.jpg; sourceTree = "<group>"; };
-		252B0CEB1E30690E005A0C2D /* fd_09e_wash_apricot.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fd_09e_wash_apricot.jpg; sourceTree = "<group>"; };
-		252B0CEC1E30690E005A0C2D /* fd_09f_wash_warm_cross.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fd_09f_wash_warm_cross.jpg; sourceTree = "<group>"; };
-		252B0CED1E30690E005A0C2D /* fd_09g_wash_warm_dark_cross.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fd_09g_wash_warm_dark_cross.jpg; sourceTree = "<group>"; };
 		252B0CEE1E30690E005A0C2D /* et_114_pink_2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = et_114_pink_2.jpg; sourceTree = "<group>"; };
 		252B0CEF1E30690E005A0C2D /* et_115_pink_grey.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = et_115_pink_grey.jpg; sourceTree = "<group>"; };
 		252B0CF01E30690E005A0C2D /* et_116_pink.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = et_116_pink.jpg; sourceTree = "<group>"; };
@@ -3269,12 +3249,10 @@
 			isa = PBXGroup;
 			children = (
 				250C5F0222B863B200DE0DDF /* Presets */,
-				2506767C1DE1091500226740 /* PresetList.json */,
 				257E29C9216D505B00F438C6 /* oldPresetList.json */,
 				2559533C1DF0D9EE002A2905 /* defaultConfig.json */,
 				25E80EA6216D62F100EBE8E6 /* testFilterConfig.json */,
 				257E29A02168274100F438C6 /* oldFilterConfig.json */,
-				252745F221825DFF00AA2DA2 /* crayola.json */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -4547,14 +4525,6 @@
 				252B0CE41E30690E005A0C2D /* fd_04j_amber.jpg */,
 				252B0CE51E30690E005A0C2D /* fd_04k_dark_purple.jpg */,
 				252B0CE61E30690E005A0C2D /* fd_04l_hi_contrast.jpg */,
-				252B0CE71E30690E005A0C2D /* fd_09a_wash_dark.jpg */,
-				252B0CE81E30690E005A0C2D /* fd_09b_wash_cross_dark.jpg */,
-				252B0CE91E30690E005A0C2D /* fd_09c_wash_amber_dark.jpg */,
-				252B0CEA1E30690E005A0C2D /* fd_09d_wash_amber.jpg */,
-				252B0CEB1E30690E005A0C2D /* fd_09e_wash_apricot.jpg */,
-				252B0CEC1E30690E005A0C2D /* fd_09f_wash_warm_cross.jpg */,
-				252B0CED1E30690E005A0C2D /* fd_09g_wash_warm_dark_cross.jpg */,
-				252B0CD61E30690E005A0C2D /* fd_09h_wash_warm_faded.jpg */,
 				252B0CD71E30690E005A0C2D /* fx_001_bleach_bypass.jpg */,
 				252B0CD81E30690E005A0C2D /* fx_002_duplex.jpg */,
 				252B0CD91E30690E005A0C2D /* fx_003_fog.jpg */,
@@ -5110,7 +5080,6 @@
 				252B0E5B1E30690F005A0C2D /* ms_050_matte_3.jpg in Resources */,
 				25C2DE9422CD8A8D00D43198 /* LightGrain.json in Resources */,
 				25060B04230CB5870081FA5C /* LR-BW-LowContrast.json in Resources */,
-				252B0F071E30690F005A0C2D /* fd_09g_wash_warm_dark_cross.jpg in Resources */,
 				25C2DF2022CD8A8D00D43198 /* HawaiColor.json in Resources */,
 				25060AEE230CB5870081FA5C /* LR-Selenium.json in Resources */,
 				25C2DEAD22CD8A8D00D43198 /* Grunge(sepia).json in Resources */,
@@ -5140,7 +5109,6 @@
 				252B0EDF1E30690F005A0C2D /* fx_018_ink_1.jpg in Resources */,
 				250046CE22FF3D240025309F /* posterbdsoft03-03.json in Resources */,
 				252B0E901E30690F005A0C2D /* mo_042_contrast_desat_3.jpg in Resources */,
-				252B0EF01E30690F005A0C2D /* fd_09h_wash_warm_faded.jpg in Resources */,
 				25060B00230CB5870081FA5C /* LR-BW-HighContrast.json in Resources */,
 				2537A1F121E2EDBF00060DBE /* tx_pencil_2.jpg in Resources */,
 				252B0DBD1E30690E005A0C2D /* xp_014_another.jpg in Resources */,
@@ -5215,7 +5183,6 @@
 				25C2DF0422CD8A8D00D43198 /* WinterContrastExposure.json in Resources */,
 				252B101F1E306920005A0C2D /* textures_100_by_inthename_stock.jpg in Resources */,
 				252B0F291E30690F005A0C2D /* et_093_i98o_4.jpg in Resources */,
-				2506767D1DE1091500226740 /* PresetList.json in Resources */,
 				252B0EC31E30690F005A0C2D /* fx_058_solarize_4.jpg in Resources */,
 				2500463922FF3D240025309F /* graphicexhdr01-05.json in Resources */,
 				252B0F751E30690F005A0C2D /* et_010_a02.jpg in Resources */,
@@ -5517,7 +5484,6 @@
 				25C2DF4322CD8A8D00D43198 /* Vivid.json in Resources */,
 				2500466A22FF3D240025309F /* dramatic-28.json in Resources */,
 				2500467D22FF3D240025309F /* dramatic-16.json in Resources */,
-				252B0F021E30690F005A0C2D /* fd_09b_wash_cross_dark.jpg in Resources */,
 				2500468D22FF3D240025309F /* graphicex01-03.json in Resources */,
 				25FD3C9422EB96E700A1C00A /* N-AgfaVista400.json in Resources */,
 				25C2DEBF22CD8A8D00D43198 /* ElHefe.json in Resources */,
@@ -5595,7 +5561,6 @@
 				252B0E8D1E30690F005A0C2D /* mo_039_contrast_3.jpg in Resources */,
 				25C2DF6222CD8A8D00D43198 /* N-KodakTRI-X400.json in Resources */,
 				25C2DF5322CD8A8D00D43198 /* Relic.json in Resources */,
-				252B0F051E30690F005A0C2D /* fd_09e_wash_apricot.jpg in Resources */,
 				25C2DF0F22CD8A8D00D43198 /* RESETALL.json in Resources */,
 				250046B222FF3D240025309F /* posterbdsoft04-19.json in Resources */,
 				252B0F421E30690F005A0C2D /* et_060_a24_3.jpg in Resources */,
@@ -5665,7 +5630,6 @@
 				252B0F581E30690F005A0C2D /* et_057_a23_4.jpg in Resources */,
 				252B0FAF1E30690F005A0C2D /* bw_020_fine_art_hi_key.JPG in Resources */,
 				250046E122FF3D240025309F /* posterbdsoft01-08.json in Resources */,
-				252745F321825DFF00AA2DA2 /* crayola.json in Resources */,
 				252B0FC41E30690F005A0C2D /* bw_005_hi_structure_harsh.JPG in Resources */,
 				252B102B1E306920005A0C2D /* ScratchTheItch.jpg in Resources */,
 				25060AFE230CB5870081FA5C /* LR-BW-Landscape.json in Resources */,
@@ -5689,7 +5653,6 @@
 				2500472D22FF3D470025309F /* PorcelainIV.json in Resources */,
 				25C2DF3C22CD8A8D00D43198 /* BlueSky.json in Resources */,
 				2500467822FF3D240025309F /* dramatic-03.json in Resources */,
-				252B0F011E30690F005A0C2D /* fd_09a_wash_dark.jpg in Resources */,
 				257F49E71D9448920083B1E4 /* Assets.xcassets in Resources */,
 				2500473522FF3D470025309F /* IlfordDelta100Curve.json in Resources */,
 				252B0F451E30690F005A0C2D /* et_063_a25_3.jpg in Resources */,
@@ -5923,7 +5886,6 @@
 				250046C622FF3D240025309F /* posterbdsoft03-04.json in Resources */,
 				25C2DEFD22CD8A8D00D43198 /* WinterHazeCold.json in Resources */,
 				252B0DB71E30690E005A0C2D /* xp_024_oo_yellow.jpg in Resources */,
-				252B0F061E30690F005A0C2D /* fd_09f_wash_warm_cross.jpg in Resources */,
 				250046C922FF3D240025309F /* posterbdsoft03-09.json in Resources */,
 				252B0FA01E30690F005A0C2D /* da_002_sun_kiss copy.jpg in Resources */,
 				252B0EB41E30690F005A0C2D /* fx_064_solarize_bw_3.jpg in Resources */,
@@ -5964,7 +5926,6 @@
 				25C2DEF622CD8A8D00D43198 /* WinterDehaze.json in Resources */,
 				252B10141E306920005A0C2D /* monoprint_17_by_pendlestock.jpg in Resources */,
 				25FD3CAC22EB96FB00A1C00A /* CrossVintagePunch.json in Resources */,
-				252B0F041E30690F005A0C2D /* fd_09d_wash_amber.jpg in Resources */,
 				252B0FAD1E30690F005A0C2D /* bw_018_full_spectrum_inverse.JPG in Resources */,
 				252B0EAE1E30690F005A0C2D /* mo_015_smart_sepia.jpg in Resources */,
 				25C2DED522CD8A8D00D43198 /* Tijuana.json in Resources */,
@@ -5986,7 +5947,6 @@
 				25C2DF2922CD8A8D00D43198 /* Adeline.json in Resources */,
 				2500464D22FF3D240025309F /* posterbdwedding-22.json in Resources */,
 				2537A1F321E310B500060DBE /* tx_pencil_crosshatch_2.jpg in Resources */,
-				252B0F031E30690F005A0C2D /* fd_09c_wash_amber_dark.jpg in Resources */,
 				250046B122FF3D240025309F /* posterbdsoft04-03.json in Resources */,
 				2500454622FB30150025309F /* Let'sGetLost.json in Resources */,
 				2500472922FF3D470025309F /* SecretBunker.json in Resources */,

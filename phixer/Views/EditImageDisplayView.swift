@@ -157,18 +157,19 @@ class EditImageDisplayView: UIView {
     public func setFilter(key:String){
         //currFilterKey = filterManager.getCurrentFilter()
         if (!key.isEmpty){
-            let prevKey = currFilterKey
-            currFilterKey = key
-            EditManager.addPreviewFilter(filterManager.getFilterDescriptor(key: key))
-            
-            resetZoom()
-            update()
-
-            if (!prevKey.isEmpty) {
-                filterManager.releaseRenderView(key: prevKey)
-                filterManager.releaseFilterDescriptor(key: key)
+            if key != currFilterKey {
+                let prevKey = currFilterKey
+                currFilterKey = key
+                EditManager.addPreviewFilter(filterManager.getFilterDescriptor(key: key))
+                
+                resetZoom()
+                update()
+                
+                if (!prevKey.isEmpty) {
+                    filterManager.releaseRenderView(key: prevKey)
+                    filterManager.releaseFilterDescriptor(key: key)
+                }
             }
-
         } else {
             log.error("Empty key specified")
         }

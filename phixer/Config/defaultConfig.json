@@ -214,14 +214,6 @@
         { "key": "fd_04j", "image": "fd_04j_amber.jpg", "slow": false, "show": true, "rating": 0 },
         { "key": "fd_04k", "image": "fd_04k_dark_purple.jpg", "slow": false, "show": true, "rating": 0 },
         { "key": "fd_04l", "image": "fd_04l_hi_contrast.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "fd_09a", "image": "fd_09a_wash_dark.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "fd_09b", "image": "fd_09b_wash_cross_dark.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "fd_09c", "image": "fd_09c_wash_amber_dark.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "fd_09d", "image": "fd_09d_wash_amber.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "fd_09e", "image": "fd_09e_wash_apricot.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "fd_09f", "image": "fd_09f_wash_warm_cross.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "fd_09g", "image": "fd_09g_wash_warm_dark_cross.jpg", "slow": false, "show": true, "rating": 0 },
-        { "key": "fd_09h", "image": "fd_09h_wash_warm_faded.jpg", "slow": false, "show": true, "rating": 0 },
         
         { "key": "mo_001", "image": "mo_001_retro_reddish.jpg", "slow": false, "show": true, "rating": 0 },
         { "key": "mo_002", "image": "mo_002_retro_greenish.jpg", "slow": false, "show": true, "rating": 0 },
@@ -1637,7 +1629,7 @@
         {"key": "fade",
             "title": "Fade/Wash",
             "filters": ["fd_04a", "fd_04b", "fd_04c", "fd_04d", "fd_04e", "fd_04f", "fd_04g", "fd_04h", "fd_04i", "fd_04j",
-                "fd_04k", "fd_04l", "fd_09a", "fd_09b", "fd_09c", "fd_09d", "fd_09e", "fd_09f", "fd_09g", "fd_09h"
+                "fd_04k", "fd_04l"
             ]
         },
         

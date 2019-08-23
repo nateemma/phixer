@@ -33,7 +33,7 @@ class CustomFilterRegistry: NSObject, CIFilterConstructor {
                                                "ColorDirectedBlur", "HomogeneousColorBlur", "VHSTrackingLines",  "TransverseChromaticAberration" ,
                                               "RGBChannelCompositing", "RGBChannelToneCurve", "RGBChannelBrightnessAndContrast", "ChromaticAberration", "RGBChannelGaussianBlur",
                                               "HighPassSharpeningFilter", "CropRotateFilter", "AutoAdjustFilter", "SplitToningFilter",
-                                              "PresetFilter", "VoronoiNoise", "GrainFilter"
+                                              "PresetFilter", "VoronoiNoise", "GrainFilter", "BWZoneFilter"
                                              ]
     
     // any filters that do not need to access any more than 1 pixel can go here:
@@ -44,7 +44,7 @@ class CustomFilterRegistry: NSObject, CIFilterConstructor {
                                                 "CompoundEye", "EightBit", "HighPassFilter", "HighPassSkinSmoothingFilter", "CLAHEFilter",
                                                 "HueRangeFilter", "MaskedSkinSmoothingFilter",
                                                 "EnhanceLipsFilter", "EnhanceEyesFilter", "EnhanceEyebrowsFilter", "EnhanceTeethFilter", "EnhanceFaceFilter",
-                                                "BWZoneFilter", "ForegroundMaskFilter", "BackgroundBlurFilter", "ForegroundLightingFilter"
+                                                "ForegroundMaskFilter", "BackgroundBlurFilter", "ForegroundLightingFilter"
                                                 ]
     
     

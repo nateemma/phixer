@@ -18,7 +18,8 @@ class BWZoneFilter: CIFilter {
     
     // Note: lots of playing around with different ways to calculate luminosity. I left the variations in here (commented out) for reference
     
-    let kernel = CIColorKernel(source:
+    //let kernel = CIColorKernel(source:
+    let kernel = CIKernel(source:
         "vec3 rgb2hsv(vec3 c)\n" +
             "{\n" +
             "    vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);\n" +
@@ -69,25 +70,36 @@ class BWZoneFilter: CIFilter {
             "    return clamp(b, 0.0, 1.0);\n" +
             "}\n" +
             "\n" +
-            "kernel vec4 BWZoneFilter(__sample image) {\n" +
-            "float nzones = 11.0;\n" +
-            "vec4 linear = srgb_to_linear(image);\n" +
-            "vec3 ihsv = rgb2hsv(linear.rgb);\n" +
-            "float iv  = rgb2l(linear.rgb);\n" + // convert RGB to luminosity
-            "int zone = (int(iv * 110.0)+10) / 11;\n" +
-            "float ov = 0.0;\n" +
-            "ov = zoneBrightness(zone); \n" +
-            "float left = float(zone)/nzones;\n" + // left boundary in input scale
-            "float right = float(zone+1)/nzones;\n" + // right boundary in input scale
-            "float rlum = zoneBrightness(zone+1);\n" + // right boundary in adjusted scale
-            "float adj = (iv - left)/(right-left);\n" + // difference relative to lower zone boundary in input scale
-            "adj = adj * (rlum - ov);\n" + // smooth out the value within the zone
-            "ov = clamp(ov + adj, ov, rlum);\n" +
-            //"ov = ov + adj*ov;\n" + // add adjustment from zone boundary
-            "vec3 ohsv = vec3(ihsv.x, ihsv.x, ov);\n" +
-            "vec3 orgb = hsv2rgb(ohsv);\n" +
-            "vec4 result = vec4(orgb, 1.0);\n" +
-            "return linear_to_srgb(result);\n" +
+            //"kernel vec4 BWZoneFilter(__sample image) {\n" +
+            "kernel vec4 BWZoneFilter(sampler image) {\n" +
+            "   float nzones = 11.0;\n" +
+            "   vec4 pixel = sample(image, samplerCoord(image));\n" +
+            "   vec4 linear = srgb_to_linear(pixel);\n" +
+            "   vec3 ihsv = rgb2hsv(linear.rgb);\n" +
+            //"   float iv  = rgb2l(linear.rgb);\n" + // convert RGB to luminosity
+            "   float iv  = 0.0;\n" +
+            "   vec2 d = destCoord();\n" +
+            "   for (int x = -1; x <= 1; x++) {\n" + // average with surrounding pixels
+            "       for (int y = -1; y <= 1; y++) {\n" +
+            "           iv += rgb2l(sample(image, samplerTransform(image, d + vec2(x ,y))).rgb); \n" +
+            "       }\n" +
+            "   }\n" +
+            "   iv = iv / 9.0;\n" +
+            //"   int zone = (int(iv * 110.0)+10) / 11;\n" +
+            "   int zone = (int(iv * 110.0)+10) / 11;\n" +
+            "   float ov = 0.0;\n" +
+            "   ov = zoneBrightness(zone); \n" +
+            "   float left = float(zone)/nzones;\n" + // left boundary in input scale
+            "   float right = float(zone+1)/nzones;\n" + // right boundary in input scale
+            "   float rlum = zoneBrightness(zone+1);\n" + // right boundary in adjusted scale
+            "   float adj = (iv - left)/(right-left);\n" + // difference relative to lower zone boundary in input scale
+            "   adj = adj * (rlum - ov);\n" + // smooth out the value within the zone
+            "   ov = clamp(ov + adj, ov, rlum);\n" +
+            //"   ov = ov + adj*ov;\n" + // add adjustment from zone boundary
+            "   vec3 ohsv = vec3(ihsv.x, ihsv.x, ov);\n" +
+            "   vec3 orgb = hsv2rgb(ohsv);\n" +
+            "   vec4 result = vec4(orgb, 1.0);\n" +
+            "   return linear_to_srgb(result);\n" +
         "}"
     )
 
@@ -151,6 +163,10 @@ class BWZoneFilter: CIFilter {
         let extent = inputImage.extent
         let arguments = [adjImg] as [Any]
         
-        return kernel.apply(extent: extent, arguments: arguments)
+        return kernel.apply(extent: extent,
+                            roiCallback: { (index, rect) in return rect },
+                            arguments: arguments)
+
+        //return kernel.apply(extent: extent, arguments: arguments)
     }
 }

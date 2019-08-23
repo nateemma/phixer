@@ -17,11 +17,13 @@ import SwiftyJSON
 class PresetFilter: CIFilter {
     let fname = "Preset"
     var inputImage: CIImage?
+    var outImage: CIImage?
     var inputIntensity: CGFloat = 1.0
     
     var presetFile: String = ""
     
     private var fileLoaded:Bool = false
+    private var running:Bool = false
     private var parsedConfig:JSON = JSON.null
     
     private var imgRect:CIVector = CIVector(x: 0.0, y: 0.0)
@@ -79,9 +81,11 @@ class PresetFilter: CIFilter {
             imgRect = CIVector(cgRect: inputImage!.extent)
             imgCentre = CIVector(cgPoint: CGPoint(x: inputImage!.extent.width/2.0, y: inputImage!.extent.height/2.0))
             imgRadius = min(inputImage!.extent.width, inputImage!.extent.height) / 2.0
-        
+            fileLoaded = false
+
         case "inputIntensity":
             inputIntensity = value as! CGFloat
+            //fileLoaded = false
 
         default:
             log.error("Invalid key: \(key)")
@@ -101,12 +105,21 @@ class PresetFilter: CIFilter {
             return inputImage
         }
 
-        var image: CIImage? = inputImage
+        if (running) { // calls can/will overlap because of multiple filters
+            return (outImage != nil) ? outImage : inputImage
+        }
+        
+        running = true
+        
+        outImage = inputImage
         var tmpImage: CIImage? = nil
 
-        loadPresetFile(name: presetFile)
+        if parsedConfig == JSON.null || (parsedConfig["filters"].count <= 0) {
+            log.debug("parsing preset file")
+            loadPresetFile(name: presetFile)
+        }
         
-        //TODO: scan through filters and apply
+        //TODO: cache result. Need way to see if anything changed
         
         let count = parsedConfig["filters"].count
         if (count > 0) {
@@ -128,8 +141,8 @@ class PresetFilter: CIFilter {
                 let filter = CIFilter(name: fkey)
 
                 if filter != nil {
-                    if image == nil { log.warning("NIL image") }
-                    if (filter?.inputKeys.contains(kCIInputImageKey))! { filter?.setValue(image, forKey: kCIInputImageKey) }
+                    if outImage == nil { log.warning("NIL image") }
+                    if (filter?.inputKeys.contains(kCIInputImageKey))! { filter?.setValue(outImage, forKey: kCIInputImageKey) }
                     // loop through the parameters for this filter
                     for p in params {
                         // OK, so p is now a dictionary holding the key, val and type
@@ -175,7 +188,7 @@ class PresetFilter: CIFilter {
                         }
                     }
                     tmpImage = filter?.outputImage
-                    image = tmpImage
+                    outImage = tmpImage
                     
                 } else {
                     log.error("Could not create filter: \(fkey)")
@@ -190,10 +203,10 @@ class PresetFilter: CIFilter {
                     self.opacityFilter = CIFilter(name: "OpacityFilter")
                 }
                 self.opacityFilter?.setValue(inputIntensity, forKey: "inputOpacity")
-                self.opacityFilter?.setValue(image, forKey: "inputImage")
+                self.opacityFilter?.setValue(outImage, forKey: "inputImage")
                 self.opacityFilter?.setValue(inputImage, forKey: "inputBackgroundImage")
                 tmpImage = self.opacityFilter?.outputImage
-                image = tmpImage
+                outImage = tmpImage
            }
 
         } else {
@@ -202,12 +215,14 @@ class PresetFilter: CIFilter {
         
         tmpImage = nil
         
-        if image == nil {
+        if outImage == nil {
             log.warning("NIL image produced")
-            image = inputImage
+            outImage = inputImage
         }
         
-        return image
+        running = false
+
+        return (outImage != nil) ? outImage : inputImage
     }
     
     
@@ -215,7 +230,7 @@ class PresetFilter: CIFilter {
     func setPreset(name: String){
         //presetFile = name + ".json"
         presetFile = name
-        fileLoaded = false
+        //fileLoaded = false
         //log.verbose("loading: \(presetFile)")
         loadPresetFile(name: presetFile)
         
@@ -225,6 +240,8 @@ class PresetFilter: CIFilter {
     private func loadPresetFile(name: String) {
         
         if !fileLoaded {
+            fileLoaded = true
+
             // find the preset json file, which must be part of the project
             let path = Bundle.main.path(forResource: name, ofType: "json")
             guard path != nil else {
@@ -242,12 +259,13 @@ class PresetFilter: CIFilter {
                         //log.verbose("parsing data")
                         //log.verbose ("\(parsedConfig)")
                         log.verbose("Preset:  \(name) (\(parsedConfig["filters"].count) filters)")
-                        fileLoaded = true
-                    }
+                     }
                 }
             } catch let error as NSError {
                 log.error("ERROR: error reading from preset file (\(presetFile)): \(error.localizedDescription)")
             }
+        } else {
+            log.debug("Already loaded")
         }
     }
     
