@@ -129,8 +129,7 @@ class FilterLoader {
             // get the descriptor and renderview. This also leaves them cached for later use
             let descriptor = FilterLoader.filterManager.getFilterDescriptor(key: key)
             let renderview = FilterLoader.filterManager.getRenderView(key: key)
-            renderview?.setImageSize(self.imgSize)
-
+ 
             // if this is a 'blend' filter then load blend image
             if descriptor?.filterOperationType == FilterOperationType.blend {
                 if self.blend == nil { // lazy loading, most filters will not be blended

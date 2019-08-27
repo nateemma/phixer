@@ -98,10 +98,10 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         super.layoutSubviews()
         
         // only do layout if this was caused by an orientation change
-        if (UISettings.isLandscape != ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight))){ // rotation change?
+        //if (UISettings.isLandscape != ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight))){ // rotation change?
             doLayout()
             doLoadData()
-        }
+        //}
     }
 
     
@@ -112,6 +112,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     fileprivate func doLayout(){
         
         self.layoutDone = true
+        resetCache()
         
         // get display dimensions
         displayHeight = self.frame.size.height
@@ -240,6 +241,14 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         //doLoadData()
     }
     
+    // call when input image has changed
+    open func updateInputs() {
+        resetCache()
+        doLayout()
+        update()
+    }
+    
+    
     open func setCategory(_ category:String){
         if (currCategory != category) {
             // clear the previous cached items (if any)
@@ -252,6 +261,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         currCategory = category
         firstTime = false
         EditManager.removePreviewFilter()
+        resetCache()
         doLayout()
         doLoadData()
     }
@@ -324,7 +334,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         if (self.filterList.count > 0){
             
             // add an entry for each filter to be displayed
-            //log.verbose("Init images")
+            log.verbose("Loading cache (\(self.filterList.count) images)")
             for key in filterList {
                 // add the input image for now. It will be replaced by the filtered version
                 ImageCache.add(inputImage, key: key)
@@ -342,11 +352,13 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     // loads the list of filters one at a time
     private func loadFilterList(){
         
+        loadInputs(size: imgSize)
         filterLoader.unload() // in case anything was previously loaded
         filterLoader.setFilters(self.filterList)
         filterLoader.load(image: self.inputImage,
                     update: { key in
                         DispatchQueue.main.async(execute: { [weak self] in
+                            //log.debug("...\(key)")
                             self?.reloadImage(key:key)
                         })
                     },
@@ -362,23 +374,23 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
             for key in filterList {
                 ImageCache.remove(key: key)
             }
-        }
+            filterLoader.unload()
+       }
         cacheLoaded = false
     }
     
+    // resets the cache
+    private func resetCache() {
+        unloadCache()
+        loadCache()
+    }
     
     // releaes the resources that we used for the gallery items
     
     private func releaseResources(){
         if (self.filterList.count > 0){
             log.verbose("Releasing \(self.filterList.count) filters")
-            filterLoader.unload()
-//            for key in filterList {
-//                ImageCache.remove(key: key)
-//                RenderViewCache.remove(key: key)
-//                FilterDescriptorCache.remove(key: key)
-//            }
-            cacheLoaded = false
+            unloadCache()
             RenderView.reset()
            
             //listCells() //debug
@@ -477,7 +489,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     
     fileprivate func loadInputs(size:CGSize){
         
-        if self.inputImage == nil {
+        //if self.inputImage == nil {
             // input image can change, so make sure it's current
             EditManager.setInputImage(InputSource.getCurrentImage())
             
@@ -505,7 +517,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
             
             // don't load until needed
             blend  = ImageManager.getCurrentBlendImage(size:mysize) // OK if nil
-        }
+        //}
     }
     
     

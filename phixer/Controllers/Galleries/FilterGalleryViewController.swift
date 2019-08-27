@@ -71,6 +71,10 @@ class FilterGalleryViewController: CoordinatedController {
         return "FilterGallery"
     }
     
+    override public func start(){
+        // inputs can change while navigating away from and back to this controller, so tell the gallery view to update
+        filterGalleryView.updateInputs()
+     }
     
     override public func end() {
         filterGalleryView.suspend()
@@ -121,6 +125,8 @@ class FilterGalleryViewController: CoordinatedController {
         categorySelectionView.setFilterCategory(currCategory)
         
         updateTitle()
+        
+        InputSource.register(self)
         
     }
     
@@ -330,4 +336,17 @@ extension FilterGalleryViewController: FilterGalleryViewDelegate {
 }
 
 
+extension FilterGalleryViewController: InputSourceDelegate {
+    func inputChanged(image: CIImage?) {
+        DispatchQueue.main.async(execute: {() -> Void in
+            self.filterGalleryView.updateInputs()
+        })
+
+    }
+    
+    func photoTaken() {
+        // ignore
+    }
+    
+}
 

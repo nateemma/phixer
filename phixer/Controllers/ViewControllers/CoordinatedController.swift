@@ -50,7 +50,7 @@ class CoordinatedController: UIViewController, ControllerDelegate {
     ////////////////////
     
     func start() {
-        log.error("\(self.getTag) - ERROR: Base class called")
+        // not an error, just do nothing
     }
     
     // prepare to end task. Override in subclass if you need to do anything first (e.g. commit changes). Call dismiss() at the end if you want the VC to exit
@@ -293,8 +293,8 @@ class CoordinatedController: UIViewController, ControllerDelegate {
         if firstTime {
             firstTime = false
             setupNavBar()
-       }
-
+         }
+        self.start()
     }
     
     override func didReceiveMemoryWarning() {

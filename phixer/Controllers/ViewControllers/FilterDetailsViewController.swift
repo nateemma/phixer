@@ -899,7 +899,7 @@ extension FilterDetailsViewController: FilterParametersViewDelegate {
 ////////////////////////////////////////////
 // MARK: - UIAlertController
 ////////////////////////////////////////////
-/***/
+/**
 // why do we have to do this?! when AlertController is set up, re-position the stars
 extension UIAlertController {
     override open func viewDidLayoutSubviews() {
@@ -908,6 +908,6 @@ extension UIAlertController {
         FilterDetailsViewController.starView?.anchorInCenter(width: 128, height: 32)
     }
 }
-/***/
+**/
 
 

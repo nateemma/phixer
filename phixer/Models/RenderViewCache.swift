@@ -7,7 +7,7 @@
 //
 
 // static cache that can be used to store and retrieve RenderView objects
-// Primarily intended for use where images are created by controllers or main views, then used when a display needs them (usually a UICollectionViewCell)
+// Primarily intended for use where renderviews are created by controllers or main views, then used when a display needs them (usually a UICollectionViewCell)
 // NOTE: Controllers/Collections should remove any entries when they are done with them
 
 import Foundation
@@ -25,13 +25,13 @@ class RenderViewCache {
 
     
     // add/replace a RenderView
-    public static func add(_ image:RenderView?, key:String){
-        guard image != nil, !key.isEmpty else {
+    public static func add(_ renderview:RenderView?, key:String){
+        guard renderview != nil, !key.isEmpty else {
             log.error("Empty parameter for key:\(key). Ignored")
             return
         }
         
-        cache.setObject(image!, forKey: key as NSString)
+        cache.setObject(renderview!, forKey: key as NSString)
         //log.verbose("Added: \(key)")
     }
    

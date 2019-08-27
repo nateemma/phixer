@@ -68,6 +68,25 @@ class InputSource {
     // Accessors
     //////////////////////////////////
     
+    // list of subscribers for callbacks
+    fileprivate static var delegates:MulticastDelegate<InputSourceDelegate> = MulticastDelegate<InputSourceDelegate>()
+    
+    // make initialiser private to prevent instantiation
+    private init(){}
+    
+    
+    // register for callbacks
+    public static func register(_ delegate:InputSourceDelegate, key:String=""){
+        let k = (key.isEmpty) ? #file : key
+        delegates.add(key:k, delegate: delegate)
+    }
+    
+    // deregister callbacks
+    public static func deregister(key:String=""){
+        let k = (key.isEmpty) ? #file : key
+        delegates.remove(key:k)
+    }
+
     public static func getCurrent() -> InputSourceType {
         return currSource
     }
@@ -168,6 +187,8 @@ class InputSource {
         return ImageManager.getEditImageOrientation()
     }
     
+    
+    /***
     // register for callbacks
     public func register(delegate:InputSourceDelegate, key:String){
         delegates.add(key:key, delegate: delegate)
@@ -183,6 +204,7 @@ class InputSource {
             camera?.stop()
         }
     }
+     ***/
     
     //////////////////////////////////
     // Camera-related

@@ -16,6 +16,8 @@ import Photos
 
 import GoogleMobileAds
 
+import Cosmos
+
 
 
 private var filterList: [String] = []
@@ -37,6 +39,9 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     
     // The filter configuration subview
     var filterParametersView: FilterParametersView! = FilterParametersView()
+    
+    // panel containing icons for hiding, settingas favourite, rating the filter
+    var ratingView: RatingView! = RatingView()
     
     // image picker for changing edit image
     let imagePicker = UIImagePickerController()
@@ -95,6 +100,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         DispatchQueue.main.async { [weak self] in
             self?.editImageView.updateImage()
             self?.filterParametersView.update()
+            self?.ratingView.update()
         }
     }
     
@@ -106,11 +112,13 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
                 self?.layoutMenu()
                 self?.menuView.isHidden = false
                 self?.filterParametersView.isHidden = true
+                self?.ratingView.isHidden = true
             }
         } else {
             //log.debug("Menu active, closing")
             self.menuView.isHidden = true
             self.filterParametersView.isHidden = false
+            self.ratingView.isHidden = false
         }
     }
     
@@ -161,6 +169,9 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             filterParametersView.setConfirmMode(true)
             filterParametersView.delegate = self
             //filterParametersView.setConfirmMode(false)
+            
+            ratingView.delegate = self
+            ratingView.setFilter(key: currFilterKey!)
             
             //filterManager.setCurrentFilterKey(FilterDescriptor.nullFilter)
             editImageView.setFilter(key: currFilterDescriptor?.key ?? FilterDescriptor.nullFilter)
@@ -215,11 +226,16 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         filterParametersView.frame.size.width = displayWidth
         filterParametersView.frame.size.height = UISettings.panelHeight // will be adjusted based on selected filter
         
+        ratingView.frame.size.width = displayWidth
+        ratingView.frame.size.height = (UISettings.panelHeight / 2.0).rounded()
+
+        
         // Note: need to add subviews before modifying constraints
         view.addSubview(editImageView)
         view.addSubview(menuView)
         view.addSubview(filterParametersView)
-        
+        view.addSubview(ratingView)
+
         
         // set layout constraints
         
@@ -235,6 +251,8 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         // filter parameters
         //filterParametersView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: filterParametersView.frame.size.height)
         filterParametersView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: filterParametersView.frame.size.height)
+        
+        ratingView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: ratingView.frame.size.height)
         
         // add delegate for image picker
         imagePicker.delegate = self
@@ -403,6 +421,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         DispatchQueue.main.async { [weak self] in
             self?.editImageView.updateImage()
             self?.filterParametersView.update()
+            self?.ratingView.update()
             self?.menuView.isHidden = true
         }
     }
@@ -413,6 +432,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         DispatchQueue.main.async { [weak self] in
             self?.editImageView.updateImage()
             self?.filterParametersView.update()
+            self?.ratingView.update()
             self?.menuView.isHidden = true
         }
     }
@@ -425,6 +445,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         DispatchQueue.main.async { [weak self] in
             self?.editImageView.updateImage()
             self?.filterParametersView.update()
+            self?.ratingView.update()
             self?.menuView.isHidden = true
         }
     }
@@ -539,7 +560,9 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             gesturesEnabled = true
             editImageView.isUserInteractionEnabled = true
             filterParametersView.isHidden = false
+            ratingView.isHidden = false
             filterParametersView.isUserInteractionEnabled = true
+            ratingView.isUserInteractionEnabled = true
             setTouchMode(.gestures)
         }
     }
@@ -674,7 +697,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             
             // go through the modal views and hide them if they are not already hidden
             // NOTE: if any more modal views are added, remmber to add them this list
-            for view in [ self?.menuView ] {
+            for view in [ self?.menuView, self?.ratingView ] {
                 if let v = view {
                     if !v.isHidden {
                         // add to the list so that they will be restored later
@@ -770,7 +793,9 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             DispatchQueue.main.async { [weak self] in
                 self?.editImageView.setFilter(key:(self?.currFilterKey)!)
                 self?.filterParametersView.setFilter(self?.currFilterDescriptor)
+                self?.ratingView.setFilter(key: (self?.currFilterKey)!)
                 self?.filterParametersView.delegate = self
+                self?.ratingView.delegate = self
             }
         }
     }
@@ -864,8 +889,8 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             
             log.verbose("Picked image:\(name) id:\(id)")
             ImageManager.setCurrentEditImageName(id)
-
-            //InputSource.setCurrent(source: .edit)
+            InputSource.setCurrent(source: .edit)
+            EditManager.update()
             DispatchQueue.main.async { [weak self] in
                 self?.updateDisplays()
             }
@@ -971,6 +996,98 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     }
     
     
+    
+    //////////////////////////////////////////
+    // MARK: - Ratings handling
+    //////////////////////////////////////////
+   
+    
+    fileprivate var ratingAlert:UIAlertController? = nil
+    fileprivate var currRating: Int = 0
+    fileprivate var currRatingKey: String = ""
+    fileprivate static var starView: CosmosView? = nil
+    fileprivate static var starViewSize: CGSize = CGSize.zero
+
+    
+    @objc func ratingDidPress(){
+        log.verbose("rating touched")
+        self.currRatingKey = self.currFilterKey ?? ""
+        self.currRating = self.filterManager.getRating(key: self.currRatingKey)
+        displayRating()
+        //self.update()
+    }
+
+    
+    fileprivate func displayRating(){
+        
+        BasicEditViewController.starViewSize.width = (displayWidth / 3.0).rounded()
+        BasicEditViewController.starViewSize.height = (BasicEditViewController.starViewSize.width / 3.0).rounded()
+
+        // build the rating stars display based on the current rating
+        // I'm using the 'Cosmos' class to do this
+        if (BasicEditViewController.starView == nil){
+            BasicEditViewController.starView = CosmosView()
+            
+            BasicEditViewController.starView?.settings.fillMode = .full
+            //BasicEditViewController.starView?.settings.starSize = 30
+            BasicEditViewController.starView?.settings.starSize = Double(BasicEditViewController.starViewSize.height) - 2.0
+            //BasicEditViewController.starView?.settings.starMargin = 5
+            
+            // Set the colours
+            BasicEditViewController.starView?.settings.totalStars = 3
+            BasicEditViewController.starView?.settings.minTouchRating = 0
+            BasicEditViewController.starView?.backgroundColor = UIColor.clear
+            BasicEditViewController.starView?.settings.filledColor = UIColor.flatYellow
+            BasicEditViewController.starView?.settings.emptyBorderColor = UIColor.flatBlueDark
+            BasicEditViewController.starView?.settings.filledBorderColor = UIColor.flatBlack
+            
+            BasicEditViewController.starView?.didFinishTouchingCosmos = { rating in
+                self.currRating = Int(rating)
+                BasicEditViewController.starView?.anchorInCenter(width: BasicEditViewController.starViewSize.width, height: BasicEditViewController.starViewSize.height) // re-centre
+            }
+        }
+        BasicEditViewController.starView?.rating = Double(currRating)
+        
+        // if not already done, build the alert
+        if (ratingAlert == nil){
+            // setup the basic info
+            ratingAlert = UIAlertController(title: "Rating", message: " ", preferredStyle: .alert)
+            
+            // add the OK button
+            let okAction = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction) in
+                self.filterManager.setRating(key: self.currRatingKey, rating: self.currRating)
+                log.debug("OK - Rating: \(self.currRating)")
+            }
+            ratingAlert?.addAction(okAction)
+            
+            // add the Cancel Button
+            let cancelAction = UIAlertAction(title: "Cancel", style: .default) { (action:UIAlertAction) in
+                log.debug("Cancel")
+            }
+            ratingAlert?.addAction(cancelAction)
+            
+            
+            // add the star rating view
+            ratingAlert?.view.addSubview(BasicEditViewController.starView!)
+        }
+        
+        if BasicEditViewController.starView != nil {
+            BasicEditViewController.starView?.isHidden = false
+            BasicEditViewController.starView?.anchorInCenter(width: BasicEditViewController.starViewSize.width, height: BasicEditViewController.starViewSize.height) // re-centre
+            ratingAlert?.view.bringSubviewToFront(BasicEditViewController.starView!)
+        } else {
+            log.error("NIL star view")
+        }
+        
+        // launch the Alert. Need  to do this on the main controller thread though
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.present(self.ratingAlert!, animated: true, completion:{ [weak self] in
+                self?.ratingView.update()
+            })
+        })
+    }
+
+
     //////////////////////////////////////////
     // MARK: - Not yet implemented notifier
     //////////////////////////////////////////
@@ -1156,6 +1273,50 @@ extension BasicEditViewController: EditStackViewDelegate {
             self?.closeStackView()
         }
     }
+}
+
+
+extension BasicEditViewController: RatingViewDelegate {
+    func showPressed() {
+        DispatchQueue.main.async { [weak self] in
+            // toggle hidden status
+            let key:String = self?.currFilterKey ?? ""
+            let flag:Bool = !(self?.filterManager.isHidden(key: key) ?? false)
+            self?.filterManager.setHidden(key: key, hidden: flag)
+            self?.ratingView.update()
+            log.verbose("Set Hidden to: \(flag) for filter:\(key)")
+        }
+    }
     
+    func favoritePressed() {
+        DispatchQueue.main.async { [weak self] in
+            // add/remove to/from favourites list
+            let key:String = self?.currFilterKey ?? ""
+            let flag:Bool = self?.filterManager.isFavourite(key: key) ?? false
+            if flag {
+                self?.filterManager.removeFromFavourites(key: key)
+                log.verbose("Removed from favourites: \(key)")
+           } else {
+                self?.filterManager.addToFavourites(key: key)
+                log.verbose("Added to favourites: \(key)")
+          }
+            self?.ratingView.update()
+        }
+    }
+    
+    func ratingPressed() {
+        DispatchQueue.main.async { [weak self] in
+            self?.ratingDidPress()
+        }
+    }
     
 }
+
+extension UIAlertController {
+    // why do we have to do this?! when AlertController is set up, re-position the stars
+    override open func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        BasicEditViewController.starView?.anchorInCenter(width: BasicEditViewController.starViewSize.width, height: BasicEditViewController.starViewSize.height) // re-centre
+    }
+}
+

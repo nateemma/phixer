@@ -234,11 +234,12 @@ class SketchFilter: CIFilter {
 
         // equalise, bump up the contrast, convert to B&W
         monoImg = resizedInputImg?
+            .applyingFilter("CIPhotoEffectNoir")
             .applyingFilter("YUCIHistogramEqualization")
-            .applyingFilter("ClarityFilter")
+            //.applyingFilter("ClarityFilter")
             //.applyingFilter("CIColorControls", parameters: ["inputContrast": 1.0])
             //.applyingFilter("CIColorPosterize", parameters: ["inputLevels": 16])
-            .applyingFilter("CIPhotoEffectMono")
+            //.applyingFilter("CIPhotoEffectMono")
             .clampedToExtent()
             .cropped(to: workingExtent)
 

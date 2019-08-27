@@ -231,7 +231,9 @@ class FilterGalleryViewCell: UICollectionViewCell {
             return
         }
         
-        adornmentView.frame = self.renderView.frame
+        if self.renderView != nil {
+            adornmentView.frame = self.renderView.frame
+        }
         
         // set size of adornments
         let dim: CGFloat = adornmentView.frame.size.height / 8.0

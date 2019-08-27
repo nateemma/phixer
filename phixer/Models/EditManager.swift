@@ -85,6 +85,11 @@ class EditManager {
 
     }
     
+    // force an update from the input image
+    public static func update() {
+        setInputImage(ImageManager.getCurrentEditImage())
+    }
+    
     // set the input image to be processed
     // if 'fullsize' is not true then we resize the image to match the screen (saves lots of memory)
     public static func setInputImage(_ image:CIImage?, fullsize:Bool=false){
