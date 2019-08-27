@@ -208,7 +208,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         // load the input data
         loadInputs(size: imgSize)
 
-/***
+/***/
         // pre-load filters. Inefficient, but it avoids multi-thread timing issues when rendering cells
         // ignore compiler warnings, the intent is to pre-load the filters
         if (self.filterList.count > 0){
@@ -217,9 +217,10 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
                 filter = filterManager.getFilterDescriptor(key: key)
                 renderview = filterManager.getRenderView(key: key)
                 renderview?.setImageSize(imgSize)
+                ImageCache.add(self.inputImage, key: key)
            }
         }
-***/
+/***/
         
         //self.filterGallery?.reloadData()
         //self.filterGallery?.setNeedsDisplay()
@@ -253,17 +254,17 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         if (currCategory != category) {
             // clear the previous cached items (if any)
             releaseResources()
-       } else {
+            unloadCache()
+            
+            log.debug("Category: \(category)")
+            currCategory = category
+            firstTime = false
+            EditManager.removePreviewFilter()
+            doLayout()
+            doLoadData()
+        } else {
             log.warning("Warning: category was already set to: \(category). Check logic")
         }
-        
-        log.debug("Category: \(category)")
-        currCategory = category
-        firstTime = false
-        EditManager.removePreviewFilter()
-        resetCache()
-        doLayout()
-        doLoadData()
     }
     
     // Suspend all MetalPetal-related operations
@@ -280,6 +281,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         ***/
         
         //var descriptor:FilterDescriptor? = nil
+        unloadCache()
         for key in filterList {
             filterManager.releaseFilterDescriptor(key: key)
             filterManager.releaseRenderView(key: key)
@@ -326,23 +328,20 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
             return
         }
         
-        guard cacheLoaded != true else { // not an error
-            return
-        }
-        
-        
-        if (self.filterList.count > 0){
-            
-            // add an entry for each filter to be displayed
-            log.verbose("Loading cache (\(self.filterList.count) images)")
-            for key in filterList {
-                // add the input image for now. It will be replaced by the filtered version
-                ImageCache.add(inputImage, key: key)
-            }
-            
-            self.blend = nil // big, so only allocate when needed
+        if (!cacheLoaded)   { // not an error, just don't need to do anything
 
-            loadFilterList()
+            if (self.filterList.count > 0){
+                // add an entry for each filter to be displayed
+                log.verbose("Loading cache (\(self.filterList.count) images)")
+//                for key in filterList {
+//                    // add the input image for now. It will be replaced by the filtered version
+//                    ImageCache.add(inputImage, key: key)
+//                }
+                
+                self.blend = nil // big, so only allocate when needed
+                
+                loadFilterList()
+            }
         }
         
     }
@@ -356,14 +355,20 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         filterLoader.unload() // in case anything was previously loaded
         filterLoader.setFilters(self.filterList)
         filterLoader.load(image: self.inputImage,
-                    update: { key in
-                        DispatchQueue.main.async(execute: { [weak self] in
-                            //log.debug("...\(key)")
-                            self?.reloadImage(key:key)
-                        })
-                    },
-                    completion: { self.cacheLoaded = true }
-                   )
+                          update: { key in
+                            DispatchQueue.main.async(execute: { [weak self] in
+                                //log.debug("...\(key)")
+                                self?.reloadImage(key:key)
+                            })
+                          },
+                          completion: {
+                            DispatchQueue.main.async(execute: { [weak self] in
+                                self?.cacheLoaded = true
+                                log.debug("Cache loaded")
+                                //self?.update()
+                           })
+                          }
+                         )
     }
 
     
@@ -375,12 +380,13 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
                 ImageCache.remove(key: key)
             }
             filterLoader.unload()
-       }
-        cacheLoaded = false
+        }
+        self.cacheLoaded = false
     }
     
     // resets the cache
     private func resetCache() {
+        self.cacheLoaded = false
         unloadCache()
         loadCache()
     }

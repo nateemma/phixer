@@ -339,6 +339,7 @@ extension FilterGalleryViewController: FilterGalleryViewDelegate {
 extension FilterGalleryViewController: InputSourceDelegate {
     func inputChanged(image: CIImage?) {
         DispatchQueue.main.async(execute: {() -> Void in
+            log.debug("Input source changed")
             self.filterGalleryView.updateInputs()
         })
 
