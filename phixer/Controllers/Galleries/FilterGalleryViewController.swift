@@ -37,8 +37,9 @@ class FilterGalleryViewController: CoordinatedController {
     // Category Selection View
     var categorySelectionView: CategorySelectionView!
     var currCategoryIndex = -1
-    var currCategory:String = FilterManager.defaultCategory
-    
+    //var currCategory:String = FilterManager.defaultCategory
+    var currCategory:String = ""
+
     var filterGalleryView : FilterGalleryView! = FilterGalleryView()
     
     
@@ -111,6 +112,11 @@ class FilterGalleryViewController: CoordinatedController {
         
         doInit()
         
+        
+        // set up initial Category
+        currCategory = filterManager.getCurrentCategory()
+
+
         doLayout()
         
         // start Ads
@@ -118,11 +124,9 @@ class FilterGalleryViewController: CoordinatedController {
             Admob.startAds(view:adView, viewController:self)
         }
         
-        
-        // set up initial Category
-        currCategory = filterManager.getCurrentCategory()
-        selectCategory(currCategory)
+        log.debug("Initial category: \(currCategory)")
         categorySelectionView.setFilterCategory(currCategory)
+        selectCategory(currCategory)
         
         updateTitle()
         
@@ -237,31 +241,33 @@ class FilterGalleryViewController: CoordinatedController {
     
     
     fileprivate func selectCategory(_ category:String){
-        DispatchQueue.main.async(execute: { () -> Void in
-            
-            
-            let index = self.filterManager.getCategoryIndex(category: category)
-            
-            log.debug("Category Selected: \(category) (\(self.currCategoryIndex)->\(index))")
-            
-            if (self.isValidIndex(index)){
-                if (index != self.currCategoryIndex){
-
-                    self.currCategory = category
-                    self.currCategoryIndex = index
-                    self.filterGalleryView.suspend()
-                    self.filterGalleryView.setCategory(self.filterManager.getCategory(index: index))
-                    self.filterGalleryView.isHidden = false
-               } else {
-                    if (self.isValidIndex(self.currCategoryIndex)) { self.filterGalleryView.isHidden = false } // re-display just in case (e.g. could be a rotation)
-                    log.debug("Ignoring category change \(self.currCategoryIndex)->\(index)")
+        //if category != self.currCategory {
+            DispatchQueue.main.async(execute: { () -> Void in
+                
+                
+                let index = self.filterManager.getCategoryIndex(category: category)
+                
+                log.debug("Category Selected: \(category) (\(self.currCategoryIndex)->\(index))")
+                
+                if (self.isValidIndex(index)){
+                    if (index != self.currCategoryIndex){
+                        
+                        self.currCategory = category
+                        self.currCategoryIndex = index
+                        //self.filterGalleryView.suspend()
+                        self.filterGalleryView.setCategory(self.filterManager.getCategory(index: index))
+                        self.filterGalleryView.isHidden = false
+                    } else {
+                        if (self.isValidIndex(self.currCategoryIndex)) { self.filterGalleryView.isHidden = false } // re-display just in case (e.g. could be a rotation)
+                        log.debug("Ignoring category change \(self.currCategoryIndex)->\(index)")
+                    }
+                    
+                    self.categorySelectionView.setFilterCategory(self.currCategory)
+                } else {
+                    log.warning("Invalid index: \(index)")
                 }
-
-                 self.categorySelectionView.setFilterCategory(self.currCategory)
-            } else {
-                log.warning("Invalid index: \(index)")
-            }
-        })
+            })
+        //}
     }
     
     
@@ -271,7 +277,6 @@ class FilterGalleryViewController: CoordinatedController {
             filterGalleryView.update()
         }
     }
-    
 
 
 } // FilterGalleryViewController

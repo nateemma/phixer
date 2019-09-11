@@ -357,7 +357,7 @@ class SketchFilter: CIFilter {
             //.applyingFilter("CIBoxBlur", parameters: ["inputRadius": 1.0]).clampedToExtent()
             //.cropped(to: workingExtent)
             .applyingFilter("CIGloom", parameters:  ["inputRadius": 2.0, "inputIntensity": 1.0])
-            .applyingFilter("OpacityFilter", parameters:  ["inputOpacity": 0.6])
+            .applyingFilter("OpacityFilter", parameters:  ["inputOpacity": 0.8])
             .clampedToExtent()
             .cropped(to: workingExtent)
 

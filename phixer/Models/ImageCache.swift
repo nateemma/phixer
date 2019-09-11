@@ -19,10 +19,48 @@ class ImageCache {
     // The cache
     private static var cache = NSCache<NSString, CIImage>()
     
+    // reference counted list of locked images. Image will not be removed if locked
+    fileprivate static var _lockList:[String:Int] = [:]
     
     // make initialiser private to prevent instantiation
     private init(){}
-
+    
+    // 'locks' an image in cache
+    public static func lock(key: String){
+        
+        log.debug("key:\(key)")
+        if (ImageCache._lockList[key] == nil){
+            ImageCache._lockList[key] = 0
+        }
+        ImageCache._lockList[key] = ImageCache._lockList[key]! + 1
+    }
+    
+    // decrements the reference count unlocks an image. Note that the image is *not* removed from cache
+    public static func unlock(key: String){
+        
+        log.debug("key:\(key)")
+        if (ImageCache._lockList[key] != nil){
+            ImageCache._lockList[key] = ImageCache._lockList[key]! - 1
+            if (ImageCache._lockList[key]! <= 0) {
+                //ImageCache._lockList[key] = nil
+                ImageCache._lockList.removeValue(forKey: key)
+            }
+        }
+    }
+    
+    public static func isLocked(key: String) -> Bool {
+        var locked:Bool = false
+        if ImageCache._lockList.count > 0 {
+            if ImageCache._lockList[key] != nil {
+                if let count = ImageCache._lockList[key]{
+                    if count > 0 {
+                        locked = true
+                    }
+                }
+            }
+        }
+        return locked
+    }
     
     // add/replace an image
     public static func add(_ image:CIImage?, key:String){
@@ -43,8 +81,10 @@ class ImageCache {
             return
         }
 
-        cache.removeObject(forKey: key as NSString)
-        //log.verbose("Removed: \(key)")
+        if (!isLocked(key: key)){
+            cache.removeObject(forKey: key as NSString)
+            //log.verbose("Removed: \(key)")
+        }
     }
 
     

@@ -281,7 +281,7 @@ class FilterManager{
                 if (count>0){
                     log.verbose ("\(count) items found")
                     let key = (FilterConfiguration.collectionCategories[collection]?[0])!
-                    log.verbose("Setting filter to: \(key)")
+                    log.verbose("Setting category to: \(key)")
                     //setCurrentFilterKey(key)
                     setCurrentCategory(key)
                 } else {

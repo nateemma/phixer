@@ -132,7 +132,7 @@ class EditManager {
     
     // get the filtered version of the input image, without the preview image
     public static func getFilteredImage() -> CIImage? {
-        return EditManager.filteredImage
+        return (EditManager.filteredImage != nil) ? EditManager.filteredImage : EditManager._input
     }
     
     // get a subset of the filters applied

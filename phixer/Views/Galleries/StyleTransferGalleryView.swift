@@ -89,7 +89,7 @@ class StyleTransferGalleryView : UIView {
     deinit{
         suspend()
         if filterList.count > 0 {
-            filterLoader.unload()
+            filterLoader.unload(filters: filterList)
 //            for key in filterList {
 //                ImageCache.remove(key: key)
 //                RenderViewCache.remove(key: key)
@@ -397,9 +397,9 @@ class StyleTransferGalleryView : UIView {
          ***/
         
         log.debug("Loading filters: \(filterList)")
-        filterLoader.unload() // in case anything was previously loaded
-        filterLoader.setFilters(self.filterList)
+        //filterLoader.unload(filters: filterList) // in case anything was previously loaded
         filterLoader.load(image: self.inputImage,
+                          filters: filterList,
                           update: { key in
                             DispatchQueue.main.async(execute: { [weak self] in
                                 self?.reloadImage(key: key)

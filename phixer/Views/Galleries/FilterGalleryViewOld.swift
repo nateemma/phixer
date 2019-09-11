@@ -24,7 +24,7 @@ protocol FilterGalleryViewDelegate: class {
 
 // this class displays a CollectionView populated with the filters for the specified category
 //class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDelegate{
-class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, FilterGalleryViewCellDelegate {
+class FilterGalleryViewOld : UIView, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, FilterGalleryViewCellDelegate {
     
     var theme = ThemeManager.currentTheme()
     
@@ -48,11 +48,11 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     fileprivate let rightOffset: CGFloat = 7
     fileprivate let height: CGFloat = 34
     
+    fileprivate var sectionInsets = UIEdgeInsets(top: 2.0, left: 3.0, bottom: 2.0, right: 3.0) // layout is *really* sensitive to left/right for some reason
 
     
     fileprivate var filterList:[String] = []
-    //fileprivate var currCategory: String = FilterManager.defaultCategory
-    fileprivate var currCategory: String = ""
+    fileprivate var currCategory: String = FilterManager.defaultCategory
     fileprivate var filterManager:FilterManager = FilterManager.sharedInstance
     fileprivate var selectedIndex:Int = -1
     
@@ -80,8 +80,6 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     convenience init(){
         self.init(frame: CGRect(origin: CGPoint.zero, size: UISettings.screenSize))
        // self.init(frame: CGRect.zero)
-        
-        doInit()
     }
     
     
@@ -99,18 +97,46 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        self.layoutDone = false // force re-layout
-        filterGallery = nil
+        // only do layout if this was caused by an orientation change
+        //if (UISettings.isLandscape != ((UIApplication.shared.statusBarOrientation == .landscapeLeft) || (UIApplication.shared.statusBarOrientation == .landscapeRight))){ // rotation change?
+            doLayout()
+            doLoadData()
+        //}
+    }
+
+    
+    
+    fileprivate  var layoutDone:Bool = false
+    
+    
+    fileprivate func doLayout(){
         
+        self.layoutDone = true
+        resetCache()
+        
+        // get display dimensions
+        displayHeight = self.frame.size.height
+        displayWidth = self.frame.size.width
+        
+        log.verbose("w:\(displayWidth) h:\(displayHeight)")
+        
+        // get aspect ratio of input (used for layout sizing)
+        
+        //aspectRatio = ImageManager.getSampleImageAspectRatio()
+        aspectRatio = InputSource.getAspectRatio()
+
+        selectedIndex = -1
+
+        // set up sizing based on default case (can be changed later)
+        setDefaultSizes()
+
         // set up the gallery/collection view
         
         layout.itemSize = self.frame.size
+        //log.debug("Gallery layout.itemSize: \(layout.itemSize)")
         if filterGallery == nil {
-            log.debug("Adding Gallery, itemSize: \(layout.itemSize)")
             filterGallery = UICollectionView(frame: self.frame, collectionViewLayout: layout)
-            filterGallery?.isHidden = false
-            //filterGallery?.isPrefetchingEnabled = true
-            filterGallery?.isPrefetchingEnabled = false
+            filterGallery?.isPrefetchingEnabled = true
             filterGallery?.delegate   = self
             filterGallery?.dataSource = self
             //reuseId = "FilterGalleryView_" + currCategory
@@ -119,61 +145,6 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
             self.addSubview(filterGallery!)
             filterGallery?.fillSuperview()
         }
-
-        doLayout()
-        doLoadData()
-        
-        setupGestures()
-        
-    }
-
-    fileprivate func doInit(){
-        if self.currCategory.isEmpty {
-            self.currCategory = self.filterManager.getCurrentCategory()
-            self.filterList = self.filterManager.getFilterList(self.currCategory)!
-        }
-        setDefaultSizes()
-        loadInputs(size: self.imgSize)
-    }
-    
-    
-    fileprivate  var layoutDone:Bool = false
-    
-    
-    fileprivate func doLayout(){
-        
-        if !self.layoutDone {
-            self.layoutDone = true
-            //resetCache()
-            
-            // get display dimensions
-            displayHeight = self.frame.size.height
-            displayWidth = self.frame.size.width
-            
-            log.verbose("w:\(displayWidth) h:\(displayHeight)")
-            
-            
-            selectedIndex = -1
-            
-            // set up sizing based on default case (can be changed later)
-            setDefaultSizes()
-            
-//            // set up the gallery/collection view
-//
-//            layout.itemSize = self.frame.size
-//            if filterGallery == nil {
-//                log.debug("Adding Gallery, itemSize: \(layout.itemSize)")
-//                filterGallery = UICollectionView(frame: self.frame, collectionViewLayout: layout)
-//                filterGallery?.isPrefetchingEnabled = true
-//                filterGallery?.delegate   = self
-//                filterGallery?.dataSource = self
-//                //reuseId = "FilterGalleryView_" + currCategory
-//                filterGallery?.register(FilterGalleryViewCell.self, forCellWithReuseIdentifier: reuseId)
-//
-//                self.addSubview(filterGallery!)
-//                filterGallery?.fillSuperview()
-//            }
-        }
         
     }
     
@@ -181,7 +152,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         //log.verbose("activated")
         //ignore compiler warnings
         var filter:FilterDescriptor? = nil
-        //var renderview:RenderView? = nil
+        var renderview:RenderView? = nil
         
         if (self.filterList.count > 0){
             self.filterList = []
@@ -214,13 +185,12 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         // pre-load filters. Inefficient, but it avoids multi-thread timing issues when rendering cells
         // ignore compiler warnings, the intent is to pre-load the filters
         if (self.filterList.count > 0){
-            //for i in 0..<min(12,  self.filterList.count) {
-                for i in 0..<self.filterList.count {
+            for i in 0..<min(12,  self.filterList.count) {
                 let key = self.filterList[i]
-                ImageCache.add(self.inputImage, key: key)
                 filter = filterManager.getFilterDescriptor(key: key)
-                //renderview = loadRenderView(key: key)
-                //renderview?.setImageSize(imgSize)
+                renderview = filterManager.getRenderView(key: key)
+                renderview?.setImageSize(imgSize)
+                ImageCache.add(self.inputImage, key: key)
            }
         }
 /***/
@@ -240,28 +210,16 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     ////////////////////////////////////////////
 
     open func update(){
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300)) {
-    //DispatchQueue.main.async {
-            //self.filterGallery?.setNeedsDisplay()
-            log.debug("update requested")
-            //self.doLayout()
-            self.filterGallery?.reloadData()
-            //doLoadData()
-        }
+        //self.filterGallery?.setNeedsDisplay()
+        self.filterGallery?.reloadData()
+        //doLoadData()
     }
     
     // call when input image has changed
     open func updateInputs() {
-        log.debug("updating inputs")
-        //resetCache()
-        setDefaultSizes()
-        loadInputs(size: imgSize)
-        loadCache()
-
-//        let c = self.currCategory
-//        currCategory = ""
-//        setCategory(c)
-//        update()
+        resetCache()
+        doLayout()
+        update()
     }
     
     
@@ -269,12 +227,12 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         if (currCategory != category) {
             // clear the previous cached items (if any)
             releaseResources()
-            //unloadCache()
+            unloadCache()
             
             log.debug("Category: \(category)")
             currCategory = category
             firstTime = false
-            //EditManager.removePreviewFilter()
+            EditManager.removePreviewFilter()
             doLayout()
             doLoadData()
         } else {
@@ -284,8 +242,23 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     
     // Suspend all MetalPetal-related operations
     open func suspend(){
-        log.debug("suspending")
-        releaseResources()
+        /***
+        let indexPath = filterGallery?.indexPathsForVisibleItems
+        var cell: FilterGalleryViewCell?
+        if ((indexPath != nil) && (cell != nil)){ // there might not be any filters in the category
+            for index in indexPath!{
+                cell = filterGallery?.cellForItem(at: index) as! FilterGalleryViewCell?
+                cell?.suspend()
+            }
+        }
+        ***/
+        
+        //var descriptor:FilterDescriptor? = nil
+        unloadCache()
+        for key in filterList {
+            filterManager.releaseFilterDescriptor(key: key)
+            filterManager.releaseRenderView(key: key)
+        }
     }
     
     
@@ -323,8 +296,9 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
 
     // asynchronusly loads filtered images into the image cache
     private func loadCache(){
-        if inputImage == nil  {
-            doInit()
+        guard inputImage != nil else {
+            log.error("Attempt to load cache before data is loaded")
+            return
         }
         
         if (!cacheLoaded)   { // not an error, just don't need to do anything
@@ -332,10 +306,6 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
             if (self.filterList.count > 0){
                 // add an entry for each filter to be displayed
                 log.verbose("Loading cache (\(self.filterList.count) images)")
-                
-                // setting flag here to stop multiple loads
-                cacheLoaded = true
-                
 //                for key in filterList {
 //                    // add the input image for now. It will be replaced by the filtered version
 //                    ImageCache.add(inputImage, key: key)
@@ -343,12 +313,8 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
                 
                 self.blend = nil // big, so only allocate when needed
                 
-                // this is asynchronous
                 loadFilterList()
-                
             }
-        } else {
-            log.verbose("Cache already loaded")
         }
         
     }
@@ -359,20 +325,20 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     private func loadFilterList(){
         
         loadInputs(size: imgSize)
-        //filterLoader.unload() // in case anything was previously loaded
+        filterLoader.unload() // in case anything was previously loaded
+        filterLoader.setFilters(self.filterList)
         filterLoader.load(image: self.inputImage,
-                          filters: filterList,
                           update: { key in
                             DispatchQueue.main.async(execute: { [weak self] in
                                 //log.debug("...\(key)")
-                                //self?.reloadView(key:key)
+                                self?.reloadImage(key:key)
                             })
                           },
                           completion: {
                             DispatchQueue.main.async(execute: { [weak self] in
                                 self?.cacheLoaded = true
                                 log.debug("Cache loaded")
-                                self?.update()
+                                //self?.update()
                            })
                           }
                          )
@@ -382,17 +348,18 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     
     // removes images from the cache
     private func unloadCache() {
-        if self.cacheLoaded {
-            if (self.filterList.count > 0){
-                self.cacheLoaded = false
-                filterLoader.unload(filters: filterList)
+        if (self.filterList.count > 0){
+            for key in filterList {
+                ImageCache.remove(key: key)
             }
+            filterLoader.unload()
         }
+        self.cacheLoaded = false
     }
     
     // resets the cache
     private func resetCache() {
-        self.cacheLoaded = true
+        self.cacheLoaded = false
         unloadCache()
         loadCache()
     }
@@ -403,38 +370,10 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         if (self.filterList.count > 0){
             log.verbose("Releasing \(self.filterList.count) filters")
             unloadCache()
-             for key in filterList {
-                filterManager.releaseFilterDescriptor(key: key)
-                //filterManager.releaseRenderView(key: key)
-            }
-           //RenderView.reset()
+            RenderView.reset()
            
             //listCells() //debug
         }
-    }
-
-    
-    private func loadRenderView(key: String) -> RenderView? {
-        var renderview: RenderView? = nil
-        
-        if !key.isEmpty {
-            renderview = filterManager.getRenderView(key: key)
-            if renderview == nil {
-                log.warning("NIL RenderView for key:\(key)")
-               renderview = RenderView()
-            }
-            renderview?.image = ImageCache.get(key: key)
-        } else {
-            log.warning("Empty key")
-            renderview = RenderView()
-        }
-        
-        if renderview?.image == nil {
-            renderview?.image = EditManager.getFilteredImage()
-            renderview?.setImageSize(EditManager.getImageSize())
-        }
-        
-        return renderview
     }
 
     ////////////////////////////////////////////
@@ -523,93 +462,36 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     // MARK: - Sizing
     ////////////////////////////////////////////
     
-    // layout is *really* sensitive to left/right for some reason
-    //fileprivate var sectionInsets = UIEdgeInsets(top: 2.0, left: 3.0, bottom: 2.0, right: 3.0)
-    fileprivate var sectionInsets = UIEdgeInsets(top: 2.0, left: 4.0, bottom: 2.0, right: 4.0)
-
     private func setDefaultSizes(){
-        // assuming portrait orientation, use default is 3 items per row if photo is also portrait, 2 otherwise
+        // set items per row. Add 1 if landscape, subtract one if inputImage is in landscape orientation
         
-        // get aspect ratio of input (used for layout sizing)
-        
-        aspectRatio = InputSource.getAspectRatio() // w:h ratio (>1 means landscape)
-        
-        itemsPerRow = (aspectRatio > 1.0) ? 2 : 3
-
-        updateGridSettings()
-    }
-    
-    public func increaseGridSize() {
-        if (itemsPerRow > 1) {
-            itemsPerRow = itemsPerRow - 1
-            updateGridSettings()
-            //reloadRenderViews()
-            filterGallery?.reloadData()
-//            self.resetCache()
-//            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) { [weak self] in
-//                self?.filterGallery?.reloadData()
-//            }
+        if (UISettings.isLandscape){
+            if (aspectRatio > 1.0){ // w > h
+                itemsPerRow = 4
+            } else {
+                itemsPerRow = 5
+            }
+        } else {
+            if (aspectRatio > 1.0){ // w > h
+                itemsPerRow = 2
+            } else {
+                itemsPerRow = 3
+            }
         }
-    }
-    
-    public func decreaseGridSize() {
-        let maxItems: CGFloat = (aspectRatio > 1.0) ? 4 : 5
-        if (itemsPerRow < maxItems) {
-            itemsPerRow = itemsPerRow+1
-            updateGridSettings()
-            //reloadRenderViews()
-            filterGallery?.reloadData()
-            //            self.resetCache()
-            //            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) { [weak self] in
-            //                self?.filterGallery?.reloadData()
-            //            }
-        }
-    }
-
-    private func updateGridSettings(){
+        
         // calculate the sizes for the input image and displayed view
         
-        //let paddingSpace = ((sectionInsets.left * (itemsPerRow+1)) + (sectionInsets.right * (itemsPerRow+1)) + 2.0).rounded()
-        //let paddingSpace = ((sectionInsets.left * itemsPerRow) + (sectionInsets.right * itemsPerRow) + 2.0).rounded()
-        //let paddingSpace = ((itemsPerRow+1) * 4.0).rounded()
-        //let availableWidth = (self.frame.width - paddingSpace).rounded()
-        //let widthPerItem = (availableWidth / itemsPerRow).rounded()
-        let widthPerItem = ((self.frame.width / itemsPerRow) - (sectionInsets.left + sectionInsets.right + 2.0)).rounded()
-
-        cellSize = CGSize(width: widthPerItem, height: (widthPerItem/aspectRatio).rounded()) // use same aspect ratio as inputImage image
+        let paddingSpace = (sectionInsets.left * (itemsPerRow+1)) + (sectionInsets.right * (itemsPerRow+1)) + 2.0
+        let availableWidth = self.frame.width - paddingSpace
+        let widthPerItem = availableWidth / itemsPerRow
+        
+        cellSize = CGSize(width: widthPerItem, height: widthPerItem/aspectRatio) // use same aspect ratio as inputImage image
         imgViewSize = cellSize
         sectionInsets.bottom = (cellSize.height * 0.5).rounded() // otherwise, only half of bottom row shows
         
         // calculate the sizes for processing the input image (typically a downscaled version of the input)
         // for now, we just use the cell size adjusted for the screen points per pixel
         imgSize = CGSize(width: imgViewSize.width * UISettings.screenScale, height: imgViewSize.height * UISettings.screenScale)
-
-    }
-    
-    //////////////////////////////////////////
-    // MARK: - Gesture management
-    //////////////////////////////////////////
-
-    fileprivate var pinchGesture  = UIPinchGestureRecognizer()
-    
-    private func setupGestures(){
-        pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch(sender:)))
-        self.isUserInteractionEnabled = true
-        self.addGestureRecognizer(pinchGesture)
-        pinchGesture.delegate = self
-    }
-    
-    
-    @objc func handlePinch(sender:UIPinchGestureRecognizer){
-        if sender.state == .ended { // only handle when gesture ends
-            log.debug("scale: \(sender.scale)")
-            if sender.scale > 1.0 {
-                increaseGridSize()
-            } else {
-                decreaseGridSize()
-            }
-            sender.scale = 1.0
-        }
     }
     
     
@@ -645,7 +527,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
                 let ratio = ldes / lin
                 mysize = CGSize(width: (insize.width*ratio).rounded(), height: (insize.height*ratio).rounded())
             }
-            inputImage = EditManager.getFilteredImage()?.resize(size: mysize)
+            inputImage = EditManager.getPreviewImage()?.resize(size: mysize)
             if inputImage == nil {
                 log.error("ERR retrieveing input image")
             }
@@ -706,19 +588,13 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
  
     }
     
-    func reloadRenderViews(){
-        if self.filterList.count > 0 {
-            for key in filterList {
-                reloadView(key: key)
-            }
-        }
-    }
     
     // updates the image associated with the supplied key
-    func reloadView(key: String){
-        let renderview = loadRenderView(key:key)
+    func reloadImage(key: String){
+        let renderview = self.filterManager.getRenderView(key:key)
         renderview?.frame.size = self.imgViewSize
         renderview?.setImageSize(self.imgSize)
+        renderview?.image = ImageCache.get(key: key)
     }
    
     
@@ -808,14 +684,19 @@ extension FilterGalleryView {
         //let index:Int = (indexPath as NSIndexPath).row
         let index:Int = (indexPath as NSIndexPath).item
         if ((index>=0) && (index<filterList.count)){
-//            DispatchQueue.main.async(execute: { () -> Void in
+            DispatchQueue.main.async(execute: { () -> Void in
                 //log.verbose("Index: \(index) key:(\(self.filterList[index]))")
                 let key = self.filterList[index]
-                //let renderview = self.loadRenderView(key:key)
-                //renderview?.frame = cell.frame
+                let renderview = self.filterManager.getRenderView(key:key)
+                renderview?.frame = cell.frame
+                //renderview?.contentMode = .scaleAspectFit
+                //renderview?.clipsToBounds = true
+                //renderview?.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: self.height * 0.8)
+                //self.updateRenderView(index:index, key: key, renderview: renderview) // doesn't seem to work if we put this into the FilterGalleryViewCell logic (threading?!)
+                renderview?.image = ImageCache.get(key: key)
                 cell.delegate = self
                 cell.configureCell(frame: cell.frame, index:index, key:key)
-//            })
+            })
             
         } else {
             log.warning("Index out of range (\(index)/\(filterList.count))")
@@ -919,31 +800,5 @@ extension FilterGalleryView {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return sectionInsets.left
     }
-}
-
-
-////////////////////////////////////////////
-// MARK: - Gesture detection extensions
-////////////////////////////////////////////
-
-extension FilterGalleryView: UIGestureRecognizerDelegate {
-    
-
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        
-        return true
-    }
-
-    
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-            
-            // if this is a pinch type, then don't pass on
-        if gestureRecognizer is UIPinchGestureRecognizer {
-            return false
-        } else {
-            return true
-        }
-    }
-
 }
 
