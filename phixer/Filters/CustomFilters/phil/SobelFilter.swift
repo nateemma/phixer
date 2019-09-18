@@ -132,8 +132,10 @@ class SobelFilter: CIFilter {
         //return kernel.apply(extent: extent, arguments: arguments)
 
     
-        return kernel.apply(extent: extent,
-                            roiCallback: { (index, rect) in return rect },
-                            arguments: arguments)
+        let img = kernel.apply(extent: extent,
+                               roiCallback: { (index, rect) in return rect },
+                               arguments: arguments)
+        
+        return img?.applyingFilter("CIColorInvert")
     }
 }

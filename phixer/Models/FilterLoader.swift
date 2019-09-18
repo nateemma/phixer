@@ -16,6 +16,7 @@ class FilterLoader {
     enum WorkItemType {
         case unload
         case load
+        case clear
     }
     
     struct WorkItem {
@@ -106,6 +107,13 @@ class FilterLoader {
         
     }
 
+    
+    // clear the entire cache
+    public func clear() {
+        self.workList.append(WorkItem(type: .clear, key: ""))
+        self.processWorkItem()
+    }
+
     ///////////////////////////
     // Internal
     ///////////////////////////
@@ -145,6 +153,8 @@ class FilterLoader {
                             }
                         case .unload:
                             self.unloadFilter(item.key)
+                        case .clear:
+                            ImageCache.clear()
                        }
                     }
                     

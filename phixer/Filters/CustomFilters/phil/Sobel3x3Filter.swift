@@ -171,10 +171,16 @@ class Sobel3x3Filter: CIFilter {
         let weight = 4.0 * inputThreshold // CIFilter uses 0..4
         let filterName = "CIConvolution3X3"
         
-        let edgeImg = inputImage.applyingFilter(filterName, parameters: [kCIInputWeightsKey: horizontalWeights.multiply(value: weight), kCIInputBiasKey: bias])
-            inputImage.applyingFilter(filterName, parameters: [kCIInputWeightsKey: verticalWeights.multiply(value: weight), kCIInputBiasKey: bias])
-                .cropped(to: inputImage.extent)
+        let img1 = inputImage.applyingFilter(filterName, parameters: [kCIInputWeightsKey: horizontalWeights.multiply(value: weight),
+                                                                         kCIInputBiasKey: bias])
+        let img2 = inputImage.applyingFilter(filterName, parameters: [kCIInputWeightsKey: verticalWeights.multiply(value: weight), kCIInputBiasKey: bias])
+            .cropped(to: inputImage.extent)
+        
+        let edgeImg = img1.applyingFilter("CIDarkenBlendMode", parameters: [kCIInputBackgroundImageKey: img2])
+        //let edgeImg = img1.applyingFilter("CIMinimumCompositing", parameters: [kCIInputBackgroundImageKey: img2])
+        //let edgeImg = img1.applyingFilter("CIMultiplyBlendMode", parameters: [kCIInputBackgroundImageKey: img2])
 
-        return makeOpaqueKernel?.apply(extent: inputImage.extent, arguments: [edgeImg])
+        
+        return makeOpaqueKernel?.apply(extent: inputImage.extent, arguments: [edgeImg])?.applyingFilter("SaturationFilter", parameters: ["inputSaturation": 0.0])
     }
 }

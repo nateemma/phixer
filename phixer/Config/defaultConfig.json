@@ -1690,7 +1690,8 @@
                 "CMYKLevels", "ChromaticAberration", "ColorDirectedBlur", "CompoundEye", "EightBit", "HomogeneousColorBlur",
                 "RGBChannelBrightnessAndContrast", "RGBChannelGaussianBlur", "TransverseChromaticAberration", "VHSTrackingLines", "CausticRefraction",
                 "HighPassFilter", "HighPassSharpeningFilter", "HueRangeFilter", "SplitToningFilter", "CIFalseColor", "CRTFilter", "GrainFilter",
-                "BWZoneFilter", "ForegroundMaskFilter", "BackgroundBlurFilter", "ForegroundLightingFilter"
+                "BWZoneFilter", "ForegroundMaskFilter", "BackgroundBlurFilter", "ForegroundLightingFilter",
+                "CenteredVignetteFilter"
             ]
         }
 

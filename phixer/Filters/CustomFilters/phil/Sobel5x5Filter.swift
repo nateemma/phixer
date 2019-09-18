@@ -59,7 +59,7 @@ class Sobel5x5Filter: CIFilter {
     // default settings
     override func setDefaults() {
         inputImage = nil
-        inputThreshold = 0.5
+        inputThreshold = 0.25
     }
     
     
@@ -75,7 +75,7 @@ class Sobel5x5Filter: CIFilter {
             
             "inputThreshold": [kCIAttributeIdentity: 0,
                                kCIAttributeClass: "NSNumber",
-                               kCIAttributeDefault: 0.5,
+                               kCIAttributeDefault: 0.25,
                                kCIAttributeDisplayName: "Threshold",
                                kCIAttributeMin: 0.0,
                                kCIAttributeSliderMin: 0.01,
@@ -131,7 +131,11 @@ class Sobel5x5Filter: CIFilter {
         }
          **/
         
-        // Two-pass (x and y) matrices
+        
+        /***
+         // Accelerate-based method:
+         
+         // Two-pass (x and y) matrices
 
         let m5_1_x:[Int16] = [-5,  -4,  0,  4,  5,
                               -8, -10,  0,  8, 10,
@@ -146,13 +150,71 @@ class Sobel5x5Filter: CIFilter {
                               -4, -10, -20, -10, -4,
                               -5,  -8, -10,  -8, -5
                                ]
-        
+
         let ciimage_x = CIImage(cgImage: (cgimage?.applyConvolution(matrix: m5_1_x, divisor: 1))!)
         let ciimage_y = CIImage(cgImage: (cgimage?.applyConvolution(matrix: m5_1_y, divisor: 1))!)
 
         let extent = inputImage.extent
         let arguments = [ciimage_x, ciimage_y, inputThreshold] as [Any]
-        return  kernel.apply(extent: extent, arguments: arguments)
+        let edgeImg =  kernel.apply(extent: extent, arguments: arguments)
         
+        let makeOpaqueKernel = CIColorKernel(source: "kernel vec4 xyz(__sample pixel) { return vec4(pixel.rgb, 1.0); }")
+
+        return makeOpaqueKernel?.apply(extent: inputImage.extent, arguments: [edgeImg])
+***/
+        
+        // CIFilter-based method
+   
+        let m5_1_x: CIVector = CIVector(values:
+            [-5,  -4,  0,  4,  5,
+             -8, -10,  0,  8, 10,
+             -10, -20,  0, 20, 10,
+             -8, -10,  0,  8, 10,
+             -5,  -4,  0,  4,  5
+            ], count: 25)
+        
+        let m5_1_y: CIVector = CIVector(values:
+            [ 5,   8,  10,  8,   5,
+              4,  10,  20,  10,  4,
+              0,   0,   0,   0,  0,
+              -4, -10, -20, -10, -4,
+              -5,  -8, -10,  -8, -5
+            ], count: 25)
+
+        let bias = 1.0
+        //let weight = 4.0 * inputThreshold // CIFilter uses 0..4
+        let weight = inputThreshold
+        let filterName = "CIConvolution5X5"
+   
+        /***
+        let combineKernel =  CIColorKernel(source:
+            "kernel vec4 xyz(__sample px1, __sample px2) {\n" +
+                "  float r = length(vec2 (px1.r, px2.r));\n" +
+                "  float g = length(vec2 (px1.g, px2.g));\n" +
+                "  float b = length(vec2 (px1.b, px2.b));\n" +
+                "  return vec4(r, g, b, 1.0);" +
+            "}")
+         ***/
+        
+        let makeOpaqueKernel = CIColorKernel(source: "kernel vec4 xyz(__sample pixel) { return vec4(pixel.rgb, 1.0); }")
+
+        let img1 = inputImage.applyingFilter(filterName, parameters: [kCIInputWeightsKey: m5_1_x.multiply(value: weight),
+                                                                         kCIInputBiasKey: bias])
+        let img2 = inputImage.applyingFilter(filterName, parameters: [kCIInputWeightsKey: m5_1_y.multiply(value: weight), kCIInputBiasKey: bias])
+            .cropped(to: inputImage.extent)
+        
+        // this is a 'strong' edge detection algorithm, so it's very sensitive to blend mode
+        // Darken and Multiply produce contrasty dark lines
+        // Minimum just takes the darkest pixel from either image
+        
+        //let edgeImg = img1.applyingFilter("CIDarkenBlendMode", parameters: [kCIInputBackgroundImageKey: img2])
+        let edgeImg = img1.applyingFilter("CIMinimumCompositing", parameters: [kCIInputBackgroundImageKey: img2])
+        //let edgeImg = img1.applyingFilter("CIMultiplyBlendMode", parameters: [kCIInputBackgroundImageKey: img2])
+        //let edgeImg = img1.applyingFilter("CIOverlayBlendMode", parameters: [kCIInputBackgroundImageKey: img2])
+
+
+//        return combineKernel?.apply(extent: inputImage.extent, arguments: [img1, img2])?.applyingFilter("SaturationFilter", parameters: ["inputSaturation": 0.0])
+        return makeOpaqueKernel?.apply(extent: inputImage.extent, arguments: [edgeImg])?.applyingFilter("SaturationFilter", parameters: ["inputSaturation": 0.0])
+
     }
 }

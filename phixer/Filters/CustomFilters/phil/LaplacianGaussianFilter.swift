@@ -31,7 +31,7 @@ class LaplacianGaussianFilter: CIFilter {
     // default settings
     override func setDefaults() {
         inputImage = nil
-        inputThreshold = 0.0
+        inputThreshold = 0.5
     }
     
     
@@ -47,10 +47,10 @@ class LaplacianGaussianFilter: CIFilter {
             
             "inputThreshold": [kCIAttributeIdentity: 0,
                                kCIAttributeClass: "NSNumber",
-                               kCIAttributeDefault: 0.0,
+                               kCIAttributeDefault: 0.5,
                                kCIAttributeDisplayName: "Threshold",
-                               kCIAttributeMin: -1.0,
-                               kCIAttributeSliderMin: -1.0,
+                               kCIAttributeMin: 0.0,
+                               kCIAttributeSliderMin: 0.0,
                                kCIAttributeSliderMax: 1.0,
                                kCIAttributeType: kCIAttributeTypeScalar]
         ]
@@ -93,7 +93,7 @@ class LaplacianGaussianFilter: CIFilter {
         return tmpImg.applyingFilter("CIColorMatrix", parameters:["inputAVector": alphaVector])
         ***/
         
-        
+        /***
         // using Accelerate:
         let  cgimage = inputImage.getCGImage(size:inputImage.extent.size)
         let matrix:[Int16] = [   0,  0,  -1,  0,  0,
@@ -102,11 +102,50 @@ class LaplacianGaussianFilter: CIFilter {
                                  0, -1,  -2, -1,  0,
                                  0,  0,  -1,  0,  0
                              ]
-        let outCGImage = cgimage?.applyConvolution(matrix: matrix, divisor: 1)
-        if outCGImage != nil {
-            return CIImage(cgImage: outCGImage!)
+        let cgImage = cgimage?.applyConvolution(matrix: matrix, divisor: 1)
+        if cgImage != nil {
+            let lgImg = CIImage(cgImage: cgImage!)
+            return lgImg // tmp
+            
+            // the following just produces a blank image, haven't figured out why yet...
+            //return  lgImg.applyingFilter("CIColorInvert")
+            
+            let makeOpaqueKernel = CIColorKernel(source: "kernel vec4 xyz(__sample pixel) { return vec4(pixel.rgb, 1.0); }")
+            
+            let edgeImg = makeOpaqueKernel?.apply(extent: inputImage.extent, arguments: [lgImg])
+
+            return  edgeImg
+//                .applyingFilter("SaturationFilter", parameters: ["inputSaturation": 0.0])
+//                .clampedToExtent()
+//                .cropped(to: inputImage.extent)
         } else {
-            return nil
+            return inputImage
         }
+        ***/
+        
+        // CIFilter-based method
+        
+        let matrix: CIVector = CIVector(values:
+            [0,  0,  -1,  0,  0,
+             0, -1,  -2, -1,  0,
+             -1, -2,  16, -2, -1,
+             0, -1,  -2, -1,  0,
+             0,  0,  -1,  0,  0
+            ], count: 25)
+        
+        
+        let bias = 1.0
+        let weight = 4.0 * inputThreshold // CIFilter uses 0..4
+        let filterName = "CIConvolution5X5"
+        
+        let makeOpaqueKernel = CIColorKernel(source: "kernel vec4 xyz(__sample pixel) { return vec4(pixel.rgb, 1.0); }")
+
+        let edgeImg = inputImage.applyingFilter(filterName, parameters: [kCIInputWeightsKey: matrix.multiply(value: weight), kCIInputBiasKey: bias])
+            .cropped(to: inputImage.extent)
+        
+        return makeOpaqueKernel?.apply(extent: inputImage.extent, arguments: [edgeImg])?
+            .applyingFilter("SaturationFilter", parameters: ["inputSaturation": 0.0])
+        
+
     }
 }

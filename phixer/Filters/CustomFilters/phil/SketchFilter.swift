@@ -196,7 +196,8 @@ class SketchFilter: CIFilter {
         
         //log.debug("Loading pencil texture")
         
-        let url = Bundle.main.url(forResource: "tx_pencil_crosshatch_2", withExtension: "jpg")
+        //let url = Bundle.main.url(forResource: "tx_pencil_crosshatch_2", withExtension: "jpg")
+        let url = Bundle.main.url(forResource: "tx_pencil", withExtension: "jpg")
         if url != nil {
             SketchFilter.pencilTexture = CIImage(contentsOf: url!)
         } else {
@@ -235,8 +236,8 @@ class SketchFilter: CIFilter {
         // equalise, bump up the contrast, convert to B&W
         monoImg = resizedInputImg?
             .applyingFilter("CIPhotoEffectNoir")
-            .applyingFilter("YUCIHistogramEqualization")
-            //.applyingFilter("ClarityFilter")
+            //.applyingFilter("YUCIHistogramEqualization")
+            .applyingFilter("ClarityFilter")
             //.applyingFilter("CIColorControls", parameters: ["inputContrast": 1.0])
             //.applyingFilter("CIColorPosterize", parameters: ["inputLevels": 16])
             //.applyingFilter("CIPhotoEffectMono")
@@ -318,8 +319,10 @@ class SketchFilter: CIFilter {
             .clampedToExtent()
             .cropped(to: workingExtent)
 
+        
         //TODO: create masks of different areas/depths of darkness?
         
+        /***/
         // darken the shading texture, mask it, blend with the basic sketch and turn down the opacity based on the user input
         // Also added a low opacity version of the mono image to provide some background
         shadedImg = shadingTextureImg
@@ -331,7 +334,23 @@ class SketchFilter: CIFilter {
             .applyingFilter("OpacityFilter", parameters:  ["inputOpacity": inputTexture])
             .clampedToExtent()
             .cropped(to: workingExtent)
-    }
+         /***/
+        /***
+        shadedImg = shadowMask
+            .applyingFilter("CIColorInvert")
+            .applyingFilter("OpacityFilter", parameters:  ["inputOpacity": inputTexture])
+            .clampedToExtent()
+            .cropped(to: workingExtent)
+        ***/
+        
+        // multiply the really dark regions
+        
+        let darkMask = monoImg.applyingFilter("LumaRangeFilter", parameters: ["inputLower": 0.0, "inputUpper": 0.01])
+            .applyingFilter("OpacityFilter", parameters:  ["inputOpacity": 0.5])
+           .clampedToExtent()
+            .cropped(to: workingExtent)
+        shadedImg = shadedImg?.applyingFilter("CIMultiplyBlendMode", parameters: [kCIInputBackgroundImageKey: darkMask])
+   }
     
     
     // set up vars that change when edge threshold is changed
@@ -349,9 +368,11 @@ class SketchFilter: CIFilter {
         //        - the Gloom filter softens edges and adds a glow effect
         //edgeImg = inputImage?
         edgeImg = resizedInputImg?
-            .applyingFilter("CIColorControls", parameters: ["inputContrast": 1.0])
-            .applyingFilter("SobelFilter", parameters: ["inputThreshold": inputThreshold]).applyingFilter("CIColorInvert")
+            //.applyingFilter("CIColorControls", parameters: ["inputContrast": 1.0])
+            //.applyingFilter("SobelFilter", parameters: ["inputThreshold": inputThreshold])
+            //.applyingFilter("LaplacianGaussianFilter", parameters: ["inputThreshold": inputThreshold])
             //.applyingFilter("Sobel3x3Filter", parameters: ["inputThreshold": inputThreshold])
+            .applyingFilter("Sobel5x5Filter", parameters: ["inputThreshold": inputThreshold])
             //.applyingFilter("LumaRangeFilter", parameters: ["inputLower": 0.0, "inputUpper": 0.5])
             //.applyingFilter("CIGaussianBlur", parameters: ["inputRadius": 1.0]).clampedToExtent()
             //.applyingFilter("CIBoxBlur", parameters: ["inputRadius": 1.0]).clampedToExtent()
@@ -362,6 +383,9 @@ class SketchFilter: CIFilter {
             .cropped(to: workingExtent)
 
 
+        if edgeImg == nil {
+            log.error("NIL Edge Image")
+        }
     }
     
     private func combineLayers(){

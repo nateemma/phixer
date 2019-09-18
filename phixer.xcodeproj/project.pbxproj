@@ -265,6 +265,7 @@
 		25004743230392530025309F /* BackgroundBlurFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25004742230392530025309F /* BackgroundBlurFilter.swift */; };
 		2500474523039AF80025309F /* ForegroundLightingFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2500474423039AF80025309F /* ForegroundLightingFilter.swift */; };
 		250603CB23232DEF0080D783 /* FilterGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250603CA23232DEF0080D783 /* FilterGalleryView.swift */; };
+		250603CD23294CF60080D783 /* CenteredVignetteFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250603CC23294CF60080D783 /* CenteredVignetteFilter.swift */; };
 		25060AD1230CB5870081FA5C /* LR-HighContrastDetail.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060A9A230CB5870081FA5C /* LR-HighContrastDetail.json */; };
 		25060AD2230CB5870081FA5C /* LR-FlatGreen.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060A9B230CB5870081FA5C /* LR-FlatGreen.json */; };
 		25060AD3230CB5870081FA5C /* LR-TurquoiseRed.json in Resources */ = {isa = PBXBuildFile; fileRef = 25060A9C230CB5870081FA5C /* LR-TurquoiseRed.json */; };
@@ -1654,6 +1655,7 @@
 		25004742230392530025309F /* BackgroundBlurFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundBlurFilter.swift; sourceTree = "<group>"; };
 		2500474423039AF80025309F /* ForegroundLightingFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForegroundLightingFilter.swift; sourceTree = "<group>"; };
 		250603CA23232DEF0080D783 /* FilterGalleryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterGalleryView.swift; sourceTree = "<group>"; };
+		250603CC23294CF60080D783 /* CenteredVignetteFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CenteredVignetteFilter.swift; sourceTree = "<group>"; };
 		25060A9A230CB5870081FA5C /* LR-HighContrastDetail.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-HighContrastDetail.json"; sourceTree = "<group>"; };
 		25060A9B230CB5870081FA5C /* LR-FlatGreen.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-FlatGreen.json"; sourceTree = "<group>"; };
 		25060A9C230CB5870081FA5C /* LR-TurquoiseRed.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "LR-TurquoiseRed.json"; sourceTree = "<group>"; };
@@ -3325,6 +3327,7 @@
 				25F21FE6220B75EF005C449F /* AutoAdjustFilter.swift */,
 				25004742230392530025309F /* BackgroundBlurFilter.swift */,
 				2537A1BE21D28F6E00060DBE /* BrightnessFilter.swift */,
+				250603CC23294CF60080D783 /* CenteredVignetteFilter.swift */,
 				2500473822FFCF5B0025309F /* BWZoneFilter.swift */,
 				25F21FEA220B8867005C449F /* CLAHEFilter.swift */,
 				2515987F2194B97E0067AA00 /* ClarityFilter.swift */,
@@ -6368,6 +6371,7 @@
 				250716091DBEC19400CDDF42 /* FilterGalleryViewController.swift in Sources */,
 				25CF4BD91D9490C400D779CF /* ImageContainerView.swift in Sources */,
 				25CC3EBB21FFD59D00EB8A0A /* CMYKRegistrationMismatch.swift in Sources */,
+				250603CD23294CF60080D783 /* CenteredVignetteFilter.swift in Sources */,
 				25F85CF121CC5125005498C4 /* UILabel+Extensions.swift in Sources */,
 				25172964217A1C6E00D5E946 /* Opacity.swift in Sources */,
 				2542DF531ECFB2ED00CEB968 /* FilterRecord.swift in Sources */,

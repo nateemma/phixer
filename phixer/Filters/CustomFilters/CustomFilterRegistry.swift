@@ -44,7 +44,8 @@ class CustomFilterRegistry: NSObject, CIFilterConstructor {
                                                 "CompoundEye", "EightBit", "HighPassFilter", "HighPassSkinSmoothingFilter", "CLAHEFilter",
                                                 "HueRangeFilter", "MaskedSkinSmoothingFilter",
                                                 "EnhanceLipsFilter", "EnhanceEyesFilter", "EnhanceEyebrowsFilter", "EnhanceTeethFilter", "EnhanceFaceFilter",
-                                                "ForegroundMaskFilter", "BackgroundBlurFilter", "ForegroundLightingFilter"
+                                                "ForegroundMaskFilter", "BackgroundBlurFilter", "ForegroundLightingFilter",
+                                                "CenteredVignetteFilter"
                                                 ]
     
     

@@ -110,9 +110,10 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
             filterGallery = UICollectionView(frame: self.frame, collectionViewLayout: layout)
             filterGallery?.isHidden = false
             //filterGallery?.isPrefetchingEnabled = true
-            filterGallery?.isPrefetchingEnabled = false
+            filterGallery?.isPrefetchingEnabled = false // can't get this to work properly
             filterGallery?.delegate   = self
             filterGallery?.dataSource = self
+            //filterGallery?.prefetchDataSource = self
             //reuseId = "FilterGalleryView_" + currCategory
             filterGallery?.register(FilterGalleryViewCell.self, forCellWithReuseIdentifier: reuseId)
             
@@ -405,10 +406,12 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
             unloadCache()
              for key in filterList {
                 filterManager.releaseFilterDescriptor(key: key)
-                //filterManager.releaseRenderView(key: key)
+                filterManager.releaseRenderView(key: key)
             }
            //RenderView.reset()
-           
+            filterLoader.clear()
+            self.cacheLoaded = false
+
             //listCells() //debug
         }
     }
@@ -827,6 +830,33 @@ extension FilterGalleryView {
 
 
 
+////////////////////////////////////////////
+// MARK: UICollectionViewDataSourcePrefetching
+////////////////////////////////////////////
+
+extension FilterGalleryView: UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        log.debug("indexes: \(indexPaths)")
+        for indexPath in indexPaths {
+            let index:Int = (indexPath as NSIndexPath).item
+            if ((index>=0) && (index<filterList.count)){
+                // dequeue the cell
+                let cell = filterGallery?.dequeueReusableCell(withReuseIdentifier: reuseId, for: indexPath) as! FilterGalleryViewCell
+                DispatchQueue.main.async(execute: { () -> Void in
+                    log.verbose("Index: \(index) key:(\(self.filterList[index]))")
+                    let key = self.filterList[index]
+                    //let renderview = self.loadRenderView(key:key)
+                    //renderview?.frame = cell.frame
+                    cell.delegate = self
+                    cell.configureCell(frame: cell.frame, index:index, key:key)
+                })
+            } else {
+                log.warning("Index out of range (\(index)/\(filterList.count))")
+            }
+       }
+    }
+}
+
 
 
 ////////////////////////////////////////////
@@ -857,8 +887,6 @@ extension FilterGalleryView {
     }
     
 }
-
-
 
 
 ////////////////////////////////////////////
