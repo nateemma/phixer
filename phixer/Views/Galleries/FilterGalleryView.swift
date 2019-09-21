@@ -109,11 +109,11 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
             log.debug("Adding Gallery, itemSize: \(layout.itemSize)")
             filterGallery = UICollectionView(frame: self.frame, collectionViewLayout: layout)
             filterGallery?.isHidden = false
-            //filterGallery?.isPrefetchingEnabled = true
-            filterGallery?.isPrefetchingEnabled = false // can't get this to work properly
+            filterGallery?.isPrefetchingEnabled = true
+            //filterGallery?.isPrefetchingEnabled = false // can't get this to work properly
             filterGallery?.delegate   = self
             filterGallery?.dataSource = self
-            //filterGallery?.prefetchDataSource = self
+            filterGallery?.prefetchDataSource = self
             //reuseId = "FilterGalleryView_" + currCategory
             filterGallery?.register(FilterGalleryViewCell.self, forCellWithReuseIdentifier: reuseId)
             
@@ -812,7 +812,7 @@ extension FilterGalleryView {
         let index:Int = (indexPath as NSIndexPath).item
         if ((index>=0) && (index<filterList.count)){
 //            DispatchQueue.main.async(execute: { () -> Void in
-                //log.verbose("Index: \(index) key:(\(self.filterList[index]))")
+                log.verbose("(cellForItemAt) Index: \(index) key:(\(self.filterList[index]))")
                 let key = self.filterList[index]
                 //let renderview = self.loadRenderView(key:key)
                 //renderview?.frame = cell.frame
@@ -826,6 +826,23 @@ extension FilterGalleryView {
         return cell
     }
     
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: FilterGalleryViewCell, forItemAt indexPath: IndexPath) {
+        let index:Int = (indexPath as NSIndexPath).item
+        if ((index>=0) && (index<filterList.count)){
+            //DispatchQueue.main.async(execute: { () -> Void in
+            log.verbose("(willDisplay) Index: \(index) key:(\(self.filterList[index]))")
+            let key = self.filterList[index]
+            //let renderview = self.loadRenderView(key:key)
+            //renderview?.frame = cell.frame
+            cell.delegate = self
+            cell.configureCell(frame: cell.frame, index:index, key:key)
+            //})
+        } else {
+            log.warning("Index out of range (\(index)/\(filterList.count))")
+        }
+    }
+
 }
 
 
@@ -842,19 +859,20 @@ extension FilterGalleryView: UICollectionViewDataSourcePrefetching {
             if ((index>=0) && (index<filterList.count)){
                 // dequeue the cell
                 let cell = filterGallery?.dequeueReusableCell(withReuseIdentifier: reuseId, for: indexPath) as! FilterGalleryViewCell
-                DispatchQueue.main.async(execute: { () -> Void in
-                    log.verbose("Index: \(index) key:(\(self.filterList[index]))")
+                //DispatchQueue.main.async(execute: { () -> Void in
+                    log.verbose("(prefetchItemsAt) Index: \(index) key:(\(self.filterList[index]))")
                     let key = self.filterList[index]
                     //let renderview = self.loadRenderView(key:key)
                     //renderview?.frame = cell.frame
                     cell.delegate = self
                     cell.configureCell(frame: cell.frame, index:index, key:key)
-                })
+                //})
             } else {
                 log.warning("Index out of range (\(index)/\(filterList.count))")
             }
        }
     }
+
 }
 
 

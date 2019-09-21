@@ -29,12 +29,17 @@ class FilterGalleryViewCell: UICollectionViewCell {
     weak var delegate: FilterGalleryViewCellDelegate?
 
     
-    public static let reuseID: String = "FilterGalleryViewCell"
+    // static vars (shared across all instances)
+    fileprivate static var filterManager:FilterManager = FilterManager.sharedInstance
+    //fileprivate static var sample:CIImage? = nil
+    fileprivate static var blend:CIImage? = nil
 
+    public static let reuseID: String = "FilterGalleryViewCell"
+    
     var cellIndex:Int = -1 // used for tracking cell reuse
     
-    var renderView : RenderView! = RenderView()
-    //var renderView : UIImageView! = UIImageView()
+    //var renderView : RenderView! = RenderView()
+    var renderView : UIImageView! = UIImageView()
     
     var label : UILabel = UILabel()
     var adornmentView: UIView = UIView()
@@ -42,11 +47,6 @@ class FilterGalleryViewCell: UICollectionViewCell {
     
     let defaultWidth:CGFloat = 64.0
     let defaultHeight:CGFloat = 64.0
-    
-    // static vars (shared across all instances)
-    fileprivate static var filterManager:FilterManager = FilterManager.sharedInstance
-    //fileprivate static var sample:CIImage? = nil
-    fileprivate static var blend:CIImage? = nil
 
     fileprivate var initDone:Bool = false
     
@@ -60,8 +60,8 @@ class FilterGalleryViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.renderView.image = EditManager.getFilteredImage()
-        //self.renderView.image = UIImage(ciImage: EditManager.getFilteredImage()!)
+        //self.renderView.image = EditManager.getFilteredImage()
+        self.renderView.image = UIImage(ciImage: EditManager.getFilteredImage()!)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -186,42 +186,42 @@ class FilterGalleryViewCell: UICollectionViewCell {
             return
         }
         
-        //        DispatchQueue.main.async(execute: { () -> Void in
-        //log.debug("index:\(index), key:\(key)")
-        self.cellIndex = index
-        
-        
-        // get the descriptor and setup adornments etc. accordingly
-        self.descriptor = FilterGalleryViewCell.filterManager.getFilterDescriptor(key: key)
-        
-        
-        // update the RenderView
-        self.loadRenderView(key: key)
-        
-        //self.renderContainer.label.text = descriptor?.key
-        //self.label.text = key
-        self.label.text = self.descriptor?.title
-        
-        // If filter is disabled, show at half intensity
-        if (self.descriptor != nil){
-            if (FilterGalleryViewCell.filterManager.isHidden(key: key)){
-                self.renderView.alpha = 0.25
-                self.label.alpha = 0.4
-                //self.layer.borderColor = UIColor(white: 0.6, alpha: 0.4).cgColor
-                self.layer.borderColor = self.theme.borderColor.cgColor
-            }
-            // create the adornment overlay (even if hidden, because you need to be able to un-hide)
-            self.setupAdornments()
+        DispatchQueue.main.async(execute: { () -> Void in
+            //log.debug("index:\(index), key:\(key)")
+            self.cellIndex = index
             
-        } else {
-            log.error("NIL descriptor for key: \(key)")
-        }
-        
-        self.renderView.isHidden = false
-        self.doLayout()
-        self.setNeedsDisplay()
-        
-        //        })
+            
+            // get the descriptor and setup adornments etc. accordingly
+            self.descriptor = FilterGalleryViewCell.filterManager.getFilterDescriptor(key: key)
+            
+            
+            // update the RenderView
+            self.loadRenderView(key: key)
+            
+            //self.renderContainer.label.text = descriptor?.key
+            //self.label.text = key
+            self.label.text = self.descriptor?.title
+            
+            // If filter is disabled, show at half intensity
+            if (self.descriptor != nil){
+                if (FilterGalleryViewCell.filterManager.isHidden(key: key)){
+                    self.renderView.alpha = 0.25
+                    self.label.alpha = 0.4
+                    //self.layer.borderColor = UIColor(white: 0.6, alpha: 0.4).cgColor
+                    self.layer.borderColor = self.theme.borderColor.cgColor
+                }
+                // create the adornment overlay (even if hidden, because you need to be able to un-hide)
+                self.setupAdornments()
+                
+            } else {
+                log.error("NIL descriptor for key: \(key)")
+            }
+            
+            self.renderView.isHidden = false
+            self.doLayout()
+            self.setNeedsDisplay()
+            
+        })
         
     }
     
@@ -334,29 +334,30 @@ class FilterGalleryViewCell: UICollectionViewCell {
         }
         renderView?.setImageSize(EditManager.getImageSize())
  ***/
-        renderView?.setImageSize(EditManager.getImageSize())
+        //renderView?.setImageSize(EditManager.getImageSize())
+        let imgSize = CGSize(width: self.width, height: self.height)
         if ImageCache.contains(key: key) {
             let image = ImageCache.get(key: key)
             if image != nil {
-                self.renderView.image = image
-                //self.renderView.image = UIImage(ciImage: image!)
+                //self.renderView.image = image
+                self.renderView.image = UIImage(ciImage: (image?.resize(size: imgSize)!)!)
                 //log.debug("Retrieved image: \(key)")
             } else {
                 log.warning("Image not set")
-                self.renderView.image = EditManager.getFilteredImage()
-                //self.renderView.image = UIImage(ciImage: EditManager.getFilteredImage()!)
+                //self.renderView.image = EditManager.getFilteredImage()
+                self.renderView.image = UIImage(ciImage: (EditManager.getFilteredImage()?.resize(size: imgSize)!)!)
             }
         } else {
             log.error("Image not in cache")
-            self.renderView.image = EditManager.getFilteredImage()
-            //self.renderView.image = UIImage(ciImage: EditManager.getFilteredImage()!)
+            //self.renderView.image = EditManager.getFilteredImage()
+            self.renderView.image = UIImage(ciImage: (EditManager.getFilteredImage()?.resize(size: imgSize)!)!)
             
         }
         
         if self.renderView.image == nil {
             log.warning("Image not set")
-            self.renderView.image = EditManager.getFilteredImage()
-            //self.renderView.image = UIImage(ciImage: EditManager.getFilteredImage()!)
+            //self.renderView.image = EditManager.getFilteredImage()
+            self.renderView.image = UIImage(ciImage: (EditManager.getFilteredImage()?.resize(size: imgSize)!)!)
         }
         
     }

@@ -322,7 +322,7 @@ class SketchFilter: CIFilter {
         
         //TODO: create masks of different areas/depths of darkness?
         
-        /***/
+        /***
         // darken the shading texture, mask it, blend with the basic sketch and turn down the opacity based on the user input
         // Also added a low opacity version of the mono image to provide some background
         shadedImg = shadingTextureImg
@@ -334,20 +334,25 @@ class SketchFilter: CIFilter {
             .applyingFilter("OpacityFilter", parameters:  ["inputOpacity": inputTexture])
             .clampedToExtent()
             .cropped(to: workingExtent)
-         /***/
-        /***
-        shadedImg = shadowMask
-            .applyingFilter("CIColorInvert")
+         ***/
+        shadedImg = shadingTextureImg
+            //.applyingFilter("CIMultiplyBlendMode", parameters: [kCIInputBackgroundImageKey: shadingTextureImg.applyingFilter("OpacityFilter", parameters:  ["inputOpacity": 0.2])])
+            .applyingFilter("CIMultiplyBlendMode", parameters: [kCIInputBackgroundImageKey: shadowMask.applyingFilter("BrightnessFilter", parameters:  ["inputBrightness": 1.0 - inputTexture])])
+            .applyingFilter("CIBlendWithMask", parameters: [kCIInputMaskImageKey: shadowMask, kCIInputBackgroundImageKey: shadingTextureImg])
+            //.applyingFilter("CIBlendWithMask", parameters: [kCIInputMaskImageKey: shadowMask, kCIInputBackgroundImageKey: basicSketchImg])
+            //.applyingFilter("CIMultiplyBlendMode", parameters: [kCIInputBackgroundImageKey: monoImg])
+            .applyingFilter("CIMultiplyBlendMode", parameters: [kCIInputBackgroundImageKey: basicSketchImg])
             .applyingFilter("OpacityFilter", parameters:  ["inputOpacity": inputTexture])
             .clampedToExtent()
             .cropped(to: workingExtent)
-        ***/
+
         
         // multiply the really dark regions
         
         let darkMask = monoImg.applyingFilter("LumaRangeFilter", parameters: ["inputLower": 0.0, "inputUpper": 0.01])
-            .applyingFilter("OpacityFilter", parameters:  ["inputOpacity": 0.5])
-           .clampedToExtent()
+            //.applyingFilter("OpacityFilter", parameters:  ["inputOpacity": 0.5])
+            .applyingFilter("BrightnessFilter", parameters:  ["inputBrightness": 0.4])
+            .clampedToExtent()
             .cropped(to: workingExtent)
         shadedImg = shadedImg?.applyingFilter("CIMultiplyBlendMode", parameters: [kCIInputBackgroundImageKey: darkMask])
    }
