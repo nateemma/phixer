@@ -9,7 +9,7 @@
 import Foundation
 import CoreImage
 
-// this is a wrapper for the CIVignetteEffect filter that takes relative position and distance (0..1) instead of pixel values.
+// this is a wrapper for the CIVignetteEffect filter that mimics the Lightroom/Photoshop vignette API (%age, not pixels)
 // Why on earth did Apple make the parameters image-dependent (so you can't apply the same values to different images and get the same effect)?!
 
 class CenteredVignetteFilter: CIFilter {

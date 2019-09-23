@@ -6,6 +6,8 @@
 //  Copyright © 2016 Nateemma. All rights reserved.
 //
 
+// Collection cell that has an image above a label, with overlay touchable 'adornments' for rating, favourite and show/hide
+
 import Foundation
 import UIKit
 //import Kingfisher
@@ -28,56 +30,37 @@ class FilterGalleryViewCell: UICollectionViewCell {
     // delegate for handling events
     weak var delegate: FilterGalleryViewCellDelegate?
 
-    
-    // static vars (shared across all instances)
-    fileprivate static var filterManager:FilterManager = FilterManager.sharedInstance
-    //fileprivate static var sample:CIImage? = nil
-    fileprivate static var blend:CIImage? = nil
-
     public static let reuseID: String = "FilterGalleryViewCell"
     
     var cellIndex:Int = -1 // used for tracking cell reuse
+    var key:String = ""
     
-    //var renderView : RenderView! = RenderView()
-    var renderView : UIImageView! = UIImageView()
-    
+    //var imageView : imageView! = imageView()
+    var imageView : UIImageView! = UIImageView()
     var label : UILabel = UILabel()
     var adornmentView: UIView = UIView()
-    var descriptor: FilterDescriptor!
+    
+    var rating: Int = 0
+    var favourite:Bool = false
+    var show:Bool = true
+
     
     let defaultWidth:CGFloat = 64.0
     let defaultHeight:CGFloat = 64.0
 
     fileprivate var initDone:Bool = false
     
-    fileprivate var filteredImage:UIImage? = nil
-    
-    fileprivate var filter:FilterDescriptor? = nil
-    
-    fileprivate var filterDescriptor:FilterDescriptor?
 
     
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        //self.renderView.image = EditManager.getFilteredImage()
-        self.renderView.image = UIImage(ciImage: EditManager.getFilteredImage()!)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    /***
-    deinit {
-        if let descriptor = self.descriptor {
-            let key = descriptor.key
-            if !key.isEmpty {
-                release(key)
-            }
-        }
-    }
-    ***/
     
     private func doInit(){
         if (!initDone){
@@ -86,15 +69,6 @@ class FilterGalleryViewCell: UICollectionViewCell {
         }
     }
     
-    /***
-    private func release(_ key:String){
-        log.debug("release: \(key)")
-        FilterGalleryViewCell.filterManager.releaseRenderView(key: key)
-        FilterGalleryViewCell.filterManager.releaseFilterDescriptor(key: key)
-        renderView = nil
-        descriptor = nil
-     }
-     ***/
     
     private func doLayout(){
         
@@ -105,25 +79,13 @@ class FilterGalleryViewCell: UICollectionViewCell {
         self.layer.borderColor = theme.borderColor.cgColor
         self.clipsToBounds = true
         
-        /***
-        // there can be a startup race condition where the key hasn't been set yet. If so, just allocate an empty view
-        if renderView == nil {
-            let key = descriptor.key
-            if !key.isEmpty {
-                loadRenderView(key: key)
-            } else {
-                renderView = RenderView()
-            }
-        }
-        ***/
         
-        //renderView.contentMode = .scaleAspectFill
-        renderView.contentMode = .scaleAspectFit
-        renderView.clipsToBounds = true
-        //renderView.frame.size = CGSize(width:defaultWidth, height:defaultHeight)
-        renderView.frame.size.width = self.width
-        renderView.frame.size.height = self.height
-        self.addSubview(renderView)
+        //imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
+        imageView.frame.size.width = self.width
+        imageView.frame.size.height = self.height
+        self.addSubview(imageView)
         
         label.textAlignment = .center
         label.textColor = theme.subtitleTextColor
@@ -135,17 +97,13 @@ class FilterGalleryViewCell: UICollectionViewCell {
         label.numberOfLines = 0
         self.addSubview(label)
         
-        //log.verbose("renderView h:\(self.height * 0.7)")
-        //renderView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: self.height * 0.8)
-        //label.alignAndFill(align: .underCentered, relativeTo: renderView, padding: 0)
-        renderView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: self.height)
+        imageView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: self.height)
         label.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: label.frame.height)
 
         adornmentView.backgroundColor = UIColor.clear
-        adornmentView.frame.size = renderView.frame.size
+        adornmentView.frame.size = imageView.frame.size
         self.addSubview(adornmentView)
         self.bringSubviewToFront(adornmentView)
-        //adornmentView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: self.height * 0.8)
         adornmentView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: self.height)
 
         // position icons withing the adornment view
@@ -156,72 +114,44 @@ class FilterGalleryViewCell: UICollectionViewCell {
  
     
     
-    fileprivate func loadInputs(){
-
-        //let size = (renderView?.frame.size)!
-        let size = CGSize(width: (renderView?.frame.size.width)! * 6, height: (renderView?.frame.size.height)! * 6)
-
-    }
-    
-    
-    
     // MARK: - Configuration
 
-/***
-     // this is called when a cell is about to become visible
-    override func prepareForReuse() {
-
-        // load the unfiltered image (just so that there is something to display)
-        //self.renderView.image = EditManager.getFilteredImage()
-        self.renderView.image = UIImage(ciImage: EditManager.getFilteredImage()!)
-        super.prepareForReuse()
-    }
-***/
     
     
-    public func configureCell(frame: CGRect, index:Int, key:String) {
+    public func configureCell(frame: CGRect, index:Int, key:String, image:CIImage?, label:String, rating:Int, favourite:Bool, show:Bool) {
         
-        guard !key.isEmpty else {
-            log.error("Empty key supplied")
+        guard image != nil else {
+            log.error("NIL image")
             return
         }
+        //TODO: placeholder image?
         
-        DispatchQueue.main.async(execute: { () -> Void in
+        //DispatchQueue.main.async(execute: { () -> Void in
             //log.debug("index:\(index), key:\(key)")
+            self.frame = frame
             self.cellIndex = index
+            self.key = key
+            self.imageView.image = UIImage(ciImage: (image?.resize(size: CGSize(width: self.width, height: self.height))!)!)
+            self.label.text = label
+            self.rating = rating
+            self.favourite = favourite
+            self.show = show
             
-            
-            // get the descriptor and setup adornments etc. accordingly
-            self.descriptor = FilterGalleryViewCell.filterManager.getFilterDescriptor(key: key)
-            
-            
-            // update the RenderView
-            self.loadRenderView(key: key)
-            
-            //self.renderContainer.label.text = descriptor?.key
-            //self.label.text = key
-            self.label.text = self.descriptor?.title
-            
-            // If filter is disabled, show at half intensity
-            if (self.descriptor != nil){
-                if (FilterGalleryViewCell.filterManager.isHidden(key: key)){
-                    self.renderView.alpha = 0.25
-                    self.label.alpha = 0.4
-                    //self.layer.borderColor = UIColor(white: 0.6, alpha: 0.4).cgColor
-                    self.layer.borderColor = self.theme.borderColor.cgColor
-                }
-                // create the adornment overlay (even if hidden, because you need to be able to un-hide)
-                self.setupAdornments()
-                
-            } else {
-                log.error("NIL descriptor for key: \(key)")
+            // If filter is hidden, show at half intensity
+            if (!show){
+                self.imageView.alpha = 0.25
+                self.label.alpha = 0.4
+                //self.layer.borderColor = UIColor(white: 0.6, alpha: 0.4).cgColor
+                self.layer.borderColor = self.theme.borderColor.cgColor
             }
+            // create the adornment overlay (even if hidden, because you need to be able to un-hide)
+            self.setupAdornments()
             
-            self.renderView.isHidden = false
+            self.imageView.isHidden = false
             self.doLayout()
             self.setNeedsDisplay()
             
-        })
+        //})
         
     }
     
@@ -233,14 +163,11 @@ class FilterGalleryViewCell: UICollectionViewCell {
     fileprivate var ratingAdornment: UIImageView = UIImageView()
     
     fileprivate func setupAdornments() {
-    
-        guard (self.descriptor != nil)  else {
-            log.error ("NIL descriptor")
-            return
-        }
         
-        if self.renderView != nil {
-            adornmentView.frame = self.renderView.frame
+        if self.imageView != nil {
+            adornmentView.frame = self.imageView.frame
+        } else {
+            adornmentView.frame = self.frame
         }
         
         // set size of adornments
@@ -249,23 +176,21 @@ class FilterGalleryViewCell: UICollectionViewCell {
         let adornmentSize = CGSize(width: dim, height: dim)
         
         
-        let key = (self.descriptor?.key)!
-
         // show/hide
-        let showAsset: String =  (FilterGalleryViewCell.filterManager.isHidden(key: key) == true) ? "ic_reject" : "ic_accept"
+        let showAsset: String =  (self.show == true) ? "ic_accept" : "ic_reject"
         showAdornment.image = UIImage(named: showAsset)?.imageScaled(to: adornmentSize)
         
         // favourite
         var favAsset: String =  "ic_heart_outline"
         // TODO" figure out how to identify something in the favourite (quick select) list
-        if (FilterGalleryViewCell.filterManager.isFavourite(key: key)){
+        if (self.favourite){
             favAsset = "ic_heart_filled"
         }
         favAdornment.image = UIImage(named: favAsset)?.imageScaled(to: adornmentSize)
         
         // rating
         var ratingAsset: String =  "ic_star"
-        switch (FilterGalleryViewCell.filterManager.getRating(key: key)){
+        switch (self.rating){
         case 1:
             ratingAsset = "ic_star_filled_1"
         case 2:
@@ -312,106 +237,7 @@ class FilterGalleryViewCell: UICollectionViewCell {
         setAdornmentTouchHandlers()
     }
     
-    
-    private func loadRenderView(key: String) {
-        /***
-        if !key.isEmpty {
-            self.renderView = FilterGalleryViewCell.filterManager.getRenderView(key: key)
-            if self.renderView == nil {
-                self.renderView = RenderView()
-            }
-            self.renderView.image = ImageCache.get(key: key)
-        } else {
-            log.error("Empty key")
-            self.renderView = RenderView()
-        }
-        
-        
-        
-        if self.renderView.image == nil {
-            log.warning("Image not set")
-            self.renderView.image = EditManager.getFilteredImage()
-        }
-        renderView?.setImageSize(EditManager.getImageSize())
- ***/
-        //renderView?.setImageSize(EditManager.getImageSize())
-        let imgSize = CGSize(width: self.width, height: self.height)
-        if ImageCache.contains(key: key) {
-            let image = ImageCache.get(key: key)
-            if image != nil {
-                //self.renderView.image = image
-                self.renderView.image = UIImage(ciImage: (image?.resize(size: imgSize)!)!)
-                //log.debug("Retrieved image: \(key)")
-            } else {
-                log.warning("Image not set")
-                //self.renderView.image = EditManager.getFilteredImage()
-                self.renderView.image = UIImage(ciImage: (EditManager.getFilteredImage()?.resize(size: imgSize)!)!)
-            }
-        } else {
-            log.error("Image not in cache")
-            //self.renderView.image = EditManager.getFilteredImage()
-            self.renderView.image = UIImage(ciImage: (EditManager.getFilteredImage()?.resize(size: imgSize)!)!)
-            
-        }
-        
-        if self.renderView.image == nil {
-            log.warning("Image not set")
-            //self.renderView.image = EditManager.getFilteredImage()
-            self.renderView.image = UIImage(ciImage: (EditManager.getFilteredImage()?.resize(size: imgSize)!)!)
-        }
-        
-    }
-    
- 
-    /***
-    // update the supplied RenderView with the supplied filter
-    public func updateRenderView(key: String, renderView:RenderView?){
-        
-        //var descriptor: FilterDescriptor?
-        
-        self.descriptor = FilterGalleryViewCell.filterManager.getFilterDescriptor(key: key)
- 
-        /***
-        if (FilterGalleryViewCell.sample == nil){
-            loadInputs()
-        }
-        **/
-        
-        //TODO: start rendering in an asynch queue
-        //TODO: render to UIImage, no need for RenderView since image is static
-        
-       // guard (FilterGalleryViewCell.sample != nil) else {
-       //     log.error("Could not load sample image")
-        //    return
-        //}
-
-
-
-        log.debug("key: \(key) found in cache: \(ImageCache.contains(key: key))")
-        //renderView?.setImageSize(InputSource.getSize())
-        renderView?.setImageSize(EditManager.getImageSize())
-        renderView?.image = ImageCache.get(key: key)
-
-
-        //DispatchQueue.main.async(execute: { () -> Void in
-            //renderView?.image = self.descriptor?.apply(image: FilterGalleryViewCell.sample, image2: FilterGalleryViewCell.blend)
-        //})
-
-
-        //renderView.isHidden = false
-
- 
-    }
-***/
-    
-    open func suspend(){
-        //log.debug("Suspending cell: \((filterDescriptor?.key)!)")
-        //sample?.removeAllTargets()
-        //blend?.removeAllTargets()
-        //filter?.removeAllTargets()
-        //filterGroup?.removeAllTargets()
-    }
-    
+  
     
     /////////////////////
     // Touch Handlers
@@ -440,39 +266,24 @@ class FilterGalleryViewCell: UICollectionViewCell {
     // handles touch of the favourite icon
     @objc func showHandler(){
         //log.verbose("hide/show touched")
-        guard (self.descriptor != nil) else {
-            log.error("NIL descriptor")
-            return
-        }
-        
         if (delegate != nil){
-            delegate?.hiddenTouched(key: self.descriptor.key)
+            delegate?.hiddenTouched(key: self.key)
         }
     }
     
     // handles touch of the show/hide icon
     @objc func favHandler(){
         //log.verbose("favourite touched")
-        guard (self.descriptor != nil) else {
-            log.error("NIL descriptor")
-            return
-        }
-        
         if (delegate != nil){
-            delegate?.favouriteTouched(key: self.descriptor.key)
+            delegate?.favouriteTouched(key: self.key)
         }
     }
     
     // handles touch of the rating icon
     @objc func ratingHandler(){
         //log.verbose("rating touched")
-        guard (self.descriptor != nil) else {
-            log.error("NIL descriptor")
-            return
-        }
-        
         if (delegate != nil){
-            delegate?.ratingTouched(key: self.descriptor.key)
+            delegate?.ratingTouched(key: self.key)
         }
     }
 

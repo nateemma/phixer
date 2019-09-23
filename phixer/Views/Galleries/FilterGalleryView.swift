@@ -50,7 +50,19 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     
 
     
-    fileprivate var filterList:[String] = []
+    // struct for holding filter display info
+    struct FilterInfo {
+        var title: String = ""
+        var rating:Int = 0
+        var favourite:Bool = false
+        var show:Bool = true
+    }
+    
+    fileprivate var keyList:[String] = []
+    fileprivate var infoList:[FilterInfo] = []
+    //fileprivate var imageList:[CIImage?] = []
+
+    
     //fileprivate var currCategory: String = FilterManager.defaultCategory
     fileprivate var currCategory: String = ""
     fileprivate var filterManager:FilterManager = FilterManager.sharedInstance
@@ -60,7 +72,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     
     fileprivate var filterGallery:UICollectionView? = nil
     fileprivate var firstTime:Bool = true
-    fileprivate var reuseId:String = "FilterGalleryView"
+    //fileprivate var reuseId:String = "FilterGalleryView"
     //fileprivate var opacityFilter:OpacityAdjustment? = nil
     
     // object to load filters asynchrobously into cache
@@ -69,7 +81,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     
     // delegate for handling events
     weak var delegate: FilterGalleryViewDelegate?
-    
+
     
     /////////////////////////////////////
     //MARK: - Initializers
@@ -88,7 +100,8 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     deinit{
         //suspend()
         releaseResources()
-        filterList = []
+        keyList = []
+        infoList = []
         inputImage = nil
         blend = nil
         filterGallery = nil
@@ -109,13 +122,12 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
             log.debug("Adding Gallery, itemSize: \(layout.itemSize)")
             filterGallery = UICollectionView(frame: self.frame, collectionViewLayout: layout)
             filterGallery?.isHidden = false
-            filterGallery?.isPrefetchingEnabled = true
-            //filterGallery?.isPrefetchingEnabled = false // can't get this to work properly
+            //filterGallery?.isPrefetchingEnabled = true
+            filterGallery?.isPrefetchingEnabled = false // can't get this to work properly (using RenderView)
             filterGallery?.delegate   = self
             filterGallery?.dataSource = self
             filterGallery?.prefetchDataSource = self
-            //reuseId = "FilterGalleryView_" + currCategory
-            filterGallery?.register(FilterGalleryViewCell.self, forCellWithReuseIdentifier: reuseId)
+            filterGallery?.register(FilterGalleryViewCell.self, forCellWithReuseIdentifier: FilterGalleryViewCell.reuseID)
             
             self.addSubview(filterGallery!)
             filterGallery?.fillSuperview()
@@ -131,7 +143,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     fileprivate func doInit(){
         if self.currCategory.isEmpty {
             self.currCategory = self.filterManager.getCurrentCategory()
-            self.filterList = self.filterManager.getFilterList(self.currCategory)!
+            self.keyList = self.filterManager.getFilterList(self.currCategory)!
         }
         setDefaultSizes()
         loadInputs(size: self.imgSize)
@@ -159,21 +171,6 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
             // set up sizing based on default case (can be changed later)
             setDefaultSizes()
             
-//            // set up the gallery/collection view
-//
-//            layout.itemSize = self.frame.size
-//            if filterGallery == nil {
-//                log.debug("Adding Gallery, itemSize: \(layout.itemSize)")
-//                filterGallery = UICollectionView(frame: self.frame, collectionViewLayout: layout)
-//                filterGallery?.isPrefetchingEnabled = true
-//                filterGallery?.delegate   = self
-//                filterGallery?.dataSource = self
-//                //reuseId = "FilterGalleryView_" + currCategory
-//                filterGallery?.register(FilterGalleryViewCell.self, forCellWithReuseIdentifier: reuseId)
-//
-//                self.addSubview(filterGallery!)
-//                filterGallery?.fillSuperview()
-//            }
         }
         
     }
@@ -184,29 +181,50 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         var filter:FilterDescriptor? = nil
         //var renderview:RenderView? = nil
         
-        if (self.filterList.count > 0){
-            self.filterList = []
+        if (self.keyList.count > 0){
+            self.keyList = []
+            self.infoList = []
         }
         
-        // (Re-)build the list of filters
+        // (Re-)build the list of (visible) filters
         if FilterGalleryView.showHidden {
-            self.filterList = self.filterManager.getFilterList(self.currCategory)!
+            self.keyList = self.filterManager.getFilterList(self.currCategory)!
         } else {
             // only add filters if they are not hidden
 
             //if let list = self.filterManager.getShownFilterList(self.currCategory) {
             if let list = (FilterGalleryView.showHidden==true) ? self.filterManager.getFilterList(self.currCategory) : self.filterManager.getShownFilterList(self.currCategory) {
                 if list.count > 0 {
+
                     for k in list {
-                        if ((filterManager.getFilterDescriptor(key: k)?.show)!) || FilterGalleryView.showHidden {
-                            self.filterList.append(k)
+                        if let descr = filterManager.getFilterDescriptor(key: k) {
+                            if (descr.show || FilterGalleryView.showHidden) {
+                                keyList.append(k)
+                            }
                         }
                     }
                 }
             }
         }
-        self.filterList.sort(by: { (value1: String, value2: String) -> Bool in return value1 < value2 }) // sort ascending
-        log.debug ("Loading... \(self.filterList.count) filters for category: \(self.currCategory)")
+        self.keyList.sort(by: { (value1: String, value2: String) -> Bool in return value1 < value2 }) // sort ascending
+        
+        // load filter information (must do this after sorting keylist)
+        if keyList.count > 0 {
+            for k in keyList {
+                if let descr = filterManager.getFilterDescriptor(key: k) {
+                    if (descr.show || FilterGalleryView.showHidden) {
+                        var info = FilterInfo()
+                        info.title = descr.title
+                        info.rating = descr.rating
+                        info.favourite = filterManager.isFavourite(key: k)
+                        info.show = !filterManager.isHidden(key: k)
+                        infoList.append(info)
+                    }
+                }
+            }
+        }
+        
+        log.debug ("Loading... \(self.keyList.count) filters for category: \(self.currCategory)")
         
         // load the input data
         loadInputs(size: imgSize)
@@ -214,10 +232,10 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
 /***/
         // pre-load filters. Inefficient, but it avoids multi-thread timing issues when rendering cells
         // ignore compiler warnings, the intent is to pre-load the filters
-        if (self.filterList.count > 0){
-            //for i in 0..<min(12,  self.filterList.count) {
-                for i in 0..<self.filterList.count {
-                let key = self.filterList[i]
+        if (self.keyList.count > 0){
+            //for i in 0..<min(12,  self.keyList.count) {
+                for i in 0..<self.keyList.count {
+                let key = self.keyList[i]
                 ImageCache.add(self.inputImage, key: key)
                 filter = filterManager.getFilterDescriptor(key: key)
                 //renderview = loadRenderView(key: key)
@@ -294,11 +312,11 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     func getFilterAfter(key: String)->String {
         var newkey:String = ""
         let kIndex = indexForKey(key)
-        if (kIndex >= 0) && (kIndex < self.filterList.count){
-            let index = (kIndex < (filterList.count-1)) ? (kIndex + 1) : 0
-            newkey = self.filterList[index]
+        if (kIndex >= 0) && (kIndex < self.keyList.count){
+            let index = (kIndex < (keyList.count-1)) ? (kIndex + 1) : 0
+            newkey = self.keyList[index]
         } else {
-            newkey = self.filterList[0]
+            newkey = self.keyList[0]
         }
         return newkey
     }
@@ -307,11 +325,11 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     func getFilterBefore(key: String)->String {
         var newkey:String = ""
         let kIndex = indexForKey(key)
-        if (kIndex >= 0) && (kIndex < self.filterList.count){
-            let index = (kIndex > 0) ? (kIndex - 1) : (filterList.count - 1)
-            newkey = self.filterList[index]
+        if (kIndex >= 0) && (kIndex < self.keyList.count){
+            let index = (kIndex > 0) ? (kIndex - 1) : (keyList.count - 1)
+            newkey = self.keyList[index]
         } else {
-            newkey = self.filterList[0]
+            newkey = self.keyList[0]
         }
         return newkey
     }
@@ -330,14 +348,14 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         
         if (!cacheLoaded)   { // not an error, just don't need to do anything
 
-            if (self.filterList.count > 0){
+            if (self.keyList.count > 0){
                 // add an entry for each filter to be displayed
-                log.verbose("Loading cache (\(self.filterList.count) images)")
+                log.verbose("Loading cache (\(self.keyList.count) images)")
                 
                 // setting flag here to stop multiple loads
                 cacheLoaded = true
                 
-//                for key in filterList {
+//                for key in keyList {
 //                    // add the input image for now. It will be replaced by the filtered version
 //                    ImageCache.add(inputImage, key: key)
 //                }
@@ -362,11 +380,12 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         loadInputs(size: imgSize)
         //filterLoader.unload() // in case anything was previously loaded
         filterLoader.load(image: self.inputImage,
-                          filters: filterList,
+                          filters: keyList,
                           update: { key in
                             DispatchQueue.main.async(execute: { [weak self] in
                                 //log.debug("...\(key)")
                                 //self?.reloadView(key:key)
+                                self?.updateCell(key)
                             })
                           },
                           completion: {
@@ -384,9 +403,9 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     // removes images from the cache
     private func unloadCache() {
         if self.cacheLoaded {
-            if (self.filterList.count > 0){
+            if (self.keyList.count > 0){
                 self.cacheLoaded = false
-                filterLoader.unload(filters: filterList)
+                filterLoader.unload(filters: keyList)
             }
         }
     }
@@ -401,10 +420,10 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     // releaes the resources that we used for the gallery items
     
     private func releaseResources(){
-        if (self.filterList.count > 0){
-            log.verbose("Releasing \(self.filterList.count) filters")
+        if (self.keyList.count > 0){
+            log.verbose("Releasing \(self.keyList.count) filters")
             unloadCache()
-             for key in filterList {
+             for key in keyList {
                 filterManager.releaseFilterDescriptor(key: key)
                 filterManager.releaseRenderView(key: key)
             }
@@ -659,6 +678,19 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     }
     
     
+    func updateCell(_ key: String){
+        guard !key.isEmpty else {
+            log.error("Empty key")
+            return
+        }
+        
+        if let index = keyList.indexOf(item: key) {
+            let indexPath = IndexPath(item: index, section: 0)
+            filterGallery?.reloadItems(at: [indexPath])
+        } else {
+            log.error("No info found for key: \(key)")
+        }
+    }
     
     
     // update the supplied RenderView with the supplied filter
@@ -710,8 +742,8 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     }
     
     func reloadRenderViews(){
-        if self.filterList.count > 0 {
-            for key in filterList {
+        if self.keyList.count > 0 {
+            for key in keyList {
                 reloadView(key: key)
             }
         }
@@ -732,7 +764,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
 
     // debug func to list all cells in this collection
     private func listCells(){
-        for i in 0...self.filterList.count-1 {
+        for i in 0...self.keyList.count-1 {
             if let cell = filterGallery?.cellForItem(at: NSIndexPath(index: i) as IndexPath) {
                 log.debug("Cell: \(i) cell: \(cell)")
             } else {
@@ -756,16 +788,16 @@ private extension FilterGalleryView {
     func keyForIndexPath(_ indexPath: IndexPath) -> String {
         //let index:Int = (indexPath as NSIndexPath).row
         let index:Int = (indexPath as NSIndexPath).item
-        if ((index>=0) && (index<filterList.count)){
-            return filterList[index]
+        if ((index>=0) && (index<keyList.count)){
+            return keyList[index]
         } else {
-            log.error("Index:\(index) out of range (0..\(filterList.count))")
+            log.error("Index:\(index) out of range (0..\(keyList.count))")
             return ""
         }
     }
     
     func indexForKey(_ key:String) -> Int{
-        if let index = filterList.firstIndex(of: key) {
+        if let index = keyList.firstIndex(of: key) {
             return index
         } else {
             return 0
@@ -796,7 +828,7 @@ extension UIAlertController {
 extension FilterGalleryView {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return filterList.count
+        return keyList.count
     }
     
     
@@ -804,24 +836,24 @@ extension FilterGalleryView {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         // dequeue the cell
-        let cell = filterGallery?.dequeueReusableCell(withReuseIdentifier: reuseId, for: indexPath) as! FilterGalleryViewCell
+        let cell = filterGallery?.dequeueReusableCell(withReuseIdentifier: FilterGalleryViewCell.reuseID, for: indexPath) as! FilterGalleryViewCell
         
         // configure based on the index
         
         //let index:Int = (indexPath as NSIndexPath).row
         let index:Int = (indexPath as NSIndexPath).item
-        if ((index>=0) && (index<filterList.count)){
-//            DispatchQueue.main.async(execute: { () -> Void in
-                log.verbose("(cellForItemAt) Index: \(index) key:(\(self.filterList[index]))")
-                let key = self.filterList[index]
-                //let renderview = self.loadRenderView(key:key)
-                //renderview?.frame = cell.frame
-                cell.delegate = self
-                cell.configureCell(frame: cell.frame, index:index, key:key)
-//            })
+        if ((index>=0) && (index<keyList.count)){
+            //            DispatchQueue.main.async(execute: { () -> Void in
+            log.verbose("(cellForItemAt) Index: \(index) key:(\(self.keyList[index]))")
+            let key = self.keyList[index]
+            let info = infoList[index]
+            cell.delegate = self
+            cell.configureCell(frame: cell.frame, index: index, key: key, image: ImageCache.get(key: key),
+                               label: info.title, rating: info.rating, favourite: info.favourite, show: info.show)
+            //            })
             
         } else {
-            log.warning("Index out of range (\(index)/\(filterList.count))")
+            log.warning("Index out of range (\(index)/\(keyList.count))")
         }
         return cell
     }
@@ -829,17 +861,17 @@ extension FilterGalleryView {
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: FilterGalleryViewCell, forItemAt indexPath: IndexPath) {
         let index:Int = (indexPath as NSIndexPath).item
-        if ((index>=0) && (index<filterList.count)){
+        if ((index>=0) && (index<keyList.count)){
             //DispatchQueue.main.async(execute: { () -> Void in
-            log.verbose("(willDisplay) Index: \(index) key:(\(self.filterList[index]))")
-            let key = self.filterList[index]
-            //let renderview = self.loadRenderView(key:key)
-            //renderview?.frame = cell.frame
+            log.verbose("(willDisplay) Index: \(index) key:(\(self.keyList[index]))")
+            let key = self.keyList[index]
+            let info = infoList[index]
             cell.delegate = self
-            cell.configureCell(frame: cell.frame, index:index, key:key)
+            cell.configureCell(frame: cell.frame, index: index, key: key, image: ImageCache.get(key: key),
+                               label: info.title, rating: info.rating, favourite: info.favourite, show: info.show)
             //})
         } else {
-            log.warning("Index out of range (\(index)/\(filterList.count))")
+            log.warning("Index out of range (\(index)/\(keyList.count))")
         }
     }
 
@@ -856,19 +888,19 @@ extension FilterGalleryView: UICollectionViewDataSourcePrefetching {
         log.debug("indexes: \(indexPaths)")
         for indexPath in indexPaths {
             let index:Int = (indexPath as NSIndexPath).item
-            if ((index>=0) && (index<filterList.count)){
+            if ((index>=0) && (index<keyList.count)){
                 // dequeue the cell
-                let cell = filterGallery?.dequeueReusableCell(withReuseIdentifier: reuseId, for: indexPath) as! FilterGalleryViewCell
+                let cell = filterGallery?.dequeueReusableCell(withReuseIdentifier: FilterGalleryViewCell.reuseID, for: indexPath) as! FilterGalleryViewCell
                 //DispatchQueue.main.async(execute: { () -> Void in
-                    log.verbose("(prefetchItemsAt) Index: \(index) key:(\(self.filterList[index]))")
-                    let key = self.filterList[index]
-                    //let renderview = self.loadRenderView(key:key)
-                    //renderview?.frame = cell.frame
-                    cell.delegate = self
-                    cell.configureCell(frame: cell.frame, index:index, key:key)
+                    log.verbose("(prefetchItemsAt) Index: \(index) key:(\(self.keyList[index]))")
+                    let key = self.keyList[index]
+                let info = infoList[index]
+                cell.delegate = self
+                cell.configureCell(frame: cell.frame, index: index, key: key, image: ImageCache.get(key: key),
+                                   label: info.title, rating: info.rating, favourite: info.favourite, show: info.show)
                 //})
             } else {
-                log.warning("Index out of range (\(index)/\(filterList.count))")
+                log.warning("Index out of range (\(index)/\(keyList.count))")
             }
        }
     }
@@ -893,7 +925,7 @@ extension FilterGalleryView {
         //let index:Int = (indexPath as NSIndexPath).row
         let index:Int = (indexPath as NSIndexPath).item
         selectedIndex = index
-        let descr:FilterDescriptor? = (self.filterManager.getFilterDescriptor(key:self.filterList[index]))
+        let descr:FilterDescriptor? = (self.filterManager.getFilterDescriptor(key:self.keyList[index]))
         log.verbose("Selected filter: \((descr?.key)!)")
         
         // suspend all active rendering and launch viewer for this filter
