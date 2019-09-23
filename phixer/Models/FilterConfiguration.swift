@@ -228,9 +228,15 @@ class FilterConfiguration{
                         def.lookup = item["image"].stringValue
                         def.title = def.lookup
                         def.ftype = "lookup"
+                        /***
                         def.slow = item["slow"].boolValue
                         def.hide = item["hide"].boolValue
                         def.rating = item["rating"].intValue
+                         ***/
+                        // set defaults for slow, hide & rating. These will be updated later if needed
+                        def.slow = false
+                        def.hide = false
+                        def.rating = 0
                         addLookup(key:def.key, definition:def)
                     }
                     log.verbose ("\(count) Lookup Images found")

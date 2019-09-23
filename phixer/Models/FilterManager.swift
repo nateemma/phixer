@@ -130,7 +130,11 @@ class FilterManager{
     
     public func getCategoryTitle(key:String)->String{
         FilterManager.checkSetup()
-        return (FilterConfiguration.categoryDictionary[key])!
+        if let cat = FilterConfiguration.categoryDictionary[key] {
+            return  cat
+        } else {
+            return "?"
+        }
     }
     
     func getFilterCount(_ category:String)->Int {
