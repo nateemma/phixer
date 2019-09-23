@@ -72,7 +72,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     
     fileprivate var filterGallery:UICollectionView? = nil
     fileprivate var firstTime:Bool = true
-    //fileprivate var reuseId:String = "FilterGalleryView"
+
     //fileprivate var opacityFilter:OpacityAdjustment? = nil
     
     // object to load filters asynchrobously into cache
@@ -678,6 +678,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
     }
     
     
+    // updates the individual cell associated with 'key'
     func updateCell(_ key: String){
         guard !key.isEmpty else {
             log.error("Empty key")
@@ -691,71 +692,6 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
             log.error("No info found for key: \(key)")
         }
     }
-    
-    
-    // update the supplied RenderView with the supplied filter
-    func updateRenderView(index:Int, key: String, renderview:RenderView?){
-        
-        var descriptor: FilterDescriptor?
-        
-        descriptor = self.filterManager.getFilterDescriptor(key: key)
-        
-        
-        guard (descriptor != nil)  else {
-            log.error("filter NIL for:index:\(index) key:\(String(describing: descriptor?.key))")
-            return
-        }
-        
-        //loadInputs(size:(renderview?.frame.size)!)
-        
-        guard (inputImage != nil) else {
-            log.error("Could not load inputImage image")
-            return
-        }
-        
-        if (blend == nil) && (descriptor?.filterOperationType == FilterOperationType.blend) {
-            log.error("Could not load blend image")
-            return
-        }
-
-        // run the filter
-        //log.debug("key: \(key) found in cache: \(ImageCache.contains(key: key))")
-
-        //retrieve image from cache
-        renderview?.image = ImageCache.get(key: key)
-        
-/*** without caching:
-        if self.currCategory != FilterManager.styleTransferCategory {
-            renderview?.image = descriptor?.apply(image:inputImage, image2: blend)
-            renderview?.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: self.height * 0.8)
-        } else {
-            //renderview?.image = self.inputImage
-            //renderview?.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: self.height * 0.8)
-          DispatchQueue.main.async(execute: { () -> Void in
-                renderview?.image = descriptor?.apply(image:self.inputImage, image2: self.blend)
-                renderview?.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: self.height * 0.8)
-           })
-        }
-***/
-        //renderView?.isHidden = false
- 
-    }
-    
-    func reloadRenderViews(){
-        if self.keyList.count > 0 {
-            for key in keyList {
-                reloadView(key: key)
-            }
-        }
-    }
-    
-    // updates the image associated with the supplied key
-    func reloadView(key: String){
-        let renderview = loadRenderView(key:key)
-        renderview?.frame.size = self.imgViewSize
-        renderview?.setImageSize(self.imgSize)
-    }
-   
     
 
     ////////////////////////////////////////////
@@ -832,7 +768,7 @@ extension FilterGalleryView {
     }
     
     
-    
+    // return the cell for display at the provided index
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         // dequeue the cell
@@ -844,7 +780,7 @@ extension FilterGalleryView {
         let index:Int = (indexPath as NSIndexPath).item
         if ((index>=0) && (index<keyList.count)){
             //            DispatchQueue.main.async(execute: { () -> Void in
-            log.verbose("(cellForItemAt) Index: \(index) key:(\(self.keyList[index]))")
+            //log.verbose("(cellForItemAt) Index: \(index) key:(\(self.keyList[index]))")
             let key = self.keyList[index]
             let info = infoList[index]
             cell.delegate = self
@@ -859,6 +795,7 @@ extension FilterGalleryView {
     }
     
     
+    // pre-load cell when it is about to be displayed
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: FilterGalleryViewCell, forItemAt indexPath: IndexPath) {
         let index:Int = (indexPath as NSIndexPath).item
         if ((index>=0) && (index<keyList.count)){
@@ -884,6 +821,7 @@ extension FilterGalleryView {
 ////////////////////////////////////////////
 
 extension FilterGalleryView: UICollectionViewDataSourcePrefetching {
+    // preload cells that are predicted to be displayed soon
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         log.debug("indexes: \(indexPaths)")
         for indexPath in indexPaths {
@@ -915,6 +853,7 @@ extension FilterGalleryView: UICollectionViewDataSourcePrefetching {
 
 extension FilterGalleryView {
     
+    // handle selection of a specific cell
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         guard (filterGallery?.cellForItem(at: indexPath) as? FilterGalleryViewCell) != nil else {
@@ -942,6 +881,7 @@ extension FilterGalleryView {
 ////////////////////////////////////////////
 // MARK: - FilterGalleryViewCell
 ////////////////////////////////////////////
+
 extension FilterGalleryView {
     
     // handle touch of show/hide icon in cell
@@ -1015,7 +955,7 @@ extension FilterGalleryView: UIGestureRecognizerDelegate {
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
             
-            // if this is a pinch type, then don't pass on
+        // if this is a pinch type, then don't pass on
         if gestureRecognizer is UIPinchGestureRecognizer {
             return false
         } else {

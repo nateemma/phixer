@@ -254,16 +254,8 @@
     {
       "parameters": [
         {
-          "type": "CIAttributeTypePosition", 
-          "val": [
-            0.0, 
-            0.0
-          ], 
-          "key": "inputCenter"
-        }, 
-        {
-          "type": "CIAttributeTypeDistance", 
-          "val": 0.0, 
+          "type": "CIAttributeTypeScalar", 
+          "val": 0.5, 
           "key": "inputRadius"
         }, 
         {
@@ -277,7 +269,7 @@
           "key": "inputFalloff"
         }
       ], 
-      "key": "CIVignetteEffect"
+      "key": "CenteredVignetteFilter"
     }
   ], 
   "key": "../phixer/Config/Presets//SleeklensStarter/TravelWish.json"

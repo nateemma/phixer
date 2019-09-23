@@ -1202,9 +1202,9 @@ def processVignette():
     # new: PostCropVignetteAmount, PostCropVignetteFeather, PostCropVignetteMidpoint, PostCropVignetteRoundness, PostCropVignetteStyle
 
     # default values
-    radius = 0.0
+    radius = 0.5
     intensity = 0.5
-    center = [0.0, 0.0]
+    #center = [0.0, 0.0]
     falloff = 0.5
     found1 = False
     found2 = False
@@ -1216,11 +1216,11 @@ def processVignette():
         if abs(intensity) < 0.01:
             found1 = False
         else:
-            #if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "PostCropVignetteMidpoint"):
-            #    falloff = xmp.get_property_float(XMP_NS_CAMERA_RAW, "PostCropVignetteMidpoint") * 10.0 # % to pixels, so unkown transform, guess at 10x
+            if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "PostCropVignetteMidpoint"):
+                radius = xmp.get_property_float(XMP_NS_CAMERA_RAW, "PostCropVignetteMidpoint") / 100.0
+
             if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "PostCropVignetteFeather"):
                 falloff = xmp.get_property_float(XMP_NS_CAMERA_RAW, "PostCropVignetteFeather") / 100.0
-            # leave center as [0,0], which will then default to the center of the image
 
     # older form:
     if (not found1) and xmp.does_property_exist(XMP_NS_CAMERA_RAW, "VignetteAmount"):
@@ -1228,18 +1228,21 @@ def processVignette():
         intensity = -xmp.get_property_float(XMP_NS_CAMERA_RAW, "VignetteAmount") / 100.0  # flip polarity
         if abs(intensity) < 0.01:
             found2 = False
-        #else:
-        #if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "VignetteMidpoint"):
-        #falloff = xmp.get_property_float(XMP_NS_CAMERA_RAW, "VignetteMidpoint") * 10.0 # % to pixels, so unkown transform, guess at 10x
+        else:
+            if xmp.does_property_exist(XMP_NS_CAMERA_RAW, "Radius"):
+                radius = xmp.get_property_float(XMP_NS_CAMERA_RAW, "Radius") / 100.0
 
 
     if found1 or found2:
-        filterMap["filters"].append( { 'key':"CIVignetteEffect", "parameters":[{ 'key':"inputCenter", "val": center, "type": "CIAttributeTypePosition" },
-                                                                               { 'key':"inputRadius", "val": radius, "type": "CIAttributeTypeDistance"},
-                                                                               { 'key':"inputIntensity", "val": intensity, "type": "CIAttributeTypeScalar"},
-                                                                               { 'key':"inputFalloff", "val": falloff, "type": "CIAttributeTypeScalar"} ]
-                                    } )
-        print ("Vignette: intensity:" + str(intensity) + " falloff: "  + str(falloff))
+        #filterMap["filters"].append({'key': "CIVignetteEffect", "parameters": [{'key': "inputCenter", "val": center, "type": "CIAttributeTypePosition"},
+        #                                                                       {'key': "inputRadius", "val": radius, "type": "CIAttributeTypeDistance"},
+        #                                                                      {'key': "inputIntensity", "val": intensity, "type": "CIAttributeTypeScalar"},
+        #                                                                       {'key': "inputFalloff", "val": falloff, "type": "CIAttributeTypeScalar"}]
+        filterMap["filters"].append({'key': "CenteredVignetteFilter", "parameters": [{'key': "inputRadius", "val": radius, "type": "CIAttributeTypeScalar"},
+                                                                                     {'key': "inputIntensity", "val": intensity, "type": "CIAttributeTypeScalar"},
+                                                                                     {'key': "inputFalloff", "val": falloff, "type": "CIAttributeTypeScalar"}]
+                                                                  } )
+        print ("Vignette: intensity:" + str(intensity) + " radius: "  + str(radius) + " falloff: "  + str(falloff))
         print ("...Vignette")
 
 
