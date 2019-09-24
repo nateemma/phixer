@@ -25,7 +25,7 @@ class Style_Mosaic: StyleTransferFilter {
     
     // get the actual model
     override func getInputModel() -> MLModel? {
-        return FNS_Mosaic_1().model
+        return FNS_Mosaic().model
     }
     
     // get the model size

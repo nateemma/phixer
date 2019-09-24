@@ -275,6 +275,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         //resetCache()
         setDefaultSizes()
         loadInputs(size: imgSize)
+        self.cacheLoaded = false
         loadCache()
 
 //        let c = self.currCategory
@@ -484,9 +485,9 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
             // Set the colours
             FilterGalleryView.starView?.settings.totalStars = 3
             FilterGalleryView.starView?.backgroundColor = UIColor.clear
-            FilterGalleryView.starView?.settings.filledColor = UIColor.flatYellow
-            FilterGalleryView.starView?.settings.emptyBorderColor = UIColor.flatGrayDark
-            FilterGalleryView.starView?.settings.filledBorderColor = UIColor.flatBlack
+            FilterGalleryView.starView?.settings.filledColor = UIColor.flatYellow()
+            FilterGalleryView.starView?.settings.emptyBorderColor = UIColor.flatGrayDark()
+            FilterGalleryView.starView?.settings.filledBorderColor = UIColor.flatBlack()
             
             FilterGalleryView.starView?.didFinishTouchingCosmos = { rating in
                 self.currRating = Int(rating)

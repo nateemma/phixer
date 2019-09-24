@@ -25,7 +25,7 @@ class Style_Scream: StyleTransferFilter {
     
     // get the actual model
     override func getInputModel() -> MLModel? {
-        return FNS_The_Scream_1().model
+        return FNS_The_Scream().model
     }
     
     // get the model size

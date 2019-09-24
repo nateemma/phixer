@@ -162,13 +162,13 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
         setupMenuItem(aboutMenuItem, height:h, width:w,
                       title:"About",
                       image: nil,
-                      color:UIColor.flatMint,
+                      color:UIColor.flatMint(),
                       handler: UITapGestureRecognizer(target: self, action: #selector(presentAbout)))
         
         setupMenuItem(changeBlendMenuItem, height:h, width:w,
                       title:"Set Blend Image",
                       image: ImageManager.getCurrentBlendImage(size: iconSize),
-                      color:UIColor.flatMintDark,
+                      color:UIColor.flatMintDark(),
                       handler: UITapGestureRecognizer(target: self, action: #selector(presentBlendGallery)))
         
 //        setupMenuItem(changeSampleMenuItem, height:h, width:w,
@@ -180,18 +180,18 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
         setupMenuItem(resetMenuItem, height:h, width:w,
                       title:"Reset Categories/Filters",
                       image: nil,
-                      color:UIColor.flatPurple,
+                      color:UIColor.flatPurple(),
                       handler: UITapGestureRecognizer(target: self, action: #selector(presentReset)))
 
         setupSwitchItem(hideFiltersItem, height:h, width:w,
                         title:"Show Hidden Filters",
                         switchItem:hideFiltersSwitch,
-                        color:UIColor.flatPurpleDark)
+                        color:UIColor.flatPurpleDark())
 
         setupMenuItem(themeMenuItem, height:h, width:w,
                       title:"Change Theme",
                       image: nil,
-                      color:UIColor.flatPlum,
+                      color:UIColor.flatPlum(),
                       handler: UITapGestureRecognizer(target: self, action: #selector(presentThemes)))
 
         numItems = 5 // must match no. of items declared above

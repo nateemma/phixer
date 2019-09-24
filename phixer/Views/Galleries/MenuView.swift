@@ -48,7 +48,7 @@ class MenuView : UIView, UICollectionViewDataSource {
     
     fileprivate var menuItems:[MenuItem] = []
     fileprivate var colourList:[UIColor] = []
-    fileprivate var seedColour:UIColor = UIColor.flatMint
+    fileprivate var seedColour:UIColor = UIColor.flatMint()
     
     fileprivate var currItemKey: String = ""
     fileprivate var filterManager:FilterManager = FilterManager.sharedInstance
@@ -242,7 +242,7 @@ extension MenuView {
         if ((index>=0) && (index<menuItems.count)){
             DispatchQueue.main.async(execute: { () -> Void in
                 //log.verbose("Index: \(index) key:(\(self.menuItems[index]))")
-                let category = self.menuItems[index]
+                _ = self.menuItems[index]
 
                 cell.frame.size = self.cellSize
                 cell.delegate = self

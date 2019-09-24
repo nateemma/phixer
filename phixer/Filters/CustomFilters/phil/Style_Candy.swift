@@ -25,7 +25,7 @@ class Style_Candy: StyleTransferFilter {
     
     // get the actual model
     override func getInputModel() -> MLModel? {
-        return FNS_Candy_1().model
+        return FNS_Candy().model
     }
     
     // get the model size

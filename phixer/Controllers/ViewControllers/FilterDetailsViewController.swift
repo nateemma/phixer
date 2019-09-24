@@ -552,9 +552,9 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
             // Set the colours
             FilterDetailsViewController.starView?.settings.totalStars = 3
             FilterDetailsViewController.starView?.backgroundColor = UIColor.clear
-            FilterDetailsViewController.starView?.settings.filledColor = UIColor.flatYellow
-            FilterDetailsViewController.starView?.settings.emptyBorderColor = UIColor.flatGrayDark
-            FilterDetailsViewController.starView?.settings.filledBorderColor = UIColor.flatBlack
+            FilterDetailsViewController.starView?.settings.filledColor = UIColor.flatYellow()
+            FilterDetailsViewController.starView?.settings.emptyBorderColor = UIColor.flatGrayDark()
+            FilterDetailsViewController.starView?.settings.filledBorderColor = UIColor.flatBlack()
             
             FilterDetailsViewController.starView?.didFinishTouchingCosmos = { rating in
                 self.currRating = Int(rating)

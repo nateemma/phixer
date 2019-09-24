@@ -34,6 +34,7 @@ class SplashScreenViewController: UIViewController {
         // Create an instance of FilterManager (in a different queue entry). This will take care of reading the configuration file etc.
         DispatchQueue.main.async {
             log.verbose("Loading config...")
+            EditManager.reset()
             FilterManager.checkSetup()
             Coordinator.filterManager = FilterManager.sharedInstance
             log.verbose("config loaded - calling completion handler...")

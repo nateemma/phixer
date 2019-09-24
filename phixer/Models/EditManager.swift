@@ -22,9 +22,14 @@ protocol EditManagerDelegate: class {
 class EditManager {
  
     
+    // internal images
     private static var _input:CIImage? = nil
     private static var _preview:CIImage? = nil
     private static var _filtered:CIImage? = nil
+    
+    // current id (used for helping detect changes)
+    private static var _id:Int = 0
+    
     
     //private static var _id:Int = 0
 
@@ -79,6 +84,7 @@ class EditManager {
         EditManager._input = nil
         EditManager._preview  = nil
         EditManager._filtered = nil
+        EditManager._id = 0
         
         previewFilter = filterManager?.getFilterDescriptor(key: FilterDescriptor.nullFilter)
         filterManager?.setCurrentFilterKey(FilterDescriptor.nullFilter)
@@ -120,7 +126,22 @@ class EditManager {
         }
         EditManager._preview  = nil
         EditManager._filtered = nil
+        
+        // update the id
+        EditManager._id = (EditManager._id + 1) % 0x7FFF
     }
+    
+    // get the id of the current image
+    public static func getImageId() -> Int {
+        return EditManager._id
+    }
+    
+    
+    // check whether image changed relative to supplied ID
+    public static func idChanged(id: Int) -> Bool {
+        return (EditManager._id != id)
+    }
+    
     
     // get the size of the image (any of them, they are the same size)
     public static func getImageSize() -> CGSize{

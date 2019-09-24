@@ -17,7 +17,7 @@ class BorderedButton: UIButton {
     
     var highlight:Bool = true
     public var useGradient:Bool = false
-    public var color:UIColor = UIColor.flatGreen {
+    public var color:UIColor = UIColor.flatGreen() {
         didSet {
             if useGradient {
                 backgroundColor = UIColor(gradientStyle:UIGradientStyle.topToBottom, withFrame:self.frame,
@@ -52,7 +52,7 @@ class BorderedButton: UIButton {
         contentVerticalAlignment = UIControl.ContentVerticalAlignment.center
         layer.cornerRadius = 5
         layer.borderWidth = 1
-        layer.borderColor = UIColor.flatBlack.cgColor
+        layer.borderColor = UIColor.flatBlack().cgColor
     }
     
     // override the layout function to highlight the button if selected

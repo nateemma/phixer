@@ -42,7 +42,7 @@ class ColorPickerController: CoordinatedController {
     var displayHeight : CGFloat = 0.0
     
     
-    var selectedColor:UIColor = UIColor.flatGreen
+    var selectedColor:UIColor = UIColor.flatGreen()
 
     
     
@@ -113,7 +113,7 @@ class ColorPickerController: CoordinatedController {
         if (!initDone){
             initDone = true
             
-            selectedColor = UIColor.flatGreen
+            selectedColor = UIColor.flatGreen()
         }
     }
     

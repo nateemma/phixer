@@ -888,7 +888,8 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             let id = assetResources.first!.assetLocalIdentifier
             
             log.verbose("Picked image:\(name) id:\(id)")
-            EditManager.setInputImage(name: name)
+            //EditManager.setInputImage(name: name)
+            EditManager.setInputImage(name: id) // changed in iOS12
             EditManager.update()
             DispatchQueue.main.async { [weak self] in
                 self?.updateDisplays()
@@ -1036,9 +1037,9 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             BasicEditViewController.starView?.settings.totalStars = 3
             BasicEditViewController.starView?.settings.minTouchRating = 0
             BasicEditViewController.starView?.backgroundColor = UIColor.clear
-            BasicEditViewController.starView?.settings.filledColor = UIColor.flatYellow
-            BasicEditViewController.starView?.settings.emptyBorderColor = UIColor.flatBlueDark
-            BasicEditViewController.starView?.settings.filledBorderColor = UIColor.flatBlack
+            BasicEditViewController.starView?.settings.filledColor = UIColor.flatYellow()
+            BasicEditViewController.starView?.settings.emptyBorderColor = UIColor.flatBlueDark()
+            BasicEditViewController.starView?.settings.filledBorderColor = UIColor.flatBlack()
             
             BasicEditViewController.starView?.didFinishTouchingCosmos = { rating in
                 self.currRating = Int(rating)

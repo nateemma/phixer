@@ -42,7 +42,7 @@ class ColorSchemeViewController: CoordinatedController {
     var displayHeight : CGFloat = 0.0
     
     
-    var defaultColor:UIColor = UIColor.flatMint
+    var defaultColor:UIColor = UIColor.flatMint()
     let defaultCount:Int = 6
     
     lazy var selectedColor:UIColor = defaultColor

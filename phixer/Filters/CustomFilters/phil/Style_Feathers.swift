@@ -30,7 +30,7 @@ class Style_Feathers: StyleTransferFilter {
     
     // get the actual model
     override func getInputModel() -> MLModel? {
-        return FNS_Feathers_1().model
+        return FNS_Feathers().model
     }
     
     // get the model size

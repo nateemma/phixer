@@ -25,7 +25,7 @@ class Style_Udnie: StyleTransferFilter {
     
     // get the actual model
     override func getInputModel() -> MLModel? {
-        return FNS_Udnie_1().model
+        return FNS_Udnie().model
     }
     
     // get the model size

@@ -25,7 +25,7 @@ class Style_LaMuse: StyleTransferFilter {
     
     // get the actual model
     override func getInputModel() -> MLModel? {
-        return FNS_La_Muse_1().model
+        return FNS_La_Muse().model
     }
     
     // get the model size
