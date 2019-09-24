@@ -34,7 +34,7 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
 
     var hideFiltersSwitch:UISwitch = UISwitch()
     
-    let numItems:CGFloat = 6
+    var numItems:CGFloat = 5
     
     //let stackView = AloeStackView()
     var stackHeight:CGFloat = 0.0
@@ -171,11 +171,11 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
                       color:UIColor.flatMintDark,
                       handler: UITapGestureRecognizer(target: self, action: #selector(presentBlendGallery)))
         
-        setupMenuItem(changeSampleMenuItem, height:h, width:w,
-                      title:"Set Sample Image",
-                      image:  ImageManager.getCurrentSampleImage(size: iconSize),
-                      color:UIColor.flatTeal,
-                      handler: UITapGestureRecognizer(target: self, action: #selector(presentSampleGallery)))
+//        setupMenuItem(changeSampleMenuItem, height:h, width:w,
+//                      title:"Set Sample Image",
+//                      image:  ImageManager.getCurrentSampleImage(size: iconSize),
+//                      color:UIColor.flatTeal,
+//                      handler: UITapGestureRecognizer(target: self, action: #selector(presentSampleGallery)))
         
         setupMenuItem(resetMenuItem, height:h, width:w,
                       title:"Reset Categories/Filters",
@@ -193,6 +193,8 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
                       image: nil,
                       color:UIColor.flatPlum,
                       handler: UITapGestureRecognizer(target: self, action: #selector(presentThemes)))
+
+        numItems = 5 // must match no. of items declared above
 
     }
     
@@ -308,12 +310,7 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
     @objc func presentBlendGallery(){
         self.coordinator?.activateRequest(id: ControllerIdentifier.blendGallery)
     }
-    
-    
-    @objc func presentSampleGallery(){
-        self.coordinator?.activateRequest(id: ControllerIdentifier.sampleGallery)
-    }
-    
+        
     
     @objc func presentReset(){
         self.coordinator?.activateRequest(id: ControllerIdentifier.reset)

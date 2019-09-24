@@ -90,7 +90,6 @@ class StyleTransferGalleryViewController: CoordinatedController, UIImagePickerCo
         
         doInit()
         
-        currInputName = InputSource.getCurrentName()
         
         self.filterManager.setCurrentCategory(FilterManager.styleTransferCategory)
         
@@ -127,8 +126,8 @@ class StyleTransferGalleryViewController: CoordinatedController, UIImagePickerCo
     
     func update(){
         // redrawing is very expensive, so only do it if the input image changed
-        if currInputName != InputSource.getCurrentName() {
-            currInputName = InputSource.getCurrentName()
+        if currInputName != EditManager.getImageName() {
+            currInputName = EditManager.getImageName()
             DispatchQueue.main.async(execute: { () -> Void in
                 self.styleGalleryView.reset()
             })

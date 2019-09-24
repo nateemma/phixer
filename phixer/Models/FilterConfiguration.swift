@@ -177,7 +177,7 @@ class FilterConfiguration{
                         
                         log.debug ("Using config file settings instead of saved settings")
                         Database.clearSettings()
-
+                        
                         // blend, sample, edit assignments
                         let edit = parsedConfig["settings"]["edit"].stringValue
                         let blend = parsedConfig["settings"]["blend"].stringValue
@@ -186,9 +186,8 @@ class FilterConfiguration{
                         // Note: need to do edit image first, so that default can be processed
                         ImageManager.setCurrentEditImageName(edit) // set even if empty
                         //ImageManager.setCurrentSampleImageName(sample) // set even if empty
-                        ImageManager.setCurrentSampleImageName(edit) // always setting to the same as 'edit' for now
-                       if !blend.isEmpty { ImageManager.setCurrentBlendImageName(blend)}
- 
+                        //ImageManager.setCurrentSampleImageName(edit) // always setting to the same as 'edit' for now
+                        if !blend.isEmpty { ImageManager.setCurrentBlendImageName(blend)}
 
                     } else {
                         log.debug("Skipping config file settings, using database entries instead")
@@ -201,11 +200,13 @@ class FilterConfiguration{
                     }
                     ImageManager.setBlendList(blendList)
                     
+                    /***
                     // sample list
                     for sample in parsedConfig["samples"].arrayValue {
                         sampleList.append(sample.stringValue)
                     }
                     ImageManager.setSampleList(sampleList)
+                     ***/
   
                     var def:FilterDefinition = FilterDefinition()
 
@@ -340,22 +341,17 @@ class FilterConfiguration{
                 settings.blendImage = ImageManager.getDefaultBlendImageName()
                 log.warning("Blend image empty. Set to default: \(settings.blendImage)")
             }
-            if (settings.sampleImage!.isEmpty) {
-                settings.sampleImage = ImageManager.getDefaultSampleImageName()
-                log.warning("Sample image empty. Set to default: \(settings.sampleImage)")
-            }
+
             if (settings.editImage!.isEmpty) {
                 settings.editImage = ImageManager.getDefaultEditImageName()
                 log.warning("Edit image empty. Set to default: \(settings.editImage)")
             }
             
-            log.verbose("Restoring Settings: key:\(settings.key) Sample:\(settings.sampleImage!) Blend:\(settings.blendImage!) Edit:\(settings.editImage!)")
+            log.verbose("Restoring Settings: key:\(settings.key) Blend:\(settings.blendImage!) Edit:\(settings.editImage!)")
 
             // Inform ImageManager. Note that edit must be done first otherwise it leads to race conditions
             ImageManager.setCurrentEditImageName(settings.editImage!)
             ImageManager.setCurrentBlendImageName(settings.blendImage!)
-            //ImageManager.setCurrentSampleImageName(settings.sampleImage!)
-            ImageManager.setCurrentSampleImageName(settings.editImage!)
         } else {
             log.error("ERR: settings NOT found...")
         }
@@ -689,7 +685,6 @@ class FilterConfiguration{
         let settings = SettingsRecord()
         
         settings.blendImage = ImageManager.getCurrentBlendImageName()
-        settings.sampleImage = ImageManager.getCurrentSampleImageName()
         settings.editImage = ImageManager.getCurrentEditImageName()
         
         Database.saveSettings(settings)

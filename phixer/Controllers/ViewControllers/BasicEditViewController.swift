@@ -267,7 +267,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         // bit of a hack, but reset face detection if image changes. This allows results to be re-used across filters, which is a very expensive operation
         DispatchQueue.main.async {  [weak self] in
             FaceDetection.reset()
-            FaceDetection.detectFaces(on: EditManager.getPreviewImage()!, orientation: ImageManager.getEditImageOrientation(), completion: {})
+            FaceDetection.detectFaces(on: EditManager.getPreviewImage()!, orientation: EditManager.getEditImageOrientation(), completion: {})
         }
 
     }
@@ -888,8 +888,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             let id = assetResources.first!.assetLocalIdentifier
             
             log.verbose("Picked image:\(name) id:\(id)")
-            ImageManager.setCurrentEditImageName(id)
-            InputSource.setCurrent(source: .edit)
+            EditManager.setInputImage(name: name)
             EditManager.update()
             DispatchQueue.main.async { [weak self] in
                 self?.updateDisplays()
@@ -898,7 +897,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             // bit of a hack, but reset face detection if image changes. This allows results to be re-used across filters, which is a very expensive operation
             DispatchQueue.main.async { [weak self] in
                 FaceDetection.reset()
-                FaceDetection.detectFaces(on: EditManager.getPreviewImage()!, orientation: ImageManager.getEditImageOrientation(), completion: {})
+                FaceDetection.detectFaces(on: EditManager.getPreviewImage()!, orientation: EditManager.getEditImageOrientation(), completion: {})
             }
         } else {
             log.error("Error accessing image data")

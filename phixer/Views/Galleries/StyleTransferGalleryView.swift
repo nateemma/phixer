@@ -285,7 +285,7 @@ class StyleTransferGalleryView : UIView {
     fileprivate func loadInputs(size:CGSize){
         
         // input image can change, so make sure it's current
-        EditManager.setInputImage(InputSource.getCurrentImage())
+//        EditManager.setInputImage(InputSource.getCurrentImage())
 
         //inputImage = ImageManager.getCurrentSampleImage()
         if inputImage == nil {

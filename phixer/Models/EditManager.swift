@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreImage
+import UIKit
 
 
 // provides callbacks for changes that might need a controller to do something
@@ -90,6 +91,17 @@ class EditManager {
         setInputImage(ImageManager.getCurrentEditImage())
     }
     
+    
+    // set the edit image to the named resource
+    public static func setInputImage(name: String) {
+        ImageManager.setCurrentEditImageName(name)
+        EditManager.setInputImage(ImageManager.getCurrentEditImage())
+    }
+    
+    public static func getImageName() -> String {
+        return ImageManager.getCurrentEditImageName()
+    }
+
     // set the input image to be processed
     // if 'fullsize' is not true then we resize the image to match the screen (saves lots of memory)
     public static func setInputImage(_ image:CIImage?, fullsize:Bool=false){
@@ -119,7 +131,36 @@ class EditManager {
         }
     }
     
+    // returns the w:h aspect ratio
+    public static func getAspectRatio() -> CGFloat{
+        var ratio: CGFloat = 1.0
+        
+        // calculate the aspect ratio as a 1:N (w:h) floating point number
+        if ((EditManager._input?.extent.size.height)!>CGFloat(0.0)){
+            ratio = (EditManager._input?.extent.size.width)! / (EditManager._input?.extent.size.height)!
+        }
+        return ratio
+    }
+
     
+    // wrapper function to avoid exposing ImageManager
+    public static func getEditImageOrientation() -> CGImagePropertyOrientation {
+        return ImageManager.getEditImageOrientation()
+    }
+
+    
+    // get the extent of the current image
+    public static func getExtent() -> CGRect {
+        var extent:CGRect = CGRect.zero
+        extent = UIScreen.main.bounds // default to screen size (what else?)
+        if EditManager._input != nil {
+            if EditManager._input?.extent != nil {
+                extent = (EditManager._input?.extent)!
+            }
+        }
+        return extent
+    }
+
     // Synchronous image get functions
     
     // get the filtered version of the input image, including the preview filter

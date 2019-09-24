@@ -34,7 +34,7 @@ enum ControllerIdentifier: String {
     case about
     
     case filterGallery
-    case sampleGallery
+//    case sampleGallery
     case blendGallery
     case styleGallery
     case categoryGallery
@@ -141,8 +141,8 @@ class ControllerFactory {
         case .filterGallery:
             instance = FilterGalleryViewController()
             
-        case .sampleGallery:
-            instance = SampleGalleryViewController()
+//        case .sampleGallery:
+//            instance = SampleGalleryViewController()
             
         case .blendGallery:
             instance = BlendGalleryViewController()

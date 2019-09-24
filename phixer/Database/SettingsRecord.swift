@@ -17,7 +17,7 @@ import Foundation
 public class SettingsRecord {
     public var key: String? = nil
     public var configVersion: String? = nil
-    public var sampleImage: String? = nil
+    //public var sampleImage: String? = nil
     public var blendImage: String? = nil
     public var editImage: String? = nil
 }

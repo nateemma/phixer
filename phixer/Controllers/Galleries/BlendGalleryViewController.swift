@@ -167,11 +167,8 @@ class BlendGalleryViewController: CoordinatedController, UIImagePickerController
         
         
         selectedBlendImageName = ImageManager.getCurrentBlendImageName()
-        sampleImageName = ImageManager.getCurrentSampleImageName()
-        sampleImage = UIImage(ciImage:ImageManager.getCurrentSampleImage()!)
-        //sampleInput = CIImage(image:sampleImage!)
-        sampleInput = ImageManager.getCurrentSampleInput()
-        //filteredImage = filterManager.getRenderView(key: currFilterKey)
+        sampleImageName = ImageManager.getCurrentEditImageName()
+        sampleImage = UIImage(ciImage:EditManager.getPreviewImage()!)
         if (filteredImage == nil) {  filteredImage = RenderView() }
       
         

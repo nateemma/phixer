@@ -554,7 +554,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         
         // get aspect ratio of input (used for layout sizing)
         
-        aspectRatio = InputSource.getAspectRatio() // w:h ratio (>1 means landscape)
+        aspectRatio = EditManager.getAspectRatio() // w:h ratio (>1 means landscape)
         
         itemsPerRow = (aspectRatio > 1.0) ? 2 : 3
 
@@ -648,7 +648,7 @@ class FilterGalleryView : UIView, UICollectionViewDataSource, UICollectionViewDe
         
         //if self.inputImage == nil {
             // input image can change, so make sure it's current
-            EditManager.setInputImage(InputSource.getCurrentImage())
+            //EditManager.setInputImage(InputSource.getCurrentImage())
             
             // downsize the input image to something based on the requested size. Keep the aspect ratio though, otherwise redndering will be strange
             // resize so that longest is edge is a multiple of the desired size

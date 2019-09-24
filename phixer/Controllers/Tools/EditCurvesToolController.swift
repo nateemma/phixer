@@ -176,8 +176,8 @@ class EditCurvesToolController: EditBaseToolController {
         pixelsPerValue = 100.0 * histogramImageView.frame.size.width / scale
         
         // get the histogram data from the current image
-        histogramDataFilter?.setValuesForKeys(["inputImage": InputSource.getCurrentImage()!,
-                                               "inputExtent": InputSource.getExtent(),
+        histogramDataFilter?.setValuesForKeys(["inputImage": EditManager.getPreviewImage()!,
+                                               "inputExtent": EditManager.getExtent(),
                                                "inputCount": histogramImageView.frame.size.width,
                                                "inputScale": (scale - 1.0).rounded() ])
         let hData = histogramDataFilter?.outputImage

@@ -23,7 +23,7 @@ protocol InputSourceDelegate: class {
 // enum describing the input source for previewing filters
 public enum InputSourceType {
     case camera
-    case sample
+    //case sample
     case edit
 }
 
@@ -98,9 +98,9 @@ class InputSource {
         switch (currSource){
         case .camera:
             initCamera()
-        case .sample:
-            camera?.stop()
-            currInput = ImageManager.getCurrentSampleInput()
+//        case .sample:
+//            camera?.stop()
+//            currInput = ImageManager.getCurrentSampleInput()
         case .edit:
             camera?.stop()
             currInput = ImageManager.getCurrentEditImage()
@@ -112,8 +112,8 @@ class InputSource {
         switch (currSource){
         case .camera:
             return "camera"
-        case .sample:
-            return ImageManager.getCurrentSampleImageName()
+//        case .sample:
+//            return ImageManager.getCurrentSampleImageName()
         case .edit:
             return ImageManager.getCurrentEditImageName()
         }
@@ -124,8 +124,8 @@ class InputSource {
         switch (currSource){
         case .camera:
             return currInput // updated in callback
-        case .sample:
-            currInput = ImageManager.getCurrentSampleImage()
+//        case .sample:
+//            currInput = ImageManager.getCurrentSampleImage()
         case .edit:
             currInput = ImageManager.getCurrentEditImage()
         }
@@ -137,8 +137,8 @@ class InputSource {
         switch (currSource){
         case .camera:
             return currInput // updated in callback
-        case .sample:
-            currInput = ImageManager.getCurrentSampleImage(size:size)
+//        case .sample:
+//            currInput = ImageManager.getCurrentSampleImage(size:size)
         case .edit:
             currInput = ImageManager.getCurrentEditImage(size: size)
         }

@@ -129,9 +129,7 @@ class FilterGalleryViewController: CoordinatedController {
         selectCategory(currCategory)
         
         updateTitle()
-        
-        InputSource.register(self)
-        
+                
     }
     
     
@@ -341,18 +339,5 @@ extension FilterGalleryViewController: FilterGalleryViewDelegate {
 }
 
 
-extension FilterGalleryViewController: InputSourceDelegate {
-    func inputChanged(image: CIImage?) {
-        DispatchQueue.main.async(execute: {() -> Void in
-            log.debug("Input source changed")
-            self.filterGalleryView.updateInputs()
-        })
 
-    }
-    
-    func photoTaken() {
-        // ignore
-    }
-    
-}
 

@@ -20,7 +20,7 @@ public class SettingsEntity: NSManagedObject {
         settingsRecord.key = self.key
         settingsRecord.blendImage = self.blendImage
         settingsRecord.editImage = self.editImage
-        settingsRecord.sampleImage = self.sampleImage
+        //settingsRecord.sampleImage = self.sampleImage
         settingsRecord.configVersion = self.configVersion
         
         return settingsRecord
@@ -31,7 +31,7 @@ public class SettingsEntity: NSManagedObject {
         self.setValue(record.key, forKey: "key")
         self.setValue(record.blendImage, forKey: "blendImage")
         self.setValue(record.editImage, forKey: "editImage")
-        self.setValue(record.sampleImage, forKey: "sampleImage")
+        //self.setValue(record.sampleImage, forKey: "sampleImage")
         self.setValue(record.configVersion, forKey: "configVersion")
     }
 }

@@ -134,7 +134,7 @@ class EnhanceLipsFilter: CIFilter {
 
         // if no faces, then run facial detection
         if FaceDetection.count() <= 0 {
-            FaceDetection.detectFaces(on: self.inputImage!, orientation: InputSource.getOrientation(), completion: { [weak self] in
+            FaceDetection.detectFaces(on: self.inputImage!, orientation: EditManager.getEditImageOrientation(), completion: { [weak self] in
                 self?.processImage()
             })
         } else {

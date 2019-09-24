@@ -177,7 +177,7 @@ class ImageSelectionView: UIView {
         let tgtSize = imageButton.bounds.size
         
         // set the photo thumbnail to the current input image
-        if let currImage = InputSource.getCurrentImage() {
+        if let currImage = EditManager.getPreviewImage() {
             self.imageButton.setImage(UIImage(ciImage: currImage.resize(size: tgtSize)!))
         } else {
             // no image, set to most recent photo

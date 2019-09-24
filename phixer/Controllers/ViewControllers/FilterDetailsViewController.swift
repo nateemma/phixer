@@ -232,7 +232,6 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
         //view.addSubview(adView)
         setupDisplay()
         //setupAdornments()
-        setupAdditionalPanel()
         
         setupConstraints()
         editImageView.setFilter(key: currFilterKey)
@@ -308,16 +307,7 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
         }
     }
 
-    
-    // modal setup for overlay panels
-    private func setupAdditionalPanel(){
-        // if this is showing samples, then display ratings, else display change photo/save etc.
-        if InputSource.getCurrent() == .sample {
-            overlayView.isHidden = false
-            setupAdornments()
-        }
-    }
-    
+   
     
     // setup the adornments (favourites, show/hide, ratings etc.) for the current filter
     

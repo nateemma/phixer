@@ -145,7 +145,7 @@ class EditFacesToolController: EditBaseToolController {
         
         inputImage = EditManager.getPreviewImage()
         inputSize = EditManager.getImageSize()
-        let orientation = InputSource.getOrientation()
+        let orientation = EditManager.getEditImageOrientation()
         
         editView.setNeedsDisplay()
         

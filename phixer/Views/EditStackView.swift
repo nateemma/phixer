@@ -134,9 +134,7 @@ class EditStackView: UIView {
         imgSize = CGSize(width: imageHeight*UISettings.screenScale, height: imageHeight*UISettings.screenScale)
 
         // setup the input
-        //self.currInput = InputSource.getCurrentImage()?.resize(size: CGSize(width: imgSize.width*8, height: imgSize.height*8))
-        self.currInput = InputSource.getCurrentImage()
-        EditManager.setInputImage(self.currInput)
+        self.currInput =  EditManager.getOriginalImage()
 
         // Add the preview view on top
         //scrollView?.addSubview(makePreviewView()!)

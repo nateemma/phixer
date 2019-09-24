@@ -193,6 +193,9 @@ class ImageManager {
         return _currBlendName
     }
     
+    
+    /*** Removing concept of sample image
+ 
     //////////////////////////////////
     // MARK: - Sample Image Management
     //////////////////////////////////
@@ -384,7 +387,7 @@ class ImageManager {
         }
         return _currSampleName
     }
-    
+    ***/
   
     /////////////////////////////////////////////
     // MARK: - Management of Image being edited
@@ -549,8 +552,7 @@ class ImageManager {
     public static func getDefaultEditImageName()->String?{
         
         if (_currEditName.isEmpty){
-            _currEditSize = _currSampleSize // just to set it to something reasonable
-            _currEditName = _currSampleName
+            _currEditSize = CGSize.zero // just to set it to something reasonable
             log.debug("Edit image not set")
             
             // get the most recently used photo
@@ -561,7 +563,7 @@ class ImageManager {
                 // No photo selected, so look up name of latest photo in camera roll
                 getLatestPhotoName(completion: { (name: String?) in
                     if name == nil { // case where there is no photo (e.g. on simulator)
-                        _currEditName = _currSampleName
+                        _currEditName = defaultSampleName
                     } else {
                         _currEditName = name!
                     }
@@ -590,7 +592,7 @@ class ImageManager {
         let settings = SettingsRecord()
         
         settings.blendImage = getCurrentBlendImageName()
-        settings.sampleImage = getCurrentSampleImageName()
+        //settings.sampleImage = getCurrentSampleImageName()
         settings.editImage = getCurrentEditImageName()
         
         if (settings.editImage != nil) {

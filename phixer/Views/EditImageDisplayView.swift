@@ -118,11 +118,6 @@ class EditImageDisplayView: UIView {
             //log.debug("init")
             self.backgroundColor = theme.backgroundColor
             
-            //EditManager.reset()
-            //self.currInput = ImageManager.getCurrentEditImage()
-            //self.currInput = InputSource.getCurrentImage()
-            EditManager.setInputImage(InputSource.getCurrentImage())
-
             self.layoutDone = false
             initDone = true
             
@@ -185,7 +180,7 @@ class EditImageDisplayView: UIView {
             }
             
             // use the full sized input image
-            EditManager.setInputImage(InputSource.getCurrentImage(), fullsize: true)
+            EditManager.setInputImage(ImageManager.getCurrentEditImage(), fullsize: true)
             let ciimage = EditManager.getPreviewImage()
             if (ciimage != nil){
                 let cgimage = ciimage?.generateCGImage(size:(ciimage?.extent.size)!)
@@ -225,7 +220,7 @@ class EditImageDisplayView: UIView {
     open func updateImage(){
         DispatchQueue.main.async(execute: { [weak self] () -> Void in
             //log.verbose("Updating edit image")
-            EditManager.setInputImage(InputSource.getCurrentImage())
+//            EditManager.setInputImage(InputSource.getCurrentImage())
             self?.resetZoom()
 //            self.currInput = EditManager.getPreviewImage()
 //            if self.currInput == nil {

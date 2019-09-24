@@ -202,14 +202,14 @@ class Database {
                 settingsRecord.key = settingsEntity?.key
                 settingsRecord.blendImage = settingsEntity?.blendImage
                 settingsRecord.editImage = settingsEntity?.editImage
-                settingsRecord.sampleImage = settingsEntity?.sampleImage
+                //settingsRecord.sampleImage = settingsEntity?.sampleImage
                 settingsRecord.configVersion = settingsEntity?.configVersion
            } else {
                 // build default settings
                 settingsRecord.key = settingsKey
                 settingsRecord.blendImage = ImageManager.getDefaultBlendImageName()
                 settingsRecord.editImage = ImageManager.getDefaultEditImageName()
-                settingsRecord.sampleImage = ImageManager.getDefaultSampleImageName()
+                //settingsRecord.sampleImage = ImageManager.getDefaultSampleImageName()
                 settingsRecord.configVersion = "2.0"
             }
         } catch let error as NSError {
@@ -218,7 +218,7 @@ class Database {
         }
         
 
-        print("getSettings() - key:\(settingsRecord.key) Sample:\(settingsRecord.sampleImage!) Blend:\(settingsRecord.blendImage!) Edit:\(settingsRecord.editImage!)")
+        print("getSettings() - key:\(settingsRecord.key) Blend:\(settingsRecord.blendImage!) Edit:\(settingsRecord.editImage!)")
         
         return settingsRecord
     }
@@ -261,7 +261,7 @@ class Database {
             if (settings.key == nil ) { settings.key = settingsKey }
             if ((settings.key?.isEmpty)! ) { settings.key = settingsKey }
             settingsEntity?.update(record:settings)
-            print("saveSettings() - Sample:\(settings.sampleImage!) Blend:\(settings.blendImage!) Edit:\(settings.editImage!)")
+            print("saveSettings() - Blend:\(settings.blendImage!) Edit:\(settings.editImage!)")
             
             save()
         }
@@ -295,12 +295,12 @@ class Database {
                     // clear all of the values and save
                     settings.key = settingsKey
                     settings.configVersion = "0.0"
-                    settings.sampleImage = ""
+                    //settings.sampleImage = ""
                     settings.blendImage = ""
                     settings.editImage = ""
 
                     settingsEntity?.update(record:settings)
-                    print("clearSettings() - Sample:\(settings.sampleImage!) Blend:\(settings.blendImage!) Edit:\(settings.editImage!)")
+                    print("clearSettings() - Blend:\(settings.blendImage!) Edit:\(settings.editImage!)")
                     
                     save()
                 }

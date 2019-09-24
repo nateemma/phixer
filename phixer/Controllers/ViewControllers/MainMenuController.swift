@@ -154,7 +154,7 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
             return
         }
   
-        InputSource.setCurrent(source: .edit) // legacy. Remove at some time
+        //InputSource.setCurrent(source: .edit) // legacy. Remove at some time
 
         switch key {
         case "changePhoto":

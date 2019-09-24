@@ -19,7 +19,7 @@ extension SettingsEntity {
     @NSManaged public var key: String?
     @NSManaged public var blendImage: String?
     @NSManaged public var configVersion: String?
-    @NSManaged public var sampleImage: String?
+    //@NSManaged public var sampleImage: String?
     @NSManaged public var editImage: String?
 
 }

@@ -103,10 +103,10 @@ class CoordinatorFactory {
             sc.setMainController (ControllerIdentifier.styleGallery)
             instance = sc
 
-        case .sampleGallery:
-            let sc = SimpleCoordinator()
-            sc.setMainController (ControllerIdentifier.sampleGallery)
-            instance = sc
+//        case .sampleGallery:
+//            let sc = SimpleCoordinator()
+//            sc.setMainController (ControllerIdentifier.sampleGallery)
+//            instance = sc
             
         case .blendGallery:
             let sc = SimpleCoordinator()
