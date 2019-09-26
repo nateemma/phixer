@@ -1,5 +1,5 @@
 {
-    "version": { "id": 4.1, "overwrite": true },
+    "version": { "id": 5.0, "overwrite": false },
     
     "slow": [ "KuwaharaFilter", "SketchFilter",
         "EnhanceLipsFilter", "EnhanceEyesFilter", "EnhanceTeethFilter", "EnhanceEyebrowsFilter", "EnhanceFaceFilter",
@@ -8,7 +8,6 @@
     
     "settings": {
         "blend": "ScratchTheItch.jpg",
-        "sample": "",
         "edit": ""
     },
 
@@ -39,8 +38,6 @@
         "wake_by_photoshop_stock.jpg"
     ],
     
-    "samples": [ "sample_beach_1678.png" ],
-
     "lookup": [
         
         { "key": "fx_001", "image": "fx_001_bleach_bypass.jpg" },

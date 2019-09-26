@@ -221,6 +221,7 @@ class EditImageDisplayView: UIView {
         DispatchQueue.main.async(execute: { [weak self] () -> Void in
             //log.verbose("Updating edit image")
 //            EditManager.setInputImage(InputSource.getCurrentImage())
+            EditManager.update()
             self?.resetZoom()
 //            self.currInput = EditManager.getPreviewImage()
 //            if self.currInput == nil {

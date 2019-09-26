@@ -300,6 +300,7 @@ class RenderView: MTKView
 
                         self.draw()  // if isPaused is set then we must call this manually to free the drawable
                         //RenderView.ciContext?.clearCaches()
+                        //log.debug(".")
 
                     } else {
                         log.error("Err getting cmd buf")
