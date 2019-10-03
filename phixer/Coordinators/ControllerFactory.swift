@@ -38,6 +38,8 @@ enum ControllerIdentifier: String {
     case blendGallery
     case styleGallery
     case categoryGallery
+    
+    case blendImages
 
     case displayFilter
     
@@ -152,6 +154,9 @@ class ControllerFactory {
             
         case .categoryGallery:
             instance = CategoryGalleryViewController()
+            
+        case .blendImages:
+            instance = BlendImagesViewController()
 
         case .displayFilter:
             //instance = FilterDetailsViewController()

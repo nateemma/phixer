@@ -392,8 +392,11 @@ class FilterConfiguration{
             ptype = .vector
         case "CIAttributeTypeVector":
             ptype = .vector
+        case "String":
+            ptype = .string
         default:
             // anything else is too difficult to handle automatically
+            log.warning("Cannot handle attribute type: \(atype)")
             ptype = .unknown
         }
         return ptype

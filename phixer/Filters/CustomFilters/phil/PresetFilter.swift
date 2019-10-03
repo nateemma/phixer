@@ -177,6 +177,9 @@ class PresetFilter: CIFilter {
                             case .rectangle:
                                 //log.verbose("...arg: \(p["key"]) val:\(imgRect) type:\(p["type"])")
                                 filter?.setValue(imgRect, forKey: pkey)
+                            case .string:
+                                //log.verbose("...arg: \(p["key"]) val:\(p["val"]) type:\(p["type"])")
+                                filter?.setValue(p["val"], forKey: pkey)
                             default:
                                 // just ignore
                                 log.warning("Ignoring parameter:\(pkey), type:\(ptype) for filter:\(fkey)")

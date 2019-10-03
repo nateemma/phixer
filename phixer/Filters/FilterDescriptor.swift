@@ -291,6 +291,8 @@ class FilterDescriptor {
                         self.filter?.setValue(default_distance, forKey: p.key)
                     case .rectangle:
                         self.filter?.setValue(default_rect, forKey: p.key)
+                    case .string:
+                        self.filter?.setValue("", forKey: p.key)
                     default:
                         // just ignore
                         break
@@ -473,38 +475,70 @@ class FilterDescriptor {
         }
     }
 
-    // Parameter access for CIVector parameters. The distinction relative to position is that these are not displayed
-    func getVectorParameter(_ key: String) -> CIVector? {
-        var vec: CIVector? = nil
-        vec = default_position
-        if let p = parameterConfiguration[key] {
-            if p.type == .vector {
-                vec = self.filter?.value(forKey: key) as? CIVector
-            } else {
-                log.error("Parameter (\(key) is not a Vector")
-            }
-        } else {
-            log.error("Invalid key:\(key) for filter:\(self.key)")
-        }
-        return vec
-    }
+      // Parameter access for CIVector parameters. The distinction relative to position is that these are not displayed
+      func getVectorParameter(_ key: String) -> CIVector? {
+          var vec: CIVector? = nil
+          vec = default_position
+          if let p = parameterConfiguration[key] {
+              if p.type == .vector {
+                  vec = self.filter?.value(forKey: key) as? CIVector
+              } else {
+                  log.error("Parameter (\(key) is not a Vector")
+              }
+          } else {
+              log.error("Invalid key:\(key) for filter:\(self.key)")
+          }
+          return vec
+      }
+      
+      func setVectorParameter(_ key: String, vector: CIVector) {
+          if let p = parameterConfiguration[key] {
+              if p.type == .vector {
+                  if ((self.filter?.inputKeys.contains(p.key))!) {
+                      self.filter?.setValue(vector, forKey: key)
+                  } else {
+                      log.error("Invalid parameter:(\(p.key)) for filter:(\(key)")
+                  }
+              } else {
+                  log.error("Parameter (\(key) is not a Vector")
+              }
+          } else {
+              log.error("Invalid key:\(key) for filter:\(self.key)")
+          }
+      }
     
-    func setVectorParameter(_ key: String, vector: CIVector) {
-        if let p = parameterConfiguration[key] {
-            if p.type == .vector {
-                if ((self.filter?.inputKeys.contains(p.key))!) {
-                    self.filter?.setValue(vector, forKey: key)
-                } else {
-                    log.error("Invalid parameter:(\(p.key)) for filter:(\(key)")
-                }
-            } else {
-                log.error("Parameter (\(key) is not a Vector")
-            }
-        } else {
-            log.error("Invalid key:\(key) for filter:\(self.key)")
-        }
-    }
-  
+
+      // Parameter access for String parameters. Not naturally part of the CIFilter framework for some reason
+      func getStringParameter(_ key: String) -> String {
+          var str: String = ""
+          if let p = parameterConfiguration[key] {
+              if p.type == .string {
+                str = self.filter?.value(forKey: key) as! String
+              } else {
+                  log.error("Parameter (\(key) is not a String")
+              }
+          } else {
+              log.error("Invalid key:\(key) for filter:\(self.key)")
+          }
+          return str
+      }
+      
+      func setStringParameter(_ key: String, string: String) {
+          if let p = parameterConfiguration[key] {
+              if p.type == .string {
+                  if ((self.filter?.inputKeys.contains(p.key))!) {
+                      self.filter?.setValue(string, forKey: key)
+                  } else {
+                      log.error("Invalid parameter:(\(p.key)) for filter:(\(key)")
+                  }
+              } else {
+                  log.error("Parameter (\(key) is not a String")
+              }
+          } else {
+              log.error("Invalid key:\(key) for filter:\(self.key)")
+          }
+      }
+    
 
 
 

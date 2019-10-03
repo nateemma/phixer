@@ -81,8 +81,11 @@ class EditImageDisplayView: UIView {
         renderView?.backgroundColor = theme.backgroundColor
         
         self.addSubview(renderView!)
-        renderView?.fillSuperview()
+        renderView?.anchorInCenter(width: (renderView?.frame.size.width)!, height: (renderView?.frame.size.height)!)
+        //renderView?.fillSuperview()
         // self.bringSubview(toFront: renderView!)
+        
+        log.debug("w: \(renderView?.frame.size.width) h:\(renderView?.frame.size.height)")
         
         // this must come after sizing
         //renderView?.image = self.currInput

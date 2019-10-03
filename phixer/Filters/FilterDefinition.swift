@@ -20,8 +20,8 @@ public enum ParameterType {
     case rectangle
     case vector
     case distance
+    case string
     case unknown
-    
 }
 
 // set of parameters that are used to set up a filter

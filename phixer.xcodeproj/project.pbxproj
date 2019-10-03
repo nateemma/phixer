@@ -682,6 +682,10 @@
 		257ABB0C22F1F7F1000546E4 /* FilterLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257ABB0B22F1F7F1000546E4 /* FilterLoader.swift */; };
 		257ABB0E22F24C68000546E4 /* PresetListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257ABB0D22F24C68000546E4 /* PresetListController.swift */; };
 		257ABB1022F24E89000546E4 /* PresetListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257ABB0F22F24E89000546E4 /* PresetListCoordinator.swift */; };
+		257C8204233D69BE003A22D0 /* BlendImageFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257C8203233D69BE003A22D0 /* BlendImageFilter.swift */; };
+		257C8206233E5E0C003A22D0 /* BlendMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257C8205233E5E0C003A22D0 /* BlendMode.swift */; };
+		257C8208233EC6FB003A22D0 /* BlendImagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257C8207233EC6FB003A22D0 /* BlendImagesViewController.swift */; };
+		257C820A23401874003A22D0 /* BlendImagesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257C820923401874003A22D0 /* BlendImagesCoordinator.swift */; };
 		257E29A12168274100F438C6 /* oldFilterConfig.json in Resources */ = {isa = PBXBuildFile; fileRef = 257E29A02168274100F438C6 /* oldFilterConfig.json */; };
 		257E29CA216D505B00F438C6 /* oldPresetList.json in Resources */ = {isa = PBXBuildFile; fileRef = 257E29C9216D505B00F438C6 /* oldPresetList.json */; };
 		257F49E51D9448920083B1E4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 257F49E31D9448920083B1E4 /* Main.storyboard */; };
@@ -1848,6 +1852,10 @@
 		257ABB0B22F1F7F1000546E4 /* FilterLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterLoader.swift; sourceTree = "<group>"; };
 		257ABB0D22F24C68000546E4 /* PresetListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresetListController.swift; sourceTree = "<group>"; };
 		257ABB0F22F24E89000546E4 /* PresetListCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresetListCoordinator.swift; sourceTree = "<group>"; };
+		257C8203233D69BE003A22D0 /* BlendImageFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlendImageFilter.swift; sourceTree = "<group>"; };
+		257C8205233E5E0C003A22D0 /* BlendMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlendMode.swift; sourceTree = "<group>"; };
+		257C8207233EC6FB003A22D0 /* BlendImagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlendImagesViewController.swift; sourceTree = "<group>"; };
+		257C820923401874003A22D0 /* BlendImagesCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlendImagesCoordinator.swift; sourceTree = "<group>"; };
 		257E29A02168274100F438C6 /* oldFilterConfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = oldFilterConfig.json; sourceTree = "<group>"; };
 		257E29C9216D505B00F438C6 /* oldPresetList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = oldPresetList.json; sourceTree = "<group>"; };
 		257F49DC1D9448920083B1E4 /* phixer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = phixer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2812,6 +2820,7 @@
 				258F09BA2192847F0082FE2A /* AdaptiveThresholdFilter.swift */,
 				25F21FE6220B75EF005C449F /* AutoAdjustFilter.swift */,
 				25004742230392530025309F /* BackgroundBlurFilter.swift */,
+				257C8203233D69BE003A22D0 /* BlendImageFilter.swift */,
 				2537A1BE21D28F6E00060DBE /* BrightnessFilter.swift */,
 				2500473822FFCF5B0025309F /* BWZoneFilter.swift */,
 				250603CC23294CF60080D783 /* CenteredVignetteFilter.swift */,
@@ -2923,6 +2932,7 @@
 			children = (
 				2537A21B21ED572A00060DBE /* AppCoordinator.swift */,
 				2537A22721EE510200060DBE /* BasicEditCoordinator.swift */,
+				257C820923401874003A22D0 /* BlendImagesCoordinator.swift */,
 				25FD3C1922EB34D000A1C00A /* CategoryGalleryCoordinator.swift */,
 				258D65D122E7B16B00D4EB8B /* ChoosePhotoCoordinator.swift */,
 				2537A22F21EEC99000060DBE /* ControllerDelegate.swift */,
@@ -3026,6 +3036,7 @@
 				25F460211D99DBBA00EDA182 /* CameraSpeed.swift */,
 				253B23761DA4BB7800203ECB /* ClosestFraction.swift */,
 				2556731E1DB961F700187F25 /* DisplayMode.swift */,
+				257C8205233E5E0C003A22D0 /* BlendMode.swift */,
 				25C2DF8222D1810D00D43198 /* EditList.swift */,
 				2568BDCA21AC731100560287 /* EditManager.swift */,
 				25E36AA122414807009D2727 /* FaceDetection.swift */,
@@ -4003,6 +4014,7 @@
 			isa = PBXGroup;
 			children = (
 				2542DF5A1ED372BF00CEB968 /* BasicEditViewController.swift */,
+				257C8207233EC6FB003A22D0 /* BlendImagesViewController.swift */,
 				25C2DF8422D2457400D43198 /* ChoosePhotoViewController.swift */,
 				252745FA21851AEB00AA2DA2 /* ColorPickerController.swift */,
 				252745F421826DBC00AA2DA2 /* ColorSchemeViewController.swift */,
@@ -5314,6 +5326,7 @@
 				25F85CE621C9650F005498C4 /* SimpleCarousel.swift in Sources */,
 				25D24AB71DC7DCDB001F65B9 /* FilterGalleryViewCell.swift in Sources */,
 				2537A1E321E0220F00060DBE /* LaplacianGaussianFilter.swift in Sources */,
+				257C820A23401874003A22D0 /* BlendImagesCoordinator.swift in Sources */,
 				2537A22E21EE78AC00060DBE /* SettingsCoordinator.swift in Sources */,
 				258D65D822E8CF8300D4EB8B /* SimpleSwipeView.swift in Sources */,
 				25F21FD22208B078005C449F /* ImageCropperOverlayViewConfigurationOverlay.swift in Sources */,
@@ -5336,6 +5349,7 @@
 				255673231DB9BF0F00187F25 /* FilterControlsView.swift in Sources */,
 				252745F12182295100AA2DA2 /* EdgeGlowFilter.swift in Sources */,
 				25CF4BD51D9490C400D779CF /* CameraControlsView.swift in Sources */,
+				257C8204233D69BE003A22D0 /* BlendImageFilter.swift in Sources */,
 				25CF4BD81D9490C400D779CF /* CameraSettingsView.swift in Sources */,
 				2537A23921F17B7400060DBE /* HelpCoordinator.swift in Sources */,
 				258D65DC22E9368E00D4EB8B /* SplashScreenViewController.swift in Sources */,
@@ -5371,6 +5385,7 @@
 				25F21FBD2204FBBB005C449F /* CroppableImageView.swift in Sources */,
 				25F21FD02208B078005C449F /* ImageCropperOverlayViewConfigurationEdge.swift in Sources */,
 				86DD9D951E9C5A7000A5D855 /* MainMenuController.swift in Sources */,
+				257C8208233EC6FB003A22D0 /* BlendImagesViewController.swift in Sources */,
 				2537A21321E915AD00060DBE /* EditBaseMenuInterface.swift in Sources */,
 				2573D1EC217CDCB500E78CAB /* YUCIBilateralFilter.m in Sources */,
 				2573D1E9217CDCB500E78CAB /* YUCIHistogramEqualization.m in Sources */,
@@ -5399,6 +5414,7 @@
 				2573D1E2217CDCB500E78CAB /* YUCIRGBToneCurve.m in Sources */,
 				2537A1BF21D28F6E00060DBE /* BrightnessFilter.swift in Sources */,
 				25159884219E2B850067AA00 /* ThemeManager.swift in Sources */,
+				257C8206233E5E0C003A22D0 /* BlendMode.swift in Sources */,
 				2573D1E1217CDCB500E78CAB /* YUCIUtilities.m in Sources */,
 				251729622179459F00D5E946 /* GalleryViewCell.swift in Sources */,
 				258F09AB218E3CCF0082FE2A /* CIImage+Extensions.swift in Sources */,

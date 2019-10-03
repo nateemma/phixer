@@ -45,7 +45,7 @@ class CustomFilterRegistry: NSObject, CIFilterConstructor {
                                                 "HueRangeFilter", "MaskedSkinSmoothingFilter",
                                                 "EnhanceLipsFilter", "EnhanceEyesFilter", "EnhanceEyebrowsFilter", "EnhanceTeethFilter", "EnhanceFaceFilter",
                                                 "ForegroundMaskFilter", "BackgroundBlurFilter", "ForegroundLightingFilter",
-                                                "CenteredVignetteFilter"
+                                                "CenteredVignetteFilter", "BlendImageFilter"
                                                 ]
     
     

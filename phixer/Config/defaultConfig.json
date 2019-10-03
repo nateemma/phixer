@@ -1,9 +1,10 @@
 {
-    "version": { "id": 5.0, "overwrite": false },
+    "version": { "id": 5.0, "overwrite": true },
     
     "slow": [ "KuwaharaFilter", "SketchFilter",
-        "EnhanceLipsFilter", "EnhanceEyesFilter", "EnhanceTeethFilter", "EnhanceEyebrowsFilter", "EnhanceFaceFilter",
-        "Style_Scream", "Style_Candy", "Style_Mosaic", "Style_Udnie", "Style_LaMuse", "Style_Feathers" ],
+              "EnhanceLipsFilter", "EnhanceEyesFilter", "EnhanceTeethFilter", "EnhanceEyebrowsFilter", "EnhanceFaceFilter",
+              "Style_Scream", "Style_Candy", "Style_Mosaic", "Style_Udnie", "Style_LaMuse", "Style_Feathers", "BlendImagesFilter"
+    ],
     
     
     "settings": {
@@ -1389,7 +1390,7 @@
                 "RGBChannelBrightnessAndContrast", "RGBChannelGaussianBlur", "TransverseChromaticAberration", "VHSTrackingLines", "CausticRefraction",
                 "HighPassFilter", "HighPassSharpeningFilter", "HueRangeFilter", "SplitToningFilter", "CIFalseColor", "CRTFilter", "GrainFilter",
                 "BWZoneFilter", "ForegroundMaskFilter", "BackgroundBlurFilter", "ForegroundLightingFilter",
-                "CenteredVignetteFilter"
+                "CenteredVignetteFilter", "BlendImageFilter"
             ]
         }
 

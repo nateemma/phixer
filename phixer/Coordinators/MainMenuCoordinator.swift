@@ -39,7 +39,7 @@ class MainMenuCoordinator: Coordinator {
         self.mainControllerId = .mainMenu
         
         // define the list of valid Controllers
-        self.validControllers = [ .mainMenu, .choosePhoto, .edit, .browseFilters, .browseStyleTransfer, .settings, .help, .categoryGallery, .presetList ]
+        self.validControllers = [ .mainMenu, .choosePhoto, .edit, .browseFilters, .browseStyleTransfer, .settings, .help, .categoryGallery, .presetList, .blendImages ]
         
         // map controllers to their associated coordinators
         self.coordinatorMap = [:]
@@ -51,6 +51,7 @@ class MainMenuCoordinator: Coordinator {
         self.coordinatorMap [ControllerIdentifier.help] = CoordinatorIdentifier.help
         self.coordinatorMap [ControllerIdentifier.categoryGallery] = CoordinatorIdentifier.categoryGallery
         self.coordinatorMap [ControllerIdentifier.presetList] = CoordinatorIdentifier.presetList
+        self.coordinatorMap [ControllerIdentifier.blendImages] = CoordinatorIdentifier.blendImages
 
         
         // start the main controller

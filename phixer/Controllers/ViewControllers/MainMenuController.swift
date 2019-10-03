@@ -113,16 +113,25 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
         let curPhoto:UIImage = UIImage(ciImage: EditManager.getPreviewImage(size:iconSize)!)
         
         // note: for collections, key must match colection name
-        menuItems = [ MenuItem(key: "changePhoto", title: "Change Photo", subtitile: "", icon: "", view: curPhoto, isHidden: false),
-                      MenuItem(key: "simpleEditor", title: "Picture Editor", subtitile: "Edit multiple 'basic' image settings\n (exposure, colors, tone, vignette, sharpen etc.)",
+        menuItems = [ MenuItem(key: "simpleEditor", title: "Picture Editor",
+                               subtitile: "Edit multiple 'basic' image settings\n (exposure, colors, tone, vignette, sharpen etc.)",
                                icon: "ic_basic", view: nil, isHidden: false),
-                      MenuItem(key: "favorites", title: "Favorites", subtitile: "Browse favorite presets & filters",
+                      MenuItem(key: "favorites", title: "Favorites",
+                               subtitile: "Browse favorite presets & filters",
                                icon: "ic_heart_outline", view: nil, isHidden: false),
-                      MenuItem(key: "browsePresets", title: "Browse Presets", subtitile: "Browse preset collections\n(these apply multiple filters)",
+                      MenuItem(key: "browsePresets", title: "Browse Presets",
+                               subtitile: "Browse preset collections\n(these apply multiple filters)",
                                icon: "ic_preset", view: nil, isHidden: false),
-                      MenuItem(key: "styleTransfer", title: "Style Transfer", subtitile: "Apply a painting style to the photo",
+                      MenuItem(key: "styleTransfer", title: "Style Transfer",
+                               subtitile: "Apply a painting style to the photo",
                                icon: "ic_brush", view: nil, isHidden: false),
-                      MenuItem(key: "settings", title: "Settings", subtitile: "Change app settings",
+                      MenuItem(key: "blendImages", title: "Blend Images",
+                                        subtitile: "Merge a texture or photo onto the current edit",
+                                        icon: "ic_unknown", view: nil, isHidden: false),
+                      MenuItem(key: "changePhoto", title: "Change Photo",
+                               subtitile: "", icon: "", view: curPhoto, isHidden: false),
+                      MenuItem(key: "settings", title: "Settings",
+                               subtitile: "Change app settings",
                                icon: "ic_gear", view: nil, isHidden: false)
         ]
         
@@ -165,6 +174,8 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
             presentStyleTransfer()
         case "browsePresets":
             presentPresetList()
+        case "blendImages":
+            presentBlendImages()
         case "favorites":
             showCollection(key)
         case "settings":
@@ -204,6 +215,10 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
     
     @objc func presentPresetList(){
         self.coordinator?.activateRequest(id: .presetList)
+    }
+    
+    @objc func presentBlendImages(){
+        self.coordinator?.activateRequest(id: .blendImages)
     }
 
 

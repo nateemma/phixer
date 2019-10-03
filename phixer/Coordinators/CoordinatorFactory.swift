@@ -36,6 +36,7 @@ enum CoordinatorIdentifier: String {
     case blendGallery
     case categoryGallery
 
+    case blendImages
     
     case themeChooser
     case reset
@@ -115,6 +116,9 @@ class CoordinatorFactory {
             
         case .categoryGallery:
             instance = CategoryGalleryCoordinator()
+            
+        case .blendImages:
+            instance = BlendImagesCoordinator()
 
         case .themeChooser:
             let sc = SimpleCoordinator()

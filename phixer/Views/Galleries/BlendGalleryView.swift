@@ -42,7 +42,10 @@ class BlendGalleryView : UIView {
     //fileprivate let sectionInsets = UIEdgeInsets(top: 50.0, left: 20.0, bottom: 50.0, right: 20.0)
     //fileprivate let sectionInsets = UIEdgeInsets(top: 11.0, left: 10.0, bottom: 11.0, right: 10.0)
     fileprivate let sectionInsets = UIEdgeInsets(top: 4.0, left: 4.0, bottom: 4.0, right: 4.0) // layout is *really* sensitive to left/right for some reason
-    
+    var paddingSpace: CGFloat = 0.0
+    var availableWidth: CGFloat = 0.0
+    var widthPerItem: CGFloat = 0.0
+
     
     fileprivate var blendList:[String] = []
     fileprivate var imageArray:[UIImage?] = []
@@ -79,8 +82,8 @@ class BlendGalleryView : UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        doLayout()
         doLoadData()
+        doLayout()
     }
 
     
@@ -111,13 +114,20 @@ class BlendGalleryView : UIView {
                 itemsPerRow = 3
         }
         
+        //let paddingSpace = sectionInsets.left * (itemsPerRow + 1)
+        paddingSpace = (sectionInsets.left * (itemsPerRow+1)) + (sectionInsets.right * (itemsPerRow+1)) + 2.0
+        availableWidth = self.frame.width - paddingSpace
+        widthPerItem = availableWidth / itemsPerRow
+        
+        //log.debug("ItemSize: \(widthPerItem)")
+        self.cellSize = CGSize(width: widthPerItem.rounded(), height: (widthPerItem*1.5).rounded())
+
         layout.itemSize = self.frame.size
         //log.debug("Gallery layout.itemSize: \(layout.itemSize)")
         blendGallery = UICollectionView(frame: self.frame, collectionViewLayout: layout)
         blendGallery?.delegate   = self
         blendGallery?.dataSource = self
         //blendGallery?.prefetchDataSource = self
-        //blendGallery?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseId)
         blendGallery?.register(GalleryViewCell.self, forCellWithReuseIdentifier: GalleryViewCell.reuseID)
 
         self.addSubview(blendGallery!)
@@ -134,12 +144,21 @@ class BlendGalleryView : UIView {
         }
         
         // (Re-)build the list of filters
+        self.cellSize = CGSize(width: widthPerItem.rounded(), height: (widthPerItem*1.5).rounded())
         self.blendList = ImageManager.getBlendImageList()
         self.imageArray = [UIImage?](repeatElement(nil, count: self.blendList.count))
         log.debug ("Loading... \(self.blendList.count) images")
  
-        
-        self.blendGallery?.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            if let self = self {
+                if self.blendList.count > 0 {
+                    for i in 0...(self.blendList.count-1) {
+                        self.imageArray[i] = ImageManager.getBlendImage(name: self.blendList[i], size:self.cellSize)
+                    }
+                }
+            }
+        }
+
     }
     
     open func update(){
@@ -148,7 +167,8 @@ class BlendGalleryView : UIView {
     
     
     open func suspend(){
-        // nothing to do in this case
+        self.blendList = []
+         self.imageArray = []
     }
     
     
@@ -306,14 +326,6 @@ extension BlendGalleryView: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        //let paddingSpace = sectionInsets.left * (itemsPerRow + 1)
-        let paddingSpace = (sectionInsets.left * (itemsPerRow+1)) + (sectionInsets.right * (itemsPerRow+1)) + 2.0
-        let availableWidth = self.frame.width - paddingSpace
-        let widthPerItem = availableWidth / itemsPerRow
-        
-        //log.debug("ItemSize: \(widthPerItem)")
-        self.cellSize = CGSize(width: widthPerItem.rounded(), height: (widthPerItem*1.5).rounded())
-
         return  self.cellSize // use 2:3 (4:6) ratio
     }
     
