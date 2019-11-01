@@ -2,6 +2,8 @@
 
 
 # generate list of source files and do a little conversion to jumpstart the destination list
+# it also generates text at the end that can be added to the defaultConfig.json file if you added new presets
+
 srcList=()
 
 dstList=()

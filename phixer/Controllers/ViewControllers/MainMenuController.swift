@@ -127,7 +127,7 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
                                icon: "ic_brush", view: nil, isHidden: false),
                       MenuItem(key: "blendImages", title: "Blend Images",
                                         subtitile: "Merge a texture or photo onto the current edit",
-                                        icon: "ic_unknown", view: nil, isHidden: false),
+                                        icon: "ic_blend", view: nil, isHidden: false),
                       MenuItem(key: "changePhoto", title: "Change Photo",
                                subtitile: "", icon: "", view: curPhoto, isHidden: false),
                       MenuItem(key: "settings", title: "Settings",

@@ -95,6 +95,13 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
          return "blendImages"
      }
      
+    // called when this controller is activated (every time, not just on first creation)
+    override func start(){
+        // re-layout because blend image might have changed
+        doLayout()
+        previewImage.update()
+    }
+    
      /////////////////////////////
      // MARK: - INIT
      /////////////////////////////
@@ -229,9 +236,19 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
         blendLabel.textColor = theme.textColor
         blendLabel.text = "Blend Image: "
 
+        let blendLabel2:UILabel! = UILabel()
+        blendLabel2.frame.size.width = labelWidth
+        blendLabel2.frame.size.height = (UISettings.menuHeight * 0.4).rounded()
+        blendLabel2.textAlignment = .right
+        blendLabel2.font = UIFont.systemFont(ofSize: 12.0, weight: UIFont.Weight.thin)
+        blendLabel2.textColor = theme.textColor
+        blendLabel2.text = "(Tap to change)"
+
         // calculate display size based on source aspect ratio
-        let maxw = (displayWidth / 3.0).rounded()
-        let bounds = CGSize(width: maxw, height: maxw)
+        //let maxw = (displayWidth / 3.0).rounded()
+        //let bounds = CGSize(width: maxw, height: maxw)
+        let maxh = (UISettings.menuHeight * 1.5).rounded()
+        let bounds = CGSize(width: maxh, height: maxh)
         let imgSize = ImageManager.aspectFit(aspectRatio: EditManager.getImageSize(), boundingSize: bounds)
         
         // Blend texture
@@ -240,6 +257,11 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
         blendImage.contentMode = .scaleAspectFit
         blendImage.image = UIImage(ciImage: ImageManager.getCurrentBlendImage(size: imgSize)!)
         checkImageAlignment(&blendImage)
+        
+        let blendTap = UITapGestureRecognizer(target: self, action: #selector(blendDidPress))
+        blendImage.addGestureRecognizer(blendTap)
+        blendImage.isUserInteractionEnabled = true
+
 
         // TODO: touch handler for blend image
         
@@ -262,7 +284,8 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
 
          // Mode
         modePicker.frame.size.width = widgetWidth
-        modePicker.frame.size.height = (UISettings.menuHeight / 2.0).rounded()
+        modePicker.frame.size.height = (UISettings.menuHeight / 2.0 + 16.0).rounded()
+        //modePicker.frame.size.height = (UISettings.menuHeight * 2.0).rounded()
         modePicker.delegate = self
         modePicker.dataSource = self
         modePicker.showsSelectionIndicator = true
@@ -274,10 +297,11 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
         slider.frame.size.height = (UISettings.menuHeight / 2.0).rounded()
         setupOpacitySlider()
         
-        controlView.frame.size.height = blendImage.frame.size.height + modePicker.frame.size.height + slider.frame.size.height + padding * 6.0
+        controlView.frame.size.height = blendImage.frame.size.height + modeLabel.frame.size.height + slider.frame.size.height + padding * 6.0
         controlView.frame.size.width = displayWidth
 
         controlView.addSubview(blendLabel)
+        controlView.addSubview(blendLabel2)
         controlView.addSubview(blendImage)
         controlView.addSubview(modeLabel)
         controlView.addSubview(opacityLabel)
@@ -287,6 +311,8 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
         view.addSubview(controlView)
         blendLabel.anchorInCorner(.topLeft, xPad: 2, yPad: (blendImage.frame.size.height/2.0 - 16.0).rounded(),
                                   width: blendLabel.frame.size.width, height: blendLabel.frame.size.height)
+        blendLabel2.align(.underCentered, relativeTo: blendLabel, padding: 0,
+                         width: blendLabel2.frame.size.width, height: blendLabel2.frame.size.height)
         blendImage.align(.toTheRightCentered, relativeTo: blendLabel, padding: 0,
                          width: blendImage.frame.size.width, height: blendImage.frame.size.height)
 
@@ -341,6 +367,18 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
         slider.minimumValue = 0.0
         slider.maximumValue = 1.0
         slider.setValue(currOpacity, animated: false)
+    }
+    
+    
+    ////////////////////////////////////////////////
+    // MARK: - Touch Handlers
+    ////////////////////////////////////////////////
+
+    @objc func blendDidPress(){
+        log.verbose("Blend pressed")
+        // launch the Blend Gallery
+        //self.coordinator?.activateRequest(id: .blendGallery)
+        self.coordinator?.activateRequest(id: .chooseBlend)
     }
 
 

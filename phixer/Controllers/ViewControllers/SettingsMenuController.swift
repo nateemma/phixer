@@ -135,12 +135,12 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
          ***/
         view.addSubview(aboutMenuItem)
         view.addSubview(changeBlendMenuItem)
-        view.addSubview(changeSampleMenuItem)
+        //view.addSubview(changeSampleMenuItem)
         view.addSubview(resetMenuItem)
         view.addSubview(hideFiltersItem)
         view.addSubview(themeMenuItem)
         view.groupAgainstEdge(group: .vertical,
-                              views: [aboutMenuItem, changeBlendMenuItem, changeSampleMenuItem, resetMenuItem, hideFiltersItem,
+                              views: [aboutMenuItem, changeBlendMenuItem, resetMenuItem, hideFiltersItem,
                                       themeMenuItem ],
                               againstEdge: .bottom, padding: 4.0, width: displayWidth, height: h)
 

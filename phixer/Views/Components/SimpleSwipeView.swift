@@ -49,7 +49,9 @@ class SimpleSwipeView: UIView {
     fileprivate var wrap:Bool = true // wrap by default
     
     fileprivate var addBorder:Bool = false
- 
+    
+    fileprivate var addTint:Bool = true
+
     
     ////////////////////////////////////////////
     //MARK: Accessors
@@ -134,15 +136,23 @@ class SimpleSwipeView: UIView {
     public func disableWrap(){
         self.wrap = false
     }
-
+    
     public func disableBorder(){
-        addBorder = false
+        self.addBorder = false
     }
     
     public func enableBorder(){
-        addBorder = true
+        self.addBorder = true
     }
     
+    public func disableTint(){
+        self.addTint = false
+    }
+    
+    public func enableTint(){
+        self.addTint = true
+    }
+
     ////////////////////////////////////////////
     //MARK: Layout
     ////////////////////////////////////////////
@@ -248,9 +258,16 @@ class SimpleSwipeView: UIView {
             } else {
                 image.tintColor = theme.tintColor
                 icview = UIImage(named: icon)
-                let tintableImage = icview!.withRenderingMode(.alwaysTemplate)
-                image.image = tintableImage
+                if icview != nil {
+                    if self.addTint {
+                        let tintableImage = icview!.withRenderingMode(.alwaysTemplate)
+                        image.image = tintableImage
+                    } else {
+                        image.image = icview
+                    }
+                }
             }
+            
             //var
             if (icview == nil){
                 log.warning("icon not found: \(icon)")

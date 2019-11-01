@@ -70,7 +70,8 @@ class ImageManager {
         }
         
         _currBlendName = name
-        log.verbose("Image set to:\(name)")
+        _currBlendImage = nil // forces re-load if something tries to access this
+        log.verbose("Blend Image set to:\(name)")
         updateStoredSettings()
 
         /*** delay loading until requested

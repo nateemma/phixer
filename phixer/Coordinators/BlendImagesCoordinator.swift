@@ -39,10 +39,11 @@ class BlendImagesCoordinator: Coordinator {
         self.mainControllerId = .blendImages
         
         // define the list of valid Controllers
-        self.validControllers = [ .blendImages, .help ]
+        self.validControllers = [ .blendImages, .chooseBlend, .help ]
         
         // map controllers to their associated coordinators
         self.coordinatorMap = [:]
+        self.coordinatorMap [ControllerIdentifier.chooseBlend] = CoordinatorIdentifier.chooseBlend
         self.coordinatorMap [ControllerIdentifier.help] = CoordinatorIdentifier.help
 
         

@@ -1,22 +1,41 @@
 # Processing XMP Sidecar Files
 
-There are thousands of effects available for Photoshop and Lightroom in the form of XMP files. This directory contains scripts for parsing the XMP files to create filter configurations that can be used with phixer. For now, I will leave the source XMP files here as well for reference
+There are thousands of effects available for Photoshop and Lightroom in the form of XMP files.
+This directory contains scripts for parsing the XMP files to create filter configurations (presets) that can be used with phixer.
+
+Note: Many/most of these files are licenced (meaning I paid for them and cannot re-distribute), so I cannot include these in the git archive.
+
 
 ## Installing
 
-pip install python-xmp-toolkit
-brew install libxmp
-brew install exempi
+There is (of course) a python library available for parsing Adobe XMP files, called *python-xmp-toolkit*.
+To install (on MacOS):
+
+    pip install python-xmp-toolkit
+    brew install libxmp
+    brew install exempi
 
 NOTE: I encountered brew issues. Run this to reset:
 
-brew update-reset
+    brew update-reset
+
 
 ## Running
 
-python convertXMP.py <file>
+To convert a Lightroom XMP preset file into the JSON format that is used by pixer, run the following command:
+
+    python convertXMP.py xmpfile jsonfile
+    
+This will read *xmpfile* and create *jsonfile*. The filenames can include directories
+
+If you need to convert all of the XMP files in the XMP directory tree (i.e. including subdirectories) then there is a script *genconvert.sh*
+that searches for any XMP files and creates a bash script to convert them all to JSON preset files (in the Presets directory).
+If you do that, don't forget to Add those files to the XCode project.
+
 
 ## Reference
+
+The format used for the Lightroom XMP files is a little mysterious, so here are some links to useful references:
 
 EXIV2 XML tags:
 http://www.exiv2.org/tags-xmp-crs.html

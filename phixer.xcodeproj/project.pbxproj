@@ -993,6 +993,8 @@
 		25CF4BDA1D9490C400D779CF /* SquareButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BD41D9490C400D779CF /* SquareButton.swift */; };
 		25CF4BDC1D94D93700D779CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CF4BDB1D94D93700D779CF /* AppDelegate.swift */; };
 		25D24AB71DC7DCDB001F65B9 /* FilterGalleryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D24AB61DC7DCDB001F65B9 /* FilterGalleryViewCell.swift */; };
+		25DFBDAF2363B743000C76DF /* genconvert.sh in Resources */ = {isa = PBXBuildFile; fileRef = 25DFBDAE2363B743000C76DF /* genconvert.sh */; };
+		25DFBDB1236B8682000C76DF /* ChooseBlendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DFBDB0236B8682000C76DF /* ChooseBlendViewController.swift */; };
 		25E36AA222414807009D2727 /* FaceDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E36AA122414807009D2727 /* FaceDetection.swift */; };
 		25E36AA42241AC28009D2727 /* EditFacesMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E36AA32241AC28009D2727 /* EditFacesMenuController.swift */; };
 		25E36AA622440924009D2727 /* EnhanceLipsFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E36AA522440924009D2727 /* EnhanceLipsFilter.swift */; };
@@ -2170,6 +2172,8 @@
 		25CF4BD41D9490C400D779CF /* SquareButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SquareButton.swift; sourceTree = "<group>"; };
 		25CF4BDB1D94D93700D779CF /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		25D24AB61DC7DCDB001F65B9 /* FilterGalleryViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterGalleryViewCell.swift; sourceTree = "<group>"; };
+		25DFBDAE2363B743000C76DF /* genconvert.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = genconvert.sh; sourceTree = "<group>"; };
+		25DFBDB0236B8682000C76DF /* ChooseBlendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseBlendViewController.swift; sourceTree = "<group>"; };
 		25E36AA122414807009D2727 /* FaceDetection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceDetection.swift; sourceTree = "<group>"; };
 		25E36AA32241AC28009D2727 /* EditFacesMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditFacesMenuController.swift; sourceTree = "<group>"; };
 		25E36AA522440924009D2727 /* EnhanceLipsFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnhanceLipsFilter.swift; sourceTree = "<group>"; };
@@ -2758,6 +2762,7 @@
 		250C5EF922B0605700DE0DDF /* XMP */ = {
 			isa = PBXGroup;
 			children = (
+				25DFBDAE2363B743000C76DF /* genconvert.sh */,
 				250C5EFE22B75B5500DE0DDF /* convert.sh */,
 				250C5EF422B0605700DE0DDF /* convertXMP.py */,
 				250C5EF522B0605700DE0DDF /* README */,
@@ -4016,6 +4021,7 @@
 				2542DF5A1ED372BF00CEB968 /* BasicEditViewController.swift */,
 				257C8207233EC6FB003A22D0 /* BlendImagesViewController.swift */,
 				25C2DF8422D2457400D43198 /* ChoosePhotoViewController.swift */,
+				25DFBDB0236B8682000C76DF /* ChooseBlendViewController.swift */,
 				252745FA21851AEB00AA2DA2 /* ColorPickerController.swift */,
 				252745F421826DBC00AA2DA2 /* ColorSchemeViewController.swift */,
 				2537A22121ED91E300060DBE /* CoordinatedController.swift */,
@@ -4433,6 +4439,7 @@
 				252B10181E306920005A0C2D /* 8_by_grandeombre_stock.jpg in Resources */,
 				252B101B1E306920005A0C2D /* texture_110_by_sirius_sdz.jpg in Resources */,
 				250046EB22FF3D240025309F /* posterbdhdrsoft01-23.json in Resources */,
+				25DFBDAF2363B743000C76DF /* genconvert.sh in Resources */,
 				2500469922FF3D240025309F /* posterbdsoft02-10.json in Resources */,
 				2500465A22FF3D240025309F /* graphicex02-08.json in Resources */,
 				25C2DED422CD8A8D00D43198 /* Arkham.json in Resources */,
@@ -5195,6 +5202,7 @@
 				2500473D230368FB0025309F /* ForegroundMaskFilter.swift in Sources */,
 				2537A21E21ED58B300060DBE /* Coordinator.swift in Sources */,
 				2568BD2821AC72CB00560287 /* RenderView.swift in Sources */,
+				25DFBDB1236B8682000C76DF /* ChooseBlendViewController.swift in Sources */,
 				25FD3CD622EC17A400A1C00A /* MenuItem.swift in Sources */,
 				25F21FBB2204D12F005C449F /* GridOverlayView.swift in Sources */,
 				258F09B9219264C20082FE2A /* SmoothThresholdFilter.swift in Sources */,
