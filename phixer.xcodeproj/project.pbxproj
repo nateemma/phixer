@@ -2770,9 +2770,8 @@
 				250C5EF722B0605700DE0DDF /* Exiv2 - Image metadata library and tools.html */,
 				250C5EF822B0605700DE0DDF /* XMPSpecificationPart2.pdf */,
 			);
-			name = XMP;
-			path = /Users/philprice95/Documents/iOS/phixer/XMP;
-			sourceTree = "<absolute>";
+			path = XMP;
+			sourceTree = "<group>";
 		};
 		250C5F0222B863B200DE0DDF /* Presets */ = {
 			isa = PBXGroup;

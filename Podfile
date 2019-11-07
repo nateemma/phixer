@@ -14,7 +14,12 @@ target 'phixer' do
   
   # Chameloen colour schemes
   #pod 'ChameleonFramework/Swift'
-  pod 'ChameleonFramework/Swift', :git => 'https://github.com/ViccAlexander/Chameleon.git'
+  # Swift 3 version:
+  #pod 'ChameleonFramework/Swift', :git => 'https://github.com/ViccAlexander/Chameleon.git'
+  # Swift 5 version:
+  #pod 'ChameleonFramework/Swift', :git => 'https://github.com/wowansm/Chameleon.git', :commit => "96d52c36a45847fff60bcff7a58fec1e4bd7390b"
+  pod 'ChameleonFramework/Swift', :git => 'https://github.com/wowansm/Chameleon.git', :branch => "swift5"
+
   
   # Swifty Beaver logging framework
   pod 'SwiftyBeaver'
@@ -36,12 +41,7 @@ target 'phixer' do
   #Picture carousekl
   pod 'iCarousel'
   
-  # Crop/Rotate ViewController
-  # pod 'IGRPhotoTweaks'
-  #pod 'ImageCropperView'
-  
-  # AirBnBs AloeStackView
-  #pod 'AloeStackView'
+
 
   target 'phixerTests' do
     inherit! :search_paths
