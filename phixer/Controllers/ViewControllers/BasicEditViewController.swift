@@ -23,7 +23,7 @@ import Cosmos
 private var filterList: [String] = []
 private var filterCount: Int = 0
 
-// This View Controller handles simple editing of a photo
+// This View Controller handles 'simple' editing of a photo
 
 class BasicEditViewController: CoordinatedController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     

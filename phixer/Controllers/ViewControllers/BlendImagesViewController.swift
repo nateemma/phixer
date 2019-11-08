@@ -25,12 +25,16 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
     // Views for simplifying layout of components
     var controlView: UIView! = UIView()
     var previewView: UIView! = UIView()
+    var pickerView: UIView! = UIView()
 
-    // aspect ratio of main image (we match te blend image to this)
+    // aspect ratio of main image (we match the blend image to this)
     var aspectRatio:CGFloat = 1.0
     
     // image view to show current blend texture
     var blendImage: UIImageView! = UIImageView()
+    
+    // the current blend mode
+    var currModeLabel: UILabel! = UILabel()
     
     // drop down picker for blend mode
     var modePicker:UIPickerView = UIPickerView()
@@ -49,6 +53,9 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
     
     // image picker for changing edit image
     let imagePicker = UIImagePickerController()
+    
+    // Views holding apply/cancel buttons
+    var buttonView: UIView! = UIView()
     
     // filters used internally
     var blendFilter: FilterDescriptor? = nil
@@ -99,7 +106,7 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
     override func start(){
         // re-layout because blend image might have changed
         doLayout()
-        previewImage.update()
+        previewImage.updateImage()
     }
     
      /////////////////////////////
@@ -263,7 +270,6 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
         blendImage.isUserInteractionEnabled = true
 
 
-        // TODO: touch handler for blend image
         
         // Labels
         let modeLabel:UILabel! = UILabel()
@@ -274,6 +280,20 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
         modeLabel.textColor = theme.textColor
         modeLabel.text = "Blend Mode: "
         
+        currModeLabel.frame.size.width = labelWidth
+        currModeLabel.frame.size.height = (UISettings.menuHeight / 2.0).rounded()
+        currModeLabel.textAlignment = .right
+        currModeLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFont.Weight.thin)
+        currModeLabel.textColor = theme.textColor
+        let mode = BlendMode(rawValue: currBlendMode)
+        currModeLabel.text = (mode?.toString())!
+        
+        let modeTap = UITapGestureRecognizer(target: self, action: #selector(modeDidPress))
+        currModeLabel.addGestureRecognizer(modeTap)
+        currModeLabel.isUserInteractionEnabled = true
+
+        
+        
         let opacityLabel:UILabel! = UILabel()
         opacityLabel.frame.size.width = labelWidth
         opacityLabel.frame.size.height = (UISettings.menuHeight / 2.0).rounded()
@@ -282,22 +302,19 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
         opacityLabel.textColor = theme.textColor
         opacityLabel.text = "Opacity: "
 
-         // Mode
-        modePicker.frame.size.width = widgetWidth
-        modePicker.frame.size.height = (UISettings.menuHeight / 2.0 + 16.0).rounded()
-        //modePicker.frame.size.height = (UISettings.menuHeight * 2.0).rounded()
-        modePicker.delegate = self
-        modePicker.dataSource = self
-        modePicker.showsSelectionIndicator = true
-        modePicker.setValue(theme.titleTextColor, forKeyPath: "textColor")
-        setupModePicker()
+
 
         // Opacity
         slider.frame.size.width = widgetWidth
         slider.frame.size.height = (UISettings.menuHeight / 2.0).rounded()
         setupOpacitySlider()
         
-        controlView.frame.size.height = blendImage.frame.size.height + modeLabel.frame.size.height + slider.frame.size.height + padding * 6.0
+        // Apply/Cancel
+        setupButtons()
+        
+        // combined layout
+        controlView.frame.size.height = blendImage.frame.size.height + modeLabel.frame.size.height + slider.frame.size.height
+        controlView.frame.size.height += buttonView.frame.size.height + padding * 6.0
         controlView.frame.size.width = displayWidth
 
         controlView.addSubview(blendLabel)
@@ -305,8 +322,9 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
         controlView.addSubview(blendImage)
         controlView.addSubview(modeLabel)
         controlView.addSubview(opacityLabel)
-        controlView.addSubview(modePicker)
+        controlView.addSubview(currModeLabel)
         controlView.addSubview(slider)
+        controlView.addSubview(buttonView)
 
         view.addSubview(controlView)
         blendLabel.anchorInCorner(.topLeft, xPad: 2, yPad: (blendImage.frame.size.height/2.0 - 16.0).rounded(),
@@ -316,17 +334,52 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
         blendImage.align(.toTheRightCentered, relativeTo: blendLabel, padding: 0,
                          width: blendImage.frame.size.width, height: blendImage.frame.size.height)
 
-        modePicker.align(.underCentered, relativeTo: blendImage, padding: 0,
-                         width: modePicker.frame.size.width, height: modePicker.frame.size.height)
-        modeLabel.align(.toTheLeftCentered, relativeTo: modePicker, padding: padding,
+        currModeLabel.align(.underMatchingLeft, relativeTo: blendImage, padding: 0,
+                         width: currModeLabel.frame.size.width, height: currModeLabel.frame.size.height)
+        modeLabel.align(.toTheLeftCentered, relativeTo: currModeLabel, padding: padding,
                          width: modeLabel.frame.size.width, height: modeLabel.frame.size.height)
         
         opacityLabel.align(.underCentered, relativeTo: modeLabel, padding: 0,
                            width: opacityLabel.frame.size.width, height: opacityLabel.frame.size.height)
         slider.align(.toTheRightCentered, relativeTo: opacityLabel, padding: padding,
                      width: slider.frame.size.width, height: slider.frame.size.height)
+        
+        buttonView.align(.underMatchingLeft, relativeTo: opacityLabel, padding: 0,
+                           width: buttonView.frame.size.width, height: buttonView.frame.size.height)
+        
+        setupPickerView()
     }
     
+    private func setupButtons(){
+        buttonView.frame.size.width = displayWidth
+        buttonView.frame.size.height = (UISettings.panelHeight * 0.6).rounded()
+        
+        // build a view with an "Apply" Button and a "Cancel" button
+        let cancelButton:BorderedButton = BorderedButton()
+        cancelButton.frame.size.width = displayWidth / 3.0
+        cancelButton.frame.size.height = buttonView.frame.size.height - 2
+        cancelButton.setTitle("Cancel", for: .normal)
+        cancelButton.useGradient = true
+        cancelButton.backgroundColor = theme.buttonColor
+        
+        let applyButton:BorderedButton = BorderedButton()
+        applyButton.frame.size = cancelButton.frame.size
+        applyButton.setTitle("Apply", for: .normal)
+        applyButton.useGradient = true
+        applyButton.backgroundColor = theme.buttonColor
+        
+        
+        buttonView.addSubview(cancelButton)
+        buttonView.addSubview(applyButton)
+        
+        // distribute across the control view
+        buttonView.groupInCenter(group: .horizontal, views: [applyButton, cancelButton], padding: 16, width: applyButton.frame.size.width, height: applyButton.frame.size.height)
+        
+        // add touch handlers
+        applyButton.addTarget(self, action: #selector(self.applyDidPress), for: .touchUpInside)
+        cancelButton.addTarget(self, action: #selector(self.cancelDidPress), for: .touchUpInside)
+        
+    }
     
     private func setupPreview() {
     
@@ -352,6 +405,36 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
 
     }
     
+    // funcs for setting up usable picker list
+    private func setupPickerView(){
+        pickerView.frame = controlView.frame
+        pickerView.backgroundColor = theme.backgroundColor
+        view.addSubview(pickerView)
+        hidePickerView()
+        
+         // Mode
+        modePicker.frame = pickerView.frame
+        modePicker.delegate = self
+        modePicker.dataSource = self
+        modePicker.showsSelectionIndicator = true
+        modePicker.center = pickerView.center
+        //modePicker.setValue(theme.titleTextColor, forKeyPath: "textColor")
+        setupModePicker()
+        
+        pickerView.addSubview(modePicker)
+        modePicker.anchorInCenter(width: pickerView.frame.size.width, height: pickerView.frame.size.height)
+    }
+    
+    private func showPickerView(){
+        pickerView.isHidden = false
+        modePicker.selectRow(currBlendMode, inComponent: 0, animated: true)
+    }
+    
+    private func hidePickerView(){
+        pickerView.isHidden = true
+    }
+    
+    
     private func setupModePicker(){
         for i in 0..<BlendMode.count.rawValue {
             let mode = BlendMode(rawValue: i)
@@ -373,7 +456,7 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
     ////////////////////////////////////////////////
     // MARK: - Touch Handlers
     ////////////////////////////////////////////////
-
+    
     @objc func blendDidPress(){
         log.verbose("Blend pressed")
         // launch the Blend Gallery
@@ -381,6 +464,29 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
         self.coordinator?.activateRequest(id: .chooseBlend)
     }
 
+    
+    @objc func modeDidPress(){
+        log.verbose("Mode pressed")
+        showPickerView()
+    }
+
+
+    @objc func cancelDidPress(){
+        guard navigationController?.popViewController(animated: true) != nil else { //modal
+            //log.debug("Not a navigation Controller")
+            dismiss(animated: true, completion: { [weak self] in
+                log.verbose("Cancelling...")
+            })
+            return
+        }
+    }
+    
+    @objc func applyDidPress(){
+        DispatchQueue.main.async { [weak self] in
+            EditManager.savePreviewFilter()
+            self?.showMessage("Effect applied", time:0.5)
+        }
+    }
 
     ////////////////////////////////////////////////
     // MARK: - Blend Mode management
@@ -398,6 +504,10 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
         // set the mode in blend filter
         blendFilter?.setParameter("inputMode", value: Float(mode))
         
+        let mode = BlendMode(rawValue: currBlendMode)
+        currModeLabel.text = (mode?.toString())!
+        hidePickerView()
+
         updatePreviewImage()
     }
     
@@ -476,6 +586,30 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
     private func setGestureDetectors(_ view: UIView){
         
     }
+    
+    
+    //////////////////////////////////////
+    //MARK: - Utility functions
+    //////////////////////////////////////
+    
+    open func saveImage(){
+        previewImage.saveImage()
+        playCameraSound()
+    }
+    
+    fileprivate func playCameraSound(){
+        AudioServicesPlaySystemSound(1108) // undocumented iOS feature!
+    }
+    
+    func showMessage(_ msg:String, time:TimeInterval=1.0){
+        if !msg.isEmpty {
+            DispatchQueue.main.async { [weak self] in
+                let alert = UIAlertController(title: "", message: msg, preferredStyle: .alert)
+                self?.present(alert, animated: true, completion: nil)
+                Timer.scheduledTimer(withTimeInterval: time, repeats: false, block: { _ in alert.dismiss(animated: true, completion: nil)} )
+            }
+        }
+    }
 
 }
 
@@ -500,13 +634,13 @@ extension BlendImagesViewController: UIPickerViewDelegate {
         var pickerLabel: UILabel? = (view as? UILabel)
         if pickerLabel == nil {
             pickerLabel = UILabel()
-            pickerLabel?.font = UIFont.systemFont(ofSize: 16.0, weight: UIFont.Weight.thin)
+            pickerLabel?.font = UIFont.systemFont(ofSize: 24.0, weight: UIFont.Weight.regular)
             pickerLabel?.textAlignment = .center
         }
         if (row>=0) && (row<modeList.count){
             pickerLabel?.text = modeList[row]
-            //pickerLabel?.textColor = theme.textColor
-            pickerLabel?.textColor = theme.highlightColor
+            pickerLabel?.textColor = theme.textColor
+            //pickerLabel?.textColor = theme.highlightColor
             pickerLabel?.textAlignment = .center
         } else {
             log.error("Invalid row index:\(row)")
