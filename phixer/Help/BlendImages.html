@@ -1,0 +1,108 @@
+
+<h1>Blend Images Together</h1>
+
+
+<p>
+This screen allows you to blend an image or texture over the current image under edit.
+<p>
+You can select either a built-in texture or any photo to use as the blend image. Touch the current blend image icon to select a different photo or texture
+
+<p>
+There are many blend modes that you can use. These are modelled after the blend modes that you will see in most photo editors such as Photoshop. To change the mode, touch the current blend mode name (e.g. "Addition Blend") and a list of available modes will be displayed. You can scroll through the modes and see which one you like, then touch "Cancel" or "Done" when ready.
+<br>Note: if you just want to overlay one image on top of another, just use "Source Over Compositing", and reduce the opacity to about 50%
+<br>The various modes are described further down.
+
+<p>Some blend modes can be too intense, so there is also an option to change the opacity of the top (blend) layer. If you reduce the opacity (using the opacity slider control) then the blend effect becomes more transparent, i.e. you see more of the original (edit) image.
+
+<p>
+To add the blend effect to the current edit stack (i.e. the list of effects that have been applied to the edit image) then touch the "Apply" button. If you don't want to apply it then either touch "Cancel" or just leave the screen
+
+
+<h2>Blend Modes</h2>
+A description of each mode is below. However, you really need to understand Photoshop concepts of blending to use these effectively. Or, just play with them.
+<ul>
+    <li><b>Addition Compositing</b><br>
+        Adds color components to achieve a brightening effect. This mode is typically used to add highlights and lens flare effects.
+    </li>
+    <li><b>Color Blend</b><br>
+        Creates a result color with the luminance of the base color and the hue and saturation of the blend color. This preserves the gray levels in the image and is useful for coloring monochrome images and for tinting color images.
+    </li>
+    <li><b>Color Burn Blend</b><br>
+        Looks at the color information in each channel and darkens the base color to reflect the blend color by increasing the contrast between the two. Blending with white produces no change.
+    </li>
+    <li><b>Color Dodge Blend</b><br>
+        Looks at the color information in each channel and brightens the base color to reflect the blend color by decreasing contrast between the two. Blending with black produces no change.
+    </li>
+    <li><b>Darken Blend</b><br>
+        Looks at the color information in each channel and selects the base or blend color—whichever is darker—as the result color. Pixels lighter than the blend color are replaced, and pixels darker than the blend color do not change.
+    </li>
+    <li><b>Difference Blend</b><br>
+        Looks at the color information in each channel and subtracts either the blend color from the base color or the base color from the blend color, depending on which has the greater brightness value. Blending with white inverts the base color values; blending with black produces no change.
+    </li>
+    <li><b>Divide Blend</b><br>
+        Looks at the color information in each channel and divides the blend color from the base color.
+    </li>
+    <li><b>Exclusion Blend</b><br>
+        Creates an effect similar to but lower in contrast than the Difference mode. Blending with white inverts the base color values. Blending with black produces no change.
+    </li>
+    <li><b>Hard Light Blend</b><br>
+        Multiplies or screens the colors, depending on the blend color. The effect is similar to shining a harsh spotlight on the image. If the blend color (light source) is lighter than 50% gray, the image is lightened, as if it were screened. This is useful for adding highlights to an image. If the blend color is darker than 50% gray, the image is darkened, as if it were multiplied. This is useful for adding shadows to an image. Painting with pure black or white results in pure black or white.
+    </li>
+    <li><b>Hue Blend</b><br>
+        Creates a result color with the luminance and saturation of the base color and the hue of the blend color.
+    </li>
+    <li><b>Lighten Blend</b><br>
+        Looks at the color information in each channel and selects the base or blend color—whichever is lighter—as the result color. Pixels darker than the blend color are replaced, and pixels lighter than the blend color do not change.
+    </li>
+    <li><b>Linear Burn Blend</b><br>
+        Looks at the color information in each channel and darkens the base color to reflect the blend color by decreasing the brightness. Blending with white produces no change.
+    </li>
+    <li><b>Linear Dodge Blend</b><br>
+        Looks at the color information in each channel and brightens the base color to reflect the blend color by increasing the brightness. Blending with black produces no change.
+    </li>
+    <li><b>Luminosity Blend</b><br>
+        Creates a result color with the hue and saturation of the base color and the luminance of the blend color. This mode creates the inverse effect of Color mode.
+    </li>
+    <li><b>Maximum Compositing</b><br>
+        Computes the maximum value, by color component, of two input images and creates an output image using the maximum values.
+    </li>
+    <li><b>Minimum Compositing</b><br>
+        Computes the minimum value, by color component, of two input images and creates an output image using the minimum values.
+    </li>
+    <li><b>Multiply Blend</b><br>
+        Multiplies the input image samples with the background image samples. This results in colors that are at least as dark as either of the two contributing sample colors.
+    </li>
+    <li><b>Multiply Compositing</b><br>
+        Multiplies the color component of two input images and creates an output image using the multiplied values.
+    </li>
+    <li><b>Overlay Blend</b><br>
+        Multiplies or screens the colors, depending on the base color. Patterns or colors overlay the existing pixels while preserving the highlights and shadows of the base color. The base color is not replaced, but mixed with the blend color to reflect the lightness or darkness of the original color.
+    </li>
+    <li><b>Pin Light Blend</b><br>
+        Replaces the colors, depending on the blend color. If the blend color (light source) is lighter than 50% gray, pixels darker than the blend color are replaced, and pixels lighter than the blend color do not change. If the blend color is darker than 50% gray, pixels lighter than the blend color are replaced, and pixels darker than the blend color do not change. This is useful for adding special effects to an image.
+    </li>
+    <li><b>Saturation Blend</b><br>
+        Creates a result color with the luminance and hue of the base color and the saturation of the blend color. Painting with this mode in an area with no (0) saturation (gray) causes no change.
+    </li>
+    <li><b>Screen Blend</b><br>
+        Looks at each channel’s color information and multiplies the inverse of the blend and base colors. The result color is always a lighter color. Screening with black leaves the color unchanged. Screening with white produces white. The effect is similar to projecting multiple photographic slides on top of each other.
+    </li>
+    <li><b>Soft Light Blend</b><br>
+        Darkens or lightens the colors, depending on the blend color. The effect is similar to shining a diffused spotlight on the image. If the blend color (light source) is lighter than 50% gray, the image is lightened as if it were dodged. If the blend color is darker than 50% gray, the image is darkened as if it were burned in. Painting with pure black or white produces a distinctly darker or lighter area, but does not result in pure black or white.
+    </li>
+    <li><b>Source Atop Compositing</b><br>
+        Places the input image over the background image, then uses the luminance of the background image to determine what to show.
+    </li>
+    <li><b>Source In Compositing</b><br>
+        Uses the background image to define what to leave in the input image, effectively cropping the input image.
+    </li>
+    <li><b>Source Out Compositing</b><br>
+        Uses the background image to define what to take out of the input image.
+    </li>
+    <li><b>Source Over Compositing</b><br>
+        Places the input image over the input background image.
+    </li>
+    <li><b>Subtract Blend</b><br>
+        Looks at the color information in each channel and subtracts the blend color from the base color. In 8- and 16-bit images, any resulting negative values are clipped to zero.
+    </li>
+</ul>

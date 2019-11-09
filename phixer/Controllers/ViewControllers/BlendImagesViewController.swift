@@ -22,6 +22,9 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
     // Advertisements View
     fileprivate var adView: GADBannerView! = GADBannerView()
 
+    // Custom Menu view
+    var menuView: AdornmentView! = AdornmentView()
+
     // Views for simplifying layout of components
     var controlView: UIView! = UIView()
     var previewView: UIView! = UIView()
@@ -48,9 +51,6 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
     // Preview of filtered image
     var previewImage: EditImageDisplayView! = EditImageDisplayView()
     
-    // Custom Menu view
-    var menuView: AdornmentView! = AdornmentView()
-    
     // image picker for changing edit image
     let imagePicker = UIImagePickerController()
     
@@ -62,6 +62,7 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
     
     // current values
     var currBlendMode:Int = 0
+    var prevBlendMode:Int = 0
     var currOpacity:Float = 1.0
     
     var displayWidth : CGFloat = 0.0
@@ -99,7 +100,7 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
      
      // return the name of the help file associated with this Controller (without extension)
      override public func getHelpKey() -> String {
-         return "blendImages"
+         return "BlendImages"
      }
      
     // called when this controller is activated (every time, not just on first creation)
@@ -108,6 +109,20 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
         doLayout()
         previewImage.updateImage()
     }
+    
+      // handle the menu request.
+      override func handleMenu() {
+          // if menu is hidden then re-layout and show it, otherwise hide it
+          if self.menuView.isHidden == true {
+              DispatchQueue.main.async { [weak self] in
+                  self?.setupMenu()
+                  self?.menuView.isHidden = false
+              }
+          } else {
+              //log.debug("Menu active, closing")
+              self.menuView.isHidden = true
+          }
+      }
     
      /////////////////////////////
      // MARK: - INIT
@@ -184,6 +199,9 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
         
         aspectRatio = EditManager.getAspectRatio()
 
+        // set up the custom menu
+        setupMenu()
+        
         //set up  main views
         setupAds()
         setupControls()
@@ -203,10 +221,26 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
                            width: previewView.frame.size.width, height: previewView.frame.size.height)
 
         
-        // register gesture detection for Blend Preview View
-        setGestureDetectors(previewImage)
         
     }
+    
+    private func setupMenu() {
+        menuView.frame.size.height = CGFloat(UISettings.panelHeight)
+        menuView.frame.size.width = displayWidth
+
+        view.addSubview(menuView)
+        menuView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: menuView.frame.size.height)
+
+        // update the photo and blend icons (they can change)
+        loadPhotoThumbnail()
+        loadBlendThumbnail()
+        updateAdornments()
+        
+        menuView.addAdornments(itemList)
+        menuView.delegate = self
+        menuView.isHidden = true
+    }
+    
     
     private func setupAds() {
         
@@ -282,7 +316,7 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
         
         currModeLabel.frame.size.width = labelWidth
         currModeLabel.frame.size.height = (UISettings.menuHeight / 2.0).rounded()
-        currModeLabel.textAlignment = .right
+        currModeLabel.textAlignment = .center
         currModeLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFont.Weight.thin)
         currModeLabel.textColor = theme.textColor
         let mode = BlendMode(rawValue: currBlendMode)
@@ -407,26 +441,67 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
     
     // funcs for setting up usable picker list
     private func setupPickerView(){
+        // set up the container view, which overlays the controlView
         pickerView.frame = controlView.frame
         pickerView.backgroundColor = theme.backgroundColor
         view.addSubview(pickerView)
         hidePickerView()
         
-         // Mode
-        modePicker.frame = pickerView.frame
+        // Done/Cancel controls
+        let pickerControlView: UIView! = UIView()
+        pickerControlView.frame.size.width = pickerView.frame.size.width
+        pickerControlView.frame.size.height = (UISettings.menuHeight / 2.0).rounded()
+        
+        let cancelLabel: UILabel! = UILabel()
+        cancelLabel.frame.size.width = (displayWidth / 4.0).rounded()
+        cancelLabel.frame.size.height = (UISettings.menuHeight / 2.0).rounded()
+        cancelLabel.textAlignment = .center
+        cancelLabel.font = UIFont.systemFont(ofSize: 20.0, weight: UIFont.Weight.regular)
+        cancelLabel.textColor = theme.textColor
+        cancelLabel.text = "Cancel"
+        
+        let doneLabel: UILabel! = UILabel()
+        doneLabel.frame.size.width = (displayWidth / 4.0).rounded()
+        doneLabel.frame.size.height = (UISettings.menuHeight / 2.0).rounded()
+        doneLabel.textAlignment = .center
+        doneLabel.font = UIFont.systemFont(ofSize: 20.0, weight: UIFont.Weight.regular)
+        doneLabel.textColor = theme.textColor
+        doneLabel.text = "Done"
+        
+        let pickerCancelTap = UITapGestureRecognizer(target: self, action: #selector(pickerCancelDidPress))
+        cancelLabel.addGestureRecognizer(pickerCancelTap)
+        cancelLabel.isUserInteractionEnabled = true
+        
+        let pickerDoneTap = UITapGestureRecognizer(target: self, action: #selector(pickerDoneDidPress))
+        doneLabel.addGestureRecognizer(pickerDoneTap)
+        doneLabel.isUserInteractionEnabled = true
+        
+        pickerControlView.addSubview(cancelLabel)
+        pickerControlView.addSubview(doneLabel)
+        cancelLabel.anchorInCorner(.topLeft, xPad: 0, yPad: 0, width: cancelLabel.frame.size.width, height: cancelLabel.frame.size.height)
+        doneLabel.anchorInCorner(.topRight, xPad: 0, yPad: 0, width: doneLabel.frame.size.width, height: doneLabel.frame.size.height)
+
+        // Mode picker
+        modePicker.frame.size.height = pickerView.frame.size.height - pickerControlView.frame.size.height
+        modePicker.frame.size.width = pickerView.frame.size.width
+
         modePicker.delegate = self
         modePicker.dataSource = self
         modePicker.showsSelectionIndicator = true
         modePicker.center = pickerView.center
-        //modePicker.setValue(theme.titleTextColor, forKeyPath: "textColor")
         setupModePicker()
         
+        pickerView.addSubview(pickerControlView)
         pickerView.addSubview(modePicker)
-        modePicker.anchorInCenter(width: pickerView.frame.size.width, height: pickerView.frame.size.height)
+        pickerControlView.anchorInCorner(.topLeft, xPad: 0, yPad: 0,
+                                  width: pickerControlView.frame.size.width, height: pickerControlView.frame.size.height)
+        modePicker.align(.underCentered, relativeTo: pickerControlView, padding: 0,
+                         width: modePicker.frame.size.width, height: modePicker.frame.size.height)
     }
     
     private func showPickerView(){
         pickerView.isHidden = false
+        prevBlendMode = currBlendMode
         modePicker.selectRow(currBlendMode, inComponent: 0, animated: true)
     }
     
@@ -453,10 +528,118 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
     }
     
     
-    ////////////////////////////////////////////////
-    // MARK: - Touch Handlers
-    ////////////////////////////////////////////////
+     ////////////////////////////////////////////////
+     // MARK: - Menu support
+     ////////////////////////////////////////////////
+     
+     // these vars are global scope because they are updated asynchronously
+     private var photoThumbnail:UIImage? = nil
+     private var blendThumbnail:UIImage? = nil
+     
+     
+     
+     // set photo image to the last photo in the camera roll
+     func loadPhotoThumbnail(){
+         
+         let tgtSize = CGSize(width: UISettings.buttonSide, height: UISettings.buttonSide)
+         
+         
+         // get most recent photo
+         let fetchOptions = PHFetchOptions()
+         fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+         
+         let fetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
+         
+         let last = fetchResult.lastObject
+         
+         if let lastAsset = last {
+             let options = PHImageRequestOptions()
+             options.version = .current
+             
+             PHImageManager.default().requestImage(
+                 for: lastAsset,
+                 targetSize: tgtSize,
+                 contentMode: .aspectFit,
+                 options: options,
+                 resultHandler: { image, _ in
+                     DispatchQueue.main.async {
+                         self.photoThumbnail = image
+                     }
+             })
+         }
+     }
+     
+     private func loadBlendThumbnail(){
+         self.blendThumbnail = UIImage(ciImage: ImageManager.getCurrentBlendImage(size:UISettings.buttonSize)!)
+     }
+     
+     //////////////////////////////////////
+     // MARK: - Menu item handlers
+     //////////////////////////////////////
+     // build the list of adornments
+     
+     
+     var itemList:[Adornment] = [ ]
+     
+     func updateAdornments(){
+         
+         itemList = []
+         itemList.append (Adornment(key: "photo", text: "photo", icon: "", view: photoThumbnail, isHidden: false))
+         itemList.append (Adornment(key: "blend", text: "blend", icon: "", view: blendThumbnail, isHidden: false))
+         itemList.append (Adornment(key: "save", text: "save", icon: "ic_save", view: nil, isHidden: false))
+         itemList.append (Adornment(key: "help", text: "help", icon: "ic_info", view: nil, isHidden: false))
+     }
+     
+     func handleSelection(key: String){
+         switch (key){
+         case "photo":
+             imageMenuDidPress()
+         case "blend":
+             blendMenuDidPress()
+         case "save":
+             saveMenuDidPress()
+         case "help":
+             helpMenuDidPress()
+         default:
+             log.error("Unknown key: \(key)")
+         }
+     }
+     
+     @objc func imageMenuDidPress(){
+         self.menuView.isHidden = true
+         self.changeImage()
+     }
+     
+     @objc func blendMenuDidPress(){
+         self.coordinator?.activateRequest(id: .chooseBlend)
+     }
+     
+     @objc func saveMenuDidPress(){
+         self.menuView.isHidden = true
+         DispatchQueue.main.async { [weak self] in
+             if EditManager.isPreviewActive() {
+                 self?.displayPreviewAlert()
+             } else {
+                 self?.saveImage()
+                 log.verbose("Image saved")
+                 self?.showMessage("Image saved to Photos")
+             }
+         }
+     }
+         
+     @objc func helpMenuDidPress(){
+         log.debug("help")
+         DispatchQueue.main.async { [weak self] in
+             self?.coordinator?.helpRequest()
+             self?.menuView.isHidden = true
+         }
+     }
+     
     
+     ////////////////////////////////////////////////
+     // MARK: - Touch Handlers
+     ////////////////////////////////////////////////
+
     @objc func blendDidPress(){
         log.verbose("Blend pressed")
         // launch the Blend Gallery
@@ -467,6 +650,7 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
     
     @objc func modeDidPress(){
         log.verbose("Mode pressed")
+        prevBlendMode = currBlendMode
         showPickerView()
     }
 
@@ -487,6 +671,17 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
             self?.showMessage("Effect applied", time:0.5)
         }
     }
+    
+    @objc func pickerCancelDidPress(){
+        // restore previous blend mode and dismiss the picker
+        setBlendMode(prevBlendMode)
+        hidePickerView()
+    }
+    
+    @objc func pickerDoneDidPress(){
+        // blend mode already set, so just dismiss the picker
+        hidePickerView()
+    }
 
     ////////////////////////////////////////////////
     // MARK: - Blend Mode management
@@ -506,7 +701,7 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
         
         let mode = BlendMode(rawValue: currBlendMode)
         currModeLabel.text = (mode?.toString())!
-        hidePickerView()
+        //hidePickerView()
 
         updatePreviewImage()
     }
@@ -553,6 +748,51 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
         }
     }
     
+     //////////////////////////////////////
+     // MARK: - Apply Preview alert processing
+     //////////////////////////////////////
+     
+     
+     fileprivate var applyPreviewAlert:UIAlertController? = nil
+     
+     private func displayPreviewAlert() {
+         
+         
+         // build the alert if first time
+         if (applyPreviewAlert == nil){
+             applyPreviewAlert = UIAlertController(title: "Preview Not Applied",
+                                                   message:"There is a Preview effect that has not been applied.\n" +
+                 "Did you want to include this in the Saved image?",
+                                                   preferredStyle: .alert)
+             
+             // add the OK button
+             let okAction = UIAlertAction(title: "Apply", style: .default) { (action:UIAlertAction) in
+                 log.debug("Apply Preview")
+                 EditManager.savePreviewFilter()
+                 self.previewImage.updateImage()
+                 self.saveImage()
+             }
+             applyPreviewAlert?.addAction(okAction)
+             
+             // add the Cancel Button
+             let cancelAction = UIAlertAction(title: "Ignore", style: .default) { (action:UIAlertAction) in
+                 log.debug("Ignore")
+                 EditManager.removePreviewFilter()
+                 self.previewImage.updateImage()
+                 self.saveImage()
+             }
+             applyPreviewAlert?.addAction(cancelAction)
+             
+         }
+         
+         // display the dialog
+         DispatchQueue.main.async { [weak self] in
+             self?.present((self?.applyPreviewAlert)!, animated: true, completion:nil)
+         }
+         
+         
+     }
+
     ////////////////////////////////////////////////
     // MARK: - Opacity management
     ////////////////////////////////////////////////
@@ -579,13 +819,57 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
     }
            
 
-    ////////////////////////////////////////////////
-    // MARK: - Gestures
-    ////////////////////////////////////////////////
     
-    private func setGestureDetectors(_ view: UIView){
-        
-    }
+     //////////////////////////////////////////
+     // MARK: - ImagePicker handling
+     //////////////////////////////////////////
+     
+     func changeImage(){
+         DispatchQueue.main.async { [weak self] in
+             log.debug("imagePreview pressed - launching ImagePicker...")
+             // launch an ImagePicker
+             self?.imagePicker.allowsEditing = false
+             self?.imagePicker.sourceType = .photoLibrary
+             //self?.imagePicker.modalPresentationStyle = .popover // required after ios12
+             self?.imagePicker.delegate = self
+             
+             self?.present((self?.imagePicker)!, animated: true, completion: {})
+         }
+     }
+     
+     
+     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+         log.verbose("Image picked")
+         if let asset = info[UIImagePickerController.InfoKey.phAsset] as? PHAsset {
+             let assetResources = PHAssetResource.assetResources(for: asset)
+             let name = assetResources.first!.originalFilename
+             let id = assetResources.first!.assetLocalIdentifier
+             
+             log.verbose("Picked image:\(name) id:\(id)")
+             //EditManager.setInputImage(name: name)
+             EditManager.setInputImage(name: id) // changed in iOS12
+             EditManager.update()
+             DispatchQueue.main.async { [weak self] in
+                 self?.previewImage.updateImage()
+             }
+             
+             // bit of a hack, but reset face detection if image changes. This allows results to be re-used across filters, which is a very expensive operation
+             DispatchQueue.main.async { [weak self] in
+                 FaceDetection.reset()
+                 FaceDetection.detectFaces(on: EditManager.getPreviewImage()!, orientation: EditManager.getEditImageOrientation(), completion: {})
+             }
+         } else {
+             log.error("Error accessing image data")
+         }
+         picker.dismiss(animated: false, completion: nil)
+     }
+     
+     
+     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+         log.verbose("Image Picker cancelled")
+         picker.dismiss(animated: false)
+     }
+
     
     
     //////////////////////////////////////
@@ -630,6 +914,7 @@ extension BlendImagesViewController: UIPickerViewDelegate {
         return modeList[row]
     }
     
+    // returns the view to use for the requested row
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         var pickerLabel: UILabel? = (view as? UILabel)
         if pickerLabel == nil {
@@ -672,4 +957,15 @@ extension BlendImagesViewController: UIPickerViewDataSource{
     
     
 }
+
+// Adornment delegate
+
+extension BlendImagesViewController: AdornmentDelegate {
+    func adornmentItemSelected(key: String) {
+        DispatchQueue.main.async { [weak self] in
+            self?.handleSelection(key: key)
+        }
+    }
+}
+
 

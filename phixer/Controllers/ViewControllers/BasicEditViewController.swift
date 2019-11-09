@@ -104,7 +104,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         }
     }
     
-    // handle the menu request. Return true if handled, false otherwise (base controller will handle it)
+    // handle the menu request. 
     override func handleMenu() {
         // if menu is hidden then re-layout and show it, otherwise hide it
         if self.menuView.isHidden == true {

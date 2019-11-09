@@ -627,6 +627,7 @@
 		2542DF5B1ED372BF00CEB968 /* BasicEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2542DF5A1ED372BF00CEB968 /* BasicEditViewController.swift */; };
 		2542DF5D1ED373F800CEB968 /* EditImageDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2542DF5C1ED373F800CEB968 /* EditImageDisplayView.swift */; };
 		2542DF651ED6634800CEB968 /* SettingsEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2542DF641ED6634800CEB968 /* SettingsEntity+CoreDataProperties.swift */; };
+		255348EE237635E80025C81C /* BlendImages.html in Resources */ = {isa = PBXBuildFile; fileRef = 255348ED237635E70025C81C /* BlendImages.html */; };
 		255459B921681294008A9F55 /* CameraCaptureHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255459B821681294008A9F55 /* CameraCaptureHelper.swift */; };
 		255591E52187A1A9001B4452 /* ColorWheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255591E42187A1A9001B4452 /* ColorWheelView.swift */; };
 		255591E72187CC62001B4452 /* HTMLViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255591E62187CC62001B4452 /* HTMLViewController.swift */; };
@@ -1782,6 +1783,7 @@
 		2542DF5A1ED372BF00CEB968 /* BasicEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicEditViewController.swift; sourceTree = "<group>"; };
 		2542DF5C1ED373F800CEB968 /* EditImageDisplayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditImageDisplayView.swift; sourceTree = "<group>"; };
 		2542DF641ED6634800CEB968 /* SettingsEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SettingsEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		255348ED237635E70025C81C /* BlendImages.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = BlendImages.html; sourceTree = "<group>"; };
 		255459B821681294008A9F55 /* CameraCaptureHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCaptureHelper.swift; sourceTree = "<group>"; };
 		255591E42187A1A9001B4452 /* ColorWheelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorWheelView.swift; sourceTree = "<group>"; };
 		255591E62187CC62001B4452 /* HTMLViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLViewController.swift; sourceTree = "<group>"; };
@@ -3036,11 +3038,11 @@
 			children = (
 				2507160A1DBECDF200CDDF42 /* Admob.swift */,
 				25F4601F1D99D79B00EDA182 /* AspectRatio.swift */,
+				257C8205233E5E0C003A22D0 /* BlendMode.swift */,
 				25F4601D1D99D65F00EDA182 /* CameraISO.swift */,
 				25F460211D99DBBA00EDA182 /* CameraSpeed.swift */,
 				253B23761DA4BB7800203ECB /* ClosestFraction.swift */,
 				2556731E1DB961F700187F25 /* DisplayMode.swift */,
-				257C8205233E5E0C003A22D0 /* BlendMode.swift */,
 				25C2DF8222D1810D00D43198 /* EditList.swift */,
 				2568BDCA21AC731100560287 /* EditManager.swift */,
 				25E36AA122414807009D2727 /* FaceDetection.swift */,
@@ -3209,6 +3211,7 @@
 			children = (
 				258F098E218A7F100082FE2A /* About.html */,
 				2537A1C821DE7B4A00060DBE /* default.html */,
+				255348ED237635E70025C81C /* BlendImages.html */,
 				2537A1CE21DEBA3300060DBE /* BasicEditor.html */,
 				2537A1D021DEBA4000060DBE /* ThemeChooser.html */,
 				2537A1D221DEBA4C00060DBE /* LiveFilters.html */,
@@ -4346,6 +4349,7 @@
 				25FD3C8822EB96E700A1C00A /* N-KodakRoyalGold400.json in Resources */,
 				2500473B2300B4AE0025309F /* ColorConversions.cikernel in Resources */,
 				252B10151E306920005A0C2D /* monoprint_16_by_pendlestock.jpg in Resources */,
+				255348EE237635E80025C81C /* BlendImages.html in Resources */,
 				25C2DE8822CD8A8D00D43198 /* ModerateVignette.json in Resources */,
 				252B0EB61E30690F005A0C2D /* fx_066_solarize_bw_5.jpg in Resources */,
 				252B0E871E30690F005A0C2D /* ms_014_peachy_film.jpg in Resources */,
