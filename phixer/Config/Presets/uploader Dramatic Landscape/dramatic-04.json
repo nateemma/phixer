@@ -111,7 +111,7 @@
       ]
     },
     {
-      "key": "GrainFilter",
+      "key": "FilmGrainFilter",
       "parameters": [
         {
           "key": "inputAmount",

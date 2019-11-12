@@ -1291,7 +1291,7 @@ def processGrain():
     
 
     if found and not approxEqual(amount, 0.0):
-        filterMap["filters"].append( { 'key':"GrainFilter", "parameters":[{ 'key':"inputAmount", 'val': amount, 'type': "CIAttributeTypeScalar"},
+        filterMap["filters"].append( { 'key':"FilmGrainFilter", "parameters":[{ 'key':"inputAmount", 'val': amount, 'type': "CIAttributeTypeScalar"},
                                                                           { 'key':"inputSize", 'val': size, 'type': "CIAttributeTypeScalar"} ]
                                     } )
         print ("Film Grain: amount: " + str(amount) + " size: "  + str(size))

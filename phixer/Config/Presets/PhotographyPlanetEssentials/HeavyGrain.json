@@ -17,7 +17,7 @@
           "key": "inputSize"
         }
       ], 
-      "key": "GrainFilter"
+      "key": "FilmGrainFilter"
     }
   ], 
   "key": "../phixer/Config/Presets//PhotographyPlanetEssentials/HeavyGrain.json"

@@ -1388,9 +1388,9 @@
                 "CarnivalMirror", "RGBChannelCompositing", "KuwaharaFilter", "MercurializeFilter",
                 "CMYKLevels", "ChromaticAberration", "ColorDirectedBlur", "CompoundEye", "EightBit", "HomogeneousColorBlur",
                 "RGBChannelBrightnessAndContrast", "RGBChannelGaussianBlur", "TransverseChromaticAberration", "VHSTrackingLines", "CausticRefraction",
-                "HighPassFilter", "HighPassSharpeningFilter", "HueRangeFilter", "SplitToningFilter", "CIFalseColor", "CRTFilter", "GrainFilter",
+                "HighPassFilter", "HighPassSharpeningFilter", "HueRangeFilter", "SplitToningFilter", "CIFalseColor", "CRTFilter", "FilmGrainFilter",
                 "BWZoneFilter", "ForegroundMaskFilter", "BackgroundBlurFilter", "ForegroundLightingFilter",
-                "CenteredVignetteFilter", "BlendImageFilter"
+                "CenteredVignetteFilter", "BlendImageFilter", "ScatterFilter"
             ]
         }
 

@@ -1,5 +1,5 @@
 //
-//  Scatter.swift
+//  ScatterFilter.swift
 //  Filterpedia
 //
 //  Created by Simon Gladman on 17/05/2016.
@@ -86,7 +86,7 @@ class ScatterWarp: CIFilter
 
 // Pixel scattering filter using CIRandomGenerator as its source. The output of the
 // random generator can be blurred allowing for a smoothness attribute.
-class Scatter: CIFilter
+class ScatterFilter: CIFilter
 {
     var inputImage: CIImage?
     var inputScatterRadius: CGFloat = 25
@@ -129,6 +129,27 @@ class Scatter: CIFilter
         "   vec2 imageSpaceCoord = samplerTransform(image, workingSpaceCoord); " +
         "   return sample(image, imageSpaceCoord);" +
         "}")
+    
+    // default settings
+    override func setDefaults() {
+        inputImage = nil
+        inputScatterRadius = 25.0
+        inputScatterSmoothness = 1.0
+    }
+    
+    override func setValue(_ value: Any?, forKey key: String) {
+        switch key {
+        case "inputImage":
+            inputImage = value as? CIImage
+        case "inputScatterRadius":
+            inputScatterRadius = value as! CGFloat
+        case "inputScatterSmoothness":
+            inputScatterSmoothness = value as! CGFloat
+        default:
+            log.error("Invalid key: \(key)")
+        }
+    }
+    
     
     override var outputImage: CIImage?
     {
