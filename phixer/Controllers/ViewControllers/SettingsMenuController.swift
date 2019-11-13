@@ -158,17 +158,18 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
         let h = height
         let w = displayWidth - 8
         let iconSize = CGSize(width: h-4, height: h-4)
+        let bkColor = theme.subtitleColor
         
         setupMenuItem(aboutMenuItem, height:h, width:w,
                       title:"About",
                       image: nil,
-                      color:UIColor.flatMint(),
+                      color:bkColor,
                       handler: UITapGestureRecognizer(target: self, action: #selector(presentAbout)))
         
         setupMenuItem(changeBlendMenuItem, height:h, width:w,
                       title:"Set Blend Image",
                       image: ImageManager.getCurrentBlendImage(size: iconSize),
-                      color:UIColor.flatMintDark(),
+                      color:bkColor,
                       handler: UITapGestureRecognizer(target: self, action: #selector(presentBlendGallery)))
         
 //        setupMenuItem(changeSampleMenuItem, height:h, width:w,
@@ -180,18 +181,18 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
         setupMenuItem(resetMenuItem, height:h, width:w,
                       title:"Reset Categories/Filters",
                       image: nil,
-                      color:UIColor.flatPurple(),
+                      color:bkColor,
                       handler: UITapGestureRecognizer(target: self, action: #selector(presentReset)))
 
         setupSwitchItem(hideFiltersItem, height:h, width:w,
                         title:"Show Hidden Filters",
                         switchItem:hideFiltersSwitch,
-                        color:UIColor.flatPurpleDark())
+                        color:bkColor)
 
         setupMenuItem(themeMenuItem, height:h, width:w,
                       title:"Change Theme",
                       image: nil,
-                      color:UIColor.flatPlum(),
+                      color:bkColor,
                       handler: UITapGestureRecognizer(target: self, action: #selector(presentThemes)))
 
         numItems = 5 // must match no. of items declared above
@@ -263,6 +264,7 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
         
         let adornmentWidth:CGFloat = 64
         let side = min(adornmentWidth, height)
+        
         let txtColor = UIColor(contrastingBlackOrWhiteColorOn:color, isFlat:true)
         let txtFont = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.thin)
         
@@ -289,9 +291,9 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
         switchItem.frame.size.width = side
         switchItem.frame.size.height = side
         switchItem.backgroundColor = color
-        switchItem.thumbTintColor = txtColor
-        switchItem.tintColor = txtColor
-        switchItem.onTintColor = ColorUtilities.complementary(color)[0]
+        //switchItem.thumbTintColor = txtColor
+        //switchItem.tintColor = txtColor
+        //switchItem.onTintColor = ColorUtilities.complementary(color)[0]
         item.addSubview(switchItem)
         switchItem.anchorToEdge(.right, padding: 4.0, width: switchItem.frame.size.width, height: switchItem.frame.size.height)
         

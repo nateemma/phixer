@@ -61,9 +61,9 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
     var blendFilter: FilterDescriptor? = nil
     
     // current values
-    var currBlendMode:Int = 0
+    var currBlendMode:Int = BlendMode.sourceAtopCompositing.rawValue
     var prevBlendMode:Int = 0
-    var currOpacity:Float = 1.0
+    var currOpacity:Float = 0.5
     
     var displayWidth : CGFloat = 0.0
     var displayHeight : CGFloat = 0.0
@@ -680,6 +680,7 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
     
     @objc func pickerDoneDidPress(){
         // blend mode already set, so just dismiss the picker
+        setBlendMode(currBlendMode)
         hidePickerView()
     }
 

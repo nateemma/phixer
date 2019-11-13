@@ -108,7 +108,8 @@ class SplashScreenViewController: UIViewController {
         log.verbose("h:\(displayHeight) w:\(displayWidth)")
         
         
-        view.backgroundColor = theme.backgroundColor // default seems to be white
+        //view.backgroundColor = theme.backgroundColor // default seems to be white
+        view.backgroundColor = UIColor.black // always use black because of the graphics (background is white in light mode)
 
         
         // get app icon
