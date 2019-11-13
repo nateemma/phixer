@@ -68,7 +68,8 @@ class CoordinatedController: UIViewController, ControllerDelegate {
         ThemeManager.applyTheme(key: ThemeManager.getCurrentThemeKey())
         theme = ThemeManager.currentTheme()
         self.view.backgroundColor = theme.backgroundColor
-        self.navigationItem.titleView?.backgroundColor = theme.titleColor
+        //self.navigationItem.titleView?.backgroundColor = theme.titleColor
+        self.navigationItem.titleView?.backgroundColor = theme.backgroundColor
     }
     
     func selectFilter(key: String) {
@@ -252,7 +253,7 @@ class CoordinatedController: UIViewController, ControllerDelegate {
         self.navigationController?.navigationBar.backgroundColor = theme.backgroundColor
         self.navigationController?.navigationBar.tintColor = theme.tintColor
         
-        // change the font style to 'thin'
+        // change the font style to 'light'
         self.navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: UIFont.systemFont(ofSize: 24.0, weight:UIFont.Weight.light) ]
         
         // build the menu

@@ -12,21 +12,222 @@ import Foundation
 
 // struct that holds the colour/icon options that are set in the various themes
 struct ThemeParameters {
+    private var _key: String = ""
+    private var _description: String = ""
+    private var _mainColor: UIColor = UIColor.black
+    private var _textColor: UIColor = UIColor.white
+    private var _barStyle: UIBarStyle = .default
+    private var _backgroundColor: UIColor = UIColor.black
+    private var _secondaryColor: UIColor = UIColor.darkGray
+    private var _titleColor: UIColor = UIColor.black
+    private var _titleTextColor: UIColor = UIColor.white
+    private var _subtitleTextColor: UIColor = UIColor.white
+    private var _subtitleColor: UIColor = UIColor.systemGreen
+    private var _buttonColor: UIColor = UIColor.systemGreen
+    private var _borderColor: UIColor = UIColor.darkGray
+    private var _highlightColor: UIColor = UIColor.systemGreen
+    private var _tintColor: UIColor = UIColor.white
+    
     var key:String
     var description:String
-    var mainColor: UIColor
-    var textColor: UIColor
-    var barStyle: UIBarStyle
-    var backgroundColor: UIColor
-    var secondaryColor: UIColor
-    var titleColor: UIColor
-    var titleTextColor: UIColor
-    var subtitleTextColor: UIColor
-    var subtitleColor: UIColor
-    var buttonColor: UIColor
-    var borderColor: UIColor
-    var highlightColor: UIColor
-    var tintColor: UIColor
+    var mainColor: UIColor {
+        get {
+            if #available(iOS 13.0, *) {
+                return UIColor.systemBackground
+            } else {
+                return _mainColor
+            }
+        }
+        set {
+            _mainColor = newValue
+        }
+    }
+    
+    var textColor: UIColor {
+        get {
+            if #available(iOS 13.0, *) {
+                return UIColor.label
+            } else {
+                return _textColor
+            }
+        }
+        set {
+            _backgroundColor = newValue
+        }
+    }
+    
+    var barStyle: UIBarStyle = .default
+    
+    var backgroundColor: UIColor  {
+        get {
+            if #available(iOS 13.0, *) {
+                return UIColor.systemBackground
+            } else {
+                return _backgroundColor
+            }
+        }
+        set {
+            _backgroundColor = newValue
+        }
+    }
+    
+    var secondaryColor: UIColor {
+        get {
+            if #available(iOS 13.0, *) {
+                return UIColor.secondarySystemBackground
+            } else {
+                return _secondaryColor
+            }
+        }
+        set {
+            _secondaryColor = newValue
+        }
+    }
+    
+    var titleColor: UIColor {
+        get {
+            if #available(iOS 13.0, *) {
+                return UIColor.secondarySystemBackground
+            } else {
+                return _titleColor
+            }
+        }
+        set {
+            _titleColor = newValue
+        }
+    }
+    
+    var titleTextColor: UIColor {
+        get {
+            if #available(iOS 13.0, *) {
+                return UIColor.label
+            } else {
+                return _titleTextColor
+            }
+        }
+        set {
+            _titleTextColor = newValue
+        }
+    }
+    
+    var subtitleTextColor: UIColor {
+        get {
+            if #available(iOS 13.0, *) {
+                return UIColor.label
+            } else {
+                return _subtitleTextColor
+            }
+        }
+        set {
+            _subtitleTextColor = newValue
+        }
+    }
+    
+    var subtitleColor: UIColor {
+        get {
+            if #available(iOS 13.0, *) {
+                return UIColor.tertiarySystemBackground
+            } else {
+                return _subtitleColor
+            }
+        }
+        set {
+            _subtitleColor = newValue
+        }
+    }
+    
+    var buttonColor: UIColor {
+        get {
+            if #available(iOS 13.0, *) {
+                return UIColor.tertiarySystemFill
+            } else {
+                return _buttonColor
+            }
+        }
+        set {
+            _buttonColor = newValue
+        }
+    }
+    
+    var borderColor: UIColor {
+        get {
+            if #available(iOS 13.0, *) {
+                return UIColor.systemTeal
+            } else {
+                return _borderColor
+            }
+        }
+        set {
+            _borderColor = newValue
+        }
+    }
+    
+    var highlightColor: UIColor {
+        get {
+            if #available(iOS 13.0, *) {
+                return UIColor.systemBlue
+            } else {
+                return _highlightColor
+            }
+        }
+        set {
+            _highlightColor = newValue
+        }
+    }
+    
+    var tintColor: UIColor {
+        get {
+            if #available(iOS 13.0, *) {
+                return UIColor.label
+            } else {
+                return _tintColor
+            }
+        }
+        set {
+            _tintColor = newValue
+        }
+    }
+
+    // since we includers some get/set accessors, we need to explicitly add the default initialiser
+    init(key: String, description: String, mainColor: UIColor, textColor: UIColor, barStyle: UIBarStyle, backgroundColor: UIColor,
+         secondaryColor: UIColor, titleColor: UIColor, titleTextColor: UIColor, subtitleTextColor: UIColor, subtitleColor: UIColor,
+         buttonColor: UIColor, borderColor: UIColor, highlightColor: UIColor, tintColor: UIColor) {
+        
+        self.key = key
+        self.description = description
+        self.mainColor = mainColor
+        self.textColor = textColor
+        self.barStyle = barStyle
+        self.backgroundColor = backgroundColor
+        self.secondaryColor = secondaryColor
+        self.titleColor = titleColor
+        self.titleTextColor = titleTextColor
+        self.subtitleTextColor = subtitleTextColor
+        self.subtitleColor = subtitleColor
+        self.buttonColor = buttonColor
+        self.borderColor = borderColor
+        self.highlightColor = highlightColor
+        self.tintColor = tintColor
+    }
+    
+    // and since we added a custom init, we have to define a default init
+    init(){
+        self.key = _key
+        self.description = _description
+        self.mainColor = _mainColor
+        self.textColor = _textColor
+        self.barStyle = .default
+        self.backgroundColor = _backgroundColor
+        self.secondaryColor = _secondaryColor
+        self.titleColor = _titleColor
+        self.titleTextColor = _titleTextColor
+        self.subtitleTextColor = _subtitleTextColor
+        self.subtitleColor = _subtitleColor
+        self.buttonColor = _buttonColor
+        self.borderColor = _borderColor
+        self.highlightColor = _highlightColor
+        self.tintColor = _tintColor
+    }
 }
 
 
@@ -236,7 +437,8 @@ class ThemeManager {
             UILabel.appearance().backgroundColor = currTheme?.backgroundColor
             UILabel.appearance().textColor = currTheme?.textColor
 
-            UICollectionView.appearance().backgroundColor = currTheme?.backgroundColor
+            // messes up builtin collections after iOS13
+            //UICollectionView.appearance().backgroundColor = currTheme?.backgroundColor
             
             UISwitch.appearance().backgroundColor = currTheme?.backgroundColor
             UISwitch.appearance().onTintColor = currTheme?.highlightColor.withAlphaComponent(0.6)
