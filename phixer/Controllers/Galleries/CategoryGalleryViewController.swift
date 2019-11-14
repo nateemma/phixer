@@ -175,10 +175,10 @@ class CategoryGalleryViewController: CoordinatedController {
         // layout constraints
        
         if (UISettings.showAds){
-            adView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: adView.frame.size.height)
+            adView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: adView.frame.size.height)
             categoryGalleryView.align(.underCentered, relativeTo: adView, padding: 0, width: displayWidth, height: categoryGalleryView.frame.size.height)
         } else {
-            categoryGalleryView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: categoryGalleryView.frame.size.height)
+            categoryGalleryView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: categoryGalleryView.frame.size.height)
         }
   
     }

@@ -240,17 +240,17 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         // set layout constraints
         
         // top
-        menuView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: menuView.frame.size.height)
+        menuView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: menuView.frame.size.height)
         
         
         // main window
-        //editImageView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: editImageView.frame.size.height)
+        //editImageView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: editImageView.frame.size.height)
         //editImageView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: editImageView.frame.size.height)
         editImageView.fillSuperview()
         
         // filter parameters
         //filterParametersView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: filterParametersView.frame.size.height)
-        filterParametersView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: filterParametersView.frame.size.height)
+        filterParametersView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: filterParametersView.frame.size.height)
         
         ratingView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: ratingView.frame.size.height)
         
@@ -737,7 +737,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             self?.filterParametersView.setNeedsDisplay()
             self?.filterParametersView.setNeedsLayout()
             //}
-            self?.filterParametersView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: (self?.filterParametersView.frame.size.height)!)
+            self?.filterParametersView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: (self?.filterParametersView.frame.size.height)!)
             //self?.filterParametersView.logSizes()//debug
             DispatchQueue.main.async { [weak self] in
                 self?.filterParametersView.expand()

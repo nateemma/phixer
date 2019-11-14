@@ -91,7 +91,7 @@ class ResetViewController: CoordinatedController, UINavigationControllerDelegate
             adView.frame.size.height = UISettings.panelHeight
             adView.frame.size.width = displayWidth
             
-            adView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: adView.frame.size.height)
+            adView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: adView.frame.size.height)
         }
 
         

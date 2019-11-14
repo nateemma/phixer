@@ -449,7 +449,7 @@ class ThemeManager {
             UISlider.appearance().tintColor = currTheme?.highlightColor
 
             UINavigationBar.appearance().backgroundColor = currTheme?.backgroundColor
-            UINavigationBar.appearance().tintColor = currTheme?.highlightColor
+            UINavigationBar.appearance().tintColor = currTheme?.tintColor
 
         } else {
             log.error ("Unknown Theme: \(key). Available themes: \(getThemeList())")

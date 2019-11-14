@@ -182,7 +182,7 @@ class HTMLViewController: CoordinatedController {
         view.addSubview(htmlView)
         
         // layout constraints
-        htmlView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: (displayHeight-UISettings.panelHeight))
+        htmlView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: (displayHeight-UISettings.panelHeight))
     }
     
 

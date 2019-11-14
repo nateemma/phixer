@@ -159,12 +159,12 @@ class ColorPickerController: CoordinatedController {
         
         // layout constraints
         if (UISettings.showAds){
-            adView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: adView.frame.size.height)
+            adView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: adView.frame.size.height)
             colorWheelView?.align(.underCentered, relativeTo: adView, padding: 0, width: displayWidth, height: (colorWheelView?.frame.size.height)!)
         } else {
-            colorWheelView?.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: (colorWheelView?.frame.size.height)!)
+            colorWheelView?.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: (colorWheelView?.frame.size.height)!)
         }
-        controlView.anchorAndFillEdge(.bottom, xPad: 0, yPad: UISettings.topBarHeight, otherSize: controlView.frame.size.height)
+        controlView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: controlView.frame.size.height)
         hsbView.align(.aboveCentered, relativeTo: controlView, padding: 0, width: displayWidth, height: hsbView.frame.size.height)
         rgbView.align(.aboveCentered, relativeTo: hsbView, padding: 0, width: displayWidth, height: rgbView.frame.size.height)
 

@@ -31,6 +31,9 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
     var resetMenuItem: UIView = UIView()
     var hideFiltersItem: UIView = UIView()
     var themeMenuItem: UIView = UIView()
+    
+    var itemList: [UIView] = []
+    var itemStack: UIView = UIView()
 
     var hideFiltersSwitch:UISwitch = UISwitch()
     
@@ -80,6 +83,7 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
         // common setup
         self.prepController()
 
+        itemList = []
         
         // get display dimensions
         displayHeight = view.height
@@ -105,9 +109,11 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
             adView.layer.borderWidth = 1.0
             
             view.addSubview(adView)
-           adView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: adView.frame.size.height)
+           adView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: adView.frame.size.height)
             Admob.startAds(view:adView, viewController:self)
             stackHeight = stackHeight - adView.frame.size.height
+        } else {
+            adView.frame.size.height = 0.0
         }
         
         
@@ -116,35 +122,34 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
         
         // Note: need to add subviews before modifying constraints
         //let h = max((stackHeight/CGFloat(numItems)), UISettings.panelHeight).rounded()
-        let h = (stackHeight/CGFloat(numItems)).rounded() - 8
+        //let h = (stackHeight/CGFloat(numItems)).rounded() - 8
+        let h = UISettings.panelHeight
         buildMenuViews(height:h)
         
+        // create a stackview from the items
+        if itemList.count > 0 {
 
-        /***
-        stackView.addRow(aboutMenuItem!)
-        stackView.addRow(changeBlendMenuItem!)
-        stackView.addRow(changeSampleMenuItem!)
-        stackView.addRow(manageCategoriesMenuItem!)
-        stackView.addRow(resetMenuItem!)
-        stackView.addRow(colorsMenuItem!)
-        
-        view.addSubview(stackView)
-        view.groupAgainstEdge(group: .vertical,
-                              views: [stackView],
-                              againstEdge: .bottom, padding: 4.0, width: displayWidth, height: stackHeight)
-         ***/
-        view.addSubview(aboutMenuItem)
-        view.addSubview(changeBlendMenuItem)
-        //view.addSubview(changeSampleMenuItem)
-        view.addSubview(resetMenuItem)
-        view.addSubview(hideFiltersItem)
-        view.addSubview(themeMenuItem)
-        view.groupAgainstEdge(group: .vertical,
-                              views: [aboutMenuItem, changeBlendMenuItem, resetMenuItem, hideFiltersItem,
-                                      themeMenuItem ],
-                              againstEdge: .bottom, padding: 4.0, width: displayWidth, height: h)
+            itemStack.frame.size.width = displayWidth
+            itemStack.frame.size.height = displayHeight - adView.frame.size.height
+            //itemStack.backgroundColor = theme.backgroundColor
+            for item in itemList {
+                itemStack.addSubview(item)
+            }
+            itemStack.groupAgainstEdge(group: .vertical, views: itemList, againstEdge: .top, padding: 4,
+                                       width: itemStack.frame.size.width, height: h)
+            
+            view.addSubview(itemStack)
+            log.verbose("Adding \(itemList.count) items. (\(itemStack.frame.size.width) x \(itemStack.frame.size.height))")
 
-
+             if (UISettings.showAds){
+                 itemStack.align(.underCentered, relativeTo: adView, padding: 4.0,
+                                 width: itemStack.frame.size.width, height: itemStack.frame.size.height)
+             } else {
+                 itemStack.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: itemStack.frame.size.height)
+            }
+        } else {
+            log.error("No Menu Items!")
+        }
     }
     
     
@@ -155,10 +160,12 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
         hideFiltersSwitch.addTarget(self, action: #selector(hideFiltersSwitchChanged(_:)), for: .valueChanged)
 
         //let h = max ((stackHeight / CGFloat(numItems)), UISettings.panelHeight)
-        let h = height
+        let h = UISettings.panelHeight
         let w = displayWidth - 8
         let iconSize = CGSize(width: h-4, height: h-4)
-        let bkColor = theme.subtitleColor
+        let bkColor = theme.titleColor
+        
+        // Note: I switched to using system colours to allow compatibility with light/dark mode
         
         setupMenuItem(aboutMenuItem, height:h, width:w,
                       title:"About",
@@ -189,13 +196,19 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
                         switchItem:hideFiltersSwitch,
                         color:bkColor)
 
-        setupMenuItem(themeMenuItem, height:h, width:w,
-                      title:"Change Theme",
-                      image: nil,
-                      color:bkColor,
-                      handler: UITapGestureRecognizer(target: self, action: #selector(presentThemes)))
+        // only add set theme if earlier than iOS13. If later, we will just use the system colours anyway
+        if #available(iOS 13.0, *) {
+            // do nothing
+        } else {
+            setupMenuItem(themeMenuItem, height:h, width:w,
+                          title:"Change Theme",
+                          image: nil,
+                          color:bkColor,
+                          handler: UITapGestureRecognizer(target: self, action: #selector(presentThemes)))
+        }
+        
+        numItems = CGFloat(itemList.count)
 
-        numItems = 5 // must match no. of items declared above
 
     }
     
@@ -205,16 +218,20 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
     func setupMenuItem(_ item:UIView, height:CGFloat, width:CGFloat, title:String, image:CIImage?, color:UIColor, handler:UITapGestureRecognizer) {
         
         let adornmentWidth:CGFloat = 48
+        let pad:CGFloat = 2.0
         let side = min(adornmentWidth, height)
-        let txtColor = UIColor(contrastingBlackOrWhiteColorOn:color, isFlat:true)
+        //let txtColor = UIColor(contrastingBlackOrWhiteColorOn:color, isFlat:true)
+        let txtColor = theme.textColor
         let txtFont = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.thin)
         
         // set up  container view
-        item.frame.size.height = height.rounded()
-        item.frame.size.width = width.rounded()
+        item.frame.size.height = (height-2*pad).rounded()
+        item.frame.size.width = (width-2*pad).rounded()
         item.backgroundColor = color
         item.tintColor = color
-        
+        item.layer.borderColor = self.theme.backgroundColor.cgColor
+        item.layer.borderWidth = 1.0
+
         // set up the text part of the label
         let txtLabel = UILabel()
         txtLabel.frame.size.width = width - 2.0 * adornmentWidth
@@ -255,6 +272,8 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
         item.isUserInteractionEnabled = true
         item.addGestureRecognizer(handler)
         
+        // add to list
+        itemList.append(item)
     }
 
     
@@ -263,17 +282,20 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
     func setupSwitchItem(_ item:UIView, height:CGFloat, width:CGFloat, title:String, switchItem:UISwitch, color:UIColor) {
         
         let adornmentWidth:CGFloat = 64
+        let pad:CGFloat = 2.0
         let side = min(adornmentWidth, height)
         
         let txtColor = UIColor(contrastingBlackOrWhiteColorOn:color, isFlat:true)
         let txtFont = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.thin)
         
         // set up  container view
-        item.frame.size.height = height.rounded()
-        item.frame.size.width = width.rounded()
+        item.frame.size.height = (height-2*pad).rounded()
+        item.frame.size.width = (width-2*pad).rounded()
         item.backgroundColor = color
         item.tintColor = color
-        
+        item.layer.borderColor = self.theme.backgroundColor.cgColor
+        item.layer.borderWidth = 1.0
+
         // set up the text part of the label
         let txtLabel = UILabel()
         txtLabel.frame.size.width = width - 2.0 * adornmentWidth
@@ -291,12 +313,15 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
         switchItem.frame.size.width = side
         switchItem.frame.size.height = side
         switchItem.backgroundColor = color
-        //switchItem.thumbTintColor = txtColor
+        switchItem.thumbTintColor = color
         //switchItem.tintColor = txtColor
         //switchItem.onTintColor = ColorUtilities.complementary(color)[0]
         item.addSubview(switchItem)
         switchItem.anchorToEdge(.right, padding: 4.0, width: switchItem.frame.size.width, height: switchItem.frame.size.height)
         
+        // add to list
+        itemList.append(item)
+
     }
 
     /////////////////////////////////

@@ -101,7 +101,7 @@ class ChoosePhotoViewController: CoordinatedController, UIImagePickerControllerD
         view.addSubview(mainView)
         
         // layout constraints
-        mainView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: displayHeight)
+        mainView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: displayHeight)
     }
     
 

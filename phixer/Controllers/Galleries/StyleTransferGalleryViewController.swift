@@ -181,7 +181,7 @@ class StyleTransferGalleryViewController: CoordinatedController, UIImagePickerCo
 
 
         if (UISettings.showAds){
-            adView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: adView.frame.size.height)
+            adView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: adView.frame.size.height)
         }
 
         styleGalleryView.anchorAndFillEdge(.bottom, xPad: 1, yPad: 1, otherSize: styleGalleryView.frame.size.height)

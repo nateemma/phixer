@@ -46,7 +46,7 @@ class DefaultControllerMenuView: UIView {
         menuView.frame = self.frame
         self.addSubview(menuView)
         
-        self.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: self.frame.size.height)
+        self.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: self.frame.size.height)
         
         // build the list of adornments
         self.defaultMenuItems = []

@@ -96,7 +96,7 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
             adView.layer.borderColor = theme.borderColor.cgColor
             adView.layer.borderWidth = 1.0
             view.addSubview(adView)
-            adView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: adView.frame.size.height)
+            adView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: adView.frame.size.height)
             Admob.startAds(view:adView, viewController:self)
         } else {
             adView.frame.size.height = 0
@@ -112,7 +112,7 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
         let iconSize = CGSize(width: side, height: side)
         let curPhoto:UIImage = UIImage(ciImage: EditManager.getPreviewImage(size:iconSize)!)
         
-        // note: for collections, key must match colection name
+        // note: for collections, key must match collection name
         menuItems = [ MenuItem(key: "simpleEditor", title: "Picture Editor",
                                subtitile: "Edit multiple 'basic' image settings\n (exposure, colors, tone, vignette, sharpen etc.)",
                                icon: "ic_basic", view: nil, isHidden: false),
@@ -141,12 +141,12 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
         if (UISettings.showAds){
             view.addSubview(adView)
             view.addSubview(menuView)
-            adView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: adView.frame.size.height)
+            adView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: adView.frame.size.height)
             menuView.align(.underCentered, relativeTo: adView, padding: 4.0, width: menuView.frame.size.width, height: menuView.frame.size.height)
             Admob.startAds(view:adView, viewController:self)
         } else {
             view.addSubview(menuView)
-            menuView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: menuView.frame.size.height)
+            menuView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: menuView.frame.size.height)
        }
 
     }

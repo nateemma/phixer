@@ -34,6 +34,9 @@ class CoordinatedController: UIViewController, ControllerDelegate {
     // the current UI Theme. Note: this can change
     public var theme = ThemeManager.currentTheme()
     
+    // custom title (sometimes controllers need a dynamic title). Static so that other controllers can set it
+    public static var customTitle: String = ""
+    
     // FilterManager reference
     public var filterManager: FilterManager = FilterManager.sharedInstance
     
@@ -70,7 +73,37 @@ class CoordinatedController: UIViewController, ControllerDelegate {
         self.view.backgroundColor = theme.backgroundColor
         //self.navigationItem.titleView?.backgroundColor = theme.titleColor
         self.navigationItem.titleView?.backgroundColor = theme.backgroundColor
+        self.navigationController?.navigationBar.backgroundColor = theme.backgroundColor
+        self.navigationController?.navigationBar.tintColor = theme.tintColor
+        
+        // change the font style to 'light'
+        self.navigationController?.navigationBar.titleTextAttributes = [
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 24.0, weight:UIFont.Weight.light),
+            NSAttributedString.Key.backgroundColor: theme.backgroundColor
+        ]
+        
+        updateNavbarTitle()
+
     }
+    
+    func updateNavbarTitle(){
+        if !(self.getTitleString().isEmpty) {
+            let label = UILabel()
+            if let size = Coordinator.navigationController?.navigationBar.topItem?.titleView?.frame.size {
+                label.frame.size = size
+            } else {
+                label.frame.size = CGSize(width: UISettings.screenWidth * 0.6, height: UISettings.titleHeight) // guess at size
+            }
+            label.font = UIFont.systemFont(ofSize: 24.0, weight:UIFont.Weight.light)
+            label.text = self.getTitleString()
+            log.verbose("Title: \(label.text)")
+            label.textAlignment = .center
+            label.backgroundColor = theme.backgroundColor
+            label.adjustsFontSizeToFitWidth = true
+            self.navigationController?.navigationBar.topItem?.titleView = label
+        }
+    }
+    
     
     func selectFilter(key: String) {
         log.error("\(self.getTag()) - ERROR: Base class called. key: \(key)")
@@ -103,9 +136,13 @@ class CoordinatedController: UIViewController, ControllerDelegate {
 
     
     
-    // return the display title for this Controller
+    // return the display title for this Controller (note, this is usually overridden by each Controller)
     public func getTitle() -> String {
-        return "(\(self.getTag()))"
+        if CoordinatedController.customTitle.isEmpty {
+            return "(\(self.getTag()))"
+        } else {
+            return CoordinatedController.customTitle
+        }
     }
     
     // return the name of the help file associated with this Controller (without extension)
@@ -116,6 +153,24 @@ class CoordinatedController: UIViewController, ControllerDelegate {
     ////////////////////
     // Useful funcs
     ////////////////////
+    
+    // set a custom title (use this to set a dynamic title). Set to empty string to use default
+    func setCustomTitle(_ title: String) {
+        log.verbose("\(title)")
+        CoordinatedController.self.customTitle = title
+        //self.navigationItem.title = self.getTitleString()
+        updateNavbarTitle()
+
+    }
+    
+    // returns either the 'global' title or the instance title (if global is not set)
+    internal func getTitleString() -> String {
+        if CoordinatedController.customTitle.isEmpty {
+            return getTitle()
+        } else {
+            return CoordinatedController.customTitle
+        }
+    }
     
     // setup that needs to be run from viewDidLoad()
     func prepController() {
@@ -200,7 +255,7 @@ class CoordinatedController: UIViewController, ControllerDelegate {
         self.view.addSubview(defaultMenuView)
         defaultMenuView.frame.size.height = UISettings.panelHeight
         defaultMenuView.frame.size.width = self.view.frame.size.width
-        defaultMenuView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: defaultMenuView.frame.size.height)
+        defaultMenuView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: defaultMenuView.frame.size.height)
         defaultMenuView.isHidden = true
     }
 
@@ -223,13 +278,17 @@ class CoordinatedController: UIViewController, ControllerDelegate {
     ////////////////////
     // Navigation Bar setup - apparently, this has to be done from each ViewController
     ////////////////////
-
+    
     func setupNavBar(){
         
         let h = (Coordinator.navigationController?.navigationBar.frame.height)! * 0.8
         let size = CGSize(width: h, height: h)
         
         log.verbose("Setting up navBar")
+        
+        // Apply theme colours
+        updateTheme()
+
         let backButton = UIBarButtonItem(image: UIImage(named: "ic_back")?.imageScaled(to: size), style: .plain, target: self, action: #selector(navbarBackDidPress))
         //let helpButton = UIBarButtonItem(image: UIImage(named: "ic_info")?.imageScaled(to: size), style: .plain, target: self, action: #selector(navbarHelpDidPress))
         let menuButton = UIBarButtonItem(image: UIImage(named: "ic_menu")?.imageScaled(to: size), style: .plain, target: self, action: #selector(navbarMenuDidPress))
@@ -247,14 +306,8 @@ class CoordinatedController: UIViewController, ControllerDelegate {
         //self.navigationItem.rightBarButtonItems = [ menuButton, helpButton ] // build custom view?
         self.navigationItem.rightBarButtonItem = menuButton
         
-        self.navigationItem.title = self.getTitle()
-        
-        // Apply theme colours
-        self.navigationController?.navigationBar.backgroundColor = theme.backgroundColor
-        self.navigationController?.navigationBar.tintColor = theme.tintColor
-        
-        // change the font style to 'light'
-        self.navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: UIFont.systemFont(ofSize: 24.0, weight:UIFont.Weight.light) ]
+        updateNavbarTitle()
+
         
         // build the menu
         buildDefaultMenu()

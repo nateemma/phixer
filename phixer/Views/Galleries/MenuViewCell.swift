@@ -118,7 +118,7 @@ class MenuViewCell: UICollectionViewCell {
             title.frame.size.width = self.width - self.height
             title.frame.size.height = (self.height * 0.3).rounded()
             title.backgroundColor = theme.subtitleColor.withAlphaComponent(0.9)
-            title.font = UIFont.systemFont(ofSize: 20.0, weight: UIFont.Weight.thin)
+            title.font = UIFont.systemFont(ofSize: 20.0, weight: UIFont.Weight.light)
             title.lineBreakMode = NSLineBreakMode.byWordWrapping
             title.numberOfLines = 0
             title.text = menuItem.title

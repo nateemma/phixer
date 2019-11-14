@@ -131,7 +131,7 @@ class ThemeChooserController: CoordinatedController {
         
         // layout constraints
 
-        selectionView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: selectionView.frame.size.height)
+        selectionView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: selectionView.frame.size.height)
         controlView.align(.underCentered, relativeTo: selectionView, padding: 0, width: displayWidth, height: controlView.frame.size.height)
         //sampleView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: sampleView.frame.size.height)
         sampleView.alignAndFillHeight(align: .underCentered, relativeTo: controlView, padding: 0, width: displayWidth-8)

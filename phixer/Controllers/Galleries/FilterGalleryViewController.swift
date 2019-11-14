@@ -52,7 +52,7 @@ class FilterGalleryViewController: CoordinatedController {
     // MARK: - Override Base Class functions
     /////////////////////////////
     
-    private func updateTitle(){
+    func updateTitle(){
         let collection = filterManager.getCurrentCollection()
         if filterManager.getCategoryCount(collection) == 1 {
             currTitle = filterManager.getCategoryTitle(key: currCategory)
@@ -75,9 +75,12 @@ class FilterGalleryViewController: CoordinatedController {
     override public func start(){
         // inputs can change while navigating away from and back to this controller, so tell the gallery view to update
         filterGalleryView.updateInputs()
+        //self.setCustomTitle("")
+
      }
     
     override public func end() {
+        //self.setCustomTitle("")
         filterGalleryView.suspend()
         filterGalleryView = nil // force deallocation
         self.dismiss()
@@ -218,10 +221,10 @@ class FilterGalleryViewController: CoordinatedController {
         // layout constraints
        
         if (UISettings.showAds){
-            adView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: adView.frame.size.height)
+            adView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: adView.frame.size.height)
             categorySelectionView.align(.underCentered, relativeTo: adView, padding: 2, width: displayWidth, height: categorySelectionView.frame.size.height)
         } else {
-            categorySelectionView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: categorySelectionView.frame.size.height)
+            categorySelectionView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: categorySelectionView.frame.size.height)
         }
   
         filterGalleryView.align(.underCentered, relativeTo: categorySelectionView, padding: 4, width: displayWidth, height: filterGalleryView.frame.size.height)
@@ -261,6 +264,8 @@ class FilterGalleryViewController: CoordinatedController {
                     }
                     
                     self.categorySelectionView.setFilterCategory(self.currCategory)
+                    // update the (global) title
+                    self.setCustomTitle("Collection: " + self.filterManager.getCategoryTitle(key: self.currCategory))
                 } else {
                     log.warning("Invalid index: \(index)")
                 }

@@ -277,7 +277,7 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
         editImageView.frame.size.width = displayWidth
         log.verbose("FilterDisplay: (w:\(editImageView.frame.size.width), h:\(editImageView.frame.size.height))")
         
-        editImageView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: editImageView.frame.size.height)
+        editImageView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: editImageView.frame.size.height)
 
         
         
@@ -289,7 +289,7 @@ class FilterDetailsViewController: CoordinatedController, UIImagePickerControlle
         // resize overlayView to match the display view (minus the parameters view)
         overlayView.frame.size.width  = editImageView.frame.size.width
         overlayView.frame.size.height  = editImageView.frame.size.height - filterParametersView.frame.size.height
-        overlayView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: overlayView.frame.size.height)
+        overlayView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: overlayView.frame.size.height)
 
         view.bringSubviewToFront(overlayView)
         //overlayView.setNeedsDisplay() // for some reason it doesn't display the first time through

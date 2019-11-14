@@ -95,7 +95,7 @@ class PresetListController: CoordinatedController, UINavigationControllerDelegat
             adView.layer.borderColor = theme.borderColor.cgColor
             adView.layer.borderWidth = 1.0
             view.addSubview(adView)
-            adView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: adView.frame.size.height)
+            adView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: adView.frame.size.height)
             Admob.startAds(view:adView, viewController:self)
         } else {
             adView.frame.size.height = 0
@@ -132,12 +132,12 @@ class PresetListController: CoordinatedController, UINavigationControllerDelegat
         if (UISettings.showAds){
             view.addSubview(adView)
             view.addSubview(menuView)
-            adView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: adView.frame.size.height)
+            adView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: adView.frame.size.height)
             menuView.align(.underCentered, relativeTo: adView, padding: 4.0, width: menuView.frame.size.width, height: menuView.frame.size.height)
             Admob.startAds(view:adView, viewController:self)
         } else {
             view.addSubview(menuView)
-            menuView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: menuView.frame.size.height)
+            menuView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: menuView.frame.size.height)
        }
 
     }

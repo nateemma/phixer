@@ -103,8 +103,12 @@ class AppCoordinator: Coordinator {
         ThemeManager.applyTheme(key: ThemeManager.getSavedTheme())
         let theme = ThemeManager.currentTheme()
         
-        Coordinator.navigationController?.navigationBar.barStyle = .blackTranslucent
-        Coordinator.navigationController?.navigationBar.isTranslucent = true
+        // translucent removed in iOS13
+        //Coordinator.navigationController?.navigationBar.barStyle = .blackTranslucent
+        //Coordinator.navigationController?.navigationBar.isTranslucent = true
+        
+        Coordinator.navigationController?.navigationBar.barStyle = .black
+        Coordinator.navigationController?.navigationBar.isTranslucent = false
         Coordinator.navigationController?.view.backgroundColor = theme.titleColor
         Coordinator.navigationController?.navigationBar.tintColor = theme.tintColor
 
@@ -145,7 +149,8 @@ class AppCoordinator: Coordinator {
         
         //let fullFrame:CGRect = CGRect(x: 0, y: UISettings.topBarHeight, width: w, height: h-UISettings.topBarHeight)
         let fullFrame:CGRect = CGRect(x: 0, y: 0, width: w, height: h)
-        let menuFrame:CGRect = CGRect(x: 0, y: h-(UISettings.titleHeight+UISettings.menuHeight), width: w, height: (UISettings.titleHeight+UISettings.menuHeight))
+        //let menuFrame:CGRect = CGRect(x: 0, y: h-(UISettings.titleHeight+UISettings.menuHeight), width: w, height: (UISettings.titleHeight+UISettings.menuHeight))
+        let menuFrame:CGRect = CGRect(x: 0, y: h-(UISettings.titleHeight+UISettings.menuHeight), width: w, height: (UISettings.menuHeight))
         //let toolFrame:CGRect = CGRect(x: (w-toolSize)/2.0, y: UISettings.menuHeight, width: toolSize, height: toolSize)
         let toolFrame:CGRect = CGRect(x: 0.0, y: h-w, width: w, height: w) // fill bottom portion of screen
 

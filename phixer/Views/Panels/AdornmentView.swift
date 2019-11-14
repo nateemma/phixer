@@ -112,6 +112,8 @@ class AdornmentView: UIView {
             // distribute the adornments evenly
             let pad = (self.frame.size.width - (CGFloat (adornmentList.count) * UISettings.buttonSide)) / CGFloat (adornmentList.count + 1)
             self.groupInCenter(group: .horizontal, views: adornmentViewList, padding: pad, width: UISettings.buttonSide, height: UISettings.panelHeight)
+            
+            
         }
 
     }

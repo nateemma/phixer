@@ -172,13 +172,13 @@ class ColorSchemeViewController: CoordinatedController {
         // layout constraints
     
         if (UISettings.showAds){
-            adView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: adView.frame.size.height)
+            adView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: adView.frame.size.height)
             parameterView.align(.underCentered, relativeTo: adView, padding: 0, width: displayWidth, height: parameterView.frame.size.height)
         } else {
-            parameterView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: parameterView.frame.size.height)
+            parameterView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: parameterView.frame.size.height)
         }
         
-        controlView.anchorAndFillEdge(.bottom, xPad: 0, yPad: UISettings.topBarHeight, otherSize: UISettings.panelHeight)
+        controlView.anchorAndFillEdge(.bottom, xPad: 0, yPad: 0, otherSize: UISettings.panelHeight)
         colorSchemeView.alignBetweenVertical(align: .underCentered, primaryView: parameterView, secondaryView: controlView, padding: 1.0, width: displayWidth)
     }
     

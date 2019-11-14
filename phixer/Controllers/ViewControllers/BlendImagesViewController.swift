@@ -210,11 +210,11 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
         // layout constraints
         
         if (UISettings.showAds){
-            adView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: adView.frame.size.height)
+            adView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: adView.frame.size.height)
             controlView.align(.underCentered, relativeTo: adView, padding: 0,
                               width: controlView.frame.size.width, height: controlView.frame.size.height)
         } else {
-            controlView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: controlView.frame.size.height)
+            controlView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: controlView.frame.size.height)
         }
 
          previewView.align(.underCentered, relativeTo: controlView, padding: 0,
@@ -229,7 +229,7 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
         menuView.frame.size.width = displayWidth
 
         view.addSubview(menuView)
-        menuView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: menuView.frame.size.height)
+        menuView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: menuView.frame.size.height)
 
         // update the photo and blend icons (they can change)
         loadPhotoThumbnail()

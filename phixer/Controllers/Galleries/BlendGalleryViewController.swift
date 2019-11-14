@@ -216,10 +216,10 @@ class BlendGalleryViewController: CoordinatedController, UIImagePickerController
         // layout constraints
         
         if (UISettings.showAds){
-           adView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: adView.frame.size.height)
+           adView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: adView.frame.size.height)
             infoView.align(.underCentered, relativeTo: adView, padding: 0, width: displayWidth, height: infoView.frame.size.height)
         } else {
-            infoView.anchorAndFillEdge(.top, xPad: 0, yPad: UISettings.topBarHeight, otherSize: infoView.frame.size.height)
+            infoView.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: infoView.frame.size.height)
         }
         
         blendGalleryView.align(.underCentered, relativeTo: infoView, padding: 0, width: displayWidth, height: blendGalleryView.frame.size.height)
