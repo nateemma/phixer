@@ -131,7 +131,7 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
 //        categoryLabel.text = "Categories:"
 //        categoryLabel.textAlignment = .center
 //        categoryLabel.textColor = theme.textColor
-//        categoryLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFont.Weight.thin)
+//        categoryLabel.font = theme.getFont(ofSize: 16.0, weight: UIFont.Weight.thin)
 //        categoryLabel.frame.size.height = self.frame.size.height - carouselHeight
 //        categoryLabel.frame.size.width = self.frame.size.width
 //        self.addSubview(categoryLabel)
@@ -171,7 +171,7 @@ class CategorySelectionView: UIView, iCarouselDelegate, iCarouselDataSource{
         label.textAlignment = .center
         label.textColor = theme.textColor
         label.backgroundColor = theme.backgroundColor
-        label.font = UIFont.systemFont(ofSize: 12.0, weight: UIFont.Weight.thin)
+        label.font = theme.getFont(ofSize: 12.0, weight: UIFont.Weight.thin)
         label.frame.size.height = carouselHeight * 0.95
         label.frame.size.width = label.frame.size.height // square
         label.lineBreakMode = NSLineBreakMode.byWordWrapping

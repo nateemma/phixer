@@ -138,7 +138,7 @@ class ChooseBlendViewController: CoordinatedController, UIImagePickerControllerD
         label.frame.size.width = w
         label.backgroundColor = theme.subtitleColor
         label.textColor = theme.textColor
-        label.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.thin)
+        label.font = theme.getFont(ofSize: 16, weight: UIFont.Weight.thin)
         label.textAlignment = .left
         label.text = "Current selection:"
 
@@ -182,7 +182,7 @@ class ChooseBlendViewController: CoordinatedController, UIImagePickerControllerD
         label.frame.size.width = w
         label.backgroundColor = theme.subtitleColor
         label.textColor = theme.textColor
-        label.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.thin)
+        label.font = theme.getFont(ofSize: 16, weight: UIFont.Weight.thin)
         label.textAlignment = .left
         label.text = "Latest Photos:"
         
@@ -237,7 +237,7 @@ class ChooseBlendViewController: CoordinatedController, UIImagePickerControllerD
         label.frame.size.width = w
         label.backgroundColor = theme.subtitleColor
         label.textColor = theme.textColor
-        label.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.thin)
+        label.font = theme.getFont(ofSize: 16, weight: UIFont.Weight.thin)
         label.textAlignment = .left
         label.text = "Built-in Textures:"
        

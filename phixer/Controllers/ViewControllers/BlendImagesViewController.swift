@@ -273,7 +273,7 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
         blendLabel.frame.size.width = labelWidth
         blendLabel.frame.size.height = (UISettings.menuHeight / 2.0).rounded()
         blendLabel.textAlignment = .right
-        blendLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFont.Weight.thin)
+        blendLabel.font = theme.getFont(ofSize: 16.0, weight: UIFont.Weight.thin)
         blendLabel.textColor = theme.textColor
         blendLabel.text = "Blend Image: "
 
@@ -281,7 +281,7 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
         blendLabel2.frame.size.width = labelWidth
         blendLabel2.frame.size.height = (UISettings.menuHeight * 0.4).rounded()
         blendLabel2.textAlignment = .right
-        blendLabel2.font = UIFont.systemFont(ofSize: 12.0, weight: UIFont.Weight.thin)
+        blendLabel2.font = theme.getFont(ofSize: 12.0, weight: UIFont.Weight.thin)
         blendLabel2.textColor = theme.textColor
         blendLabel2.text = "(Tap to change)"
 
@@ -310,14 +310,14 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
         modeLabel.frame.size.width = labelWidth
         modeLabel.frame.size.height = (UISettings.menuHeight / 2.0).rounded()
         modeLabel.textAlignment = .right
-        modeLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFont.Weight.thin)
+        modeLabel.font = theme.getFont(ofSize: 16.0, weight: UIFont.Weight.thin)
         modeLabel.textColor = theme.textColor
         modeLabel.text = "Blend Mode: "
         
         currModeLabel.frame.size.width = labelWidth
         currModeLabel.frame.size.height = (UISettings.menuHeight / 2.0).rounded()
         currModeLabel.textAlignment = .center
-        currModeLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFont.Weight.thin)
+        currModeLabel.font = theme.getFont(ofSize: 16.0, weight: UIFont.Weight.thin)
         currModeLabel.textColor = theme.textColor
         let mode = BlendMode(rawValue: currBlendMode)
         currModeLabel.text = (mode?.toString())!
@@ -332,7 +332,7 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
         opacityLabel.frame.size.width = labelWidth
         opacityLabel.frame.size.height = (UISettings.menuHeight / 2.0).rounded()
         opacityLabel.textAlignment = .right
-        opacityLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFont.Weight.thin)
+        opacityLabel.font = theme.getFont(ofSize: 16.0, weight: UIFont.Weight.thin)
         opacityLabel.textColor = theme.textColor
         opacityLabel.text = "Opacity: "
 
@@ -456,7 +456,7 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
         cancelLabel.frame.size.width = (displayWidth / 4.0).rounded()
         cancelLabel.frame.size.height = (UISettings.menuHeight / 2.0).rounded()
         cancelLabel.textAlignment = .center
-        cancelLabel.font = UIFont.systemFont(ofSize: 20.0, weight: UIFont.Weight.regular)
+        cancelLabel.font = theme.getFont(ofSize: 20.0, weight: UIFont.Weight.regular)
         cancelLabel.textColor = theme.textColor
         cancelLabel.text = "Cancel"
         
@@ -464,7 +464,7 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
         doneLabel.frame.size.width = (displayWidth / 4.0).rounded()
         doneLabel.frame.size.height = (UISettings.menuHeight / 2.0).rounded()
         doneLabel.textAlignment = .center
-        doneLabel.font = UIFont.systemFont(ofSize: 20.0, weight: UIFont.Weight.regular)
+        doneLabel.font = theme.getFont(ofSize: 20.0, weight: UIFont.Weight.regular)
         doneLabel.textColor = theme.textColor
         doneLabel.text = "Done"
         
@@ -920,7 +920,7 @@ extension BlendImagesViewController: UIPickerViewDelegate {
         var pickerLabel: UILabel? = (view as? UILabel)
         if pickerLabel == nil {
             pickerLabel = UILabel()
-            pickerLabel?.font = UIFont.systemFont(ofSize: 24.0, weight: UIFont.Weight.regular)
+            pickerLabel?.font = theme.getFont(ofSize: 24.0, weight: UIFont.Weight.regular)
             pickerLabel?.textAlignment = .center
         }
         if (row>=0) && (row<modeList.count){

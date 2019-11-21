@@ -241,14 +241,17 @@ class FilterParametersView: UIView {
         let side:CGFloat = CGFloat(sliderHeight)*0.8
         
         acceptButton = SquareButton(bsize: side)
+        cancelButton = SquareButton(bsize: side)
+        screenModeButton = SquareButton(bsize: side)
+        filterModeButton  = SquareButton(bsize: side)
+        stackButton = SquareButton(bsize: side*0.75) // bigger icon
+
         acceptButton?.setImageAsset("ic_yes")
         acceptButton?.addTarget(self, action: #selector(self.acceptDidPress), for: .touchUpInside)
         
-        cancelButton = SquareButton(bsize: side)
         cancelButton?.setImageAsset("ic_no")
         cancelButton?.addTarget(self, action: #selector(self.cancelDidPress), for: .touchUpInside)
         
-        screenModeButton = SquareButton(bsize: side)
         if fullScreenEnabled {
             screenModeButton?.setImageAsset("ic_split_screen")
         } else {
@@ -256,7 +259,6 @@ class FilterParametersView: UIView {
         }
         screenModeButton?.addTarget(self, action: #selector(self.screenModeDidPress), for: .touchUpInside)
         
-        filterModeButton  = SquareButton(bsize: side)
         if showFiltersEnabled {
             filterModeButton?.setImageAsset("ic_no_view")
         } else {
@@ -265,7 +267,6 @@ class FilterParametersView: UIView {
         filterModeButton?.addTarget(self, action: #selector(self.filterModeDidPress), for: .touchUpInside)
         
         
-        stackButton = SquareButton(bsize: side*0.75) // bigger icon
         stackButton?.setImageAsset("ic_layers_3")
         stackButton?.addTarget(self, action: #selector(self.stackDidPress), for: .touchUpInside)
 
@@ -273,6 +274,7 @@ class FilterParametersView: UIView {
         for b in [acceptButton, cancelButton, screenModeButton, filterModeButton, stackButton] {
             b?.backgroundColor = theme.subtitleColor.withAlphaComponent(0.8)
             b?.setTintable(true)
+            b?.setTintColor(theme.subtitleTextColor) // needs to contrast with background
             b?.highlightOnSelection(true)
             titleView.addSubview(b!)
         }
@@ -282,7 +284,8 @@ class FilterParametersView: UIView {
         titleLabel.frame.size.width = (self.frame.size.width - 4.0*side).rounded()
         titleLabel.frame.size.height = (CGFloat(sliderHeight)).rounded()
         titleLabel.textColor = titleTextColor
-        titleLabel.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.thin)
+        titleLabel.backgroundColor = UIColor.clear
+        titleLabel.font = theme.getFont(ofSize: 14, weight: UIFont.Weight.thin)
         let currName = EditManager.getPreviewFilter()?.title  ?? "(No Filter)"
         let numApplied = EditManager.getAppliedCount()
         //titleLabel.text = "\(currName)   [\(numApplied)]"
@@ -397,7 +400,7 @@ class FilterParametersView: UIView {
                         label.frame.size.height = CGFloat(sliderHeight/2.0)
                         label.textAlignment = .left
                         label.textColor = sliderTextColor
-                        label.font = UIFont.systemFont(ofSize: 12.0, weight: UIFont.Weight.thin)
+                        label.font = theme.getFont(ofSize: 12.0, weight: UIFont.Weight.thin)
                         
                         // dynamically size label:
                         let newSize: CGSize = label.sizeThatFits(label.frame.size)

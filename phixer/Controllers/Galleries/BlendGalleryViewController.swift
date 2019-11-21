@@ -252,7 +252,7 @@ class BlendGalleryViewController: CoordinatedController, UIImagePickerController
             button?.frame.size.width = 3.0 * (button?.frame.size.height)!
             button?.backgroundColor = theme.buttonColor
             button?.setTitleColor(theme.titleTextColor, for: .normal)
-            button?.titleLabel!.font = UIFont.systemFont(ofSize: 20.0, weight: UIFont.Weight.thin)
+            button?.titleLabel!.font = theme.getFont(ofSize: 20.0, weight: UIFont.Weight.thin)
             button?.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.center
         }
         acceptButton.setTitle("Accept", for: .normal)
@@ -272,11 +272,11 @@ class BlendGalleryViewController: CoordinatedController, UIImagePickerController
             label?.frame.size.height = 32.0
             label?.backgroundColor = theme.backgroundColor
             label?.textColor = theme.titleTextColor
-            label?.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.thin)
+            label?.font = theme.getFont(ofSize: 14, weight: UIFont.Weight.thin)
             label?.textAlignment = .center
         }
         helpLabel.text = "Select an image from below or a photo"
-        helpLabel.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.thin)
+        helpLabel.font = theme.getFont(ofSize: 18, weight: UIFont.Weight.thin)
         
         selectedLabel.text = "Selected:"
         photosLabel.text = "Photos:"

@@ -104,7 +104,8 @@ class EditBaseMenuController: CoordinatedController, SubControllerDelegate, Edit
         // load theme here in case it changed
         theme = ThemeManager.currentTheme()
         
-        view.backgroundColor = UIColor.clear
+        //view.backgroundColor = UIColor.clear
+        view.backgroundColor = theme.backgroundColor
         view.isUserInteractionEnabled = true
 
         // get display dimensions
@@ -161,7 +162,7 @@ class EditBaseMenuController: CoordinatedController, SubControllerDelegate, Edit
         label.textAlignment = .center
         label.textColor = theme.subtitleTextColor
         label.backgroundColor = theme.subtitleColor
-        label.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.thin)
+        label.font = theme.getFont(ofSize: 16, weight: UIFont.Weight.thin)
         label.adjustsFontSizeToFitWidth = true
         //label.fitTextToBounds()
  

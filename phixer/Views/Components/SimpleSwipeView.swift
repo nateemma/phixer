@@ -223,7 +223,7 @@ class SimpleSwipeView: UIView {
         // configure the rest based on whether the icon is specified or not
         if icon.isEmpty {
             // no icon, so just provide a view with a centred label
-            label.font = UIFont.systemFont(ofSize: 16.0, weight: UIFont.Weight.thin)
+            label.font = theme.getFont(ofSize: 16.0, weight: UIFont.Weight.thin)
             label.frame.size.height = self.swipeviewHeight * 0.95
             view.addSubview(label)
             label.fillSuperview()
@@ -244,7 +244,7 @@ class SimpleSwipeView: UIView {
                 image.frame.size = CGSize(width:swipeviewHeight*0.6, height:swipeviewHeight*0.6)
                 // make label smaller
                 label.frame.size = CGSize(width:swipeviewHeight, height:swipeviewHeight*0.4)
-                label.font = UIFont.systemFont(ofSize: 10.0, weight: UIFont.Weight.thin)
+                label.font = theme.getFont(ofSize: 10.0, weight: UIFont.Weight.thin)
                 //label.fitTextToBounds()
             }
 

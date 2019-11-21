@@ -18,6 +18,7 @@ class SquareButton: UIView {
     var button: UIButton! = UIButton(type: .custom)
     var highlight:Bool = false
     var tint:Bool = true
+    var imgTintColor: UIColor = UIColor.white
     
 
     convenience init(bsize: CGFloat) {
@@ -30,6 +31,8 @@ class SquareButton: UIView {
         self.button.layer.cornerRadius = 5
         self.button.layer.borderWidth = 2
         self.button.layer.borderColor = UIColor.clear.cgColor
+        
+        imgTintColor = theme.tintColor
         
         self.addSubview(button)
     }
@@ -58,6 +61,14 @@ class SquareButton: UIView {
         tint = enable
     }
     
+    // set tint colour (to non-default setting)
+    func setTintColor(_ color: UIColor){
+        imgTintColor = color
+        if tint {
+            self.button.imageView?.tintColor =  imgTintColor
+        }
+    }
+
     // (re-)set the image on a button using a project asset
     func setImageAsset(_ assetName: String){
         var image:UIImage?
@@ -78,7 +89,7 @@ class SquareButton: UIView {
         
         self.button.imageView?.contentMode = UIView.ContentMode.scaleToFill
         if tint {
-            self.button.imageView?.tintColor =  theme.tintColor
+            self.button.imageView?.tintColor =  imgTintColor
             self.button.setImage(image!.withRenderingMode(.alwaysTemplate), for: UIControl.State.normal)
         } else {
             self.button.setImage(image!, for: UIControl.State.normal)
@@ -89,7 +100,7 @@ class SquareButton: UIView {
     func setImage(_ image: UIImage){
         if tint {
             self.button.imageView?.contentMode = UIView.ContentMode.scaleToFill
-            self.button.imageView?.tintColor =  theme.tintColor
+            self.button.imageView?.tintColor =  imgTintColor
         }
         self.button.setImage(image, for: UIControl.State.normal)
     }

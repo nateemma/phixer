@@ -195,17 +195,12 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
                         title:"Show Hidden Filters",
                         switchItem:hideFiltersSwitch,
                         color:bkColor)
-
-        // only add set theme if earlier than iOS13. If later, we will just use the system colours anyway
-        if #available(iOS 13.0, *) {
-            // do nothing
-        } else {
-            setupMenuItem(themeMenuItem, height:h, width:w,
-                          title:"Change Theme",
-                          image: nil,
-                          color:bkColor,
-                          handler: UITapGestureRecognizer(target: self, action: #selector(presentThemes)))
-        }
+        
+        setupMenuItem(themeMenuItem, height:h, width:w,
+                      title:"Change Theme",
+                      image: nil,
+                      color:bkColor,
+                      handler: UITapGestureRecognizer(target: self, action: #selector(presentThemes)))
         
         numItems = CGFloat(itemList.count)
 
@@ -222,14 +217,14 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
         let side = min(adornmentWidth, height)
         //let txtColor = UIColor(contrastingBlackOrWhiteColorOn:color, isFlat:true)
         let txtColor = theme.textColor
-        let txtFont = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.thin)
+        let txtFont = theme.getFont(ofSize: 20, weight: UIFont.Weight.light)
         
         // set up  container view
         item.frame.size.height = (height-2*pad).rounded()
         item.frame.size.width = (width-2*pad).rounded()
         item.backgroundColor = color
         item.tintColor = color
-        item.layer.borderColor = self.theme.backgroundColor.cgColor
+        item.layer.borderColor = self.theme.borderColor.cgColor
         item.layer.borderWidth = 1.0
 
         // set up the text part of the label
@@ -286,14 +281,14 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
         let side = min(adornmentWidth, height)
         
         let txtColor = UIColor(contrastingBlackOrWhiteColorOn:color, isFlat:true)
-        let txtFont = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.thin)
+        let txtFont = theme.getFont(ofSize: 20, weight: UIFont.Weight.light)
         
         // set up  container view
         item.frame.size.height = (height-2*pad).rounded()
         item.frame.size.width = (width-2*pad).rounded()
         item.backgroundColor = color
         item.tintColor = color
-        item.layer.borderColor = self.theme.backgroundColor.cgColor
+        item.layer.borderColor = self.theme.borderColor.cgColor
         item.layer.borderWidth = 1.0
 
         // set up the text part of the label

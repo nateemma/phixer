@@ -171,12 +171,12 @@ class ColorSchemeView: UIView {
         for label in [hexLabel, rgbLabel, hsbLabel]{
             label.backgroundColor = UIColor.clear
             label.textAlignment = .center
-            label.font = UIFont.systemFont(ofSize: 12.0, weight: UIFont.Weight.thin)
+            label.font = theme.getFont(ofSize: 12.0, weight: UIFont.Weight.thin)
             label.textColor = UIColor(contrastingBlackOrWhiteColorOn:color, isFlat:false)
             label.shadowColor = nil
             v.addSubview(label)
         }
-        hexLabel.font = UIFont.systemFont(ofSize: 14.0)
+        hexLabel.font = theme.getFont(ofSize: 14.0, weight: UIFont.Weight.thin)
 
         // add constraints
         v.groupAndFill(group: .horizontal, views: [hexLabel, rgbLabel, hsbLabel], padding: 0)

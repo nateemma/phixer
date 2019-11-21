@@ -220,7 +220,7 @@ class EditBaseToolController: CoordinatedController, SubControllerDelegate {
         label.textAlignment = .center
         label.textColor = theme.titleTextColor
         label.backgroundColor = theme.subtitleColor
-        label.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.thin)
+        label.font = theme.getFont(ofSize: 16, weight: UIFont.Weight.thin)
         label.adjustsFontSizeToFitWidth = true
         //label.fitTextToBounds()
  

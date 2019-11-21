@@ -92,7 +92,7 @@ class FilterGalleryViewCell: UICollectionViewCell {
         label.frame.size.width = self.width
         label.frame.size.height = (self.height * 0.2).rounded()
         label.backgroundColor = theme.subtitleColor.withAlphaComponent(0.9)
-        label.font = UIFont.systemFont(ofSize: 10.0, weight: UIFont.Weight.thin)
+        label.font = theme.getFont(ofSize: 10.0, weight: UIFont.Weight.thin)
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
         label.numberOfLines = 0
         self.addSubview(label)

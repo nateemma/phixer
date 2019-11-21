@@ -161,7 +161,7 @@ class HSBSliderView: UIView {
                 label.frame.size.height = itemHeight
                 label.textAlignment = .left
                 label.textColor = theme.textColor
-                label.font = UIFont.systemFont(ofSize: 12.0, weight: UIFont.Weight.thin)
+                label.font = theme.getFont(ofSize: 12.0, weight: UIFont.Weight.thin)
                 addSubview(label)
             }
             
@@ -182,7 +182,7 @@ class HSBSliderView: UIView {
                 entry.frame.size.height = itemHeight
                 entry.textAlignment = .left
                 entry.textColor = theme.textColor
-                entry.font = UIFont.systemFont(ofSize: 12.0, weight: UIFont.Weight.thin)
+                entry.font = theme.getFont(ofSize: 12.0, weight: UIFont.Weight.thin)
                 entry.keyboardType = UIKeyboardType.numberPad
                 entry.inputAccessoryView = toolbar
                 entry.delegate = self

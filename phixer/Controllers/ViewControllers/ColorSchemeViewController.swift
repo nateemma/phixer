@@ -224,7 +224,7 @@ class ColorSchemeViewController: CoordinatedController {
         numLabel.text = "Number of colors :  "
         numEntry.textAlignment = .left
         numEntry.textColor = theme.textColor
-        numEntry.font = UIFont.systemFont(ofSize: 14.0, weight: UIFont.Weight.thin)
+        numEntry.font = theme.getFont(ofSize: 14.0, weight: UIFont.Weight.thin)
         numEntry.text = "\(selectedCount)"
         numEntry.keyboardType = UIKeyboardType.numberPad
         numEntry.frame.size.width = UISettings.panelHeight
@@ -432,7 +432,7 @@ extension ColorSchemeViewController: UIPickerViewDelegate {
         var pickerLabel: UILabel? = (view as? UILabel)
         if pickerLabel == nil {
             pickerLabel = UILabel()
-            pickerLabel?.font = UIFont.systemFont(ofSize: 16.0, weight: UIFont.Weight.thin)
+            pickerLabel?.font = theme.getFont(ofSize: 16.0, weight: UIFont.Weight.thin)
             pickerLabel?.textAlignment = .center
         }
         if (row>=0) && (row<colorSchemeList.count){

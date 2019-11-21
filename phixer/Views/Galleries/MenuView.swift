@@ -114,6 +114,9 @@ class MenuView : UIView, UICollectionViewDataSource {
             
             log.verbose("w:\(displayWidth) h:\(displayHeight)")
             
+            self.backgroundColor = theme.backgroundColor
+
+            
             selectedIndex = -1
             
             // always 1 item per row //TODO: explore using 2 items per row if there are a lot of them
@@ -135,6 +138,8 @@ class MenuView : UIView, UICollectionViewDataSource {
             
             //log.debug("Gallery layout.itemSize: \(layout.itemSize)")
             menuGallery = UICollectionView(frame: self.frame, collectionViewLayout: layout)
+            menuGallery?.backgroundColor = theme.backgroundColor
+
             menuGallery?.isPrefetchingEnabled = true
             menuGallery?.delegate   = self
             menuGallery?.dataSource = self

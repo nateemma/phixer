@@ -71,16 +71,22 @@ class CoordinatedController: UIViewController, ControllerDelegate {
         ThemeManager.applyTheme(key: ThemeManager.getCurrentThemeKey())
         theme = ThemeManager.currentTheme()
         self.view.backgroundColor = theme.backgroundColor
-        //self.navigationItem.titleView?.backgroundColor = theme.titleColor
-        self.navigationItem.titleView?.backgroundColor = theme.backgroundColor
-        self.navigationController?.navigationBar.backgroundColor = theme.backgroundColor
-        self.navigationController?.navigationBar.tintColor = theme.tintColor
+        self.navigationItem.titleView?.backgroundColor = theme.navbarColor
+        self.navigationController?.view.backgroundColor = theme.navbarColor
+        self.navigationController?.navigationBar.backgroundColor = theme.navbarColor
+        self.navigationController?.navigationBar.tintColor = theme.navbarTintColor
+        self.navigationController?.navigationBar.barTintColor = theme.navbarColor
+        self.navigationController?.navigationBar.isTranslucent = false
         
+        /****
         // change the font style to 'light'
         self.navigationController?.navigationBar.titleTextAttributes = [
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 24.0, weight:UIFont.Weight.light),
+            NSAttributedString.Key.font: theme.getFont(ofSize: 24.0, weight:UIFont.Weight.light),
             NSAttributedString.Key.backgroundColor: theme.backgroundColor
         ]
+        ***/
+        
+        self.view.backgroundColor = theme.backgroundColor
         
         updateNavbarTitle()
 
@@ -94,11 +100,12 @@ class CoordinatedController: UIViewController, ControllerDelegate {
             } else {
                 label.frame.size = CGSize(width: UISettings.screenWidth * 0.6, height: UISettings.titleHeight) // guess at size
             }
-            label.font = UIFont.systemFont(ofSize: 24.0, weight:UIFont.Weight.light)
+            label.font = theme.getFont(ofSize: 24.0, weight:UIFont.Weight.light)
             label.text = self.getTitleString()
-            log.verbose("Title: \(label.text)")
+            //log.verbose("Title: \(label.text)")
             label.textAlignment = .center
-            label.backgroundColor = theme.backgroundColor
+            label.backgroundColor = theme.navbarColor
+            label.textColor = theme.navbarTextColor
             label.adjustsFontSizeToFitWidth = true
             self.navigationController?.navigationBar.topItem?.titleView = label
         }

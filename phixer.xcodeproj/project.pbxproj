@@ -732,6 +732,12 @@
 		25A702971DC3AEEA009441E2 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A702961DC3AEEA009441E2 /* Utilities.swift */; };
 		25B24D121DAEE1B5008CD38A /* GradientSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D111DAEE1B5008CD38A /* GradientSlider.swift */; };
 		25B24D181DAFE255008CD38A /* FilterInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B24D171DAFE255008CD38A /* FilterInfoView.swift */; };
+		25BEEE092384CF1400B94515 /* CustomTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BEEE082384CF1400B94515 /* CustomTheme.swift */; };
+		25BEEE0B2384D32F00B94515 /* DarkTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BEEE0A2384D32F00B94515 /* DarkTheme.swift */; };
+		25BEEE0D2384DA4800B94515 /* LightTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BEEE0C2384DA4800B94515 /* LightTheme.swift */; };
+		25BEEE0F2384DB1400B94515 /* RedTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BEEE0E2384DB1400B94515 /* RedTheme.swift */; };
+		25BEEE112384DB6100B94515 /* BlueTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BEEE102384DB6100B94515 /* BlueTheme.swift */; };
+		25BEEE132386F07100B94515 /* WarholTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BEEE122386F07100B94515 /* WarholTheme.swift */; };
 		25C2DE7C22CD8A8D00D43198 /* MatteB&W.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DD7122CD8A8B00D43198 /* MatteB&W.json */; };
 		25C2DE7D22CD8A8D00D43198 /* ResetVignette.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DD7222CD8A8B00D43198 /* ResetVignette.json */; };
 		25C2DE7E22CD8A8D00D43198 /* Delightful.json in Resources */ = {isa = PBXBuildFile; fileRef = 25C2DD7322CD8A8B00D43198 /* Delightful.json */; };
@@ -1912,6 +1918,12 @@
 		25A702961DC3AEEA009441E2 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		25B24D111DAEE1B5008CD38A /* GradientSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientSlider.swift; sourceTree = "<group>"; };
 		25B24D171DAFE255008CD38A /* FilterInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterInfoView.swift; sourceTree = "<group>"; };
+		25BEEE082384CF1400B94515 /* CustomTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTheme.swift; sourceTree = "<group>"; };
+		25BEEE0A2384D32F00B94515 /* DarkTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DarkTheme.swift; sourceTree = "<group>"; };
+		25BEEE0C2384DA4800B94515 /* LightTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LightTheme.swift; sourceTree = "<group>"; };
+		25BEEE0E2384DB1400B94515 /* RedTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RedTheme.swift; sourceTree = "<group>"; };
+		25BEEE102384DB6100B94515 /* BlueTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlueTheme.swift; sourceTree = "<group>"; };
+		25BEEE122386F07100B94515 /* WarholTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WarholTheme.swift; sourceTree = "<group>"; };
 		25C2DD7122CD8A8B00D43198 /* MatteB&W.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "MatteB&W.json"; sourceTree = "<group>"; };
 		25C2DD7222CD8A8B00D43198 /* ResetVignette.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ResetVignette.json; sourceTree = "<group>"; };
 		25C2DD7322CD8A8B00D43198 /* Delightful.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Delightful.json; sourceTree = "<group>"; };
@@ -3055,7 +3067,6 @@
 				25CC3EA821FBBEAC00EB8A0A /* ImageCache.swift */,
 				25F563FB1DD1165C00DFB125 /* ImageManager.swift */,
 				25CC3EAA21FD190100EB8A0A /* RenderViewCache.swift */,
-				25159883219E2B850067AA00 /* ThemeManager.swift */,
 				25F460171D99CCCE00EDA182 /* UISettings.swift */,
 			);
 			path = Models;
@@ -3163,6 +3174,7 @@
 		257F49DE1D9448920083B1E4 /* phixer */ = {
 			isa = PBXGroup;
 			children = (
+				25BEEE072384CEB200B94515 /* Themes */,
 				25CF4BDB1D94D93700D779CF /* AppDelegate.swift */,
 				257F49E61D9448920083B1E4 /* Assets.xcassets */,
 				2506767B1DE108A500226740 /* Config */,
@@ -3268,6 +3280,20 @@
 				251729572175406100D5E946 /* UserChangesRecord.swift */,
 			);
 			path = Database;
+			sourceTree = "<group>";
+		};
+		25BEEE072384CEB200B94515 /* Themes */ = {
+			isa = PBXGroup;
+			children = (
+				25159883219E2B850067AA00 /* ThemeManager.swift */,
+				25BEEE082384CF1400B94515 /* CustomTheme.swift */,
+				25BEEE0A2384D32F00B94515 /* DarkTheme.swift */,
+				25BEEE0C2384DA4800B94515 /* LightTheme.swift */,
+				25BEEE0E2384DB1400B94515 /* RedTheme.swift */,
+				25BEEE102384DB6100B94515 /* BlueTheme.swift */,
+				25BEEE122386F07100B94515 /* WarholTheme.swift */,
+			);
+			path = Themes;
 			sourceTree = "<group>";
 		};
 		25C2DD7022CD8A8B00D43198 /* PhotographyPlanetEssentials */ = {
@@ -5213,11 +5239,13 @@
 				257ABB0C22F1F7F1000546E4 /* FilterLoader.swift in Sources */,
 				25CC3EC321FFD59D00EB8A0A /* EightBit.swift in Sources */,
 				2568BDA221AC72CB00560287 /* ISColorWheel.m in Sources */,
+				25BEEE0B2384D32F00B94515 /* DarkTheme.swift in Sources */,
 				25CC3EA121F5916200EB8A0A /* TransverseChromaticAberration.swift in Sources */,
 				257ABB0E22F24C68000546E4 /* PresetListController.swift in Sources */,
 				2515988821A3495C0067AA00 /* ThemeChooserController.swift in Sources */,
 				258F09A9218E36870082FE2A /* CGImage+Extensions.swift in Sources */,
 				2573D1DC217CDCB500E78CAB /* YUCIFilterPreviewGenerator.m in Sources */,
+				25BEEE0F2384DB1400B94515 /* RedTheme.swift in Sources */,
 				255591E52187A1A9001B4452 /* ColorWheelView.swift in Sources */,
 				25F21FEB220B8867005C449F /* CLAHEFilter.swift in Sources */,
 				250C5EFD22B72A5300DE0DDF /* CIColor+Extensions.swift in Sources */,
@@ -5296,6 +5324,7 @@
 				2537A22621EE4EAA00060DBE /* SimpleCoordinator.swift in Sources */,
 				25910B1B1DB7D61A007EC926 /* RenderContainerView.swift in Sources */,
 				25CC3E9F21F5916200EB8A0A /* MercurializeFilter.swift in Sources */,
+				25BEEE132386F07100B94515 /* WarholTheme.swift in Sources */,
 				25FD3C1422EA381100A1C00A /* CategoryGalleryViewController.swift in Sources */,
 				25F21FD32208B078005C449F /* ImageCropperScrollView.swift in Sources */,
 				2537A1E521E02D7800060DBE /* SketchFilter.swift in Sources */,
@@ -5360,6 +5389,7 @@
 				255673231DB9BF0F00187F25 /* FilterControlsView.swift in Sources */,
 				252745F12182295100AA2DA2 /* EdgeGlowFilter.swift in Sources */,
 				25CF4BD51D9490C400D779CF /* CameraControlsView.swift in Sources */,
+				25BEEE0D2384DA4800B94515 /* LightTheme.swift in Sources */,
 				257C8204233D69BE003A22D0 /* BlendImageFilter.swift in Sources */,
 				25CF4BD81D9490C400D779CF /* CameraSettingsView.swift in Sources */,
 				2537A23921F17B7400060DBE /* HelpCoordinator.swift in Sources */,
@@ -5430,9 +5460,11 @@
 				251729622179459F00D5E946 /* GalleryViewCell.swift in Sources */,
 				258F09AB218E3CCF0082FE2A /* CIImage+Extensions.swift in Sources */,
 				25FD3C1A22EB34D000A1C00A /* CategoryGalleryCoordinator.swift in Sources */,
+				25BEEE112384DB6100B94515 /* BlueTheme.swift in Sources */,
 				25F21FE9220B8482005C449F /* HighPassSkinSmoothingFilter.swift in Sources */,
 				258F0991218B7DD90082FE2A /* UIImage+Extensions.swift in Sources */,
 				2568BDCB21AC731100560287 /* EditManager.swift in Sources */,
+				25BEEE092384CF1400B94515 /* CustomTheme.swift in Sources */,
 				25CC3EAD21FD198700EB8A0A /* FilterDescriptorCache.swift in Sources */,
 				253B236C1DA44E3600203ECB /* FilterDescriptor.swift in Sources */,
 				253F54CD1DF24702007CCDEF /* FilterConfiguration.swift in Sources */,

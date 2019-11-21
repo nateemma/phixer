@@ -85,7 +85,7 @@ class CategoryGalleryViewCell: UICollectionViewCell {
         title.frame.size.width = self.width
         title.frame.size.height = (self.height * 0.3).rounded()
         title.backgroundColor = theme.subtitleColor.withAlphaComponent(0.9)
-        title.font = UIFont.systemFont(ofSize: 16.0, weight: UIFont.Weight.thin)
+        title.font = theme.getFont(ofSize: 16.0, weight: UIFont.Weight.thin)
         title.lineBreakMode = NSLineBreakMode.byWordWrapping
         title.numberOfLines = 0
         

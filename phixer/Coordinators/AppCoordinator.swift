@@ -100,17 +100,22 @@ class AppCoordinator: Coordinator {
     private func setupTheme() {
         
         // set the global colour scheme - needed before assigning the Navigation Controller since that uses the current theme
-        ThemeManager.applyTheme(key: ThemeManager.getSavedTheme())
+        let key = ThemeManager.getSavedTheme()
+        ThemeManager.applyTheme(key: key)
         let theme = ThemeManager.currentTheme()
+        
+        ThemeManager.applyTheme(key: key)
         
         // translucent removed in iOS13
         //Coordinator.navigationController?.navigationBar.barStyle = .blackTranslucent
         //Coordinator.navigationController?.navigationBar.isTranslucent = true
         
-        Coordinator.navigationController?.navigationBar.barStyle = .black
+        Coordinator.navigationController?.view.backgroundColor = theme.navbarColor
+        Coordinator.navigationController?.navigationBar.barStyle = .default
         Coordinator.navigationController?.navigationBar.isTranslucent = false
-        Coordinator.navigationController?.view.backgroundColor = theme.titleColor
-        Coordinator.navigationController?.navigationBar.tintColor = theme.tintColor
+        Coordinator.navigationController?.navigationBar.backgroundColor = theme.navbarColor
+        Coordinator.navigationController?.navigationBar.tintColor = theme.navbarTintColor
+        Coordinator.navigationController?.navigationBar.barTintColor = theme.navbarColor
 
     }
     

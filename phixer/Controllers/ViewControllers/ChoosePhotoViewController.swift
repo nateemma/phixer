@@ -142,8 +142,8 @@ class ChoosePhotoViewController: CoordinatedController, UIImagePickerControllerD
         label.frame.size.height = labelHeight
         label.frame.size.width = w
         label.backgroundColor = theme.subtitleColor
-        label.textColor = theme.textColor
-        label.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.thin)
+        label.textColor = theme.subtitleTextColor
+        label.font = theme.getFont(ofSize: 16, weight: UIFont.Weight.light)
         label.textAlignment = .left
         label.text = "Current selection:"
 
@@ -185,8 +185,8 @@ class ChoosePhotoViewController: CoordinatedController, UIImagePickerControllerD
         label.frame.size.height = labelHeight
         label.frame.size.width = w
         label.backgroundColor = theme.subtitleColor
-        label.textColor = theme.textColor
-        label.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.thin)
+        label.textColor = theme.subtitleTextColor
+        label.font = theme.getFont(ofSize: 16, weight: UIFont.Weight.light)
         label.textAlignment = .left
         label.text = "Latest Photos:"
         
@@ -240,8 +240,8 @@ class ChoosePhotoViewController: CoordinatedController, UIImagePickerControllerD
         label.frame.size.height = labelHeight
         label.frame.size.width = w
         label.backgroundColor = theme.subtitleColor
-        label.textColor = theme.textColor
-        label.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.thin)
+        label.textColor = theme.subtitleTextColor
+        label.font = theme.getFont(ofSize: 16, weight: UIFont.Weight.light)
         label.textAlignment = .left
         label.text = "Recent Selections:"
        

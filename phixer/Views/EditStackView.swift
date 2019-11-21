@@ -111,7 +111,7 @@ class EditStackView: UIView {
         label.textAlignment = .center
         label.textColor = theme.titleTextColor
         label.backgroundColor = theme.titleColor
-        label.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.thin)
+        label.font = theme.getFont(ofSize: 18, weight: UIFont.Weight.thin)
         
         titleView.addSubview(label)
         titleView.addSubview(cancelButton)

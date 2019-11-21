@@ -43,7 +43,7 @@ class RenderContainerView: UIView {
         label.textAlignment = .center
         label.textColor = theme.textColor
         label.backgroundColor = theme.highlightColor.withAlphaComponent(0.6)
-        label.font = UIFont.systemFont(ofSize: 12.0, weight: UIFont.Weight.thin)
+        label.font = theme.getFont(ofSize: 12.0, weight: UIFont.Weight.thin)
         self.addSubview(label)
     }
     

@@ -79,7 +79,8 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
         log.verbose("h:\(displayHeight) w:\(displayWidth)")
         
         UISettings.showAds = (UISettings.isLandscape == true) ? false : true // don't show in landscape mode, too cluttered
-        
+        self.view.backgroundColor = theme.backgroundColor
+
         doInit()
         
         // Note: need to add subviews before modifying constraints
