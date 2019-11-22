@@ -136,6 +136,7 @@ class BlendGalleryViewController: CoordinatedController, UIImagePickerController
         
         if (!BlendGalleryViewController.initDone){
             BlendGalleryViewController.initDone = true
+            self.setCustomTitle("Select Blend Image" )
         }
     }
     

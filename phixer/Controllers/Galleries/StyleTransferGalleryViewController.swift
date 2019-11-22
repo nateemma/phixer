@@ -59,6 +59,10 @@ class StyleTransferGalleryViewController: CoordinatedController, UIImagePickerCo
         return "StyleTransferGallery"
     }
     
+    override func start() {
+        self.setCustomTitle("Style Transfer" )
+    }
+    
     override public func end() {
         styleGalleryView = nil // force deallocation
         self.dismiss()
@@ -113,6 +117,7 @@ class StyleTransferGalleryViewController: CoordinatedController, UIImagePickerCo
         
         if (!StyleTransferGalleryViewController.initDone){
             StyleTransferGalleryViewController.initDone = true
+            self.setCustomTitle("Style Transfer" )
         }
     }
     

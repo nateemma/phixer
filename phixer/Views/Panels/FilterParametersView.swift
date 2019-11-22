@@ -67,7 +67,7 @@ class FilterParametersView: UIView {
     
     // Colours
 
-    lazy var titleBackgroundColor:UIColor = theme.subtitleColor
+    lazy var titleBackgroundColor:UIColor = theme.titleColor
     lazy var titleTextColor:UIColor = theme.subtitleTextColor
     lazy var buttonBackgroundColor:UIColor = theme.highlightColor
     lazy var buttonTextColor:UIColor = theme.titleTextColor
@@ -272,7 +272,7 @@ class FilterParametersView: UIView {
 
         
         for b in [acceptButton, cancelButton, screenModeButton, filterModeButton, stackButton] {
-            b?.backgroundColor = theme.subtitleColor.withAlphaComponent(0.8)
+            b?.backgroundColor = theme.titleColor.withAlphaComponent(0.8)
             b?.setTintable(true)
             b?.setTintColor(theme.subtitleTextColor) // needs to contrast with background
             b?.highlightOnSelection(true)

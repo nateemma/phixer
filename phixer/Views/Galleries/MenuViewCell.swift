@@ -72,17 +72,17 @@ class MenuViewCell: UICollectionViewCell {
             doInit()
             
             //background
-            self.backgroundColor = theme.subtitleColor
+            self.backgroundColor = theme.titleColor
             
             // image
             imagePanel.frame.size.width = self.height
             imagePanel.frame.size.height = self.height
-            imagePanel.backgroundColor = theme.subtitleColor.withAlphaComponent(0.9)
+            imagePanel.backgroundColor = theme.titleColor.withAlphaComponent(0.9)
             
             image.frame.size.width = (self.height * 0.667).rounded()
             image.frame.size.height = image.frame.size.width
             //image.backgroundColor = theme.backgroundColor.withAlphaComponent(0.5)
-            image.backgroundColor = theme.subtitleColor.withAlphaComponent(0.9)
+            image.backgroundColor = theme.titleColor.withAlphaComponent(0.9)
             image.tintColor = theme.tintColor
             image.isHidden = false
             if menuItem.icon.isEmpty { // no icon, so check view
@@ -117,7 +117,7 @@ class MenuViewCell: UICollectionViewCell {
             title.textColor = theme.subtitleTextColor
             title.frame.size.width = self.width - self.height
             title.frame.size.height = (self.height * 0.3).rounded()
-            title.backgroundColor = theme.subtitleColor.withAlphaComponent(0.9)
+            title.backgroundColor = theme.titleColor.withAlphaComponent(0.9)
             title.font = theme.getFont(ofSize: 20.0, weight: UIFont.Weight.light)
             title.lineBreakMode = NSLineBreakMode.byWordWrapping
             title.numberOfLines = 0
@@ -128,7 +128,7 @@ class MenuViewCell: UICollectionViewCell {
             subtitile.textColor = theme.subtitleTextColor
             subtitile.frame.size.width = self.width - self.height
             subtitile.frame.size.height = (self.height - title.frame.size.height).rounded()
-            subtitile.backgroundColor = theme.subtitleColor.withAlphaComponent(0.9)
+            subtitile.backgroundColor = theme.titleColor.withAlphaComponent(0.9)
             subtitile.font = theme.getFont(ofSize: 12.0, weight: UIFont.Weight.thin)
             subtitile.lineBreakMode = NSLineBreakMode.byWordWrapping
             subtitile.numberOfLines = 0

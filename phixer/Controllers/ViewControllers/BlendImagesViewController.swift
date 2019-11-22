@@ -106,6 +106,7 @@ class BlendImagesViewController: CoordinatedController, UIImagePickerControllerD
     // called when this controller is activated (every time, not just on first creation)
     override func start(){
         // re-layout because blend image might have changed
+        self.setCustomTitle("Blend Images" )
         doLayout()
         previewImage.updateImage()
     }

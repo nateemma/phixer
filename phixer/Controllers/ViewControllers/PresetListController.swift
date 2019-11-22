@@ -43,6 +43,10 @@ class PresetListController: CoordinatedController, UINavigationControllerDelegat
         return "About"
     }
     
+    override func start() {
+        self.setCustomTitle("Browse Presets" )
+    }
+
     /////////////////////////////
     // INIT
     /////////////////////////////

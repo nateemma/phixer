@@ -89,6 +89,7 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
         displayHeight = view.height
         displayWidth = view.width
         stackHeight = displayHeight
+        self.view.backgroundColor = theme.backgroundColor
         
         UISettings.showAds = (UISettings.isLandscape == true) ? false : true // don't show in landscape mode, too cluttered
         
@@ -131,7 +132,7 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
 
             itemStack.frame.size.width = displayWidth
             itemStack.frame.size.height = displayHeight - adView.frame.size.height
-            //itemStack.backgroundColor = theme.backgroundColor
+            itemStack.backgroundColor = theme.backgroundColor
             for item in itemList {
                 itemStack.addSubview(item)
             }
@@ -160,7 +161,7 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
         hideFiltersSwitch.addTarget(self, action: #selector(hideFiltersSwitchChanged(_:)), for: .valueChanged)
 
         //let h = max ((stackHeight / CGFloat(numItems)), UISettings.panelHeight)
-        let h = UISettings.panelHeight
+        let h = UISettings.panelHeight - 4
         let w = displayWidth - 8
         let iconSize = CGSize(width: h-4, height: h-4)
         let bkColor = theme.titleColor
@@ -230,7 +231,7 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
         // set up the text part of the label
         let txtLabel = UILabel()
         txtLabel.frame.size.width = width - 2.0 * adornmentWidth
-        txtLabel.frame.size.height = height
+        txtLabel.frame.size.height = item.frame.size.height
         txtLabel.font = txtFont
         txtLabel.backgroundColor = color
         txtLabel.textColor = txtColor
@@ -280,7 +281,8 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
         let pad:CGFloat = 2.0
         let side = min(adornmentWidth, height)
         
-        let txtColor = UIColor(contrastingBlackOrWhiteColorOn:color, isFlat:true)
+        //let txtColor = UIColor(contrastingBlackOrWhiteColorOn:color, isFlat:true)
+        let txtColor = theme.textColor
         let txtFont = theme.getFont(ofSize: 20, weight: UIFont.Weight.light)
         
         // set up  container view
@@ -294,7 +296,7 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
         // set up the text part of the label
         let txtLabel = UILabel()
         txtLabel.frame.size.width = width - 2.0 * adornmentWidth
-        txtLabel.frame.size.height = height
+        txtLabel.frame.size.height = item.frame.size.height
         txtLabel.font = txtFont
         txtLabel.backgroundColor = color
         txtLabel.textColor = txtColor

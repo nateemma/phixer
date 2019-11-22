@@ -43,6 +43,9 @@ class ChooseBlendViewController: CoordinatedController, UIImagePickerControllerD
         return "About" // temp, change later
     }
     
+    override func start() {
+        self.setCustomTitle("Blend Images" )
+    }
 
     /////////////////////////////
     // MARK: - Boilerplate
@@ -89,6 +92,7 @@ class ChooseBlendViewController: CoordinatedController, UIImagePickerControllerD
         displayWidth = view.width
         log.verbose("h:\(displayHeight) w:\(displayWidth)")
         
+        self.setCustomTitle("Blend Images" )
         
         view.backgroundColor = theme.backgroundColor // default seems to be white
         

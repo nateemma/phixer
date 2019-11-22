@@ -141,7 +141,7 @@ class ChoosePhotoViewController: CoordinatedController, UIImagePickerControllerD
         let label:UILabel! = UILabel()
         label.frame.size.height = labelHeight
         label.frame.size.width = w
-        label.backgroundColor = theme.subtitleColor
+        label.backgroundColor = theme.titleColor
         label.textColor = theme.subtitleTextColor
         label.font = theme.getFont(ofSize: 16, weight: UIFont.Weight.light)
         label.textAlignment = .left
@@ -184,7 +184,7 @@ class ChoosePhotoViewController: CoordinatedController, UIImagePickerControllerD
         let label:UILabel! = UILabel()
         label.frame.size.height = labelHeight
         label.frame.size.width = w
-        label.backgroundColor = theme.subtitleColor
+        label.backgroundColor = theme.titleColor
         label.textColor = theme.subtitleTextColor
         label.font = theme.getFont(ofSize: 16, weight: UIFont.Weight.light)
         label.textAlignment = .left
@@ -239,7 +239,7 @@ class ChoosePhotoViewController: CoordinatedController, UIImagePickerControllerD
         let label:UILabel! = UILabel()
         label.frame.size.height = labelHeight
         label.frame.size.width = w
-        label.backgroundColor = theme.subtitleColor
+        label.backgroundColor = theme.titleColor
         label.textColor = theme.subtitleTextColor
         label.font = theme.getFont(ofSize: 16, weight: UIFont.Weight.light)
         label.textAlignment = .left

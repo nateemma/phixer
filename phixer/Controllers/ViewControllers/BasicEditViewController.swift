@@ -98,6 +98,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
     override func updateDisplays() {
         //log.verbose("updating")
         DispatchQueue.main.async { [weak self] in
+            self?.setCustomTitle("Edit Photo" )
             self?.editImageView.updateImage()
             self?.filterParametersView.update()
             self?.ratingView.update()
@@ -120,6 +121,10 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             self.filterParametersView.isHidden = false
             self.ratingView.isHidden = false
         }
+    }
+    
+    override func start(){
+        self.setCustomTitle("Edit Photo" )
     }
     
     // handle the end request. Check to see if there is anything to save before exiting
@@ -164,6 +169,8 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             BasicEditViewController.initDone = true
             log.verbose("init")
             
+            self.setCustomTitle("Edit Photo" )
+
             //filterManager.setCurrentCategory(FilterManager.defaultCategory)
             //currFilterDescriptor = filterManager.getFilterDescriptor(key: FilterDescriptor.nullFilter)
             filterParametersView.setConfirmMode(true)
