@@ -139,7 +139,8 @@ class FilmGrainFilter: CIFilter {
 
         let whiteSpecks = FilmGrainFilter.whiteningFilter?.outputImage?
             .applyingFilter("ScatterFilter", parameters: ["inputScatterRadius": 10*inputSize])
-            .applyingFilter("OpacityFilter", parameters: ["inputOpacity": 0.1*inputAmount])
+            .applyingFilter("BrightnessFilter", parameters: ["inputBrightness": min(-0.4, (inputAmount-1.0))])
+            .applyingFilter("OpacityFilter", parameters: ["inputOpacity": 0.2*inputAmount])
             .cropped(to: inputImage.extent).clampedToExtent()
         guard whiteSpecks != nil else {
             log.error("NIL white specks image")
@@ -155,9 +156,9 @@ class FilmGrainFilter: CIFilter {
         let blurredImage = whiteSpecks
         //return blurredImage // DEBUG: check intermediate result
 
-        /****
-        // generate 'faded' versions of the white and dark images
-        let opacity = inputAmount * 0.2 // full intensity doesn't look good so scale it down a bit (empirical value)
+        /****/
+        // generate 'faded' versions of the white speckles image
+        let opacity = min(0.6, inputAmount)
         //let opacity = 0.2 // full intensity doesn't look good so scale it down a bit (empirical value)
         FilmGrainFilter.opacityFilter?.setValue(opacity, forKey: "inputOpacity")
         FilmGrainFilter.opacityFilter?.setValue(blurredImage, forKey: "inputImage")
@@ -167,18 +168,19 @@ class FilmGrainFilter: CIFilter {
             log.error("NIL faded speckles image")
             return inputImage
         }
-        ***/
+        /***/
 
-        let fadedSpecksImage = blurredImage
+
+        //let fadedSpecksImage = blurredImage
         
         //return fadedSpecksImage // DEBUG: check intermediate result
         
        // overlay onto the original image - Overlay Blend Mode seems to work best
         //let overlayFilter = CIFilter(name:"CISourceOverCompositing")
-        let overlayFilter = CIFilter(name:"CIOverlayBlendMode")
+        //let overlayFilter = CIFilter(name:"CIOverlayBlendMode")
         //let overlayFilter = CIFilter(name:"CISoftLightBlendMode")
         //let overlayFilter = CIFilter(name:"CIScreenBlendMode")
-        //let overlayFilter = CIFilter(name:"CILuminosityBlendMode")
+        let overlayFilter = CIFilter(name:"CILuminosityBlendMode")
         overlayFilter?.setValue(inputImage, forKey: kCIInputBackgroundImageKey)
         overlayFilter?.setValue(fadedSpecksImage!, forKey: kCIInputImageKey)
         let speckledImage = overlayFilter?.outputImage?.cropped(to: inputImage.extent).clampedToExtent()
@@ -193,7 +195,7 @@ class FilmGrainFilter: CIFilter {
 
         // generate dark scratches from the white speckled image
         //let verticalScale = CGAffineTransform(scaleX: 1.5, y: 25)
-        let verticalScale = CGAffineTransform(scaleX: 1.0+inputSize, y: 1.5 + 5.0*inputSize)
+        let verticalScale = CGAffineTransform(scaleX: 1.0+inputSize, y: 1.5 + 5.0*(1.0+inputSize))
         let transformedNoise = noiseImage?.transformed(by: verticalScale)
         
         let darkenVector = CIVector(x: 4, y: 0, z: 0, w: 0)
@@ -239,7 +241,7 @@ class FilmGrainFilter: CIFilter {
             return inputImage
         }
 
-         return scratchedImage // DEBUG: check intermediate result
+         //return scratchedImage // DEBUG: check intermediate result
         
         // reduce the opacity based on inputAmount
         FilmGrainFilter.opacityFilter?.setValue(scratchedImage!, forKey: kCIInputImageKey)
