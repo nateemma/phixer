@@ -123,9 +123,9 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
         }
     }
     
-    override func start(){
-        self.setCustomTitle("Edit Photo" )
-    }
+//    override func start(){
+//        self.setCustomTitle("Edit Photo" )
+//    }
     
     // handle the end request. Check to see if there is anything to save before exiting
     override func end() {
@@ -169,7 +169,7 @@ class BasicEditViewController: CoordinatedController, UIImagePickerControllerDel
             BasicEditViewController.initDone = true
             log.verbose("init")
             
-            self.setCustomTitle("Edit Photo" )
+//            self.setCustomTitle("Edit Photo" )
 
             //filterManager.setCurrentCategory(FilterManager.defaultCategory)
             //currFilterDescriptor = filterManager.getFilterDescriptor(key: FilterDescriptor.nullFilter)

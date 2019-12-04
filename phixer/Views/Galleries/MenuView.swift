@@ -157,6 +157,12 @@ class MenuView : UIView, UICollectionViewDataSource {
     ////////////////////////////////////////////
 
     open func update(){
+        
+        // theme can change so, re-fetch
+        theme = ThemeManager.currentTheme()
+        self.backgroundColor = theme.backgroundColor
+        menuGallery?.backgroundColor = theme.backgroundColor
+        
         //self.menuGallery?.setNeedsDisplay()
         self.menuGallery?.reloadData()
         //doLoadData()

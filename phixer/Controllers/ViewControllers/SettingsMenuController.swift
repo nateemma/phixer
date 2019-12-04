@@ -59,6 +59,12 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
         return "Settings"
     }
     
+     // override start function. This is called every time the screen is displayed - viewDidLoad(0 is only called once
+     override public func start(){
+         updateTheme()
+         updateColours()
+     }
+
     /////////////////////////////
     // INIT
     /////////////////////////////
@@ -217,7 +223,7 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
         let pad:CGFloat = 2.0
         let side = min(adornmentWidth, height)
         //let txtColor = UIColor(contrastingBlackOrWhiteColorOn:color, isFlat:true)
-        let txtColor = theme.textColor
+        let txtColor = theme.titleTextColor
         let txtFont = theme.getFont(ofSize: 20, weight: UIFont.Weight.light)
         
         // set up  container view
@@ -282,7 +288,7 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
         let side = min(adornmentWidth, height)
         
         //let txtColor = UIColor(contrastingBlackOrWhiteColorOn:color, isFlat:true)
-        let txtColor = theme.textColor
+        let txtColor = theme.titleTextColor
         let txtFont = theme.getFont(ofSize: 20, weight: UIFont.Weight.light)
         
         // set up  container view
@@ -320,7 +326,43 @@ class SettingsMenuController: CoordinatedController, UINavigationControllerDeleg
         itemList.append(item)
 
     }
-
+    
+    
+    /////////////////////////////////
+    // Theme management
+    /////////////////////////////////
+    
+    private func updateColours(){
+        self.view.backgroundColor = theme.backgroundColor
+        adView.layer.borderColor = theme.borderColor.cgColor
+        itemStack.backgroundColor = theme.backgroundColor
+        
+        // update all of the subviews
+        if itemList.count > 0 {
+            let txtFont = theme.getFont(ofSize: 20, weight: UIFont.Weight.light)
+            for item in itemList {
+                item.backgroundColor = theme.titleColor
+                item.tintColor = theme.tintColor
+                item.layer.borderColor = self.theme.borderColor.cgColor
+                let subviews = item.subviews
+                if subviews.count > 0 {
+                    for view in subviews {
+                        view.backgroundColor = theme.titleColor
+                        if view is UILabel {
+                            let label = view as! UILabel
+                            label.textColor = theme.titleTextColor
+                            label.font = txtFont
+                        } else if view is UISwitch {
+                            let sw = view as! UISwitch
+                            sw.backgroundColor = theme.titleColor
+                            sw.thumbTintColor = theme.titleColor
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     /////////////////////////////////
     // Handlers for menu items
     /////////////////////////////////

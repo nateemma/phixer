@@ -87,7 +87,7 @@ class WarholTheme: CustomTheme {
         tintColor = warholBlue
  */
         
-        // uing Marilyn colours
+        // using Marilyn colours
         navbarColor = lightGreen
         navbarTintColor = darkBlue
         navbarTextColor = UIColor.black

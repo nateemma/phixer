@@ -160,6 +160,8 @@ class MenuViewCell: UICollectionViewCell {
             
             self.menuItem = menuItem
             
+            self.theme = ThemeManager.currentTheme()
+            
             self.doLayout()
         })
         

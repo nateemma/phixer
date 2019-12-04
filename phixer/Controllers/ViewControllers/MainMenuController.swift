@@ -43,6 +43,14 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
         return "About"
     }
     
+    
+    // override start function. This is called every time the screen is displayed - viewDidLoad(0 is only called once
+    override public func start(){
+        updateTheme()
+        updateColours()
+    }
+    
+    
     /////////////////////////////
     // INIT
     /////////////////////////////
@@ -152,12 +160,22 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
 
     }
     
-
+    
+    
+    /////////////////////////////////
+    // Theme management
+    /////////////////////////////////
+    
+    private func updateColours(){
+        self.view.backgroundColor = theme.backgroundColor
+        adView.layer.borderColor = theme.borderColor.cgColor
+        menuView.update()
+    }
     
     /////////////////////////////////
     // Handlers for menu items
     /////////////////////////////////
-    
+
     func handleSelection(_ key: String){
         guard !key.isEmpty else {
             log.error("NIL menu item supplied")
@@ -201,6 +219,7 @@ class MainMenuController: CoordinatedController, UINavigationControllerDelegate 
     }
     
     @objc func presentSimpleImageEditor(){
+        self.setCustomTitle("Edit Photo" )
         self.coordinator?.activateRequest(id: .edit)
     }
 
