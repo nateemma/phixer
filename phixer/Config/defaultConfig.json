@@ -856,7 +856,11 @@
         { "key": "dramatic-27",  "title": "dramatic-27" },
         { "key": "dramatic-28",  "title": "dramatic-28" },
         { "key": "dramatic-29",  "title": "dramatic-29" },
-        { "key": "dramatic-30",  "title": "dramatic-30" }
+        { "key": "dramatic-30",  "title": "dramatic-30" },
+        
+        { "key": "phil-landscape",  "title": "Basic Fix: Scenic" },
+        { "key": "phil-people",  "title": "Basic Fix: People" }
+
     ],
 
     
@@ -868,7 +872,10 @@
         
         {"key": "favorites",
             "title": "Favorites",
-            "filters": [ "TheNavigator", "Relic", "Tijuana", "Grunge",  "TurkishBlast", "FreshLime", "AMarshmallowHappysmell" ]
+            "filters": [
+                "phil-landscape", "phil-people",
+                "TheNavigator", "Relic", "Tijuana", "Grunge",  "TurkishBlast", "FreshLime", "AMarshmallowHappysmell"
+            ]
         },
         
         {"key": "pr_winter",

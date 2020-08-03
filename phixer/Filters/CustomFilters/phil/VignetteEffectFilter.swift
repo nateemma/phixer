@@ -1,5 +1,5 @@
 //
-//  CenteredVignetteFilter.swift
+//  VignetteEffectFilter.swift
 //  phixer
 //
 //  Created by Philip Price on 09/11/2019.
@@ -9,25 +9,25 @@
 import Foundation
 import CoreImage
 
-// this is a wrapper for the CIVignetteEffect filter that mimics the Lightroom/Photoshop vignette API (%age, not pixels)
+// this is a wrapper for the CIVignetteEffect filter that takes relative position and distance (0..1) instead of pixel values.
 // Why on earth did Apple make the parameters image-dependent (so you can't apply the same values to different images and get the same effect)?!
 
-class CenteredVignetteFilter: CIFilter {
-    let fname = "Centered Vignette"
+class VignetteEffectFilter: CIFilter {
+    let fname = "VignetteEffect"
     var inputImage: CIImage?
-    //var inputCentre: CIVector = CIVector(x: 0.5, y: 0.5)
-    var inputRadius: CGFloat = 0.75
+    var inputCentre: CIVector = CIVector(x: 0.5, y: 0.5)
+    var inputRadius: CGFloat = 0.5
     var inputIntensity: CGFloat = 0.5
-    var inputFalloff: CGFloat = 0.25
+    var inputFalloff: CGFloat = 0.5
     
     
     // default settings
     override func setDefaults() {
         inputImage = nil
-        //inputCentre = CIVector(x: 0.5, y: 0.5)
-        inputRadius = 0.75
+        inputCentre = CIVector(x: 0.5, y: 0.5)
+        inputRadius = 0.5
         inputIntensity = 0.5
-        inputFalloff = 0.25
+        inputFalloff = 0.5
     }
     
     
@@ -47,18 +47,24 @@ class CenteredVignetteFilter: CIFilter {
                            kCIAttributeDisplayName: "Image",
                            kCIAttributeType: kCIAttributeTypeImage],
             
+            "inputCentre": [kCIAttributeIdentity: 0,
+                                    kCIAttributeDisplayName: "Center",
+                                    kCIAttributeClass: "CIVector",
+                                    kCIAttributeDefault: CIVector(x: 0.5, y: 0.5),
+                                    kCIAttributeType: kCIAttributeTypePosition],
+            
             "inputRadius": [kCIAttributeIdentity: 0,
                                     kCIAttributeClass: "NSNumber",
-                                    kCIAttributeDefault: 0.5,
+                                    kCIAttributeDefault: 0.0,
                                     kCIAttributeDisplayName: "Radius",
-                                    kCIAttributeMin: 0.0,
-                                    kCIAttributeSliderMin: 0.0,
+                                    kCIAttributeMin: -1.0,
+                                    kCIAttributeSliderMin: -1.0,
                                     kCIAttributeSliderMax: 1.0,
                                     kCIAttributeType: kCIAttributeTypeScalar],
             
             "inputIntensity": [kCIAttributeIdentity: 0,
                                kCIAttributeClass: "NSNumber",
-                               kCIAttributeDefault: 0.75,
+                               kCIAttributeDefault: 0.5,
                                kCIAttributeDisplayName: "Intensity",
                                kCIAttributeMin: 0.0,
                                kCIAttributeSliderMin: 0.0,
@@ -67,7 +73,7 @@ class CenteredVignetteFilter: CIFilter {
             
             "inputFalloff": [kCIAttributeIdentity: 0,
                                kCIAttributeClass: "NSNumber",
-                               kCIAttributeDefault: 0.25,
+                               kCIAttributeDefault: 0.5,
                                kCIAttributeDisplayName: "Falloff",
                                kCIAttributeMin: 0.0,
                                kCIAttributeSliderMin: 0.0,
@@ -82,8 +88,8 @@ class CenteredVignetteFilter: CIFilter {
         switch key {
         case "inputImage":
             inputImage = value as? CIImage
-//        case "inputCentre":
-//            inputCentre = value as! CIVector
+        case "inputCentre":
+            inputCentre = value as! CIVector
         case "inputRadius":
             inputRadius = value as! CGFloat
         case "inputIntensity":
@@ -101,16 +107,10 @@ class CenteredVignetteFilter: CIFilter {
         }
         
         // convert centre position and radius to pixel values
-        let size = EditManager.getImageSize()
-        
-        let centre = CIVector(x: size.width/2.0, y: size.height/2.0)
-        let radius: CGFloat = min(size.width, size.height) * inputRadius
-        
-        // call the built-in vignette filter
         return inputImage.applyingFilter("CIVignetteEffect", parameters: [ "inputCenter": centre,
                                                                            "inputRadius": radius,
                                                                            "inputIntensity": inputIntensity,
-                                                                           "inputFalloff": inputFalloff ])
+                                                                           "inputFalloff": inputFalloff ]
 
     }
 }

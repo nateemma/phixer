@@ -635,6 +635,8 @@
 		255673231DB9BF0F00187F25 /* FilterControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255673221DB9BF0F00187F25 /* FilterControlsView.swift */; };
 		255844EE1E03598B009440CA /* FilterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255844ED1E03598B009440CA /* FilterFactory.swift */; };
 		2559533D1DF0D9EE002A2905 /* defaultConfig.json in Resources */ = {isa = PBXBuildFile; fileRef = 2559533C1DF0D9EE002A2905 /* defaultConfig.json */; };
+		255A343223C145970028F7E8 /* Phil-Landscape.json in Resources */ = {isa = PBXBuildFile; fileRef = 255A343123C145970028F7E8 /* Phil-Landscape.json */; };
+		255A343423C149640028F7E8 /* Phil-People.json in Resources */ = {isa = PBXBuildFile; fileRef = 255A343323C149640028F7E8 /* Phil-People.json */; };
 		2568BC0A21AB1BE600560287 /* ImageSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568BC0921AB1BE600560287 /* ImageSelectionView.swift */; };
 		2568BD0321AC72CB00560287 /* Manifest.lock in Resources */ = {isa = PBXBuildFile; fileRef = 2568BC1221AC72C900560287 /* Manifest.lock */; };
 		2568BD2821AC72CB00560287 /* RenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2568BC3C21AC72C900560287 /* RenderView.swift */; };
@@ -1797,6 +1799,8 @@
 		255673221DB9BF0F00187F25 /* FilterControlsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterControlsView.swift; sourceTree = "<group>"; };
 		255844ED1E03598B009440CA /* FilterFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterFactory.swift; sourceTree = "<group>"; };
 		2559533C1DF0D9EE002A2905 /* defaultConfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = defaultConfig.json; sourceTree = "<group>"; };
+		255A343123C145970028F7E8 /* Phil-Landscape.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Phil-Landscape.json"; sourceTree = "<group>"; };
+		255A343323C149640028F7E8 /* Phil-People.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Phil-People.json"; sourceTree = "<group>"; };
 		2568BC0921AB1BE600560287 /* ImageSelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageSelectionView.swift; sourceTree = "<group>"; };
 		2568BC1221AC72C900560287 /* Manifest.lock */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Manifest.lock; sourceTree = "<group>"; };
 		2568BC3B21AC72C900560287 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
@@ -2790,6 +2794,7 @@
 		250C5F0222B863B200DE0DDF /* Presets */ = {
 			isa = PBXGroup;
 			children = (
+				255A343023C145610028F7E8 /* Phil */,
 				25060A99230CB5870081FA5C /* Lightroom */,
 				2500470722FF3D470025309F /* Design Panoply - The Apocalypse */,
 				2500471B22FF3D470025309F /* Ilford B&W */,
@@ -3000,6 +3005,15 @@
 				25159885219E2BF20067AA00 /* ColorUtilities.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		255A343023C145610028F7E8 /* Phil */ = {
+			isa = PBXGroup;
+			children = (
+				255A343123C145970028F7E8 /* Phil-Landscape.json */,
+				255A343323C149640028F7E8 /* Phil-People.json */,
+			);
+			path = Phil;
 			sourceTree = "<group>";
 		};
 		2568BDD821BEDC0D00560287 /* Style */ = {
@@ -4634,6 +4648,7 @@
 				252B0ED81E30690F005A0C2D /* fx_028_ink_11.jpg in Resources */,
 				2500463422FF3D240025309F /* graphicexhdr01-15.json in Resources */,
 				25C2DED822CD8A8D00D43198 /* Wonka.json in Resources */,
+				255A343223C145970028F7E8 /* Phil-Landscape.json in Resources */,
 				25060B02230CB5870081FA5C /* LR-Yesteryear.json in Resources */,
 				2500464322FF3D240025309F /* posterbdwedding-10.json in Resources */,
 				2500465D22FF3D240025309F /* graphicex02-13.json in Resources */,
@@ -4735,6 +4750,7 @@
 				25FD3C9E22EB96E700A1C00A /* N-Polaroid665.json in Resources */,
 				25C2DEA422CD8A8D00D43198 /* WarmSunlight.json in Resources */,
 				252B0EFD1E30690F005A0C2D /* fd_04i_dark_warm.jpg in Resources */,
+				255A343423C149640028F7E8 /* Phil-People.json in Resources */,
 				252B0EC51E30690F005A0C2D /* fx_044_old_photo_5.jpg in Resources */,
 				250046F222FF3D240025309F /* posterbdhdrsoft01-05.json in Resources */,
 				25C2DEC222CD8A8D00D43198 /* Inky.json in Resources */,

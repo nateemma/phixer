@@ -8,6 +8,9 @@ I was originally using the nifty GPUImage library from Brad Larsen, but now I am
 Also, I had to change the name because of an App Store conflict.
 
 
+NOTE: I haven't been working on this lately because of real-world issues, and because the connector on my phone stopped working (this has happened to my last 3 iPhones)
+
+
 ## Basic Functionality
 
 One day, I'll get around to adding screenshots, but the basic set of functionality includes:

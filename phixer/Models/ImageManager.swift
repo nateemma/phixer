@@ -531,7 +531,8 @@ class ImageManager {
             _currEditName = getDefaultEditImageName()!
         }
         if (_currEditImage == nil){
-             _currEditImage = CIImage(image: getImageFromAssets(assetID:_currEditName, size:_currEditSize)!)
+            let asset = getImageFromAssets(assetID:_currEditName, size:_currEditSize)
+            _currEditImage = (asset != nil) ? CIImage(image: asset!) : CIImage(image: UIImage(named: defaultSampleName)!)
         }
         
         // check to see if we have already resized
@@ -747,15 +748,20 @@ class ImageManager {
                     //options.resizeMode = PHImageRequestOptionsResizeMode.fast
                     options.resizeMode = PHImageRequestOptionsResizeMode.exact
                     options.isSynchronous = true // need to set this to get the full size image
-                    options.isNetworkAccessAllowed = false
+                    //options.isNetworkAccessAllowed = false
+                    options.isNetworkAccessAllowed = true // needed if save to iCloud is on (Add check somewhere?)
                     //options.version = .current
                     options.version = .original
                     
                     /***/
+                    let semaphore = DispatchSemaphore(value: 1)
                     PHImageManager.default().requestImageData(for: asset!, options: options, resultHandler: { data, _, _, _ in
                         image = data.flatMap { UIImage(data: $0) }
                         //data?.removeAll()
+                        semaphore.signal()
                     })
+                    // because we turned on network access, we need to wait for the asset to be loaded
+                    semaphore.wait() // wait for image data
                     /***/
                     
                     
@@ -816,16 +822,21 @@ class ImageManager {
                         //        options.deliveryMode = PHImageRequestOptionsDeliveryMode.Opportunistic
                         //options.resizeMode = PHImageRequestOptionsResizeMode.exact
                         options.resizeMode = PHImageRequestOptionsResizeMode.fast
-                        options.isNetworkAccessAllowed = false
+                        //options.isNetworkAccessAllowed = false
+                        options.isNetworkAccessAllowed = true // needed if save to iCloud is on (Add check somewhere?)
                         options.version = .current
                         options.isSynchronous = true // need to set this to get the full size image
+                        let semaphore = DispatchSemaphore(value: 2)
                         try PHImageManager.default().requestImage(for: asset, targetSize: tsize, contentMode: .aspectFit, options: options, resultHandler: { img, info in
                             if img != nil {
                                 image = img
                             } else {
                                 log.error("NIL image. info: \(info)")
                             }
+                            semaphore.signal()
                         })
+                        // because we turned on network access, we need to wait for the asset to be loaded
+                         semaphore.wait() // wait for image data
                     } catch {
                         log.error("ERROR retrieveing image: \(asset)")
                     }

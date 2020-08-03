@@ -1,0 +1,36 @@
+{
+    "info": { "group": "", "name": "Basic Fix: Scenic" },
+    
+    "filters": [
+        {
+            "key": "AutoAdjustFilter",
+            "parameters": []
+        },
+        {
+            "key": "CIHighlightShadowAdjust",
+            "parameters": [
+                { "key": "inputShadowAmount",    "type": "CIAttributeTypeScalar", "val": 0.10 },
+                { "key": "inputHighlightAmount", "type": "CIAttributeTypeScalar", "val": 0.95 }
+            ]
+        },
+        {
+            "key": "ClarityFilter",
+            "parameters": [
+                { "key": "inputClarity", "type": "CIAttributeTypeScalar", "val": 0.3  }
+            ]
+        },
+        {
+            "key": "CIVibrance",
+            "parameters": [
+                { "key": "inputAmount", "type": "CIAttributeTypeScalar", "val": 0.25 }
+            ]
+        },
+        {
+            "key": "HighPassSharpeningFilter",
+            "parameters": [
+                { "key": "inputRadius",    "type": "CIAttributeTypeScalar", "val": 4.0 }
+            ]
+        }
+    ],
+    "key": "../phixer/Config/Presets/Phil/Phil-Landscape.json"
+}

@@ -1,0 +1,46 @@
+{
+    "info": { "group": "", "name": "Basic Fix: People" },
+    
+    "filters": [
+        {
+            "key": "AutoAdjustFilter",
+            "parameters": []
+        },
+        {
+            "key": "CIHighlightShadowAdjust",
+            "parameters": [
+                { "key": "inputShadowAmount",    "type": "CIAttributeTypeScalar", "val": 0.15 },
+                { "key": "inputHighlightAmount", "type": "CIAttributeTypeScalar", "val": 0.90 }
+            ]
+        },
+        {
+            "key": "ClarityFilter",
+            "parameters": [
+                { "key": "inputClarity", "type": "CIAttributeTypeScalar", "val": 0.1  }
+            ]
+        },
+        {
+            "key": "CIVibrance",
+            "parameters": [
+                { "key": "inputAmount", "type": "CIAttributeTypeScalar", "val": 0.1 }
+            ]
+        },
+        {
+            "key": "UnsharpMaskFilter",
+            "parameters": [
+                { "key": "inputAmount",    "type": "CIAttributeTypeScalar", "val": 0.85 },
+                { "key": "inputRadius",    "type": "CIAttributeTypeScalar", "val": 1.00 },
+                { "key": "inputThreshold", "type": "CIAttributeTypeScalar", "val": 0.40 }
+            ]
+        },
+        {
+            "key": "CenteredVignetteFilter",
+            "parameters": [
+                { "key": "inputRadius",    "type": "CIAttributeTypeScalar", "val": 0.75 },
+                { "key": "inputIntensity", "type": "CIAttributeTypeScalar", "val": 0.10 },
+                { "key": "inputFalloff",   "type": "CIAttributeTypeScalar", "val": 0.25 }
+            ]
+        }
+    ],
+    "key": "../phixer/Config/Presets/Phil/Phil-People.json"
+}
