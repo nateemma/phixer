@@ -24,7 +24,7 @@ class EditBaseMenuController: CoordinatedController, SubControllerDelegate, Edit
     
     // The Edit controls/options
     var mainView: UIView! = UIView()
-    let menu:SimpleCarousel! = SimpleCarousel()
+    var menu:SimpleCarousel? = nil
 
     
     var displayWidth : CGFloat = 0.0
@@ -46,17 +46,21 @@ class EditBaseMenuController: CoordinatedController, SubControllerDelegate, Edit
     func nextItem() {
         DispatchQueue.main.async(execute: { () -> Void in
             log.debug("next...")
-            self.menu.nextItem()
+            self.menu?.nextItem()
         })
     }
     
     func previousItem() {
         DispatchQueue.main.async(execute: { () -> Void in
             log.debug("previous...")
-            self.menu.previousItem()
+            self.menu?.previousItem()
         })
     }
     
+    // override this func *only* for the top level menu
+    func isTopMenu() -> Bool {
+        return false
+    }
     
     ////////////////////
     // 'Virtual' funcs, these must be overidden by the subclass
@@ -85,28 +89,48 @@ class EditBaseMenuController: CoordinatedController, SubControllerDelegate, Edit
     // Everything below here is generic so subclasses can just inherit this functionality as-is
     ////////////////////
 
+    
+    func initFrame() {
+        guard view != nil else {
+            return
+        }
+        
+        //HACK: resize view based on type
+        view.frame = ControllerFactory.getFrame(ControllerType.menu)
+    }
 
     convenience init(){
         self.init(nibName:nil, bundle:nil)
+        initFrame()
     }
     
 
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        initFrame()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        initFrame()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        initFrame()
+        
         // Logging nicety, show that controller has changed. Not using the logging API so that this stands out more
         print ("\n========== \(self.getTag()) ID: \(self.id.rawValue) ==========")
 
-        //HACK: resize view based on type
-        view.frame = ControllerFactory.getFrame(ControllerType.menu)
+
         
         // load theme here in case it changed
         theme = ThemeManager.currentTheme()
         
         //view.backgroundColor = UIColor.clear
         view.backgroundColor = theme.backgroundColor
-        view.isUserInteractionEnabled = true
+        //view.isUserInteractionEnabled = false
 
         // get display dimensions
         //displayHeight = view.height
@@ -122,11 +146,11 @@ class EditBaseMenuController: CoordinatedController, SubControllerDelegate, Edit
         mainView.frame.size.height = displayHeight
         mainView.frame.size.width = displayWidth
         view.addSubview(mainView)
+        mainView.anchorToEdge(.bottom, padding: 0, width: mainView.frame.size.width, height: mainView.frame.size.height)
 
         setupTitle()
         setupMenu()
 
-        mainView.anchorToEdge(.bottom, padding: 0, width: mainView.frame.size.width, height: mainView.frame.size.height)
 
         log.verbose("mainView: w:\(mainView.frame.size.width) h:\(mainView.frame.size.height)")
         log.verbose("self: w:\(self.view.frame.size.width) h:\(self.view.frame.size.height)")
@@ -140,54 +164,65 @@ class EditBaseMenuController: CoordinatedController, SubControllerDelegate, Edit
         // set up the title, with a label for the text an an image for the 'cancel' option
         let titleView = UIView()
         titleView.frame.size.width = mainView.frame.size.width
-        titleView.frame.size.height = UISettings.titleHeight
+        titleView.frame.size.height = (mainView.frame.size.height * 0.25).rounded()
         titleView.backgroundColor = theme.subtitleColor
 
  
-        // cancel button
-        cancelButton = SquareButton(bsize: (UISettings.titleHeight*0.6).rounded())
-        cancelButton?.setImageAsset("ic_no")
-        cancelButton?.backgroundColor = theme.subtitleColor.withAlphaComponent(0.5)
-        cancelButton?.setTintable(true)
-        cancelButton?.highlightOnSelection(true)
-        cancelButton?.addTarget(self, action: #selector(self.cancelDidPress), for: .touchUpInside)
-        
-        titleView.addSubview(cancelButton!)
+        // cancel button (if not top-level menu)
+        let bsize = (titleView.frame.size.height*0.8).rounded()
+        if !self.isTopMenu() {
+            cancelButton = SquareButton(bsize: bsize)
+            cancelButton?.setImageAsset("ic_no")
+            cancelButton?.backgroundColor = theme.subtitleColor.withAlphaComponent(0.5)
+            cancelButton?.setTintable(true)
+            cancelButton?.highlightOnSelection(true)
+            cancelButton?.addTarget(self, action: #selector(self.cancelDidPress), for: .touchUpInside)
+            cancelButton?.isUserInteractionEnabled = true
+
+            titleView.addSubview(cancelButton!)
+        }
 
         // label
         let label = UILabel()
-        label.frame.size.width = (titleView.frame.size.width - (cancelButton?.frame.size.width)! - 4).rounded()
-        label.frame.size.height = UISettings.titleHeight - 2
+        label.frame.size.width = (titleView.frame.size.width - bsize - 4).rounded()
+        label.frame.size.height = titleView.frame.size.height - 2
         label.text = getTitle()
         label.textAlignment = .center
         label.textColor = theme.subtitleTextColor
         label.backgroundColor = theme.subtitleColor
-        label.font = theme.getFont(ofSize: 16, weight: UIFont.Weight.thin)
+        label.font = theme.getFont(ofSize: 12, weight: UIFont.Weight.thin)
         label.adjustsFontSizeToFitWidth = true
+        label.isUserInteractionEnabled = false
         //label.fitTextToBounds()
+        log.verbose("Menu: \(label.text)")
  
         titleView.addSubview(label)
         //label.anchorToEdge(.left, padding: 0, width: label.frame.size.width, height: label.frame.size.height)
         label.anchorInCorner(.topLeft, xPad: 0, yPad: 0, width: label.frame.size.width, height: label.frame.size.height)
-        cancelButton?.anchorToEdge(.right, padding: 0, width: (cancelButton?.frame.size.width)!, height: (cancelButton?.frame.size.height)!)
+        if !self.isTopMenu() {
+            cancelButton?.anchorToEdge(.right, padding: 0, width: (cancelButton?.frame.size.width)!, height: (cancelButton?.frame.size.height)!)
+        }
         
         mainView.addSubview(titleView)
         titleView.anchorToEdge(.top, padding: 0, width: titleView.frame.size.width, height: titleView.frame.size.height)
-        
+        log.verbose("title: w:\(titleView.frame.size.width) h:\(titleView.frame.size.height)")
     }
     
     func setupMenu(){
-        // set up the menu of option
-        menu.frame.size.height = UISettings.menuHeight
-        menu.frame.size.width = mainView.frame.size.width
-        menu.backgroundColor = theme.backgroundColor
-        menu.setItems(getItemList())
-        menu.delegate = self
+        // set up the menu of options
+        self.menu = SimpleCarousel()
         
-        mainView.addSubview(menu)
-        menu.anchorToEdge(.bottom, padding: 0, width: menu.frame.size.width, height: menu.frame.size.height)
-        log.verbose("menu: w:\(menu.frame.size.width) h:\(menu.frame.size.height)")
+        menu?.frame.size.height = (mainView.frame.size.height * 0.75).rounded()
+        menu?.frame.size.width = mainView.frame.size.width
+        menu?.backgroundColor = theme.backgroundColor
+        menu?.setItems(getItemList())
+        menu?.delegate = self
+        menu?.isUserInteractionEnabled = true
 
+        mainView.addSubview(menu!)
+        menu?.anchorToEdge(.bottom, padding: 0, width: (menu?.frame.size.width)!, height: (menu?.frame.size.height)!)
+        mainView.bringSubviewToFront(menu!) // ensure menu is on top, to recieve touches
+        log.verbose("menu: w:\(menu?.frame.size.width) h:\(menu?.frame.size.height)")
     }
     
 
@@ -241,6 +276,7 @@ class EditBaseMenuController: CoordinatedController, SubControllerDelegate, Edit
 extension EditBaseMenuController: AdornmentDelegate {
     func adornmentItemSelected(key: String) {
         DispatchQueue.main.async(execute: { () -> Void in
+            log.debug("key: \(key)")
             self.handleSelection(key: key)
         })
     }

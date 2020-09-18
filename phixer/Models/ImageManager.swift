@@ -719,7 +719,7 @@ class ImageManager {
             
             let numFound = fetchResult.count
             if numFound > 0 {
-                for i in 0...min(numFound, count){
+                for i in 0...min(numFound, count)-1{
                     let asset = fetchResult.object(at: i) as PHAsset
                     photoList.append(asset.localIdentifier)
                 }

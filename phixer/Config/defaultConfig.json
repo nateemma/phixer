@@ -602,11 +602,11 @@
         
         { "key": "Grunge",  "title": "Grunge" },
         
-        { "key": "IlfordDelta100Curve",  "title": "Ilford Delta100 Curve" },
-        { "key": "IlfordDelta3200Curve",  "title": "Ilford Delta3200 Curve" },
-        { "key": "IlfordDelta400Curve",  "title": "Ilford Delta400 Curve" },
-        { "key": "IlfordFP4Plus125Curve",  "title": "Ilford FP4 Plus125 Curve" },
-        { "key": "IlfordHP5Plus400Curve",  "title": "Ilford HP5 Plus400 Curve" },
+        { "key": "IlfordDelta100Curve",  "title": "Ilford Delta 100" },
+        { "key": "IlfordDelta3200Curve",  "title": "Ilford Delta 3200" },
+        { "key": "IlfordDelta400Curve",  "title": "Ilford Delta 400" },
+        { "key": "IlfordFP4Plus125Curve",  "title": "Ilford FP4 +125" },
+        { "key": "IlfordHP5Plus400Curve",  "title": "Ilford HP5 +400" },
         
         { "key": "PorcelainI",  "title": "Porcelain I" },
         { "key": "PorcelainIILT",  "title": "Porcelain II LT" },
@@ -858,8 +858,8 @@
         { "key": "dramatic-29",  "title": "dramatic-29" },
         { "key": "dramatic-30",  "title": "dramatic-30" },
         
-        { "key": "phil-landscape",  "title": "Basic Fix: Scenic" },
-        { "key": "phil-people",  "title": "Basic Fix: People" }
+        { "key": "Phil-Landscape",  "title": "Basic Fix: Scenic" },
+        { "key": "Phil-People",  "title": "Basic Fix: People" }
 
     ],
 
@@ -873,7 +873,7 @@
         {"key": "favorites",
             "title": "Favorites",
             "filters": [
-                "phil-landscape", "phil-people",
+                "Phil-Landscape", "Phil-People",
                 "TheNavigator", "Relic", "Tijuana", "Grunge",  "TurkishBlast", "FreshLime", "AMarshmallowHappysmell"
             ]
         },

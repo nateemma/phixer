@@ -153,7 +153,8 @@ NSComparisonResult compareViewDepth(UIView *view1, UIView *view2, iCarousel *sel
     
 #ifdef ICAROUSEL_IOS
     
-    _contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    //_contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    _contentView.autoresizingMask = UIViewAutoresizingNone;
     
     //add pan gesture recogniser
     UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didPan:)];
@@ -1986,6 +1987,8 @@ NSComparisonResult compareViewDepth(UIView *view1, UIView *view2, iCarousel *sel
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gesture shouldReceiveTouch:(UITouch *)touch
 {
+    //NSLog(@"gestureRecognizer");
+
     if (_scrollEnabled)
     {
         _dragging = NO;
@@ -1997,6 +2000,7 @@ NSComparisonResult compareViewDepth(UIView *view1, UIView *view2, iCarousel *sel
     {
         //handle tap
         NSInteger index = [self viewOrSuperviewIndex:touch.view];
+        //NSLog(@"gestureRecognizer: index: %li", (long)index);
         if (index == NSNotFound && _centerItemWhenSelected)
         {
             //view is a container view
@@ -2062,6 +2066,7 @@ NSComparisonResult compareViewDepth(UIView *view1, UIView *view2, iCarousel *sel
 {
     //check for tapped view
     NSInteger index = [self indexOfItemView:[self itemViewAtPoint:[tapGesture locationInView:_contentView]]];
+    //NSLog(@"didTap: index: %li", (long)index);
     if (index != NSNotFound)
     {
         if (!_delegate || [_delegate carousel:self shouldSelectItemAtIndex:index])

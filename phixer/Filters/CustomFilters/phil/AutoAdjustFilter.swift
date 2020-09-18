@@ -60,7 +60,7 @@ class AutoAdjustFilter: CIFilter {
         
         for filter: CIFilter in filters {
             filter.setValue(image, forKey: kCIInputImageKey)
-            //log.verbose("Applying filter: \(filter)")
+            log.verbose("Applying filter: \(filter)")
             image =  filter.outputImage
         }
         return image

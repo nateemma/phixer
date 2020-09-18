@@ -101,8 +101,9 @@ class CenteredVignetteFilter: CIFilter {
         }
         
         // convert centre position and radius to pixel values
-        let size = EditManager.getImageSize()
-        
+        //let size = EditManager.getImageSize()
+        let size = inputImage.extent.size
+
         let centre = CIVector(x: size.width/2.0, y: size.height/2.0)
         let radius: CGFloat = min(size.width, size.height) * inputRadius
         

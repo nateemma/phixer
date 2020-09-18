@@ -15,17 +15,12 @@ import iCarousel
 private var filterList: [String] = []
 private var filterCount: Int = 0
 
-// This View Controller handles simple editing of a photo
+// This View Controller handles the top-level menu for editing a photo
 
 class EditMainOptionsController: EditBaseMenuController {
 
     // special case flag - if a submenu enters a mode that follws the catgeory/filter scheme then we can handle prev/next using that
     private var filterCategoriesActive:Bool = false
-    
-    convenience init(){
-        self.init(nibName:nil, bundle:nil)
-        self.cancelButton?.isHidden = true // disable, since top level
-    }
     
     
     //////////////////////////////////////////
@@ -35,7 +30,6 @@ class EditMainOptionsController: EditBaseMenuController {
     
     // returns the text to display at the top of the window
     override func getTitle() -> String {
-        self.cancelButton?.isHidden = true
         return "Edit Options"
     }
     
@@ -46,10 +40,14 @@ class EditMainOptionsController: EditBaseMenuController {
     
     // returns the list of titles for each item
     override func getItemList() -> [Adornment] {
-        self.cancelButton?.isHidden = true
         return itemList
     }
 
+    // this is the top menu, so override the function that checks
+    override func isTopMenu() -> Bool {
+        return true
+    }
+    
     ////////////////////
     // Coordination Interface requests (forward/back)
     ////////////////////
@@ -86,6 +84,7 @@ class EditMainOptionsController: EditBaseMenuController {
 
     
     override func handleSelection(key: String){
+        log.debug("key: \(key)")
         filterCategoriesActive = false
         switch (key){
         case "basic":

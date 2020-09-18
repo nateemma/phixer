@@ -149,8 +149,8 @@ class SimpleCarousel: UIView {
         self.backgroundColor = theme.backgroundColor
 
         checkSetup()
-        buildItemViews()
         setupCarousel()
+        buildItemViews()
         addSubview(carousel!)
         //carousel?.fillSuperview()
         
@@ -186,8 +186,9 @@ class SimpleCarousel: UIView {
     func makeItemView(icon:String, text:String) -> UIView {
         
         let view:ImageContainerView = ImageContainerView()
-        view.frame.size.width = self.carouselHeight
-        view.frame.size.height = self.carouselHeight
+        let cellSize = (self.carouselHeight - 1.0).rounded() // allow for border
+        view.frame.size.width = cellSize // square
+        view.frame.size.height = cellSize
  
         let label:UILabel = UILabel()
         label.text = text
@@ -202,14 +203,14 @@ class SimpleCarousel: UIView {
         if icon.isEmpty {
             // no icon, so just provide a view with a centred label
             label.font = theme.getFont(ofSize: 12.0, weight: UIFont.Weight.thin)
-            label.frame.size.height = self.carouselHeight * 0.95
+            label.frame.size.height = (cellSize * 0.95).rounded()
             view.addSubview(label)
             label.fillSuperview()
         } else {
             // icon specified so create a compound view using the supplied icon and text
 
             let imgView:UIView = UIView()
-            imgView.frame.size = CGSize(width:carouselHeight, height:carouselHeight)
+            imgView.frame.size = CGSize(width:cellSize, height:cellSize)
             
             let image: UIImageView = UIImageView()
 
@@ -217,11 +218,12 @@ class SimpleCarousel: UIView {
                 // no label, so set to zero height and hide, fill cell with image
                 label.frame.size.height = 0.0
                 label.isHidden = true
-                image.frame.size = CGSize(width:carouselHeight, height:carouselHeight)
+                image.frame.size = CGSize(width:cellSize, height:cellSize)
             } else {
-                image.frame.size = CGSize(width:carouselHeight*0.6, height:carouselHeight*0.6)
+                // both icon and text supplied
+                image.frame.size = CGSize(width:(cellSize*0.6).rounded(), height:(cellSize*0.6).rounded())
                 // make label smaller
-                label.frame.size = CGSize(width:carouselHeight, height:carouselHeight*0.4)
+                label.frame.size = CGSize(width:cellSize, height:(cellSize*0.4).rounded())
                 label.font = theme.getFont(ofSize: 10.0, weight: UIFont.Weight.thin)
                 //label.fitTextToBounds()
             }
@@ -231,7 +233,7 @@ class SimpleCarousel: UIView {
             var icview: UIImage? = nil
             if icon.contains("/") {
                 // can't tint managed assets, so just load
-                icview = ImageManager.getImageFromAssets(assetID: icon, size: imgView.frame.size)
+                icview = ImageManager.getImageFromAssets(assetID: icon, size: image.frame.size)
                 image.image = icview
             } else {
                 icview = UIImage(named: icon)
@@ -248,16 +250,23 @@ class SimpleCarousel: UIView {
             image.tintColor =  theme.tintColor
             
             image.backgroundColor = theme.backgroundColor
+            label.layer.borderColor = UIColor.clear.cgColor
+            image.layer.borderColor = UIColor.clear.cgColor
+            
             imgView.layer.cornerRadius = 4.0
             imgView.layer.borderWidth = 0.5
             imgView.layer.borderColor = theme.borderColor.withAlphaComponent(0.5).cgColor
-
+            
             imgView.addSubview(image)
             imgView.addSubview(label)
 
             image.anchorAndFillEdge(.top, xPad: 0, yPad: 0, otherSize: image.frame.size.height)
             label.alignAndFill(align: .underCentered, relativeTo: image, padding: 0)
             view.addSubview(imgView)
+            
+            image.isUserInteractionEnabled = false
+            label.isUserInteractionEnabled = false
+            imgView.isUserInteractionEnabled = false
         }
 
         return view
@@ -267,14 +276,17 @@ class SimpleCarousel: UIView {
         
         // configure carousel
         //carouselHeight = max((self.displayHeight * 0.8), 80.0).rounded() // doesn't seem to work at less than 80 (empirical)
-        carouselHeight = max((self.displayHeight * 0.8), 32.0).rounded() // don't go below 32 pixels
+        //carouselHeight = max((self.displayHeight * 0.8), 32.0).rounded() // don't go below 32 pixels
+        //carouselHeight = max((self.displayHeight-1.0), 32.0).rounded() // don't go below 32 pixels
+        carouselHeight = max((self.displayHeight), 32.0).rounded() // don't go below 32 pixels
         carousel?.frame.size.width = self.displayWidth
         carousel?.frame.size.height = carouselHeight
+        carousel?.type = .linear
+        carousel?.isUserInteractionEnabled = true
         
         carousel?.dataSource = self
         carousel?.delegate = self
-        carousel?.type = .linear
-
+        
         //carousel?.centerItemWhenSelected = true
     }
     

@@ -112,7 +112,19 @@ class FilmGrainFilter: CIFilter {
             return inputImage
         }
         
+        #if targetEnvironment(simulator)
+        // Simulator
+        log.error("Cannot use CIRandomGenerator on simulator")
+        return inputImage
+        #endif
+        
         // generate a noisy image
+        FilmGrainFilter.noiseFilter?.setDefaults()
+        guard FilmGrainFilter.noiseFilter?.outputImage != nil else {
+            log.error("NIL noise filter output")
+            return inputImage
+        }
+        
         let noiseImage = FilmGrainFilter.noiseFilter?.outputImage?
             //.applyingFilter("ScatterFilter", parameters: ["inputScatterRadius": 25*inputSize])
             .cropped(to: inputImage.extent).clampedToExtent()
